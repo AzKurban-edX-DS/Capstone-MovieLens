@@ -1,0 +1,298 @@
+# HarvardX: PH125.8x
+# Data Science: Capstone
+# R code from course videos
+
+# Section 6. Model Fitting and Recommendation Systems
+
+## Quiz: MovieLens Dataset
+
+#### Q1
+
+str(edx)
+# 'data.frame':	9000055 obs. of  6 variables:
+# $ userId   : int  1 1 1 1 1 1 1 1 1 1 ...
+# $ movieId  : int  122 185 292 316 329 355 356 362 364 370 ...
+# $ rating   : num  5 5 5 5 5 5 5 5 5 5 ...
+# $ timestamp: int  838985046 838983525 838983421 838983392 838983392 838984474 838983653 838984885 838983707 838984596 ...
+# $ title    : chr  "Boomerang (1992)" "Net, The (1995)" "Outbreak (1995)" "Stargate (1994)" ...
+# $ genres   : chr  "Comedy|Romance" "Action|Crime|Thriller" "Action|Drama|Sci-Fi|Thriller" "Action|Adventure|Sci-Fi" ...
+
+nrow(edx)
+#
+
+ncol(edx)
+
+
+#--------------------------------------------------------
+##### Explanation
+# The number of rows and columns can be found using 
+dim(edx) 
+
+#========================================================
+
+#### Q2
+
+sum(edx$rating == 0)
+#> [1] 0
+
+min(edx$rating)
+#> 0.5
+
+sum(edx$rating == 3)
+#> [1] 2121240
+
+#--------------------------------------------------------
+##### Explanation
+# The number of 3s can be found using 
+edx %>% filter(rating == 3) %>% tally()
+#         n
+# 1 2121240
+#========================================================
+
+#### Q3
+
+movies <- edx |> group_by(movieId) |>
+  summarise(n = n())
+
+dim(movies)
+#> [1] 10677     2
+#--------------------------------------------------------
+##### Explanation
+# The number of unique movies can be found using 
+n_distinct(edx$movieId)
+#========================================================
+
+#### Q4
+n_distinct(edx$userId)
+#> [1] 69878
+#--------------------------------------------------------
+##### Explanation
+# The number of unique users can be found using 
+n_distinct(edx$userId)
+
+#========================================================
+
+#### Q5
+library(stringr)
+
+genres_ratings <- edx |> group_by(genres) |>
+  summarise(ratings = n())
+
+genres_ratings
+# # A tibble: 797 × 2
+# genres                                             ratings
+# <chr>                                                <int>
+#   1 (no genres listed)                                       7
+# 2 Action                                               24482
+# 3 Action|Adventure                                     68688
+# 4 Action|Adventure|Animation|Children|Comedy            7467
+# 5 Action|Adventure|Animation|Children|Comedy|Fantasy     187
+# 6 Action|Adventure|Animation|Children|Comedy|IMAX         66
+# 7 Action|Adventure|Animation|Children|Comedy|Sci-Fi      600
+# 8 Action|Adventure|Animation|Children|Fantasy            737
+# 9 Action|Adventure|Animation|Children|Sci-Fi              50
+# 10 Action|Adventure|Animation|Comedy|Drama               1902
+# # ℹ 787 more rows
+# # ℹ Use `print(n = ...)` to see more rows
+
+dim(genres_ratings)
+#> [1] 797   2
+
+sum(str_detect(genres_ratings[10,]$genres, "Drama"))
+sum(str_detect(genres_ratings[9,]$genres, "Drama"))
+sum(str_detect(genres_ratings$genres, "Drama"))
+
+ind <- str_detect(genres_ratings$genres, "Drama")
+dim(ind)
+
+test <- c("Drama_Drama_Drama", "Drama_Drama", "Drama", "Comedy", "Thriller")
+str_detect(test, "Drama")
+
+# dramas <- genres_ratings |> filter(sum(str_detect(genres, "Drama")) > 0) |>
+#   mutate(n_dramas = sum(str_detect(genres, "Drama")))
+#          
+# dramas
+# 
+# drama_ind = which(genres_ratings$genres == "Drama")
+
+# genres_ratings[which(genres_ratings$genres == "Comedy"),]
+# # # A tibble: 1 × 2
+# # genres ratings
+# # <chr>    <int>
+# #   1 Comedy  700889
+# 
+# genres_ratings[which(genres_ratings$genres == "Thriller"),]
+# 
+# genres_ratings[which(genres_ratings$genres == "Romance"),]
+
+
+
+drama_ratings <- genres_ratings[str_detect(genres_ratings$genres, "Drama"),]
+drama_ratings
+sum(drama_ratings$ratings)
+#> [1] 3910127
+
+comedy_ratings <- genres_ratings[str_detect(genres_ratings$genres, "Comedy"),]
+sum(comedy_ratings$ratings)
+#> [1] 3540930
+
+thriller_ratings <- genres_ratings[str_detect(genres_ratings$genres, "Thriller"),]
+sum(thriller_ratings$ratings)
+#> [1] 2325899
+
+romance_ratings <- genres_ratings[str_detect(genres_ratings$genres, "Romance"),]
+sum(romance_ratings$ratings)
+#> [1] 1712100
+
+
+#--------------------------------------------------------
+#### Hint (1 of 1): 
+#> One option is to use the `str_detect` function from the `stringr` package. 
+#> The `separate_rows` function from the `tidyr` package can also be used, 
+#> although it will be much slower.
+
+##### Explanation
+# The following code can be used to do this analysis:
+
+# str_detect
+genres = c("Drama", "Comedy", "Thriller", "Romance")
+sapply(genres, function(g) {
+  sum(str_detect(edx$genres, g))
+})
+
+
+# separate_rows, much slower!
+edx %>% separate_rows(genres, sep = "\\|") %>%
+  group_by(genres) %>%
+  summarize(count = n()) %>%
+  arrange(desc(count))
+
+#========================================================
+
+#### Q6
+str(edx)
+
+movie_ratings <- edx |> group_by(title) |>
+  summarise(ratings = n())
+
+dim(movie_ratings)
+#> [1] 10677     2
+
+str(movie_ratings)
+head(movie_ratings)
+
+movie_ratings[which.max(movie_ratings$ratings),]
+
+#--------------------------------------------------------
+##### Explanation
+# The following code will rank the movies in order of number of ratings:
+
+edx %>% group_by(movieId, title) %>%
+  summarize(count = n()) %>%
+  arrange(desc(count))
+
+#========================================================
+
+#### Q7
+
+ratings <- edx |>  group_by(movieId, rating) |>
+  summarise(count = n()) |>
+  arrange(movieId, desc(rating))
+
+head(ratings)
+
+ratings <- edx |>  group_by(rating) |>
+     summarise(count = n()) |>
+     arrange(desc(count))
+
+ratings
+# # A tibble: 10 × 2
+# rating   count
+# <dbl>   <int>
+#   1  4   2588430
+# 2    3   2121240
+# 3    5   1390114
+# 4    3.5  791624
+# 5    2    711422
+# 6    4.5  526736
+# 7    1    345679
+# 8    2.5  333010
+# 9    1.5  106426
+# 10   0.5  85374
+#----------------------
+## Test
+edx |>  group_by(rating) |>
+        summarise(count = n())
+
+edx |>  group_by(rating) |>
+        summarise(count = n()) |> top_n(5)
+#----------
+edx |>  group_by(rating) |>
+        summarise(count = n()) |> top_n(5) |>
+  arrange(desc(count))
+#--------------------------------------------------------
+##### Explanation
+# The top five ratings can be found using the following code:
+
+edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
+  arrange(desc(count))
+#---------------------------------
+## Test
+edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
+  arrange(count)
+
+
+#========================================================
+
+#### Q8
+
+ratings <- edx |>  group_by(rating) |>
+  summarise(count = n()) |>
+  arrange(desc(count))
+
+ratings
+
+# half_star_ratings = c(0.5, 1.5, 2.5, 3.5, 4.5)
+# mean(edx$rating == half_star_ratings)
+# 
+# mean(edx$rating == 4.5)
+
+half_star_ratings <- ratings |> filter(floor(rating) < rating)
+half_star_ratings
+nrow(edx)
+
+sum(half_star_ratings$count)/nrow(edx)
+#> [1] 0.2047954
+
+#--------------------------------------------------------
+##### Explanation
+# Numerically, this can be determined using this code: 
+edx %>% group_by(rating) %>% summarize(count = n())
+
+# Visually, this can be seen using the following code:
+  
+edx %>%
+  group_by(rating) %>%
+  summarize(count = n()) %>%
+  ggplot(aes(x = rating, y = count)) +
+  geom_line() 
+#========================================================
+
+#### Q
+
+#--------------------------------------------------------
+##### Explanation
+# 
+
+#========================================================
+
+#### Q
+
+#--------------------------------------------------------
+##### Explanation
+# 
+
+#========================================================
+
+
+
