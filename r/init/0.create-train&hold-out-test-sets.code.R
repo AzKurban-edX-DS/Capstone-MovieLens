@@ -4,7 +4,7 @@
 # Create edx and final_holdout_test sets 
 ##########################################################
 
-setwd("C:/git/edx/ds/Capstone-MovieLens/scripts/init")
+setwd("C:/git/edx/ds/Capstone-MovieLens/r/init")
 
 # Note: this process could take a couple of minutes
 if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
