@@ -132,6 +132,8 @@ movie_model_rmse <- RMSE(probe_set$rating, preds)
 movie_model_rmse
 #> [1] 0.9442118
 ## Calculate user effects ------------------------------------------
+# Y(i,u) = μ + b(i) + b(u) + ε(i,u)
+
 user_means <- function(movies_fit){
   # b(u) = mean(y(i, u) - μ - b_i(i)) 
   train_set |>
@@ -257,6 +259,9 @@ model_3_rmse
 #> [1] 0.8670935
 
 # Calculate Date Smoothed Effect -------------------------------------------------------
+# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + ε(i,u)
+# with `j` a smooth function of `d(u,i)`
+
 # library(lubridate)
 
 date()
@@ -418,12 +423,23 @@ best_date_smoothed_rmse <- predict_date_smoothed(fit_movies,
 best_date_smoothed_rmse
 #> [1] 0.8667133
 
+# Improve the Model using Matrix factorization ------------------------
+# Inspired by the textbook section:
+### 33.11 Matrix factorization
+# https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#matrix-factorization
 
+# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + ε(i,u)
 
+# Compute residuals for the final model:
 
+r <- sweep(y - mu, 2, fit_movies$b_i) - 
+  fit_users$b_u - date_smoothed_effect$de_smoothed
 
+colnames(r) <- with(movie_map, title[match(colnames(r), movieId)])
 
+# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + p(u)q(i) + ε(i,u)
 
+# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + p(u,1)q(1,i) + p(u,2)q(2,i) + ε(i,u)
 
 
 
