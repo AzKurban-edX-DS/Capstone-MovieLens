@@ -11,6 +11,7 @@ end_date <- function(start){
   print(date())
   Sys.time() - start
 }
+rmse <- function(r) sqrt(mean(r^2))
 RMSE <- function(true_ratings, predicted_ratings){
   sqrt(mean((true_ratings - predicted_ratings)^2))
 }
@@ -44,14 +45,14 @@ np_rmse_accepted_max <- 0.8563
 # HarvardX: PH125.8x
 # Data Science: Machine Learning, Section 6.2: Recommendation Systems
 
-# Textbook section: 33.7. Recommendation Systems
-# https://rafalab.github.io/dsbook/large-datasets.html#recommendation-systems
+#> Textbook sections (new edition): 23.1 Case study: recommendation systems
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-recommendation-systems
 
 # Split the `edx` dataset in `train_set` & `probe_set` ------------------------
 
 #str(edx)
 # 'data.frame':	9000055 obs. of  6 variables:
-#   $ userId   : int  1 1 1 1 1 1 1 1 1 1 ...
+# $ userId   : int  1 1 1 1 1 1 1 1 1 1 ...
 # $ movieId  : int  122 185 292 316 329 355 356 362 364 370 ...
 # $ rating   : num  5 5 5 5 5 5 5 5 5 5 ...
 # $ timestamp: int  838985046 838983525 838983421 838983392 838983392 838984474 838983653 838984885 838983707 838984596 ...
@@ -60,38 +61,63 @@ np_rmse_accepted_max <- 0.8563
 
 #str(final_holdout_test)
 
-# Prepare train & probe datasets ----------------------------------------------
+# Prepare train & test datasets ----------------------------------------------
+
+#> Let's see the number of unique users that provided ratings 
+#> and how many unique movies were rated:
+edx |> summarize(n_distinct(userId), n_distinct(movieId))
+#   n_distinct(userId) n_distinct(movieId)
+# 1              69878               10677
+
+#> Let's ignore the data for users who have not provided at least 100 ratings:
+edx100 <- edx |> 
+  group_by(userId) |>
+  filter(n() >= 100) |>
+  ungroup()
+
+edx100 |> summarize(n_distinct(userId), n_distinct(movieId))
+# `     n_distinct(userId)` `n_distinct(movieId)`
+#                    <int>                 <int>
+#   1                24115                 10665
+
+#> For each one of these users, we will split their ratings into 80% for training 
+#> and 20% for testing:
+
 set.seed(2006)
-probe_index <- createDataPartition(y = edx$rating, times = 1,
-                                   p = probe_set_ratio, list = FALSE)
-probe_set_tmp <- edx[probe_index,]
-train_set <- edx[-probe_index,]
+indexes <- split(1:nrow(edx100), edx100$userId)
+test_ind <- sapply(indexes, function(i) sample(i, ceiling(length(i)*.2))) |> 
+  unlist() |>
+  sort()
+
+test_set <- edx100[test_ind,] 
+train_set <- edx100[-test_ind,]
+
+#> To make sure we don’t include movies in the training set that should not be 
+#> there, we remove entries using the semi_join function:
+test_set <- test_set |> semi_join(train_set, by = "movieId") |>
+  as.data.frame()
+
+train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
 head(train_set)
 
 #> Make sure userId and movieId in final hold-out test set 
 #> are also in `train_set` set
-probe_set <- probe_set_tmp |> 
-  semi_join(train_set, by = "movieId") |>
-  semi_join(train_set, by = "userId")
+# probe_set <- probe_set_tmp |> 
+#   semi_join(train_set, by = "movieId") |>
+#   semi_join(train_set, by = "userId")
 
-y_dat <- dplyr::select(train_set, movieId, userId, rating)
-
-y_pw <- y_dat |>
-  pivot_wider(names_from = movieId, values_from = rating) 
-
-dim(y_pw)
-#> [1] 69878 10674
-length(y_pw$userId)
-#> [1] 69878
-
-rnames <- y_pw$userId
-
-y <- as.matrix(y_pw[,-1])
-rownames(y) <- rnames
+#> We will use the array representation described in `Section 17.5`, 
+#> for the training data: we denote ranking for movie `j` by user `i`as `y[i,j]`. 
+#> To create this matrix, we use pivot_wider:
+  
+y <- select(train_set, movieId, userId, rating) |>
+pivot_wider(names_from = movieId, values_from = rating) |>
+column_to_rownames("userId") |>
+as.matrix()
 
 dim_y <- dim(y)
 dim_y
-# dim_y[1]*dim_y[2]
+#> [1] 24115 10626
 
 movie_map <- train_set |> dplyr::select(movieId, title) |> 
   distinct(movieId, .keep_all = TRUE)
@@ -99,19 +125,119 @@ movie_map <- train_set |> dplyr::select(movieId, title) |>
 # Calculate Naive RMSE -------------------------------------------------------
 mu <- mean(train_set$rating)
 mu
-#> [1] 3.512465
+#> [1] 3.471931
 
 naive_rmse <- RMSE(probe_set$rating, mu)
 naive_rmse
-#> [1] 1.061429
+#> [1] 1.062162
 
-str(final_holdout_test)
-head(final_holdout_test)
+# str(final_holdout_test)
+# head(final_holdout_test)
 
 final_naive_rmse <- RMSE(final_holdout_test$rating, mu)
 final_naive_rmse
-#> [1] 1.061202
+#> [1] 1.061958
 
+## User effects
+
+# Textbook section(new edition): 23.4 User effects
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
+
+# If we visualize the average rating for each user:
+hist(rowMeans(y, na.rm = TRUE), nclass = 30)
+
+# we notice that there is substantial variability across users.
+#>  To account for this, we can use a linear model with a treatment effect `α[i]` 
+#>  for each user. The sum `μ + α[i]` can be interpreted as the typical 
+#>  rating user `i` gives to movies. We can write the model as:
+
+# Y[i,j] = μ + α[i] + ε[i,j]
+
+### Support functions ---------------------------------------------------------
+# fit_users <- function(mu){ ----------------------------------
+#   # α[i] = mean(y[i, j) - μ) 
+#   train_set |>
+#     group_by(userId) |>
+#     summarize(alpha = mean(rating - mu))
+# }
+#----------------------------
+
+#> Because we know ratings can’t be below 0.5 or above 5, 
+#> we define the function clamp:
+clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
+
+# to keep predictions in that range and then compute the RMSE:
+user_effects_rmse <- function(test_set, a){
+  test_set |> 
+    left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+    mutate(resid = rating - clamp(mu + a)) |> 
+    filter(!is.na(resid)) |>
+    pull(resid) |> rmse()
+}
+
+# res <- test_set |> 
+#   left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+#   mutate(resid = rating - clamp(mu + a)) |> pull(resid)
+# mean(res)
+# 
+# res <- final_holdout_test |> 
+#   left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+#   mutate(resid = rating - clamp(mu + a)) |> 
+#   filter(!is.na(resid)) |>
+#   pull(resid)
+# 
+# mean(res)
+# 
+# length(res)
+# 
+# sum(is.na(final_holdout_test$rating))
+# 
+# res <- final_holdout_test |> 
+#   left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+#   mutate(resid = rating - clamp(mu + a)) |> pull(resid)
+# mean(res)
+# 
+# 
+# str(res)
+# str(test_set)
+# #head(test_set)
+# str(final_holdout_test)
+# str(edx)
+
+# movie_user_rmse <- function(test_set, movies_fit, users_fit, min_user_rates){
+#   predicted_ratings <- test_set |>
+#     left_join(movies_fit, by='movieId') |>
+#     left_join(users_fit, by='userId') |>
+#     mutate(pred = mu + b_i + b_u) |>
+#     pull(pred)
+#   
+#   #head(predicted_ratings)
+#   
+#   RMSE(test_set$rating, predicted_ratings)
+# }
+
+### Model training ------------------------------------------------------
+#min_user_rates <- 100
+n_bins <- 30
+
+train_set |> 
+  group_by(userId) |> 
+  summarize(user_ratings_avg = mean(rating)) |> 
+  ggplot(aes(user_ratings_avg)) + 
+  geom_histogram(bins = n_bins, color = "black")
+
+#> We can show that the least squares estimate `α[i]` is just the average 
+#> of `y[i,j] - μ` for each user. So we can compute them this way:
+  
+a <- rowMeans(y - mu, na.rm = TRUE)
+
+model_user_rmse <- user_effects_rmse(test_set, a)
+model_user_rmse
+#> [1] 0.9718791
+
+final_model_user_rmse <- user_effects_rmse(final_holdout_test, a)
+final_model_user_rmse
+#> [1] 0.9720994
 
 ## Modeling movie effects
 # Calculate Movie Effects ----------------------------------
