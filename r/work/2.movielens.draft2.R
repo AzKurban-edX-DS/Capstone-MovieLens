@@ -44,8 +44,11 @@ np_rmse_accepted_max <- 0.8563
 # Inspired by:
 # HarvardX: PH125.8x
 # Data Science: Machine Learning, Section 6.2: Recommendation Systems
+#> The proposed solution below uses information (including citates) from the folowing textbook:
+#> "Introduction to Data Science" written by Rafael A. Irizarry:
+#> https://rafalab.dfci.harvard.edu/dsbook-part-2/ 
 
-#> Textbook sections (new edition): 23.1 Case study: recommendation systems
+# Reference: the Textbook section: 23.1 Case study: recommendation systems
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-recommendation-systems
 
 # Split the `edx` dataset in `train_set` & `probe_set` ------------------------
@@ -122,11 +125,22 @@ dim_y
 movie_map <- train_set |> dplyr::select(movieId, title) |> 
   distinct(movieId, .keep_all = TRUE)
 
-# Calculate Naive RMSE -------------------------------------------------------
+
+## First Model 
+
+# Reference: the Textbook section "23.3 A first model"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
+
+#>  A model that assumes the same rating for all movies and users with all 
+#>  the differences explained by random variation would look as follows:
+# Y[i,j] = μ + ε[i,j]
+
+# Naive RMSE -------------------------------------------------------
 mu <- mean(train_set$rating)
 mu
 #> [1] 3.471931
 
+# Model testing ----------------------------------------------------------------
 naive_rmse <- RMSE(probe_set$rating, mu)
 naive_rmse
 #> [1] 1.062162
@@ -137,10 +151,10 @@ naive_rmse
 final_naive_rmse <- RMSE(final_holdout_test$rating, mu)
 final_naive_rmse
 #> [1] 1.061958
-
+# ------------------------------------------------------------------------------
 ## User effects
 
-# Textbook section(new edition): 23.4 User effects
+# Reference: the Textbook section(new edition): 23.4 User effects
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
 
 # If we visualize the average rating for each user:
@@ -154,13 +168,6 @@ hist(rowMeans(y, na.rm = TRUE), nclass = 30)
 # Y[i,j] = μ + α[i] + ε[i,j]
 
 ### Support functions ---------------------------------------------------------
-# fit_users <- function(mu){ ----------------------------------
-#   # α[i] = mean(y[i, j) - μ) 
-#   train_set |>
-#     group_by(userId) |>
-#     summarize(alpha = mean(rating - mu))
-# }
-#----------------------------
 
 #> Because we know ratings can’t be below 0.5 or above 5, 
 #> we define the function clamp:
@@ -174,47 +181,6 @@ user_effects_rmse <- function(test_set, a){
     filter(!is.na(resid)) |>
     pull(resid) |> rmse()
 }
-
-# res <- test_set |> 
-#   left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
-#   mutate(resid = rating - clamp(mu + a)) |> pull(resid)
-# mean(res)
-# 
-# res <- final_holdout_test |> 
-#   left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
-#   mutate(resid = rating - clamp(mu + a)) |> 
-#   filter(!is.na(resid)) |>
-#   pull(resid)
-# 
-# mean(res)
-# 
-# length(res)
-# 
-# sum(is.na(final_holdout_test$rating))
-# 
-# res <- final_holdout_test |> 
-#   left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
-#   mutate(resid = rating - clamp(mu + a)) |> pull(resid)
-# mean(res)
-# 
-# 
-# str(res)
-# str(test_set)
-# #head(test_set)
-# str(final_holdout_test)
-# str(edx)
-
-# movie_user_rmse <- function(test_set, movies_fit, users_fit, min_user_rates){
-#   predicted_ratings <- test_set |>
-#     left_join(movies_fit, by='movieId') |>
-#     left_join(users_fit, by='userId') |>
-#     mutate(pred = mu + b_i + b_u) |>
-#     pull(pred)
-#   
-#   #head(predicted_ratings)
-#   
-#   RMSE(test_set$rating, predicted_ratings)
-# }
 
 ### Model training ------------------------------------------------------
 #min_user_rates <- 100
@@ -231,6 +197,8 @@ train_set |>
   
 a <- rowMeans(y - mu, na.rm = TRUE)
 
+# Model testing ----------------------------------------------------------------
+
 model_user_rmse <- user_effects_rmse(test_set, a)
 model_user_rmse
 #> [1] 0.9718791
@@ -240,19 +208,60 @@ final_model_user_rmse
 #> [1] 0.9720994
 
 ## Modeling movie effects
-# Calculate Movie Effects ----------------------------------
-# Y(i,u) = μ + b(i) + ε(i,u)
 
-movie_avgs <- train_set |> 
-  group_by(movieId) |> 
-  summarize(b_i = mean(rating - mu))
+## Movie Effects 
 
-str(movie_avgs)
+# Reference: the Textbook section 23.5 Movie effects
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects
+
+# Enhanced model ---------------------------------------------------------------
+
+#> We know from experience that some movies are just generally rated higher 
+#> than others. We can use a linear model with a treatment effect `β[j]` 
+#> for each movie, which can be interpreted as movie effect or the difference 
+#> between the average ranking for movie `j` and the overall average `μ`:
+
+# Y[i,j] = μ + α[i] + β[j] + ε[i,j]
+
+#> We use an approximation by first computing the least square estimate `μ` and
+#> α[i], and then estimating β[j] as the average of the residuals 
+#> `y[i,j] - μ - α[i]`:
+
+### Support functions ---------------------------------------------------------
+
+# to keep predictions in that range and then compute the RMSE:
+user_and_movie_effects_rmse <- function(test_set, a, b){
+    test_set |> 
+    left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+    left_join(data.frame(movieId = as.integer(names(b)), b = b), by = "movieId") |>
+    mutate(resid = rating - clamp(mu + a + b)) |>  
+    filter(!is.na(resid)) |>
+    pull(resid) |> rmse()
+}
+#-------------------------------------------------------------------------------
+b <- colMeans(y - mu - a, na.rm = TRUE)
+
+# Model testing ----------------------------------------------------------------
+
+#> We can now construct predictors and see how much the `RMSE` improves:
+model_user_movie_rmse <- user_and_movie_effects_rmse(test_set, a, b)
+model_user_movie_rmse
+#> [1] 0.8664145
+
+final_model_user_movie_rmse <- user_and_movie_effects_rmse(final_holdout_test, a, b)
+final_model_user_movie_rmse
+#> [1] 0.8665345
+# ----------------------------------------------------------
+# movie_avgs <- train_set |> 
+#   group_by(movieId) |> 
+#   summarize(b_i = mean(rating - mu))
+# 
+# str(movie_avgs)
 # tibble [10,673 × 2] (S3: tbl_df/tbl/data.frame)
 # $ movieId: int [1:10673] 1 2 3 4 5 6 7 8 9 10 ...
 # $ b_i    : num [1:10673] 0.415 -0.307 -0.363 -0.643 -0.443 ...
 
-head(movie_avgs)
+# head(movie_avgs)
 # # A tibble: 6 × 2
 #   movieId    b_i
 #     <int>  <dbl>
@@ -263,33 +272,33 @@ head(movie_avgs)
 # 5       5 -0.443
 # 6       6  0.303
 
-predict_me_model <- function(test_set){
-  mu + test_set |> 
-    left_join(movie_avgs, by='movieId') |>
-    pull(b_i)  
-}
-
-preds <- predict_me_model(probe_set)
-# str(preds)
-# head(preds)
-# head(probe_set$rating)
-
-mean(preds)
-#> [1] 3.512969
-
-movie_model_rmse <- RMSE(probe_set$rating, preds)
-movie_model_rmse
-#> [1] 0.9442118
-
-preds <- predict_me_model(final_holdout_test)
-# str(preds)
-# head(preds)
-# head(probe_set$rating)
-
-final_movie_model_rmse <- RMSE(final_holdout_test$rating, preds)
-final_movie_model_rmse
-#> [1] 0.9439181
-
+# predict_me_model <- function(test_set){
+#   mu + test_set |> 
+#     left_join(movie_avgs, by='movieId') |>
+#     pull(b_i)  
+# }
+# 
+# preds <- predict_me_model(probe_set)
+# # str(preds)
+# # head(preds)
+# # head(probe_set$rating)
+# 
+# mean(preds)
+# #> [1] 3.512969
+# 
+# movie_model_rmse <- RMSE(probe_set$rating, preds)
+# movie_model_rmse
+# #> [1] 0.9442118
+# 
+# preds <- predict_me_model(final_holdout_test)
+# # str(preds)
+# # head(preds)
+# # head(probe_set$rating)
+# 
+# final_movie_model_rmse <- RMSE(final_holdout_test$rating, preds)
+# final_movie_model_rmse
+# #> [1] 0.9439181
+# 
 ## User effects ------------------------------------------
 # Y(i,u) = μ + b(i) + b(u) + ε(i,u)
 
