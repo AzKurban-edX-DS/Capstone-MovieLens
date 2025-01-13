@@ -151,7 +151,7 @@ final_naive_rmse
 #-----------------
 
 ## User effects 
-# Reference: the Textbook section(new edition): 23.4 User effects
+# Reference: the Textbook section "23.4 User effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
 
 # If we visualize the average rating for each user:
@@ -205,7 +205,7 @@ final_model_user_rmse
 #--------------------
 
 ## Movie Effects 
-# Reference: the Textbook section 23.5 Movie effects
+# Reference: the Textbook section "23.5 Movie effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects
 
 #> We know from experience that some movies are just generally rated higher 
@@ -245,77 +245,83 @@ final_model_user_movie_rmse
 #> [1] 0.8665345
 #------------------
 
-  
-## 
-
-
-### Support functions ---------------------------------------------------------
-### Model training ------------------------------------------------------
-
-
-### 23.6 Penalized least squares
+## Penalized Least Squares
+# Reference: the Textbook section "23.6 Penalized least squares"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares
 
 #> Instead of minimizing the least squares equation, 
 #> we minimize an equation that adds a penalty:
 
-#  ∑{u,i}(y[u,i] - μ - b[i])^2 + λ*∑{i}b[i]^2
+#  ∑{i,j}(y[i,j] - μ - α[i] - β[j])^2 + λ*∑{j}β[j]^2
 
-#> The values of `b[i]` that minimize this equation are:
+#> The values of `β[j]` that minimize this equation are:
 
-# b_hat[i](λ) = 1/(λ + n[i])*∑{u=1,n[i]}(Y[u,i] - μ_hat)
-# where `n[i]` is the number of ratings made for movie `i`.
+# β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
+# where `n[j]` is the number of ratings made for movie `j`.
 
-# To select `λ`, we use cross validation:
-fit_movies <- data.frame(movieId = as.integer(colnames(y)), 
-                         mu = mu)
-# head(fit_movies)
-#   movieId      mu
-# 1     122 3.51248
-# 2     185 3.51248
-# 3     292 3.51248
-# 4     316 3.51248
-# 5     329 3.51248
-# 6     355 3.51248
+### Support functions ----------------------------------------------------------
+reg_rmse <- function(test_set, b){
+  test_set |> 
+    left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+    left_join(data.frame(movieId = as.integer(names(b)), b = b), by = "movieId") |>
+    mutate(resid = rating - clamp(mu + a + b)) |> 
+    filter(!is.na(resid)) |>
+    pull(resid) |> rmse()
+}
 
+### Model building -------------------------------------------------------------
+
+#> Here we will simply compute the RMSE we for different values of `λ` 
+#> to illustrate the effect:
 n <- colSums(!is.na(y))
-fit_movies$n <- n
-
-# str(fit_movies)
-# 'data.frame':	10673 obs. of  3 variables:
-#   $ movieId: int  122 185 292 316 329 355 356 362 364 370 ...
-# $ mu     : num  3.51 3.51 3.51 3.51 3.51 ...
-# $ n      : num  2155 13302 14248 16823 14335 ...
-
-# head(fit_movies)
-#   movieId      mu     n
-# 1     122 3.51248  2155
-# 2     185 3.51248 13302
-# 3     292 3.51248 14248
-# 5     329 3.51248 14335
-# 6     355 3.51248  4777
-
-sums <- colSums(y - mu, na.rm = TRUE)
+sums <- colSums(y - mu - a, na.rm = TRUE)
 lambdas <- seq(0, 10, 0.1)
-
 rmses <- sapply(lambdas, function(lambda){
-  b_i <-  sums / (n + lambda)
-  fit_movies$b_i <- b_i
-  left_join(probe_set, fit_movies, by = "movieId") |> mutate(pred = mu + b_i) |> 
-    summarize(rmse = RMSE(rating, pred)) |>
-    pull(rmse)
+  b <-  sums / (n + lambda)
+  reg_rmse(test_set, b)
 })
 
-# We can then select the value that minimizes the RMSE:
-qplot(lambdas, rmses, geom = "line")
+# Here is a plot of the RMSE versus `λ`:
+plot(lambdas, rmses, type = "l")
+
 min(rmses)
-#> [1] 0.9440946
+#> [1] 0.8659219
 
-lambda <- lambdas[which.min(rmses)]
-print(lambda)
-#> [1] 4.2
+min_lambda <- lambdas[which.min(rmses)] 
+min_lambda
+#> [1] 2.6
 
-fit_movies$b_i <- colSums(y - mu, na.rm = TRUE) / (n + lambda)
+#> Using minimal `λ`, we can compute the regularized estimates:
+b_reg <- sums / (n + min_lambda)
+
+# Model testing ----------------------------------------------------------------
+reg_rmse(test_set, b_reg)
+#> [1] 0.8659219
+reg_rmse(final_holdout_test, b_reg)
+#> [1] 0.8663589
+
+#------------------------------------------------------------
+# sums <- colSums(y - mu, na.rm = TRUE)
+# lambdas <- seq(0, 10, 0.1)
+# 
+# rmses <- sapply(lambdas, function(lambda){
+#   b_i <-  sums / (n + lambda)
+#   fit_movies$b_i <- b_i
+#   left_join(probe_set, fit_movies, by = "movieId") |> mutate(pred = mu + b_i) |> 
+#     summarize(rmse = RMSE(rating, pred)) |>
+#     pull(rmse)
+# })
+# 
+# # We can then select the value that minimizes the RMSE:
+# qplot(lambdas, rmses, geom = "line")
+# min(rmses)
+# #> [1] 0.9440946
+# 
+# lambda <- lambdas[which.min(rmses)]
+# print(lambda)
+# #> [1] 4.2
+# 
+# fit_movies$b_i <- colSums(y - mu, na.rm = TRUE) / (n + lambda)
 
 #str(fit_movies)
 # 'data.frame':	10673 obs. of  4 variables:
