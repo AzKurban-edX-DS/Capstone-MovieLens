@@ -299,45 +299,129 @@ reg_rmse(test_set, b_reg)
 #> [1] 0.8659219
 reg_rmse(final_holdout_test, b_reg)
 #> [1] 0.8663589
+#------------------
+
+## Matrix factorization
+# Reference: the Textbook chapter "24  Matrix Factorization"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html
+
+#> the model ignores an important source of information related to the fact 
+#> that groups of movies, have similar rating patterns and groups of users have 
+#> similar rating patterns as well.
+
+# To see an example of this, we compute residuals:
+
+# r[i,j] = y[i,j] - (μ + α[i] + β[j])
+  
+### Model building -------------------------------------------------------------
+
+# Compute residuals for the model:
+r <- sweep(y - mu - a, 2, b_reg)
+
+# r_names <- colnames(r)
+# head(r_names)
+
+movie_titles <- with(movie_map, title[match(colnames(r), movieId)])
+str(movie_titles)
+
+
+godfather_idx <- str_detect(movie_titles, "Godfather")
+sum(godfather_idx)
+gdfth_nms <- movie_titles[godfather_idx]
+gdfth_idx <- which(godfather_idx)
+length(gdfth_idx)
+#> [1] 5
+
+gdfth_idx
+#> [1]   926   955  2341  4560 10220
+
+gdfth_nms
+# [1] "Godfather, The (1972)"           "Godfather: Part II, The (1974)"  "Godfather: Part III, The (1990)" "Tokyo Godfathers (2003)"        
+# [5] "3 Godfathers (1948)"           
+
+library(gridExtra)
+
+p12 <- qplot(r[ ,gdfth_idx[1]], 
+             r[,gdfth_idx[2]], 
+             xlab = gdfth_idx[1], 
+             ylab = gdfth_idx[2])
+
+p23 <- qplot(r[ ,gdfth_idx[2]], 
+             r[,gdfth_idx[3]], 
+             xlab = gdfth_idx[2], 
+             ylab = gdfth_idx[3])
+
+p13 <- qplot(r[ ,gdfth_idx[1]], 
+             r[,gdfth_idx[3]], 
+             xlab = gdfth_idx[1], 
+             ylab = gdfth_idx[3])
+
+grid.arrange(p12, p23 ,p13, ncol = 3)
+
+p14 <- qplot(r[ ,gdfth_idx[1]], 
+             r[,gdfth_idx[4]], 
+             xlab = gdfth_idx[1], 
+             ylab = gdfth_idx[4])
+
+p24 <- qplot(r[ ,gdfth_idx[2]], 
+             r[,gdfth_idx[4]], 
+             xlab = gdfth_idx[2], 
+             ylab = gdfth_idx[4])
+
+p34 <- qplot(r[ ,gdfth_idx[3]], 
+             r[,gdfth_idx[4]], 
+             xlab = gdfth_idx[3], 
+             ylab = gdfth_idx[4])
+
+grid.arrange(p14, p24 ,p34, ncol = 3)
+
+r123 <- r[, c(gdfth_idx[1], gdfth_idx[2], gdfth_idx[3])]
+str(r123)
+
+cor(r123, 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                                | Godfather, The (1972)| Godfather: Part II, The (1974)| Godfather: Part III, The (1990)|
+# |:-------------------------------|---------------------:|------------------------------:|-------------------------------:|
+# |Godfather, The (1972)           |             1.0000000|                      0.7351725|                       0.2481543|
+# |Godfather: Part II, The (1974)  |             0.7351725|                      1.0000000|                       0.2448787|
+# |Godfather: Part III, The (1990) |             0.2481543|                      0.2448787|                       1.0000000|
+
+cor(r[, c(gdfth_idx[2], gdfth_idx[3], gdfth_idx[4])], 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                                | Godfather: Part II, The (1974)| Godfather: Part III, The (1990)| Tokyo Godfathers (2003)|
+# |:-------------------------------|------------------------------:|-------------------------------:|-----------------------:|
+# |Godfather: Part II, The (1974)  |                      1.0000000|                       0.2448787|               0.1274314|
+# |Godfather: Part III, The (1990) |                      0.2448787|                       1.0000000|               0.2644005|
+# |Tokyo Godfathers (2003)         |                      0.1274314|                       0.2644005|               1.0000000|
+
+#### Factor analysis -------------------------------------
+# Reference: the Textbook section "24.1 Factor analysis"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html#sec-factor-analysis
+
+
+# Y(i,u) = μ + b(i) + b(u) + p(u)q(i) + ε(i,u)
+
+# Y(i,u) = μ + b(i) + b(u) + p(u,1)q(1,i) + p(u,2)q(2,i) + ε(i,u)
+
+
+
+
+# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + p(u)q(i) + ε(i,u)
+
+# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + p(u,1)q(1,i) + p(u,2)q(2,i) + ε(i,u)
+
+
+
+
+
+
+
+
+
 
 #------------------------------------------------------------
-# sums <- colSums(y - mu, na.rm = TRUE)
-# lambdas <- seq(0, 10, 0.1)
-# 
-# rmses <- sapply(lambdas, function(lambda){
-#   b_i <-  sums / (n + lambda)
-#   fit_movies$b_i <- b_i
-#   left_join(probe_set, fit_movies, by = "movieId") |> mutate(pred = mu + b_i) |> 
-#     summarize(rmse = RMSE(rating, pred)) |>
-#     pull(rmse)
-# })
-# 
-# # We can then select the value that minimizes the RMSE:
-# qplot(lambdas, rmses, geom = "line")
-# min(rmses)
-# #> [1] 0.9440946
-# 
-# lambda <- lambdas[which.min(rmses)]
-# print(lambda)
-# #> [1] 4.2
-# 
-# fit_movies$b_i <- colSums(y - mu, na.rm = TRUE) / (n + lambda)
-
-#str(fit_movies)
-# 'data.frame':	10673 obs. of  4 variables:
-#   $ movieId: int  122 185 292 316 329 355 356 362 364 370 ...
-# $ mu     : num  3.51 3.51 3.51 3.51 3.51 ...
-# $ n      : num  2155 13302 14248 16823 14335 ...
-# $ b_i: num  -0.6523 -0.3828 -0.0958 -0.1629 -0.1735 ...
-
-#head(fit_movies)
-#   movieId      mu     n     b_i
-# 1     122 3.51248  2155 -0.65227627
-# 2     185 3.51248 13302 -0.38279240
-# 3     292 3.51248 14248 -0.09576196
-# 4     316 3.51248 16823 -0.16291808
-# 5     329 3.51248 14335 -0.17346883
-# 6     355 3.51248  4777 -1.02372169
 
 ## Calculate user effects for improved movie effects --------------
 fit_users <- user_means(fit_movies)
@@ -356,7 +440,7 @@ model_3_rmse <- movie_user_rmse(final_holdout_test,
 model_3_rmse
 #> [1] 0.8652768
 
-# Calculate Date Smoothed Effect -------------------------------------------------------
+### Calculate Date Smoothed Effect -------------------------------------------------------
 # Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + ε(i,u)
 # with `j` a smooth function of `d(u,i)`
 
@@ -548,97 +632,6 @@ final_date_smoothed_rmse <- predict_date_smoothed(final_holdout_test,
 final_date_smoothed_rmse
 #> [1] 0.8649608
 
-# Improve the Model using Matrix factorization ------------------------
-# Inspired by the textbook section:
-### 33.11 Matrix factorization
-# https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#matrix-factorization
-
-# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + ε(i,u)
-
-# Compute residuals for the final model:
-r_m <- sweep(y - mu, 2, fit_movies$b_i)
-r <- sweep(r_m, 1, fit_users$b_u)
-colnames(r) <- with(movie_map, title[match(colnames(r), movieId)])
-r_names <- colnames(r)
-head(r_names)
-
-godfather_idx <- str_detect(r_names, "Godfather")
-sum(godfather_idx)
-gdfth_nms <- r_names[godfather_idx]
-length(gdfth_nms)
-#> [1] 5
-
-gdfth_nms
-# [1] "Godfather, The (1972)"           "Godfather: Part II, The (1974)"  "Godfather: Part III, The (1990)" "Tokyo Godfathers (2003)"        
-# [5] "3 Godfathers (1948)"           
-
-library(gridExtra)
-
-p12 <- qplot(r[ ,gdfth_nms[1]], 
-            r[,gdfth_nms[2]], 
-            xlab = gdfth_nms[1], 
-            ylab = gdfth_nms[2])
-
-p23 <- qplot(r[ ,gdfth_nms[2]], 
-            r[,gdfth_nms[3]], 
-            xlab = gdfth_nms[2], 
-            ylab = gdfth_nms[3])
-
-p13 <- qplot(r[ ,gdfth_nms[1]], 
-           r[,gdfth_nms[3]], 
-           xlab = gdfth_nms[1], 
-           ylab = gdfth_nms[3])
-
-grid.arrange(p12, p23 ,p13, ncol = 3)
-
-p14 <- qplot(r[ ,gdfth_nms[1]], 
-           r[,gdfth_nms[4]], 
-           xlab = gdfth_nms[1], 
-           ylab = gdfth_nms[4])
-
-p24 <- qplot(r[ ,gdfth_nms[2]], 
-            r[,gdfth_nms[4]], 
-            xlab = gdfth_nms[2], 
-            ylab = gdfth_nms[4])
-
-p34 <- qplot(r[ ,gdfth_nms[3]], 
-            r[,gdfth_nms[4]], 
-            xlab = gdfth_nms[3], 
-            ylab = gdfth_nms[4])
-
-grid.arrange(p14, p24 ,p34, ncol = 3)
-
-r123 <- r[, c(gdfth_nms[1], gdfth_nms[2], gdfth_nms[3])]
-str(r123)
-
-cor(r123, 
-    use="pairwise.complete") |> 
-  knitr::kable()
-# |                                | Godfather, The (1972)| Godfather: Part II, The (1974)| Godfather: Part III, The (1990)|
-# |:-------------------------------|---------------------:|------------------------------:|-------------------------------:|
-# |Godfather, The (1972)           |             1.0000000|                      0.7351725|                       0.2481543|
-# |Godfather: Part II, The (1974)  |             0.7351725|                      1.0000000|                       0.2448787|
-# |Godfather: Part III, The (1990) |             0.2481543|                      0.2448787|                       1.0000000|
-  
-cor(r[, c(gdfth_nms[2], gdfth_nms[3], gdfth_nms[4])], 
-    use="pairwise.complete") |> 
-  knitr::kable()
-# |                                | Godfather: Part II, The (1974)| Godfather: Part III, The (1990)| Tokyo Godfathers (2003)|
-# |:-------------------------------|------------------------------:|-------------------------------:|-----------------------:|
-# |Godfather: Part II, The (1974)  |                      1.0000000|                       0.2448787|               0.1274314|
-# |Godfather: Part III, The (1990) |                      0.2448787|                       1.0000000|               0.2644005|
-# |Tokyo Godfathers (2003)         |                      0.1274314|                       0.2644005|               1.0000000|
-
-# Y(i,u) = μ + b(i) + b(u) + p(u)q(i) + ε(i,u)
-
-# Y(i,u) = μ + b(i) + b(u) + p(u,1)q(1,i) + p(u,2)q(2,i) + ε(i,u)
-
-
-
-
-# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + p(u)q(i) + ε(i,u)
-
-# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + p(u,1)q(1,i) + p(u,2)q(2,i) + ε(i,u)
 
 
 
