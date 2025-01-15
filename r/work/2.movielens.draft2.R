@@ -121,8 +121,11 @@ dim_y <- dim(y)
 dim_y
 #> [1] 24115 10626
 
-movie_map <- train_set |> dplyr::select(movieId, title) |> 
+movie_map <- train_set |> dplyr::select(movieId, title, genres) |> 
   distinct(movieId, .keep_all = TRUE)
+
+str(movie_map)
+head(movie_map)
 #------------------------------------
 
 ## First Model
@@ -321,84 +324,286 @@ r <- sweep(y - mu - a, 2, b_reg)
 # r_names <- colnames(r)
 # head(r_names)
 
-movie_titles <- with(movie_map, title[match(colnames(r), movieId)])
+movie_titles <- 
+  data.frame(titles = with(movie_map, title[match(colnames(r), movieId)]),
+             genres = with(movie_map, genres[match(colnames(r), movieId)])) 
+
 str(movie_titles)
+head(movie_titles)
 
+# Romance movies sample ------------------
+romance_movie_titles_idx <- str_detect(movie_titles$genres, "Romance")
 
-godfather_idx <- str_detect(movie_titles, "Godfather")
-sum(godfather_idx)
-gdfth_nms <- movie_titles[godfather_idx]
-gdfth_idx <- which(godfather_idx)
-length(gdfth_idx)
-#> [1] 5
+goodfellars_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "Goodfellas")
+  
+sum(goodfellars_idx)
+#> [1] 0
 
-gdfth_idx
+forrest_gump_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "Forrest Gump")
+
+sum(forrest_gump_idx)
+#> [1] 1
+
+scent_of_woman_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "Scent of a Woman")
+
+sum(scent_of_woman_idx)
+#> [1] 0
+
+you_ve_got_mail_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "You've Got Mail")
+
+sum(you_ve_got_mail_idx)
+#> [1] 1
+
+sleepless_in_seattle_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "Sleepless in Seattle")
+
+sum(sleepless_in_seattle_idx)
+#> [1] 1
+
+groundhog_day_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "Groundhog Day")
+
+sum(groundhog_day_idx)
+#> [1] 1
+
+romance_movie_idx <- 
+  goodfellars_idx |
+  forrest_gump_idx |
+  scent_of_woman_idx |
+  you_ve_got_mail_idx |
+  sleepless_in_seattle_idx | 
+  groundhog_day_idx
+
+sum(romance_movie_idx)
+#> [1] 4
+
+romance_titles <- movie_titles[romance_movie_idx, 1]
+romance_idx <- which(romance_movie_idx)
+length(romance_idx)
+#> [1] 4
+
+romance_idx
 #> [1]   926   955  2341  4560 10220
 
-gdfth_nms
-# [1] "Godfather, The (1972)"           "Godfather: Part II, The (1974)"  "Godfather: Part III, The (1990)" "Tokyo Godfathers (2003)"        
-# [5] "3 Godfathers (1948)"           
+romance_titles
+#         titles                   genres
+# 754 Sleepless in Seattle (1993)     Comedy|Drama|Romance
+# 818      You've Got Mail (1998)           Comedy|Romance
+# 903         Forrest Gump (1994) Comedy|Drama|Romance|War
+# 960        Groundhog Day (1993)   Comedy|Fantasy|Romance
+
+
+# str(train_set)
+# str(test_set)
+
+romance_sample <- train_set |> 
+  group_by(movieId) |>
+  summarise(genres = first(genres), title = first(title), count = n()) |>
+  inner_join(data.frame(movieId = names(b_reg[romance_idx])), 
+             by = "movieId")
+
+# str(romance_sample)
+romance_sample
+#   movieId genres                   title                       count
+#   <chr>   <chr>                    <chr>                       <int>
+# 1 356     Comedy|Drama|Romance|War Forrest Gump (1994)         12720
+# 2 539     Comedy|Drama|Romance     Sleepless in Seattle (1993)  7069
+# 3 1265    Comedy|Fantasy|Romance   Groundhog Day (1993)         9548
+# 4 2424    Comedy|Romance           You've Got Mail (1998)       3574
 
 library(gridExtra)
 
-p12 <- qplot(r[ ,gdfth_idx[1]], 
-             r[,gdfth_idx[2]], 
-             xlab = gdfth_idx[1], 
-             ylab = gdfth_idx[2])
+prm12 <- qplot(r[,romance_idx[1]], 
+             r[,romance_idx[2]], 
+             xlab = romance_titles[1], 
+             ylab = romance_titles[2])
 
-p23 <- qplot(r[ ,gdfth_idx[2]], 
-             r[,gdfth_idx[3]], 
-             xlab = gdfth_idx[2], 
-             ylab = gdfth_idx[3])
+prm23 <- qplot(r[,romance_idx[2]], 
+             r[,romance_idx[3]], 
+             xlab = romance_titles[2], 
+             ylab = romance_titles[3])
 
-p13 <- qplot(r[ ,gdfth_idx[1]], 
-             r[,gdfth_idx[3]], 
-             xlab = gdfth_idx[1], 
-             ylab = gdfth_idx[3])
+prm13 <- qplot(r[,romance_idx[1]], 
+             r[,romance_idx[3]], 
+             xlab = romance_titles[1], 
+             ylab = romance_titles[3])
 
-grid.arrange(p12, p23 ,p13, ncol = 3)
+grid.arrange(prm12, prm23 ,prm13, ncol = 3)
 
-p14 <- qplot(r[ ,gdfth_idx[1]], 
-             r[,gdfth_idx[4]], 
-             xlab = gdfth_idx[1], 
-             ylab = gdfth_idx[4])
+prm14 <- qplot(r[,romance_idx[1]], 
+             r[,romance_idx[4]], 
+             xlab = romance_titles[1], 
+             ylab = romance_titles[4])
 
-p24 <- qplot(r[ ,gdfth_idx[2]], 
-             r[,gdfth_idx[4]], 
-             xlab = gdfth_idx[2], 
-             ylab = gdfth_idx[4])
+prm24 <- qplot(r[,romance_idx[2]], 
+             r[,romance_idx[4]], 
+             xlab = romance_titles[2], 
+             ylab = romance_titles[4])
 
-p34 <- qplot(r[ ,gdfth_idx[3]], 
-             r[,gdfth_idx[4]], 
-             xlab = gdfth_idx[3], 
-             ylab = gdfth_idx[4])
+prm34 <- qplot(r[,romance_idx[3]], 
+             r[,romance_idx[4]], 
+             xlab = romance_titles[3], 
+             ylab = romance_titles[4])
 
-grid.arrange(p14, p24 ,p34, ncol = 3)
+grid.arrange(prm14, prm24 ,prm34, ncol = 3)
 
-r123 <- r[, c(gdfth_idx[1], gdfth_idx[2], gdfth_idx[3])]
-str(r123)
 
-cor(r123, 
-    use="pairwise.complete") |> 
-  knitr::kable()
-# |                                | Godfather, The (1972)| Godfather: Part II, The (1974)| Godfather: Part III, The (1990)|
-# |:-------------------------------|---------------------:|------------------------------:|-------------------------------:|
-# |Godfather, The (1972)           |             1.0000000|                      0.7351725|                       0.2481543|
-# |Godfather: Part II, The (1974)  |             0.7351725|                      1.0000000|                       0.2448787|
-# |Godfather: Part III, The (1990) |             0.2481543|                      0.2448787|                       1.0000000|
+# Mob movies sample ---------------------------
+crime_movie_titles_idx <- str_detect(movie_titles$genres, "Crime")
 
-cor(r[, c(gdfth_idx[2], gdfth_idx[3], gdfth_idx[4])], 
-    use="pairwise.complete") |> 
-  knitr::kable()
-# |                                | Godfather: Part II, The (1974)| Godfather: Part III, The (1990)| Tokyo Godfathers (2003)|
-# |:-------------------------------|------------------------------:|-------------------------------:|-----------------------:|
-# |Godfather: Part II, The (1974)  |                      1.0000000|                       0.2448787|               0.1274314|
-# |Godfather: Part III, The (1990) |                      0.2448787|                       1.0000000|               0.2644005|
-# |Tokyo Godfathers (2003)         |                      0.1274314|                       0.2644005|               1.0000000|
+mob_sample_idx <- crime_movie_titles_idx &
+  str_detect(movie_titles$titles, "Godfather")
+
+sum(mob_sample_idx)
+#> [1] 3
+
+mob_titles <- movie_titles$titles[mob_sample_idx]
+mob_idx <- which(mob_sample_idx)
+length(mob_idx)
+#> [1] 3
+
+mob_idx
+#> [1]   926   955  2341
+
+mob_titles
+# [1] "Godfather, The (1972)"           "Godfather: Part II, The (1974)"  
+# [3] "Godfather: Part III, The (1990)"
+
+# library(gridExtra)
+
+pmb12 <- qplot(r[,mob_idx[1]], 
+             r[,mob_idx[2]], 
+             xlab = mob_titles[1], 
+             ylab = mob_titles[2])
+
+pmb23 <- qplot(r[,mob_idx[2]], 
+             r[,mob_idx[3]], 
+             xlab = mob_titles[2], 
+             ylab = mob_titles[3])
+
+pmb13 <- qplot(r[,mob_idx[1]], 
+             r[,mob_idx[3]], 
+             xlab = mob_titles[1], 
+             ylab = mob_titles[3])
+
+grid.arrange(pmb12, pmb23 ,pmb13, ncol = 3)
+
+# Romance vs Mob movies sample ---------------------------
+
+pr1_m1 <- qplot(r[,romance_idx[1]], 
+               r[,mob_idx[1]], 
+               xlab = romance_titles[1], 
+               ylab = mob_titles[1])
+
+pr2_m2 <- qplot(r[,romance_idx[2]], 
+               r[,mob_idx[2]], 
+               xlab = romance_titles[2], 
+               ylab = mob_titles[2])
+
+pr3_m3 <- qplot(r[,romance_idx[3]], 
+               r[,mob_idx[3]], 
+               xlab = romance_titles[3], 
+               ylab = mob_titles[3])
+
+grid.arrange(pr1_m1, pr2_m2 ,pr3_m3, ncol = 3)
 
 #### Factor analysis -------------------------------------
 # Reference: the Textbook section "24.1 Factor analysis"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html#sec-factor-analysis
+
+##### Romance movies correlation sample ---------------------------
+romance123 <- r[, c(romance_idx[1], romance_idx[2], romance_idx[3])]
+colnames(romance123) <- 
+  c(romance_titles[1], romance_titles[2], romance_titles[3])
+#str(romance123)
+
+cor(romance123, 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                            | Sleepless in Seattle (1993)| You've Got Mail (1998)| Forrest Gump (1994)|
+# |:---------------------------|---------------------------:|----------------------:|-------------------:|
+# |Sleepless in Seattle (1993) |                   1.0000000|              0.5479674|           0.2748114|
+# |You've Got Mail (1998)      |                   0.5479674|              1.0000000|           0.1826201|
+# |Forrest Gump (1994)         |                   0.2748114|              0.1826201|           1.0000000|
+
+
+
+##### Mob movies correlation sample ---------------------------
+mob123 <- r[, c(mob_idx[1], mob_idx[2], mob_idx[3])]
+colnames(mob123) <- c(mob_titles[1], mob_titles[2], mob_titles[3])
+#str(mob123)
+
+cor(mob123, 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                                | Godfather, The (1972)| Godfather: Part II, The (1974)| Godfather: Part III, The (1990)|
+# |:-------------------------------|---------------------:|------------------------------:|-------------------------------:|
+# |Godfather, The (1972)           |             1.0000000|                      0.7371036|                       0.2547627|
+# |Godfather: Part II, The (1974)  |             0.7371036|                      1.0000000|                       0.2456683|
+# |Godfather: Part III, The (1990) |             0.2547627|                      0.2456683|                       1.0000000|
+
+
+##### Romance vs Mob movies correlation sample ---------------------------
+
+idx <- c(mob_idx[1], mob_idx[2], mob_idx[3], romance_idx[1])
+mob123_romance1 <- r[, idx]
+
+colnames(mob123_romance1) <- 
+  c(mob_titles[1], mob_titles[2], mob_titles[3], romance_titles[1])
+
+cor(mob123_romance1, 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                                | Godfather, The (1972)| Godfather: Part II, The (1974)| Godfather: Part III, The (1990)| Sleepless in Seattle (1993)|
+# |:-------------------------------|---------------------:|------------------------------:|-------------------------------:|---------------------------:|
+# |Godfather, The (1972)           |             1.0000000|                      0.7371036|                       0.2547627|                  -0.0552713|
+# |Godfather: Part II, The (1974)  |             0.7371036|                      1.0000000|                       0.2456683|                  -0.0676995|
+# |Godfather: Part III, The (1990) |             0.2547627|                      0.2456683|                       1.0000000|                   0.0205535|
+# |Sleepless in Seattle (1993)     |            -0.0552713|                     -0.0676995|                       0.0205535|                   1.0000000|
+
+idx <- c(mob_idx[1], mob_idx[2], mob_idx[3], romance_idx[2])
+mob123_romance2 <- r[, idx]
+
+colnames(mob123_romance2) <- 
+  c(mob_titles[1], mob_titles[2], mob_titles[3], romance_titles[2])
+
+cor(mob123_romance2, 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                                | Godfather, The (1972)| Godfather: Part II, The (1974)| Godfather: Part III, The (1990)| You've Got Mail (1998)|
+# |:-------------------------------|---------------------:|------------------------------:|-------------------------------:|----------------------:|
+# |Godfather, The (1972)           |             1.0000000|                      0.7371036|                       0.2547627|             -0.1143261|
+# |Godfather: Part II, The (1974)  |             0.7371036|                      1.0000000|                       0.2456683|             -0.0941677|
+# |Godfather: Part III, The (1990) |             0.2547627|                      0.2456683|                       1.0000000|              0.0759931|
+# |You've Got Mail (1998)          |            -0.1143261|                     -0.0941677|                       0.0759931|              1.0000000|
+
+idx <- c(mob_idx[1], mob_idx[2], mob_idx[3], romance_idx[3])
+mob123_romance3 <- r[, idx]
+
+colnames(mob123_romance3) <- 
+  c(mob_titles[1], mob_titles[2], mob_titles[3], romance_titles[3])
+
+cor(mob123_romance3, 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                                | Godfather, The (1972)| Godfather: Part II, The (1974)| Godfather: Part III, The (1990)| Forrest Gump (1994)|
+# |:-------------------------------|---------------------:|------------------------------:|-------------------------------:|-------------------:|
+# |Godfather, The (1972)           |             1.0000000|                      0.7371036|                       0.2547627|           0.0560322|
+# |Godfather: Part II, The (1974)  |             0.7371036|                      1.0000000|                       0.2456683|           0.0314141|
+# |Godfather: Part III, The (1990) |             0.2547627|                      0.2456683|                       1.0000000|           0.1002557|
+# |Forrest Gump (1994)             |             0.0560322|                      0.0314141|                       0.1002557|           1.0000000|
+
+
+#-------------------------------------------------
+
+
+
+
+
 
 
 # Y(i,u) = μ + b(i) + b(u) + p(u)q(i) + ε(i,u)
