@@ -112,7 +112,7 @@ head(train_set)
 #> for the training data: we denote ranking for movie `j` by user `i`as `y[i,j]`. 
 #> To create this matrix, we use pivot_wider:
   
-y <- select(train_set, movieId, userId, rating) |>
+y <- dplyr::select(train_set, movieId, userId, rating) |>
 pivot_wider(names_from = movieId, values_from = rating) |>
 column_to_rownames("userId") |>
 as.matrix()
@@ -512,8 +512,21 @@ grid.arrange(pr1_m1, pr2_m2 ,pr3_m3, ncol = 3)
 romance_sample <- r[, romance_idx]
 colnames(romance_sample) <- romance_titles
 
-cor(romance_sample, 
-    use="pairwise.complete") |> 
+dim(romance_sample)
+str(romance_sample)
+
+# qplot(romance_sample[, 1], 
+#       romance_sample[, 2], 
+#       xlab = colnames(romance_sample)[1], 
+#       ylab = colnames(romance_sample)[2])
+
+dim(cor_romance_sample)
+cor_romance_sample <- cor(romance_sample, 
+    use="pairwise.complete") 
+
+str(cor_romance_sample)
+
+cor_romance_sample |> 
   knitr::kable()
 # |                              | Sleepless in Seattle (1993)| You've Got Mail (1998)| Look Who's Talking Now (1993)|
 # |:-----------------------------|---------------------------:|----------------------:|-----------------------------:|
@@ -546,6 +559,9 @@ colnames(mob_vs_romance_sample) <-
   c(mob_titles[1], mob_titles[2], mob_titles[3], 
     romance_titles[1], romance_titles[2], romance_titles[3])
 
+dim(mob_vs_romance_sample)
+str(mob_vs_romance_sample)
+
 cor(mob_vs_romance_sample, 
     use="pairwise.complete") |> 
   knitr::kable()
@@ -570,6 +586,10 @@ cor(mob_vs_romance_sample,
 #> It seems there is positive correlation within mob and romance movies, 
 #> and negative across the two genres.
 
+mr <- mob_vs_romance_sample
+
+
+
 # We can quantify a factor that distinguishes between mob and romance movies with:
 q <- c(-1, -1, -1, 1, 1, 1)
 
@@ -584,7 +604,7 @@ hist(p, breaks = seq(-2,2,0.1))
 #> with $p_iq_j we convert the vectors to matrices and use linear algebra:
 
 p <- matrix(p); q <- matrix(q)
-plot(p %*% t(q), mob_vs_romance_sample)
+plot(p %*% t(q), mr)
 
 
 
