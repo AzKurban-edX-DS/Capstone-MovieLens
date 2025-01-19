@@ -15,9 +15,8 @@ rmse <- function(r) sqrt(mean(r^2))
 RMSE <- function(true_ratings, predicted_ratings){
   sqrt(mean((true_ratings - predicted_ratings)^2))
 }
-#---------------------------------------
 
-## The Netflix Prize Dataset 
+## The Netflix Prize Dataset -------------------------------------------------
 # https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf
 
 #> The goal of the contest is to predict the qualifying set (size: 2817131 samples) 
@@ -126,9 +125,8 @@ movie_map <- train_set |> dplyr::select(movieId, title, genres) |>
 
 str(movie_map)
 head(movie_map)
-#------------------------------------
 
-## First Model
+## First Model -----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
 
@@ -151,9 +149,8 @@ naive_rmse
 final_naive_rmse <- RMSE(final_holdout_test$rating, mu)
 final_naive_rmse
 #> [1] 1.061958
-#-----------------
 
-## User effects 
+## User effects ---------------------------------------------------------------- 
 # Reference: the Textbook section "23.4 User effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
 
@@ -288,21 +285,20 @@ plot(lambdas, rmses, type = "l")
 min(rmses)
 #> [1] 0.8659219
 
-min_lambda <- lambdas[which.min(rmses)] 
-min_lambda
+lambda <- lambdas[which.min(rmses)] 
+lambda
 #> [1] 2.6
 
 #> Using minimal `λ`, we can compute the regularized estimates:
-b_reg <- sums / (n + min_lambda)
+b_reg <- sums / (n + lambda)
 
-# Model testing ----------------------------------------------------------------
+### Model testing ----------------------------------------------------------------
 reg_rmse(test_set, b_reg)
 #> [1] 0.8659219
 reg_rmse(final_holdout_test, b_reg)
 #> [1] 0.8663589
-#------------------
 
-## Matrix factorization
+## Matrix factorization --------------------------------------------------------
 # Reference: the Textbook chapter "24  Matrix Factorization"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html
 
@@ -329,7 +325,7 @@ movie_titles <-
 str(movie_titles)
 head(movie_titles)
 
-# Romance movies sample ------------------
+#### Romance movies sample ------------------
 romance_movie_titles_idx <- str_detect(movie_titles$genres, "Romance")
 
 # scent_of_woman_idx <- romance_movie_titles_idx &
@@ -391,25 +387,7 @@ romance_idx <- which(romance_movie_idx)
 romance_idx
 #> [1]   754 818 2981
 
-#---------------------------------------------------------
-# str(train_set)
-# str(test_set)
-
-# romance_sample <- train_set |> 
-#   group_by(movieId) |>
-#   summarise(genres = first(genres), title = first(title), count = n()) |>
-#   inner_join(data.frame(movieId = names(b_reg[romance_idx])), 
-#              by = "movieId")
-# 
-# str(romance_sample)
-# romance_sample
-#   movieId genres                   title                       count
-#   <chr>   <chr>                    <chr>                       <int>
-# 2 539     Comedy|Drama|Romance     Sleepless in Seattle (1993)  7069
-# 3 1265    Comedy|Fantasy|Romance   Groundhog Day (1993)         9548
-# 4 2424    Comedy|Romance           You've Got Mail (1998)       3574
-
-# Plot Romance Sample --------------------------------------------------------- 
+##### Plot Romance Sample --------------------------------------------------------- 
 library(gridExtra)
 
 prm12 <- qplot(r[,romance_idx[1]], 
@@ -429,7 +407,7 @@ prm13 <- qplot(r[,romance_idx[1]],
 
 grid.arrange(prm12, prm23 ,prm13, ncol = 3)
 
-# Mob movies sample ---------------------------
+#### Mob movies sample ---------------------------
 crime_movie_titles_idx <- str_detect(movie_titles$genres, "Crime")
 
 movie_titles[str_detect(movie_titles$titles, "Goodfellas"),]
@@ -483,7 +461,7 @@ pmb13 <- qplot(r[,mob_idx[1]],
 
 grid.arrange(pmb12, pmb23 ,pmb13, ncol = 3)
 
-# Romance vs Mob movies sample ---------------------------
+#### Romance vs Mob movies sample ---------------------------
 
 pr1_m1 <- qplot(r[,romance_idx[1]], 
                r[,mob_idx[1]], 
@@ -600,7 +578,7 @@ hist(p, breaks = seq(-2,2,0.1))
 p <- matrix(p); q <- matrix(q)
 plot(p %*% t(q), mob_vs_romance_sample)
 
-## Connection to PCA -----------------------------------------
+##### Connection to PCA -----------------------------------------
 # Reference: the Textbook section "24.2 Connection to PCA"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html#connection-to-pca
 
@@ -669,9 +647,11 @@ pca$rotation[,1]
 #> used to estimate the `β`s.
 
 library(missMDA)
+
+start <- start_date()
 ind <- colSums(!is.na(y)) >= 25
 imputed <- imputePCA(r[,ind], ncp = 2, coeff.ridge = lambda)
-
+end_date(start)
 
 
 
