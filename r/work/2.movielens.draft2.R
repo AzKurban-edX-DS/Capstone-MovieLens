@@ -205,9 +205,8 @@ model_user_rmse
 final_model_user_rmse <- user_effects_rmse(final_holdout_test, a)
 final_model_user_rmse
 #> [1] 0.9720994
-#--------------------
 
-## Movie Effects 
+## Movie Effects ---------------------------------------------------- 
 # Reference: the Textbook section "23.5 Movie effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects
 
@@ -237,7 +236,7 @@ user_and_movie_effects_rmse <- function(test_set, a, b){
     pull(resid) |> rmse()
 }
 
-# Model testing ----------------------------------------------------------------
+### Model testing ----------------------------------------------------------------
 #> We can now construct predictors and see how much the `RMSE` improves:
 model_user_movie_rmse <- user_and_movie_effects_rmse(test_set, a, b)
 model_user_movie_rmse
@@ -246,9 +245,8 @@ model_user_movie_rmse
 final_model_user_movie_rmse <- user_and_movie_effects_rmse(final_holdout_test, a, b)
 final_model_user_movie_rmse
 #> [1] 0.8665345
-#------------------
 
-## Penalized Least Squares
+## Penalized Least Squares ----------------------------------
 # Reference: the Textbook section "23.6 Penalized least squares"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares
 
@@ -586,10 +584,6 @@ cor(mob_vs_romance_sample,
 #> It seems there is positive correlation within mob and romance movies, 
 #> and negative across the two genres.
 
-mr <- mob_vs_romance_sample
-
-
-
 # We can quantify a factor that distinguishes between mob and romance movies with:
 q <- c(-1, -1, -1, 1, 1, 1)
 
@@ -604,19 +598,61 @@ hist(p, breaks = seq(-2,2,0.1))
 #> with $p_iq_j we convert the vectors to matrices and use linear algebra:
 
 p <- matrix(p); q <- matrix(q)
-plot(p %*% t(q), mr)
+plot(p %*% t(q), mob_vs_romance_sample)
 
+## Connection to PCA -----------------------------------------
+# Reference: the Textbook section "24.2 Connection to PCA"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html#connection-to-pca
 
+e <- na.omit(mob_vs_romance_sample)
+# str(e)
+head(e)
 
+#> Notice that if we perform PCA on the matrix `e`, 
+#> we obtain a transformation `V` that permits us to rewrite:
 
+# e = Z*t(V)
+  
+#> with `Z` the matrix of principal components.
 
+#> Let’s perform `PCA` and examine the results:
+  
+pca <- prcomp(e, center = FALSE)
 
+#> First, notice that the first three PCs explain over 87% of the variability:
+vr <- pca$sdev^2/sum(pca$sdev^2)
+vr
+#> [1] 0.47103883 0.24029462 0.16280777 0.06112944 0.03701468 0.02771466
+# sum(c(0.47103883, 0.24029462, 0.16280777))
+sum(vr[1:3])
+#> [1] 0.8741412
 
+# Next, notice that the first column of `V`:
+pca$rotation[,1]
+ #           Goodfellas (1990)          Godfather, The (1972) Godfather: Part II, The (1974) 
+ #                -0.603874574                   -0.565117204                   -0.497675827 
+ # Sleepless in Seattle (1993)         You've Got Mail (1998)  Look Who's Talking Now (1993) 
+ #                 0.002749586                    0.192951008                    0.176236103 
 
+#> is assigning negative values to the mob movies and positive values to the romance movies.
 
+# # The second column:
+# pca$rotation[,2]
+# #>            Godfather          Godfather 2           Goodfellas 
+# #>                0.354                0.377               -0.382 
+# #>     Scent of a Woman      You've Got Mail Sleepless in Seattle 
+# #>                0.437               -0.448               -0.442
+# 
+# 
 
+## Principal Component Analysis (PCA) -----------------------------------
+# Reference: the Textbook section "24.3 Case study: movie recommendations"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html#connection-to-pca
 
+#> We will rewrite the model from the previous chapter to include factors 
+#> to explain similarities between movies:
 
+# Y[i,j] = μ + α[i] + β[j] + ∑{k=[1,K]}p[i,k]q[j,k] + ε[i,j]
 
 
 #-------------------------------------------------
