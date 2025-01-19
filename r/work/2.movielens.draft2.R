@@ -654,6 +654,37 @@ pca$rotation[,1]
 
 # Y[i,j] = μ + α[i] + β[j] + ∑{k=[1,K]}p[i,k]q[j,k] + ε[i,j]
 
+#> Unfortunately, we can’t fit this model with prcomp due to the missing values. 
+#> We introduce the `missMDA` package that provides an approach to fit such models 
+#> when matrix entries are missing, a very common occurrence 
+#> in movie recommendations, through the function `imputePCA`. 
+#> Also, because there are small sample sizes for several movie pairs, 
+#> it is useful to regularize the `p`s. The imputePCA function also permits 
+#> regularization.
+
+#> We use the estimates for `μ`, the `α`s and `β`s calculated above, 
+#> and estimate two factors (ncp = 2). 
+#> We fit the model to movies rated more than 25 times, and, finally, 
+#> we use regularization by setting the parameter `coeff.ridge` to the same value 
+#> used to estimate the `β`s.
+
+library(missMDA)
+ind <- colSums(!is.na(y)) >= 25
+imputed <- imputePCA(r[,ind], ncp = 2, coeff.ridge = lambda)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #-------------------------------------------------
 
