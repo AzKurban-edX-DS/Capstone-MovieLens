@@ -2,6 +2,8 @@ library(caret)
 library(lubridate)
 library(dplyr)
 
+# setwd(".../Capstone-MovieLens/r/work")
+
 # Prepare shared auxiliary functions -------------------------------------------
 start_date <- function(){
   print(date())
@@ -299,8 +301,13 @@ reg_rmse(final_holdout_test, b_reg)
 #> [1] 0.8663589
 
 ## Matrix factorization --------------------------------------------------------
-# Reference: the Textbook chapter "24  Matrix Factorization"
-# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html
+#> References: 
+#> 1. The Textbook chapter "24  Matrix Factorization"
+#> https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html
+#> 2. "Matrix Factorization Techniques for Recommendation Systems" by 
+#> Yehuda Koren, Yahoo Research;
+#> Robert Bell and Chris Volinsky, AT&T Labs - Research:
+# https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf
 
 #> the model ignores an important source of information related to the fact 
 #> that groups of movies, have similar rating patterns and groups of users have 
@@ -349,6 +356,8 @@ head(movie_titles)
 #> used to estimate the `β`s.
 
 library(missMDA)
+
+sum(is.na(y))
 
 start <- start_date()
 ind <- colSums(!is.na(y)) >= 25

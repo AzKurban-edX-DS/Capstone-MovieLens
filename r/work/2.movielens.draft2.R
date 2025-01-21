@@ -2,6 +2,8 @@ library(caret)
 library(lubridate)
 library(dplyr)
 
+# setwd(".../Capstone-MovieLens/r/work")
+
 # Prepare shared auxiliary functions -------------------------------------------
 start_date <- function(){
   print(date())
