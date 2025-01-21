@@ -332,6 +332,304 @@ movie_titles <-
 str(movie_titles)
 head(movie_titles)
 
+#### Romance movies sample ------------------
+romance_movie_titles_idx <- str_detect(movie_titles$genres, "Romance")
+
+# scent_of_woman_idx <- romance_movie_titles_idx &
+#   str_detect(movie_titles$titles, "Scent of a Woman")
+# 
+# sum(scent_of_woman_idx)
+# #> [1] 0
+
+you_ve_got_mail_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "You've Got Mail")
+
+sum(you_ve_got_mail_idx)
+#> [1] 1
+
+sleepless_in_seattle_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "Sleepless in Seattle")
+
+sum(sleepless_in_seattle_idx)
+#> [1] 1
+
+head(movie_titles[romance_movie_titles_idx,])
+#                                titles                  genres
+# 8                     Clueless (1995)          Comedy|Romance
+# 11         Vampire in Brooklyn (1995)          Comedy|Romance
+# 14                   Desperado (1995) Action|Romance|Thriller
+# 22              Before Sunrise (1995)           Drama|Romance
+# 37 Four Weddings and a Funeral (1994)          Comedy|Romance
+# 40               Reality Bites (1994)    Comedy|Drama|Romance
+
+#movie_titles[str_detect(movie_titles$titles, "Vampire in Brooklyn"),]
+#                        titles         genres
+# 11 Vampire in Brooklyn (1995) Comedy|Romance
+
+look_who_is_talking_now_idx <- romance_movie_titles_idx &
+  str_detect(movie_titles$titles, "Look Who's Talking Now")
+
+sum(look_who_is_talking_now_idx)
+#> [1] 1
+
+romance_movie_idx <- 
+  you_ve_got_mail_idx |
+  sleepless_in_seattle_idx | 
+  look_who_is_talking_now_idx
+
+sum(romance_movie_idx)
+#> [1] 3
+
+movie_titles[romance_movie_idx,]
+#                             titles                  genres
+# 754    Sleepless in Seattle (1993)    Comedy|Drama|Romance
+# 818         You've Got Mail (1998)          Comedy|Romance
+# 2981 Look Who's Talking Now (1993) Children|Comedy|Romance
+
+romance_titles <- movie_titles[romance_movie_idx,1]
+romance_titles
+# [1] "Sleepless in Seattle (1993)"   "You've Got Mail (1998)"        "Look Who's Talking Now (1993)"
+
+romance_idx <- which(romance_movie_idx)
+romance_idx
+#> [1]   754 818 2981
+
+##### Plot Romance Sample --------------------------------------------------------- 
+library(gridExtra)
+
+prm12 <- qplot(r[,romance_idx[1]], 
+               r[,romance_idx[2]], 
+               xlab = romance_titles[1], 
+               ylab = romance_titles[2])
+
+prm23 <- qplot(r[,romance_idx[2]], 
+               r[,romance_idx[3]], 
+               xlab = romance_titles[2], 
+               ylab = romance_titles[3])
+
+prm13 <- qplot(r[,romance_idx[1]], 
+               r[,romance_idx[3]], 
+               xlab = romance_titles[1], 
+               ylab = romance_titles[3])
+
+grid.arrange(prm12, prm23 ,prm13, ncol = 3)
+
+#### Mob movies sample ---------------------------
+crime_movie_titles_idx <- str_detect(movie_titles$genres, "Crime")
+
+movie_titles[str_detect(movie_titles$titles, "Goodfellas"),]
+#                titles      genres
+# 610 Goodfellas (1990) Crime|Drama
+
+goodfellars_idx <- crime_movie_titles_idx &
+  str_detect(movie_titles$titles, "Goodfellas")
+
+sum(goodfellars_idx)
+#> [1] 1
+
+godfather_idx <- crime_movie_titles_idx &
+  str_detect(movie_titles$titles, "Godfather")
+
+sum(godfather_idx)
+#> [1] 3
+
+mob_sample_idx <- goodfellars_idx | godfather_idx
+sum(mob_sample_idx)
+#> [1] 4
+
+mob_titles <- movie_titles$titles[mob_sample_idx]
+mob_idx <- which(mob_sample_idx)
+length(mob_idx)
+#> [1] 4
+
+mob_idx
+#> [1]   610  926   955  2341
+
+mob_titles
+# [1] "Goodfellas (1990)"               "Godfather, The (1972)"  
+# [3] "Godfather: Part II, The (1974)"  "Godfather: Part III, The (1990)"
+
+# library(gridExtra)
+
+pmb12 <- qplot(r[,mob_idx[1]], 
+               r[,mob_idx[2]], 
+               xlab = mob_titles[1], 
+               ylab = mob_titles[2])
+
+pmb23 <- qplot(r[,mob_idx[2]], 
+               r[,mob_idx[3]], 
+               xlab = mob_titles[2], 
+               ylab = mob_titles[3])
+
+pmb13 <- qplot(r[,mob_idx[1]], 
+               r[,mob_idx[3]], 
+               xlab = mob_titles[1], 
+               ylab = mob_titles[3])
+
+grid.arrange(pmb12, pmb23 ,pmb13, ncol = 3)
+
+#### Romance vs Mob movies sample ---------------------------
+
+pr1_m1 <- qplot(r[,romance_idx[1]], 
+                r[,mob_idx[1]], 
+                xlab = romance_titles[1], 
+                ylab = mob_titles[1])
+
+pr2_m2 <- qplot(r[,romance_idx[2]], 
+                r[,mob_idx[2]], 
+                xlab = romance_titles[2], 
+                ylab = mob_titles[2])
+
+pr3_m3 <- qplot(r[,romance_idx[3]], 
+                r[,mob_idx[3]], 
+                xlab = romance_titles[3], 
+                ylab = mob_titles[3])
+
+grid.arrange(pr1_m1, pr2_m2 ,pr3_m3, ncol = 3)
+
+#### Factor analysis -------------------------------------
+# Reference: the Textbook section "24.1 Factor analysis"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html#sec-factor-analysis
+
+##### Romance movies correlation sample ---------------------------
+romance_sample <- r[, romance_idx]
+colnames(romance_sample) <- romance_titles
+
+dim(romance_sample)
+str(romance_sample)
+
+# qplot(romance_sample[, 1], 
+#       romance_sample[, 2], 
+#       xlab = colnames(romance_sample)[1], 
+#       ylab = colnames(romance_sample)[2])
+
+cor_romance_sample <- cor(romance_sample, 
+                          use="pairwise.complete") 
+dim(cor_romance_sample)
+str(cor_romance_sample)
+
+cor_romance_sample |> 
+  knitr::kable()
+# |                              | Sleepless in Seattle (1993)| You've Got Mail (1998)| Look Who's Talking Now (1993)|
+# |:-----------------------------|---------------------------:|----------------------:|-----------------------------:|
+# |Sleepless in Seattle (1993)   |                   1.0000000|              0.5479674|                     0.2168854|
+# |You've Got Mail (1998)        |                   0.5479674|              1.0000000|                     0.1213388|
+# |Look Who's Talking Now (1993) |                   0.2168854|              0.1213388|                     1.0000000|
+
+##### Mob movies correlation sample ---------------------------
+mob_sample <- r[, c(mob_idx[1], mob_idx[2], mob_idx[3])]
+colnames(mob_sample) <- c(mob_titles[1], mob_titles[2], mob_titles[3])
+#str(mob_sample)
+
+cor(mob_sample, 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                                | Godfather, The (1972)| Godfather: Part II, The (1974)| Godfather: Part III, The (1990)|
+# |:-------------------------------|---------------------:|------------------------------:|-------------------------------:|
+# |Godfather, The (1972)           |             1.0000000|                      0.7371036|                       0.2547627|
+# |Godfather: Part II, The (1974)  |             0.7371036|                      1.0000000|                       0.2456683|
+# |Godfather: Part III, The (1990) |             0.2547627|                      0.2456683|                       1.0000000|
+
+
+##### Romance vs Mob movies correlation sample ---------------------------
+
+idx <- c(mob_idx[1], mob_idx[2], mob_idx[3], 
+         romance_idx[1], romance_idx[2], romance_idx[3])
+mob_vs_romance_sample <- r[, idx]
+
+colnames(mob_vs_romance_sample) <- 
+  c(mob_titles[1], mob_titles[2], mob_titles[3], 
+    romance_titles[1], romance_titles[2], romance_titles[3])
+
+dim(mob_vs_romance_sample)
+str(mob_vs_romance_sample)
+
+cor(mob_vs_romance_sample, 
+    use="pairwise.complete") |> 
+  knitr::kable()
+# |                               | Goodfellas (1990)| Godfather, The (1972)| Godfather: Part II, The (1974)|
+# |:------------------------------|-----------------:|---------------------:|------------------------------:|
+# |Goodfellas (1990)              |         1.0000000|             0.3956433|                      0.3791739|
+# |Godfather, The (1972)          |         0.3956433|             1.0000000|                      0.7371036|
+# |Godfather: Part II, The (1974) |         0.3791739|             0.7371036|                      1.0000000|
+# |Sleepless in Seattle (1993)    |        -0.0914330|            -0.0552713|                     -0.0676995|
+# |You've Got Mail (1998)         |        -0.1076334|            -0.1143261|                     -0.0941677|
+# |Look Who's Talking Now (1993)  |        -0.2970970|            -0.1248146|                     -0.1629234|
+# 
+# |                               | Sleepless in Seattle (1993)| You've Got Mail (1998)| Look Who's Talking Now (1993)|
+# |:------------------------------|---------------------------:|----------------------:|-----------------------------:|
+# |Goodfellas (1990)              |                  -0.0914330|             -0.1076334|                    -0.2970970|
+# |Godfather, The (1972)          |                  -0.0552713|             -0.1143261|                    -0.1248146|
+# |Godfather: Part II, The (1974) |                  -0.0676995|             -0.0941677|                    -0.1629234|
+# |Sleepless in Seattle (1993)    |                   1.0000000|              0.5479674|                     0.2168854|
+# |You've Got Mail (1998)         |                   0.5479674|              1.0000000|                     0.1213388|
+# |Look Who's Talking Now (1993)  |                   0.2168854|              0.1213388|                     1.0000000|
+
+#> It seems there is positive correlation within mob and romance movies, 
+#> and negative across the two genres.
+
+# We can quantify a factor that distinguishes between mob and romance movies with:
+q <- c(-1, -1, -1, 1, 1, 1)
+
+#> To determine which users prefer each genre, we can fit a linear model 
+#> to each user:
+
+p <- t(qr.solve(crossprod(q)) %*% t(q) %*% t(mob_vs_romance_sample))
+
+hist(p, breaks = seq(-2,2,0.1))
+
+#> To see that we can approximate 
+#> with $p_iq_j we convert the vectors to matrices and use linear algebra:
+
+p <- matrix(p); q <- matrix(q)
+plot(p %*% t(q), mob_vs_romance_sample)
+
+##### Connection to PCA -----------------------------------------
+# Reference: the Textbook section "24.2 Connection to PCA"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html#connection-to-pca
+
+e <- na.omit(mob_vs_romance_sample)
+# str(e)
+head(e)
+
+#> Notice that if we perform PCA on the matrix `e`, 
+#> we obtain a transformation `V` that permits us to rewrite:
+
+# e = Z*t(V)
+
+#> with `Z` the matrix of principal components.
+
+#> Let’s perform `PCA` and examine the results:
+
+pca <- prcomp(e, center = FALSE)
+
+#> First, notice that the first three PCs explain over 87% of the variability:
+vr <- pca$sdev^2/sum(pca$sdev^2)
+vr
+#> [1] 0.47103883 0.24029462 0.16280777 0.06112944 0.03701468 0.02771466
+# sum(c(0.47103883, 0.24029462, 0.16280777))
+sum(vr[1:3])
+#> [1] 0.8741412
+
+# Next, notice that the first column of `V`:
+pca$rotation[,1]
+#           Goodfellas (1990)          Godfather, The (1972) Godfather: Part II, The (1974) 
+#                -0.603874574                   -0.565117204                   -0.497675827 
+# Sleepless in Seattle (1993)         You've Got Mail (1998)  Look Who's Talking Now (1993) 
+#                 0.002749586                    0.192951008                    0.176236103 
+
+#> is assigning negative values to the mob movies and positive values to the romance movies.
+
+# # The second column:
+# pca$rotation[,2]
+# #>            Godfather          Godfather 2           Goodfellas 
+# #>                0.354                0.377               -0.382 
+# #>     Scent of a Woman      You've Got Mail Sleepless in Seattle 
+# #>                0.437               -0.448               -0.442
+# 
+# 
+
+
 #### Principal Component Analysis (PCA) -----------------------------------
 # Reference: the Textbook section "24.3 Case study: movie recommendations"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html#connection-to-pca
