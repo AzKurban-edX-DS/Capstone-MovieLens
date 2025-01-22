@@ -1,8 +1,26 @@
-library(caret)
-library(lubridate)
-library(dplyr)
+# if(!require(tidyverse)) 
+#   install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+# if(!require(caret)) 
+#   install.packages("caret", repos = "http://cran.us.r-project.org")
+# if(!require(data.table)) 
+#   install.packages("data.table", repos = "http://cran.us.r-project.org")
 
 # setwd(".../Capstone-MovieLens/r/work")
+
+# Loading the required libraries
+library(caret)
+library(cowplot)
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(lubridate)
+library(Metrics)
+library(recosystem)
+library(scales)
+library(stringr)
+library(tibble)
+library(tidyr)
 
 # Prepare shared auxiliary functions -------------------------------------------
 start_date <- function(){
@@ -101,13 +119,59 @@ test_set <- test_set |> semi_join(train_set, by = "movieId") |>
   as.data.frame()
 
 train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
-head(train_set)
 
-#> Make sure userId and movieId in final hold-out test set 
-#> are also in `train_set` set
-# probe_set <- probe_set_tmp |> 
-#   semi_join(train_set, by = "movieId") |>
-#   semi_join(train_set, by = "userId")
+dim(train_set)
+#> [1] 5539951       6
+
+class(train_set)
+#> [1] "tbl_df"     "tbl"        "data.frame"
+
+str(train_set)
+# tibble [5,539,951 × 6] (S3: tbl_df/tbl/data.frame)
+# $ userId   : Factor w/ 24115 levels "8","10","13",..: 1 1 1 1 1 1 1 1 1 1 ...
+# $ movieId  : Factor w/ 10631 levels "1","2","3","4",..: 2 5 16 19 22 34 36 39 50 66 ...
+# $ rating   : num [1:5539951] 2.5 3 3 3.5 2.5 3 3.5 2.5 5 2.5 ...
+# $ timestamp: int [1:5539951] 1115858432 1116550582 1115859664 1115859653 1111545739 1116547009 1116547602 1116549031 1115859656 1115858883 ...
+# $ title    : chr [1:5539951] "Jumanji (1995)" "Father of the Bride Part II (1995)" "Casino (1995)" "Ace Ventura: When Nature Calls (1995)" ...
+# $ genres   : chr [1:5539951] "Adventure|Children|Fantasy" "Comedy" "Crime|Drama" "Comedy" ...
+
+head(train_set)
+# A tibble: 6 × 6
+#   userId movieId rating  timestamp title                                 genres                             
+#   <fct>  <fct>    <dbl>      <int> <chr>                                 <chr>                              
+# 1 8      2          2.5 1115858432 Jumanji (1995)                        Adventure|Children|Fantasy         
+# 2 8      5          3   1116550582 Father of the Bride Part II (1995)    Comedy                             
+# 3 8      16         3   1115859664 Casino (1995)                         Crime|Drama                        
+# 4 8      19         3.5 1115859653 Ace Ventura: When Nature Calls (1995) Comedy                             
+# 5 8      22         2.5 1111545739 Copycat (1995)                        Crime|Drama|Horror|Mystery|Thriller
+# 6 8      34         3   1116547009 Babe (1995)                           Children|Comedy|Drama|Fantasy      
+
+summary(train_set)
+ #     userId           movieId            rating        timestamp            title              genres         
+ # 59269  :   5292   356    :  12720   Min.   :0.500   Min.   :8.248e+08   Length:5539951     Length:5539951    
+ # 67385  :   5088   593    :  12506   1st Qu.:3.000   1st Qu.:9.657e+08   Class :character   Class :character  
+ # 14463  :   3718   480    :  12482   Median :3.500   Median :1.059e+09   Mode  :character   Mode  :character  
+ # 68259  :   3228   296    :  12479   Mean   :3.472   Mean   :1.051e+09                                        
+ # 27468  :   3218   260    :  12157   3rd Qu.:4.000   3rd Qu.:1.135e+09                                        
+ # 19635  :   3016   1196   :  11591   Max.   :5.000   Max.   :1.231e+09                                        
+ # (Other):5516391   (Other):5466016                                                               
+
+
+train_set |>
+  group_by(rating) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_bar(stat = "identity", fill = "#8888ff") +
+  ggtitle("Rating Distribution") +
+  xlab("Rating") +
+  ylab("Occurrences Count") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+
 
 #> We will use the array representation described in `Section 17.5`, 
 #> for the training data: we denote ranking for movie `j` by user `i`as `y[i,j]`. 
@@ -127,6 +191,8 @@ movie_map <- train_set |> dplyr::select(movieId, title, genres) |>
 
 str(movie_map)
 head(movie_map)
+
+
 
 ## First Model -----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
@@ -664,12 +730,24 @@ end_date(start)
 
 
 
+# References:
 
+#> 1. Matrix Factorization: 
+#> https://d2l.ai/chapter_recommender-systems/mf.html
 
+#> 2. Koren, Y., Bell, R., & Volinsky, C. (2009). Matrix factorization techniques for recommender systems.
+#> https://d2l.ai/chapter_references/zreferences.html#id154
 
+#> 3. Blog post: 
+#> https://sifter.org/%7Esimon/journal/20061211.html
 
+#> 4. Töscher, A., Jahrer, M., & Bell, R. M. (2009). The bigchaos solution to the Netflix grand prize.
+#> https://d2l.ai/chapter_references/zreferences.html#id286
 
+# 5. https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best#Ratings
 
+#> 6. recosystem Package:
+#> https://cran.r-project.org/web/packages/recosystem/vignettes/introduction.html
 
 
 
