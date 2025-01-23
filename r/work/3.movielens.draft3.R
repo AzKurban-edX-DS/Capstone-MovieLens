@@ -367,19 +367,12 @@ reg_rmse(final_holdout_test, b_reg)
 #> [1] 0.8663589
 
 ## Matrix factorization --------------------------------------------------------
-#> References: 
-#> 1. The Textbook chapter "24  Matrix Factorization"
-#> https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html
-#> 2. "Matrix Factorization Techniques for Recommendation Systems" by 
-#> Yehuda Koren, Yahoo Research;
-#> Robert Bell and Chris Volinsky, AT&T Labs - Research:
-# https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf
 
-#> the model ignores an important source of information related to the fact 
+#> So far the model ignores an important source of information related to the fact 
 #> that groups of movies, have similar rating patterns and groups of users have 
 #> similar rating patterns as well.
 
-# To see an example of this, we compute residuals:
+# To see an example of this, we compute residuals [X]:
 
 # r[i,j] = y[i,j] - (μ + α[i] + β[j])
   
@@ -730,24 +723,103 @@ end_date(start)
 
 
 
-# References:
+# References: ------------------------------------------------------------------
 
-#> 1. Matrix Factorization: 
+#> .
+#>
+
+#> . 
+#> 
+
+#> .
+#>
+
+#> X. Chapter "24  Matrix Factorization" of the Textbook [1]:
+#> https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html
+
+#> X+1. "Matrix Factorization Techniques for Recommendation Systems" by 
+#> Yehuda Koren, Yahoo Research; Robert Bell and Chris Volinsky, AT&T Labs - Research:
+# https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf
+
+#> . "Movie Recommendation System using R - BEST" by Amir Motefaker:
+#> https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best#Regularization-function
+
+#> .
+#> 
+
+#> .
+#> 
+
+#> .
+#> 
+
+#> .
+#> 
+
+#> .
+#> 
+
+
+#> .
+#>https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf
+
+#> . Matrix Factorization: 
 #> https://d2l.ai/chapter_recommender-systems/mf.html
 
-#> 2. Koren, Y., Bell, R., & Volinsky, C. (2009). Matrix factorization techniques for recommender systems.
+#> . Koren, Y., Bell, R., & Volinsky, C. (2009). Matrix factorization techniques for recommender systems.
 #> https://d2l.ai/chapter_references/zreferences.html#id154
 
-#> 3. Blog post: 
+#> . Blog post: 
 #> https://sifter.org/%7Esimon/journal/20061211.html
 
-#> 4. Töscher, A., Jahrer, M., & Bell, R. M. (2009). The bigchaos solution to the Netflix grand prize.
+#> . Töscher, A., Jahrer, M., & Bell, R. M. (2009). The bigchaos solution to the Netflix grand prize.
 #> https://d2l.ai/chapter_references/zreferences.html#id286
+#> #> https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf
 
-# 5. https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best#Ratings
 
-#> 6. recosystem Package:
+# . https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best#Ratings
+
+#> . recosystem Package:
 #> https://cran.r-project.org/web/packages/recosystem/vignettes/introduction.html
+#> 
+#> https://cran.r-project.org/web/packages/recosystem/index.html
+#> https://www.csie.ntu.edu.tw/~cjlin/papers/libmf/libmf_open_source.pdf
+#> https://cran.r-project.org/web/packages/recosystem/recosystem.pdf
+#> https://www.csie.ntu.edu.tw/~cjlin/papers/libmf/mf_adaptive_pakdd.pdf
+
+#> . recommenderlab: An R Framework for Developing and Testing Recommendation Algorithms
+#> https://cran.r-project.org/web/packages/recommenderlab/vignettes/recommenderlab.pdf
+
+#> . "Efficient Bayesian Hierarchical User Modeling for Recommendation Systems" by
+#> Yi Zhang , Jonathan Koren:
+#> https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=3d41d1d7d00b6666cb547b47957857f77836050e
+
+#> . "Recommender Systems Handbook" by Francesco Ricci, Lior Rokach, Bracha Shapira, Paul B. Kantor:
+#> https://www.cse.iitk.ac.in/users/nsrivast/HCC/Recommender_systems_handbook.pdf
+
+#> .
+#>
+
+#> .
+#>
+
+#> .
+#>
+
+#> .
+#>
+
+#> .
+#>
+
+#> .
+#>
+
+#> .
+#>
+
+#> .
+#>
 
 
 
