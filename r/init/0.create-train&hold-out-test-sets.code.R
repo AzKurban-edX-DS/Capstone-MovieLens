@@ -28,12 +28,13 @@ RMSE <- function(true_ratings, predicted_ratings){
 }
 
 # Function for the `edx` and `final_holdout_test` sets creation: ---------------
-make_input_datasets <- function(){
+make_input_datasets <- function(init_data_path){
   ##########################################################
   # Create `edx` and `final_holdout_test` sets 
   ##########################################################
-
-  dl <- "ml-10M100K.zip"
+  
+  dl <- file.path(init_data_path, "ml-10M100K.zip")
+  
   if(!file.exists(dl)){
     print("Downloading archived data...") 
     start <- start_date()
@@ -41,19 +42,23 @@ make_input_datasets <- function(){
     end_date(start)
   }
   
-  ratings_file <- "ml-10M100K/ratings.dat"
+  zipped_ratings_file <- "ml-10M100K/ratings.dat"
+  ratings_file <- file.path(init_data_path, zipped_ratings_file)
+  
   if(!file.exists(ratings_file)){
     print("Unpacking initial ratings data file...")
     start <- start_date()
-    unzip(dl, ratings_file)
+    unzip(dl, zipped_ratings_file, exdir = init_data_path)
     end_date(start)
   }
   
-  movies_file <- "ml-10M100K/movies.dat"
+  zipped_movies_file <- "ml-10M100K/movies.dat"
+  movies_file <- file.path(init_data_path, zipped_movies_file)
+  
   if(!file.exists(movies_file)){
     print("Unpacking movies data file...")
     start <- start_date()
-    unzip(dl, movies_file)
+    unzip(dl, zipped_movies_file, exdir = init_data_path)
     end_date(start)
   }
   
@@ -108,10 +113,9 @@ make_input_datasets <- function(){
 }
 
 #------------------------------------------
-# Set current working directory
-# setwd(".../Capstone-MovieLens/r/init")
 
-movielens_datasets_file <- "movielens-datasets.RData"
+init_data_path <- "r/init/data"
+movielens_datasets_file <- "data/movielens-datasets.RData"
 
 if(file.exists(movielens_datasets_file)){
   print("Loading input datasets from file...")
@@ -121,7 +125,7 @@ if(file.exists(movielens_datasets_file)){
 } else {
   print("Creating input datasets...")
   start <- start_date()
-  movielens_datasets <- make_input_datasets()
+  movielens_datasets <- make_input_datasets(init_data_path)
   end_date(start)
   
   print("Saving newly created input datasets to file...")
