@@ -114,8 +114,10 @@ make_input_datasets <- function(init_data_path){
 
 #------------------------------------------
 
-init_data_path <- "r/init/data"
-movielens_datasets_file <- "data/movielens-datasets.RData"
+init_path <- "r/init"
+data_path <- "data"
+init_data_path <- file.path(init_path, data_path)
+movielens_datasets_file <- file.path(data_path, "movielens-datasets.RData")
 
 if(file.exists(movielens_datasets_file)){
   print("Loading input datasets from file...")
@@ -130,6 +132,7 @@ if(file.exists(movielens_datasets_file)){
   
   print("Saving newly created input datasets to file...")
   start <- start_date()
+  dir.create(data_path)
   save(movielens_datasets, file =  movielens_datasets_file)
   end_date(start)
 }
