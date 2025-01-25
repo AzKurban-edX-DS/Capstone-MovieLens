@@ -104,10 +104,7 @@ make_input_datasets <- function(){
   rm(dl, ratings, movies, test_index, temp, movielens, removed)
   end_date(start)
   
-  print("Saving newly created input datasets to file...")
-  start <- start_date()
-  save(edx, final_holdout_test, file =  movielens_datasets_file)
-  end_date(start)
+  list(edx = edx, final_holdout_test = final_holdout_test)
 }
 
 #------------------------------------------
@@ -124,13 +121,18 @@ if(file.exists(movielens_datasets_file)){
 } else {
   print("Creating input datasets...")
   start <- start_date()
-  make_input_datasets()
+  movielens_datasets <- make_input_datasets()
+  end_date(start)
+  
+  print("Saving newly created input datasets to file...")
+  start <- start_date()
+  save(movielens_datasets, file =  movielens_datasets_file)
   end_date(start)
 }
+
+edx <- movielens_datasets$edx
+final_holdout_test <- movielens_datasets$final_holdout_test
 
 #> Ensure that both datasets have been successfully loaded/created: 
 str(edx)
 str(final_holdout_test)
-
-
-
