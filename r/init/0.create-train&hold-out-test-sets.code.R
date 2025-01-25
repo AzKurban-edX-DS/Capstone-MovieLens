@@ -1,47 +1,68 @@
-# Create edx and final_holdout_test sets
+# Create or load from file input datasets
 
-# setwd(".../Capstone-MovieLens/r/init")
+# Note: this process could take a couple of minutes
+if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if(!require(caret)) install.packages("caret", repos = "http://cran.us.r-project.org")
 
-movielens_dataset_files <- "movielens-datasets.RData"
+library(tidyverse)
+library(caret)
 
-##########################################################
-# Create edx and final_holdout_test sets 
+options(timeout = 300)
 
-if(file.exists(movielens_dataset_files)){
-  load(movielens_dataset_files)
-} else {
+# Initial dataset: MovieLens 10M dataset:
+# https://grouplens.org/datasets/movielens/10m/
+# http://files.grouplens.org/datasets/movielens/ml-10m.zip
 
+# Prepare shared auxiliary functions -------------------------------------------
+start_date <- function(){
+  print(date())
+  Sys.time()
+}
+end_date <- function(start){
+  print(date())
+  Sys.time() - start
+}
+rmse <- function(r) sqrt(mean(r^2))
+RMSE <- function(true_ratings, predicted_ratings){
+  sqrt(mean((true_ratings - predicted_ratings)^2))
+}
+
+# Function for the `edx` and `final_holdout_test` sets creation: ---------------
+make_input_datasets <- function(){
   ##########################################################
-  
-  
-  # Note: this process could take a couple of minutes
-  if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
-  if(!require(caret)) install.packages("caret", repos = "http://cran.us.r-project.org")
-  
-  library(tidyverse)
-  library(caret)
-  
-  options(timeout = 120)
-  
-  # MovieLens 10M dataset:
-  # https://grouplens.org/datasets/movielens/10m/
-  # http://files.grouplens.org/datasets/movielens/ml-10m.zip
-  
-  
+  # Create `edx` and `final_holdout_test` sets 
+  ##########################################################
+
   dl <- "ml-10M100K.zip"
-  # if(!file.exists(dl))
-  #   download.file("https://files.grouplens.org/datasets/movielens/ml-10m.zip", dl)
+  if(!file.exists(dl)){
+    print("Downloading archived data...") 
+    start <- start_date()
+    download.file("https://files.grouplens.org/datasets/movielens/ml-10m.zip", dl)
+    end_date(start)
+  }
   
   ratings_file <- "ml-10M100K/ratings.dat"
-  if(!file.exists(ratings_file))
+  if(!file.exists(ratings_file)){
+    print("Unpacking initial ratings data file...")
+    start <- start_date()
     unzip(dl, ratings_file)
+    end_date(start)
+  }
   
   movies_file <- "ml-10M100K/movies.dat"
-  if(!file.exists(movies_file))
+  if(!file.exists(movies_file)){
+    print("Unpacking movies data file...")
+    start <- start_date()
     unzip(dl, movies_file)
+    end_date(start)
+  }
   
+  print("Reading ratings data from file...")
+  start <- start_date()
   ratings <- as.data.frame(str_split(read_lines(ratings_file), fixed("::"), simplify = TRUE),
                            stringsAsFactors = FALSE)
+  end_date(start)
+
   colnames(ratings) <- c("userId", "movieId", "rating", "timestamp")
   ratings <- ratings %>%
     mutate(userId = as.integer(userId),
@@ -49,8 +70,12 @@ if(file.exists(movielens_dataset_files)){
            rating = as.numeric(rating),
            timestamp = as.integer(timestamp))
   
+  print("Reading movies data from file...")
+  start <- start_date()
   movies <- as.data.frame(str_split(read_lines(movies_file), fixed("::"), simplify = TRUE),
                           stringsAsFactors = FALSE)
+  end_date(start)
+  
   colnames(movies) <- c("movieId", "title", "genres")
   movies <- movies %>%
     mutate(movieId = as.integer(movieId))
@@ -74,12 +99,38 @@ if(file.exists(movielens_dataset_files)){
   removed <- anti_join(temp, final_holdout_test)
   edx <- rbind(edx, removed)
   
+  print("Removing temporary objects from the working environment...")
+  start <- start_date()
   rm(dl, ratings, movies, test_index, temp, movielens, removed)
-  save(edx, final_holdout_test, file =  movielens_dataset_files)
+  end_date(start)
   
+  print("Saving newly created input datasets to file...")
+  start <- start_date()
+  save(edx, final_holdout_test, file =  movielens_datasets_file)
+  end_date(start)
 }
 
+#------------------------------------------
+# Set current working directory
+# setwd(".../Capstone-MovieLens/r/init")
 
+movielens_datasets_file <- "movielens-datasets.RData"
+
+if(file.exists(movielens_datasets_file)){
+  print("Loading input datasets from file...")
+  start <- start_date()
+  load(movielens_datasets_file)
+  end_date(start)
+} else {
+  print("Creating input datasets...")
+  start <- start_date()
+  make_input_datasets()
+  end_date(start)
+}
+
+#> Ensure that both datasets have been successfully loaded/created: 
+str(edx)
+str(final_holdout_test)
 
 
 

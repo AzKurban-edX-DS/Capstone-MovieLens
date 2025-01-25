@@ -22,20 +22,6 @@ library(stringr)
 library(tibble)
 library(tidyr)
 
-# Prepare shared auxiliary functions -------------------------------------------
-start_date <- function(){
-  print(date())
-  Sys.time()
-}
-end_date <- function(start){
-  print(date())
-  Sys.time() - start
-}
-rmse <- function(r) sqrt(mean(r^2))
-RMSE <- function(true_ratings, predicted_ratings){
-  sqrt(mean((true_ratings - predicted_ratings)^2))
-}
-
 ## The Netflix Prize Dataset -------------------------------------------------
 # https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf
 
