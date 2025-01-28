@@ -760,7 +760,7 @@ end_date(start)
 
 #> . Töscher, A., Jahrer, M., & Bell, R. M. (2009). The bigchaos solution to the Netflix grand prize.
 #> https://d2l.ai/chapter_references/zreferences.html#id286
-#> #> https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf
+#> https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf
 
 
 # . https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best#Ratings
