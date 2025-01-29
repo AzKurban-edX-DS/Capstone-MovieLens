@@ -6,3 +6,4 @@ docs/datasciencebook.pdf
 docs/books/
 .Rproj.user
 r/init/data/
+*.Rhistory
