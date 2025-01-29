@@ -29,9 +29,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Introduction / Overview / Executive Summary
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
-Following the^[[Netflix Awards Prize Challenge](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/)] requirements, we will evaluate the RMSE score^[Rafael A. Irizarry: Introduction to Data Science, Part II, Section 23.2: Loss function]:  
+Following the `Netflix Grand Prize Challenge` requirements`r AutoCite(bib, "NYT1MNP")`, we will evaluate the RMSE score`r AutoCite(bib, "IDS2_23-2")`:  
 
-Our goal is to achieve a value of less than 0.86490 (vs the Netflix Challenge requirement: of at least 0.8563^[R: A Language and Environment for Statistical Computing, Section 33.6.1 Matrix Factorization, @R-base]). 
+
+
+Our goal is to achieve a value of less than 0.86490 (vs the Netflix Challenge requirement: of at least 0.8563`r AutoCite(bib, "BigChaosSln")`). 
 
 
 
@@ -63,3 +65,4 @@ This is a great conclusion, isn't is?!!
 	
 [Töscher, A., Jahrer, M., & Bell, R. M. (2009). The BigChaos Solution to the Netflix Grand Prize](https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf)
 
+[[Netflix Awards Prize Challenge](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/)]
