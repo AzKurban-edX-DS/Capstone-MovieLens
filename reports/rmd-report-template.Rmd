@@ -3,9 +3,13 @@ title: "RMD Report Template"
 author: "John Doe"
 date: "`r Sys.Date()`"
 output:
-  pdf_document: default
-  html_document:
+  html_document: 
+    fig_caption: true
+  pdf_document: 
     df_print: paged
+    toc: true
+    fig_caption: true
+    keep_tex: true
 ---
 
 ```{r setup, include=FALSE}
