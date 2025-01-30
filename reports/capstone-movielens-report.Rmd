@@ -2,8 +2,6 @@
 title: "Capstone Movielens Report"
 author: "Azamat Kurbanaev"
 date: "`r Sys.Date()`"
-#bibliography: [references.bib]
-#link-citations: true
 output:
   html_document: 
     fig_caption: true
@@ -18,23 +16,33 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=TRUE}
+```{r setup, include=TRUE, echo = FALSE}
 library(RefManageR)
-bib <- ReadBib(system.file("Bib", "biblatexExamples.bib", 
-                           package = "RefManageR"), check = FALSE)
-BibOptions(check.entries = FALSE, style = "markdown", bib.style = "alphabetic", cite.style = 'alphabetic')
+bib <- ReadBib("references.bib", check = FALSE)
+BibOptions(check.entries = FALSE, style = "markdown", bib.style = "numeric", cite.style = 'numeric')
+
+citeB <- function(citeKey){
+  AutoCite(bib, citeKey, .opts = list(hyperlink = "to.bib", super = FALSE))
+}
+
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introduction / Overview / Executive Summary
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
-Following the `Netflix Grand Prize Challenge` requirements`r AutoCite(bib, "NYT1MNP")`, we will evaluate the RMSE score`r AutoCite(bib, "IDS2_23-2")`:  
+Following the _Netflix Grand Prize Contest_`r citeB("NYT1MNP")` requirements, we will evaluate the RMSE score defined as`r citeB("IDS2_23-2")`: 
+
+$$
+\mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
+$$
+
+with $N$ being the number of user/movie combinations for which we make predictions and the sum occurring over all these combinations.
+
+Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563`r citeB("BigChaosSln")`). 
 
 
-
-Our goal is to achieve a value of less than 0.86490 (vs the Netflix Challenge requirement: of at least 0.8563`r AutoCite(bib, "BigChaosSln")`). 
-
+### Dataset
 
 
 ```{r cars}
@@ -57,12 +65,9 @@ Hello Conclusion!
 
 This is a great conclusion, isn't is?!!
 
-## Refs
 
-[Rafael A. Irizarry. Introduction to Data Science, Part II](https://rafalab.dfci.harvard.edu/dsbook-part-2/)
+**References**
 
-1.23.2 [Section 23.2: Loss function](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function)
-	
-[Töscher, A., Jahrer, M., & Bell, R. M. (2009). The BigChaos Solution to the Netflix Grand Prize](https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf)
-
-[[Netflix Awards Prize Challenge](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/)]
+```{r results = "asis", echo = FALSE}
+PrintBibliography(bib, .opts = list(check.entries = FALSE))
+```

@@ -357,20 +357,26 @@ display: none;
 </div>
 
 
-<pre class="r"><code>library(RefManageR)
-bib &lt;- ReadBib(system.file(&quot;Bib&quot;, &quot;biblatexExamples.bib&quot;, 
-                           package = &quot;RefManageR&quot;), check = FALSE)
-BibOptions(check.entries = FALSE, style = &quot;markdown&quot;, bib.style = &quot;alphabetic&quot;, cite.style = &#39;alphabetic&#39;)
-knitr::opts_chunk$set(echo = TRUE)</code></pre>
 <div id="introduction-overview-executive-summary" class="section level2">
 <h2>Introduction / Overview / Executive Summary</h2>
 <p>The goal of the project is to build a Recommendation System using a
 <a href="http://grouplens.org/datasets/movielens/10m/">10M version of
-the MovieLens dataset</a>. Following the
-<code>Netflix Grand Prize Challenge</code> requirements, we will
-evaluate the RMSE score:</p>
-<p>Our goal is to achieve a value of less than 0.86490 (vs the Netflix
-Challenge requirement: of at least 0.8563).</p>
+the MovieLens dataset</a>. Following the <em>Netflix Grand Prize
+Contest</em><a name="cite-NYT1MNP"></a>[<a href="#bib-NYT1MNP">1</a>]
+requirements, we will evaluate the RMSE score defined
+as<a name="cite-IDS2_23-2"></a>[<a href="#bib-IDS2_23-2">2</a>]:</p>
+<p><span class="math display">\[
+\mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} -
+\hat{y}_{i,j})^2}
+\]</span></p>
+<p>with <span class="math inline">\(N\)</span> being the number of
+user/movie combinations for which we make predictions and the sum
+occurring over all these combinations.</p>
+<p>Our goal is to achieve a value of less than 0.86490 (compare with the
+<em>Netflix Grand Prize</em> requirement: of at least
+0.8563<a name="cite-BigChaosSln"></a>[<a href="#bib-BigChaosSln">3</a>]).</p>
+<div id="dataset" class="section level3">
+<h3>Dataset</h3>
 <pre class="r"><code>summary(cars)</code></pre>
 <pre><code>##      speed           dist       
 ##  Min.   : 4.0   Min.   :  2.00  
@@ -379,6 +385,7 @@ Challenge requirement: of at least 0.8563).</p>
 ##  Mean   :15.4   Mean   : 42.98  
 ##  3rd Qu.:19.0   3rd Qu.: 56.00  
 ##  Max.   :25.0   Max.   :120.00</code></pre>
+</div>
 </div>
 <div id="methods-analysis" class="section level2">
 <h2>Methods / Analysis</h2>
@@ -392,18 +399,20 @@ plot.</p>
 <h2>Conclusion</h2>
 <p>Hello Conclusion!</p>
 <p>This is a great conclusion, isn’t is?!!</p>
-</div>
-<div id="refs" class="section level2">
-<h2>Refs</h2>
-<p><a href="https://rafalab.dfci.harvard.edu/dsbook-part-2/">Rafael A.
-Irizarry. Introduction to Data Science, Part II</a></p>
-<p>1.23.2 <a href="https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function">Section
-23.2: Loss function</a></p>
-<p><a href="https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf">Töscher,
-A., Jahrer, M., &amp; Bell, R. M. (2009). The BigChaos Solution to the
-Netflix Grand Prize</a></p>
-<p>[<a href="https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/">Netflix
-Awards Prize Challenge</a>]</p>
+<p><strong>References</strong></p>
+<p><a name="bib-NYT1MNP"></a><a href="#cite-NYT1MNP">[1]</a> S. Lohr.
+<em>Netflix Awards $1 Million Prize and Starts a New Contest. Adding
+details announced Monday about the extremely close finish to the
+contest</em>. Sep. 21, 2009. URL: <a href="https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html">https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html</a>
+(visited on 09/21/2009).</p>
+<p><a name="bib-IDS2_23-2"></a><a href="#cite-IDS2_23-2">[2]</a> R. A.
+Irizarry. <em>Introduction to Data Science, Part II, Section 23.2: Loss
+function. Statistics and Prediction Algorithms Through Case
+Studies</em>. Dec. 27, 2024. URL: <a href="https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function">https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function</a>
+(visited on 12/27/2024).</p>
+<p><a name="bib-BigChaosSln"></a><a href="#cite-BigChaosSln">[3]</a> R. M.
+B. Andreas Toscher Michael Jahrer. <em>The BigChaos Solution to the
+Netflix Grand Prize. commendo research &amp; consulting</em>. URL: <a href="https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf">https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf</a>.</p>
 </div>
 
 
