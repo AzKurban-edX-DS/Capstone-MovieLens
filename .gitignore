@@ -7,3 +7,7 @@ docs/books/
 .Rproj.user
 r/init/data/
 *.Rhistory
+reports/capstone-movielens-report.html
+reports/capstone-movielens-report_files/
+reports/capstone-movielens-report.pdf
+reports/capstone-movielens-report.tex
