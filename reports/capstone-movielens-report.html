@@ -11,7 +11,7 @@
 
 <meta name="author" content="Azamat Kurbanaev" />
 
-<meta name="date" content="2025-01-29" />
+<meta name="date" content="2025-01-30" />
 
 <title>Capstone Movielens Report</title>
 
@@ -253,29 +253,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-
-div.csl-bib-body { }
-div.csl-entry {
-clear: both;
-margin-bottom: 0em;
-}
-.hanging div.csl-entry {
-margin-left:2em;
-text-indent:-2em;
-}
-div.csl-left-margin {
-min-width:2em;
-float:left;
-}
-div.csl-right-inline {
-margin-left:2em;
-padding-left:1em;
-}
-div.csl-indent {
-margin-left: 2em;
-}
-</style>
 
 
 
@@ -375,19 +352,25 @@ display: none;
 
 <h1 class="title toc-ignore">Capstone Movielens Report</h1>
 <h4 class="author">Azamat Kurbanaev</h4>
-<h4 class="date">2025-01-29</h4>
+<h4 class="date">2025-01-30</h4>
 
 </div>
 
 
+<pre class="r"><code>library(RefManageR)
+bib &lt;- ReadBib(system.file(&quot;Bib&quot;, &quot;biblatexExamples.bib&quot;, 
+                           package = &quot;RefManageR&quot;), check = FALSE)
+BibOptions(check.entries = FALSE, style = &quot;markdown&quot;, bib.style = &quot;alphabetic&quot;, cite.style = &#39;alphabetic&#39;)
+knitr::opts_chunk$set(echo = TRUE)</code></pre>
 <div id="introduction-overview-executive-summary" class="section level2">
 <h2>Introduction / Overview / Executive Summary</h2>
 <p>The goal of the project is to build a Recommendation System using a
 <a href="http://grouplens.org/datasets/movielens/10m/">10M version of
-the MovieLens dataset</a>. Following the<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> requirements, we will
-evaluate the RMSE score<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>:</p>
+the MovieLens dataset</a>. Following the
+<code>Netflix Grand Prize Challenge</code> requirements, we will
+evaluate the RMSE score:</p>
 <p>Our goal is to achieve a value of less than 0.86490 (vs the Netflix
-Challenge requirement: of at least 0.8563<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>).</p>
+Challenge requirement: of at least 0.8563).</p>
 <pre class="r"><code>summary(cars)</code></pre>
 <pre><code>##      speed           dist       
 ##  Min.   : 4.0   Min.   :  2.00  
@@ -419,25 +402,8 @@ Irizarry. Introduction to Data Science, Part II</a></p>
 <p><a href="https://www.asc.ohio-state.edu/statistics/statgen/joul_aut2009/BigChaos.pdf">Töscher,
 A., Jahrer, M., &amp; Bell, R. M. (2009). The BigChaos Solution to the
 Netflix Grand Prize</a></p>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div id="ref-R-base" class="csl-entry">
-R Core Team. 2019. <em>R: A Language and Environment for Statistical
-Computing</em>. Vienna, Austria: R Foundation for Statistical Computing.
-<a href="https://www.R-project.org">https://www.R-project.org</a>.
-</div>
-</div>
-</div>
-<div class="footnotes footnotes-end-of-document">
-<hr />
-<ol>
-<li id="fn1"><p><a href="https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/">Netflix
-Awards Prize Challenge</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Rafael A. Irizarry: Introduction to Data Science, Part
-II, Section 23.2: Loss function<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>R: A Language and Environment for Statistical Computing,
-Section 33.6.1 Matrix Factorization, <span class="citation">R Core Team
-(<a href="#ref-R-base">2019</a>)</span><a href="#fnref3" class="footnote-back">↩︎</a></p></li>
-</ol>
+<p>[<a href="https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/">Netflix
+Awards Prize Challenge</a>]</p>
 </div>
 
 

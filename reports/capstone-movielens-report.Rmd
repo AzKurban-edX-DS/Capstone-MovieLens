@@ -20,7 +20,7 @@ vignette: >
 
 ```{r setup, include=TRUE}
 library(RefManageR)
-bib <- ReadBib(system.file("Bib", "references.bib", 
+bib <- ReadBib(system.file("Bib", "biblatexExamples.bib", 
                            package = "RefManageR"), check = FALSE)
 BibOptions(check.entries = FALSE, style = "markdown", bib.style = "alphabetic", cite.style = 'alphabetic')
 knitr::opts_chunk$set(echo = TRUE)
