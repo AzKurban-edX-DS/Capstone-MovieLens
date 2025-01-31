@@ -2,36 +2,57 @@
 title: "Capstone Movielens Report"
 author: "Azamat Kurbanaev"
 date: "`r Sys.Date()`"
+#bibliography: references.bib
+#csl: bit-numerical-mathematics.csl 
 output:
-  html_document: 
-    fig_caption: true
   pdf_document: 
     df_print: paged
     toc: true
     fig_caption: true
     keep_tex: true
+    citation_package: biblatex
+    
+  html_document: 
+    fig_caption: true
+# hyperrefoptions:
+#   - backref
+colorlinks: true
+linkcolor: red
+citecolor: blue
+header-includes:
+    - \usepackage{hyperref}
 vignette: >
-  %\VignetteIndexEntry{RMarkdown Citations - Alphabetic Style}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{RMarkdown Citations - Numeric Style}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::knitr}
 ---
 
 ```{r setup, include=TRUE, echo = FALSE}
 library(RefManageR)
 bib <- ReadBib("references.bib", check = FALSE)
-BibOptions(check.entries = FALSE, style = "markdown", bib.style = "numeric", cite.style = 'numeric')
+BibOptions(check.entries = FALSE,
+           hyperlink = "to.bib",
+           bib.style = "numeric", 
+           style = "markdown", 
+           cite.style = 'numeric')
 
 citeB <- function(citeKey){
-  AutoCite(bib, citeKey, .opts = list(hyperlink = "to.bib", super = FALSE))
+  Cite(bib, citeKey, .opts = list(super = FALSE))
 }
 
 knitr::opts_chunk$set(echo = TRUE)
+
+# \usepackage[utf8]{inputenc}
+# \usepackage[english]{babel}
+# \usepackage{biblatex}
+
 ```
+
 
 ## Introduction / Overview / Executive Summary
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
-Following the _Netflix Grand Prize Contest_`r citeB("NYT1MNP")` requirements, we will evaluate the RMSE score defined as`r citeB("IDS2_23-2")`: 
+Following the _Netflix Grand Prize Contest_`r # \cite{knuthwebsite}` `r citeB("NYT1MNP")`  requirements, we will evaluate the RMSE score defined as`r citeB("IDS2_23-2")`: 
 
 $$
 \mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
@@ -68,6 +89,28 @@ This is a great conclusion, isn't is?!!
 
 **References**
 
+
+
 ```{r results = "asis", echo = FALSE}
-PrintBibliography(bib, .opts = list(check.entries = FALSE))
+# \addcontentsline{toc}{section}{References} 
+#\printbibliography[title={Whole bibliography}]
+# 
+# \color{black}
+# \bibliography{references}
+# \bibliographystyle{mla-good}
+#\bibliographystyle{mla-good}
+#\bibliographystyle{is-unsrt}
+#\bibliographystyle{is-plain}
+#\bibliographystyle{is-abbrv}
+#\bibliographystyle{apalike}
+
+PrintBibliography(bib,
+                  .opts = list(check.entries = FALSE,
+                               hyperlink = "to.bib",
+                               first.inits = FALSE,
+                               bib.style = "numeric",
+                               style = "markdown",
+                               cite.style = 'numeric'))
+
 ```
+
