@@ -11,7 +11,6 @@ output:
     fig_caption: true
     keep_tex: true
     citation_package: biblatex
-    
   html_document: 
     fig_caption: true
 # hyperrefoptions:
@@ -21,6 +20,11 @@ linkcolor: red
 citecolor: blue
 header-includes:
     - \usepackage{hyperref}
+    - \hypersetup{backref,
+          pdfpagemode=FullScreen,
+          colorlinks=true,
+          implicit=false}
+    #- \hyper@nopatch@bib = null
 vignette: >
   %\VignetteIndexEntry{RMarkdown Citations - Numeric Style}
   %\VignetteEncoding{UTF-8}
@@ -30,14 +34,17 @@ vignette: >
 ```{r setup, include=TRUE, echo = FALSE}
 library(RefManageR)
 bib <- ReadBib("references.bib", check = FALSE)
+
 BibOptions(check.entries = FALSE,
            hyperlink = "to.bib",
            bib.style = "numeric", 
            style = "markdown", 
            cite.style = 'numeric')
 
+bibFound <- SearchBib(bib)
+
 citeB <- function(citeKey){
-  Cite(bib, citeKey, .opts = list(super = FALSE))
+  Cite(bibFound[citeKey], .opts = list(super = FALSE))
 }
 
 knitr::opts_chunk$set(echo = TRUE)
@@ -47,7 +54,6 @@ knitr::opts_chunk$set(echo = TRUE)
 # \usepackage{biblatex}
 
 ```
-
 
 ## Introduction / Overview / Executive Summary
 
@@ -89,8 +95,6 @@ This is a great conclusion, isn't is?!!
 
 **References**
 
-
-
 ```{r results = "asis", echo = FALSE}
 # \addcontentsline{toc}{section}{References} 
 #\printbibliography[title={Whole bibliography}]
@@ -104,7 +108,7 @@ This is a great conclusion, isn't is?!!
 #\bibliographystyle{is-abbrv}
 #\bibliographystyle{apalike}
 
-PrintBibliography(bib,
+PrintBibliography(bibFound,
                   .opts = list(check.entries = FALSE,
                                hyperlink = "to.bib",
                                first.inits = FALSE,
