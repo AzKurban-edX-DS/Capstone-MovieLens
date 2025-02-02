@@ -14,8 +14,8 @@ output:
     
   html_document: 
     fig_caption: true
-# hyperrefoptions:
-#   - backref
+hyperrefoptions:
+  - backref
 colorlinks: true
 linkcolor: red
 citecolor: blue
