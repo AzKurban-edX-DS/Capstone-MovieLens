@@ -2,16 +2,13 @@
 title: "Capstone Movielens Report"
 author: "Azamat Kurbanaev"
 date: "`r Sys.Date()`"
-#bibliography: references.bib
-#csl: bit-numerical-mathematics.csl 
 output:
   pdf_document: 
     df_print: paged
     toc: true
     fig_caption: true
     keep_tex: true
-    #citation_package: biblatex
-    
+
   html_document: 
     fig_caption: true
 hyperrefoptions:
@@ -87,10 +84,7 @@ Hello Conclusion!
 This is a great conclusion, isn't is?!!
 
 
-**References**
-
-\addcontentsline{toc}{section}{References}
- \color{black}
+\addcontentsline{toc}{section}{Whole References}
 \bibliography{references}
 \bibliographystyle{mla-good}
 
