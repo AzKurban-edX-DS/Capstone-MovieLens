@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Introduction / Overview / Executive Summary
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
-Following the _Netflix Grand Prize Contest_`r citeB("NYT1MNP")` requirements, we will evaluate the RMSE score defined as: 
+Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the RMSE score defined as: 
 
 $$
 \mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
