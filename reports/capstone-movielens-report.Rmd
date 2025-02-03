@@ -11,8 +11,6 @@ output:
     fig_caption: true
     keep_tex: true
     citation_package: biblatex
-  html_document: 
-    fig_caption: true
 colorlinks: true
 linkcolor: red
 citecolor: blue
@@ -23,7 +21,7 @@ header-includes:
                   backref=true, 
                   sorting=none]{biblatex}
     - \hypersetup{backref,
-          pdfpagemode=FullScreen,
+          pdfpagemode=Normal,
           colorlinks=true,
           implicit=false}
 vignette: >
