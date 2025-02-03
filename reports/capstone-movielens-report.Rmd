@@ -20,7 +20,10 @@ linkcolor: red
 citecolor: blue
 header-includes:
     - \usepackage{hyperref}
-    - \usepackage[ natbib=true, style=numeric,sorting=none]{biblatex}
+    - \usepackage[natbib=true, 
+                  style=numeric, 
+                  backref=true, 
+                  sorting=none]{biblatex}
     - \hypersetup{backref,
           pdfpagemode=FullScreen,
           colorlinks=true,
