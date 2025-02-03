@@ -13,8 +13,6 @@ output:
     citation_package: biblatex
   html_document: 
     fig_caption: true
-# hyperrefoptions:
-#   - backref
 colorlinks: true
 linkcolor: red
 citecolor: blue
@@ -28,7 +26,6 @@ header-includes:
           pdfpagemode=FullScreen,
           colorlinks=true,
           implicit=false}
-    #- \hyper@nopatch@bib = null
 vignette: >
   %\VignetteIndexEntry{RMarkdown Citations - Numeric Style}
   %\VignetteEncoding{UTF-8}
@@ -36,27 +33,8 @@ vignette: >
 ---
 
 ```{r setup, include=TRUE, echo = FALSE}
-library(RefManageR)
-bib <- ReadBib("references.bib", check = FALSE)
-
-BibOptions(check.entries = FALSE,
-           hyperlink = "to.bib",
-           bib.style = "numeric", 
-           style = "markdown", 
-           cite.style = 'numeric')
-
-bibFound <- SearchBib(bib)
-
-citeB <- function(citeKey){
-  Cite(bibFound[citeKey], .opts = list(super = FALSE))
-}
 
 knitr::opts_chunk$set(echo = TRUE)
-
-# \usepackage[utf8]{inputenc}
-# \usepackage[english]{babel}
-# \usepackage{biblatex}
-
 ```
 
 ## Introduction / Overview / Executive Summary
