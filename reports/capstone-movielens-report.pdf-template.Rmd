@@ -1,0 +1,75 @@
+---
+title: "Capstone Movielens Report"
+author: "Azamat Kurbanaev"
+date: "`r Sys.Date()`"
+bibliography: references.bib
+#csl: bit-numerical-mathematics.csl 
+output:
+  pdf_document: 
+    df_print: paged
+    toc: true
+    fig_caption: true
+    keep_tex: true
+    citation_package: biblatex
+  # html_document: 
+  #   fig_caption: true
+colorlinks: true
+linkcolor: red
+citecolor: blue
+header-includes:
+    - \usepackage{hyperref}
+    - \usepackage[natbib=true, 
+                  style=numeric, 
+                  backref=true, 
+                  sorting=none]{biblatex}
+    - \hypersetup{backref,
+          pdfpagemode=FullScreen,
+          colorlinks=true,
+          implicit=false}
+vignette: >
+  %\VignetteIndexEntry{RMarkdown Citations - Numeric Style}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::knitr}
+---
+
+```{r setup, include=TRUE, echo = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction / Overview / Executive Summary
+
+The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
+Following the _Netflix Grand Prize Contest_[@NYT1MNP] requirements, we will evaluate the RMSE score defined as: 
+
+$$
+\mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
+$$
+
+with $N$ being the number of user/movie combinations for which we make predictions and the sum occurring over all these combinations[@IDS2_23-2].
+
+Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563[@BigChaosSln]). 
+
+
+### Dataset
+
+
+```{r cars}
+summary(cars)
+```
+
+## Methods / Analysis
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Conclusion
+
+Hello Conclusion!
+
+This is a great conclusion, isn't it?!!
