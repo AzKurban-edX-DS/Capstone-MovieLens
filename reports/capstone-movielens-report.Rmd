@@ -49,8 +49,12 @@ with $N$ being the number of user/movie combinations for which we make predictio
 Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563[@BigChaosSln]). 
 
 
-### Dataset
+### Datasets
 
+To start with we have to generate two datasets derived from the _MovieLens_ one mentioned above:
+
+* **edx:** we use it to develop and train our algorithms;
+* **final_holdout_test:** According to the course instructions, we use it exclusively to evaluate the _**RMSE**_ of our final algorithm.
 
 ```{r cars}
 summary(cars)

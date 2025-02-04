@@ -118,7 +118,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-02-03}
+\date{2025-02-04}
 
 \begin{document}
 \maketitle
@@ -150,7 +150,20 @@ Our goal is to achieve a value of less than 0.86490 (compare with the
 \emph{Netflix Grand Prize} requirement: of at least
 0.8563\autocite{BigChaosSln}).
 
-\subsubsection{Dataset}\label{dataset}
+\subsubsection{Datasets}\label{datasets}
+
+To start with we have to generate two datasets derived from the
+\emph{MovieLens} one mentioned above:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{edx:} we use it to develop and train our algorithms;
+\item
+  \textbf{final\_holdout\_test:} According to the course instructions,
+  we use it exclusively to evaluate the \emph{\textbf{RMSE}} of our
+  final algorithm.
+\end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
