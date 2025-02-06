@@ -31,7 +31,7 @@ vignette: >
 ---
 
 ```{r setup, include=TRUE, echo = FALSE}
-
+if(!require(pak)) install.packages("pak")
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -51,15 +51,32 @@ Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix G
 
 ### Datasets
 
+``` {r , echo = FALSE}
+```
+
 To start with we have to generate two datasets derived from the _MovieLens_ one mentioned above:
 
 * **edx:** we use it to develop and train our algorithms;
-* **final_holdout_test:** According to the course instructions, we use it exclusively to evaluate the _**RMSE**_ of our final algorithm.
+* **final_holdout_test:**  according to the course requirements, we use it exclusively to evaluate the _**RMSE**_ of our final algorithm.
 
-```{r cars}
-summary(cars)
+For this purpose the following package has been developed by the author: `edx.capstone.movielens.data`. The source code of the package is available [on GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data)[@edx_capstone_movielens_data].
+
+Let us install the development version of this package from the GitHub repository and attach the correspondent library to the global environment:
+```{r }
+if(!require(edx.capstone.movielens.data)) pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
+
+library(edx.capstone.movielens.data)
+edx <- edx.capstone.movielens.data::edx
+final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
+
+summary(edx)
+summary(final_holdout_test)
 ```
 
+
+
+``` {r edx, echo = FALSE}
+```
 ## Methods / Analysis
 
 You can also embed plots, for example:
