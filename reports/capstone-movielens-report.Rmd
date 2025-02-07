@@ -31,11 +31,31 @@ vignette: >
 ---
 
 ```{r setup, include=TRUE, echo = FALSE}
-library(dplyr)
-library(stringr)
-library(caret)
+# if(!require(tidyverse)) 
+#   install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+# if(!require(caret)) 
+#   install.packages("caret", repos = "http://cran.us.r-project.org")
+# if(!require(data.table)) 
+#   install.packages("data.table", repos = "http://cran.us.r-project.org")
+if(!require(pak)) 
+  install.packages("pak")
 
-if(!require(pak)) install.packages("pak")
+# Loading the required libraries
+library(caret)
+library(cowplot)
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(lubridate)
+library(Metrics)
+library(recosystem)
+library(scales)
+library(stringr)
+library(tibble)
+library(tidyr)
+library(pak)
+
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -63,7 +83,7 @@ To start with we have to generate two datasets derived from the _MovieLens_ one 
 * **edx:** we use it to develop and train our algorithms;
 * **final_holdout_test:**  according to the course requirements, we use it exclusively to evaluate the _**RMSE**_ of our final algorithm.
 
-For this purpose the following package has been developed by the author: `edx.capstone.movielens.data`. The source code of the package is available [on GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data)[@edx_capstone_movielens_data].
+For this purpose the following package has been developed by the author of this report: `edx.capstone.movielens.data`. The source code of the package is available [on GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data)[@edx_capstone_movielens_data].
 
 Let us install the development version of this package from the GitHub repository and attach the correspondent library to the global environment:
 ```{r }
@@ -128,12 +148,10 @@ ratings <- edx |>  group_by(rating) |>
 print(ratings)
 ```
 
-Finally, the following code:
+The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
 ```{r}
 print(edx |> group_by(rating) |> summarize(count = n()))
 ```
-
-allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.)
 
 We can visually see that from the following plot:
 ```{r}
@@ -145,15 +163,228 @@ edx |>
 
 ```
 
+Further analysis of the `edx` dataset was inspired by the article: A Movie Recommender System Using R - BEST[@MRS-R-BEST], from which the code and explanatory notes below were cited.
+
+#### Rating distribution plot[@MRS-R-BEST]
+\
+The code below demonstrates another way of visualizing the rating distribution:
+```{r}
+edx |>
+  group_by(rating) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_bar(stat = "identity", fill = "#8888ff") +
+  ggtitle("Rating Distribution") +
+  xlab("Rating") +
+  ylab("Occurrences Count") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+
+```
+
+This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold[@MRS-R-BEST].
+
+#### Yearly rating count[@MRS-R-BEST]
+\
+```{r}
+print(edx |> 
+  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
+  group_by(year) |>
+  summarize(count = n())
+)
+```
+
+#### Average rating per year plot[@MRS-R-BEST]
+\
+```{r}
+edx |> 
+  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
+  group_by(year) |>
+  summarize(avg = mean(rating)) |>
+  ggplot(aes(x = year, y = avg)) +
+  geom_bar(stat = "identity", fill = "#8888ff") + 
+  ggtitle("Average rating per year") +
+  xlab("Year") +
+  ylab("Average rating") +
+  scale_y_continuous(labels = comma) + 
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+#### Movie popularity count[@MRS-R-BEST]
+\
+```{r}
+print(edx |> 
+  group_by(movieId) |> 
+  summarize(count = n()) |>
+  slice_head(n = 10)
+)
+```
 
 ```{r}
+summary(edx |> group_by(movieId) |> summarize(count = n()) |> select(count))
+```
 
+
+#### Ratings per movie plot[@MRS-R-BEST]
+\
+```{r}
+edx |>
+  group_by(movieId) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = movieId, y = count)) +
+  geom_point(alpha = 0.2, color = "#4020dd") +
+  geom_smooth(color = "red") +
+  ggtitle("Ratings per movie") +
+  xlab("Movies") +
+  ylab("Number of ratings") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+
+#### Movies' rating histogram[@MRS-R-BEST]
+\
+```{r}
+edx |>
+  group_by(movieId) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = count)) +
+  geom_histogram(fill = "#8888ff", color = "#4020dd") +
+  ggtitle("Movies' rating histogram") +
+  xlab("Rating count") +
+  ylab("Number of movies") +
+  scale_y_continuous(labels = comma) +
+  scale_x_log10(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+
+#### Ratings per user[@MRS-R-BEST]
+
+##### User rating count (activity measure)
+\
+```{r}
+print(edx |> 
+  group_by(userId) |> 
+  summarize(count = n()) |>
+  slice_head(n = 10)
+)
+```
+
+
+##### User rating summary
+\
+```{r}
+summary(edx |> group_by(userId) |> summarize(count = n()) |> select(count))
+```
+
+##### Ratings per user plot
+\
+```{r}
+edx |>
+  group_by(userId) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = userId, y = count)) +
+  geom_point(alpha = 0.2, color = "#4020dd") +
+  geom_smooth(color = "red") +
+  ggtitle("Ratings per user") +
+  xlab("Users") +
+  ylab("Number of ratings") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+##### Users' rating histogram
+\
+```{r}
+edx |>
+  group_by(userId) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = count)) +
+  geom_histogram(fill = "#8888ff", color = "#4020dd") +
+  ggtitle("Users' rating histogram") +
+  xlab("Rating count") +
+  ylab("Number of users") +
+  scale_y_continuous(labels = comma) +
+  scale_x_log10(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+##### 
+\
+```{r}
+
+```
+
+##### 
+\
+```{r}
+
+```
+
+##### 
+\
+```{r}
 
 ```
 
 
+##### 
+\
+```{r}
 
+```
 
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+#### [@MRS-R-BEST]
+\
+```{r}
+
+```
 
 
 
@@ -174,7 +405,7 @@ edx |>
 You can also embed plots, for example:
 
 ```{r pressure, echo=FALSE}
-plot(pressure)
+#plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
