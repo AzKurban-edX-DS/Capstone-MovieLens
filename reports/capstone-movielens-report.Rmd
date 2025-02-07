@@ -31,6 +31,10 @@ vignette: >
 ---
 
 ```{r setup, include=TRUE, echo = FALSE}
+library(dplyr)
+library(stringr)
+library(caret)
+
 if(!require(pak)) install.packages("pak")
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -38,7 +42,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Introduction / Overview / Executive Summary
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
-Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the RMSE score defined as: 
+Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the _Root Mean Square Error_ (_RMSE_) score defined as: 
 
 $$
 \mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
@@ -73,10 +77,98 @@ summary(edx)
 summary(final_holdout_test)
 ```
 
-
-
-``` {r edx, echo = FALSE}
+Let us look into the details of the `edx` dataset:
+``` {r echo = TRUE}
+str(edx)
 ```
+Note that we have 9000055 rows and six columns in there:  
+```{r }
+dim(edx)
+```
+
+Also, we can see that no movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments:
+```{r }
+#library(dplyr)
+s <- edx |> group_by(rating) |>
+  summarise(n = n())
+print(s)
+```
+
+Next, we have 10677 different movies 
+```{r}
+n_distinct(edx$movieId)
+```
+and 69878 different users in the dataset:
+```{r}
+n_distinct(edx$userId)
+```
+
+The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
+```{r}
+#library(stringr)
+genres = c("Drama", "Comedy", "Thriller", "Romance")
+sapply(genres, function(g) {
+  sum(str_detect(edx$genres, g))
+})
+```
+
+Further, we can find out the movies that have the greatest number of ratings using the following code:
+```{r}
+ordered_movie_ratings <- edx |> group_by(movieId, title) |>
+  summarize(number_of_ratings = n()) |>
+  arrange(desc(number_of_ratings))
+print(head(ordered_movie_ratings))
+```
+
+and figure out the most given ratings in order from most to least:
+```{r}
+ratings <- edx |>  group_by(rating) |>
+     summarise(count = n()) |>
+     arrange(desc(count))
+print(ratings)
+```
+
+Finally, the following code:
+```{r}
+print(edx |> group_by(rating) |> summarize(count = n()))
+```
+
+allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.)
+
+We can visually see that from the following plot:
+```{r}
+edx |>
+  group_by(rating) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_line() 
+
+```
+
+
+```{r}
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Methods / Analysis
 
 You can also embed plots, for example:
