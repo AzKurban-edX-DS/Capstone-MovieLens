@@ -76,7 +76,7 @@ edx |> summarize(n_distinct(userId), n_distinct(movieId))
 #   n_distinct(userId) n_distinct(movieId)
 # 1              69878               10677
 
-#> Let's ignore the data for users who have not provided at least 100 ratings:
+# Let's ignore the data for users who have not provided at least 100 ratings:
 edx100 <- edx |> 
   group_by(userId) |>
   filter(n() >= 100) |>
@@ -143,20 +143,20 @@ summary(train_set)
  # (Other):5516391   (Other):5466016                                                               
 
 
-train_set |>
-  group_by(rating) |>
-  summarize(count = n()) |>
-  ggplot(aes(x = rating, y = count)) +
-  geom_bar(stat = "identity", fill = "#8888ff") +
-  ggtitle("Rating Distribution") +
-  xlab("Rating") +
-  ylab("Occurrences Count") +
-  scale_y_continuous(labels = comma) +
-  scale_x_continuous(n.breaks = 10) +
-  theme_economist() +
-  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
-        axis.title.y = element_text(vjust = 10, face = "bold"), 
-        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+# train_set |>
+#   group_by(rating) |>
+#   summarize(count = n()) |>
+#   ggplot(aes(x = rating, y = count)) +
+#   geom_bar(stat = "identity", fill = "#8888ff") +
+#   ggtitle("Rating Distribution") +
+#   xlab("Rating") +
+#   ylab("Occurrences Count") +
+#   scale_y_continuous(labels = comma) +
+#   scale_x_continuous(n.breaks = 10) +
+#   theme_economist() +
+#   theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+#         axis.title.y = element_text(vjust = 10, face = "bold"), 
+#         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
 
 #> We will use the array representation described in `Section 17.5`, 
@@ -178,6 +178,7 @@ movie_map <- train_set |> dplyr::select(movieId, title, genres) |>
 str(movie_map)
 head(movie_map)
 
+# Note that titles cannot be considered unique, so we can't use them as IDs
 
 
 ## First Model -----------------------------------------------------------------
@@ -199,10 +200,6 @@ naive_rmse
 
 # str(final_holdout_test)
 # head(final_holdout_test)
-
-final_naive_rmse <- RMSE(final_holdout_test$rating, mu)
-final_naive_rmse
-#> [1] 1.061958
 
 ## User effects ---------------------------------------------------------------- 
 # Reference: the Textbook section "23.4 User effects"
