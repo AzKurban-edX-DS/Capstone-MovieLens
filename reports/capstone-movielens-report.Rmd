@@ -86,7 +86,7 @@ To start with we have to generate two datasets derived from the _MovieLens_ one 
 
 For this purpose the following package has been developed by the author of this report: `edx.capstone.movielens.data`. The source code of the package is available [on GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data)[@edx_capstone_movielens_data].
 
-Let us install the development version of this package from the GitHub repository and attach the correspondent library to the global environment:
+Let's install the development version of this package from the GitHub repository and attach the correspondent library to the global environment:
 ```{r }
 if(!require(edx.capstone.movielens.data)) pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
 
@@ -97,8 +97,9 @@ final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
 summary(edx)
 summary(final_holdout_test)
 ```
-
-Let us look into the details of the `edx` dataset:
+#### `edx` Dataset
+\
+Let's look into the details of the `edx` dataset:
 ``` {r echo = TRUE}
 str(edx)
 ```
@@ -116,82 +117,7 @@ s <- edx |> group_by(rating) |>
 print(s)
 ```
 
-Next, we have 10677 different movies 
-```{r}
-n_movies <- n_distinct(edx$movieId)
-print(n_movies)
-```
-and 69878 different users in the dataset:
-```{r}
-n_users <- n_distinct(edx$userId)
-print(n_users)
-```
-
-Now, note the expressions below which confirm the fact explained in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_[@IDS2]:
-```{r}
-max_possible_ratings <- n_movies*n_users
-sprintf("Maximum possible ratings: %s", max_possible_ratings)
-sprintf("Rows in `edx` dataset: %s", dim_edx[1])
-sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1])
-
-```
-
-As also explained in that section, we can think of these data as a very large matrix, with users on the rows and movies on the columns, with many empty cells. Therefore, we can think of a recommendation system as filling in the `NA`s in the dataset for the movies that some or all the users do not rate. A sample from the `edx` data below illustrates this idea[@IDS2_23-1-1]: 
-```{r}
-keep <- edx |> 
-  dplyr::count(movieId) |> 
-  top_n(4, n) |> 
-  pull(movieId)
-
-tab <- edx |> 
-  filter(movieId %in% keep) |> 
-  filter(userId %in% c(13:20)) |> 
-  select(userId, title, rating) |> 
-  mutate(title = str_remove(title, ", The"),
-         title = str_remove(title, ":.*")) |>
-  pivot_wider(names_from = "title", values_from = "rating")
-
-print(tab)
-```
-
-The following plot of the matrix for a random sample of 100 movies and 100 users with yellow indicating a user/movie combination for which we have a rating shows how _sparse_ the matrix is[@IDS2_23-1-1]:
-```{r sparsity-of-movie-recs, echo=TRUE, fig.width=3, fig.height=3, out.width="40%"}
-users <- sample(unique(edx$userId), 100)
-
-rafalib::mypar()
-edx|> 
-  filter(userId %in% users) |> 
-  select(userId, movieId, rating) |>
-  mutate(rating = 1) |>
-  pivot_wider(names_from = movieId, values_from = rating) |> 
-  (\(mat) mat[, sample(ncol(mat), 100)])() |>
-  as.matrix() |> 
-  t() |>
-  image(1:100, 1:100, z = _ , xlab = "Movies", ylab = "Users")
-```
-
-Further observations highlighted there that, as we can see from the distributions the author presented, some movies get rated more than others, and some users are more active than others in rating movies:
-```{r movie-id-and-user-hists, echo=FALSE, fig.width=6, fig.height=3}
-p1 <- edx |> 
-  count(movieId) |> 
-  ggplot(aes(n)) + 
-  geom_histogram(bins = 30, color = "black") + 
-  scale_x_log10() + 
-  ggtitle("Movies")
-
-p2 <- edx |> 
-  count(userId) |> 
-  ggplot(aes(n)) + 
-  geom_histogram(bins = 30, color = "black") + 
-  scale_x_log10() + 
-  ggtitle("Users")
-
-gridExtra::grid.arrange(p2, p1, ncol = 2)
-```
-
-Taking into consideration these observations, we came up with a decision to use the data from the dataset only for users who have provided at least 100 ratings[@IDS2_23-1-1]. 
-
-#### Movie genres
+##### Movie Genres Data 
 \
 The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
 ```{r}
@@ -235,7 +161,7 @@ edx |>
 
 Further analysis of the `edx` dataset have been also inspired by the article mentioned above[@MRS-R-BEST], from which the code and explanatory notes below were cited.
 
-#### Rating distribution plot[@MRS-R-BEST]
+##### Rating distribution plot[@MRS-R-BEST]
 \
 The code below demonstrates another way of visualizing the rating distribution:
 ```{r}
@@ -258,7 +184,7 @@ edx |>
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold[@MRS-R-BEST].
 
-#### Yearly rating count[@MRS-R-BEST]
+##### Yearly rating count[@MRS-R-BEST]
 \
 ```{r}
 print(edx |> 
@@ -268,7 +194,7 @@ print(edx |>
 )
 ```
 
-#### Average rating per year plot[@MRS-R-BEST]
+##### Average rating per year plot[@MRS-R-BEST]
 \
 ```{r}
 edx |> 
@@ -287,7 +213,10 @@ edx |>
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
 
-#### Movie popularity count[@MRS-R-BEST]
+##### Ratings per movie
+\
+
+###### Movie popularity count[@MRS-R-BEST]
 \
 ```{r}
 print(edx |> 
@@ -302,7 +231,7 @@ summary(edx |> group_by(movieId) |> summarize(count = n()) |> select(count))
 ```
 
 
-#### Ratings per movie plot[@MRS-R-BEST]
+###### Ratings per movie plot[@MRS-R-BEST]
 \
 ```{r}
 edx |>
@@ -323,7 +252,7 @@ edx |>
 ```
 
 
-#### Movies' rating histogram[@MRS-R-BEST]
+###### Movies' rating histogram[@MRS-R-BEST]
 \
 ```{r}
 edx |>
@@ -343,9 +272,10 @@ edx |>
 ```
 
 
-#### Ratings per user[@MRS-R-BEST]
+##### Ratings per user[@MRS-R-BEST]
+\
 
-##### User rating count (activity measure)
+###### User rating count (activity measure)
 \
 ```{r}
 print(edx |> 
@@ -356,13 +286,13 @@ print(edx |>
 ```
 
 
-##### User rating summary
+###### User rating summary
 \
 ```{r}
 summary(edx |> group_by(userId) |> summarize(count = n()) |> select(count))
 ```
 
-##### Ratings per user plot
+###### Ratings per user plot
 \
 ```{r}
 edx |>
@@ -382,7 +312,7 @@ edx |>
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
 
-##### Users' rating histogram
+###### Users' rating histogram
 \
 ```{r}
 edx |>
@@ -413,70 +343,230 @@ edx |>
 
 ```
 
-##### 
+
+
 \
-```{r}
-
+```{r echo=FALSE}
+# #### [@MRS-R-BEST]
 ```
-
-
-##### 
-\
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-#### [@MRS-R-BEST]
-\
-```{r}
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Methods / Analysis
+### Defining helper functions
+\
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-#plot(pressure)
+Let's define some helper functions that we will use in our subsequent analysis:
+```{r}
+start_date <- function(){
+  print(date())
+  Sys.time()
+}
+end_date <- function(start){
+  print(date())
+  Sys.time() - start
+}
+rmse <- function(r) sqrt(mean(r^2))
+RMSE <- function(true_ratings, predicted_ratings){
+  sqrt(mean((true_ratings - predicted_ratings)^2))
+}
 ```
+
+
+
+### Preparing train and set datasets
+\
+First, let's note that we have 10677 different movies: 
+```{r}
+n_movies <- n_distinct(edx$movieId)
+print(n_movies)
+```
+and 69878 different users in the dataset:
+```{r}
+n_users <- n_distinct(edx$userId)
+print(n_users)
+```
+
+Now, note the expressions below which confirm the fact explained in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_[@IDS2] that not every user rated every movie:
+```{r}
+max_possible_ratings <- n_movies*n_users
+sprintf("Maximum possible ratings: %s", max_possible_ratings)
+sprintf("Rows in `edx` dataset: %s", dim_edx[1])
+sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1])
+
+```
+
+As also explained in that section, we can think of these data as a very large matrix, with users on the rows and movies on the columns, with many empty cells. Therefore, we can think of a recommendation system as filling in the `NA`s in the dataset for the movies that some or all the users do not rate. A sample from the `edx` data below illustrates this idea[@IDS2_23-1-1]: 
+```{r}
+keep <- edx |> 
+  dplyr::count(movieId) |> 
+  top_n(4, n) |> 
+  pull(movieId)
+
+tab <- edx |> 
+  filter(movieId %in% keep) |> 
+  filter(userId %in% c(13:20)) |> 
+  select(userId, title, rating) |> 
+  mutate(title = str_remove(title, ", The"),
+         title = str_remove(title, ":.*")) |>
+  pivot_wider(names_from = "title", values_from = "rating")
+
+print(tab)
+```
+
+The following plot of the matrix for a random sample of 100 movies and 100 users with yellow indicating a user/movie combination for which we have a rating shows how _sparse_ the matrix is:
+```{r sparsity-of-movie-recs, echo=TRUE, fig.width=3, fig.height=3, out.width="40%"}
+users <- sample(unique(edx$userId), 100)
+
+rafalib::mypar()
+edx|> 
+  filter(userId %in% users) |> 
+  select(userId, movieId, rating) |>
+  mutate(rating = 1) |>
+  pivot_wider(names_from = movieId, values_from = rating) |> 
+  (\(mat) mat[, sample(ncol(mat), 100)])() |>
+  as.matrix() |> 
+  t() |>
+  image(1:100, 1:100, z = _ , xlab = "Movies", ylab = "Users")
+```
+
+Further observations highlighted there that, as we can see from the distributions the author presented, some movies get rated more than others, and some users are more active than others in rating movies:
+```{r movie-id-and-user-hists, echo=FALSE, fig.width=6, fig.height=3}
+p1 <- edx |> 
+  count(movieId) |> 
+  ggplot(aes(n)) + 
+  geom_histogram(bins = 30, color = "black") + 
+  scale_x_log10() + 
+  ggtitle("Movies")
+
+p2 <- edx |> 
+  count(userId) |> 
+  ggplot(aes(n)) + 
+  geom_histogram(bins = 30, color = "black") + 
+  scale_x_log10() + 
+  ggtitle("Users")
+
+gridExtra::grid.arrange(p2, p1, ncol = 2)
+```
+
+Taking into consideration these observations, we came up with a decision to use the data from the dataset only for users who have provided at least 100 ratings. 
+
+Now let's split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in the [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1]:
+```{r}
+# Let's ignore the data for users who have not provided at least 100 ratings:
+edx100 <- edx |> 
+  group_by(userId) |>
+  filter(n() >= 100) |>
+  ungroup()
+
+print(edx100 |> summarize(n_distinct(userId), n_distinct(movieId)))
+
+# For each one of these users, we will split their ratings into 80% for training 
+# and 20% for testing:
+
+set.seed(2006)
+indexes <- split(1:nrow(edx100), edx100$userId)
+test_ind <- sapply(indexes, function(i) sample(i, ceiling(length(i)*.2))) |> 
+  unlist() |>
+  sort()
+
+test_set <- edx100[test_ind,] 
+train_set <- edx100[-test_ind,]
+
+# To make sure we don’t include movies in the training set that should not be 
+# there, we remove entries using the semi_join function:
+test_set <- test_set |> semi_join(train_set, by = "movieId") |> as.data.frame()
+summary(test_set)
+
+train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
+summary(train_set)
+```
+
+We will use the array representation described in [Section 17.5 of the Textbook](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), for the training data: we denote ranking for movie $j$ by user $i$ as $y_{i,j}$. To create this matrix, we use `tidyr::pivot_wider` function:
+
+```{r}
+y <- dplyr::select(train_set, movieId, userId, rating) |>
+pivot_wider(names_from = movieId, values_from = rating) |>
+column_to_rownames("userId") |>
+as.matrix()
+
+dim(y)
+```
+
+To be able to map movie IDs to titles we create the following lookup table:
+```{r}
+movie_map <- train_set |> dplyr::select(movieId, title, genres) |> 
+  distinct(movieId, .keep_all = TRUE)
+
+summary(movie_map)
+```
+
+Note that titles cannot be considered unique, so we can't use them as IDs[@IDS2_23-1-1].
+
+### Naive Model
+\
+Let's begin our analysis by evaluating the simplest model described in [Section 23.3 The First Model of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model), and then gradually refine it through further research.
+It is about a model that assumes the same rating for all movies and users with all the differences explained by random variation would look as follows:
+
+$$
+Y_{i,j} = \mu + \varepsilon_{i,j}
+$$
+
+with $\varepsilon_{i,j}$ independent errors sampled from the same distribution centered at 0 and $\mu$ the _true_ rating for all movies.
+
+We know that the estimate that minimizes the RMSE is the least squares estimate of $\mu$ and, in this case, is the average of all ratings:
+
+```{r pressure, echo=TRUE}
+mu <- mean(y, na.rm = TRUE)
+print(mu)
+```
+
+If we predict all unknown ratings with $\hat{\mu}$, we obtain the following RMSE: 
+
+```{r}
+rmse(test_set$rating - mu)
+```
+
+If we plug in any other number, we will get a higher RMSE. Let's prove that by the following small investigation:
+```{r}
+plugged_numbers <- seq(0, 6, 0.1) - 3
+print(plugged_numbers)
+
+rmses <- sapply(plugged_numbers, function(x){
+  rmse(test_set$rating - mu + x)
+})
+
+plot(plugged_numbers, rmses, type = "l")
+
+sprintf("Minimum RMSE is achieved when `plugged number is`: %s", plugged_numbers[which.min(rmses)])
+
+```
+
+To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]
+
+### Taking into account User effects
+\
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+
+
+
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
