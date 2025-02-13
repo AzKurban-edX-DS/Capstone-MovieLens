@@ -390,7 +390,7 @@ n_users <- n_distinct(edx$userId)
 print(n_users)
 ```
 
-Now, note the expressions below which confirm the fact explained in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_[@IDS2] that not every user rated every movie:
+Now, note the expressions below which confirm the fact explained in [Section _23.1.1 Movielens data_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_[@IDS2] that not every user rated every movie:
 ```{r}
 max_possible_ratings <- n_movies*n_users
 sprintf("Maximum possible ratings: %s", max_possible_ratings)
@@ -508,7 +508,7 @@ Note that titles cannot be considered unique, so we can't use them as IDs[@IDS2_
 
 ### Naive Model
 \
-Let's begin our analysis by evaluating the simplest model described in [Section 23.3 The First Model of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model), and then gradually refine it through further research.
+Let's begin our analysis by evaluating the simplest model described in [Section _23.3 The First Model_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model), and then gradually refine it through further research.
 It is about a model that assumes the same rating for all movies and users with all the differences explained by random variation would look as follows:
 
 $$
@@ -550,13 +550,13 @@ To win the grand prize of $1,000,000, a participating team had to get an RMSE of
 
 ### Taking into account User effects
 \
-To improve our model let's now take into consideration user effects as explained in [Section 23.4 User effects of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects). 
+To improve our model let's now take into consideration user effects as explained in [Section _23.4 User effects_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects). 
 If we visualize the average rating for each user the way the [the author](https://x.com/rafalab) shows, we can see that there is substantial variability in the average ratings across users: 
 ```{r}
 hist(rowMeans(y, na.rm = TRUE), nclass = 30)
 ```
 
-Following the author's further explanation, to account for this variability, we will use a linear model with a _treatment effect_  $\alpha_i$ for each user. The sum $\mu+\alpha_i$ can be interpreted as the typical rating user $i$ gives to movies. So we write the model as:
+Following the author's further explanation, to account for this variability, we will use a linear model with a _treatment effect_  $\alpha_i$ for each user. The sum $\mu+\alpha_i$ can be interpreted as the typical rating user $i$ gives to movies. So we write the model as follows:
 
 $$
 Y_{i,j} = \mu + \alpha_i + \varepsilon_{i,j}
@@ -580,12 +580,47 @@ user_effects_rmse <- test_set |>
 
 print(user_effects_rmse)
 ```
+### Taking into account Movie effects
+\
+In [Section _23.5 Movie effects_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) the author draws our attention to the fact that some movies are generally rated higher than others. He also explains that a linear model with a _treatment effect_ $\beta_j$ for each movie can be used in this case, which can be interpreted as movie effect or the difference between the average ranking for movie $j$ and the overall average $\mu$: 
 
-
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j +\varepsilon_{i,j}
+$$
+The author then shows how to use an approximation by first computing the least square estimate $\hat{\mu}$ and $\hat{\alpha}_i$, and then estimating $\hat{\beta}_j$ as the average of the residuals $y_{i,j} - \hat{\mu} - \hat{\alpha}_i$:
 
 ```{r}
-
+b <- colMeans(y - mu - a, na.rm = TRUE)
 ```
+
+We can now construct predictors and see how much the `RMSE` improves[@IDS2_23-5]:
+```{r}
+user_and_movie_effects_rmse <- test_set |> 
+    left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+    left_join(data.frame(movieId = as.integer(names(b)), b = b), by = "movieId") |>
+    mutate(resid = rating - clamp(mu + a + b)) |>  
+    filter(!is.na(resid)) |>
+    pull(resid) |> rmse()
+
+print(user_and_movie_effects_rmse)
+```
+### Utilizing Penalized least squares
+\
+[Section _23.6 Penalized least squares_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects: $\sum_{j=1}^n \beta_j^2$. Specifically, instead of minimizing the least squares equation, we minimize an equation that adds a penalty:
+
+$$ 
+\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j \right)^2 + \lambda \sum_{j} \beta_j^2
+$$
+The first term is just the sum of squares and the second is a penalty that gets larger when many $\beta_i$s are large. Using calculus, we can actually show that the values of $\beta_i$ that minimize this equation are:
+
+$$
+\hat{\beta}_j(\lambda) = \frac{1}{\lambda + n_j} \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+$$
+
+where $n_j$ is the number of ratings made for movie $j$. 
+
+This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_23-6].
+
 
 ```{r}
 
