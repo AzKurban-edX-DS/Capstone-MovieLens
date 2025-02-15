@@ -346,7 +346,7 @@ b_reg <- sums / (n + lambda)
 ### Model testing ----------------------------------------------------------------
 reg_rmse(test_set, b_reg)
 #> [1] 0.8659219
-reg_rmse(final_holdout_test, b_reg)
+# reg_rmse(final_holdout_test, b_reg)
 #> [1] 0.8663589
 
 ## Matrix factorization --------------------------------------------------------
