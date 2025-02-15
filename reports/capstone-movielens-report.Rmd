@@ -621,15 +621,58 @@ where $n_j$ is the number of ratings made for movie $j$.
 
 This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_23-6].
 
-
+#### Support function
+\
+We will use the following function to calculate _RMSE_ in this section:
 ```{r}
+reg_rmse <- function(b){
+  test_set |> 
+    left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+    left_join(data.frame(movieId = as.integer(names(b)), b = b), by = "movieId") |>
+    mutate(resid = rating - clamp(mu + a + b)) |> 
+    filter(!is.na(resid)) |>
+    pull(resid) |> rmse()
+}
 
 ```
 
+Let's now figure out the $\lambda$ that minimizes the _RMSE_:
+```{r}
+# Here we will simply compute the RMSE for different values of `lambda` 
+n <- colSums(!is.na(y))
 
+sums <- colSums(y - mu - a, na.rm = TRUE)
+lambdas <- seq(0, 10, 0.1)
 
+rmses <- sapply(lambdas, function(lambda){
+  b <-  sums / (n + lambda)
+  reg_rmse(b)
+})
 
+# Here is a plot of the RMSE versus `lambda`:
+plot(lambdas, rmses, type = "l")
+```
+Now we can determine the minimal _RMSE_:
+```{r}
+print(min(rmses))
+```
 
+which is achieved for the following $\lambda$:
+```{r}
+lambda <- lambdas[which.min(rmses)] 
+print(lambda)
+```
+
+Using this $\lambda$ we can compute the regularized estimates:
+```{r}
+b_reg <- sums / (n + lambda)
+
+str(b_reg)
+```
+Finally, let's verify that the penalized estimates $\hat{b}_i(\lambda)$ we have just computed actually result in the minimal _RMSE_ figured out above: 
+```{r}
+reg_rmse(b_reg)
+```
 
 
 ## Conclusion
