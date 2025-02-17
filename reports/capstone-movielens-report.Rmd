@@ -184,34 +184,6 @@ edx |>
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold[@MRS-R-BEST].
 
-##### Yearly rating count[@MRS-R-BEST]
-\
-```{r}
-print(edx |> 
-  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
-  group_by(year) |>
-  summarize(count = n())
-)
-```
-
-##### Average rating per year plot[@MRS-R-BEST]
-\
-```{r}
-edx |> 
-  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
-  group_by(year) |>
-  summarize(avg = mean(rating)) |>
-  ggplot(aes(x = year, y = avg)) +
-  geom_bar(stat = "identity", fill = "#8888ff") + 
-  ggtitle("Average rating per year") +
-  xlab("Year") +
-  ylab("Average rating") +
-  scale_y_continuous(labels = comma) + 
-  theme_economist() +
-  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
-        axis.title.y = element_text(vjust = 10, face = "bold"), 
-        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
-```
 
 ##### Ratings per movie
 \
@@ -434,7 +406,7 @@ edx|>
 ```
 
 Further observations highlighted there that, as we can see from the distributions the author presented, some movies get rated more than others, and some users are more active than others in rating movies:
-```{r movie-id-and-user-hists, echo=FALSE, fig.width=6, fig.height=3}
+```{r movie-id-and-user-hists, echo=TRUE, fig.width=6, fig.height=3}
 p1 <- edx |> 
   count(movieId) |> 
   ggplot(aes(n)) + 
@@ -673,6 +645,38 @@ Finally, let's verify that the penalized estimates $\hat{b}_i(\lambda)$ we have 
 ```{r}
 reg_rmse(b_reg)
 ```
+### Accounting for Date effects
+
+
+##### Yearly rating count[@MRS-R-BEST]
+\
+```{r}
+print(edx |> 
+  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
+  group_by(year) |>
+  summarize(count = n())
+)
+```
+
+##### Average rating per year plot[@MRS-R-BEST]
+\
+```{r}
+edx |> 
+  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
+  group_by(year) |>
+  summarize(avg = mean(rating)) |>
+  ggplot(aes(x = year, y = avg)) +
+  geom_bar(stat = "identity", fill = "#8888ff") + 
+  ggtitle("Average rating per year") +
+  xlab("Year") +
+  ylab("Average rating") +
+  scale_y_continuous(labels = comma) + 
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
 
 
 ## Conclusion
