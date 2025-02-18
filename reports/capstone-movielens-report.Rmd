@@ -55,6 +55,9 @@ library(stringr)
 library(tibble)
 library(tidyr)
 
+library(dslabs)
+library(tidyverse)
+
 library(rafalib)
 library(pak)
 
@@ -676,6 +679,56 @@ edx |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
+
+We use the following models to account for the `date` effect:
+
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \varepsilon_{i,j}
+$$
+
+### Accounting for Genre effect
+\
+As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_ the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
+
+The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 20, 000 ratings).
+
+```{r}
+# Preparing data for plotting:
+train_set_grp <- train_set |> 
+  mutate(genre_categories = as.factor(genres)) |>
+  group_by(genre_categories) |>
+  summarize(n = n(), avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+  filter(n > 20000) |> 
+  mutate(genres = reorder(genre_categories, avg)) |>
+  select(genres, avg, se, n)
+
+dim(train_set_grp)
+print(train_set_grp |> sort_by.data.frame(~ avg))
+
+# Creating plot:
+train_set_grp |> 
+  ggplot(aes(x = genres, y = avg, ymin = avg - 2*se, ymax = avg + 2*se)) + 
+  geom_point() +
+  geom_errorbar() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+Below are worst and best ratings categories:
+```{r}
+sprintf("The worst ratings are for the genre category: %s",
+        train_set_grp$genres[which.min(train_set_grp$genres)])
+
+sprintf("The best ratings are for the genre category: %s",
+        train_set_grp$genres[which.max(train_set_grp$genres)])
+```
+
+If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
+
+
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \sum_{k=1}^K x_{i,j} \beta_k + \varepsilon_{i,j}
+$$
+
+with $x^k_{i,j} = 1$ if $g_{i,j}$ is genre $k$.
 
 
 

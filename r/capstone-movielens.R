@@ -24,8 +24,13 @@ library(stringr)
 library(tibble)
 library(tidyr)
 
+library(dslabs)
+library(tidyverse)
+
 library(rafalib)
 library(pak)
+
+
 
 ## Introduction / Overview / Executive Summar
 
@@ -389,7 +394,8 @@ reg_rmse(b_reg)
 #> [1] 0.8659219
 
 # Calculate Date Smoothed Effect -------------------------------------------------------
-# Y(i,u) = μ + b(i) + b(u) + f(d(u,i)) + ε(i,u)
+# Y[i,j] = μ + α[i] + β[j] + f(d(i,j)) + ε[i,j]
+
 # with `j` a smooth function of `d(u,i)`
 
 # library(lubridate)
@@ -584,5 +590,43 @@ print(date_smoothed_rmse)
 # 
 # RMSE(final_preds, final_test_set$rating)
 #> [1] 0.8641795
+
+### Accounting for Genre effect ------------------------------------------------
+
+# Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises
+
+#> The `edx` dataset also has a genres column. This column includes 
+#> every genre that applies to the movie 
+#> (some movies fall under several genres)[@IDS2_23-7].
+
+train_set_grp <- train_set |> 
+  mutate(genre_categories = as.factor(genres)) |>
+  group_by(genre_categories) |>
+  summarize(n = n(), avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+  filter(n > 20000) |> 
+  mutate(genres = reorder(genre_categories, avg)) |>
+  select(genres, avg, se, n)
+
+dim(train_set_grp)
+print(train_set_grp |> sort_by.data.frame(~ avg))
+
+train_set_grp |> 
+  ggplot(aes(x = genres, y = avg, ymin = avg - 2*se, ymax = avg + 2*se)) + 
+  geom_point() +
+  geom_errorbar() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+sprintf("The worst ratings were for the genre category: %s",
+        train_set_grp$genres[which.min(train_set_grp$genres)])
+
+sprintf("The best ratings were for the genre category: %s",
+        train_set_grp$genres[which.max(train_set_grp$genres)])
+
+# Y[i,j] = μ + α[i] + β[j] + f(d(i,j)) + ∑{k=1,K}(x[i,j]*β[k])  + ε[i,j]
+# with `x[i,j]^k = 1` if g[i,j] is genre `k`
+
+
+
 
 
