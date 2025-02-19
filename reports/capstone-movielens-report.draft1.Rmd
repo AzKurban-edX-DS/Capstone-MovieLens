@@ -31,16 +31,22 @@ vignette: >
 ---
 
 ```{r setup, include=TRUE, echo = FALSE}
-# if(!require(tidyverse)) 
-#   install.packages("tidyverse", repos = "http://cran.us.r-project.org")
-# if(!require(caret)) 
-#   install.packages("caret", repos = "http://cran.us.r-project.org")
-# if(!require(data.table)) 
-#   install.packages("data.table", repos = "http://cran.us.r-project.org")
+if(!require(tidyverse))
+  install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if(!require(caret))
+  install.packages("caret", repos = "http://cran.us.r-project.org")
+if(!require(data.table))
+  install.packages("data.table", repos = "http://cran.us.r-project.org")
+
+if(!require(gtools)) 
+  install.packages("gtools")
 if(!require(pak)) 
   install.packages("pak")
 
 # Loading the required libraries
+library(dslabs)
+library(tidyverse)
+
 library(caret)
 library(cowplot)
 library(data.table)
@@ -55,10 +61,9 @@ library(stringr)
 library(tibble)
 library(tidyr)
 
-library(dslabs)
-library(tidyverse)
 
 library(rafalib)
+library(gtools)
 library(pak)
 
 knitr::opts_chunk$set(echo = TRUE)
@@ -667,8 +672,8 @@ print(edx |>
 edx |> 
   mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
   group_by(year) |>
-  summarize(avg = mean(rating)) |>
-  ggplot(aes(x = year, y = avg)) +
+  summarize(rating_avg = mean(rating)) |>
+  ggplot(aes(x = year, y = rating_avg)) +
   geom_bar(stat = "identity", fill = "#8888ff") + 
   ggtitle("Average rating per year") +
   xlab("Year") +
@@ -694,38 +699,64 @@ The plot below shows strong evidence of a genre effect (for illustrative purpose
 
 ```{r}
 # Preparing data for plotting:
-train_set_grp <- train_set |> 
+genre_ratins_grp <- train_set |> 
   mutate(genre_categories = as.factor(genres)) |>
   group_by(genre_categories) |>
-  summarize(n = n(), avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
   filter(n > 20000) |> 
-  mutate(genres = reorder(genre_categories, avg)) |>
-  select(genres, avg, se, n)
+  mutate(genres = reorder(genre_categories, rating_avg)) |>
+  select(genres, rating_avg, se, n)
 
-dim(train_set_grp)
-print(train_set_grp |> sort_by.data.frame(~ avg))
+dim(genre_ratins_grp)
+genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
+print(genre_ratins_grp_sorted)
 
 # Creating plot:
-train_set_grp |> 
-  ggplot(aes(x = genres, y = avg, ymin = avg - 2*se, ymax = avg + 2*se)) + 
+genre_ratins_grp |> 
+  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
   geom_point() +
   geom_errorbar() + 
+  ggtitle("Average rating per Genre") +
+  ylab("Average rating") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 Below are worst and best ratings categories:
 ```{r}
 sprintf("The worst ratings are for the genre category: %s",
-        train_set_grp$genres[which.min(train_set_grp$genres)])
+        genre_ratins_grp$genres[which.min(genre_ratins_grp$genres)])
 
 sprintf("The best ratings are for the genre category: %s",
-        train_set_grp$genres[which.max(train_set_grp$genres)])
+        genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
+```
+
+Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article "Movie Recommendation System using R - BEST" written by [Amir Moterfaker](https://www.kaggle.com/amirmotefaker)[@MRS-R-BEST]:
+```{r}
+# For better visibility, we reduce the data for plotting 
+# while keeping the worst and best rating rows:
+plot_ind <- odd(1:nrow(genre_ratins_grp))
+plot_dat <- genre_ratins_grp_sorted[plot_ind,] 
+
+plot_dat |>
+  ggplot(aes(x = rating_avg, y = genres)) +
+  ggtitle("Genre Average Rating") +
+  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
+  xlab("Average ratings") +
+  ylab("Genres") +
+  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
+  theme_economist() +
+  theme(plot.title = element_text(vjust = 3.5),
+        axis.title.x = element_text(vjust = -5, face = "bold"),
+        axis.title.y = element_text(vjust = 10, face = "bold"),
+        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
+        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 8),
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
 
 If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
 
 
 $$
-Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \sum_{k=1}^K x_{i,j} \beta_k + \varepsilon_{i,j}
+Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \sum_{k=1}^K x_{i,j}^k \gamma_k + \varepsilon_{i,j}
 $$
 
 with $x^k_{i,j} = 1$ if $g_{i,j}$ is genre $k$.

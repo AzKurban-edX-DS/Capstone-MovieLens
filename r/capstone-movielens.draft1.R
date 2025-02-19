@@ -34,7 +34,7 @@ library(pak)
 
 ## Introduction / Overview / Executive Summar
 
-### Datasets
+### Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
 #   
@@ -124,7 +124,7 @@ edx |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
-## Methods / Analysis ----------------------------------------------------------
+## Methods / Analysis ==========================================================
 ### Defining helper functions --------------------------------------------------
 
 #> Let's define some helper functions that we will use in our subsequent analysis:
@@ -600,33 +600,60 @@ print(date_smoothed_rmse)
 #> every genre that applies to the movie 
 #> (some movies fall under several genres)[@IDS2_23-7].
 
-train_set_grp <- train_set |> 
+# Preparing data for plotting:
+genre_ratins_grp <- train_set |> 
   mutate(genre_categories = as.factor(genres)) |>
   group_by(genre_categories) |>
-  summarize(n = n(), avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
   filter(n > 20000) |> 
-  mutate(genres = reorder(genre_categories, avg)) |>
-  select(genres, avg, se, n)
+  mutate(genres = reorder(genre_categories, rating_avg)) |>
+  select(genres, rating_avg, se, n)
 
-dim(train_set_grp)
-print(train_set_grp |> sort_by.data.frame(~ avg))
+dim(genre_ratins_grp)
+genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
+print(genre_ratins_grp_sorted)
 
-train_set_grp |> 
-  ggplot(aes(x = genres, y = avg, ymin = avg - 2*se, ymax = avg + 2*se)) + 
+# Creating plot:
+genre_ratins_grp |> 
+  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
   geom_point() +
   geom_errorbar() + 
+  ggtitle("Average rating per Genre") +
+  ylab("Average rating") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 sprintf("The worst ratings were for the genre category: %s",
-        train_set_grp$genres[which.min(train_set_grp$genres)])
+        genre_ratins_grp$genres[which.min(genre_ratins_grp$genres)])
 
 sprintf("The best ratings were for the genre category: %s",
-        train_set_grp$genres[which.max(train_set_grp$genres)])
+        genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
 
-# Y[i,j] = μ + α[i] + β[j] + f(d(i,j)) + ∑{k=1,K}(x[i,j]*β[k])  + ε[i,j]
+# Alternative way of visualizing a Genre Effect
+#> Reference: Article "Movie Recommendation System using R - BEST" written by 
+#> Amir Moterfaker (https://www.kaggle.com/amirmotefaker)
+#> (section "Average rating for each genre")[@MRS-R-BEST]
+#> https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre
+
+# For better visibility, we reduce the data for plotting 
+# while keeping the worst and best rating rows:
+plot_ind <- odd(1:nrow(genre_ratins_grp))
+plot_dat <- genre_ratins_grp_sorted[plot_ind,] 
+
+plot_dat |>
+  ggplot(aes(x = rating_avg, y = genres)) +
+  ggtitle("Genre Average Rating") +
+  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
+  xlab("Average ratings") +
+  ylab("Genres") +
+  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
+  theme_economist() +
+  theme(plot.title = element_text(vjust = 3.5),
+        axis.title.x = element_text(vjust = -5, face = "bold"),
+        axis.title.y = element_text(vjust = 10, face = "bold"),
+        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
+        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 9),
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+
+# Y[i,j] = μ + α[i] + β[j] + f(d(i,j)) + ∑{k=1,K}(x[i,j]^k*𝜸[k])  + ε[i,j]
 # with `x[i,j]^k = 1` if g[i,j] is genre `k`
-
-
-
-
 
