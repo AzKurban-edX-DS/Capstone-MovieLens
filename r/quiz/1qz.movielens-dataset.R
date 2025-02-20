@@ -8,6 +8,8 @@
 
 #### Q1
 
+#> How many rows and columns are there in the edx dataset?
+
 str(edx)
 # 'data.frame':	9000055 obs. of  6 variables:
 # $ userId   : int  1 1 1 1 1 1 1 1 1 1 ...
@@ -17,11 +19,12 @@ str(edx)
 # $ title    : chr  "Boomerang (1992)" "Net, The (1995)" "Outbreak (1995)" "Stargate (1994)" ...
 # $ genres   : chr  "Comedy|Romance" "Action|Crime|Thriller" "Action|Drama|Sci-Fi|Thriller" "Action|Adventure|Sci-Fi" ...
 
+# Number of rows:
 nrow(edx)
-#
+#> [1] 9000055
 
 ncol(edx)
-
+#> [1] 6
 
 #--------------------------------------------------------
 ##### Explanation
@@ -31,18 +34,29 @@ dim(edx)
 #========================================================
 
 #### Q2
-
+# How many zeros were given as ratings in the edx dataset?
 sum(edx$rating == 0)
 #> [1] 0
 
-min(edx$rating)
+min(edx$rating)min(edx$rating)
 #> 0.5
 
+# How many threes were given as ratings in the edx dataset?
 sum(edx$rating == 3)
 #> [1] 2121240
 
+library(dplyr)
+
+edx |> group_by(rating) |>
+  summarise(n = n())
+
+
 #--------------------------------------------------------
 ##### Explanation
+#> No movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments. 
+#> The number of 0s can be found using 
+edx %>% filter(rating == 0) %>% tally().
+
 # The number of 3s can be found using 
 edx %>% filter(rating == 3) %>% tally()
 #         n
@@ -50,6 +64,7 @@ edx %>% filter(rating == 3) %>% tally()
 #========================================================
 
 #### Q3
+#library(dplyr)
 
 movies <- edx |> group_by(movieId) |>
   summarise(n = n())
@@ -270,7 +285,8 @@ sum(half_star_ratings$count)/nrow(edx)
 edx %>% group_by(rating) %>% summarize(count = n())
 
 # Visually, this can be seen using the following code:
-  
+library(caret)  
+
 edx %>%
   group_by(rating) %>%
   summarize(count = n()) %>%
