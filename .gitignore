@@ -3,4 +3,10 @@ r/init/ml-10M100K/
 r/overview/arch/
 r/init/data/
 docs/books/
-docs/others-solutions/harvard-capstone-movielens.pdf
+docs/others-solutions/
+reports/capstone-movielens-report.html
+reports/capstone-movielens-report_files/
+reports/capstone-movielens-report.pdf
+reports/capstone-movielens-report.tex
+.Rproj.user
+*.Rhistory
