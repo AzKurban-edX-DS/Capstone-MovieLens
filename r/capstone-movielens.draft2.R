@@ -1,15 +1,21 @@
-# Setup datasets
+## Setup -----------------------------------------------------------------------
 
-# if(!require(tidyverse)) 
-#   install.packages("tidyverse", repos = "http://cran.us.r-project.org")
-# if(!require(caret)) 
-#   install.packages("caret", repos = "http://cran.us.r-project.org")
-# if(!require(data.table)) 
-#   install.packages("data.table", repos = "http://cran.us.r-project.org")
+if(!require(tidyverse))
+  install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if(!require(caret))
+  install.packages("caret", repos = "http://cran.us.r-project.org")
+if(!require(data.table))
+  install.packages("data.table", repos = "http://cran.us.r-project.org")
+
+if(!require(gtools)) 
+  install.packages("gtools")
 if(!require(pak)) 
   install.packages("pak")
 
 # Loading the required libraries
+library(dslabs)
+library(tidyverse)
+
 library(caret)
 library(cowplot)
 library(data.table)
@@ -24,17 +30,12 @@ library(stringr)
 library(tibble)
 library(tidyr)
 
-library(dslabs)
-library(tidyverse)
 
 library(rafalib)
+library(gtools)
 library(pak)
 
-
-
-## Introduction / Overview / Executive Summar
-
-### Datasets ===================================================================
+## Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
 #   
@@ -50,15 +51,15 @@ library(pak)
 # and attach the correspondent library to the global environment:
 
 if(!require(edx.capstone.movielens.data)) pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
-
 library(edx.capstone.movielens.data)
+
 edx <- edx.capstone.movielens.data::edx
 final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
 
 summary(edx)
 summary(final_holdout_test)
 
-#### `edx` Dataset
+### `edx` Dataset --------------------------------------------------------------
 
 # Let's look into the details of the `edx` dataset:
 str(edx)
@@ -71,7 +72,7 @@ s <- edx |> group_by(rating) |>
   summarise(n = n())
 print(s)
 
-##### Movie Genres Data 
+#### Movie Genres Data ---------------------------------------------------------
 
 #>The following code computes movie rating summaries by popular genres 
 #>like Drama, Comedy, Thriller, and Romance:
@@ -82,6 +83,7 @@ sapply(genres, function(g) {
   sum(str_detect(edx$genres, g))
 })
 
+#### Movies' Popularity --------------------------------------------------------
 #> Further, we can find out the movies that have the greatest number of ratings 
 #> using the following code:
 
@@ -90,7 +92,9 @@ ordered_movie_ratings <- edx |> group_by(movieId, title) |>
   arrange(desc(number_of_ratings))
 print(head(ordered_movie_ratings))
 
-#> and figure out the most given ratings in order from most to least:
+#### Rating Distribution -------------------------------------------------------
+
+#> The following code figure out the most given ratings in order from most to least:
 ratings <- edx |>  group_by(rating) |>
   summarise(count = n()) |>
   arrange(desc(count))
@@ -237,7 +241,7 @@ movie_map <- train_set |> dplyr::select(movieId, title, genres) |>
 
 summary(movie_map)
 
-### Naive Model
+### Naive Model ----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
 
