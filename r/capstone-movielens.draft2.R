@@ -11,6 +11,9 @@ if(!require(gtools))
   install.packages("gtools")
 if(!require(pak)) 
   install.packages("pak")
+if(!require("pacman")) 
+  install.packages("pacman")
+
 
 # Loading the required libraries
 library(dslabs)
@@ -34,6 +37,9 @@ library(tidyr)
 library(rafalib)
 library(gtools)
 library(pak)
+library(pacman)
+
+p_load(latex2exp)
 
 ## Datasets ===================================================================
 
@@ -282,6 +288,8 @@ sprintf("Minimum RMSE is achieved when the deviation from the mean is: %s",
 # If we visualize the average rating for each user:
 hist(rowMeans(y, na.rm = TRUE), nclass = 30)
 
+#### Model building: user effect ----------------------------------------------
+
 # we notice that there is substantial variability across users.
 #>  To account for this, we can use a linear model with a treatment effect `α[i]` 
 #>  for each user. The sum `μ + α[i]` can be interpreted as the typical 
@@ -296,9 +304,16 @@ a <- rowMeans(y - mu, na.rm = TRUE)
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
 #> function `clamp` we defined above to keep predictions in the proper range):
 
+user_effects <- data.frame(userId = as.integer(names(a)), a = a)
+
+# Plot a histogram of the user effects
+par(cex = 0.7)
+hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
+     main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
+
 # Compute the RMSE taking into account user effects:
 user_effects_rmse <- test_set |> 
-  left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
+  left_join(user_effects, by = "userId") |>
   mutate(resid = rating - clamp(mu + a)) |> 
   filter(!is.na(resid)) |>
   pull(resid) |> rmse()
@@ -306,7 +321,7 @@ user_effects_rmse <- test_set |>
 print(user_effects_rmse)
 #> [1] 0.9711968
 
-### Taking into account Movie effects ------------------------------------------
+### Taking into account Movie effect ------------------------------------------
 
 # Reference: the Textbook section "23.5 Movie effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects
@@ -322,14 +337,20 @@ print(user_effects_rmse)
 #> α[i], and then estimating β[j] as the average of the residuals 
 #> `y[i,j] - μ - α[i]`:
 
-### Model building -------------------------------------------------------------
+### Model building: movie+user effects -----------------------------------------
 b <- colMeans(y - mu - a, na.rm = TRUE)
 
-#> We can now construct predictors and see how much the `RMSE` improves:
+movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
 
+# Plot a histogram of the movie effects
+par(cex = 0.7)
+hist(movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
+     main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
+
+# # Compute the RMSE taking into account user and movie effects:
 user_and_movie_effects_rmse <- test_set |> 
-  left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
-  left_join(data.frame(movieId = as.integer(names(b)), b = b), by = "movieId") |>
+  left_join(user_effects, by = "userId") |>
+  left_join(movie_effects, by = "movieId") |>
   mutate(resid = rating - clamp(mu + a + b)) |>  
   filter(!is.na(resid)) |>
   pull(resid) |> rmse()
@@ -337,7 +358,168 @@ user_and_movie_effects_rmse <- test_set |>
 print(user_and_movie_effects_rmse)
 #> [1] 0.8660078
 
-### Utilizing Penalized least squares-------------------------------------------
+### Including Genre effect ------------------------------------------------
+
+# Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises
+
+#> The `edx` dataset also has a genres column. This column includes 
+#> every genre that applies to the movie 
+#> (some movies fall under several genres)[@IDS2_23-7].
+
+# Preparing data for plotting:
+genre_ratins_grp <- train_set |> 
+  mutate(genre_categories = as.factor(genres)) |>
+  group_by(genre_categories) |>
+  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+  filter(n > 20000) |> 
+  mutate(genres = reorder(genre_categories, rating_avg)) |>
+  select(genres, rating_avg, se, n)
+
+dim(genre_ratins_grp)
+genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
+print(genre_ratins_grp_sorted)
+
+# Creating plot:
+genre_ratins_grp |> 
+  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
+  geom_point() +
+  geom_errorbar() + 
+  ggtitle("Average rating per Genre") +
+  ylab("Average rating") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+sprintf("The worst ratings were for the genre category: %s",
+        genre_ratins_grp$genres[which.min(genre_ratins_grp$genres)])
+
+sprintf("The best ratings were for the genre category: %s",
+        genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
+
+# Alternative way of visualizing a Genre Effect
+#> Reference: Article "Movie Recommendation System using R - BEST" written by 
+#> Amir Moterfaker (https://www.kaggle.com/amirmotefaker)
+#> (section "Average rating for each genre")[@MRS-R-BEST]
+#> https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre
+
+# For better visibility, we reduce the data for plotting 
+# while keeping the worst and best rating rows:
+plot_ind <- odd(1:nrow(genre_ratins_grp))
+plot_dat <- genre_ratins_grp_sorted[plot_ind,] 
+
+plot_dat |>
+  ggplot(aes(x = rating_avg, y = genres)) +
+  ggtitle("Genre Average Rating") +
+  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
+  xlab("Average ratings") +
+  ylab("Genres") +
+  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
+  theme_economist() +
+  theme(plot.title = element_text(vjust = 3.5),
+        axis.title.x = element_text(vjust = -5, face = "bold"),
+        axis.title.y = element_text(vjust = 10, face = "bold"),
+        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
+        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 9),
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+
+#### Model building: movie+user+genre effects ----------------------------------
+
+# Y[i,j] = μ + α[i] + β[j] + f(d(i,j)) + g[i,j]  + ε[i,j]
+# where g[i,j] is a combination of genres for movie `i` rated by user `j`,
+# so that g[i,j] = ∑{k=1,K}(x[i,j]^k*𝜸[k]) 
+# with `x[i,j]^k = 1` if g[i,j] includes genre `k`, and `x[i,j]^k = 0` otherwise.
+
+
+# Estimate genre effects
+genre_train_set <- train_set |>
+  mutate(movieId = as.integer(movieId), 
+         userId = as.integer(userId)) |>
+  filter(!is.na(rating)) |>
+  left_join(movie_effects, by='movieId') |>
+  left_join(user_effects, by='userId') |>
+  filter(!is.na(a)) |>
+  filter(!is.na(b))
+
+str(genre_train_set)
+head(genre_train_set)
+
+#### Compute RMSE: user+movie+genre effects ------------------------------------
+
+genre_effects_set <- genre_train_set |>
+  group_by(genres) |>
+  summarize(g = mean(rating - mu - a - b), n = n())
+
+rmse(genre_effects_set$g)
+
+
+str(genre_effects_set)
+head(genre_effects_set)
+
+calc_user_movie_genre_effects_rmses = function(sq){
+  rsme <- sapply(sq, function(x){
+    genre_effects <- genre_effects_set |> filter(n > x)
+    
+    # str(genre_effects)
+    # print(summary(genre_effects))
+    
+    # Plot a histogram of the genre effects
+    # par(cex = 0.7)
+    # hist(genre_effects$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
+    #      main = TeX(r'[Histogram of $\hat{g}_{i,j}$]'))
+    
+    
+    # # Compute the RMSE taking into account user, movie, and genre effects:
+    test_set |>
+      left_join(user_effects, by = "userId") |>
+      left_join(movie_effects, by = "movieId") |>
+      left_join(genre_effects, by = "genres" ) |>
+      mutate(resid = rating - clamp(mu + a + b + g)) |>  
+      filter(!is.na(resid)) |>
+      pull(resid) |> rmse()
+  })
+  
+  rsme
+}
+
+fsq <- seq(from = 10000, to = 30000, by = 1000)
+user_movie_genre_effects_rmses <- calc_user_movie_genre_effects_rmses(fsq) 
+print(user_movie_genre_effects_rmses)
+plot(fsq, user_movie_genre_effects_rmses)
+
+# print(user_movie_genre_effects_rmse)
+print(user_and_movie_effects_rmse)
+min_rmse <- min(user_movie_genre_effects_rmses) 
+min_rmse
+
+fsq_min <- fsq[which.min(user_movie_genre_effects_rmses)]
+fsq_min
+
+fsq <- seq(from = 18000, to = 20000, by = 100)
+user_movie_genre_effects_rmses <- calc_user_movie_genre_effects_rmses(fsq) 
+print(user_movie_genre_effects_rmses)
+plot(fsq, user_movie_genre_effects_rmses)
+
+# print(user_movie_genre_effects_rmse)
+print(user_and_movie_effects_rmse)
+min_rmse <- min(user_movie_genre_effects_rmses) 
+min_rmse
+
+fsq_min <- fsq[which.min(user_movie_genre_effects_rmses)]
+fsq_min
+
+fsq <- seq(from = 19300, to = 19600, by = 10)
+user_movie_genre_effects_rmses <- calc_user_movie_genre_effects_rmses(fsq) 
+print(user_movie_genre_effects_rmses)
+plot(fsq, user_movie_genre_effects_rmses)
+
+# print(user_movie_genre_effects_rmse)
+print(user_and_movie_effects_rmse)
+min_rmse <- min(user_movie_genre_effects_rmses) 
+min_rmse
+
+fsq_min <- fsq[which.min(user_movie_genre_effects_rmses)]
+fsq_min
+
+  ### Utilizing Penalized least squares-------------------------------------------
 
 # Reference: the Textbook section "23.6 Penalized least squares"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares
@@ -594,70 +776,4 @@ print(date_smoothed_rmse)
 # 
 # RMSE(final_preds, final_test_set$rating)
 #> [1] 0.8641795
-
-### Accounting for Genre effect ------------------------------------------------
-
-# Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
-# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises
-
-#> The `edx` dataset also has a genres column. This column includes 
-#> every genre that applies to the movie 
-#> (some movies fall under several genres)[@IDS2_23-7].
-
-# Preparing data for plotting:
-genre_ratins_grp <- train_set |> 
-  mutate(genre_categories = as.factor(genres)) |>
-  group_by(genre_categories) |>
-  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
-  filter(n > 20000) |> 
-  mutate(genres = reorder(genre_categories, rating_avg)) |>
-  select(genres, rating_avg, se, n)
-
-dim(genre_ratins_grp)
-genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
-print(genre_ratins_grp_sorted)
-
-# Creating plot:
-genre_ratins_grp |> 
-  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
-  geom_point() +
-  geom_errorbar() + 
-  ggtitle("Average rating per Genre") +
-  ylab("Average rating") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-sprintf("The worst ratings were for the genre category: %s",
-        genre_ratins_grp$genres[which.min(genre_ratins_grp$genres)])
-
-sprintf("The best ratings were for the genre category: %s",
-        genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
-
-# Alternative way of visualizing a Genre Effect
-#> Reference: Article "Movie Recommendation System using R - BEST" written by 
-#> Amir Moterfaker (https://www.kaggle.com/amirmotefaker)
-#> (section "Average rating for each genre")[@MRS-R-BEST]
-#> https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre
-
-# For better visibility, we reduce the data for plotting 
-# while keeping the worst and best rating rows:
-plot_ind <- odd(1:nrow(genre_ratins_grp))
-plot_dat <- genre_ratins_grp_sorted[plot_ind,] 
-
-plot_dat |>
-  ggplot(aes(x = rating_avg, y = genres)) +
-  ggtitle("Genre Average Rating") +
-  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
-  xlab("Average ratings") +
-  ylab("Genres") +
-  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
-  theme_economist() +
-  theme(plot.title = element_text(vjust = 3.5),
-        axis.title.x = element_text(vjust = -5, face = "bold"),
-        axis.title.y = element_text(vjust = 10, face = "bold"),
-        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
-        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 9),
-        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
-
-# Y[i,j] = μ + α[i] + β[j] + f(d(i,j)) + ∑{k=1,K}(x[i,j]^k*𝜸[k])  + ε[i,j]
-# with `x[i,j]^k = 1` if g[i,j] is genre `k`
 
