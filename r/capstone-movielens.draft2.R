@@ -1,4 +1,7 @@
 ## Setup -----------------------------------------------------------------------
+#> Reference: Some ideas and code snippers were used from the following GitHub repository:
+#> https://github.com/AzKurban-edX-DS/harvardx-movielens
+
 
 if(!require(tidyverse))
   install.packages("tidyverse", repos = "http://cran.us.r-project.org")
@@ -39,7 +42,15 @@ library(gtools)
 library(pak)
 library(pacman)
 
-p_load(latex2exp)
+p_load(conflicted, latex2exp, kableExtra)
+
+# For functions with identical names in different packages, ensure the
+# right one is chosen:
+conflict_prefer("first", "dplyr")
+conflict_prefer("count", "dplyr")
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("kable", "kableExtra")
 
 ## Datasets ===================================================================
 
@@ -149,6 +160,22 @@ end_date <- function(start){
 rmse <- function(r) sqrt(mean(r^2))
 RMSE <- function(true_ratings, predicted_ratings){
   sqrt(mean((true_ratings - predicted_ratings)^2))
+}
+
+RMSEs <- NULL
+RMSEs
+
+rmses_add_row <- function(method, value){
+  RMSEs |>
+    add_row(Method = method,
+            RMSE = value)
+}
+
+rmse_kable <- function(){
+  RMSEs |>
+    kable(align='lrr', booktabs = T, padding = 5) |> 
+    row_spec(0, bold = T) |>
+    column_spec(column = 1, width = "15em")
 }
 
 # Because we know ratings can’t be below 0.5 or above 5, 
@@ -261,7 +288,7 @@ print(mu)
 #> [1] 3.471931
 
 # If we predict all unknown ratings with `μ`, we obtain the following RMSE: 
-rmse(test_set$rating - mu)
+naive_rmse <- rmse(test_set$rating - mu)
 #> [1] 1.05508
 
 #> If we plug in any other number, we will get a higher RMSE. 
@@ -270,16 +297,128 @@ rmse(test_set$rating - mu)
 deviation <- seq(0, 6, 0.1) - 3
 print(deviation)
 
-rmse_value <- sapply(deviation, function(diff){
+rmse_values <- sapply(deviation, function(diff){
   rmse(test_set$rating - mu + diff)
 })
-
-plot(deviation, rmse_value, type = "l")
+plot(deviation, rmse_values, type = "l")
 
 sprintf("Minimum RMSE is achieved when the deviation from the mean is: %s", 
-        deviation[which.min(rmse_value)])
+        deviation[which.min(rmse_values)])
 #> [1] "Minimum RMSE is achieved when the deviation from the mean is: 0"
 
+sprintf("Is the previously computed RMSE the best for the current model: %s",
+        naive_rmse == min(rmse_values))
+#> [1] "Is the previously computed RMSE the best for the current model: TRUE"
+
+# Add the RMSE value of the Naive Model to a tibble.
+RMSEs <- tibble(Method = c("Naive Mean Based"),
+                RMSE = naive_rmse)
+#RMSEs[[nrow(RMSEs),'RMSE']]
+rmse_kable()
+
+### Accounting for Movie Genres ------------------------------------------------
+#> We can slightly improve our naive model by accounting for movie genres.
+#> Let's do some preliminary analysis first.
+
+#### Data Analysis and Visualization -------------------------------------------
+
+# Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises
+
+#> The `edx` dataset also has a genres column. This column includes 
+#> every genre that applies to the movie 
+#> (some movies fall under several genres)[@IDS2_23-7].
+
+# Preparing data for plotting:
+genre_ratins_grp <- train_set |> 
+  mutate(genre_categories = as.factor(genres)) |>
+  group_by(genre_categories) |>
+  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+  mutate(genres = reorder(genre_categories, rating_avg)) |>
+  select(genres, rating_avg, se, n)
+
+dim(genre_ratins_grp)
+str(genre_ratins_grp)
+print(genre_ratins_grp)
+
+sprintf("The worst ratings were for the genre category: %s",
+        genre_ratins_grp$genres[which.min(genre_ratins_grp$rating_avg)])
+
+sprintf("The best ratings were for the genre category: %s",
+        genre_ratins_grp$genres[which.max(genre_ratins_grp$rating_avg)])
+
+genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
+print(genre_ratins_grp_sorted)
+
+
+genre_ratins_plot_dat <- genre_ratins_grp_sorted |>
+  filter(n > 20000) 
+
+dim(genre_ratins_plot_dat)
+print(genre_ratins_plot_dat)
+
+# Creating plot:
+genre_ratins_plot_dat |> 
+  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
+  geom_point() +
+  geom_errorbar() + 
+  ggtitle("Average rating per Genre") +
+  ylab("Average rating") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+sprintf("The worst ratings were for the genre category: %s",
+        genre_ratins_plot_dat$genres[which.min(genre_ratins_plot_dat$rating_avg)])
+
+sprintf("The best ratings were for the genre category: %s",
+        genre_ratins_plot_dat$genres[which.max(genre_ratins_plot_dat$rating_avg)])
+
+##### Alternative way of visualizing a Genre Effect ----------------------------
+#> Reference: Article "Movie Recommendation System using R - BEST" written by 
+#> Amir Moterfaker (https://www.kaggle.com/amirmotefaker)
+#> (section "Average rating for each genre")[@MRS-R-BEST]
+#> https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre
+
+# For better visibility, we reduce the data for plotting 
+# while keeping the worst and best rating rows:
+plot_ind <- odd(1:nrow(genre_ratins_plot_dat))
+plot_dat <- genre_ratins_plot_dat[plot_ind,] 
+
+plot_dat |>
+  ggplot(aes(x = rating_avg, y = genres)) +
+  ggtitle("Genre Average Rating") +
+  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
+  xlab("Average ratings") +
+  ylab("Genres") +
+  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
+  theme_economist() +
+  theme(plot.title = element_text(vjust = 3.5),
+        axis.title.x = element_text(vjust = -5, face = "bold"),
+        axis.title.y = element_text(vjust = 10, face = "bold"),
+        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
+        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 9),
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+
+##### Genre based Naive RMSE ---------------------------------------------------
+# Y[i,j] = μ(g) + ε[i,j]
+# where μ(g) is average rating for the combination of genres for movie `i`
+
+genre_ratings_avg <- genre_ratins_grp |>
+  mutate(mu_g = rating_avg) |> 
+  select(genres, mu_g)
+
+print(genre_ratings_avg)
+
+genre_naive_rmse <- test_set |> 
+  left_join(genre_ratings_avg, by = "genres" ) |>
+  mutate(resid = rating - mu_g) |>  
+  filter(!is.na(resid)) |>
+  pull(resid) |> rmse()
+
+# print(naive_rmse)
+# print(genre_naive_rmse)
+
+RMSEs <- rmses_add_row("Naive Genre Based", genre_naive_rmse)
+rmse_kable()
 
 ### Taking into account User effects ------------------------------------------- 
 # Reference: the Textbook section "23.4 User effects"
@@ -321,6 +460,37 @@ user_effects_rmse <- test_set |>
 print(user_effects_rmse)
 #> [1] 0.9711968
 
+RMSEs <- rmses_add_row("User Effects Model", user_effects_rmse)
+rmse_kable()
+
+
+###### Enhanced By-Genre model: user effects RMSE ------------------------
+
+# Y[i,j] = μ(g) + α[i] + β[j] + g[i,j]  + ε[i,j]
+# which μ(g) is average rating for the combination of genres for movie `i`
+
+user_effects_by_genre <- train_set |>
+  mutate(userId = as.integer(userId)) |>
+  left_join(user_effects, by = "userId") |>
+  left_join(genre_ratings_avg, by = "genres" ) |>
+  mutate(a_g = rating - mu_g) |>  
+  filter(!is.na(a_g)) |>
+  select(userId, a_g)
+
+print(user_effects_by_genre)  
+
+user_effects_by_genre_rmse <- test_set |> 
+  left_join(user_effects_by_genre, by = "userId") |>
+  left_join(genre_ratings_avg, by = "genres" ) |>
+  mutate(resid = rating - clamp(mu_g + a_g)) |>  
+  filter(!is.na(resid)) |>
+  pull(resid) |> rmse()
+
+print(user_effects_by_genre_rmse)
+
+RMSEs <- rmses_add_row("User Effects Genre Based", user_effects_by_genre_rmse)
+rmse_kable()
+
 ### Taking into account Movie effect ------------------------------------------
 
 # Reference: the Textbook section "23.5 Movie effects"
@@ -358,76 +528,35 @@ user_and_movie_effects_rmse <- test_set |>
 print(user_and_movie_effects_rmse)
 #> [1] 0.8660078
 
-### Including Genre effect ------------------------------------------------
+RMSEs <- rmses_add_row("User+Movie Effects", 
+                       user_and_movie_effects_rmse)
+rmse_kable()
 
-# Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
-# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises
+###### Enhanced By-Genre model: user+movie effects RMSE ------------------------
 
-#> The `edx` dataset also has a genres column. This column includes 
-#> every genre that applies to the movie 
-#> (some movies fall under several genres)[@IDS2_23-7].
+# Y[i,j] = μ(g) + α[i] + β[j] + g[i,j]  + ε[i,j]
+# which μ(g) is average rating for the combination of genres for movie `i`
 
-# Preparing data for plotting:
-genre_ratins_grp <- train_set |> 
-  mutate(genre_categories = as.factor(genres)) |>
-  group_by(genre_categories) |>
-  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
-  filter(n > 20000) |> 
-  mutate(genres = reorder(genre_categories, rating_avg)) |>
-  select(genres, rating_avg, se, n)
+user_and_movie_effects_by_genre_rmse <- test_set |> 
+  left_join(user_effects, by = "userId") |>
+  left_join(movie_effects, by = "movieId") |>
+  left_join(genre_ratings_avg, by = "genres" ) |>
+  mutate(resid = rating - clamp(mu_g + a + b)) |>  
+  filter(!is.na(resid)) |>
+  pull(resid) |> rmse()
 
-dim(genre_ratins_grp)
-genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
-print(genre_ratins_grp_sorted)
+print(user_and_movie_effects_by_genre_rmse)
 
-# Creating plot:
-genre_ratins_grp |> 
-  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
-  geom_point() +
-  geom_errorbar() + 
-  ggtitle("Average rating per Genre") +
-  ylab("Average rating") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+RMSEs <- rmses_add_row("User+Movie Effects Genre Based", 
+                       user_and_movie_effects_by_genre_rmse)
+rmse_kable()
 
-sprintf("The worst ratings were for the genre category: %s",
-        genre_ratins_grp$genres[which.min(genre_ratins_grp$genres)])
-
-sprintf("The best ratings were for the genre category: %s",
-        genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
-
-# Alternative way of visualizing a Genre Effect
-#> Reference: Article "Movie Recommendation System using R - BEST" written by 
-#> Amir Moterfaker (https://www.kaggle.com/amirmotefaker)
-#> (section "Average rating for each genre")[@MRS-R-BEST]
-#> https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre
-
-# For better visibility, we reduce the data for plotting 
-# while keeping the worst and best rating rows:
-plot_ind <- odd(1:nrow(genre_ratins_grp))
-plot_dat <- genre_ratins_grp_sorted[plot_ind,] 
-
-plot_dat |>
-  ggplot(aes(x = rating_avg, y = genres)) +
-  ggtitle("Genre Average Rating") +
-  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
-  xlab("Average ratings") +
-  ylab("Genres") +
-  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
-  theme_economist() +
-  theme(plot.title = element_text(vjust = 3.5),
-        axis.title.x = element_text(vjust = -5, face = "bold"),
-        axis.title.y = element_text(vjust = 10, face = "bold"),
-        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
-        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 9),
-        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
-
-#### Model building: movie+user+genre effects ----------------------------------
-
-# Y[i,j] = μ + α[i] + β[j] + f(d(i,j)) + g[i,j]  + ε[i,j]
+### Including Genre effect -----------------------------------------------------
+##### Classic model ------------------------------------------------------------
+# Y[i,j] = μ + α[i] + β[j] + g[i,j]  + ε[i,j]
 # where g[i,j] is a combination of genres for movie `i` rated by user `j`,
 # so that g[i,j] = ∑{k=1,K}(x[i,j]^k*𝜸[k]) 
 # with `x[i,j]^k = 1` if g[i,j] includes genre `k`, and `x[i,j]^k = 0` otherwise.
-
 
 # Estimate genre effects
 genre_train_set <- train_set |>
@@ -580,7 +709,7 @@ reg_rmse(b_reg)
 #> [1] 0.8659219
 
 # Calculate Date Smoothed Effect -------------------------------------------------------
-# Y[i,j] = μ + α[i] + β[j] + f(d(i,j)) + ε[i,j]
+# Y[i,j] = μ + α[i] + β[j] + g[i,j]  + f(d(i,j)) + ε[i,j]
 
 # with `j` a smooth function of `d(u,i)`
 
