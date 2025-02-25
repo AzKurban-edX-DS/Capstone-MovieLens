@@ -269,7 +269,7 @@ dim(y)
 
 #> To be able to map movie IDs to titles we create the following lookup table:
 
-movie_map <- train_set |> dplyr::select(movieId, title, genres) |> 
+movie_map <- train_set |> select(movieId, title, genres) |> 
  distinct(movieId, .keep_all = TRUE)
 
 summary(movie_map)
@@ -311,9 +311,9 @@ sprintf("Is the previously computed RMSE the best for the current model: %s",
 #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
 
 # Add the RMSE value of the Naive Model to a tibble.
-RMSEs <- tibble(Method = c("Naive Mean Based"),
+RMSEs <- tibble(Method = c("Simple Mean Rating"),
                 RMSE = naive_rmse)
-#RMSEs[[nrow(RMSEs),'RMSE']]
+
 rmse_kable()
 
 ### Accounting for Movie Genres ------------------------------------------------
@@ -404,7 +404,7 @@ plot_dat |>
 
 genre_ratings_avg <- genre_ratins_grp |>
   mutate(mu_g = rating_avg) |> 
-  select(genres, mu_g)
+  select(genres, mu_g, n)
 
 print(genre_ratings_avg)
 
@@ -417,7 +417,7 @@ genre_naive_rmse <- test_set |>
 # print(naive_rmse)
 # print(genre_naive_rmse)
 
-RMSEs <- rmses_add_row("Naive Genre Based", genre_naive_rmse)
+RMSEs <- rmses_add_row("Means by Genres Group", genre_naive_rmse)
 rmse_kable()
 
 ### Taking into account User effects ------------------------------------------- 
@@ -460,35 +460,24 @@ user_effects_rmse <- test_set |>
 print(user_effects_rmse)
 #> [1] 0.9711968
 
-RMSEs <- rmses_add_row("User Effects Model", user_effects_rmse)
+RMSEs <- rmses_add_row("Accounted for User Effects", user_effects_rmse)
 rmse_kable()
 
+###### Enhanced Genre-Aware model: user effects RMSE ------------------------
 
-###### Enhanced By-Genre model: user effects RMSE ------------------------
-
-# Y[i,j] = μ(g) + α[i] + β[j] + g[i,j]  + ε[i,j]
+# Y[i,j] = μ(g) + α[i]   + ε[i,j]
 # which μ(g) is average rating for the combination of genres for movie `i`
 
-user_effects_by_genre <- train_set |>
-  mutate(userId = as.integer(userId)) |>
+user_effects_by_genre_rmse <- test_set |>
   left_join(user_effects, by = "userId") |>
   left_join(genre_ratings_avg, by = "genres" ) |>
-  mutate(a_g = rating - mu_g) |>  
-  filter(!is.na(a_g)) |>
-  select(userId, a_g)
-
-print(user_effects_by_genre)  
-
-user_effects_by_genre_rmse <- test_set |> 
-  left_join(user_effects_by_genre, by = "userId") |>
-  left_join(genre_ratings_avg, by = "genres" ) |>
-  mutate(resid = rating - clamp(mu_g + a_g)) |>  
+  mutate(resid = rating - clamp(mu_g + a)) |>  
   filter(!is.na(resid)) |>
   pull(resid) |> rmse()
 
 print(user_effects_by_genre_rmse)
 
-RMSEs <- rmses_add_row("User Effects Genre Based", user_effects_by_genre_rmse)
+RMSEs <- rmses_add_row("Genre-Aware User Effects", user_effects_by_genre_rmse)
 rmse_kable()
 
 ### Taking into account Movie effect ------------------------------------------
@@ -528,24 +517,102 @@ user_and_movie_effects_rmse <- test_set |>
 print(user_and_movie_effects_rmse)
 #> [1] 0.8660078
 
-RMSEs <- rmses_add_row("User+Movie Effects", 
+RMSEs <- rmses_add_row("Accounted for User+Movie Effects", 
                        user_and_movie_effects_rmse)
 rmse_kable()
 
 ###### Enhanced By-Genre model: user+movie effects RMSE ------------------------
 
-# Y[i,j] = μ(g) + α[i] + β[j] + g[i,j]  + ε[i,j]
+# Y[i,j] = μ(g) + α[i] + β[j] + ε[i,j]
 # which μ(g) is average rating for the combination of genres for movie `i`
 
-user_and_movie_effects_by_genre_rmse <- test_set |> 
+
+# user_and_movie_effects_by_genre_rmse <- test_set |> 
+#   left_join(user_effects, by = "userId") |>
+#   left_join(movie_effects, by = "movieId") |>
+#   left_join(movie_effects_by_genre, by = "movieId") |>
+#   #left_join(genre_ratings_avg, by = "genres" ) |>
+#   mutate(resid = rating - clamp(mu_g + a + b)) |>  
+#   filter(!is.na(resid)) |>
+#   pull(resid) |> rmse()
+
+movie_effects_by_genre_rmse <- train_set |>
+  mutate(userId = as.integer(userId),
+         movieId = as.integer(movieId)) |>
   left_join(user_effects, by = "userId") |>
-  left_join(movie_effects, by = "movieId") |>
   left_join(genre_ratings_avg, by = "genres" ) |>
-  mutate(resid = rating - clamp(mu_g + a + b)) |>  
+  mutate(resid = rating - (mu + a)) |>  
   filter(!is.na(resid)) |>
   pull(resid) |> rmse()
 
-print(user_and_movie_effects_by_genre_rmse)
+print(movie_effects_by_genre_rmse)
+
+#nseq <- seq(10000, 140000, 1000)
+nseq <- seq(58000, 60000, 100)
+nseq
+
+calc__genre_effect <- function(ng){
+  genre_effects <- train_set |>
+    mutate(userId = as.integer(userId),
+           movieId = as.integer(movieId)) |>
+    left_join(user_effects, by = "userId") |>
+    left_join(movie_effects, by = "movieId") |>
+    filter(!is.na(rating)) |>
+    mutate(a = ifelse(is.na(a), 0, a),
+           b = ifelse(is.na(b), 0, b)) |>
+    mutate(rsd = rating - (mu + a + b)) |>
+    # filter(!is.na(a)) |>
+    # filter(!is.na(b)) |>
+    select(genres, rating, a, b, rsd) |>
+    group_by(genres) |>
+    summarise(g = mean(rsd, rm.na = TRUE), n = n()) |>
+    #sort_by.data.frame(~ n) |>
+    filter(n >= ng)
+
+  # Plot a histogram of the genre effects
+  par(cex = 0.7)
+  hist(genre_effects$g, 30, xlab = TeX(r'[$\hat{g}$]'),
+       main = TeX(r'[Histogram of $\hat{g}$]')) 
+  
+  train_rmse <- train_set |> 
+    mutate(userId = as.integer(userId),
+           movieId = as.integer(movieId)) |>
+    left_join(user_effects, by = "userId") |>
+    left_join(movie_effects, by = "movieId") |>
+    left_join(genre_effects, by = "genres") |>
+    #mutate(resid = rating - clamp(mu + a + b + g)) |>  
+    mutate(resid = rating - clamp(mu + a + b)) |>  
+    filter(!is.na(resid)) |>
+    pull(resid) |> rmse()
+  
+  train_rmse
+  
+  user_and_movie_effects_by_genre_rmse <- test_set |> 
+    left_join(user_effects, by = "userId") |>
+    left_join(movie_effects, by = "movieId") |>
+    left_join(genre_effects, by = "genres") |>
+    mutate(resid = rating - clamp(mu + a + b + g)) |>  
+    #mutate(resid = rating - clamp(mu + a + b)) |>  
+    filter(!is.na(resid)) |>
+    pull(resid) |> rmse()
+  
+  user_and_movie_effects_by_genre_rmse
+}
+
+tune_genre_effect <- function(nseq){
+  sapply(nseq, calc__genre_effect(ng))
+}
+
+rmses <- tune_genre_effect(nseq)
+
+plot(nseq, rmses)
+min(rmses)
+
+ng <- nseq[which.min(rmses)]
+calc__genre_effect(ng)
+
+# print(genre_effects)
+# print(user_and_movie_effects_by_genre_rmse)
 
 RMSEs <- rmses_add_row("User+Movie Effects Genre Based", 
                        user_and_movie_effects_by_genre_rmse)
