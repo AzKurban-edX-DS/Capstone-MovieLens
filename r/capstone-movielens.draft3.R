@@ -235,37 +235,50 @@ print(tab)
 
 print(edx100 |> summarize(n_distinct(userId), n_distinct(movieId)))
 
-# For each one of these users, we will split their ratings into 80% for training 
-# and 20% for testing:
+#> We will also use K-fold cross validation as explained in 
+#> Section 29.6.1: "K-fold validation" of the Cource Textbook:
+#> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation
 
-set.seed(2006)
-indexes <- split(1:nrow(edx100), edx100$userId)
-test_ind <- sapply(indexes, function(i) sample(i, ceiling(length(i)*.2))) |> 
-  unlist() |>
-  sort()
+start <- start_date()
+kfold_index <- seq(from = 1000,5000, 1000)
+edx100_indexes <- split(1:nrow(edx100), edx100$userId)
 
-test_set <- edx100[test_ind,] 
-train_set <- edx100[-test_ind,]
-
-# To make sure we don’t include movies in the training set that should not be 
-# there, we remove entries using the semi_join function:
-test_set <- test_set |> semi_join(train_set, by = "movieId") |> as.data.frame()
-summary(test_set)
-
-train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
-summary(train_set)
-
-#> We will use the array representation described in `Section 17.5 of the Textbook`
-#> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
-#> for the training data. 
-#> To create this matrix, we use `tidyr::pivot_wider` function:
-                                                                                 
-y <- select(train_set, movieId, userId, rating) |>
- pivot_wider(names_from = movieId, values_from = rating) |>
- column_to_rownames("userId") |>
- as.matrix()
-
-dim(y)
+edx_cv_dat <- lapply(kfold_index,  function(k_i){
+  # For each one of these users, we will split their ratings into 80% for training 
+  # and 20% for validating:
+  
+  set.seed(k_i)
+  validation_ind <- sapply(edx100_indexes, function(i) sample(i, ceiling(length(i)*.2))) |> 
+    unlist() |>
+    sort()
+  
+  validation_set <- edx100[validation_ind,] 
+  train_set <- edx100[-validation_ind,]
+  
+  # To make sure we don’t include movies in the training set that should not be 
+  # there, we remove entries using the semi_join function:
+  validation_set <- validation_set |> semi_join(train_set, by = "movieId") |> as.data.frame()
+  # summary(validation_set)
+  
+  train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
+  summary(train_set)
+  
+  #> We will use the array representation described in `Section 17.5 of the Textbook`
+  #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
+  #> for the training data. 
+  #> To create this matrix, we use `tidyr::pivot_wider` function:
+  
+  y <- select(train_set, movieId, userId, rating) |>
+    pivot_wider(names_from = movieId, values_from = rating) |>
+    column_to_rownames("userId") |>
+    as.matrix()
+  
+  #dim(y)
+  list(train_set = train_set, 
+       train_mx = y, 
+       validation_set = validation_set)
+})
+end_date(start)
 
 #> To be able to map movie IDs to titles we create the following lookup table:
 
