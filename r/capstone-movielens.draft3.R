@@ -9,6 +9,8 @@ if(!require(caret))
   install.packages("caret", repos = "http://cran.us.r-project.org")
 if(!require(data.table))
   install.packages("data.table", repos = "http://cran.us.r-project.org")
+if(!require((gridExtra)))
+  install.packages("gridExtra")
 
 if(!require(gtools)) 
   install.packages("gtools")
@@ -35,7 +37,7 @@ library(scales)
 library(stringr)
 library(tibble)
 library(tidyr)
-
+library(gridExtra)
 
 library(rafalib)
 library(gtools)
@@ -157,9 +159,16 @@ end_date <- function(start){
   print(date())
   Sys.time() - start
 }
-rmse <- function(r) sqrt(mean(r^2))
-RMSE <- function(true_ratings, predicted_ratings){
-  sqrt(mean((true_ratings - predicted_ratings)^2))
+mse <- function(r) mean(r^2, rm.na = TRUE)
+mse_cv <- function(r_list) {
+  mses <- sapply(r_list, mse(r))
+  mean(mses)
+}
+
+rmse <- function(r) sqrt(mse(r))
+rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
+rmse <- function(true_ratings, predicted_ratings) {
+  rmse(true_ratings - predicted_ratings)
 }
 
 RMSEs <- NULL
@@ -227,6 +236,11 @@ print(tab)
 #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
 #> of the Course Textbook:
 
+movie_map <- edx |> select(movieId, title, genres) |> 
+  distinct(movieId, .keep_all = TRUE)
+
+summary(movie_map)
+
 # Ignoring the data for users who have not provided at least 100 ratings:
   edx100 <- edx |> 
   group_by(userId) |>
@@ -238,16 +252,22 @@ print(edx100 |> summarize(n_distinct(userId), n_distinct(movieId)))
 #> We will also use K-fold cross validation as explained in 
 #> Section 29.6.1: "K-fold validation" of the Cource Textbook:
 #> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation
+#> We are going to compute the following version of the MSE introducing in that section:
+
+# $$
+#   \mbox{MSE}(\lambda) \approx\frac{1}{B} \sum_{b = 1}^B \frac{1}{N}\sum_{i = 1}^N \left(\hat{y}_i^b(\lambda) - y_i^b\right)^2 
+# $$
+
 
 start <- start_date()
-kfold_index <- seq(from = 1000,5000, 1000)
+kfold_index <- seq(from = 1:10)
 edx100_indexes <- split(1:nrow(edx100), edx100$userId)
 
-edx_cv_dat <- lapply(kfold_index,  function(k_i){
+edx_cv_list <- lapply(kfold_index,  function(fi){
   # For each one of these users, we will split their ratings into 80% for training 
   # and 20% for validating:
   
-  set.seed(k_i)
+  set.seed(fi*1000)
   validation_ind <- sapply(edx100_indexes, function(i) sample(i, ceiling(length(i)*.2))) |> 
     unlist() |>
     sort()
@@ -261,7 +281,7 @@ edx_cv_dat <- lapply(kfold_index,  function(k_i){
   # summary(validation_set)
   
   train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
-  summary(train_set)
+  # summary(train_set)
   
   #> We will use the array representation described in `Section 17.5 of the Textbook`
   #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
@@ -280,12 +300,15 @@ edx_cv_dat <- lapply(kfold_index,  function(k_i){
 })
 end_date(start)
 
+# start <- start_date()
+# edx_cv_dat <- sapply(edx_cv_list, function(dat) as.list(dat))
+# str(edx_cv_dat)
+# end_date(start)
+
+edx_cv_item <- function(i) edx_cv_list[[i]]
+
+
 #> To be able to map movie IDs to titles we create the following lookup table:
-
-movie_map <- train_set |> select(movieId, title, genres) |> 
- distinct(movieId, .keep_all = TRUE)
-
-summary(movie_map)
 
 ### Naive Model ----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
@@ -296,37 +319,83 @@ summary(movie_map)
 # Y[i,j] = μ + ε[i,j]
 
 ### Naive RMSE -------------------------------------------------------
-mu <- mean(y, na.rm = TRUE)
+#sum(is.na(edx100$rating))
+#> [1] 0
+
+ratings_avg <- sapply(edx_cv_list, function(cv_item){
+  mean(cv_item$train_set$rating, na.rm = TRUE)
+})
+plot(ratings_avg)
+
+mu <- mean(ratings_avg)
 print(mu)
-#> [1] 3.471931
+#> [1] 3.472081
 
 # If we predict all unknown ratings with `μ`, we obtain the following RMSE: 
-naive_rmse <- rmse(test_set$rating - mu)
+# naive_rmse <- rmse(test_set$rating - mu)
 #> [1] 1.05508
+
+mses <- sapply(edx_cv_list, function(cv_item){
+  mse(cv_item$validation_set$rating - mu)
+})
+
+plot(mses)
+
+naive_rmse <- sqrt(mean(mses))
+print(naive_rmse)
+#> [1] 1.055951
+
 
 #> If we plug in any other number, we will get a higher RMSE. 
 #> Let's prove that by the following small investigation:
 
+
 deviation <- seq(0, 6, 0.1) - 3
-print(deviation)
+deviation
 
-rmse_values <- sapply(deviation, function(diff){
-  rmse(test_set$rating - mu + diff)
+mse_test_results <- lapply(kfold_index, function(i){
+  cv_item <- edx_cv_list[[i]]
+  mse_val <-mses[i] 
+  mse_values <- sapply(deviation, function(diff){
+    mse(cv_item$validation_set$rating - mu + diff)
+  })
+  
+  data.frame(deviation = deviation, 
+                    mse_values = mse_values) |> 
+    ggplot(aes(deviation, mse_values)) +
+    geom_line()
 })
-plot(deviation, rmse_values, type = "l")
 
-sprintf("Minimum RMSE is achieved when the deviation from the mean is: %s", 
-        deviation[which.min(rmse_values)])
-#> [1] "Minimum RMSE is achieved when the deviation from the mean is: 0"
+n <- length(mse_test_results)
+nCol <- floor(sqrt(n))
+do.call("grid.arrange", c(mse_test_results, ncol = nCol))
 
-sprintf("Is the previously computed RMSE the best for the current model: %s",
-        naive_rmse == min(rmse_values))
-#> [1] "Is the previously computed RMSE the best for the current model: TRUE"
+#str(mse_test_results[[1]]$data)
+
+for (i in kfold_index) {
+  dvs <- mse_test_results[[i]]$data$deviation
+  test_vals <- mse_test_results[[i]]$data$mse_values
+  mse_val <-mses[i] 
+  
+  which_min_deviation <- dvs[which.min(test_vals)]
+  min_mse = min(test_vals)
+  
+  validation_head <- sprintf("For Validation Set %s:", i)
+  print(validation_head)
+  
+  print(sprintf("Minimum MSE is achieved when the deviation from the mean is: %s", 
+          which_min_deviation))
+  #> [1] "Minimum RMSE is achieved when the deviation from the mean is: 0"
+  
+  print(sprintf("Is the previously computed RMSE the best for the current model: %s",
+          mse_val == min_mse))
+  #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
+  writeLines("")
+}
 
 # Add the RMSE value of the Naive Model to a tibble.
 RMSEs <- tibble(Method = c("Simple Mean Rating"),
                 RMSE = naive_rmse)
-
 rmse_kable()
 
 ### Accounting for Movie Genres ------------------------------------------------
@@ -343,36 +412,123 @@ rmse_kable()
 #> (some movies fall under several genres)[@IDS2_23-7].
 
 # Preparing data for plotting:
-genre_ratins_grp <- train_set |> 
-  mutate(genre_categories = as.factor(genres)) |>
-  group_by(genre_categories) |>
-  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
-  mutate(genres = reorder(genre_categories, rating_avg)) |>
-  select(genres, rating_avg, se, n)
 
-dim(genre_ratins_grp)
-str(genre_ratins_grp)
-print(genre_ratins_grp)
+genres_summary_list <- lapply(edx_cv_list, function(cv_item){
+
+  grp <- cv_item$train_set |> 
+    mutate(genre_categories = as.factor(genres)) |>
+    group_by(genre_categories) |>
+    summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+    mutate(genres = reorder(genre_categories, rating_avg)) |>
+    select(genres, rating_avg, se, n)
+})
+
+# Average rating by genre -----------------------------------------------------
+genre_ratings_avg <- lapply(genres_summary_list, function(gdat){
+  r_avg <- gdat$rating_avg
+  names(r_avg) <- gdat$genres
+  r_avg
+})
+
+str(genre_ratings_avg)
+#length(genre_ratings_avg[[1]])
+gr_avg_length <- sapply(genre_ratings_avg, function(x) length(x))
+gr_avg_length
+
+movie_genre_groups <- names(genre_ratings_avg[[which.max(gr_avg_length)]])
+head(movie_genre_groups)
+length(movie_genre_groups)
+
+gratings_mx <- matrix(unlist(genre_ratings_avg), 
+                      ncol = length(kfold_index),
+                      byrow = TRUE)
+dim(gratings_mx)
+rownames(gratings_mx) <- movie_genre_groups
+head(gratings_mx)
+
+genre_ratings_mu <- rowMeans(gratings_mx, na.rm = TRUE)
+str(genre_ratings_mu)
+
 
 sprintf("The worst ratings were for the genre category: %s",
-        genre_ratins_grp$genres[which.min(genre_ratins_grp$rating_avg)])
+        names(genre_ratings_mu)[which.min(genre_ratings_mu)])
 
 sprintf("The best ratings were for the genre category: %s",
-        genre_ratins_grp$genres[which.max(genre_ratins_grp$rating_avg)])
+        names(genre_ratings_mu)[which.max(genre_ratings_mu)])
 
-genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
-print(genre_ratins_grp_sorted)
+# Genres Popularity ------------------------------------------------------------
+
+genre_popularity <- lapply(genres_summary_list, function(gdat){
+  n <- gdat$n
+  names(n) <- gdat$genres
+  n
+})
+
+str(genre_popularity)
+
+genres_n <- matrix(unlist(genre_popularity), 
+                      ncol = length(kfold_index),
+                      byrow = TRUE)
+dim(genres_n)
+rownames(genres_n) <- movie_genre_groups
+head(genres_n)
+
+genres_N <- rowMeans(genres_n, na.rm = TRUE)
+str(genres_N)
+
+sprintf("The worst popularity was for the genre category: %s",
+        names(genres_N)[which.min(genres_N)])
+
+sprintf("The best popularity was for the genre category: %s",
+        names(genres_N)[which.max(genres_N)])
 
 
-genre_ratins_plot_dat <- genre_ratins_grp_sorted |>
-  filter(n > 20000) 
+# Genre Ratings Data Frame -----------------------------------------------------
 
-dim(genre_ratins_plot_dat)
-print(genre_ratins_plot_dat)
+genre_ratings_se <- lapply(genres_summary_list, function(gdat){
+  gdat$se
+})
+
+str(genre_ratings_se)
+
+genres_se_mx <- matrix(unlist(genre_ratings_se), 
+                   ncol = length(kfold_index),
+                   byrow = TRUE)
+dim(genres_se_mx)
+genres_se <- rowMeans(genres_se_mx, na.rm = TRUE)
+str(genres_se)
+
+genre_ratins_df <- data.frame(genres = names(genre_ratings_mu),
+                              ratings_avg = genre_ratings_mu,
+                              n = genres_N,
+                              se = genres_se) |>
+  sort_by.data.frame(~ratings_avg)
+  
+
+
+row.names(genre_ratins_df) <- 1:nrow(genre_ratins_df)
+
+str(genre_ratins_df)
+head(genre_ratins_df)
+
+# Genres Info Visualization ----------------------------------------------------
+genre_ratings_plot_dat <- genre_ratins_df |>
+  filter(n > 20000) |>
+  mutate(genres = factor(genres, levels = unique(genres)))
+  #mutate(genres = as.factor(genres))
+
+dim(genre_ratings_plot_dat)
+str(genre_ratings_plot_dat)
+head(genre_ratings_plot_dat)
+print(genre_ratings_plot_dat)
+
 
 # Creating plot:
-genre_ratins_plot_dat |> 
-  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
+genre_ratings_plot_dat |> 
+  ggplot(aes(x = genres, 
+             y = ratings_avg, 
+             ymin = ratings_avg - 2*se, 
+             ymax = ratings_avg + 2*se)) + 
   geom_point() +
   geom_errorbar() + 
   ggtitle("Average rating per Genre") +
@@ -380,10 +536,10 @@ genre_ratins_plot_dat |>
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 sprintf("The worst ratings were for the genre category: %s",
-        genre_ratins_plot_dat$genres[which.min(genre_ratins_plot_dat$rating_avg)])
+        genre_ratings_plot_dat$genres[which.min(genre_ratings_plot_dat$ratings_avg)])
 
 sprintf("The best ratings were for the genre category: %s",
-        genre_ratins_plot_dat$genres[which.max(genre_ratins_plot_dat$rating_avg)])
+        genre_ratings_plot_dat$genres[which.max(genre_ratings_plot_dat$ratings_avg)])
 
 ##### Alternative way of visualizing a Genre Effect ----------------------------
 #> Reference: Article "Movie Recommendation System using R - BEST" written by 
@@ -393,11 +549,11 @@ sprintf("The best ratings were for the genre category: %s",
 
 # For better visibility, we reduce the data for plotting 
 # while keeping the worst and best rating rows:
-plot_ind <- odd(1:nrow(genre_ratins_plot_dat))
-plot_dat <- genre_ratins_plot_dat[plot_ind,] 
+plot_ind <- odd(1:nrow(genre_ratings_plot_dat))
+plot_dat <- genre_ratings_plot_dat[plot_ind,] 
 
 plot_dat |>
-  ggplot(aes(x = rating_avg, y = genres)) +
+  ggplot(aes(x = ratings_avg, y = genres)) +
   ggtitle("Genre Average Rating") +
   geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
   xlab("Average ratings") +
@@ -492,12 +648,22 @@ rmse_kable()
 # Y[i,j] = μ(g) + α[i]   + ε[i,j]
 # which μ(g) is average rating for the combination of genres for movie `i`
 
-user_effects_by_genre_rmse <- test_set |>
-  left_join(user_effects, by = "userId") |>
-  left_join(genre_ratings_avg, by = "genres" ) |>
-  mutate(resid = rating - clamp(mu_g + a)) |>  
-  filter(!is.na(resid)) |>
-  pull(resid) |> rmse()
+# user_effects_by_genre_rmse <- test_set |>
+#   left_join(user_effects, by = "userId") |>
+#   left_join(genre_ratings_avg, by = "genres" ) |>
+#   mutate(resid = rating - clamp(mu_g + a)) |>  
+#   filter(!is.na(resid)) |>
+#   pull(resid) |> rmse()
+
+# res <- sapply(edx_cv_list, function(cv_item){
+#   #str(cv_item$validation_set)
+#   user_effects_by_genre_rmse <- cv_item$validation_set |>
+#     left_join(user_effects, by = "userId") |>
+#     left_join(genre_ratings_avg, by = "genres" ) |>
+#     mutate(resid = rating - clamp(mu_g + a)) |>
+#     filter(!is.na(resid)) |>
+#     pull(resid)
+# })
 
 print(user_effects_by_genre_rmse)
 
