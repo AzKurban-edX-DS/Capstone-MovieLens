@@ -159,6 +159,7 @@ end_date <- function(start){
   print(date())
   Sys.time() - start
 }
+
 mse <- function(r) mean(r^2, rm.na = TRUE)
 mse_cv <- function(r_list) {
   mses <- sapply(r_list, mse(r))
@@ -170,6 +171,8 @@ rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
 rmse <- function(true_ratings, predicted_ratings) {
   rmse(true_ratings - predicted_ratings)
 }
+
+final_rmse <- function(r) sqrt(mean(r^2, rm.na = TRUE))
 
 RMSEs <- NULL
 RMSEs
@@ -593,10 +596,32 @@ rmse_kable()
 # Reference: the Textbook section "23.4 User effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
 
-# If we visualize the average rating for each user:
-hist(rowMeans(y, na.rm = TRUE), nclass = 30)
-
 #### Model building: user effect ----------------------------------------------
+
+# Let's visualize the average rating for each user:
+start <- start_date()
+user_ratings_avg_ls <- sapply(edx_cv_list, function(cv_item){
+  rowMeans(cv_item$train_mx, na.rm = TRUE)
+})
+str(user_ratings_avg_ls)
+
+y <- as.matrix(user_ratings_avg_ls)
+end_date(start)
+
+dim(y)
+head(y)
+#        [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
+# 8  3.401893 3.395869 3.367470 3.393287 3.389845 3.382100 3.409639 3.383821 3.398451 3.351119
+# 10 3.764045 3.775281 3.820225 3.820225 3.898876 3.887640 3.842697 3.775281 3.876404 3.820225
+# 13 3.320000 3.370000 3.290000 3.370000 3.340000 3.270000 3.270000 3.300000 3.320000 3.330000
+# 18 3.479239 3.479239 3.422145 3.444637 3.420415 3.444637 3.425606 3.463668 3.422145 3.461938
+# 19 3.680233 3.767442 3.726744 3.738372 3.784884 3.726744 3.790698 3.662791 3.703488 3.726744
+# 30 4.446429 4.508929 4.491071 4.500000 4.491071 4.482143 4.500000 4.500000 4.508929 4.517857
+user_ratings_avg = rowMeans(y, na.rm = TRUE)
+hist(user_ratings_avg, nclass = 30)
+head(user_ratings_avg)
+sum(is.na(user_ratings_avg))
+#> [1] 0
 
 # we notice that there is substantial variability across users.
 #>  To account for this, we can use a linear model with a treatment effect `α[i]` 
@@ -607,40 +632,38 @@ hist(rowMeans(y, na.rm = TRUE), nclass = 30)
 
 #> It can be shown that the least squares estimate `α[i]` is just the average 
 #> of `y[i,j] - μ` for each user. So we can compute them this way:
-a <- rowMeans(y - mu, na.rm = TRUE)
+a <- user_ratings_avg - mu
 
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
 #> function `clamp` we defined above to keep predictions in the proper range):
-
 user_effects <- data.frame(userId = as.integer(names(a)), a = a)
+str(user_effects)
+head(user_effects)
 
 # Plot a histogram of the user effects
 par(cex = 0.7)
 hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 
-train_rmse <- train_set |>
-  mutate(userId = as.integer(userId),
-         movieId = as.integer(movieId)) |>
-  left_join(user_effects, by = "userId") |>
-  mutate(resid = rating - clamp(mu + a)) |> 
-  filter(!is.na(resid)) |>
-  pull(resid) |> rmse()
-
-print(user_effects_rmse)
-
-
 # Compute the RMSE taking into account user effects:
-user_effects_rmse <- test_set |> 
-  left_join(user_effects, by = "userId") |>
-  mutate(resid = rating - clamp(mu + a)) |> 
-  filter(!is.na(resid)) |>
-  pull(resid) |> rmse()
+start <- start_date()
+user_effect_mses <- sapply(edx_cv_list, function(cv_item){
+  #mse(cv_item$validation_set$rating - mu)
+  cv_item$validation_set |>
+    left_join(user_effects, by = "userId") |>
+    mutate(resid = rating - clamp(mu + a)) |> 
+    filter(!is.na(resid)) |>
+    pull(resid) |> mse()
+})
+end_date(start)
 
-print(user_effects_rmse)
-#> [1] 0.9711968
+plot(user_effect_mses)
 
-RMSEs <- rmses_add_row("Accounted for User Effects", user_effects_rmse)
+user_effect_rmse <- sqrt(mean(user_effect_mses))
+print(user_effect_rmse)
+#> [1] 0.9684293
+
+RMSEs <- rmses_add_row("Accounted for User Effects", user_effect_rmse)
 rmse_kable()
 
 ###### Enhanced Genre-Aware model: user effects RMSE ------------------------
@@ -687,52 +710,69 @@ rmse_kable()
 #> `y[i,j] - μ - α[i]`:
 
 ### Model building: movie+user effects -----------------------------------------
-b <- colMeans(y - mu - a, na.rm = TRUE)
 
-movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
+str(user_effects)
+
+sapply(edx_cv_list, function(cv_item){
+  dim(cv_item$train_mx)
+})
+
+start <- start_date()
+user_movie_effects_ls <- sapply(edx_cv_list, function(cv_item){
+  colMeans(cv_item$train_mx - user_effects$a - mu, na.rm = TRUE)
+})
+end_date(start)
+str(user_movie_effects_ls)
+
+b <- user_movie_effects_ls |> unlist()
+str(b)
+
+user_movie_effects <- 
+  data.frame(movieId = names(b),                                     
+             b = b) |>
+  group_by(movieId) |>
+  summarise(b = mean(b, na.rm = TRUE)) |>
+  mutate(movieId = as.integer(movieId))
+
+str(user_movie_effects)
+head(user_movie_effects)
+
+user_movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
 
 # Plot a histogram of the movie effects
 par(cex = 0.7)
-hist(movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
+hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 
-# users <- sample(unique(edx$userId), 100)
-# 
-# tmp <- edx|> 
-#   filter(userId %in% users) |> 
-#   select(userId, movieId, rating)
-# str(tmp)
-# #print(tmp)
-# 
-# sum(is.na(tmp$rating))
+# Calculate MSEs on Validation Sets
+start <- start_date()
+user_movie_effects_mses <- sapply(edx_cv_list, function(cv_item){
+  cv_item$validation_set |>
+    left_join(user_effects, by = "userId") |>
+    left_join(user_movie_effects, by = "movieId") |>
+    mutate(resid = rating - clamp(mu + a + b)) |> 
+    filter(!is.na(resid)) |>
+    pull(resid) |> mse()
+})
+end_date(start)
 
-# Validate RMSE on `train_set`
-train_rmse <- train_set |>
-  mutate(userId = as.integer(userId),
-         movieId = as.integer(movieId)) |>
-  left_join(user_effects, by = "userId") |>
-  left_join(movie_effects, by = "movieId") |>
-  mutate(resid = rating - clamp(mu + a + b)) |>  
-  filter(!is.na(resid)) |>
-  pull(resid) |> rmse()
+plot(user_movie_effects_mses)
+user_movie_effects_rmse <- sqrt(mean(user_movie_effects_mses))
 
-print(train_rmse)
-
-
-# # Compute the RMSE taking into account user and movie effects:
-user_and_movie_effects_rmse <- test_set |> 
-  left_join(user_effects, by = "userId") |>
-  left_join(movie_effects, by = "movieId") |>
-  mutate(resid = rating - clamp(mu + a + b)) |>  
-  filter(!is.na(resid)) |>
-  pull(resid) |> rmse()
-
-print(user_and_movie_effects_rmse)
-#> [1] 0.8660078
+print(user_movie_effects_rmse)
+#> [1] 0.8621376
 
 RMSEs <- rmses_add_row("Accounted for User+Movie Effects", 
-                       user_and_movie_effects_rmse)
+                       user_movie_effects_rmse)
 rmse_kable()
+
+# final_holdout_test |>
+#   left_join(user_effects, by = "userId") |>
+#   left_join(user_movie_effects, by = "movieId") |>
+#   mutate(resid = rating - clamp(mu + a + b)) |> 
+#   filter(!is.na(resid)) |>
+#   pull(resid) |> final_rmse()
+#> [1] 0.8660814
 
 ###### Enhanced By-Genre model: user+movie effects RMSE ------------------------
 
