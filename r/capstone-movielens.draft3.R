@@ -774,125 +774,91 @@ rmse_kable()
 #   pull(resid) |> final_rmse()
 #> [1] 0.8660814
 
-###### Enhanced By-Genre model: user+movie effects RMSE ------------------------
-
-# Y[i,j] = μ(g) + α[i] + β[j] + ε[i,j]
-# which μ(g) is average rating for the combination of genres for movie `i`
-
-
-# user_and_movie_effects_by_genre_rmse <- test_set |> 
-#   left_join(user_effects, by = "userId") |>
-#   left_join(movie_effects, by = "movieId") |>
-#   left_join(movie_effects_by_genre, by = "movieId") |>
-#   #left_join(genre_ratings_avg, by = "genres" ) |>
-#   mutate(resid = rating - clamp(mu_g + a + b)) |>  
-#   filter(!is.na(resid)) |>
-#   pull(resid) |> rmse()
-
-movie_effects_by_genre_rmse <- train_set |>
-  mutate(userId = as.integer(userId),
-         movieId = as.integer(movieId)) |>
-  left_join(user_effects, by = "userId") |>
-  left_join(genre_ratings_avg, by = "genres" ) |>
-  mutate(resid = rating - (mu + a)) |>  
-  filter(!is.na(resid)) |>
-  pull(resid) |> rmse()
-
-print(movie_effects_by_genre_rmse)
-
-#nseq <- seq(10000, 140000, 1000)
-nseq <- seq(58000, 60000, 100)
-nseq
-
-calc__genre_effect <- function(ng){
-  genre_effects <- train_set |>
-    mutate(userId = as.integer(userId),
-           movieId = as.integer(movieId)) |>
-    left_join(user_effects, by = "userId") |>
-    left_join(movie_effects, by = "movieId") |>
-    filter(!is.na(rating)) |>
-    mutate(a = ifelse(is.na(a), 0, a),
-           b = ifelse(is.na(b), 0, b)) |>
-    mutate(rsd = rating - (mu + a + b)) |>
-    # filter(!is.na(a)) |>
-    # filter(!is.na(b)) |>
-    select(genres, rating, a, b, rsd) |>
-    group_by(genres) |>
-    summarise(g = mean(rsd, rm.na = TRUE), n = n()) |>
-    #sort_by.data.frame(~ n) |>
-    filter(n >= ng)
-
-  # Plot a histogram of the genre effects
-  par(cex = 0.7)
-  hist(genre_effects$g, 30, xlab = TeX(r'[$\hat{g}$]'),
-       main = TeX(r'[Histogram of $\hat{g}$]')) 
-  
-  train_rmse <- train_set |> 
-    mutate(userId = as.integer(userId),
-           movieId = as.integer(movieId)) |>
-    left_join(user_effects, by = "userId") |>
-    left_join(movie_effects, by = "movieId") |>
-    left_join(genre_effects, by = "genres") |>
-    #mutate(resid = rating - clamp(mu + a + b + g)) |>  
-    mutate(resid = rating - clamp(mu + a + b)) |>  
-    filter(!is.na(resid)) |>
-    pull(resid) |> rmse()
-  
-  train_rmse
-  
-  user_and_movie_effects_by_genre_rmse <- test_set |> 
-    left_join(user_effects, by = "userId") |>
-    left_join(movie_effects, by = "movieId") |>
-    left_join(genre_effects, by = "genres") |>
-    mutate(resid = rating - clamp(mu + a + b + g)) |>  
-    #mutate(resid = rating - clamp(mu + a + b)) |>  
-    filter(!is.na(resid)) |>
-    pull(resid) |> rmse()
-  
-  user_and_movie_effects_by_genre_rmse
-}
-
-tune_genre_effect <- function(nseq){
-  sapply(nseq, calc__genre_effect(ng))
-}
-
-rmses <- tune_genre_effect(nseq)
-
-plot(nseq, rmses)
-min(rmses)
-
-ng <- nseq[which.min(rmses)]
-calc__genre_effect(ng)
-
-# print(genre_effects)
-# print(user_and_movie_effects_by_genre_rmse)
-
-RMSEs <- rmses_add_row("User+Movie Effects Genre Based", 
-                       user_and_movie_effects_by_genre_rmse)
-rmse_kable()
-
 ### Including Genre effect -----------------------------------------------------
-##### Classic model ------------------------------------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j]  + ε[i,j]
 # where g[i,j] is a combination of genres for movie `i` rated by user `j`,
 # so that g[i,j] = ∑{k=1,K}(x[i,j]^k*𝜸[k]) 
 # with `x[i,j]^k = 1` if g[i,j] includes genre `k`, and `x[i,j]^k = 0` otherwise.
 
-# Estimate genre effects
-genre_train_set <- train_set |>
-  mutate(movieId = as.integer(movieId), 
-         userId = as.integer(userId)) |>
-  filter(!is.na(rating)) |>
-  left_join(movie_effects, by='movieId') |>
-  left_join(user_effects, by='userId') |>
-  filter(!is.na(a)) |>
-  filter(!is.na(b))
+start <- start_date()
+user_movie_genre_effects_ls <- sapply(edx_cv_list, function(cv_item){
+  g_bias <- cv_item$train_set |>
+    mutate(userId = as.integer(userId), 
+           movieId = as.integer(movieId)) |>
+    left_join(user_effects, by = "userId") |>
+    left_join(user_movie_effects, by = "movieId") |>
+    group_by(genres) |>
+    summarise(g = mean(rating - (mu + a + b), na.rm = TRUE))
+    
+  names(g_bias$g) <- g_bias$genres
+  g_bias |> pull(g)
+})
+end_date(start)
+str(user_movie_genre_effects_ls)
+head(user_movie_genre_effects_ls)
 
-str(genre_train_set)
-head(genre_train_set)
+g_bias <- user_movie_genre_effects_ls |> 
+  unlist() 
+g <- g_bias[!is.na(g_bias)]
+
+sum(is.na(g))
+#> [1] 0
+
+str(g)
+head(g)
+
+user_movie_genre_effects <- 
+  data.frame(genres = names(g),                                     
+             g = g) |>
+  group_by(genres) |>
+  summarise(g = mean(g)) 
+
+sum(is.na(user_movie_genre_effects$g))
+#> [1] 0
+
+str(user_movie_genre_effects)
+head(user_movie_genre_effects)
+
 
 #### Compute RMSE: user+movie+genre effects ------------------------------------
 
+# Calculate MSEs on Validation Sets
+start <- start_date()
+user_movie_genre_effects_mses <- sapply(edx_cv_list, function(cv_item){
+  cv_item$validation_set |>
+    left_join(user_effects, by = "userId") |>
+    left_join(user_movie_effects, by = "movieId") |>
+    left_join(user_movie_genre_effects, by = "genres") |>
+    mutate(resid = rating - clamp(mu + a + b + g)) |> 
+    filter(!is.na(resid)) |>
+    pull(resid) |> mse()
+})
+end_date(start)
+
+plot(user_movie_genre_effects_mses)
+user_movie_genre_effects_rmse <- sqrt(mean(user_movie_genre_effects_mses))
+
+print(user_movie_genre_effects_rmse)
+#> [1] 0.8621376
+#------------------------------------------------------------
+
+RMSEs <- rmses_add_row("Accounted for User+Movie+Genre Effects", 
+                       user_movie_genre_effects_rmse)
+rmse_kable()
+
+# final_holdout_test |>
+#   left_join(user_effects, by = "userId") |>
+#   left_join(user_movie_effects, by = "movieId") |>
+#   mutate(resid = rating - clamp(mu + a + b)) |> 
+#   filter(!is.na(resid)) |>
+#   pull(resid) |> final_rmse()
+#> [1] 0.8660814
+
+
+
+
+
+#---------------------------------------------------------
 genre_effects_set <- genre_train_set |>
   group_by(genres) |>
   summarize(g = mean(rating - mu - a - b), n = n())
