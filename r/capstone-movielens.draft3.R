@@ -9,7 +9,7 @@ if(!require(caret))
   install.packages("caret", repos = "http://cran.us.r-project.org")
 if(!require(data.table))
   install.packages("data.table", repos = "http://cran.us.r-project.org")
-if(!require((gridExtra)))
+if(!require(gridExtra))
   install.packages("gridExtra")
 
 if(!require(gtools)) 
@@ -54,6 +54,52 @@ conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("kable", "kableExtra")
 
+### Defining helper functions --------------------------------------------------
+
+#> Let's define some helper functions that we will use in our subsequent analysis:
+start_date <- function(){
+  print(date())
+  print(Sys.time())
+}
+end_date <- function(start){
+  print(date())
+  print(Sys.time() - start)
+}
+
+mse <- function(r) mean(r^2, rm.na = TRUE)
+mse_cv <- function(r_list) {
+  mses <- sapply(r_list, mse(r))
+  mean(mses)
+}
+
+rmse <- function(r) sqrt(mse(r))
+rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
+rmse <- function(true_ratings, predicted_ratings) {
+  rmse(true_ratings - predicted_ratings)
+}
+
+final_rmse <- function(r) sqrt(mean(r^2, rm.na = TRUE))
+
+RMSEs <- NULL
+RMSEs
+
+rmses_add_row <- function(method, value){
+  RMSEs |>
+    add_row(Method = method,
+            RMSE = value)
+}
+
+rmse_kable <- function(){
+  RMSEs |>
+    kable(align='lrr', booktabs = T, padding = 5) |> 
+    row_spec(0, bold = T) |>
+    column_spec(column = 1, width = "15em")
+}
+
+# Because we know ratings can’t be below 0.5 or above 5, 
+# we define the function clamp:
+clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
+
 ## Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
@@ -69,14 +115,205 @@ conflict_prefer("kable", "kableExtra")
 # Let's install the development version of this package from the `GitHub` repository 
 # and attach the correspondent library to the global environment:
 
-if(!require(edx.capstone.movielens.data)) pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
-library(edx.capstone.movielens.data)
+if(!require(edx.capstone.movielens.data)) {
+  start <- start_date()
+  pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
+  end_date(start)
+}
 
-edx <- edx.capstone.movielens.data::edx
-final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
+make_input_datasets <- function(){
+  edx <- edx.capstone.movielens.data::edx
+  final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
+  
+  print("Dataset loaded from `edx.capstone.movielens.data` package: edx")
+  print(summary(edx))
 
-summary(edx)
-summary(final_holdout_test)
+  print("Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
+  print(summary(final_holdout_test))
+  
+  #> To be able to map movie IDs to titles we create the following lookup table:
+  movie_map <- edx |> select(movieId, title, genres) |> 
+    distinct(movieId, .keep_all = TRUE)
+  
+  print("Dataset created: movie_map")
+  print(summary(movie_map))
+  
+  # We ignore the data for users who have not provided at least 100 ratings:
+  edx100 <- edx |> 
+    group_by(userId) |>
+    filter(n() >= 100) |>
+    ungroup()
+  
+  print("Dataset created: edx100")
+  print(summary(edx100))
+  print(edx100 |> summarize(n_distinct(userId), n_distinct(movieId)))
+  
+  #> To account for movie genre effect we will need in dataset with splitted rows
+  #> for movies that belong to multiple genres:
+  start <- start_date()
+  edx100_GS <- edx100 |>
+    separate_rows(genres, sep = "\\|")
+  end_date(start)
+  
+  print("Dataset created: edx100_GS")
+  print(str(edx100_GS))
+  print(head(edx100_GS))
+  print(summary(edx100_GS))
+
+  #> We split the initial datasets into training sets, which we will use to build 
+  #> and train our models, and validation sets in which we will compute the accuracy 
+  #> of our predictions, the way described in the `Section 23.1.1 Movielens data`
+  #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
+  #> of the Course Textbook:
+  
+  #> For each user we are going to process, we will split their ratings 
+  #> into 80% for training and 20% for testing:
+
+  edx100_indexes <- split(1:nrow(edx100), edx100$userId)
+  edx100_GS_indexes <- split(1:nrow(edx100_GS), edx100_GS$userId)
+
+  #> We will also use K-fold cross validation as explained in 
+  #> Section 29.6.1: "K-fold validation" of the Cource Textbook:
+  #> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation
+  #> We are going to compute the following version of the MSE introducing in that section:
+  
+  # $$
+  #   \mbox{MSE}(\lambda) \approx\frac{1}{B} \sum_{b = 1}^B \frac{1}{N}\sum_{i = 1}^N \left(\hat{y}_i^b(\lambda) - y_i^b\right)^2 
+  # $$
+
+  start <- start_date()
+  kfold_index <- seq(from = 1:10)
+  edx100_CV <- lapply(kfold_index,  function(fi){
+    print(sprintf("Creating K-Fold Cross Validation Datasets, Fold %s", fi))
+    set.seed(fi*1000)
+    validation_ind <- sapply(edx100_indexes, 
+                             function(i) sample(i, ceiling(length(i)*.2))) |> 
+      unlist() |> 
+      sort()
+    
+    validation_set <- edx100[validation_ind,]
+    train_set <- edx100[-validation_ind,]
+
+    print("Dataset created: train_set")
+    print(summary(train_set))
+
+    set.seed(fi*2000)
+    validation_gs_ind <- sapply(edx100_GS_indexes, 
+                                function(i) sample(i, ceiling(length(i)*.2))) |> 
+      unlist() |> 
+      sort()
+    
+    validation_gs_set <- edx100_GS[validation_gs_ind,] 
+    train_gs_set <- edx100_GS[-validation_gs_ind,]
+
+    print("Dataset created: train_gs_set")
+    print(summary(train_gs_set))
+
+    # To make sure we don’t include movies in the training set that should not be 
+    # there, we remove entries using the semi_join function:
+    validation_set <- validation_set |> 
+      semi_join(train_set, by = "movieId") |> 
+      as.data.frame()
+    
+    print("Dataset created: validation_set")
+    print(summary(validation_set))
+
+    validation_gs_set <- validation_gs_set |> 
+      semi_join(train_gs_set, by = "movieId") |> 
+      as.data.frame()
+    
+    print("Dataset created: validation_gs_set")
+    print(summary(validation_gs_set))
+
+    #> We will use the array representation described in `Section 17.5 of the Textbook`
+    #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
+    #> for the training data. 
+    #> To create this matrix, we use `tidyr::pivot_wider` function:
+    
+    # train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
+    # train_gs_set <- mutate(train_gs_set, userId = factor(userId), movieId = factor(movieId))
+    
+    train_mx <- train_set |> 
+      mutate(userId = factor(userId),
+             movieId = factor(movieId)) |>
+      select(movieId, userId, rating) |>
+      pivot_wider(names_from = movieId, values_from = rating) |>
+      column_to_rownames("userId") |>
+      as.matrix()
+    
+    print("Matrix created: train_mx")
+    print(dim(train_mx))
+
+    list(train_set = train_set,
+         train_gs_set = train_gs_set,
+         train_mx = train_mx, 
+         validation_set = validation_set,
+         validation_gs_set = validation_gs_set)
+  })
+  end_date(start)
+  print("Set of K-Fold Cross Validation datasets created: edx100_CV")
+
+  list(edx = edx,
+       edx100 = edx100,
+       edx100_GS = edx100_GS,
+       edx100_CV = edx100_CV,
+       movie_map = movie_map,
+       final_holdout_test = final_holdout_test)
+}
+
+data_path <- "data"
+movielens_datasets_file <- file.path(data_path, "movielens-datasets.RData")
+
+if(file.exists(movielens_datasets_file)){
+  print("Loading datasets from file...")
+  start <- start_date()
+  load(movielens_datasets_file)
+  end_date(start)
+  print(sprintf("Datasets have been loaded from file: %s.", 
+                movielens_datasets_file))
+} else {
+  print("Creating datasets...")
+  library(edx.capstone.movielens.data)
+  print("Library attached: 'edx.capstone.movielens.data'")
+
+  start <- start_date()
+  movielens_datasets <- make_input_datasets()
+  end_date(start)
+  print("All required datasets have been created.")
+  
+  print("Saving newly created input datasets to file...")
+  start <- start_date()
+  dir.create(data_path)
+  save(movielens_datasets, file =  movielens_datasets_file)
+  end_date(start)
+  print(sprintf("Datasets have been saved to file: %s.", 
+                movielens_datasets_file))
+}
+
+edx <- movielens_datasets$edx
+print("Dataset summary: edx")
+print(summary(edx))
+
+edx100 <- movielens_datasets$edx100
+print("Dataset summary: edx100")
+print(summary(edx100))
+
+
+edx100_GS <- movielens_datasets$edx100_GS
+print("Dataset summary: edx100_GS")
+print(summary(edx100_GS))
+
+edx100_CV <- movielens_datasets$edx100_CV
+print("Set of K-Fold Cross Validation datasets summary: edx100_CV")
+print(summary(edx100_CV))
+
+movie_map <- movielens_datasets$movie_map
+print("Dataset summary: movie_map")
+print(summary(movie_map))
+
+final_holdout_test <- movielens_datasets$final_holdout_test
+print("Dataset summary: final_holdout_test")
+print(summary(final_holdout_test))
 
 ### `edx` Dataset --------------------------------------------------------------
 
@@ -148,52 +385,6 @@ edx |>
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
 ## Methods / Analysis ==========================================================
-### Defining helper functions --------------------------------------------------
-
-#> Let's define some helper functions that we will use in our subsequent analysis:
-start_date <- function(){
-  print(date())
-  Sys.time()
-}
-end_date <- function(start){
-  print(date())
-  Sys.time() - start
-}
-
-mse <- function(r) mean(r^2, rm.na = TRUE)
-mse_cv <- function(r_list) {
-  mses <- sapply(r_list, mse(r))
-  mean(mses)
-}
-
-rmse <- function(r) sqrt(mse(r))
-rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
-rmse <- function(true_ratings, predicted_ratings) {
-  rmse(true_ratings - predicted_ratings)
-}
-
-final_rmse <- function(r) sqrt(mean(r^2, rm.na = TRUE))
-
-RMSEs <- NULL
-RMSEs
-
-rmses_add_row <- function(method, value){
-  RMSEs |>
-    add_row(Method = method,
-            RMSE = value)
-}
-
-rmse_kable <- function(){
-  RMSEs |>
-    kable(align='lrr', booktabs = T, padding = 5) |> 
-    row_spec(0, bold = T) |>
-    column_spec(column = 1, width = "15em")
-}
-
-# Because we know ratings can’t be below 0.5 or above 5, 
-# we define the function clamp:
-clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
-
 ### Preparing train and set datasets -------------------------------------------
 
 #> First, let's note that we have 10677 different movies: 
@@ -233,85 +424,7 @@ tab <- edx |>
 
 print(tab)
 
-#> We split the `edx` dataset into a training set, which we will use to build 
-#> and train our models, and a test set in which we will compute the accuracy 
-#> of our predictions, the way described in the `Section 23.1.1 Movielens data`
-#> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
-#> of the Course Textbook:
 
-movie_map <- edx |> select(movieId, title, genres) |> 
-  distinct(movieId, .keep_all = TRUE)
-
-summary(movie_map)
-
-# Ignoring the data for users who have not provided at least 100 ratings:
-  edx100 <- edx |> 
-  group_by(userId) |>
-  filter(n() >= 100) |>
-  ungroup()
-
-print(edx100 |> summarize(n_distinct(userId), n_distinct(movieId)))
-
-#> We will also use K-fold cross validation as explained in 
-#> Section 29.6.1: "K-fold validation" of the Cource Textbook:
-#> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation
-#> We are going to compute the following version of the MSE introducing in that section:
-
-# $$
-#   \mbox{MSE}(\lambda) \approx\frac{1}{B} \sum_{b = 1}^B \frac{1}{N}\sum_{i = 1}^N \left(\hat{y}_i^b(\lambda) - y_i^b\right)^2 
-# $$
-
-
-start <- start_date()
-kfold_index <- seq(from = 1:10)
-edx100_indexes <- split(1:nrow(edx100), edx100$userId)
-
-edx_cv_list <- lapply(kfold_index,  function(fi){
-  # For each one of these users, we will split their ratings into 80% for training 
-  # and 20% for validating:
-  
-  set.seed(fi*1000)
-  validation_ind <- sapply(edx100_indexes, function(i) sample(i, ceiling(length(i)*.2))) |> 
-    unlist() |>
-    sort()
-  
-  validation_set <- edx100[validation_ind,] 
-  train_set <- edx100[-validation_ind,]
-  
-  # To make sure we don’t include movies in the training set that should not be 
-  # there, we remove entries using the semi_join function:
-  validation_set <- validation_set |> semi_join(train_set, by = "movieId") |> as.data.frame()
-  # summary(validation_set)
-  
-  train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
-  # summary(train_set)
-  
-  #> We will use the array representation described in `Section 17.5 of the Textbook`
-  #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
-  #> for the training data. 
-  #> To create this matrix, we use `tidyr::pivot_wider` function:
-  
-  y <- select(train_set, movieId, userId, rating) |>
-    pivot_wider(names_from = movieId, values_from = rating) |>
-    column_to_rownames("userId") |>
-    as.matrix()
-  
-  #dim(y)
-  list(train_set = train_set, 
-       train_mx = y, 
-       validation_set = validation_set)
-})
-end_date(start)
-
-# start <- start_date()
-# edx_cv_dat <- sapply(edx_cv_list, function(dat) as.list(dat))
-# str(edx_cv_dat)
-# end_date(start)
-
-edx_cv_item <- function(i) edx_cv_list[[i]]
-
-
-#> To be able to map movie IDs to titles we create the following lookup table:
 
 ### Naive Model ----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
@@ -780,22 +893,39 @@ rmse_kable()
 # so that g[i,j] = ∑{k=1,K}(x[i,j]^k*𝜸[k]) 
 # with `x[i,j]^k = 1` if g[i,j] includes genre `k`, and `x[i,j]^k = 0` otherwise.
 
+# mutate(userId = as.integer(userId),
+#        movieId = as.integer(movieId)) |>
+
 start <- start_date()
 user_movie_genre_effects_ls <- sapply(edx_cv_list, function(cv_item){
-  g_bias <- cv_item$train_set |>
+  g_bias <- cv_item$train_gs_set |>
     mutate(userId = as.integer(userId), 
            movieId = as.integer(movieId)) |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_effects, by = "movieId") |>
     group_by(genres) |>
     summarise(g = mean(rating - (mu + a + b), na.rm = TRUE))
-    
+  
   names(g_bias$g) <- g_bias$genres
   g_bias |> pull(g)
 })
 end_date(start)
 str(user_movie_genre_effects_ls)
 head(user_movie_genre_effects_ls)
+
+
+# edx_cv_item <- edx_cv_list[[1]]$train_set
+
+# start <- start_date()
+# edx_cv_dat <- sapply(edx_cv_list, function(dat) as.list(dat))
+# str(edx_cv_dat)
+# end_date(start)
+
+# edx_cv_item <- function(i) edx_cv_list[[i]]
+
+
+
+
 
 g_bias <- user_movie_genre_effects_ls |> 
   unlist() 
