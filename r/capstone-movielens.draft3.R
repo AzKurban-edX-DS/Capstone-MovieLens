@@ -53,6 +53,10 @@ conflict_prefer("count", "dplyr")
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("kable", "kableExtra")
+conflict_prefer("year", "lubridate")
+
+# Project Objective according to Capstone course requirements:
+project_objective <- 0.86490
 
 ### Defining helper functions --------------------------------------------------
 
@@ -93,7 +97,7 @@ rmse_kable <- function(){
   RMSEs |>
     kable(align='lrr', booktabs = T, padding = 5) |> 
     row_spec(0, bold = T) |>
-    column_spec(column = 1, width = "15em")
+    column_spec(column = 1, width = "25em")
 }
 
 # Because we know ratings can’t be below 0.5 or above 5, 
@@ -123,7 +127,17 @@ if(!require(edx.capstone.movielens.data)) {
 
 kfold_index <- seq(from = 1:10)
 
-make_input_datasets <- function(){
+load_movielens_data_from_file <- function(file_path){
+  print(sprintf("Loading MovieLens datasets from file: %s...", 
+                file_path))
+  start <- start_date()
+  load(movielens_datasets_file)
+  end_date(start)
+  print(sprintf("MoviLens datasets have been loaded from file: %s.", 
+                file_path))
+}
+
+make_source_datasets <- function(){
   edx <- edx.capstone.movielens.data::edx
   final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
   
@@ -144,8 +158,11 @@ make_input_datasets <- function(){
   edx100 <- edx |> 
     group_by(userId) |>
     filter(n() >= 100) |>
-    ungroup()
-  
+    ungroup() |>
+    mutate(date_time = as_datetime(timestamp)) |>
+    mutate(date = as_date(date_time)) |>
+    mutate(days = as.integer(date - min(date)))
+
   print("Dataset created: edx100")
   print(summary(edx100))
   print(edx100 |> summarize(n_distinct(userId), n_distinct(movieId)))
@@ -264,21 +281,29 @@ make_input_datasets <- function(){
 
 data_path <- "data"
 movielens_datasets_file <- file.path(data_path, "movielens-datasets.RData")
+movielens_datasets_zip <- file.path(data_path, "movielens-datasets.zip")
 
 if(file.exists(movielens_datasets_file)){
-  print("Loading datasets from file...")
+  load_movielens_data_from_file(movielens_datasets_file)
+} else if(file.exists(movielens_datasets_zip)) {
+  print(sprintf("Unzipping MovieLens data file from zip-archive: %s...", 
+                movielens_datasets_zip))
   start <- start_date()
-  load(movielens_datasets_file)
-  end_date(start)
-  print(sprintf("Datasets have been loaded from file: %s.", 
-                movielens_datasets_file))
+  unzip(movielens_datasets_zip, movielens_datasets_file, exdir = data_path)
+  
+  if(!file.exists(movielens_datasets_file)) {
+    print(sprintf("File does not exists: %s:", movielens_datasets_file))
+    stop("Failed to unzip MovieLens data zip-archive.")
+  }
+  
+  load_movielens_data_from_file(movielens_datasets_file)
 } else {
   print("Creating datasets...")
   library(edx.capstone.movielens.data)
   print("Library attached: 'edx.capstone.movielens.data'")
 
   start <- start_date()
-  movielens_datasets <- make_input_datasets()
+  movielens_datasets <- make_source_datasets()
   end_date(start)
   print("All required datasets have been created.")
   
@@ -287,8 +312,33 @@ if(file.exists(movielens_datasets_file)){
   dir.create(data_path)
   save(movielens_datasets, file =  movielens_datasets_file)
   end_date(start)
-  print(sprintf("Datasets have been saved to file: %s.", 
-                movielens_datasets_file))
+  
+  if(!file.exists(movielens_datasets_file)) {
+    print(sprintf("File was not created: %s.", movielens_datasets_file))
+    warning("MovieLens data was not saved to file.")
+  } else {
+    print(sprintf("Datasets have been saved to file: %s.", 
+                  movielens_datasets_file))
+    print(sprintf("Creating zip-archive: %s...", 
+                  movielens_datasets_zip))
+    
+    zip(movielens_datasets_zip, movielens_datasets_file)
+    
+    if(!file.exists(movielens_datasets_zip)){
+      print(sprintf("Failed to zip file: %s.", movielens_datasets_file))
+      warning("Failed to zip MovieLens data file.")
+    } else {
+      print(sprintf("Zip-archive created: %s.", movielens_datasets_zip))
+      #file.remove(movielens_datasets_file)
+      
+      if(file.exists(movielens_datasets_file)){
+        print(sprintf("Failed to remove file: %s.", movielens_datasets_file))
+        warning("Failed to remove MovieLens data file.")
+      } else {
+        print(sprintf("File has been removed: %s.", movielens_datasets_file))
+      }
+    }
+  }
 }
 
 edx <- movielens_datasets$edx
@@ -412,6 +462,13 @@ edx |>
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
 ## Methods ==========================================================
+# Create an RMSE Result Table and add a first row for the Project Objective ----
+
+# Add the RMSE value of the Naive Model to a tibble.
+RMSEs <- tibble(Method = c("Project Objective"),
+                RMSE = project_objective)
+rmse_kable()
+
 ### Naive Model ----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
@@ -495,10 +552,8 @@ for (i in kfold_index) {
   writeLines("")
 }
 
-# Create an RMSE Result Table and add a first row for the Naive RMSE -----------
-# Add the RMSE value of the Naive Model to a tibble.
-RMSEs <- tibble(Method = c("Simple Mean Rating"),
-                RMSE = naive_rmse)
+# Add a row to the RMSE Result Table for the first Naive Model ---------------- 
+RMSEs <- rmses_add_row("Simple Mean Rating Model", naive_rmse)
 rmse_kable()
 
 ### Taking into account User effects ------------------------------------------- 
@@ -572,8 +627,8 @@ user_effect_rmse <- sqrt(mean(user_effect_mses))
 print(user_effect_rmse)
 #> [1] 0.9684293
 
-# Add a row to the RMSE Result Table for the User Effects Model ---------------- 
-RMSEs <- rmses_add_row("Accounted for User Effects", user_effect_rmse)
+# Add a row to the RMSE Result Table for the User Effect Model ---------------- 
+RMSEs <- rmses_add_row("User Effect Model", user_effect_rmse)
 rmse_kable()
 
 ### Taking into account Movie effect ------------------------------------------
@@ -592,7 +647,7 @@ rmse_kable()
 #> α[i], and then estimating β[j] as the average of the residuals 
 #> `y[i,j] - μ - α[i]`:
 
-### Model building: User+Movie Effects -----------------------------------------
+### Model building: User+Movie Effect -----------------------------------------
 
 str(user_effects)
 
@@ -624,7 +679,7 @@ head(user_movie_effects)
 
 user_movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
 
-# Plot a histogram of the User+Movie Effects -----------------------------------
+# Plot a histogram of the User+Movie Effect -----------------------------------
 par(cex = 0.7)
 hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
@@ -647,8 +702,8 @@ user_movie_effects_rmse <- sqrt(mean(user_movie_effects_mses))
 print(user_movie_effects_rmse)
 #> [1] 0.8621376
 
-# Add a row to the RMSE Result Table for the User+Movie Effects Model ---------- 
-RMSEs <- rmses_add_row("Accounted for User+Movie Effects", 
+# Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
+RMSEs <- rmses_add_row("User+Movie Effect Model", 
                        user_movie_effects_rmse)
 rmse_kable()
 
@@ -960,8 +1015,8 @@ user_movie_genre_effects_rmse <- sqrt(mean(user_movie_genre_effects_mses))
 print(user_movie_genre_effects_rmse)
 #> [1] 0.8619763
 
-# Add a row to the RMSE Result Table for the User+Movie+Genre Effects Model ---- 
-RMSEs <- rmses_add_row("Accounted for User+Movie+Genre Effects", 
+# Add a row to the RMSE Result Table for the User+Movie+Genre Effect Model ---- 
+RMSEs <- rmses_add_row("User+Movie+Genre Effect Model", 
                        user_movie_genre_effects_rmse)
 rmse_kable()
 
@@ -973,15 +1028,17 @@ rmse_kable()
 #   pull(resid) |> final_rmse()
 #> [1] 0.8659243
 
-# Calculate Date Smoothed Effect -------------------------------------------------------
+# Accounting for Date Smoothed Effect ------------------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j]  + f(d(i,j)) + ε[i,j]
 
 # with `j` a smooth function of `d(u,i)`
 
 # library(lubridate)
 
-# Plot: Average rating per year
-train_set |> 
+# Let's take a look at the Average rating per year:
+# Plot: Average Rating per Year ------------------------------------------------
+start <- start_date()
+edx100 |> 
   mutate(year = year(as_datetime(timestamp))) |>
   group_by(year) |>
   summarize(avg = mean(rating)) |>
@@ -996,25 +1053,26 @@ train_set |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
+end_date(start)
 
+# Calculate Date Smoothed Effect -----------------------------------------------
+train_set1 <- edx100_CV[[1]]$train_set
 
 start <- start_date()
-train_set_dm <- train_set |> 
-  left_join(data.frame(userId = as.factor(names(a)), a = a), by = "userId") |>
-  left_join(data.frame(movieId = as.factor(names(b)), b = b_reg), by = "movieId") |>
-  mutate(rating_residue = rating - mu - a - b) |>
-  mutate(date_time = as_datetime(timestamp)) |>
-  mutate(date = as_date(date_time)) 
+train_set_dm <- train_set1 |> 
+  left_join(user_effects, by = "userId") |>
+  left_join(genre_movie_effects, by = "movieId") |>
+  mutate(rating_residue = rating - (mu + a + b + g)) |>
+  filter(!is.na(rating_residue)) #|>
+  # mutate(date_time = as_datetime(timestamp)) |>
+  # mutate(date = as_date(date_time)) |>
+  # mutate(days = as.integer(date - min(date)))
 
-min_date <- min(train_set_dm$date)
-print(min_date)
-
-train_set_dm <- train_set_dm |>
-  mutate(days = as.integer(date - min_date)) #|>
-#arrange(date)
+end_date(start)
 
 str(train_set_dm)
-end_date(start)
+min_date <- min(train_set_dm$date)
+print(min_date)
 
 start <- start_date()
 date_global_effect <- train_set_dm |>
@@ -1024,6 +1082,7 @@ end_date(start)
 
 head(date_global_effect)
 sum(is.na(date_global_effect$de))
+head(date_global_effect)
 
 # Train model using `loess` function with default `span` & `degree` params-----
 start <- start_date()
@@ -1156,6 +1215,20 @@ end_date(start)
 date_smoothed_rmse <- predict_date_smoothed(date_smoothed_effect)
 print(date_smoothed_rmse)
 #> [1] 0.8638975
+
+# Add a row to the RMSE Result Table for the User+Movie+Genre Effects Model ---- 
+RMSEs <- rmses_add_row("Accounted for User+Movie+Genre+Date Effects", 
+                       date_smoothed_rmse)
+rmse_kable()
+
+# final_holdout_test |>
+#   left_join(user_effects, by = "userId") |>
+#   left_join(user_movie_genre_effects, by = "movieId") |>
+#   mutate(resid = rating - clamp(mu + a + b + g)) |> 
+#   filter(!is.na(resid)) |>
+#   pull(resid) |> final_rmse()
+#> [1] 0.8659243
+
 
 # preds <- final_holdout_test |>
 #   mutate(date = as_date(as_datetime(timestamp))) |>
