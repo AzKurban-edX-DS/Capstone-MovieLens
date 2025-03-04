@@ -131,15 +131,16 @@ load_movielens_data_from_file <- function(file_path){
   print(sprintf("Loading MovieLens datasets from file: %s...", 
                 file_path))
   start <- start_date()
-  load(movielens_datasets_file)
+  load(file_path)
   end_date(start)
   print(sprintf("MoviLens datasets have been loaded from file: %s.", 
                 file_path))
+  movielens_datasets
 }
 
 make_source_datasets <- function(){
-  edx <- edx.capstone.movielens.data::edx
-  final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
+  #edx <- edx.capstone.movielens.data::edx
+  #final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
   
   print("Dataset loaded from `edx.capstone.movielens.data` package: edx")
   print(summary(edx))
@@ -271,32 +272,32 @@ make_source_datasets <- function(){
   end_date(start)
   print("Set of K-Fold Cross Validation datasets created: edx100_CV")
 
-  list(edx = edx,
-       edx100 = edx100,
+  list(edx100 = edx100,
        edx100_GS = edx100_GS,
        edx100_CV = edx100_CV,
-       movie_map = movie_map,
-       final_holdout_test = final_holdout_test)
+       movie_map = movie_map)
 }
 
 data_path <- "data"
-movielens_datasets_file <- file.path(data_path, "movielens-datasets.RData")
+movielens_datasets_file <- "movielens-datasets.RData"
+
+movielens_datasets_file_path <- file.path(data_path, movielens_datasets_file)
 movielens_datasets_zip <- file.path(data_path, "movielens-datasets.zip")
 
-if(file.exists(movielens_datasets_file)){
-  load_movielens_data_from_file(movielens_datasets_file)
+if(file.exists(movielens_datasets_file_path)){
+  movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
 } else if(file.exists(movielens_datasets_zip)) {
   print(sprintf("Unzipping MovieLens data file from zip-archive: %s...", 
                 movielens_datasets_zip))
   start <- start_date()
-  unzip(movielens_datasets_zip, movielens_datasets_file, exdir = data_path)
+  unzip(movielens_datasets_zip, movielens_datasets_file_path)
   
-  if(!file.exists(movielens_datasets_file)) {
+  if(!file.exists(movielens_datasets_file_path)) {
     print(sprintf("File does not exists: %s:", movielens_datasets_file))
     stop("Failed to unzip MovieLens data zip-archive.")
   }
   
-  load_movielens_data_from_file(movielens_datasets_file)
+  movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
 } else {
   print("Creating datasets...")
   library(edx.capstone.movielens.data)
@@ -310,38 +311,38 @@ if(file.exists(movielens_datasets_file)){
   print("Saving newly created input datasets to file...")
   start <- start_date()
   dir.create(data_path)
-  save(movielens_datasets, file =  movielens_datasets_file)
+  save(movielens_datasets, file =  movielens_datasets_file_path)
   end_date(start)
   
-  if(!file.exists(movielens_datasets_file)) {
+  if(!file.exists(movielens_datasets_file_path)) {
     print(sprintf("File was not created: %s.", movielens_datasets_file))
     warning("MovieLens data was not saved to file.")
   } else {
     print(sprintf("Datasets have been saved to file: %s.", 
-                  movielens_datasets_file))
+                  movielens_datasets_file_path))
     print(sprintf("Creating zip-archive: %s...", 
                   movielens_datasets_zip))
     
-    zip(movielens_datasets_zip, movielens_datasets_file)
+    zip(movielens_datasets_zip, movielens_datasets_file_path)
     
     if(!file.exists(movielens_datasets_zip)){
-      print(sprintf("Failed to zip file: %s.", movielens_datasets_file))
+      print(sprintf("Failed to zip file: %s.", movielens_datasets_file_path))
       warning("Failed to zip MovieLens data file.")
     } else {
       print(sprintf("Zip-archive created: %s.", movielens_datasets_zip))
       #file.remove(movielens_datasets_file)
       
-      if(file.exists(movielens_datasets_file)){
-        print(sprintf("Failed to remove file: %s.", movielens_datasets_file))
+      if(file.exists(movielens_datasets_file_path)){
+        print(sprintf("Failed to remove file: %s.", movielens_datasets_file_path))
         warning("Failed to remove MovieLens data file.")
       } else {
-        print(sprintf("File has been removed: %s.", movielens_datasets_file))
+        print(sprintf("File has been removed: %s.", movielens_datasets_file_path))
       }
     }
   }
 }
 
-edx <- movielens_datasets$edx
+# edx <- movielens_datasets$edx
 print("Dataset summary: edx")
 print(summary(edx))
 
@@ -362,9 +363,15 @@ movie_map <- movielens_datasets$movie_map
 print("Dataset summary: movie_map")
 print(summary(movie_map))
 
-final_holdout_test <- movielens_datasets$final_holdout_test
+# final_holdout_test <- movielens_datasets$final_holdout_test
 print("Dataset summary: final_holdout_test")
 print(summary(final_holdout_test))
+
+# rm(movielens_datasets,
+#    edx100,
+#    edx100_GS,
+#    edx100_CV,
+#    movie_map)
 
 ## Data Analysis ===============================================================
 ### `edx` Dataset --------------------------------------------------------------
@@ -391,6 +398,7 @@ print(s)
 #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
 #> of the Course Textbook that not every user rated every movie:
 
+dim_edx <- dim(edx)
 max_possible_ratings <- n_movies*n_users
 sprintf("Maximum possible ratings: %s", max_possible_ratings)
 sprintf("Rows in `edx` dataset: %s", dim_edx[1])
