@@ -78,7 +78,7 @@ mse_cv <- function(r_list) {
 
 rmse <- function(r) sqrt(mse(r))
 rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
-rmse <- function(true_ratings, predicted_ratings) {
+rmse2 <- function(true_ratings, predicted_ratings) {
   rmse(true_ratings - predicted_ratings)
 }
 
@@ -137,7 +137,6 @@ load_movielens_data_from_file <- function(file_path){
                 file_path))
   movielens_datasets
 }
-
 make_source_datasets <- function(){
   #edx <- edx.capstone.movielens.data::edx
   #final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
@@ -664,8 +663,6 @@ sapply(edx100_CV, function(cv_item){
 })
 
 start <- start_date()
-
-
 user_movie_effects_ls <- sapply(edx100_CV, function(cv_item){
   colMeans(cv_item$train_mx - user_effects$a - mu, na.rm = TRUE)
 })
@@ -1064,33 +1061,46 @@ edx100 |>
 end_date(start)
 
 # Calculate Date Smoothed Effect -----------------------------------------------
-train_set1 <- edx100_CV[[1]]$train_set
+#train_set1 <- edx100_CV[[1]]$train_set
 
 start <- start_date()
-train_set_dm <- train_set1 |> 
-  left_join(user_effects, by = "userId") |>
-  left_join(genre_movie_effects, by = "movieId") |>
-  mutate(rating_residue = rating - (mu + a + b + g)) |>
-  filter(!is.na(rating_residue)) #|>
-  # mutate(date_time = as_datetime(timestamp)) |>
-  # mutate(date = as_date(date_time)) |>
-  # mutate(days = as.integer(date - min(date)))
+global_date_effects <- sapply(kfold_index,  function(fi){
+  print(sprintf("Creating K-Fold CV Global Date Effects Set, Vector %s", fi))
 
+  start <- start_date()
+  de_global <- edx100_CV[[fi]]$train_set |> 
+    left_join(user_effects, by = "userId") |>
+    left_join(genre_movie_effects, by = "movieId") |>
+    mutate(rating_residue = rating - (mu + a + b + g)) |>
+    filter(!is.na(rating_residue)) |>
+    group_by(days) |>
+    summarise(de = mean(rating_residue, na.rm = TRUE)) #|>
+  end_date(start)
+  
+  print("Global Date Effect Vector Structure:")
+  print(str(de_global))
+  
+  
+  print("Global Date Effect Vector Structure:")
+  names(de_global$de) = de_global$days
+  print(str(de_global$de))
+  de_global$de
+})
 end_date(start)
+print("Date Global Effect Structure list:")
+print(str(global_date_effects))
 
-str(train_set_dm)
-min_date <- min(train_set_dm$date)
-print(min_date)
+de_vector <- global_date_effects |> unlist()
+str(de_vector)
 
-start <- start_date()
-date_global_effect <- train_set_dm |>
-  group_by(days, date) |>
-  summarise(de = mean(rating_residue))
-end_date(start)
+date_global_effect <-  data.frame(days = as.integer(names(de_vector)),
+                         de = de_vector) |>
+  group_by(days) |>
+  summarise(de = mean(de, na.rm = TRUE)) |>
+  sort_by.data.frame(~days)
 
-head(date_global_effect)
-sum(is.na(date_global_effect$de))
-head(date_global_effect)
+print("Global Date Effect Structure:")
+print(str(date_global_effect))
 
 # Train model using `loess` function with default `span` & `degree` params-----
 start <- start_date()
@@ -1098,13 +1108,20 @@ fit <- loess(de ~ days, data = date_global_effect)
 end_date(start)
 date()
 sum(is.na(fit$fitted))
-str(fit$pars)
+
+print("loess function results structure (fit$pars)")
+print(str(fit$pars))
+
+print("loess function results structure (fit$fitted)")
 str(fit$fitted)
 
-date_smoothed_effect <- as.data.frame(date_global_effect) |>
+date_smoothed_effect <- date_global_effect |>
   mutate(de_smoothed = fit$fitted)
-head(date_smoothed_effect)
 
+print("Global Date Smoothed Effect Structure:")
+print(str(date_smoothed_effect))
+
+# Date Smoothed Effect Visualization:
 start <- start_date()
 date_smoothed_effect |>
   ggplot(aes(x = days)) +
@@ -1112,76 +1129,146 @@ date_smoothed_effect |>
   geom_line(aes(y = de_smoothed), color = "red")
 end_date(start)
 
-# Re-train tuning `loess` function's `span` & `degree` params-------------------
+# Function for MSEs calculation of Smoothed Date Model ----------------------
+date_smoothed_mses <- function(date_smoothed_effect){
+  # Calculate MSEs on Validation Sets
+  start <- start_date()
+  MSEs <- sapply(kfold_index, function(fi){
+    print(sprintf("Calculating MSEs on K-Fold Cross Validation Sets, Fold %s...",
+                  fi))
+    start <- start_date()
+    m_se <- edx100_CV[[fi]]$validation_set |>
+      left_join(user_effects, by = "userId") |>
+      left_join(user_movie_genre_effects, by = "movieId") |>
+      left_join(date_smoothed_effect, by='days') |>
+      mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |> 
+      filter(!is.na(resid)) |>
+      pull(resid) |> mse()
+    end_date(start)
+    m_se
+  })
+  end_date(start)
+  MSEs
+}
+# Calculate RMSE for loess fitted with default parameters ----------------------
+
+user_movie_genre_date_effects_mses <- date_smoothed_mses(date_smoothed_effect)
+plot(user_movie_genre_date_effects_mses)
+user_movie_genre_date_effects_rmse <- sqrt(mean(user_movie_genre_date_effects_mses))
+print(user_movie_genre_date_effects_rmse)
+#> [1] 0.8613816S
+
+# Re-train tuning `loess` function's with `span` & `degree` params--------------
+# Support Functions ------------------------------------------------------------
 fit_loess <- function(spans, dgr){
+  print(sprintf("Fitting model for %s spans, degree = %s...", length(spans), dgr))
+  start <- start_date()
   fits <- sapply(spans, function(span){
+    print(sprintf("Fitting model for span = %s, degree = %s...", span, dgr))
+    start <- start_date()
     fit <- loess(de ~ days, span = span, degree = dgr, data = date_global_effect)
+    end_date(start)
+    print(sprintf("Model fitted for span = %s, degree = %s...", span, dgr))
+    print(fit)
     fit$fitted
   })
+  end_date(start = start)
+  fits
 }
-predict_date_smoothed <- function(date_smoothed_effect){
-  preds <- test_set |>
-    mutate(date = as_date(as_datetime(timestamp))) |>
-    left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
-    left_join(data.frame(movieId = as.integer(names(b)), b = b_reg), by = "movieId") |>
-    left_join(date_smoothed_effect, by='date') |>
-    mutate(pred = mu + a + b + de_smoothed) |>
-    pull(pred)
-  
-  RMSE(preds, test_set$rating)
-}
-predict_de_model <- function(fits){
+tune_de_model_rmses <- function(fits){
+  i <- 1
   model_diu_rmses <- sapply(fits, function(smth){
-    date_smoothed_effect <- as.data.frame(date_global_effect) |>
+    print(sprintf("Tuning Model for Case %s", i))
+    date_smoothed_effect <- date_global_effect |>
       mutate(de_smoothed = smth)
 
-    predict_date_smoothed(date_smoothed_effect)
+    mses <- date_smoothed_mses(date_smoothed_effect)
+    rmse <- sqrt(mean(mses))
+    print(sprintf("RMSE calculated for Case %s: %s", i, rmse))
+    i <- i + 1
+    rmse
   })
 }
-date_smoothed_rmse <- function(spans, degree) {
-  start <- start_date()
-  fits <- fit_loess(spans,degree)
-  end_date(start)
-  
+date_smoothed_rmses <- function(spans, dgr) {
+  # dgr <- degree[1] # debug
+  fits <- fit_loess(spans,dgr)
   dim(fits)
   df_fits <- as.data.frame(fits)
   #str(df_fits)
   
   start <- start_date()
-  model_diu_rmses <- predict_de_model(df_fits)
+  print(sprintf("Tuning the Smothed Date Effect Model for Degree: %s", dgr))
+  model_diu_rmses <- tune_de_model_rmses(df_fits)
+  print(sprintf("RMSEs computed for the Smothed Date Effect Model (Degree: %s)", dgr))
   end_date(start)
-  
-  plot(model_diu_rmses)
-  
-  idx <- which.min(model_diu_rmses)
-  c(spans[idx], min(model_diu_rmses))
-}
-#-------------------------------------------------------------------------
 
+  data.frame(span = spans, rmse = model_diu_rmses)
+}
+best_rmse <- function(span_rmses){
+  idx <- which.min(span_rmses$rmse)
+  rmse <- c(span_rmses$span[idx], min(span_rmses$rmse))
+  names(rmse) <- c("Span", "RMSE")
+  rmse
+}
+
+# Tune the Global Date Smoothed Effect model -----------------------------------
 degree <- c(0, 1, 2)
+print("Tuning `loess` function for degrees:")
+print(degree)
+
 # 1. `degree = 0` --------------------------------------------------------------
+print("Case 1. `degree = 0`")
 # spans <- seq(0.0003, 0.002, 0.00001)
 spans <- seq(0.0005, 0.0015, 0.00001)
-ds_rmse0 <- date_smoothed_rmse(spans, 
+print("Tuning for spans:")
+print(spans)
+
+ds0_rmses <- date_smoothed_rmses(spans, 
                                degree[1])
-ds_rmse0
-#> [1] 0.0010900 0.8644363
+print("Case 1. `degree = 0` RMSEs:")
+print(str(ds0_rmses))
+plot(ds0_rmses)
+
+ds_rmse0 <- best_rmse(ds0_rmses)
+print(ds_rmse0)
+#   Span      RMSE 
+# 0.0010900 0.8602027 
 
 # 2. `degree = 1` --------------------------------------------------------------
+print("Case 2. `degree = 1`")
 #spans <- seq(0.0005, 0.002, 0.00001)
 spans <- seq(0.001, 0.0014, 0.00001)
-ds_rmse1 <- date_smoothed_rmse(spans, 
-                               degree[2])
-ds_rmse1
-#> [1] 0.001000 0.863969
+print("Tuning for spans:")
+print(spans)
+
+ds1_rmses <- date_smoothed_rmses(spans, 
+                                 degree[2])
+print("Case 2. `degree = 1` RMSEs:")
+print(str(ds1_rmses))
+plot(ds1_rmses)
+
+ds_rmse1 <- best_rmse(ds1_rmses)
+print(ds_rmse1)
+#      Span      RMSE 
+# 0.0010000 0.8597244 
 
 # 3. `degree = 2` --------------------------------------------------------------
+print("Case 3. `degree = 2`")
 #spans <- seq(0.0003, 0.01, 0.00001)
 spans <- seq(0.0007, 0.002, 0.00001)
-ds_rmse2 <- date_smoothed_rmse(spans, 
-                               degree[3])
-ds_rmse2
-#> [1] 0.0013000 0.8638975
+print("Tuning for spans:")
+print(spans)
+
+ds2_rmses <- date_smoothed_rmses(spans, 
+                                 degree[3])
+print("Case 3. `degree = 2` RMSEs:")
+print(str(ds2_rmses))
+plot(ds2_rmses)
+
+ds_rmse2 <- best_rmse(ds2_rmses)
+print(ds_rmse2)
+#      Span      RMSE 
+# 0.0013000 0.8596676 
 
 # Retrain with the best parameters figured out above ---------------------------
 
@@ -1203,14 +1290,15 @@ fit <- loess(de ~ days,
              span = best_span, 
              data = date_global_effect)
 end_date(start)
-sum(is.na(fit$fitted))
+print("Best Fit:")
+print(sprintf("Contains NAs: %s", sum(is.na(fit$fitted))))
 str(fit$pars)
 str(fit$fitted)
-#fit$pars
-# fit$fitted
+print(fit)
 
 date_smoothed_effect <- as.data.frame(date_global_effect) |>
   mutate(de_smoothed = fit$fitted)
+str(date_smoothed_effect)
 head(date_smoothed_effect)
 
 start <- start_date()
@@ -1220,37 +1308,30 @@ date_smoothed_effect |>
   geom_line(aes(y = de_smoothed), color = "red")
 end_date(start)
 
-date_smoothed_rmse <- predict_date_smoothed(date_smoothed_effect)
-print(date_smoothed_rmse)
-#> [1] 0.8638975
+user_movie_genre_tuned_date_effect_mses <- date_smoothed_mses(date_smoothed_effect)
+plot(user_movie_genre_tuned_date_effect_mses)
+user_movie_genre_tuned_date_effect_rmse <- sqrt(mean(user_movie_genre_tuned_date_effect_mses))
+print(user_movie_genre_tuned_date_effect_rmse)
+#> [1] 0.8596676
 
-# Add a row to the RMSE Result Table for the User+Movie+Genre Effects Model ---- 
-RMSEs <- rmses_add_row("Accounted for User+Movie+Genre+Date Effects", 
-                       date_smoothed_rmse)
+# Add a row to the RMSE Result Table for the User+Movie+Genre+Date Effects Model ---- 
+RMSEs <- rmses_add_row("User+Movie+Genre+Date Effects Model (tuned)", 
+                       user_movie_genre_tuned_date_effect_rmse)
 rmse_kable()
 
+# start <- start_date()
 # final_holdout_test |>
+#   mutate(date_time = as_datetime(timestamp)) |>
+#   mutate(date = as_date(date_time)) |>
+#   mutate(days = as.integer(date - min(date))) |>
 #   left_join(user_effects, by = "userId") |>
 #   left_join(user_movie_genre_effects, by = "movieId") |>
-#   mutate(resid = rating - clamp(mu + a + b + g)) |> 
+#   left_join(date_smoothed_effect, by='days') |>
+#   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |> 
 #   filter(!is.na(resid)) |>
 #   pull(resid) |> final_rmse()
-#> [1] 0.8659243
-
-
-# preds <- final_holdout_test |>
-#   mutate(date = as_date(as_datetime(timestamp))) |>
-#   left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
-#   left_join(data.frame(movieId = as.integer(names(b)), b = b_reg), by = "movieId") |>
-#   left_join(date_smoothed_effect, by='date') |>
-#   mutate(pred = mu + a + b + de_smoothed) |>
-#   pull(pred)
-# 
-# final_test_set <- final_holdout_test[!is.na(preds),]
-# final_preds <- preds[!is.na(preds)]
-# 
-# RMSE(final_preds, final_test_set$rating)
-#> [1] 0.8641795
+# end_date(start)
+#> [1] 0.8724055
 
 ### Utilizing Penalized least squares-------------------------------------------
 
