@@ -5,14 +5,16 @@
 
 if(!require(tidyverse))
   install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+
+#> `stringr` library is already included to the `tidyverse` package,
+#> there's no need to install `stringr`
 # if(!require(stringr))
 #   install.packages("stringr")
+
 if(!require(caret))
   install.packages("caret", repos = "http://cran.us.r-project.org")
 if(!require(data.table))
   install.packages("data.table", repos = "http://cran.us.r-project.org")
-if(!require(stringr))
-  install.packages("stringr")
 if(!require(gridExtra))
   install.packages("gridExtra")
 if(!require("logr")) 
