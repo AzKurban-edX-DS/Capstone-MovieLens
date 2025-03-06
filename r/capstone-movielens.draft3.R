@@ -11,6 +11,8 @@ if(!require(data.table))
   install.packages("data.table", repos = "http://cran.us.r-project.org")
 if(!require(gridExtra))
   install.packages("gridExtra")
+if(!require("logr")) 
+  install.packages("logr")
 
 if(!require(gtools)) 
   install.packages("gtools")
@@ -18,7 +20,6 @@ if(!require(pak))
   install.packages("pak")
 if(!require("pacman")) 
   install.packages("pacman")
-
 
 # Loading the required libraries
 library(dslabs)
@@ -38,6 +39,7 @@ library(stringr)
 library(tibble)
 library(tidyr)
 library(gridExtra)
+library(logr)
 
 library(rafalib)
 library(gtools)
@@ -46,28 +48,52 @@ library(pacman)
 
 p_load(conflicted, latex2exp, kableExtra)
 
+### Resolve conflicts ----------------------------------------------------------
+
 # For functions with identical names in different packages, ensure the
 # right one is chosen:
-conflict_prefer("first", "dplyr")
-conflict_prefer("count", "dplyr")
-conflict_prefer("select", "dplyr")
-conflict_prefer("filter", "dplyr")
-conflict_prefer("kable", "kableExtra")
-conflict_prefer("year", "lubridate")
+conflict_prefer("first", "dplyr", quiet = TRUE)
+conflict_prefer("count", "dplyr", quiet = TRUE)
+conflict_prefer("select", "dplyr", quiet = TRUE)
+conflict_prefer("group_by", "dplyr", quiet = TRUE)
+conflict_prefer("ungroup", "dplyr", quiet = TRUE)
+conflict_prefer("summarise", "dplyr", quiet = TRUE)
+conflict_prefer("summarize", "dplyr", quiet = TRUE)
+conflict_prefer("distinct", "dplyr", quiet = TRUE)
+conflict_prefer("top_n", "dplyr", quiet = TRUE)
+conflict_prefer("arrange", "dplyr", quiet = TRUE)
+conflict_prefer("mutate", "dplyr", quiet = TRUE)
+conflict_prefer("semi_join", "dplyr", quiet = TRUE)
+conflict_prefer("left_join", "dplyr", quiet = TRUE)
+conflict_prefer("filter", "dplyr", quiet = TRUE)
+conflict_prefer("slice", "dplyr", quiet = TRUE)
+conflict_prefer("glimpse", "dplyr", quiet = TRUE)
 
-# Project Objective according to Capstone course requirements:
+conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
+conflict_prefer("kable", "kableExtra", quiet = TRUE)
+conflict_prefer("year", "lubridate", quiet = TRUE)
+
+put("Set Project Objective according to Capstone course requirements")
 project_objective <- 0.86490
+put(project_objective)
+
+put("Set minimum number of ratings to ignore")
+min_nratings <- as.integer(100)
+put(min_nratings)
+
+### Open log -------------------------------------------------------------------
+log_open(autolog = TRUE)
 
 ### Defining helper functions --------------------------------------------------
 
 #> Let's define some helper functions that we will use in our subsequent analysis:
 start_date <- function(){
-  print(date())
+  put(date())
   Sys.time()
 }
 end_date <- function(start){
-  print(date())
-  print(Sys.time() - start)
+  put(date())
+  put(Sys.time() - start)
 }
 
 mse <- function(r) mean(r^2, rm.na = TRUE)
@@ -104,6 +130,48 @@ rmse_kable <- function(){
 # we define the function clamp:
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 
+#### Data processing functions -------------------------------------------------
+load_movielens_data_from_file <- function(file_path){
+  put(sprintf("Loading MovieLens datasets from file: %s...", 
+                file_path))
+  start <- start_date()
+  load(file_path)
+  end_date(start)
+  put(sprintf("MoviLens datasets have been loaded from file: %s.", 
+                file_path))
+  movielens_datasets
+}
+filter_noMore_nratings <- function(data, nratings){
+  data |> 
+    group_by(userId) |>
+    filter(n() > nratings) |>
+    ungroup()  
+}
+splitByUser <- function(data){
+  split(1:nrow(data), data$userId)
+}
+mutateDateTimeAndDays <- function(data){
+  data |>
+    mutate(date_time = as_datetime(timestamp)) |>
+    mutate(date = as_date(date_time)) |>
+    mutate(days = as.integer(date - min(date)))
+  
+}
+separateGenreRows <- function(data){
+  put("Splitting dataset rows related to multiple genres...")
+  start <- start_date()
+  gs_splitted <- data |>
+    separate_rows(genres, sep = "\\|")
+  put("Dataset rows related to multiple genres have been splitted to have single genre per row.")
+  end_date(start)
+  gs_splitted
+}
+print_log <- function(msg){
+  print(str_glue(msg))
+}
+put_log <- function(msg){
+  put(str_glue(msg))
+}
 ## Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
@@ -125,73 +193,35 @@ if(!require(edx.capstone.movielens.data)) {
   end_date(start)
 }
 
-kfold_index <- seq(from = 1:10)
-
-load_movielens_data_from_file <- function(file_path){
-  print(sprintf("Loading MovieLens datasets from file: %s...", 
-                file_path))
-  start <- start_date()
-  load(file_path)
-  end_date(start)
-  print(sprintf("MoviLens datasets have been loaded from file: %s.", 
-                file_path))
-  movielens_datasets
-}
+kfold_index <- seq(from = 1:5)
 make_source_datasets <- function(){
-  #edx <- edx.capstone.movielens.data::edx
-  #final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
-  
-  print("Dataset loaded from `edx.capstone.movielens.data` package: edx")
-  print(summary(edx))
+  put("Dataset loaded from `edx.capstone.movielens.data` package: edx")
+  put(summary(edx))
 
-  print("Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
-  print(summary(final_holdout_test))
+  put("Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
+  put(summary(final_holdout_test))
   
   #> To be able to map movie IDs to titles we create the following lookup table:
   movie_map <- edx |> select(movieId, title, genres) |> 
     distinct(movieId, .keep_all = TRUE)
   
-  print("Dataset created: movie_map")
-  print(summary(movie_map))
+  put("Dataset created: movie_map")
+  put(summary(movie_map))
   
-  # We ignore the data for users who have not provided at least 100 ratings:
-  edx100 <- edx |> 
-    group_by(userId) |>
-    filter(n() >= 100) |>
-    ungroup() |>
+  put("Creating Date-Days Map dataset...")
+  date_days_map <- edx |>
     mutate(date_time = as_datetime(timestamp)) |>
     mutate(date = as_date(date_time)) |>
-    mutate(days = as.integer(date - min(date)))
-
-  print("Dataset created: edx100")
-  print(summary(edx100))
-  print(edx100 |> summarize(n_distinct(userId), n_distinct(movieId)))
+    mutate(days = as.integer(date - min(date))) |>
+    select(timestamp, date_time, date, days) |>
+    distinct(timestamp, .keep_all = TRUE)
   
-  #> To account for movie genre effect we will need in dataset with splitted rows
-  #> for movies that belong to multiple genres:
-  start <- start_date()
-  edx100_GS <- edx100 |>
-    separate_rows(genres, sep = "\\|")
-  end_date(start)
+  put("Dataset created: date_days_map")
+  put(str(date_days_map))
+  put(summary(date_days_map))
   
-  print("Dataset created: edx100_GS")
-  print(str(edx100_GS))
-  print(head(edx100_GS))
-  print(summary(edx100_GS))
 
-  #> We split the initial datasets into training sets, which we will use to build 
-  #> and train our models, and validation sets in which we will compute the accuracy 
-  #> of our predictions, the way described in the `Section 23.1.1 Movielens data`
-  #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
-  #> of the Course Textbook:
-  
-  #> For each user we are going to process, we will split their ratings 
-  #> into 80% for training and 20% for testing:
-
-  edx100_indexes <- split(1:nrow(edx100), edx100$userId)
-  edx100_GS_indexes <- split(1:nrow(edx100_GS), edx100_GS$userId)
-
-  #> We will also use K-fold cross validation as explained in 
+  #> We will use K-fold cross validation as explained in 
   #> Section 29.6.1: "K-fold validation" of the Cource Textbook:
   #> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation
   #> We are going to compute the following version of the MSE introducing in that section:
@@ -201,47 +231,77 @@ make_source_datasets <- function(){
   # $$
 
   start <- start_date()
-  edx100_CV <- lapply(kfold_index,  function(fi){
-    print(sprintf("Creating K-Fold Cross Validation Datasets, Fold %s", fi))
+  edx_CV <- lapply(kfold_index,  function(fi){
+    put(sprintf("Creating K-Fold Cross Validation Datasets, Fold %s", fi))
+    
+    #> We split the initial datasets into training sets, which we will use to build 
+    #> and train our models, and validation sets in which we will compute the accuracy 
+    #> of our predictions, the way described in the `Section 23.1.1 Movielens data`
+    #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
+    #> of the Course Textbook.
+
+    put_log("For each user we are going to process, we will split their ratings
+into 80% for training and 20% for validation.")
+    
+    put("Sampling 20% of the `edx` data...")
     set.seed(fi*1000)
-    validation_ind <- sapply(edx100_indexes, 
-                             function(i) sample(i, ceiling(length(i)*.2))) |> 
+    validation_ind <- 
+      sapply(splitByUser(edx),
+             function(i) sample(i, ceiling(length(i)*.2))) |> 
       unlist() |> 
       sort()
     
-    validation_set <- edx100[validation_ind,]
-    train_set <- edx100[-validation_ind,]
+    put_log("For training our models, we will ignore the data from users 
+who have provided no more than the specified number of ratings. ({min_nratings})")
 
-    print("Dataset created: train_set")
-    print(summary(train_set))
+    put_log("Extracting 80% of the `edx` data not used for the Validation Set, 
+excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
+    train_set <- edx[-validation_ind,] |>
+      filter_noMore_nratings(min_nratings)
 
-    set.seed(fi*2000)
-    validation_gs_ind <- sapply(edx100_GS_indexes, 
-                                function(i) sample(i, ceiling(length(i)*.2))) |> 
-      unlist() |> 
-      sort()
-    
-    validation_gs_set <- edx100_GS[validation_gs_ind,] 
-    train_gs_set <- edx100_GS[-validation_gs_ind,]
+    put("Dataset created: train_set")
+    put(summary(train_set))
 
-    print("Dataset created: train_gs_set")
-    print(summary(train_gs_set))
-
-    # To make sure we don’t include movies in the training set that should not be 
-    # there, we remove entries using the semi_join function:
-    validation_set <- validation_set |> 
+    put_log("To make sure we don’t include movies in the Training Set that should not be there, 
+we remove entries using the semi_join function from the Validation Set.")
+    validation_set <- edx[validation_ind,] |> 
       semi_join(train_set, by = "movieId") |> 
       as.data.frame()
     
-    print("Dataset created: validation_set")
-    print(summary(validation_set))
+    put("Dataset created: validation_set")
+    put(summary(validation_set))
+    
+    put_log("To account for the Movie Genre Effect, we need a dataset with split rows 
+for movies belonging to multiple genres.")
+    edx_split_row_genre <- separateGenreRows(edx)
 
+    put("Sampling 20% from the split-row version of the `edx` dataset...")
+    set.seed(fi*2000)
+    validation_gs_ind <- 
+      sapply(splitByUser(edx_split_row_genre),
+             function(i) sample(i, ceiling(length(i)*.2))) |> 
+      unlist() |> 
+      sort()
+    
+    put_log("Extracting 80% of the split-row `edx` data not used for the Validation Set, 
+excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
+    train_gs_set <- edx_split_row_genre[-validation_gs_ind,] |>
+      filter_noMore_nratings(min_nratings)
+
+    put("Dataset created: train_gs_set")
+    put(summary(train_gs_set))
+
+
+    put_log("To make sure we don’t include movies in the Training Set (with split rows) 
+that should not be there, we remove entries using the semi_join function 
+from the Validation Set.")
+    validation_gs_set <- edx_split_row_genre[validation_gs_ind,] 
     validation_gs_set <- validation_gs_set |> 
       semi_join(train_gs_set, by = "movieId") |> 
       as.data.frame()
     
-    print("Dataset created: validation_gs_set")
-    print(summary(validation_gs_set))
+    put("Dataset created: validation_gs_set")
+    put(summary(validation_gs_set))
 
     #> We will use the array representation described in `Section 17.5 of the Textbook`
     #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
@@ -251,6 +311,7 @@ make_source_datasets <- function(){
     # train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
     # train_gs_set <- mutate(train_gs_set, userId = factor(userId), movieId = factor(movieId))
     
+    put("Creating Rating Matrix from Train Set...")
     train_mx <- train_set |> 
       mutate(userId = factor(userId),
              movieId = factor(movieId)) |>
@@ -259,8 +320,8 @@ make_source_datasets <- function(){
       column_to_rownames("userId") |>
       as.matrix()
     
-    print("Matrix created: train_mx")
-    print(dim(train_mx))
+    put("Matrix created: train_mx")
+    put(dim(train_mx))
 
     list(train_set = train_set,
          train_gs_set = train_gs_set,
@@ -269,12 +330,11 @@ make_source_datasets <- function(){
          validation_gs_set = validation_gs_set)
   })
   end_date(start)
-  print("Set of K-Fold Cross Validation datasets created: edx100_CV")
+  put("Set of K-Fold Cross Validation datasets created: edx_CV")
 
-  list(edx100 = edx100,
-       edx100_GS = edx100_GS,
-       edx100_CV = edx100_CV,
-       movie_map = movie_map)
+  list(edx_CV = edx_CV,
+       movie_map = movie_map,
+       date_days_map = date_days_map)
 }
 
 data_path <- "data"
@@ -283,93 +343,87 @@ movielens_datasets_file <- "movielens-datasets.RData"
 movielens_datasets_file_path <- file.path(data_path, movielens_datasets_file)
 movielens_datasets_zip <- file.path(data_path, "movielens-datasets.zip")
 
+
 if(file.exists(movielens_datasets_file_path)){
   movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
 } else if(file.exists(movielens_datasets_zip)) {
-  print(sprintf("Unzipping MovieLens data file from zip-archive: %s...", 
+  put(sprintf("Unzipping MovieLens data file from zip-archive: %s...", 
                 movielens_datasets_zip))
   start <- start_date()
   unzip(movielens_datasets_zip, movielens_datasets_file_path)
   
   if(!file.exists(movielens_datasets_file_path)) {
-    print(sprintf("File does not exists: %s:", movielens_datasets_file))
+    put(sprintf("File does not exists: %s:", movielens_datasets_file))
     stop("Failed to unzip MovieLens data zip-archive.")
   }
   
   movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
 } else {
-  print("Creating datasets...")
+  put("Creating datasets...")
   library(edx.capstone.movielens.data)
-  print("Library attached: 'edx.capstone.movielens.data'")
+  put("Library attached: 'edx.capstone.movielens.data'")
 
   start <- start_date()
   movielens_datasets <- make_source_datasets()
   end_date(start)
-  print("All required datasets have been created.")
+  put("All required datasets have been created.")
   
-  print("Saving newly created input datasets to file...")
+  put("Saving newly created input datasets to file...")
   start <- start_date()
   dir.create(data_path)
   save(movielens_datasets, file =  movielens_datasets_file_path)
   end_date(start)
   
   if(!file.exists(movielens_datasets_file_path)) {
-    print(sprintf("File was not created: %s.", movielens_datasets_file))
+    put(sprintf("File was not created: %s.", movielens_datasets_file))
     warning("MovieLens data was not saved to file.")
   } else {
-    print(sprintf("Datasets have been saved to file: %s.", 
+    put(sprintf("Datasets have been saved to file: %s.", 
                   movielens_datasets_file_path))
-    print(sprintf("Creating zip-archive: %s...", 
+    put(sprintf("Creating zip-archive: %s...", 
                   movielens_datasets_zip))
     
     zip(movielens_datasets_zip, movielens_datasets_file_path)
     
     if(!file.exists(movielens_datasets_zip)){
-      print(sprintf("Failed to zip file: %s.", movielens_datasets_file_path))
+      put(sprintf("Failed to zip file: %s.", movielens_datasets_file_path))
       warning("Failed to zip MovieLens data file.")
     } else {
-      print(sprintf("Zip-archive created: %s.", movielens_datasets_zip))
+      put(sprintf("Zip-archive created: %s.", movielens_datasets_zip))
       #file.remove(movielens_datasets_file)
       
       if(file.exists(movielens_datasets_file_path)){
-        print(sprintf("Failed to remove file: %s.", movielens_datasets_file_path))
+        put(sprintf("Failed to remove file: %s.", movielens_datasets_file_path))
         warning("Failed to remove MovieLens data file.")
       } else {
-        print(sprintf("File has been removed: %s.", movielens_datasets_file_path))
+        put(sprintf("File has been removed: %s.", movielens_datasets_file_path))
       }
     }
   }
 }
 
 # edx <- movielens_datasets$edx
-print("Dataset summary: edx")
-print(summary(edx))
+put("Dataset summary: edx")
+put(summary(edx))
 
-edx100 <- movielens_datasets$edx100
-print("Dataset summary: edx100")
-print(summary(edx100))
-
-
-edx100_GS <- movielens_datasets$edx100_GS
-print("Dataset summary: edx100_GS")
-print(summary(edx100_GS))
-
-edx100_CV <- movielens_datasets$edx100_CV
-print("Set of K-Fold Cross Validation datasets summary: edx100_CV")
-print(summary(edx100_CV))
+edx_CV <- movielens_datasets$edx_CV
+put("Set of K-Fold Cross Validation datasets summary: edx_CV")
+put(summary(edx_CV))
 
 movie_map <- movielens_datasets$movie_map
-print("Dataset summary: movie_map")
-print(summary(movie_map))
+put("Dataset summary: movie_map")
+put(summary(movie_map))
+
+date_days_map <- movielens_datasets$date_days_map
+put("Dataset summary: date_days_map")
+put(summary(date_days_map))
 
 # final_holdout_test <- movielens_datasets$final_holdout_test
-print("Dataset summary: final_holdout_test")
-print(summary(final_holdout_test))
+put("Dataset summary: final_holdout_test")
+put(summary(final_holdout_test))
 
 # rm(movielens_datasets,
-#    edx100,
-#    edx100_GS,
-#    edx100_CV,
+#    edx_CV,
 #    movie_map)
 
 ## Data Analysis ===============================================================
@@ -378,11 +432,11 @@ print(summary(final_holdout_test))
 # Let's look into the details of the `edx` dataset:
 #> First, let's note that we have 10677 different movies: 
 n_movies <- n_distinct(edx$movieId)
-print(n_movies)
+put(n_movies)
 
 # and 69878 different users in the dataset:
 n_users <- n_distinct(edx$userId)
-print(n_users)
+put(n_users)
 
 #> Also, we can see that no movies have a rating of 0. 
 #> Movies are rated from 0.5 to 5.0 in 0.5 increments:
@@ -390,7 +444,7 @@ print(n_users)
 #library(dplyr)
 s <- edx |> group_by(rating) |>
   summarise(n = n())
-print(s)
+put(s)
 
 #> Now, note the expressions below which confirm the fact explained in 
 #> Section 23.1.1 Movielens data
@@ -408,7 +462,7 @@ sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1])
 #> A sample from the `edx` data below illustrates this idea: 
 
 keep <- edx |> 
-  dplyr::count(movieId) |> 
+  count(movieId) |> 
   top_n(4, n) |> 
   pull(movieId)
 
@@ -420,7 +474,7 @@ tab <- edx |>
          title = str_remove(title, ":.*")) |>
   pivot_wider(names_from = "title", values_from = "rating")
 
-print(tab)
+put(tab)
 
 
 #### Movies' Popularity --------------------------------------------------------
@@ -430,7 +484,7 @@ print(tab)
 ordered_movie_ratings <- edx |> group_by(movieId, title) |>
   summarize(number_of_ratings = n()) |>
   arrange(desc(number_of_ratings))
-print(head(ordered_movie_ratings))
+put(head(ordered_movie_ratings))
 
 #### Rating Distribution -------------------------------------------------------
 
@@ -438,12 +492,12 @@ print(head(ordered_movie_ratings))
 ratings <- edx |>  group_by(rating) |>
   summarise(count = n()) |>
   arrange(desc(count))
-print(ratings)
+put(ratings)
 
 #> The following code allows us to summarize that in general, half-star ratings 
 #> are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 
 #> than there are ratings of 3 or 4, etc.):
-print(edx |> group_by(rating) |> summarize(count = n()))
+put(edx |> group_by(rating) |> summarize(count = n()))
 
 #> We can visually see that from the following plot:
 edx |>
@@ -485,30 +539,28 @@ rmse_kable()
 # Y[i,j] = μ + ε[i,j]
 
 ### Naive RMSE -------------------------------------------------------
-#sum(is.na(edx100$rating))
-#> [1] 0
 
-ratings_avg <- sapply(edx100_CV, function(cv_item){
+ratings_avg <- sapply(edx_CV, function(cv_item){
   mean(cv_item$train_set$rating, na.rm = TRUE)
 })
 plot(ratings_avg)
 
 mu <- mean(ratings_avg)
-print(mu)
+put(mu)
 #> [1] 3.472081
 
 # If we predict all unknown ratings with `μ`, we obtain the following RMSE: 
 # naive_rmse <- rmse(test_set$rating - mu)
 #> [1] 1.05508
 
-mses <- sapply(edx100_CV, function(cv_item){
+mses <- sapply(edx_CV, function(cv_item){
   mse(cv_item$validation_set$rating - mu)
 })
 
 plot(mses)
 
 naive_rmse <- sqrt(mean(mses))
-print(naive_rmse)
+put(naive_rmse)
 #> [1] 1.055951
 
 # Ensure that this is the best RMSE value for the current model ----------------
@@ -520,7 +572,7 @@ deviation <- seq(0, 6, 0.1) - 3
 deviation
 
 mse_test_results <- lapply(kfold_index, function(i){
-  cv_item <- edx100_CV[[i]]
+  cv_item <- edx_CV[[i]]
   mse_val <-mses[i] 
   mse_values <- sapply(deviation, function(diff){
     mse(cv_item$validation_set$rating - mu + diff)
@@ -547,13 +599,13 @@ for (i in kfold_index) {
   min_mse = min(test_vals)
   
   validation_head <- sprintf("For Validation Set %s:", i)
-  print(validation_head)
+  put(validation_head)
   
-  print(sprintf("Minimum MSE is achieved when the deviation from the mean is: %s", 
+  put(sprintf("Minimum MSE is achieved when the deviation from the mean is: %s", 
           which_min_deviation))
   #> [1] "Minimum RMSE is achieved when the deviation from the mean is: 0"
   
-  print(sprintf("Is the previously computed RMSE the best for the current model: %s",
+  put(sprintf("Is the previously computed RMSE the best for the current model: %s",
           mse_val == min_mse))
   #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
   writeLines("")
@@ -571,7 +623,7 @@ rmse_kable()
 
 # Let's visualize the average rating for each user:
 start <- start_date()
-user_ratings_avg_ls <- sapply(edx100_CV, function(cv_item){
+user_ratings_avg_ls <- sapply(edx_CV, function(cv_item){
   rowMeans(cv_item$train_mx, na.rm = TRUE)
 })
 str(user_ratings_avg_ls)
@@ -618,7 +670,7 @@ hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
 
 # Compute the RMSE taking into account user effects:
 start <- start_date()
-user_effect_mses <- sapply(edx100_CV, function(cv_item){
+user_effect_mses <- sapply(edx_CV, function(cv_item){
   #mse(cv_item$validation_set$rating - mu)
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
@@ -631,7 +683,7 @@ end_date(start)
 plot(user_effect_mses)
 
 user_effect_rmse <- sqrt(mean(user_effect_mses))
-print(user_effect_rmse)
+put(user_effect_rmse)
 #> [1] 0.9684293
 
 # Add a row to the RMSE Result Table for the User Effect Model ---------------- 
@@ -658,12 +710,12 @@ rmse_kable()
 
 str(user_effects)
 
-sapply(edx100_CV, function(cv_item){
+sapply(edx_CV, function(cv_item){
   dim(cv_item$train_mx)
 })
 
 start <- start_date()
-user_movie_effects_ls <- sapply(edx100_CV, function(cv_item){
+user_movie_effects_ls <- sapply(edx_CV, function(cv_item){
   colMeans(cv_item$train_mx - user_effects$a - mu, na.rm = TRUE)
 })
 end_date(start)
@@ -691,7 +743,7 @@ hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
 
 # Calculate MSEs on Validation Sets --------------------------------------------
 start <- start_date()
-user_movie_effects_mses <- sapply(edx100_CV, function(cv_item){
+user_movie_effects_mses <- sapply(edx_CV, function(cv_item){
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_effects, by = "movieId") |>
@@ -704,7 +756,7 @@ end_date(start)
 plot(user_movie_effects_mses)
 user_movie_effects_rmse <- sqrt(mean(user_movie_effects_mses))
 
-print(user_movie_effects_rmse)
+put(user_movie_effects_rmse)
 #> [1] 0.8621376
 
 # Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
@@ -734,7 +786,7 @@ rmse_kable()
 
 # Preparing data for plotting:
 
-genres_summary_list <- lapply(edx100_CV, function(cv_item){
+genres_summary_list <- lapply(edx_CV, function(cv_item){
   
   grp <- cv_item$train_set |> 
     mutate(genre_categories = as.factor(genres)) |>
@@ -846,7 +898,7 @@ genre_ratings_plot_dat <- genre_ratins_df |>
 dim(genre_ratings_plot_dat)
 str(genre_ratings_plot_dat)
 head(genre_ratings_plot_dat)
-print(genre_ratings_plot_dat)
+put(genre_ratings_plot_dat)
 
 
 # Creating plot:
@@ -906,7 +958,7 @@ plot_dat |>
 #        movieId = as.integer(movieId)) |>
 
 start <- start_date()
-user_movie_genre_effects_ls <- lapply(edx100_CV, function(cv_item){
+user_movie_genre_effects_ls <- lapply(edx_CV, function(cv_item){
   g_bias <- cv_item$train_gs_set |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_effects, by = "movieId") |>
@@ -925,7 +977,7 @@ end_date(start)
 str(user_movie_genre_effects_ls)
 #head(user_movie_genre_effects_ls)
 
-# edx_cv_item <- edx100_CV[[1]]$train_set
+# edx_cv_item <- edx_CV[[1]]$train_set
 
 # Compute Genre Movie Bias ----------------
 
@@ -1004,7 +1056,7 @@ hist(user_movie_genre_effects$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
 
 # Calculate MSEs on Validation Sets
 start <- start_date()
-user_movie_genre_effects_mses <- sapply(edx100_CV, function(cv_item){
+user_movie_genre_effects_mses <- sapply(edx_CV, function(cv_item){
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_genre_effects, by = "movieId") |>
@@ -1017,10 +1069,10 @@ end_date(start)
 plot(user_movie_genre_effects_mses)
 user_movie_genre_effects_rmse <- sqrt(mean(user_movie_genre_effects_mses))
 
-print(user_movie_genre_effects_rmse)
+put(user_movie_genre_effects_rmse)
 #> [1] 0.8619763
 
-# Add a row to the RMSE Result Table for the User+Movie+Genre Effect Model ---- 
+##### Add a row to the RMSE Result Table for the User+Movie+Genre Effect Model ---- 
 RMSEs <- rmses_add_row("User+Movie+Genre Effect Model", 
                        user_movie_genre_effects_rmse)
 rmse_kable()
@@ -1033,17 +1085,23 @@ rmse_kable()
 #   pull(resid) |> final_rmse()
 #> [1] 0.8659243
 
-# Accounting for Date Smoothed Effect ------------------------------------------
-# Y[i,j] = μ + α[i] + β[j] + g[i,j]  + f(d(i,j)) + ε[i,j]
+### Accounting for Date Smoothed Effect ------------------------------------------
+# Y[i,j] = μ + α[i] + β[j] + g[i,j]  + f(d[i,j]) + ε[i,j]
 
-# with `j` a smooth function of `d(u,i)`
+# with `f` a smooth function of `d[(i,j]`
 
 # library(lubridate)
 
 # Let's take a look at the Average rating per year:
-# Plot: Average Rating per Year ------------------------------------------------
+#### Plot: Average Rating per Year ------------------------------------------------
+
 start <- start_date()
-edx100 |> 
+put("Plotting Average Rating per Year...")
+put_log("Ignoring the data from users 
+who have provided no more than the specified number of ratings. ({min_nratings})")
+
+edx |>
+  filter_noMore_nratings(min_nratings) |>
   mutate(year = year(as_datetime(timestamp))) |>
   group_by(year) |>
   summarize(avg = mean(rating)) |>
@@ -1060,35 +1118,36 @@ edx100 |>
 
 end_date(start)
 
-# Calculate Date Smoothed Effect -----------------------------------------------
-#train_set1 <- edx100_CV[[1]]$train_set
+#### Calculate Date Smoothed Effect -----------------------------------------------
+#train_set1 <- edx_CV[[1]]$train_set
 
 start <- start_date()
 global_date_effects <- sapply(kfold_index,  function(fi){
-  print(sprintf("Creating K-Fold CV Global Date Effects Set, Vector %s", fi))
+  put(sprintf("Creating K-Fold CV Global Date Effects Set, Vector %s", fi))
 
   start <- start_date()
-  de_global <- edx100_CV[[fi]]$train_set |> 
+  de_global <- edx_CV[[fi]]$train_set |> 
     left_join(user_effects, by = "userId") |>
     left_join(genre_movie_effects, by = "movieId") |>
+    left_join(date_days_map, by = "timestamp") |>
     mutate(rating_residue = rating - (mu + a + b + g)) |>
     filter(!is.na(rating_residue)) |>
     group_by(days) |>
-    summarise(de = mean(rating_residue, na.rm = TRUE)) #|>
+    summarise(de = mean(rating_residue, na.rm = TRUE))
   end_date(start)
   
-  print("Global Date Effect Vector Structure:")
-  print(str(de_global))
+  put("Global Date Effect Vector Structure:")
+  put(str(de_global))
   
   
-  print("Global Date Effect Vector Structure:")
+  put("Global Date Effect Vector Structure:")
   names(de_global$de) = de_global$days
-  print(str(de_global$de))
+  put(str(de_global$de))
   de_global$de
 })
 end_date(start)
-print("Date Global Effect Structure list:")
-print(str(global_date_effects))
+put("Date Global Effect Structure list:")
+put(str(global_date_effects))
 
 de_vector <- global_date_effects |> unlist()
 str(de_vector)
@@ -1099,27 +1158,27 @@ date_global_effect <-  data.frame(days = as.integer(names(de_vector)),
   summarise(de = mean(de, na.rm = TRUE)) |>
   sort_by.data.frame(~days)
 
-print("Global Date Effect Structure:")
-print(str(date_global_effect))
+put("Global Date Effect Structure:")
+put(str(date_global_effect))
 
-# Train model using `loess` function with default `span` & `degree` params-----
+##### Train model using `loess` function with default `span` & `degree` params-----
 start <- start_date()
 fit <- loess(de ~ days, data = date_global_effect)
 end_date(start)
 date()
 sum(is.na(fit$fitted))
 
-print("loess function results structure (fit$pars)")
-print(str(fit$pars))
+put("loess function results structure (fit$pars)")
+put(str(fit$pars))
 
-print("loess function results structure (fit$fitted)")
+put("loess function results structure (fit$fitted)")
 str(fit$fitted)
 
 date_smoothed_effect <- date_global_effect |>
   mutate(de_smoothed = fit$fitted)
 
-print("Global Date Smoothed Effect Structure:")
-print(str(date_smoothed_effect))
+put("Global Date Smoothed Effect Structure:")
+put(str(date_smoothed_effect))
 
 # Date Smoothed Effect Visualization:
 start <- start_date()
@@ -1134,12 +1193,13 @@ date_smoothed_mses <- function(date_smoothed_effect){
   # Calculate MSEs on Validation Sets
   start <- start_date()
   MSEs <- sapply(kfold_index, function(fi){
-    print(sprintf("Calculating MSEs on K-Fold Cross Validation Sets, Fold %s...",
+    put(sprintf("Calculating MSEs on K-Fold Cross Validation Sets, Fold %s...",
                   fi))
     start <- start_date()
-    m_se <- edx100_CV[[fi]]$validation_set |>
+    m_se <- edx_CV[[fi]]$validation_set |>
       left_join(user_effects, by = "userId") |>
       left_join(user_movie_genre_effects, by = "movieId") |>
+      left_join(date_days_map, by = "timestamp") |>
       left_join(date_smoothed_effect, by='days') |>
       mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |> 
       filter(!is.na(resid)) |>
@@ -1155,21 +1215,21 @@ date_smoothed_mses <- function(date_smoothed_effect){
 user_movie_genre_date_effects_mses <- date_smoothed_mses(date_smoothed_effect)
 plot(user_movie_genre_date_effects_mses)
 user_movie_genre_date_effects_rmse <- sqrt(mean(user_movie_genre_date_effects_mses))
-print(user_movie_genre_date_effects_rmse)
+put(user_movie_genre_date_effects_rmse)
 #> [1] 0.8613816S
 
-# Re-train tuning `loess` function's with `span` & `degree` params--------------
-# Support Functions ------------------------------------------------------------
+#### Re-train tuning `loess` function's with `span` & `degree` params--------------
+##### Support Functions ------------------------------------------------------------
 fit_loess <- function(spans, dgr){
-  print(sprintf("Fitting model for %s spans, degree = %s...", length(spans), dgr))
+  put(sprintf("Fitting model for %s spans, degree = %s...", length(spans), dgr))
   start <- start_date()
   fits <- sapply(spans, function(span){
-    print(sprintf("Fitting model for span = %s, degree = %s...", span, dgr))
+    put(sprintf("Fitting model for span = %s, degree = %s...", span, dgr))
     start <- start_date()
     fit <- loess(de ~ days, span = span, degree = dgr, data = date_global_effect)
     end_date(start)
-    print(sprintf("Model fitted for span = %s, degree = %s...", span, dgr))
-    print(fit)
+    put(sprintf("Model fitted for span = %s, degree = %s...", span, dgr))
+    put(fit)
     fit$fitted
   })
   end_date(start = start)
@@ -1178,13 +1238,13 @@ fit_loess <- function(spans, dgr){
 tune_de_model_rmses <- function(fits){
   i <- 1
   model_diu_rmses <- sapply(fits, function(smth){
-    print(sprintf("Tuning Model for Case %s", i))
+    put(sprintf("Tuning Model for Case %s", i))
     date_smoothed_effect <- date_global_effect |>
       mutate(de_smoothed = smth)
 
     mses <- date_smoothed_mses(date_smoothed_effect)
     rmse <- sqrt(mean(mses))
-    print(sprintf("RMSE calculated for Case %s: %s", i, rmse))
+    put(sprintf("RMSE calculated for Case %s: %s", i, rmse))
     i <- i + 1
     rmse
   })
@@ -1197,9 +1257,9 @@ date_smoothed_rmses <- function(spans, dgr) {
   #str(df_fits)
   
   start <- start_date()
-  print(sprintf("Tuning the Smothed Date Effect Model for Degree: %s", dgr))
+  put(sprintf("Tuning the Smothed Date Effect Model for Degree: %s", dgr))
   model_diu_rmses <- tune_de_model_rmses(df_fits)
-  print(sprintf("RMSEs computed for the Smothed Date Effect Model (Degree: %s)", dgr))
+  put(sprintf("RMSEs computed for the Smothed Date Effect Model (Degree: %s)", dgr))
   end_date(start)
 
   data.frame(span = spans, rmse = model_diu_rmses)
@@ -1211,78 +1271,78 @@ best_rmse <- function(span_rmses){
   rmse
 }
 
-# Tune the Global Date Smoothed Effect model -----------------------------------
+##### Tune the Global Date Smoothed Effect model -----------------------------------
 degree <- c(0, 1, 2)
-print("Tuning `loess` function for degrees:")
-print(degree)
+put("Tuning `loess` function for degrees:")
+put(degree)
 
-# 1. `degree = 0` --------------------------------------------------------------
-print("Case 1. `degree = 0`")
+###### 1. `degree = 0` --------------------------------------------------------------
+put("Case 1. `degree = 0`")
 # spans <- seq(0.0003, 0.002, 0.00001)
 spans <- seq(0.0005, 0.0015, 0.00001)
-print("Tuning for spans:")
-print(spans)
+put("Tuning for spans:")
+put(spans)
 
 ds0_rmses <- date_smoothed_rmses(spans, 
                                degree[1])
-print("Case 1. `degree = 0` RMSEs:")
-print(str(ds0_rmses))
+put("Case 1. `degree = 0` RMSEs:")
+put(str(ds0_rmses))
 plot(ds0_rmses)
 
 ds_rmse0 <- best_rmse(ds0_rmses)
-print(ds_rmse0)
+put(ds_rmse0)
 #   Span      RMSE 
 # 0.0010900 0.8602027 
 
-# 2. `degree = 1` --------------------------------------------------------------
-print("Case 2. `degree = 1`")
+###### 2. `degree = 1` --------------------------------------------------------------
+put("Case 2. `degree = 1`")
 #spans <- seq(0.0005, 0.002, 0.00001)
 spans <- seq(0.001, 0.0014, 0.00001)
-print("Tuning for spans:")
-print(spans)
+put("Tuning for spans:")
+put(spans)
 
 ds1_rmses <- date_smoothed_rmses(spans, 
                                  degree[2])
-print("Case 2. `degree = 1` RMSEs:")
-print(str(ds1_rmses))
+put("Case 2. `degree = 1` RMSEs:")
+put(str(ds1_rmses))
 plot(ds1_rmses)
 
 ds_rmse1 <- best_rmse(ds1_rmses)
-print(ds_rmse1)
+put(ds_rmse1)
 #      Span      RMSE 
 # 0.0010000 0.8597244 
 
-# 3. `degree = 2` --------------------------------------------------------------
-print("Case 3. `degree = 2`")
+###### 3. `degree = 2` --------------------------------------------------------------
+put("Case 3. `degree = 2`")
 #spans <- seq(0.0003, 0.01, 0.00001)
 spans <- seq(0.0007, 0.002, 0.00001)
-print("Tuning for spans:")
-print(spans)
+put("Tuning for spans:")
+put(spans)
 
 ds2_rmses <- date_smoothed_rmses(spans, 
                                  degree[3])
-print("Case 3. `degree = 2` RMSEs:")
-print(str(ds2_rmses))
+put("Case 3. `degree = 2` RMSEs:")
+put(str(ds2_rmses))
 plot(ds2_rmses)
 
 ds_rmse2 <- best_rmse(ds2_rmses)
-print(ds_rmse2)
+put(ds_rmse2)
 #      Span      RMSE 
 # 0.0013000 0.8596676 
 
-# Retrain with the best parameters figured out above ---------------------------
+#### Retrain with the best parameters figured out above ---------------------------
 
 loess_rmse <- data.frame(degree = degree, 
                          span = c(ds_rmse0[1], ds_rmse1[1], ds_rmse2[1]),
                          rmse = c(ds_rmse0[2], ds_rmse1[2], ds_rmse2[2]))
-print(loess_rmse)
+put(loess_rmse)
 
 idx_best_rmse <- which.min(loess_rmse$rmse)
 
 best_degree <- loess_rmse[idx_best_rmse, 1]  # 1
 best_span <- loess_rmse[idx_best_rmse, 2]# 0.00108
 best_rmse <- loess_rmse[idx_best_rmse, 3]
-print(best_rmse)
+put(best_rmse)
 
 start <- start_date()
 fit <- loess(de ~ days, 
@@ -1290,11 +1350,11 @@ fit <- loess(de ~ days,
              span = best_span, 
              data = date_global_effect)
 end_date(start)
-print("Best Fit:")
-print(sprintf("Contains NAs: %s", sum(is.na(fit$fitted))))
+put("Best Fit:")
+put(sprintf("Contains NAs: %s", sum(is.na(fit$fitted))))
 str(fit$pars)
 str(fit$fitted)
-print(fit)
+put(fit)
 
 date_smoothed_effect <- as.data.frame(date_global_effect) |>
   mutate(de_smoothed = fit$fitted)
@@ -1311,27 +1371,27 @@ end_date(start)
 user_movie_genre_tuned_date_effect_mses <- date_smoothed_mses(date_smoothed_effect)
 plot(user_movie_genre_tuned_date_effect_mses)
 user_movie_genre_tuned_date_effect_rmse <- sqrt(mean(user_movie_genre_tuned_date_effect_mses))
-print(user_movie_genre_tuned_date_effect_rmse)
+put(user_movie_genre_tuned_date_effect_rmse)
 #> [1] 0.8596676
 
-# Add a row to the RMSE Result Table for the User+Movie+Genre+Date Effects Model ---- 
+##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs <- rmses_add_row("User+Movie+Genre+Date Effects Model (tuned)", 
                        user_movie_genre_tuned_date_effect_rmse)
 rmse_kable()
 
 # start <- start_date()
 # final_holdout_test |>
-#   mutate(date_time = as_datetime(timestamp)) |>
-#   mutate(date = as_date(date_time)) |>
-#   mutate(days = as.integer(date - min(date))) |>
+#   left_join(date_days_map, by = "timestamp") |>
 #   left_join(user_effects, by = "userId") |>
 #   left_join(user_movie_genre_effects, by = "movieId") |>
 #   left_join(date_smoothed_effect, by='days') |>
-#   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |> 
+#   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
 #   filter(!is.na(resid)) |>
 #   pull(resid) |> final_rmse()
 # end_date(start)
 #> [1] 0.8724055
+
+log_close()
 
 ### Utilizing Penalized least squares-------------------------------------------
 
@@ -1341,7 +1401,8 @@ rmse_kable()
 #> Instead of minimizing the least squares equation, 
 #> we minimize an equation that adds a penalty:
 
-#  ∑{i,j}(y[i,j] - μ - α[i] - β[j])^2 + λ*∑{j}β[j]^2
+#  ∑{i,j}(y[i,j] - y_hat[i,j])^2 + λ*∑{j}β[j]^2
+# where y_hat[i,j] = μ + α[i] + β[j] + g[i,j] + f(d[i,j])
 
 #> The values of `β[j]` that minimize this equation are:
 
@@ -1377,12 +1438,12 @@ rmses <- sapply(lambdas, function(lambda){
 plot(lambdas, rmses, type = "l")
 
 #> Now we can determine the minimal _RMSE_:
-print(min(rmses))
+put(min(rmses))
 #> [1] 0.8659219
 
 #> which is achieved for the following `λ`:
 lambda <- lambdas[which.min(rmses)] 
-print(lambda)
+put(lambda)
 #> [1] 2.6
 
 #> Using minimal `λ`, we can compute the regularized estimates:
