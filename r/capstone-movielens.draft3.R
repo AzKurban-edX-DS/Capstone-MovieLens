@@ -88,7 +88,12 @@ min_nratings <- as.integer(100)
 put(min_nratings)
 
 ### Open log -------------------------------------------------------------------
-log_open(autolog = TRUE)
+log_file_name <- as.character(Sys.time()) |> 
+  str_replace_all(':', '_') |> 
+  str_replace(' ', 'T') |>
+  str_c("capstone-movielens.draft3")
+
+log_open(file_name = log_file_name)
 
 ### Defining helper functions --------------------------------------------------
 
