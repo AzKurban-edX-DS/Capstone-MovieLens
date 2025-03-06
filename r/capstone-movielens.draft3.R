@@ -5,6 +5,8 @@
 
 if(!require(tidyverse))
   install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+# if(!require(stringr))
+#   install.packages("stringr")
 if(!require(caret))
   install.packages("caret", repos = "http://cran.us.r-project.org")
 if(!require(data.table))
