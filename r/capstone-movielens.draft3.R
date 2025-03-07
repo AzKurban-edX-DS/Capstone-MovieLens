@@ -79,6 +79,20 @@ conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
 conflict_prefer("kable", "kableExtra", quiet = TRUE)
 conflict_prefer("year", "lubridate", quiet = TRUE)
 
+## Open log Function -----------------------------------------------------------
+open_logfile <- function(file_name){
+  log_file_name <- as.character(Sys.time()) |> 
+    str_replace_all(':', '_') |> 
+    str_replace(' ', 'T') |>
+    str_c(file_name)
+  
+  log_open(file_name = log_file_name)
+}
+
+## Open log Function -----------------------------------------------------------
+open_logfile(".init-project-data")
+
+## Init Project Global Variables ----------------------------------------------
 put("Set Project Objective according to Capstone course requirements")
 project_objective <- 0.86490
 put(project_objective)
@@ -87,15 +101,7 @@ put("Set minimum number of ratings to ignore")
 min_nratings <- as.integer(100)
 put(min_nratings)
 
-### Open log -------------------------------------------------------------------
-log_file_name <- as.character(Sys.time()) |> 
-  str_replace_all(':', '_') |> 
-  str_replace(' ', 'T') |>
-  str_c("capstone-movielens.draft3")
-
-log_open(file_name = log_file_name)
-
-### Defining helper functions --------------------------------------------------
+## Defining helper functions --------------------------------------------------
 
 #> Let's define some helper functions that we will use in our subsequent analysis:
 start_date <- function(){
@@ -141,7 +147,7 @@ rmse_kable <- function(){
 # we define the function clamp:
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 
-#### Data processing functions -------------------------------------------------
+### Data processing functions -------------------------------------------------
 load_movielens_data_from_file <- function(file_path){
   put(sprintf("Loading MovieLens datasets from file: %s...", 
                 file_path))
@@ -204,22 +210,32 @@ if(!require(edx.capstone.movielens.data)) {
   end_date(start)
 }
 
+data_path <- "data"
 kfold_index <- seq(from = 1:5)
+
+movielens_datasets_file <- "movielens-datasets.RData"
+movielens_datasets_file_path <- file.path(data_path, movielens_datasets_file)
+movielens_datasets_zip <- file.path(data_path, "movielens-datasets.zip")
+
 make_source_datasets <- function(){
-  put("Dataset loaded from `edx.capstone.movielens.data` package: edx")
+  put_log("Method: `make_source_datasets`: Creating source datasets...")
+
+  put_log("Method: `make_source_datasets`: 
+Dataset loaded from `edx.capstone.movielens.data` package: edx")
   put(summary(edx))
 
-  put("Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
+  put_log("Method: `make_source_datasets`: 
+Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
   put(summary(final_holdout_test))
   
   #> To be able to map movie IDs to titles we create the following lookup table:
   movie_map <- edx |> select(movieId, title, genres) |> 
     distinct(movieId, .keep_all = TRUE)
   
-  put("Dataset created: movie_map")
+  put_log("Method: `make_source_datasets`: Dataset created: movie_map")
   put(summary(movie_map))
   
-  put("Creating Date-Days Map dataset...")
+  put_log("Method: `make_source_datasets`: Creating Date-Days Map dataset...")
   date_days_map <- edx |>
     mutate(date_time = as_datetime(timestamp)) |>
     mutate(date = as_date(date_time)) |>
@@ -227,8 +243,8 @@ make_source_datasets <- function(){
     select(timestamp, date_time, date, days) |>
     distinct(timestamp, .keep_all = TRUE)
   
-  put("Dataset created: date_days_map")
-  put(str(date_days_map))
+  put_log("Method: `make_source_datasets`: Dataset created: date_days_map")
+  put_log(str(date_days_map))
   put(summary(date_days_map))
   
 
@@ -243,7 +259,9 @@ make_source_datasets <- function(){
 
   start <- start_date()
   edx_CV <- lapply(kfold_index,  function(fi){
-    put(sprintf("Creating K-Fold Cross Validation Datasets, Fold %s", fi))
+
+    put_log(str_replace("Method `make_source_datasets`: 
+Creating K-Fold Cross Validation Datasets, Fold %s", "%s", as.character(fi)))
     
     #> We split the initial datasets into training sets, which we will use to build 
     #> and train our models, and validation sets in which we will compute the accuracy 
@@ -251,10 +269,11 @@ make_source_datasets <- function(){
     #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
     #> of the Course Textbook.
 
-    put_log("For each user we are going to process, we will split their ratings
+    put_log("Method: `make_source_datasets`: 
+For each user we are going to process, we will split their ratings
 into 80% for training and 20% for validation.")
     
-    put("Sampling 20% of the `edx` data...")
+    put_log("Method: `make_source_datasets`: Sampling 20% of the `edx` data...")
     set.seed(fi*1000)
     validation_ind <- 
       sapply(splitByUser(edx),
@@ -262,31 +281,36 @@ into 80% for training and 20% for validation.")
       unlist() |> 
       sort()
     
-    put_log("For training our models, we will ignore the data from users 
+    put_log("Method: `make_source_datasets`: 
+For training our models, we will ignore the data from users 
 who have provided no more than the specified number of ratings. ({min_nratings})")
 
-    put_log("Extracting 80% of the `edx` data not used for the Validation Set, 
+    put_log("Method: `make_source_datasets`: 
+Extracting 80% of the `edx` data not used for the Validation Set, 
 excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
     train_set <- edx[-validation_ind,] |>
       filter_noMore_nratings(min_nratings)
 
-    put("Dataset created: train_set")
+    put_log("Method: `make_source_datasets`: Dataset created: train_set")
     put(summary(train_set))
 
-    put_log("To make sure we don’t include movies in the Training Set that should not be there, 
+    put_log("Method: `make_source_datasets`: 
+To make sure we don’t include movies in the Training Set that should not be there, 
 we remove entries using the semi_join function from the Validation Set.")
     validation_set <- edx[validation_ind,] |> 
       semi_join(train_set, by = "movieId") |> 
       as.data.frame()
     
-    put("Dataset created: validation_set")
+    put_log("Method: `make_source_datasets`: Dataset created: validation_set")
     put(summary(validation_set))
     
-    put_log("To account for the Movie Genre Effect, we need a dataset with split rows 
+    put_log("Method: `make_source_datasets`: 
+To account for the Movie Genre Effect, we need a dataset with split rows 
 for movies belonging to multiple genres.")
     edx_split_row_genre <- separateGenreRows(edx)
 
-    put("Sampling 20% from the split-row version of the `edx` dataset...")
+    put_log("Method: `make_source_datasets`: 
+Sampling 20% from the split-row version of the `edx` dataset...")
     set.seed(fi*2000)
     validation_gs_ind <- 
       sapply(splitByUser(edx_split_row_genre),
@@ -294,16 +318,18 @@ for movies belonging to multiple genres.")
       unlist() |> 
       sort()
     
-    put_log("Extracting 80% of the split-row `edx` data not used for the Validation Set, 
+    put_log("Method: `make_source_datasets`:
+Extracting 80% of the split-row `edx` data not used for the Validation Set, 
 excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
     train_gs_set <- edx_split_row_genre[-validation_gs_ind,] |>
       filter_noMore_nratings(min_nratings)
 
-    put("Dataset created: train_gs_set")
+    put_log("Method: `make_source_datasets`: Dataset created: train_gs_set")
     put(summary(train_gs_set))
 
 
-    put_log("To make sure we don’t include movies in the Training Set (with split rows) 
+    put_log("Method: `make_source_datasets`: 
+To make sure we don’t include movies in the Training Set (with split rows) 
 that should not be there, we remove entries using the semi_join function 
 from the Validation Set.")
     validation_gs_set <- edx_split_row_genre[validation_gs_ind,] 
@@ -311,7 +337,7 @@ from the Validation Set.")
       semi_join(train_gs_set, by = "movieId") |> 
       as.data.frame()
     
-    put("Dataset created: validation_gs_set")
+    put_log("Method: `make_source_datasets`: Dataset created: validation_gs_set")
     put(summary(validation_gs_set))
 
     #> We will use the array representation described in `Section 17.5 of the Textbook`
@@ -322,7 +348,7 @@ from the Validation Set.")
     # train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
     # train_gs_set <- mutate(train_gs_set, userId = factor(userId), movieId = factor(movieId))
     
-    put("Creating Rating Matrix from Train Set...")
+    put_log("Method: `make_source_datasets`: Creating Rating Matrix from Train Set...")
     train_mx <- train_set |> 
       mutate(userId = factor(userId),
              movieId = factor(movieId)) |>
@@ -331,7 +357,7 @@ from the Validation Set.")
       column_to_rownames("userId") |>
       as.matrix()
     
-    put("Matrix created: train_mx")
+    put_log("Method: `make_source_datasets`: Matrix created: train_mx")
     put(dim(train_mx))
 
     list(train_set = train_set,
@@ -341,81 +367,95 @@ from the Validation Set.")
          validation_gs_set = validation_gs_set)
   })
   end_date(start)
-  put("Set of K-Fold Cross Validation datasets created: edx_CV")
+  put_log("Method: `make_source_datasets`: 
+Set of K-Fold Cross Validation datasets created: edx_CV")
 
   list(edx_CV = edx_CV,
        movie_map = movie_map,
        date_days_map = date_days_map)
 }
-
-data_path <- "data"
-movielens_datasets_file <- "movielens-datasets.RData"
-
-movielens_datasets_file_path <- file.path(data_path, movielens_datasets_file)
-movielens_datasets_zip <- file.path(data_path, "movielens-datasets.zip")
-
-
-if(file.exists(movielens_datasets_file_path)){
-  movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
-} else if(file.exists(movielens_datasets_zip)) {
-  put(sprintf("Unzipping MovieLens data file from zip-archive: %s...", 
-                movielens_datasets_zip))
-  start <- start_date()
-  unzip(movielens_datasets_zip, movielens_datasets_file_path)
+init_source_datasets <- function(){
+  put_log("Method `init_source_datasets`: 
+Initializing sourse datasets...")
   
-  if(!file.exists(movielens_datasets_file_path)) {
-    put(sprintf("File does not exists: %s:", movielens_datasets_file))
-    stop("Failed to unzip MovieLens data zip-archive.")
-  }
-  
-  movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
-} else {
-  put("Creating datasets...")
-  library(edx.capstone.movielens.data)
-  put("Library attached: 'edx.capstone.movielens.data'")
+  if(file.exists(movielens_datasets_file_path)){
+    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
+  } else if(file.exists(movielens_datasets_zip)) {
+    put_log("Method `init_source_datasets`: 
+Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...") 
 
-  start <- start_date()
-  movielens_datasets <- make_source_datasets()
-  end_date(start)
-  put("All required datasets have been created.")
-  
-  put("Saving newly created input datasets to file...")
-  start <- start_date()
-  dir.create(data_path)
-  save(movielens_datasets, file =  movielens_datasets_file_path)
-  end_date(start)
-  
-  if(!file.exists(movielens_datasets_file_path)) {
-    put(sprintf("File was not created: %s.", movielens_datasets_file))
-    warning("MovieLens data was not saved to file.")
+    start <- start_date()
+    unzip(movielens_datasets_zip, movielens_datasets_file_path)
+    
+    if(!file.exists(movielens_datasets_file_path)) {
+      put_log("Method `init_source_datasets`: 
+File does not exists: {movielens_datasets_file}.")
+      stop("Failed to unzip MovieLens data zip-archive.")
+    }
+    
+    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
   } else {
-    put(sprintf("Datasets have been saved to file: %s.", 
-                  movielens_datasets_file_path))
-    put(sprintf("Creating zip-archive: %s...", 
-                  movielens_datasets_zip))
+    put_log("Method `init_source_datasets`: 
+Creating datasets...")
+    library(edx.capstone.movielens.data)
+    put_log("Method `init_source_datasets`: 
+Library attached: 'edx.capstone.movielens.data'")
     
-    zip(movielens_datasets_zip, movielens_datasets_file_path)
+    start <- start_date()
+    movielens_datasets <- make_source_datasets()
+    end_date(start)
+    put("Method `init_source_datasets`: 
+All required datasets have been created.")
     
-    if(!file.exists(movielens_datasets_zip)){
-      put(sprintf("Failed to zip file: %s.", movielens_datasets_file_path))
-      warning("Failed to zip MovieLens data file.")
+    put_log("Method `init_source_datasets`: 
+Saving newly created input datasets to file...")
+    start <- start_date()
+    dir.create(data_path)
+    save(movielens_datasets, file =  movielens_datasets_file_path)
+    end_date(start)
+    
+    if(!file.exists(movielens_datasets_file_path)) {
+      put_log("Method `init_source_datasets`: 
+File was not created: {movielens_datasets_file}.")
+      warning("MovieLens data was not saved to file.")
     } else {
-      put(sprintf("Zip-archive created: %s.", movielens_datasets_zip))
-      #file.remove(movielens_datasets_file)
+      put_log("Method `init_source_datasets`: 
+Datasets have been saved to file: {movielens_datasets_file_path}.") 
+
+            
+      put_log("Method `init_source_datasets`: 
+Creating zip-archive: {movielens_datasets_zip}...") 
+
+      zip(movielens_datasets_zip, movielens_datasets_file_path)
       
-      if(file.exists(movielens_datasets_file_path)){
-        put(sprintf("Failed to remove file: %s.", movielens_datasets_file_path))
-        warning("Failed to remove MovieLens data file.")
+      if(!file.exists(movielens_datasets_zip)){
+        put_log("Method `init_source_datasets`: 
+Failed to zip file: {movielens_datasets_file_path}.")
+        warning("Failed to zip MovieLens data file.")
       } else {
-        put(sprintf("File has been removed: %s.", movielens_datasets_file_path))
+        put_log("Method `init_source_datasets`: 
+Zip-archive created: {movielens_datasets_zip}.")
+        #file.remove(movielens_datasets_file)
+        
+        if(file.exists(movielens_datasets_file_path)){
+          put_log("Method `init_source_datasets`: 
+Failed to remove file: {movielens_datasets_file_path}.")
+          warning("Failed to remove MovieLens data file.")
+        } else {
+          put_log("Method `init_source_datasets`: 
+File has been removed: {movielens_datasets_file_path}")
+        }
       }
     }
   }
+  movielens_datasets
 }
 
 # edx <- movielens_datasets$edx
 put("Dataset summary: edx")
 put(summary(edx))
+
+movielens_datasets <- init_source_datasets()
 
 edx_CV <- movielens_datasets$edx_CV
 put("Set of K-Fold Cross Validation datasets summary: edx_CV")
@@ -436,18 +476,21 @@ put(summary(final_holdout_test))
 # rm(movielens_datasets,
 #    edx_CV,
 #    movie_map)
-
+#### Close Log ---------------------------------------------------------------
+log_close()
 ## Data Analysis ===============================================================
+### Open log -------------------------------------------------------------------
+open_logfile(".data-analysis")
 ### `edx` Dataset --------------------------------------------------------------
 
 # Let's look into the details of the `edx` dataset:
 #> First, let's note that we have 10677 different movies: 
 n_movies <- n_distinct(edx$movieId)
-put(n_movies)
+print(sprintf("Total amount of movies: %d", n_movies))
 
 # and 69878 different users in the dataset:
 n_users <- n_distinct(edx$userId)
-put(n_users)
+print(sprintf("Total amount of users: %d", n_users))
 
 #> Also, we can see that no movies have a rating of 0. 
 #> Movies are rated from 0.5 to 5.0 in 0.5 increments:
@@ -455,7 +498,7 @@ put(n_users)
 #library(dplyr)
 s <- edx |> group_by(rating) |>
   summarise(n = n())
-put(s)
+print(s)
 
 #> Now, note the expressions below which confirm the fact explained in 
 #> Section 23.1.1 Movielens data
@@ -464,9 +507,9 @@ put(s)
 
 dim_edx <- dim(edx)
 max_possible_ratings <- n_movies*n_users
-sprintf("Maximum possible ratings: %s", max_possible_ratings)
-sprintf("Rows in `edx` dataset: %s", dim_edx[1])
-sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1])
+print(sprintf("Maximum possible ratings: %s", max_possible_ratings))
+print(sprintf("Rows in `edx` dataset: %s", dim_edx[1]))
+print(sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1]))
 
 #> We can think of a recommendation system as filling in the `NA`s in the dataset 
 #> for the movies that some or all the users do not rate. 
@@ -1402,6 +1445,7 @@ rmse_kable()
 # end_date(start)
 #> [1] 0.8724055
 
+#### Closing log file ----------------------------------------------------------
 log_close()
 
 ### Utilizing Penalized least squares-------------------------------------------
