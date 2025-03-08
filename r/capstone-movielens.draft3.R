@@ -89,7 +89,7 @@ open_logfile <- function(file_name){
   log_open(file_name = log_file_name)
 }
 
-## Open log Function -----------------------------------------------------------
+## Open log -----------------------------------------------------------
 open_logfile(".init-project-data")
 
 ## Init Project Global Variables ----------------------------------------------
@@ -111,6 +111,17 @@ start_date <- function(){
 end_date <- function(start){
   put(date())
   put(Sys.time() - start)
+}
+
+print_log <- function(msg){
+  print(str_glue(msg))
+}
+put_log <- function(msg){
+  put(str_glue(msg))
+}
+put_log1 <- function(msg_template, par1){
+  msg <- str_replace_all(msg_template, "%1", as.character(par1))
+  put(str_glue(msg))
 }
 
 mse <- function(r) mean(r^2, rm.na = TRUE)
@@ -183,12 +194,6 @@ separateGenreRows <- function(data){
   end_date(start)
   gs_splitted
 }
-print_log <- function(msg){
-  print(str_glue(msg))
-}
-put_log <- function(msg){
-  put(str_glue(msg))
-}
 ## Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
@@ -260,8 +265,8 @@ Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
   start <- start_date()
   edx_CV <- lapply(kfold_index,  function(fi){
 
-    put_log(str_replace("Method `make_source_datasets`: 
-Creating K-Fold Cross Validation Datasets, Fold %s", "%s", as.character(fi)))
+    put_log1("Method `make_source_datasets`: 
+Creating K-Fold Cross Validation Datasets, Fold %1", fi)
     
     #> We split the initial datasets into training sets, which we will use to build 
     #> and train our models, and validation sets in which we will compute the accuracy 
@@ -473,6 +478,8 @@ put(summary(date_days_map))
 put("Dataset summary: final_holdout_test")
 put(summary(final_holdout_test))
 
+rm(movielens_datasets)
+
 # rm(movielens_datasets,
 #    edx_CV,
 #    movie_map)
@@ -482,15 +489,18 @@ log_close()
 ### Open log -------------------------------------------------------------------
 open_logfile(".data-analysis")
 ### `edx` Dataset --------------------------------------------------------------
+put("Data Analysis: Exploring `edx` Dataset...")
 
 # Let's look into the details of the `edx` dataset:
 #> First, let's note that we have 10677 different movies: 
 n_movies <- n_distinct(edx$movieId)
-print(sprintf("Total amount of movies: %d", n_movies))
+put_log1("Data Analysis, `edx` Dataset:
+Total amount of movies: %1", n_movies)
 
 # and 69878 different users in the dataset:
 n_users <- n_distinct(edx$userId)
-print(sprintf("Total amount of users: %d", n_users))
+put_log1("Data Analysis, `edx` Dataset:
+Total amount of users: %1", n_users)
 
 #> Also, we can see that no movies have a rating of 0. 
 #> Movies are rated from 0.5 to 5.0 in 0.5 increments:
@@ -498,6 +508,10 @@ print(sprintf("Total amount of users: %d", n_users))
 #library(dplyr)
 s <- edx |> group_by(rating) |>
   summarise(n = n())
+
+put_log("`edx` Dataset:
+No movies have a rating of 0. 
+Movies are rated from 0.5 to 5.0 in 0.5 increments.")
 print(s)
 
 #> Now, note the expressions below which confirm the fact explained in 
@@ -507,9 +521,15 @@ print(s)
 
 dim_edx <- dim(edx)
 max_possible_ratings <- n_movies*n_users
-print(sprintf("Maximum possible ratings: %s", max_possible_ratings))
-print(sprintf("Rows in `edx` dataset: %s", dim_edx[1]))
-print(sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1]))
+
+put_log1("`edx` Dataset:
+Maximum possible ratings: %1", max_possible_ratings)
+
+put_log1("`edx` Dataset:
+Rows in `edx` dataset: %1", dim_edx[1])
+
+put_log1("`edx` Dataset:
+Not every movie was rated: %1", max_possible_ratings > dim_edx[1])
 
 #> We can think of a recommendation system as filling in the `NA`s in the dataset 
 #> for the movies that some or all the users do not rate. 
@@ -528,8 +548,9 @@ tab <- edx |>
          title = str_remove(title, ":.*")) |>
   pivot_wider(names_from = "title", values_from = "rating")
 
-put(tab)
-
+print(tab)
+put_log("`edx` Dataset:
+Not every user rated every movie.")
 
 #### Movies' Popularity --------------------------------------------------------
 #> Further, we can find out the movies that have the greatest number of ratings 
@@ -538,7 +559,9 @@ put(tab)
 ordered_movie_ratings <- edx |> group_by(movieId, title) |>
   summarize(number_of_ratings = n()) |>
   arrange(desc(number_of_ratings))
-put(head(ordered_movie_ratings))
+print(head(ordered_movie_ratings))
+put_log("`edx` Dataset:
+Movies popularity has been analysed.")
 
 #### Rating Distribution -------------------------------------------------------
 
@@ -546,12 +569,12 @@ put(head(ordered_movie_ratings))
 ratings <- edx |>  group_by(rating) |>
   summarise(count = n()) |>
   arrange(desc(count))
-put(ratings)
+print(ratings)
 
 #> The following code allows us to summarize that in general, half-star ratings 
 #> are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 
 #> than there are ratings of 3 or 4, etc.):
-put(edx |> group_by(rating) |> summarize(count = n()))
+print(edx |> group_by(rating) |> summarize(count = n()))
 
 #> We can visually see that from the following plot:
 edx |>
@@ -576,14 +599,22 @@ edx |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
+put_log("`edx` Dataset:
+Rating statistics have been analyzed.")
+
+#### Close Log ---------------------------------------------------------------
+log_close()
 ## Methods ==========================================================
+### Open log -------------------------------------------------------------------
+open_logfile(".methods")
+
 # Create an RMSE Result Table and add a first row for the Project Objective ----
 
 # Add the RMSE value of the Naive Model to a tibble.
 RMSEs <- tibble(Method = c("Project Objective"),
                 RMSE = project_objective)
 rmse_kable()
-
+put("RMSE Result Table created.")
 ### Naive Model ----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
