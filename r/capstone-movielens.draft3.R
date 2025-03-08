@@ -119,9 +119,27 @@ print_log <- function(msg){
 put_log <- function(msg){
   put(str_glue(msg))
 }
-put_log1 <- function(msg_template, par1){
-  msg <- str_replace_all(msg_template, "%1", as.character(par1))
+put_log1 <- function(msg_template, arg1){
+  msg <- str_replace_all(msg_template, "%1", as.character(arg1))
   put(str_glue(msg))
+}
+put_log2 <- function(msg_template, arg1, arg2){
+  msg <- msg_template |> 
+    str_replace_all("%1", as.character(arg1)) |>
+    str_replace_all("%2", as.character(arg2))
+  put(str_glue(msg))
+}
+
+make_ordinal_no <- function(n){
+  if(n == 1){
+    "1st"
+  } else if(n == 2) {
+    "2nd"
+  } else if(n == 3) {
+    "3rd"
+  } else {
+    str_glue("{n}th")
+  }
 }
 
 mse <- function(r) mean(r^2, rm.na = TRUE)
@@ -216,7 +234,8 @@ if(!require(edx.capstone.movielens.data)) {
 }
 
 data_path <- "data"
-kfold_index <- seq(from = 1:5)
+CVFolds_N <- 5
+kfold_index <- seq(from = 1:CVFolds_N)
 
 movielens_datasets_file <- "movielens-datasets.RData"
 movielens_datasets_file_path <- file.path(data_path, movielens_datasets_file)
@@ -597,7 +616,7 @@ put_log("Completed: Rating statistics have been analyzed.")
 log_close()
 ## Methods ==========================================================
 ### Open log -------------------------------------------------------------------
-open_logfile(".methods")
+open_logfile(".overall-mean-rating")
 
 # Create an RMSE Result Table and add a first row for the Project Objective ----
 
@@ -606,7 +625,7 @@ RMSEs <- tibble(Method = c("Project Objective"),
                 RMSE = project_objective)
 rmse_kable()
 put("RMSE Results Table created.")
-### Naive Model ----------------------------------------------------------------
+### Naive Model Description ----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
 
@@ -614,86 +633,100 @@ put("RMSE Results Table created.")
 #>  the differences explained by random variation would look as follows:
 # Y[i,j] = μ + ε[i,j]
 
-### Naive RMSE -------------------------------------------------------
+### Compute Naive RMSE -------------------------------------------------------
 
 ratings_avg <- sapply(edx_CV, function(cv_item){
   mean(cv_item$train_set$rating, na.rm = TRUE)
 })
+
 plot(ratings_avg)
+put_log1("Naive RMSE:
+Mean Ratings plotted for %1-Fold Cross Validation samples.", CVFolds_N)
 
 mu <- mean(ratings_avg)
-put(mu)
-#> [1] 3.472081
+put_log1("Naive RMSE:
+The Overall Mean Rating is: %1", mu)
+#> The Overall Mean Rating is: 3.45742829747914
 
-# If we predict all unknown ratings with `μ`, we obtain the following RMSE: 
-# naive_rmse <- rmse(test_set$rating - mu)
-#> [1] 1.05508
-
-mses <- sapply(edx_CV, function(cv_item){
-  mse(cv_item$validation_set$rating - mu)
+rmses <- sapply(edx_CV, function(cv_item){
+  sqrt(mse(cv_item$validation_set$rating - mu))
 })
+plot(rmses)
+put_log1("Naive RMSE:
+MSE values plotted for %1-Fold Cross Validation samples.", CVFolds_N)
 
-plot(mses)
-
-naive_rmse <- sqrt(mean(mses))
-put(naive_rmse)
-#> [1] 1.055951
+naive_rmse <- mean(rmses)
+put_log2("Naive RMSE:
+%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, naive_rmse)
+#> 5-Fold Cross Validation ultimate RMSE: 1.06186141545291
 
 # Ensure that this is the best RMSE value for the current model ----------------
 #> If we plug in any other number, we will get a higher RMSE. 
 #> Let's prove that by the following small investigation:
 
-
-deviation <- seq(0, 6, 0.1) - 3
+deviation <- seq(0, 6, 0.2) - 3
 deviation
 
-mse_test_results <- lapply(kfold_index, function(i){
+rmse_test_results <- lapply(kfold_index, function(i){
   cv_item <- edx_CV[[i]]
-  mse_val <-mses[i] 
-  mse_values <- sapply(deviation, function(diff){
-    mse(cv_item$validation_set$rating - mu + diff)
+  rmse_val <-rmses[i] 
+  rmse_values <- sapply(deviation, function(diff){
+    sqrt(mse(cv_item$validation_set$rating - (mu + diff)))
   })
+  print(rmse_values)
+  put_log2("Naive RMSE:
+RMSE values have been computed for the %1-Fold Cross-validation, %2 iteration result for the deviations from the Overall Mean Rating.",
+           CVFolds_N, make_ordinal_no(i))
   
-  data.frame(deviation = deviation, 
-                    mse_values = mse_values) |> 
-    ggplot(aes(deviation, mse_values)) +
+  rmse_plot <- data.frame(deviation = deviation, 
+                    rmse_values = rmse_values) |> 
+    ggplot(aes(deviation, rmse_values)) +
     geom_line()
+  put_log2("Naive RMSE:
+A plot was constructed for the %1-Fold Cross-validation, %2 iteration result for the deviations from the Overall Mean Rating.",
+           CVFolds_N, make_ordinal_no(i))
+  rmse_plot
 })
 
-n <- length(mse_test_results)
+n <- length(rmse_test_results)
 nCol <- floor(sqrt(n))
-do.call("grid.arrange", c(mse_test_results, ncol = nCol))
-
-#str(mse_test_results[[1]]$data)
+do.call("grid.arrange", c(rmse_test_results, ncol = nCol))
+put_log1("Naive RMSE:
+%1-Fold Cross-validation results for the deviations from the Overall Mean Rating have been plotted.",
+         CVFolds_N)
 
 for (i in kfold_index) {
-  dvs <- mse_test_results[[i]]$data$deviation
-  test_vals <- mse_test_results[[i]]$data$mse_values
-  mse_val <-mses[i] 
+  dvs <- rmse_test_results[[i]]$data$deviation
+  test_vals <- rmse_test_results[[i]]$data$rmse_values
+  rmse_val <-rmses[i] 
   
   which_min_deviation <- dvs[which.min(test_vals)]
-  min_mse = min(test_vals)
+  min_rmse = min(test_vals)
   
-  validation_head <- sprintf("For Validation Set %s:", i)
-  put(validation_head)
-  
-  put(sprintf("Minimum MSE is achieved when the deviation from the mean is: %s", 
-          which_min_deviation))
-  #> [1] "Minimum RMSE is achieved when the deviation from the mean is: 0"
-  
-  put(sprintf("Is the previously computed RMSE the best for the current model: %s",
-          mse_val == min_mse))
+  put_log2("For Validation Set %1:
+Minimum MSE is achieved when the deviation from the mean is: %2",
+           i, which_min_deviation)
+
+  put_log1("Is the previously computed RMSE the best for the current model: %1",
+           rmse_val == min_rmse)
   #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
   writeLines("")
 }
 
 # Add a row to the RMSE Result Table for the first Naive Model ---------------- 
-RMSEs <- rmses_add_row("Simple Mean Rating Model", naive_rmse)
+RMSEs <- rmses_add_row("Overall Mean Rating Model", naive_rmse)
 rmse_kable()
+put_log("Naive RMSE:
+A row has been added to the RMSE Result Table for the `Simple Mean Rating Model`.")
+#### Close Log ---------------------------------------------------------------
+log_close()
 
-### Taking into account User effects ------------------------------------------- 
+### Taking into account User effect ------------------------------------------- 
 # Reference: the Textbook section "23.4 User effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
+
+### Open log -------------------------------------------------------------------
+open_logfile(".overall-mean-rating")
 
 #### Model building: User Effects ----------------------------------------------
 
@@ -765,6 +798,8 @@ put(user_effect_rmse)
 # Add a row to the RMSE Result Table for the User Effect Model ---------------- 
 RMSEs <- rmses_add_row("User Effect Model", user_effect_rmse)
 rmse_kable()
+#### Close Log ---------------------------------------------------------------
+log_close()
 
 ### Taking into account Movie effect ------------------------------------------
 
