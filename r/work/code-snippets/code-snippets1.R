@@ -1,5 +1,5 @@
 
-put_log("Data Analysis, `edx` Dataset:
+put_log("Function:
 ")
 
 

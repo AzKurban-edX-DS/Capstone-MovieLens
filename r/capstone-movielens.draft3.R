@@ -223,13 +223,13 @@ movielens_datasets_file_path <- file.path(data_path, movielens_datasets_file)
 movielens_datasets_zip <- file.path(data_path, "movielens-datasets.zip")
 
 make_source_datasets <- function(){
-  put_log("Method: `make_source_datasets`: Creating source datasets...")
+  put_log("Function: `make_source_datasets`: Creating source datasets...")
 
-  put_log("Method: `make_source_datasets`: 
+  put_log("Function: `make_source_datasets`: 
 Dataset loaded from `edx.capstone.movielens.data` package: edx")
   put(summary(edx))
 
-  put_log("Method: `make_source_datasets`: 
+  put_log("Function: `make_source_datasets`: 
 Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
   put(summary(final_holdout_test))
   
@@ -237,10 +237,10 @@ Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
   movie_map <- edx |> select(movieId, title, genres) |> 
     distinct(movieId, .keep_all = TRUE)
   
-  put_log("Method: `make_source_datasets`: Dataset created: movie_map")
+  put_log("Function: `make_source_datasets`: Dataset created: movie_map")
   put(summary(movie_map))
   
-  put_log("Method: `make_source_datasets`: Creating Date-Days Map dataset...")
+  put_log("Function: `make_source_datasets`: Creating Date-Days Map dataset...")
   date_days_map <- edx |>
     mutate(date_time = as_datetime(timestamp)) |>
     mutate(date = as_date(date_time)) |>
@@ -248,7 +248,7 @@ Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
     select(timestamp, date_time, date, days) |>
     distinct(timestamp, .keep_all = TRUE)
   
-  put_log("Method: `make_source_datasets`: Dataset created: date_days_map")
+  put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
   put_log(str(date_days_map))
   put(summary(date_days_map))
   
@@ -274,11 +274,11 @@ Creating K-Fold Cross Validation Datasets, Fold %1", fi)
     #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
     #> of the Course Textbook.
 
-    put_log("Method: `make_source_datasets`: 
+    put_log("Function: `make_source_datasets`: 
 For each user we are going to process, we will split their ratings
 into 80% for training and 20% for validation.")
     
-    put_log("Method: `make_source_datasets`: Sampling 20% of the `edx` data...")
+    put_log("Function: `make_source_datasets`: Sampling 20% of the `edx` data...")
     set.seed(fi*1000)
     validation_ind <- 
       sapply(splitByUser(edx),
@@ -286,35 +286,35 @@ into 80% for training and 20% for validation.")
       unlist() |> 
       sort()
     
-    put_log("Method: `make_source_datasets`: 
+    put_log("Function: `make_source_datasets`: 
 For training our models, we will ignore the data from users 
 who have provided no more than the specified number of ratings. ({min_nratings})")
 
-    put_log("Method: `make_source_datasets`: 
+    put_log("Function: `make_source_datasets`: 
 Extracting 80% of the `edx` data not used for the Validation Set, 
 excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
     train_set <- edx[-validation_ind,] |>
       filter_noMore_nratings(min_nratings)
 
-    put_log("Method: `make_source_datasets`: Dataset created: train_set")
+    put_log("Function: `make_source_datasets`: Dataset created: train_set")
     put(summary(train_set))
 
-    put_log("Method: `make_source_datasets`: 
+    put_log("Function: `make_source_datasets`: 
 To make sure we don’t include movies in the Training Set that should not be there, 
 we remove entries using the semi_join function from the Validation Set.")
     validation_set <- edx[validation_ind,] |> 
       semi_join(train_set, by = "movieId") |> 
       as.data.frame()
     
-    put_log("Method: `make_source_datasets`: Dataset created: validation_set")
+    put_log("Function: `make_source_datasets`: Dataset created: validation_set")
     put(summary(validation_set))
     
-    put_log("Method: `make_source_datasets`: 
+    put_log("Function: `make_source_datasets`: 
 To account for the Movie Genre Effect, we need a dataset with split rows 
 for movies belonging to multiple genres.")
     edx_split_row_genre <- separateGenreRows(edx)
 
-    put_log("Method: `make_source_datasets`: 
+    put_log("Function: `make_source_datasets`: 
 Sampling 20% from the split-row version of the `edx` dataset...")
     set.seed(fi*2000)
     validation_gs_ind <- 
@@ -323,17 +323,17 @@ Sampling 20% from the split-row version of the `edx` dataset...")
       unlist() |> 
       sort()
     
-    put_log("Method: `make_source_datasets`:
+    put_log("Function: `make_source_datasets`:
 Extracting 80% of the split-row `edx` data not used for the Validation Set, 
 excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
     train_gs_set <- edx_split_row_genre[-validation_gs_ind,] |>
       filter_noMore_nratings(min_nratings)
 
-    put_log("Method: `make_source_datasets`: Dataset created: train_gs_set")
+    put_log("Function: `make_source_datasets`: Dataset created: train_gs_set")
     put(summary(train_gs_set))
 
 
-    put_log("Method: `make_source_datasets`: 
+    put_log("Function: `make_source_datasets`: 
 To make sure we don’t include movies in the Training Set (with split rows) 
 that should not be there, we remove entries using the semi_join function 
 from the Validation Set.")
@@ -342,7 +342,7 @@ from the Validation Set.")
       semi_join(train_gs_set, by = "movieId") |> 
       as.data.frame()
     
-    put_log("Method: `make_source_datasets`: Dataset created: validation_gs_set")
+    put_log("Function: `make_source_datasets`: Dataset created: validation_gs_set")
     put(summary(validation_gs_set))
 
     #> We will use the array representation described in `Section 17.5 of the Textbook`
@@ -353,7 +353,7 @@ from the Validation Set.")
     # train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
     # train_gs_set <- mutate(train_gs_set, userId = factor(userId), movieId = factor(movieId))
     
-    put_log("Method: `make_source_datasets`: Creating Rating Matrix from Train Set...")
+    put_log("Function: `make_source_datasets`: Creating Rating Matrix from Train Set...")
     train_mx <- train_set |> 
       mutate(userId = factor(userId),
              movieId = factor(movieId)) |>
@@ -362,7 +362,7 @@ from the Validation Set.")
       column_to_rownames("userId") |>
       as.matrix()
     
-    put_log("Method: `make_source_datasets`: Matrix created: train_mx")
+    put_log("Function: `make_source_datasets`: Matrix created: train_mx")
     put(dim(train_mx))
 
     list(train_set = train_set,
@@ -372,7 +372,7 @@ from the Validation Set.")
          validation_gs_set = validation_gs_set)
   })
   end_date(start)
-  put_log("Method: `make_source_datasets`: 
+  put_log("Function: `make_source_datasets`: 
 Set of K-Fold Cross Validation datasets created: edx_CV")
 
   list(edx_CV = edx_CV,
@@ -494,13 +494,11 @@ put("Data Analysis: Exploring `edx` Dataset...")
 # Let's look into the details of the `edx` dataset:
 #> First, let's note that we have 10677 different movies: 
 n_movies <- n_distinct(edx$movieId)
-put_log1("Data Analysis, `edx` Dataset:
-Total amount of movies: %1", n_movies)
+put_log1("Total amount of movies: %1", n_movies)
 
 # and 69878 different users in the dataset:
 n_users <- n_distinct(edx$userId)
-put_log1("Data Analysis, `edx` Dataset:
-Total amount of users: %1", n_users)
+put_log1("Total amount of users: %1", n_users)
 
 #> Also, we can see that no movies have a rating of 0. 
 #> Movies are rated from 0.5 to 5.0 in 0.5 increments:
@@ -509,8 +507,7 @@ Total amount of users: %1", n_users)
 s <- edx |> group_by(rating) |>
   summarise(n = n())
 
-put_log("`edx` Dataset:
-No movies have a rating of 0. 
+put_log("No movies have a rating of 0. 
 Movies are rated from 0.5 to 5.0 in 0.5 increments.")
 print(s)
 
@@ -522,14 +519,11 @@ print(s)
 dim_edx <- dim(edx)
 max_possible_ratings <- n_movies*n_users
 
-put_log1("`edx` Dataset:
-Maximum possible ratings: %1", max_possible_ratings)
+put_log1("Maximum possible ratings: %1", max_possible_ratings)
 
-put_log1("`edx` Dataset:
-Rows in `edx` dataset: %1", dim_edx[1])
+put_log1("Total Rows in `edx` dataset: %1", dim_edx[1])
 
-put_log1("`edx` Dataset:
-Not every movie was rated: %1", max_possible_ratings > dim_edx[1])
+put_log1("Not every movie was rated: %1", max_possible_ratings > dim_edx[1])
 
 #> We can think of a recommendation system as filling in the `NA`s in the dataset 
 #> for the movies that some or all the users do not rate. 
@@ -549,8 +543,7 @@ tab <- edx |>
   pivot_wider(names_from = "title", values_from = "rating")
 
 print(tab)
-put_log("`edx` Dataset:
-Not every user rated every movie.")
+put_log("Conclusion: Not every user rated every movie.")
 
 #### Movies' Popularity --------------------------------------------------------
 #> Further, we can find out the movies that have the greatest number of ratings 
@@ -560,8 +553,7 @@ ordered_movie_ratings <- edx |> group_by(movieId, title) |>
   summarize(number_of_ratings = n()) |>
   arrange(desc(number_of_ratings))
 print(head(ordered_movie_ratings))
-put_log("`edx` Dataset:
-Movies popularity has been analysed.")
+put_log("Movies popularity has been analysed.")
 
 #### Rating Distribution -------------------------------------------------------
 
@@ -599,8 +591,7 @@ edx |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
-put_log("`edx` Dataset:
-Rating statistics have been analyzed.")
+put_log("Completed: Rating statistics have been analyzed.")
 
 #### Close Log ---------------------------------------------------------------
 log_close()
@@ -614,7 +605,7 @@ open_logfile(".methods")
 RMSEs <- tibble(Method = c("Project Objective"),
                 RMSE = project_objective)
 rmse_kable()
-put("RMSE Result Table created.")
+put("RMSE Results Table created.")
 ### Naive Model ----------------------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
