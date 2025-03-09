@@ -2,7 +2,10 @@
 put_log("Function:
 ")
 
-put_log("Naive RMSE:
+put_log("User Effect Model:
+")
+
+put_log("Overall Mean Rating Model:
 ")
 
 put_log1("Naive RMSE:

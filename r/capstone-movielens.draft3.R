@@ -104,11 +104,19 @@ put(min_nratings)
 ## Defining helper functions --------------------------------------------------
 
 #> Let's define some helper functions that we will use in our subsequent analysis:
-start_date <- function(){
+print_start_date <- function(){
+  print(date())
+  Sys.time()
+}
+put_start_date <- function(){
   put(date())
   Sys.time()
 }
-end_date <- function(start){
+print_end_date <- function(start){
+  print(date())
+  print(Sys.time() - start)
+}
+put_end_date <- function(start){
   put(date())
   put(Sys.time() - start)
 }
@@ -180,9 +188,9 @@ clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 load_movielens_data_from_file <- function(file_path){
   put(sprintf("Loading MovieLens datasets from file: %s...", 
                 file_path))
-  start <- start_date()
+  start <- put_start_date()
   load(file_path)
-  end_date(start)
+  put_end_date(start)
   put(sprintf("MoviLens datasets have been loaded from file: %s.", 
                 file_path))
   movielens_datasets
@@ -205,11 +213,11 @@ mutateDateTimeAndDays <- function(data){
 }
 separateGenreRows <- function(data){
   put("Splitting dataset rows related to multiple genres...")
-  start <- start_date()
+  start <- put_start_date()
   gs_splitted <- data |>
     separate_rows(genres, sep = "\\|")
   put("Dataset rows related to multiple genres have been splitted to have single genre per row.")
-  end_date(start)
+  put_end_date(start)
   gs_splitted
 }
 ## Datasets ===================================================================
@@ -228,9 +236,9 @@ separateGenreRows <- function(data){
 # and attach the correspondent library to the global environment:
 
 if(!require(edx.capstone.movielens.data)) {
-  start <- start_date()
+  start <- put_start_date()
   pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
-  end_date(start)
+  put_end_date(start)
 }
 
 data_path <- "data"
@@ -281,7 +289,7 @@ Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
   #   \mbox{MSE}(\lambda) \approx\frac{1}{B} \sum_{b = 1}^B \frac{1}{N}\sum_{i = 1}^N \left(\hat{y}_i^b(\lambda) - y_i^b\right)^2 
   # $$
 
-  start <- start_date()
+  start <- put_start_date()
   edx_CV <- lapply(kfold_index,  function(fi){
 
     put_log1("Method `make_source_datasets`: 
@@ -390,7 +398,7 @@ from the Validation Set.")
          validation_set = validation_set,
          validation_gs_set = validation_gs_set)
   })
-  end_date(start)
+  put_end_date(start)
   put_log("Function: `make_source_datasets`: 
 Set of K-Fold Cross Validation datasets created: edx_CV")
 
@@ -408,7 +416,7 @@ Initializing sourse datasets...")
     put_log("Method `init_source_datasets`: 
 Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...") 
 
-    start <- start_date()
+    start <- put_start_date()
     unzip(movielens_datasets_zip, movielens_datasets_file_path)
     
     if(!file.exists(movielens_datasets_file_path)) {
@@ -425,18 +433,18 @@ Creating datasets...")
     put_log("Method `init_source_datasets`: 
 Library attached: 'edx.capstone.movielens.data'")
     
-    start <- start_date()
+    start <- put_start_date()
     movielens_datasets <- make_source_datasets()
-    end_date(start)
+    put_end_date(start)
     put("Method `init_source_datasets`: 
 All required datasets have been created.")
     
     put_log("Method `init_source_datasets`: 
 Saving newly created input datasets to file...")
-    start <- start_date()
+    start <- put_start_date()
     dir.create(data_path)
     save(movielens_datasets, file =  movielens_datasets_file_path)
-    end_date(start)
+    put_end_date(start)
     
     if(!file.exists(movielens_datasets_file_path)) {
       put_log("Method `init_source_datasets`: 
@@ -614,18 +622,8 @@ put_log("Completed: Rating statistics have been analyzed.")
 
 #### Close Log ---------------------------------------------------------------
 log_close()
-## Methods ==========================================================
-### Open log -------------------------------------------------------------------
-open_logfile(".overall-mean-rating")
-
-# Create an RMSE Result Table and add a first row for the Project Objective ----
-
-# Add the RMSE value of the Naive Model to a tibble.
-RMSEs <- tibble(Method = c("Project Objective"),
-                RMSE = project_objective)
-rmse_kable()
-put("RMSE Results Table created.")
-### Naive Model Description ----------------------------------------------------------------
+## Methods =====================================================================
+### Overall Mean Rating (Naive) Model --------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
 
@@ -633,38 +631,47 @@ put("RMSE Results Table created.")
 #>  the differences explained by random variation would look as follows:
 # Y[i,j] = μ + ε[i,j]
 
-### Compute Naive RMSE -------------------------------------------------------
+#### Open log -------------------------------------------------------------------
+open_logfile(".overall-mean-rating")
+### Create an RMSE Result Table and add a first row for the Project Objective ----
 
-ratings_avg <- sapply(edx_CV, function(cv_item){
-  mean(cv_item$train_set$rating, na.rm = TRUE)
-})
+# Add the RMSE value of the Naive Model to a tibble.
+RMSEs <- tibble(Method = c("Project Objective"),
+                RMSE = project_objective)
+rmse_kable()
+put("RMSE Results Table created.")
+#### Compute Naive RMSE -------------------------------------------------------
 
-plot(ratings_avg)
-put_log1("Naive RMSE:
-Mean Ratings plotted for %1-Fold Cross Validation samples.", CVFolds_N)
-
-mu <- mean(ratings_avg)
-put_log1("Naive RMSE:
+# ratings_avg <- sapply(edx_CV, function(cv_item){
+#   mean(cv_item$train_set$rating, na.rm = TRUE)
+# })
+# 
+# plot(ratings_avg)
+# put_log1("Overall Mean Rating Model:
+# Mean Ratings plotted for %1-Fold Cross Validation samples.", CVFolds_N)
+# 
+# mu <- mean(ratings_avg)
+mu <- mean(edx$rating, na.rm = TRUE)
+put_log1("Overall Mean Rating Model:
 The Overall Mean Rating is: %1", mu)
-#> The Overall Mean Rating is: 3.45742829747914
-
+#> The Overall Mean Rating is: 3.51246520160155
 rmses <- sapply(edx_CV, function(cv_item){
   sqrt(mse(cv_item$validation_set$rating - mu))
 })
 plot(rmses)
-put_log1("Naive RMSE:
-MSE values plotted for %1-Fold Cross Validation samples.", CVFolds_N)
+put_log1("Overall Mean Rating Model:
+RMSE values plotted for %1-Fold Cross Validation samples.", CVFolds_N)
 
 naive_rmse <- mean(rmses)
-put_log2("Naive RMSE:
+put_log2("Overall Mean Rating Model:
 %1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, naive_rmse)
 #> 5-Fold Cross Validation ultimate RMSE: 1.06186141545291
 
-# Ensure that this is the best RMSE value for the current model ----------------
+#### Ensure that this is the best RMSE value for the current model ----------------
 #> If we plug in any other number, we will get a higher RMSE. 
 #> Let's prove that by the following small investigation:
 
-deviation <- seq(0, 6, 0.2) - 3
+deviation <- seq(0, 6, 0.1) - 3
 deviation
 
 rmse_test_results <- lapply(kfold_index, function(i){
@@ -674,7 +681,7 @@ rmse_test_results <- lapply(kfold_index, function(i){
     sqrt(mse(cv_item$validation_set$rating - (mu + diff)))
   })
   print(rmse_values)
-  put_log2("Naive RMSE:
+  put_log2("Overall Mean Rating Model:
 RMSE values have been computed for the %1-Fold Cross-validation, %2 iteration result for the deviations from the Overall Mean Rating.",
            CVFolds_N, make_ordinal_no(i))
   
@@ -682,7 +689,7 @@ RMSE values have been computed for the %1-Fold Cross-validation, %2 iteration re
                     rmse_values = rmse_values) |> 
     ggplot(aes(deviation, rmse_values)) +
     geom_line()
-  put_log2("Naive RMSE:
+  put_log2("Overall Mean Rating Model:
 A plot was constructed for the %1-Fold Cross-validation, %2 iteration result for the deviations from the Overall Mean Rating.",
            CVFolds_N, make_ordinal_no(i))
   rmse_plot
@@ -691,7 +698,7 @@ A plot was constructed for the %1-Fold Cross-validation, %2 iteration result for
 n <- length(rmse_test_results)
 nCol <- floor(sqrt(n))
 do.call("grid.arrange", c(rmse_test_results, ncol = nCol))
-put_log1("Naive RMSE:
+put_log1("Overall Mean Rating Model:
 %1-Fold Cross-validation results for the deviations from the Overall Mean Rating have been plotted.",
          CVFolds_N)
 
@@ -713,35 +720,41 @@ Minimum MSE is achieved when the deviation from the mean is: %2",
   writeLines("")
 }
 
-# Add a row to the RMSE Result Table for the first Naive Model ---------------- 
+#### Add a row to the RMSE Result Table for the Overall Mean Rating Model ---------------- 
 RMSEs <- rmses_add_row("Overall Mean Rating Model", naive_rmse)
 rmse_kable()
-put_log("Naive RMSE:
+put_log("Overall Mean Rating Model:
 A row has been added to the RMSE Result Table for the `Simple Mean Rating Model`.")
 #### Close Log ---------------------------------------------------------------
 log_close()
 
-### Taking into account User effect ------------------------------------------- 
+### User Effect Model ---------------------------------------------------------- 
 # Reference: the Textbook section "23.4 User effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
 
-### Open log -------------------------------------------------------------------
-open_logfile(".overall-mean-rating")
-
-#### Model building: User Effects ----------------------------------------------
+#### Open log -------------------------------------------------------------------
+open_logfile("user-effect")
+#### Model building: User Effect ----------------------------------------------
 
 # Let's visualize the average rating for each user:
-start <- start_date()
+start <- put_start_date()
+put_log("User Effect Model:
+Computing Average Ratings per User (User Mean Ratings)...")
 user_ratings_avg_ls <- sapply(edx_CV, function(cv_item){
   rowMeans(cv_item$train_mx, na.rm = TRUE)
 })
-str(user_ratings_avg_ls)
+put_end_date(start)
+put_log1("User Effect Model:
+User Mean Rating list has been computed for %1-Fold Cross Validation samples.", 
+         CVFolds_N)
+#put(str(user_ratings_avg_ls))
 
 y <- as.matrix(user_ratings_avg_ls)
-end_date(start)
-
-dim(y)
-head(y)
+put_log1("User Effect Model:
+The User Mean Rating list for the %1-Fold Cross Validation samples has been converted to a matrix.",
+        CVFolds_N)
+put(dim(y))
+put(head(y))
 #        [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
 # 8  3.401893 3.395869 3.367470 3.393287 3.389845 3.382100 3.409639 3.383821 3.398451 3.351119
 # 10 3.764045 3.775281 3.820225 3.820225 3.898876 3.887640 3.842697 3.775281 3.876404 3.820225
@@ -749,9 +762,14 @@ head(y)
 # 18 3.479239 3.479239 3.422145 3.444637 3.420415 3.444637 3.425606 3.463668 3.422145 3.461938
 # 19 3.680233 3.767442 3.726744 3.738372 3.784884 3.726744 3.790698 3.662791 3.703488 3.726744
 # 30 4.446429 4.508929 4.491071 4.500000 4.491071 4.482143 4.500000 4.500000 4.508929 4.517857
+
 user_ratings_avg = rowMeans(y, na.rm = TRUE)
+put_log("User Effect Model:
+The Average Ratings per User (User Mean Ratings) have been calculated.")
 hist(user_ratings_avg, nclass = 30)
-head(user_ratings_avg)
+put_log("User Effect Model:
+A histogram of the User Mean Rating distribution has been plotted.")
+print(head(user_ratings_avg))
 sum(is.na(user_ratings_avg))
 #> [1] 0
 
@@ -769,38 +787,43 @@ a <- user_ratings_avg - mu
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
 #> function `clamp` we defined above to keep predictions in the proper range):
 user_effects <- data.frame(userId = as.integer(names(a)), a = a)
-str(user_effects)
-head(user_effects)
+put_log("User Effect Model:
+A User Effect Model has been builded and trained")
+put(str(user_effects))
+print(head(user_effects))
 
 # Plot a histogram of the user effects
 par(cex = 0.7)
 hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
+put_log("User Effect Model:
+A histogram of the User Effect distribution has been plotted.")
 
 # Compute the RMSE taking into account user effects:
-start <- start_date()
-user_effect_mses <- sapply(edx_CV, function(cv_item){
+start <- put_start_date()
+user_effect_rmses <- sapply(edx_CV, function(cv_item){
   #mse(cv_item$validation_set$rating - mu)
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
     filter(!is.na(resid)) |>
-    pull(resid) |> mse()
+    pull(resid) |> rmse()
 })
-end_date(start)
+plot(user_effect_rmses)
+put_log1("User Effect Model:
+RMSE values have been plotted for the %1-Fold Cross Validation samples.", CVFolds_N)
+put_end_date(start)
 
-plot(user_effect_mses)
-
-user_effect_rmse <- sqrt(mean(user_effect_mses))
-put(user_effect_rmse)
+user_effect_rmse <- mean(user_effect_rmses)
+put_log2("User Effect Model:
+%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_effect_rmse)
 #> [1] 0.9684293
 
 # Add a row to the RMSE Result Table for the User Effect Model ---------------- 
 RMSEs <- rmses_add_row("User Effect Model", user_effect_rmse)
 rmse_kable()
-#### Close Log ---------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-
 ### Taking into account Movie effect ------------------------------------------
 
 # Reference: the Textbook section "23.5 Movie effects"
@@ -825,11 +848,11 @@ sapply(edx_CV, function(cv_item){
   dim(cv_item$train_mx)
 })
 
-start <- start_date()
+start <- put_start_date()
 user_movie_effects_ls <- sapply(edx_CV, function(cv_item){
   colMeans(cv_item$train_mx - user_effects$a - mu, na.rm = TRUE)
 })
-end_date(start)
+put_end_date(start)
 str(user_movie_effects_ls)
 
 b <- user_movie_effects_ls |> unlist()
@@ -853,7 +876,7 @@ hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 
 # Calculate MSEs on Validation Sets --------------------------------------------
-start <- start_date()
+start <- put_start_date()
 user_movie_effects_mses <- sapply(edx_CV, function(cv_item){
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
@@ -862,7 +885,7 @@ user_movie_effects_mses <- sapply(edx_CV, function(cv_item){
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
 })
-end_date(start)
+put_end_date(start)
 
 plot(user_movie_effects_mses)
 user_movie_effects_rmse <- sqrt(mean(user_movie_effects_mses))
@@ -1068,7 +1091,7 @@ plot_dat |>
 # mutate(userId = as.integer(userId),
 #        movieId = as.integer(movieId)) |>
 
-start <- start_date()
+start <- put_start_date()
 user_movie_genre_effects_ls <- lapply(edx_CV, function(cv_item){
   g_bias <- cv_item$train_gs_set |>
     left_join(user_effects, by = "userId") |>
@@ -1084,7 +1107,7 @@ user_movie_genre_effects_ls <- lapply(edx_CV, function(cv_item){
   
   mg_bias
 })
-end_date(start)
+put_end_date(start)
 str(user_movie_genre_effects_ls)
 #head(user_movie_genre_effects_ls)
 
@@ -1092,12 +1115,12 @@ str(user_movie_genre_effects_ls)
 
 # Compute Genre Movie Bias ----------------
 
-start <- start_date()
+start <- put_start_date()
 mg_bias_b <- sapply(user_movie_genre_effects_ls, function(mg_bias){
   names(mg_bias$b) <- mg_bias$movieId
   mg_bias$b
 })
-end_date(start)
+put_end_date(start)
 str(mg_bias_b)
 
 b <- mg_bias_b |> unlist()
@@ -1116,12 +1139,12 @@ sum(is.na(genre_movie_effects$b))
 
 # Compute Genre Bias ---------------
 
-start <- start_date()
+start <- put_start_date()
 mg_bias_g <- sapply(user_movie_genre_effects_ls, function(mg_bias){
   names(mg_bias$g) <- mg_bias$movieId
   mg_bias$g
 })
-end_date(start)
+put_end_date(start)
 str(mg_bias_g)
 
 g <- mg_bias_g |> unlist()
@@ -1166,7 +1189,7 @@ hist(user_movie_genre_effects$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
 #### Compute RMSE: user+movie+genre effects ------------------------------------
 
 # Calculate MSEs on Validation Sets
-start <- start_date()
+start <- put_start_date()
 user_movie_genre_effects_mses <- sapply(edx_CV, function(cv_item){
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
@@ -1175,7 +1198,7 @@ user_movie_genre_effects_mses <- sapply(edx_CV, function(cv_item){
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
 })
-end_date(start)
+put_end_date(start)
 
 plot(user_movie_genre_effects_mses)
 user_movie_genre_effects_rmse <- sqrt(mean(user_movie_genre_effects_mses))
@@ -1206,7 +1229,7 @@ rmse_kable()
 # Let's take a look at the Average rating per year:
 #### Plot: Average Rating per Year ------------------------------------------------
 
-start <- start_date()
+start <- put_start_date()
 put("Plotting Average Rating per Year...")
 put_log("Ignoring the data from users 
 who have provided no more than the specified number of ratings. ({min_nratings})")
@@ -1227,16 +1250,16 @@ edx |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
-end_date(start)
+put_end_date(start)
 
 #### Calculate Date Smoothed Effect -----------------------------------------------
 #train_set1 <- edx_CV[[1]]$train_set
 
-start <- start_date()
+start <- put_start_date()
 global_date_effects <- sapply(kfold_index,  function(fi){
   put(sprintf("Creating K-Fold CV Global Date Effects Set, Vector %s", fi))
 
-  start <- start_date()
+  start <- put_start_date()
   de_global <- edx_CV[[fi]]$train_set |> 
     left_join(user_effects, by = "userId") |>
     left_join(genre_movie_effects, by = "movieId") |>
@@ -1245,7 +1268,7 @@ global_date_effects <- sapply(kfold_index,  function(fi){
     filter(!is.na(rating_residue)) |>
     group_by(days) |>
     summarise(de = mean(rating_residue, na.rm = TRUE))
-  end_date(start)
+  put_end_date(start)
   
   put("Global Date Effect Vector Structure:")
   put(str(de_global))
@@ -1256,7 +1279,7 @@ global_date_effects <- sapply(kfold_index,  function(fi){
   put(str(de_global$de))
   de_global$de
 })
-end_date(start)
+put_end_date(start)
 put("Date Global Effect Structure list:")
 put(str(global_date_effects))
 
@@ -1273,9 +1296,9 @@ put("Global Date Effect Structure:")
 put(str(date_global_effect))
 
 ##### Train model using `loess` function with default `span` & `degree` params-----
-start <- start_date()
+start <- put_start_date()
 fit <- loess(de ~ days, data = date_global_effect)
-end_date(start)
+put_end_date(start)
 date()
 sum(is.na(fit$fitted))
 
@@ -1292,21 +1315,21 @@ put("Global Date Smoothed Effect Structure:")
 put(str(date_smoothed_effect))
 
 # Date Smoothed Effect Visualization:
-start <- start_date()
+start <- put_start_date()
 date_smoothed_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
-end_date(start)
+put_end_date(start)
 
 # Function for MSEs calculation of Smoothed Date Model ----------------------
 date_smoothed_mses <- function(date_smoothed_effect){
   # Calculate MSEs on Validation Sets
-  start <- start_date()
+  start <- put_start_date()
   MSEs <- sapply(kfold_index, function(fi){
     put(sprintf("Calculating MSEs on K-Fold Cross Validation Sets, Fold %s...",
                   fi))
-    start <- start_date()
+    start <- put_start_date()
     m_se <- edx_CV[[fi]]$validation_set |>
       left_join(user_effects, by = "userId") |>
       left_join(user_movie_genre_effects, by = "movieId") |>
@@ -1315,10 +1338,10 @@ date_smoothed_mses <- function(date_smoothed_effect){
       mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |> 
       filter(!is.na(resid)) |>
       pull(resid) |> mse()
-    end_date(start)
+    put_end_date(start)
     m_se
   })
-  end_date(start)
+  put_end_date(start)
   MSEs
 }
 # Calculate RMSE for loess fitted with default parameters ----------------------
@@ -1333,17 +1356,17 @@ put(user_movie_genre_date_effects_rmse)
 ##### Support Functions ------------------------------------------------------------
 fit_loess <- function(spans, dgr){
   put(sprintf("Fitting model for %s spans, degree = %s...", length(spans), dgr))
-  start <- start_date()
+  start <- put_start_date()
   fits <- sapply(spans, function(span){
     put(sprintf("Fitting model for span = %s, degree = %s...", span, dgr))
-    start <- start_date()
+    start <- put_start_date()
     fit <- loess(de ~ days, span = span, degree = dgr, data = date_global_effect)
-    end_date(start)
+    put_end_date(start)
     put(sprintf("Model fitted for span = %s, degree = %s...", span, dgr))
     put(fit)
     fit$fitted
   })
-  end_date(start = start)
+  put_end_date(start = start)
   fits
 }
 tune_de_model_rmses <- function(fits){
@@ -1367,11 +1390,11 @@ date_smoothed_rmses <- function(spans, dgr) {
   df_fits <- as.data.frame(fits)
   #str(df_fits)
   
-  start <- start_date()
+  start <- put_start_date()
   put(sprintf("Tuning the Smothed Date Effect Model for Degree: %s", dgr))
   model_diu_rmses <- tune_de_model_rmses(df_fits)
   put(sprintf("RMSEs computed for the Smothed Date Effect Model (Degree: %s)", dgr))
-  end_date(start)
+  put_end_date(start)
 
   data.frame(span = spans, rmse = model_diu_rmses)
 }
@@ -1455,12 +1478,12 @@ best_span <- loess_rmse[idx_best_rmse, 2]# 0.00108
 best_rmse <- loess_rmse[idx_best_rmse, 3]
 put(best_rmse)
 
-start <- start_date()
+start <- put_start_date()
 fit <- loess(de ~ days, 
              degree = best_degree, 
              span = best_span, 
              data = date_global_effect)
-end_date(start)
+put_end_date(start)
 put("Best Fit:")
 put(sprintf("Contains NAs: %s", sum(is.na(fit$fitted))))
 str(fit$pars)
@@ -1472,12 +1495,12 @@ date_smoothed_effect <- as.data.frame(date_global_effect) |>
 str(date_smoothed_effect)
 head(date_smoothed_effect)
 
-start <- start_date()
+start <- put_start_date()
 date_smoothed_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
-end_date(start)
+put_end_date(start)
 
 user_movie_genre_tuned_date_effect_mses <- date_smoothed_mses(date_smoothed_effect)
 plot(user_movie_genre_tuned_date_effect_mses)
@@ -1490,7 +1513,7 @@ RMSEs <- rmses_add_row("User+Movie+Genre+Date Effects Model (tuned)",
                        user_movie_genre_tuned_date_effect_rmse)
 rmse_kable()
 
-# start <- start_date()
+# start <- put_start_date()
 # final_holdout_test |>
 #   left_join(date_days_map, by = "timestamp") |>
 #   left_join(user_effects, by = "userId") |>
@@ -1499,7 +1522,7 @@ rmse_kable()
 #   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
 #   filter(!is.na(resid)) |>
 #   pull(resid) |> final_rmse()
-# end_date(start)
+# put_end_date(start)
 #> [1] 0.8724055
 
 #### Closing log file ----------------------------------------------------------
