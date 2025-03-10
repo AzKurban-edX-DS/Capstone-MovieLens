@@ -903,13 +903,10 @@ plot(user_movie_effects_rmses)
 put_log1("User+Movie Effects Model:
 RMSE values have been plotted for the %1-Fold Cross Validation samples.", CVFolds_N)
 
-user_movie_effects_rmse <- mean(user_movie_effects_mses)
+user_movie_effects_rmse <- mean(user_movie_effects_rmses)
 put_log2("User+Movie Effects Model:
 %1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_movie_effects_rmse)
 #> [1] 0.8621376
-
-#### Close Log -----------------------------------------------------------------
-log_close()
 
 # Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
 RMSEs <- rmses_add_row("User+Movie Effect Model", 
@@ -923,6 +920,9 @@ rmse_kable()
 #   filter(!is.na(resid)) |>
 #   pull(resid) |> final_rmse()
 #> [1] 0.8660814
+
+#### Close Log -----------------------------------------------------------------
+log_close()
 
 ### Accounting for Movie Genres ------------------------------------------------
 #> We can slightly improve our naive model by accounting for movie genres.
