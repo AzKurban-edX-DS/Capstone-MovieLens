@@ -735,7 +735,6 @@ log_close()
 #### Open log -------------------------------------------------------------------
 open_logfile("user-effect")
 #### Model building: User Effect ----------------------------------------------
-
 # Let's visualize the average rating for each user:
 start <- put_start_date()
 put_log("User Effect Model:
@@ -782,6 +781,9 @@ sum(is.na(user_ratings_avg))
 
 #> It can be shown that the least squares estimate `α[i]` is just the average 
 #> of `y[i,j] - μ` for each user. So we can compute them this way:
+
+put_log("User Effect Model:
+Computing User Effect per users ...")
 a <- user_ratings_avg - mu
 
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
@@ -792,14 +794,16 @@ A User Effect Model has been builded and trained")
 put(str(user_effects))
 print(head(user_effects))
 
-# Plot a histogram of the user effects
+# Plot a histogram of the user effects -----------------------------------------
 par(cex = 0.7)
 hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 put_log("User Effect Model:
 A histogram of the User Effect distribution has been plotted.")
 
-# Compute the RMSE taking into account user effects:
+# Computing the RMSE taking into account user effects --------------------------
+put_log("User Effect Model:
+Computing the RMSE taking into account user effects...")
 start <- put_start_date()
 user_effect_rmses <- sapply(edx_CV, function(cv_item){
   #mse(cv_item$validation_set$rating - mu)
@@ -824,7 +828,7 @@ RMSEs <- rmses_add_row("User Effect Model", user_effect_rmse)
 rmse_kable()
 #### Close Log -----------------------------------------------------------------
 log_close()
-### Taking into account Movie effect ------------------------------------------
+### Taking into account User+Movie Effects ------------------------------------------
 
 # Reference: the Textbook section "23.5 Movie effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects
@@ -840,20 +844,22 @@ log_close()
 #> α[i], and then estimating β[j] as the average of the residuals 
 #> `y[i,j] - μ - α[i]`:
 
-### Model building: User+Movie Effect -----------------------------------------
+#### Open log -------------------------------------------------------------------
+open_logfile("user+movie-effect")
 
-str(user_effects)
-
-sapply(edx_CV, function(cv_item){
-  dim(cv_item$train_mx)
-})
-
+### Model building: User+Movie Effects -----------------------------------------
+put_log("User+Movie Effect Model:
+Computing User+Movie Effect...")
 start <- put_start_date()
 user_movie_effects_ls <- sapply(edx_CV, function(cv_item){
   colMeans(cv_item$train_mx - user_effects$a - mu, na.rm = TRUE)
 })
 put_end_date(start)
-str(user_movie_effects_ls)
+put_log1("User+Movie Effect Model:
+User+Movie Effect list has been computed for %1-Fold Cross Validation samples.", 
+         CVFolds_N)
+
+print(str(user_movie_effects_ls))
 
 b <- user_movie_effects_ls |> unlist()
 str(b)
@@ -865,33 +871,45 @@ user_movie_effects <-
   summarise(b = mean(b, na.rm = TRUE)) |>
   mutate(movieId = as.integer(movieId))
 
-str(user_movie_effects)
-head(user_movie_effects)
+print(str(user_movie_effects))
+print(head(user_movie_effects))
 
 user_movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
+put_log("User+Movie Effect Model:
+Completed building the model.")
 
-# Plot a histogram of the User+Movie Effect -----------------------------------
+# Plot a histogram of the User+Movie Effects -----------------------------------
 par(cex = 0.7)
 hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
+put_log("User+Movie Effects Model:
+A histogram of the User+Movie Effect distribution has been plotted.")
 
-# Calculate MSEs on Validation Sets --------------------------------------------
+# Calculate RMSEs on Validation Sets --------------------------------------------
+put_log("User+Movie Effects Model:
+Computing the RMSE taking into account User+Movie Effects...")
 start <- put_start_date()
-user_movie_effects_mses <- sapply(edx_CV, function(cv_item){
+user_movie_effects_rmses <- sapply(edx_CV, function(cv_item){
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_effects, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b)) |> 
     filter(!is.na(resid)) |>
-    pull(resid) |> mse()
+    pull(resid) |> rmse()
 })
 put_end_date(start)
 
-plot(user_movie_effects_mses)
-user_movie_effects_rmse <- sqrt(mean(user_movie_effects_mses))
+plot(user_movie_effects_rmses)
+put_log1("User+Movie Effects Model:
+RMSE values have been plotted for the %1-Fold Cross Validation samples.", CVFolds_N)
 
-put(user_movie_effects_rmse)
+user_movie_effects_rmse <- mean(user_movie_effects_mses)
+put_log2("User+Movie Effects Model:
+%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_movie_effects_rmse)
 #> [1] 0.8621376
+
+#### Close Log -----------------------------------------------------------------
+log_close()
 
 # Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
 RMSEs <- rmses_add_row("User+Movie Effect Model", 
