@@ -2,6 +2,12 @@
 put_log("Function:
 ")
 
+put_log("User+Movie+Genre Effect Model:
+.")
+
+put_log1("User+Movie+Genre Effect Model:
+ for %1-Fold Cross Validation samples.", CVFolds_N)
+
 put_log("User+Movie Effect Model:
 .")
 

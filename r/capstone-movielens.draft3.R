@@ -927,6 +927,10 @@ log_close()
 ### Accounting for Movie Genres ------------------------------------------------
 #> We can slightly improve our naive model by accounting for movie genres.
 #> Let's do some preliminary analysis first.
+
+#### Open log -------------------------------------------------------------------
+open_logfile("user+movie+genre-effect")
+
 #### Data Analysis and Visualization -------------------------------------------
 
 # Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
@@ -937,6 +941,10 @@ log_close()
 #> (some movies fall under several genres)[@IDS2_23-7].
 
 # Preparing data for plotting:
+put_log1("User+Movie+Genre Effect Model:
+Computing Genre Summary list for %1-Fold Cross Validation samples...", 
+        CVFolds_N)
+
 
 genres_summary_list <- lapply(edx_CV, function(cv_item){
   
@@ -947,39 +955,78 @@ genres_summary_list <- lapply(edx_CV, function(cv_item){
     mutate(genres = reorder(genre_categories, rating_avg)) |>
     select(genres, rating_avg, se, n)
 })
+put_log1("User+Movie+Genre Effect Model:
+Genre Summary list has been computed for %1-Fold Cross Validation samples.", 
+CVFolds_N)
 
-# Average rating by genre -----------------------------------------------------
+# Average rating per genre -----------------------------------------------------
+put_log1("User+Movie+Genre Effect Model:
+Computing Average Rating per Genre list for %1-Fold Cross Validation samples...", 
+CVFolds_N)
+
 genre_ratings_avg <- lapply(genres_summary_list, function(gdat){
   r_avg <- gdat$rating_avg
   names(r_avg) <- gdat$genres
   r_avg
 })
+put_log1("User+Movie+Genre Effect Model:
+Average Rating per Genre list has been computed for %1-Fold Cross Validation samples.", 
+CVFolds_N)
 
 str(genre_ratings_avg)
-#length(genre_ratings_avg[[1]])
+
 gr_avg_length <- sapply(genre_ratings_avg, function(x) length(x))
 gr_avg_length
+
+# put_log1("User+Movie+Genre Effect Model:
+#  for %1-Fold Cross Validation samples.", 
+#  CVFolds_N)
+# 
+# put_log("User+Movie+Genre Effect Model:
+# .")
 
 movie_genre_groups <- names(genre_ratings_avg[[which.max(gr_avg_length)]])
 head(movie_genre_groups)
 length(movie_genre_groups)
 
-gratings_mx <- matrix(unlist(genre_ratings_avg), 
-                      ncol = length(kfold_index),
-                      byrow = TRUE)
-dim(gratings_mx)
-rownames(gratings_mx) <- movie_genre_groups
-head(gratings_mx)
+# gratings_mx <- matrix(unlist(genre_ratings_avg),
+#                       ncol = length(kfold_index),
+#                       byrow = TRUE)
+# dim(gratings_mx)
+# rownames(gratings_mx) <- movie_genre_groups
+# head(gratings_mx)
+# 
+# genre_mean_ratings <- rowMeans(gratings_mx, na.rm = TRUE)
 
-genre_ratings_mu <- rowMeans(gratings_mx, na.rm = TRUE)
-str(genre_ratings_mu)
+gr_sums <- data.frame(genres = names(genre_ratings_avg[[1]]),
+                      rating_sum = ifelse(!is.na(genre_ratings_avg[[1]]),
+                                          genre_ratings_avg[[1]], 0),
+                      n = ifelse(!is.na(genre_ratings_avg[[1]]),1, 0))
 
+for (i in 2:CVFolds_N) {
+  gr_sums_i <- data.frame(genres = names(genre_ratings_avg[[i]]),
+                          rating_avg = ifelse(!is.na(genre_ratings_avg[[i]]),
+                                              genre_ratings_avg[[i]], 0),
+                          n_i = ifelse(!is.na(genre_ratings_avg[[i]]),1, 0))
+  gr_sums <- gr_sums |>
+    full_join(gr_sums_i, by = "genres") |>
+    mutate(rating_sum = ifelse(is.na(rating_sum), 0, rating_sum) + 
+             ifelse(is.na(rating_avg), 0, rating_avg), 
+           n = ifelse(is.na(n), 0, n) + ifelse(is.na(n_i), 0, n_i)) |>
+    select(genres, rating_sum, n)
+}
+
+str(gr_sums)
+genre_mean_ratings <- gr_sums |>
+  mutate(rating = rating_sum/n)
+
+str(genre_mean_ratings)
 
 sprintf("The worst ratings were for the genre category: %s",
-        names(genre_ratings_mu)[which.min(genre_ratings_mu)])
+        names(genre_mean_ratings)[which.min(genre_mean_ratings)])
 
 sprintf("The best ratings were for the genre category: %s",
-        names(genre_ratings_mu)[which.max(genre_ratings_mu)])
+        names(genre_mean_ratings)[which.max(genre_mean_ratings)])
 
 # Genres Popularity ------------------------------------------------------------
 
@@ -1023,8 +1070,8 @@ dim(genres_se_mx)
 genres_se <- rowMeans(genres_se_mx, na.rm = TRUE)
 str(genres_se)
 
-genre_ratins_df <- data.frame(genres = names(genre_ratings_mu),
-                              ratings_avg = genre_ratings_mu,
+genre_ratins_df <- data.frame(genres = names(genre_mean_ratings),
+                              ratings_avg = genre_mean_ratings,
                               n = genres_N,
                               se = genres_se) |>
   sort_by.data.frame(~ratings_avg)
@@ -1236,6 +1283,9 @@ rmse_kable()
 #   filter(!is.na(resid)) |>
 #   pull(resid) |> final_rmse()
 #> [1] 0.8659243
+
+#### Close Log -----------------------------------------------------------------
+log_close()
 
 ### Accounting for Date Smoothed Effect ------------------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j]  + f(d[i,j]) + ε[i,j]
