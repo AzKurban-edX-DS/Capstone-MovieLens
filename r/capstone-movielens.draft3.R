@@ -1017,16 +1017,18 @@ for (i in 2:CVFolds_N) {
 }
 
 str(gr_sums)
+
 genre_mean_ratings <- gr_sums |>
-  mutate(rating = rating_sum/n)
+  mutate(rating = rating_sum/n) |>
+  select(genres, rating)
 
 str(genre_mean_ratings)
 
-sprintf("The worst ratings were for the genre category: %s",
-        names(genre_mean_ratings)[which.min(genre_mean_ratings)])
+put(sprintf("The worst ratings were for the genre category: %s",
+            genre_mean_ratings$genres[which.min(genre_mean_ratings$rating)]))
 
-sprintf("The best ratings were for the genre category: %s",
-        names(genre_mean_ratings)[which.max(genre_mean_ratings)])
+put(sprintf("The best ratings were for the genre category: %s",
+            genre_mean_ratings$genres[which.max(genre_mean_ratings$rating)]))
 
 # Genres Popularity ------------------------------------------------------------
 
