@@ -940,150 +940,83 @@ open_logfile("user+movie+genre-effect")
 #> every genre that applies to the movie 
 #> (some movies fall under several genres)[@IDS2_23-7].
 
+# Average rating per genre -----------------------------------------------------
+
 # Preparing data for plotting:
-put_log1("User+Movie+Genre Effect Model:
-Computing Genre Summary list for %1-Fold Cross Validation samples...", 
+put_log1("Computing Genre Summary list for %1-Fold Cross Validation samples...", 
         CVFolds_N)
 
-
 genres_summary_list <- lapply(edx_CV, function(cv_item){
-  
-  grp <- cv_item$train_set |> 
+  cv_item$train_set |> 
     mutate(genre_categories = as.factor(genres)) |>
     group_by(genre_categories) |>
     summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+    filter(n > min_nratings) |>
     mutate(genres = reorder(genre_categories, rating_avg)) |>
     select(genres, rating_avg, se, n)
 })
-put_log1("User+Movie+Genre Effect Model:
-Genre Summary list has been computed for %1-Fold Cross Validation samples.", 
-CVFolds_N)
+put_log1("Genre Summary list has been computed for %1-Fold Cross Validation samples.", 
+         CVFolds_N)
 
-# Average rating per genre -----------------------------------------------------
-put_log1("User+Movie+Genre Effect Model:
-Computing Average Rating per Genre list for %1-Fold Cross Validation samples...", 
-CVFolds_N)
+put(str(genres_summary_list))
 
-genre_ratings_avg <- lapply(genres_summary_list, function(gdat){
-  r_avg <- gdat$rating_avg
-  names(r_avg) <- gdat$genres
-  r_avg
+genres_summary_list_nas <- lapply(genres_summary_list, function(item){
+  c(sum(is.na(item$genres)), sum(is.na(item$rating_avg)), sum(is.na(item$se)), sum(is.na(item$n)))
 })
-put_log1("User+Movie+Genre Effect Model:
-Average Rating per Genre list has been computed for %1-Fold Cross Validation samples.", 
-CVFolds_N)
+genres_summary_list_nas
 
-str(genre_ratings_avg)
+put_log1("Computing Average Rating per Genre list for %1-Fold Cross Validation samples...", 
+         CVFolds_N)
 
-gr_avg_length <- sapply(genre_ratings_avg, function(x) length(x))
-gr_avg_length
+genre_ratings <- genres_summary_list[[1]]
+str(genre_ratings)
 
-# put_log1("User+Movie+Genre Effect Model:
-#  for %1-Fold Cross Validation samples.", 
-#  CVFolds_N)
-# 
-# put_log("User+Movie+Genre Effect Model:
-# .")
-
-movie_genre_groups <- names(genre_ratings_avg[[which.max(gr_avg_length)]])
-head(movie_genre_groups)
-length(movie_genre_groups)
-
-# gratings_mx <- matrix(unlist(genre_ratings_avg),
-#                       ncol = length(kfold_index),
-#                       byrow = TRUE)
-# dim(gratings_mx)
-# rownames(gratings_mx) <- movie_genre_groups
-# head(gratings_mx)
-# 
-# genre_mean_ratings <- rowMeans(gratings_mx, na.rm = TRUE)
-
-gr_sums <- data.frame(genres = names(genre_ratings_avg[[1]]),
-                      rating_sum = ifelse(!is.na(genre_ratings_avg[[1]]),
-                                          genre_ratings_avg[[1]], 0),
-                      n = ifelse(!is.na(genre_ratings_avg[[1]]),1, 0))
-
-for (i in 2:CVFolds_N) {
-  gr_sums_i <- data.frame(genres = names(genre_ratings_avg[[i]]),
-                          rating_avg = ifelse(!is.na(genre_ratings_avg[[i]]),
-                                              genre_ratings_avg[[i]], 0),
-                          n_i = ifelse(!is.na(genre_ratings_avg[[i]]),1, 0))
-  gr_sums <- gr_sums |>
-    full_join(gr_sums_i, by = "genres") |>
-    mutate(rating_sum = ifelse(is.na(rating_sum), 0, rating_sum) + 
-             ifelse(is.na(rating_avg), 0, rating_avg), 
-           n = ifelse(is.na(n), 0, n) + ifelse(is.na(n_i), 0, n_i)) |>
-    select(genres, rating_sum, n)
+for (i in 2:CVFolds_N){
+  genre_ratings <- union(genre_ratings, 
+                         genres_summary_list[[i]])
 }
 
-str(gr_sums)
+str(genre_ratings)
 
-genre_mean_ratings <- gr_sums |>
-  mutate(rating = rating_sum/n) |>
-  select(genres, rating)
+genre_ratings |>
+  summarise(na_test = c(sum(is.na(genres)), 
+                        sum(is.na(rating_avg)),
+                        sum(is.na(se)),
+                        sum(is.na(n))
+                        )) |>
+  pull(na_test)
 
-str(genre_mean_ratings)
+genre_mean_ratings <- genre_ratings |>
+  group_by(genres) |>
+  summarise(ratings = mean(rating_avg),
+            se = mean(se),
+            n = mean(n)) |>
+  mutate(genres = reorder(genres, ratings)) |>
+  sort_by.data.frame(~ratings)
 
-put(sprintf("The worst ratings were for the genre category: %s",
-            genre_mean_ratings$genres[which.min(genre_mean_ratings$rating)]))
+put_log1("Mean Rating per Genre list has been computed for %1-Fold Cross Validation samples.",
+         CVFolds_N)
 
-put(sprintf("The best ratings were for the genre category: %s",
-            genre_mean_ratings$genres[which.max(genre_mean_ratings$rating)]))
+put(str(genre_mean_ratings))
+print(head(genre_mean_ratings))
+
+put(sprintf("The worst rating is for the genre category: %s (average rating is %s)",
+            genre_mean_ratings$genres[which.min(genre_mean_ratings$ratings)],
+            as.character(clamp(min(genre_mean_ratings$ratings)))))
+
+put(sprintf("The best rating is for the genre category: %s (average rating is %s)",
+            genre_mean_ratings$genres[which.max(genre_mean_ratings$ratings)],
+            as.character(clamp(max(genre_mean_ratings$ratings)))))
 
 # Genres Popularity ------------------------------------------------------------
 
-genre_popularity <- lapply(genres_summary_list, function(gdat){
-  n <- gdat$n
-  names(n) <- gdat$genres
-  n
-})
+put(sprintf("The worst popularity was for the genre category: %s (%s ratings)",
+            genre_mean_ratings$genres[which.min(genre_mean_ratings$n)],
+            as.character(min(genre_mean_ratings$n))))
 
-str(genre_popularity)
-
-genres_n <- matrix(unlist(genre_popularity), 
-                   ncol = length(kfold_index),
-                   byrow = TRUE)
-dim(genres_n)
-rownames(genres_n) <- movie_genre_groups
-head(genres_n)
-
-genres_N <- rowMeans(genres_n, na.rm = TRUE)
-str(genres_N)
-
-sprintf("The worst popularity was for the genre category: %s",
-        names(genres_N)[which.min(genres_N)])
-
-sprintf("The best popularity was for the genre category: %s",
-        names(genres_N)[which.max(genres_N)])
-
-
-# Genre Ratings Data Frame -----------------------------------------------------
-
-genre_ratings_se <- lapply(genres_summary_list, function(gdat){
-  gdat$se
-})
-
-str(genre_ratings_se)
-
-genres_se_mx <- matrix(unlist(genre_ratings_se), 
-                       ncol = length(kfold_index),
-                       byrow = TRUE)
-dim(genres_se_mx)
-genres_se <- rowMeans(genres_se_mx, na.rm = TRUE)
-str(genres_se)
-
-genre_ratins_df <- data.frame(genres = names(genre_mean_ratings),
-                              ratings_avg = genre_mean_ratings,
-                              n = genres_N,
-                              se = genres_se) |>
-  sort_by.data.frame(~ratings_avg)
-
-
-
-row.names(genre_ratins_df) <- 1:nrow(genre_ratins_df)
-
-str(genre_ratins_df)
-head(genre_ratins_df)
+put(sprintf("The best popularity was for the genre category: %s (%s ratings)",
+            genre_mean_ratings$genres[which.max(genre_mean_ratings$n)],
+            as.character(max(genre_mean_ratings$n))))
 
 ##### Genres Info Visualization ------------------------------------------------
 #> For illustrative purposes, we will limit the genre information 
@@ -1091,34 +1024,37 @@ head(genre_ratins_df)
 nratings <- 24000
 
 # Plot Genre Info --------------------------------------------------------------  
-genre_ratings_plot_dat <- genre_ratins_df |>
-  filter(n > nratings) |>
-  mutate(genres = factor(genres, levels = unique(genres)))
-#mutate(genres = as.factor(genres))
+genre_ratings_plot_dat <- genre_mean_ratings |>
+  filter(n > nratings) #|>
+  # mutate(genres = factor(genres, levels = unique(genres)))
 
-dim(genre_ratings_plot_dat)
-str(genre_ratings_plot_dat)
-head(genre_ratings_plot_dat)
-put(genre_ratings_plot_dat)
+# dim(genre_ratings_plot_dat)
+# str(genre_ratings_plot_dat)
+# head(genre_ratings_plot_dat)
+# put(genre_ratings_plot_dat)
 
 
 # Creating plot:
 genre_ratings_plot_dat |> 
   ggplot(aes(x = genres, 
-             y = ratings_avg, 
-             ymin = ratings_avg - 2*se, 
-             ymax = ratings_avg + 2*se)) + 
+             y = ratings, 
+             ymin = ratings - 2*se, 
+             ymax = ratings + 2*se)) + 
   geom_point() +
   geom_errorbar() + 
   ggtitle("Average rating per Genre") +
   ylab("Average rating") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
+put_log1("Mean Rating per Genre list distribution filtered by ratings amount greater than %1
+has been plotted.",
+         nratings)
+
 sprintf("The worst ratings were for the genre category: %s",
-        genre_ratings_plot_dat$genres[which.min(genre_ratings_plot_dat$ratings_avg)])
+        genre_ratings_plot_dat$genres[which.min(genre_ratings_plot_dat$ratings)])
 
 sprintf("The best ratings were for the genre category: %s",
-        genre_ratings_plot_dat$genres[which.max(genre_ratings_plot_dat$ratings_avg)])
+        genre_ratings_plot_dat$genres[which.max(genre_ratings_plot_dat$ratings)])
 
 ##### Alternative way of visualizing a Genre Effect ----------------------------
 #> Reference: Article "Movie Recommendation System using R - BEST" written by 
@@ -1132,7 +1068,7 @@ plot_ind <- odd(1:nrow(genre_ratings_plot_dat))
 plot_dat <- genre_ratings_plot_dat[plot_ind,] 
 
 plot_dat |>
-  ggplot(aes(x = ratings_avg, y = genres)) +
+  ggplot(aes(x = ratings, y = genres)) +
   ggtitle("Genre Average Rating") +
   geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
   xlab("Average ratings") +
@@ -1146,8 +1082,11 @@ plot_dat |>
         axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 9),
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 
-# Genre Separated Data Analysis ------------------------------------------------
+put_log1("Mean Rating per Genre list distribution filtered by ratings amount greater than %1
+has been plotted alternative way.",
+         nratings)
 
+# Genre Separated Data Analysis ------------------------------------------------
 
 ### Including Genre effect -----------------------------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j]  + ε[i,j]
@@ -1160,14 +1099,15 @@ plot_dat |>
 
 start <- put_start_date()
 user_movie_genre_effects_ls <- lapply(edx_CV, function(cv_item){
-  g_bias <- cv_item$train_gs_set |>
+  genre_bias <- cv_item$train_gs_set |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_effects, by = "movieId") |>
     group_by(genres) |>
-    summarise(g = mean(rating - (mu + a + b), na.rm = TRUE))
+    summarise(g = mean(rating - (mu + a + b), n = n(), na.rm = TRUE)) |>
+    filter(n > min_nratings)
   
   mg_bias <- cv_item$train_gs_set |>
-    left_join(g_bias, by = "genres") |>
+    left_join(genre_bias, by = "genres") |>
     left_join(user_movie_effects, by = "movieId") |>
     group_by(movieId) |>
     summarise(b = mean(b, na.rm = TRUE), g = mean(g, na.rm = TRUE))
