@@ -796,11 +796,6 @@ put_log("A histogram of the User Mean Rating distribution has been plotted.")
 
 put_log("User Effect Model:
 Computing User Effect per users ...")
-
-# a <- user_mean_ratings$mean_rating - mu
-# names(a) <- user_mean_ratings$userId
-#user_effects <- data.frame(userId = as.integer(names(a)), a = a)
-
 user_effects <- user_mean_ratings |> 
   mutate(a = mean_rating - mu,
          userId = as.integer(userId)) |>
@@ -875,78 +870,63 @@ log_close()
 open_logfile("user+movie-effect")
 
 ### Model building: User+Movie Effects -----------------------------------------
-put_log("User+Movie Effect Model:
-Computing User+Movie Effect...")
-start <- put_start_date()
-user_movie_effects_ls <- sapply(edx_CV, function(cv_item){
-  colMeans(cv_item$train_mx - user_effects$a - mu, na.rm = TRUE)
+put_log("Computing User+Movie Effect...")
+user_movie_effects_ls <- lapply(edx_CV, function(cv_item){
+  cv_item$train_set |>
+    left_join(user_effects, by = "userId") |>
+    mutate(ume = rating - mu - ifelse(!is.na(a), a, 0)) |> 
+    group_by(movieId) |>
+    summarise(b_cv = mean(ume), n = n())
 })
-put_end_date(start)
-put_log1("User+Movie Effect Model:
-User+Movie Effect list has been computed for %1-Fold Cross Validation samples.", 
-         CVFolds_N)
 
-print(str(user_movie_effects_ls))
+put(str(user_movie_effects_ls))
 
-b <- user_movie_effects_ls |> unlist()
-str(b)
+user_movie_effects_united <- union_cv_results(user_movie_effects_ls)
+put(str(user_movie_effects_united))
+# sum(is.na(movie_ratings_avg_united)) # 0 (there are no NAs in there)
 
-user_movie_effects <- 
-  data.frame(movieId = names(b),                                     
-             b = b) |>
+user_movie_effects <- user_movie_effects_united |>
   group_by(movieId) |>
-  summarise(b = mean(b, na.rm = TRUE)) |>
-  mutate(movieId = as.integer(movieId))
+  summarise(b = mean(b_cv), n = mean(n))
 
-print(str(user_movie_effects))
-print(head(user_movie_effects))
+put_log("User+Movie Effects have been computed")
+put(str(user_movie_effects))
+# sum(is.na(user_movie_effects$b)) # 0 (there are no NAs in there)
 
-user_movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
-put_log("User+Movie Effect Model:
-Completed building the model.")
+#user_movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
+put_log("Completed building the User+Movie Effects model.")
 
 # Plot a histogram of the User+Movie Effects -----------------------------------
 par(cex = 0.7)
 hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
-put_log("User+Movie Effects Model:
-A histogram of the User+Movie Effect distribution has been plotted.")
+put_log("A histogram of the User+Movie Effects distribution has been plotted.")
 
 # Calculate RMSEs on Validation Sets --------------------------------------------
-put_log("User+Movie Effects Model:
-Computing the RMSE taking into account User+Movie Effects...")
+put_log("Computing the RMSE taking into account User+Movie Effects...")
 start <- put_start_date()
 user_movie_effects_rmses <- sapply(edx_CV, function(cv_item){
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_effects, by = "movieId") |>
-    mutate(resid = rating - clamp(mu + a + b)) |> 
-    filter(!is.na(resid)) |>
+    mutate(resid = rating - clamp(mu + ifelse(!is.na(a), a, 0) + ifelse(!is.na(b), b, 0))) |> 
     pull(resid) |> rmse()
 })
 put_end_date(start)
 
 plot(user_movie_effects_rmses)
-put_log1("User+Movie Effects Model:
-RMSE values have been plotted for the %1-Fold Cross Validation samples.", CVFolds_N)
+put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
+         CVFolds_N)
 
 user_movie_effects_rmse <- mean(user_movie_effects_rmses)
-put_log2("User+Movie Effects Model:
-%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_movie_effects_rmse)
-#> [1] 0.8621376
+put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_movie_effects_rmse)
+user_movie_effects_rmse
+#> [1] 0.8974307
 
 # Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
 RMSEs <- rmses_add_row("User+Movie Effect Model", 
                        user_movie_effects_rmse)
 rmse_kable()
-
-# final_holdout_test |>
-#   left_join(user_effects, by = "userId") |>
-#   left_join(user_movie_effects, by = "movieId") |>
-#   mutate(resid = rating - clamp(mu + a + b)) |> 
-#   filter(!is.na(resid)) |>
-#   pull(resid) |> final_rmse()
-#> [1] 0.8660814
 
 #### Close Log -----------------------------------------------------------------
 log_close()
