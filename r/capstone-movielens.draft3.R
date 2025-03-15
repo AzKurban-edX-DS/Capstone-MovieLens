@@ -184,7 +184,11 @@ rmse_kable <- function(){
 # we define the function clamp:
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 
-### Data processing functions -------------------------------------------------
+### Data processing functions & global variables -------------------------------
+data_path <- "data"
+CVFolds_N <- 5
+kfold_index <- seq(from = 1:CVFolds_N)
+
 load_movielens_data_from_file <- function(file_path){
   put(sprintf("Loading MovieLens datasets from file: %s...", 
                 file_path))
@@ -220,6 +224,18 @@ separateGenreRows <- function(data){
   put_end_date(start)
   gs_splitted
 }
+
+union_cv_results <- function(data_list) {
+  out_dat <- data_list[[1]]
+
+  for (i in 2:CVFolds_N){
+    out_dat <- union(out_dat, 
+                           data_list[[i]])
+  }
+  
+  out_dat
+}
+
 ## Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
@@ -240,10 +256,6 @@ if(!require(edx.capstone.movielens.data)) {
   pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
   put_end_date(start)
 }
-
-data_path <- "data"
-CVFolds_N <- 5
-kfold_index <- seq(from = 1:CVFolds_N)
 
 movielens_datasets_file <- "movielens-datasets.RData"
 movielens_datasets_file_path <- file.path(data_path, movielens_datasets_file)
@@ -290,10 +302,10 @@ Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
   # $$
 
   start <- put_start_date()
-  edx_CV <- lapply(kfold_index,  function(fi){
+  edx_CV <- lapply(kfold_index,  function(fold_i){
 
     put_log1("Method `make_source_datasets`: 
-Creating K-Fold Cross Validation Datasets, Fold %1", fi)
+Creating K-Fold Cross Validation Datasets, Fold %1", fold_i)
     
     #> We split the initial datasets into training sets, which we will use to build 
     #> and train our models, and validation sets in which we will compute the accuracy 
@@ -306,7 +318,7 @@ For each user we are going to process, we will split their ratings
 into 80% for training and 20% for validation.")
     
     put_log("Function: `make_source_datasets`: Sampling 20% of the `edx` data...")
-    set.seed(fi*1000)
+    set.seed(fold_i*1000)
     validation_ind <- 
       sapply(splitByUser(edx),
              function(i) sample(i, ceiling(length(i)*.2))) |> 
@@ -343,7 +355,7 @@ for movies belonging to multiple genres.")
 
     put_log("Function: `make_source_datasets`: 
 Sampling 20% from the split-row version of the `edx` dataset...")
-    set.seed(fi*2000)
+    set.seed(fold_i*2000)
     validation_gs_ind <- 
       sapply(splitByUser(edx_split_row_genre),
              function(i) sample(i, ceiling(length(i)*.2))) |> 
@@ -734,43 +746,43 @@ log_close()
 
 #### Open log -------------------------------------------------------------------
 open_logfile("user-effect")
+put("Building User Effect Model...")
 #### Model building: User Effect ----------------------------------------------
 # Let's visualize the average rating for each user:
+put_log("Computing Average Ratings per User (User Mean Ratings)...")
 start <- put_start_date()
-put_log("User Effect Model:
-Computing Average Ratings per User (User Mean Ratings)...")
-user_ratings_avg_ls <- sapply(edx_CV, function(cv_item){
-  rowMeans(cv_item$train_mx, na.rm = TRUE)
+user_ratings_avg_ls <- lapply(edx_CV, function(cv_item){
+  # print(dim(cv_item$train_mx))
+  #str(cv_item$train_mx)
+  user_ratings_avg <- rowMeans(cv_item$train_mx, na.rm = TRUE)
+  n_ratings <- rowSums(!is.na(cv_item$train_mx))
+  # print(sum(is.na(user_ratings_avg))) # 0 (there are no NAs in there)
+  #str(user_ratings_avg)
+  data.frame(userId = names(user_ratings_avg), 
+             ratings_avg = user_ratings_avg,
+             n = n_ratings)
 })
 put_end_date(start)
-put_log1("User Effect Model:
-User Mean Rating list has been computed for %1-Fold Cross Validation samples.", 
+put_log1("User Average Rating list has been computed for %1-Fold Cross Validation samples.", 
          CVFolds_N)
-#put(str(user_ratings_avg_ls))
 
-y <- as.matrix(user_ratings_avg_ls)
-put_log1("User Effect Model:
-The User Mean Rating list for the %1-Fold Cross Validation samples has been converted to a matrix.",
-        CVFolds_N)
-put(dim(y))
-put(head(y))
-#        [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]     [,9]    [,10]
-# 8  3.401893 3.395869 3.367470 3.393287 3.389845 3.382100 3.409639 3.383821 3.398451 3.351119
-# 10 3.764045 3.775281 3.820225 3.820225 3.898876 3.887640 3.842697 3.775281 3.876404 3.820225
-# 13 3.320000 3.370000 3.290000 3.370000 3.340000 3.270000 3.270000 3.300000 3.320000 3.330000
-# 18 3.479239 3.479239 3.422145 3.444637 3.420415 3.444637 3.425606 3.463668 3.422145 3.461938
-# 19 3.680233 3.767442 3.726744 3.738372 3.784884 3.726744 3.790698 3.662791 3.703488 3.726744
-# 30 4.446429 4.508929 4.491071 4.500000 4.491071 4.482143 4.500000 4.500000 4.508929 4.517857
+put(str(user_ratings_avg_ls))
 
-user_ratings_avg = rowMeans(y, na.rm = TRUE)
-put_log("User Effect Model:
-The Average Ratings per User (User Mean Ratings) have been calculated.")
-hist(user_ratings_avg, nclass = 30)
-put_log("User Effect Model:
-A histogram of the User Mean Rating distribution has been plotted.")
-print(head(user_ratings_avg))
-sum(is.na(user_ratings_avg))
+user_ratings_avg_united <- union_cv_results(user_ratings_avg_ls)
+put(str(user_ratings_avg_united))
+#sum(is.na(user_ratings_avg_united))
+
+user_mean_ratings <- user_ratings_avg_united |>
+  group_by(userId) |>
+  summarise(mean_rating = mean(ratings_avg), n = mean(n))
+
+put_log("The Average Ratings per User (User Mean Ratings) have been computed.")
+put(str(user_mean_ratings))
+# sum(is.na(user_mean_ratings$mean_rating))
 #> [1] 0
+
+hist(user_mean_ratings$mean_rating, nclass = 30)
+put_log("A histogram of the User Mean Rating distribution has been plotted.")
 
 # we notice that there is substantial variability across users.
 #>  To account for this, we can use a linear model with a treatment effect `α[i]` 
@@ -784,15 +796,18 @@ sum(is.na(user_ratings_avg))
 
 put_log("User Effect Model:
 Computing User Effect per users ...")
-a <- user_ratings_avg - mu
 
-#> Finally, we are ready to compute the `RMSE` (additionally using the helper 
-#> function `clamp` we defined above to keep predictions in the proper range):
-user_effects <- data.frame(userId = as.integer(names(a)), a = a)
-put_log("User Effect Model:
-A User Effect Model has been builded and trained")
+# a <- user_mean_ratings$mean_rating - mu
+# names(a) <- user_mean_ratings$userId
+#user_effects <- data.frame(userId = as.integer(names(a)), a = a)
+
+user_effects <- user_mean_ratings |> 
+  mutate(a = mean_rating - mu,
+         userId = as.integer(userId)) |>
+  select(userId, a)
+
+put_log("A User Effect Model has been builded and trained")
 put(str(user_effects))
-print(head(user_effects))
 
 # Plot a histogram of the user effects -----------------------------------------
 par(cex = 0.7)
@@ -801,27 +816,39 @@ hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
 put_log("User Effect Model:
 A histogram of the User Effect distribution has been plotted.")
 
+
+#> Finally, we are ready to compute the `RMSE` (additionally using the helper 
+#> function `clamp` we defined above to keep predictions in the proper range):
+
 # Computing the RMSE taking into account user effects --------------------------
-put_log("User Effect Model:
-Computing the RMSE taking into account user effects...")
-start <- put_start_date()
+put_log("Computing the RMSE taking into account user effects...")
+#start <- put_start_date()
 user_effect_rmses <- sapply(edx_CV, function(cv_item){
-  #mse(cv_item$validation_set$rating - mu)
+  # a <- cv_item$validation_set |>
+  #   left_join(user_effects, by = "userId") |>
+  #   pull(a)
+  # 
+  # print(sum(is.na(a)))
+  # print(sum(!is.na(a)))
+  
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
-    mutate(resid = rating - clamp(mu + a)) |> 
+    mutate(resid = rating - clamp(mu + ifelse(!is.na(a), a, 0))) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> rmse()
 })
+#put_end_date(start)
+
 plot(user_effect_rmses)
-put_log1("User Effect Model:
-RMSE values have been plotted for the %1-Fold Cross Validation samples.", CVFolds_N)
-put_end_date(start)
+put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
+         CVFolds_N)
 
 user_effect_rmse <- mean(user_effect_rmses)
-put_log2("User Effect Model:
-%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_effect_rmse)
-#> [1] 0.9684293
+put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
+         CVFolds_N, 
+         user_effect_rmse)
+user_effect_rmse
+#> [1] 0.9995667
 
 # Add a row to the RMSE Result Table for the User Effect Model ---------------- 
 RMSEs <- rmses_add_row("User Effect Model", user_effect_rmse)
