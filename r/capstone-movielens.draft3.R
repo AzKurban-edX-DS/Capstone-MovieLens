@@ -870,7 +870,7 @@ log_close()
 #### Open log -------------------------------------------------------------------
 open_logfile("user+movie-effect")
 
-### Model building: User+Movie Effects -----------------------------------------
+#### Model building: User+Movie Effects -----------------------------------------
 put_log("Computing User+Movie Effect...")
 start <- put_start_date()
 user_movie_effects_ls <- lapply(edx_CV, function(cv_item){
@@ -899,13 +899,13 @@ put(str(user_movie_effects))
 #user_movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
 put_log("Completed building the User+Movie Effects model.")
 
-# Plot a histogram of the User+Movie Effects -----------------------------------
+#### Plot a histogram of the User+Movie Effects -----------------------------------
 par(cex = 0.7)
 hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the User+Movie Effects distribution has been plotted.")
 
-# Calculate RMSEs on Validation Sets --------------------------------------------
+#### Calculate RMSEs on Validation Sets --------------------------------------------
 put_log("Computing the RMSE taking into account User+Movie Effects...")
 start <- put_start_date()
 user_movie_effects_rmses <- sapply(edx_CV, function(cv_item){
@@ -927,7 +927,7 @@ put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_movie_eff
 user_movie_effects_rmse
 #> [1] 0.8594761
 
-# Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
+#### Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
 RMSEs <- rmses_add_row("User+Movie Effect Model", 
                        user_movie_effects_rmse)
 rmse_kable()
@@ -951,7 +951,7 @@ open_logfile("user+movie+genre-effect")
 #> every genre that applies to the movie 
 #> (some movies fall under several genres)[@IDS2_23-7].
 
-# Average rating per genre -----------------------------------------------------
+##### Average rating per genre -----------------------------------------------------
 
 # Preparing data for plotting:
 put_log1("Computing Genre Summary list for %1-Fold Cross Validation samples...", 
@@ -969,7 +969,7 @@ genres_summary_list <- lapply(edx_CV, function(cv_item){
 put_log1("Genre Summary list has been computed for %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-put(str(genres_summary_list))
+str(genres_summary_list)
 
 # genres_summary_list_nas <- lapply(genres_summary_list, function(item){
 #   c(sum(is.na(item$genres)), sum(is.na(item$rating_avg)), sum(is.na(item$se)), sum(is.na(item$n)))
@@ -1012,7 +1012,7 @@ put(sprintf("The best rating is for the genre category: %s (average rating is %s
             genre_mean_ratings$genres[which.max(genre_mean_ratings$ratings)],
             as.character(clamp(max(genre_mean_ratings$ratings)))))
 
-# Genres Popularity ------------------------------------------------------------
+##### Genres Popularity ------------------------------------------------------------
 
 put(sprintf("The worst popularity was for the genre category: %s (%s ratings)",
             genre_mean_ratings$genres[which.min(genre_mean_ratings$n)],
@@ -1027,7 +1027,7 @@ put(sprintf("The best popularity was for the genre category: %s (%s ratings)",
 #> we are going to plot to movies with more than 24,000 ratings:
 nratings <- 24000
 
-# Plot Genre Info --------------------------------------------------------------  
+###### Plot Genre Info --------------------------------------------------------------  
 genre_ratings_plot_dat <- genre_mean_ratings |>
   filter(n > nratings)
 
@@ -1058,7 +1058,7 @@ sprintf("The worst ratings were for the genre category: %s",
 sprintf("The best ratings were for the genre category: %s",
         genre_ratings_plot_dat$genres[which.max(genre_ratings_plot_dat$ratings)])
 
-##### Alternative way of visualizing a Genre Effect ----------------------------
+####### Alternative way of visualizing a Genre Effect ----------------------------
 #> Reference: Article "Movie Recommendation System using R - BEST" written by 
 #> Amir Moterfaker (https://www.kaggle.com/amirmotefaker)
 #> (section "Average rating for each genre")[@MRS-R-BEST]
@@ -1088,9 +1088,9 @@ put_log1("Mean Rating per Genre list distribution filtered by ratings amount gre
 has been plotted alternative way.",
          nratings)
 
-# Genre Separated Data Analysis ------------------------------------------------
+##### Genre Separated Data Analysis ------------------------------------------------
 
-### Including Genre effect -----------------------------------------------------
+#### Including Genre effect -----------------------------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j]  + ε[i,j]
 # where g[i,j] is a combination of genres for movie `i` rated by user `j`,
 # so that g[i,j] = ∑{k=1,K}(x[i,j]^k*𝜸[k]) 
@@ -1139,59 +1139,67 @@ put(str(user_movie_genre_effects_united))
 
 # edx_cv_item <- edx_CV[[1]]$train_set
 
-# Compute Genre Movie Bias -----------------------------------------------------
+##### Compute Genre Movie Bias -----------------------------------------------------
 
 user_movie_genre_effects <- user_movie_genre_effects_united |>
   group_by(movieId) |>
   summarise(b = mean(b), g = mean(g))
 
+put_log("User+Movie+Genre Effects have been computed.")
 str(user_movie_genre_effects)
 # sum(is.na(user_movie_genre_effects$b))
 #> [1] 0
 # sum(is.na(user_movie_genre_effects$g))
 #> [1] 0
 
-# Compute Genre Bias ---------------
-
-# Finalize User+Movie+Genre Effects ---------------------------------------------
-
+##### Finalize User+Movie+Genre Effects ---------------------------------------------
 
 # sum(is.na(user_movie_genre_effects$g))
 # #> [1] 0
 # sum(is.na(user_movie_genre_effects$g))
 #> [1] 0
 
-# Plot a histogram of the User+Movie+Genre Effects (Movie Bias) ----------------
+###### Plot a histogram of the Movie Effect distribution ----------------------------
 par(cex = 0.7)
 hist(user_movie_genre_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 
-# Plot a histogram of the User+Movie+Genre Effects (Genre Bias) ----------------
+put_log("A histogram of the Movie Effect (adjusted for Genre Bias) distribution has been plotted.")
+
+###### Plot a histogram of the Genre Effect distribution ----------------------------
 #par(cex = 0.7)
 hist(user_movie_genre_effects$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
      main = TeX(r'[Histogram of $\hat{g}_{j}$]'))
 
-#### Compute RMSE: user+movie+genre effects ------------------------------------
+put_log("A histogram of the Genre Effect distribution has been plotted.")
 
-# Calculate MSEs on Validation Sets
+###### Compute RMSE: user+movie+genre effects ------------------------------------
+
+put_log("Computing RMSEs on Validation Sets...")
 start <- put_start_date()
-user_movie_genre_effects_mses <- sapply(edx_CV, function(cv_item){
+user_movie_genre_effects_rmses <- sapply(edx_CV, function(cv_item){
   cv_item$validation_set |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_genre_effects, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b + g)) |> 
     filter(!is.na(resid)) |>
-    pull(resid) |> mse()
+    pull(resid) |> rmse()
 })
 put_end_date(start)
 
-plot(user_movie_genre_effects_mses)
-user_movie_genre_effects_rmse <- sqrt(mean(user_movie_genre_effects_mses))
+plot(user_movie_genre_effects_rmses)
+put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
+         CVFolds_N)
 
-put(user_movie_genre_effects_rmse)
-#> [1] 0.8619763
+user_movie_genre_effects_rmse <- mean(user_movie_genre_effects_rmses)
+put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
+         CVFolds_N, 
+         user_movie_genre_effects_rmse)
 
-##### Add a row to the RMSE Result Table for the User+Movie+Genre Effect Model ---- 
+user_movie_genre_effects_rmse
+#> [1] 0.8594752
+
+#### Add a row to the RMSE Result Table for the User+Movie+Genre Effect Model ---- 
 RMSEs <- rmses_add_row("User+Movie+Genre Effect Model", 
                        user_movie_genre_effects_rmse)
 rmse_kable()
