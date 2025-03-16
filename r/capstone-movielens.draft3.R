@@ -971,33 +971,26 @@ put_log1("Genre Summary list has been computed for %1-Fold Cross Validation samp
 
 put(str(genres_summary_list))
 
-genres_summary_list_nas <- lapply(genres_summary_list, function(item){
-  c(sum(is.na(item$genres)), sum(is.na(item$rating_avg)), sum(is.na(item$se)), sum(is.na(item$n)))
-})
-genres_summary_list_nas
+# genres_summary_list_nas <- lapply(genres_summary_list, function(item){
+#   c(sum(is.na(item$genres)), sum(is.na(item$rating_avg)), sum(is.na(item$se)), sum(is.na(item$n)))
+# })
+# genres_summary_list_nas
 
 put_log1("Computing Average Rating per Genre list for %1-Fold Cross Validation samples...", 
          CVFolds_N)
 
-genre_ratings <- genres_summary_list[[1]]
-str(genre_ratings)
+genre_ratings_united <- union_cv_results(genres_summary_list)
+str(genre_ratings_united)
 
-for (i in 2:CVFolds_N){
-  genre_ratings <- union(genre_ratings, 
-                         genres_summary_list[[i]])
-}
+# genre_ratings_united |>
+#   summarise(na_test = c(sum(is.na(genres)), 
+#                         sum(is.na(rating_avg)),
+#                         sum(is.na(se)),
+#                         sum(is.na(n))
+#                         )) |>
+#   pull(na_test)
 
-str(genre_ratings)
-
-genre_ratings |>
-  summarise(na_test = c(sum(is.na(genres)), 
-                        sum(is.na(rating_avg)),
-                        sum(is.na(se)),
-                        sum(is.na(n))
-                        )) |>
-  pull(na_test)
-
-genre_mean_ratings <- genre_ratings |>
+genre_mean_ratings <- genre_ratings_united |>
   group_by(genres) |>
   summarise(ratings = mean(rating_avg),
             se = mean(se),
@@ -1009,7 +1002,7 @@ put_log1("Mean Rating per Genre list has been computed for %1-Fold Cross Validat
          CVFolds_N)
 
 put(str(genre_mean_ratings))
-print(head(genre_mean_ratings))
+#print(head(genre_mean_ratings))
 
 put(sprintf("The worst rating is for the genre category: %s (average rating is %s)",
             genre_mean_ratings$genres[which.min(genre_mean_ratings$ratings)],
@@ -1036,14 +1029,12 @@ nratings <- 24000
 
 # Plot Genre Info --------------------------------------------------------------  
 genre_ratings_plot_dat <- genre_mean_ratings |>
-  filter(n > nratings) #|>
-  # mutate(genres = factor(genres, levels = unique(genres)))
+  filter(n > nratings)
 
-# dim(genre_ratings_plot_dat)
-# str(genre_ratings_plot_dat)
+dim(genre_ratings_plot_dat)
+str(genre_ratings_plot_dat)
 # head(genre_ratings_plot_dat)
-# put(genre_ratings_plot_dat)
-
+# genre_ratings_plot_dat
 
 # Creating plot:
 genre_ratings_plot_dat |> 
@@ -1108,90 +1099,66 @@ has been plotted alternative way.",
 # mutate(userId = as.integer(userId),
 #        movieId = as.integer(movieId)) |>
 
+put_log1("Computing Genre Bias list for %1-Fold Cross Validation samples...", 
+         CVFolds_N)
+
 start <- put_start_date()
 user_movie_genre_effects_ls <- lapply(edx_CV, function(cv_item){
   genre_bias <- cv_item$train_gs_set |>
     left_join(user_effects, by = "userId") |>
     left_join(user_movie_effects, by = "movieId") |>
     group_by(genres) |>
-    summarise(g = mean(rating - (mu + a + b), n = n(), na.rm = TRUE)) |>
+    summarise(g = mean(rating - (mu + a + b), na.rm = TRUE), n = n()) |>
     filter(n > min_nratings)
+  
+  # print(c(g_NAs = sum(is.na(genre_bias$g))))
   
   mg_bias <- cv_item$train_gs_set |>
     left_join(genre_bias, by = "genres") |>
     left_join(user_movie_effects, by = "movieId") |>
+    filter(!is.na(b)) |>
     group_by(movieId) |>
     summarise(b = mean(b, na.rm = TRUE), g = mean(g, na.rm = TRUE))
   
+  #print(c(g_NAs = sum(is.na(mg_bias$g)), b_NAs = sum(is.na(mg_bias$b))))
   mg_bias
 })
 put_end_date(start)
-str(user_movie_genre_effects_ls)
+
+put_log1("Genre Bias list has been computed for %1-Fold Cross Validation samples.", 
+         CVFolds_N)
+
+put(str(user_movie_genre_effects_ls))
 #head(user_movie_genre_effects_ls)
+
+user_movie_genre_effects_united <- union_cv_results(user_movie_genre_effects_ls)
+put(str(user_movie_genre_effects_united))
+# sum(user_movie_genre_effects_united$g != 0)
+# sum(is.na(user_movie_genre_effects_united$b))
+# sum(is.na(user_movie_genre_effects_united$g))
 
 # edx_cv_item <- edx_CV[[1]]$train_set
 
-# Compute Genre Movie Bias ----------------
+# Compute Genre Movie Bias -----------------------------------------------------
 
-start <- put_start_date()
-mg_bias_b <- sapply(user_movie_genre_effects_ls, function(mg_bias){
-  names(mg_bias$b) <- mg_bias$movieId
-  mg_bias$b
-})
-put_end_date(start)
-str(mg_bias_b)
-
-b <- mg_bias_b |> unlist()
-str(b)
-
-genre_movie_effects <- 
-  data.frame(movieId = names(b),                                     
-             b = b) |>
+user_movie_genre_effects <- user_movie_genre_effects_united |>
   group_by(movieId) |>
-  summarise(b = mean(b, na.rm = TRUE)) |>
-  mutate(movieId = as.integer(movieId))
+  summarise(b = mean(b), g = mean(g))
 
-str(genre_movie_effects)
-sum(is.na(genre_movie_effects$b))
+str(user_movie_genre_effects)
+# sum(is.na(user_movie_genre_effects$b))
+#> [1] 0
+# sum(is.na(user_movie_genre_effects$g))
 #> [1] 0
 
 # Compute Genre Bias ---------------
 
-start <- put_start_date()
-mg_bias_g <- sapply(user_movie_genre_effects_ls, function(mg_bias){
-  names(mg_bias$g) <- mg_bias$movieId
-  mg_bias$g
-})
-put_end_date(start)
-str(mg_bias_g)
-
-g <- mg_bias_g |> unlist()
-str(g)
-
-genre_effects <- 
-  data.frame(movieId = names(g),                                     
-             g = g) |>
-  group_by(movieId) |>
-  summarise(g = mean(g, na.rm = TRUE)) |>
-  mutate(movieId = as.integer(movieId))
-
-str(genre_effects)
-sum(is.na(genre_effects$g))
-#> [1] 0
-
 # Finalize User+Movie+Genre Effects ---------------------------------------------
 
-user_movie_genre_effects <- genre_effects |>
-  left_join(genre_movie_effects, by = "movieId") |>
-  group_by(movieId) |>
-  summarise(b = mean(b, na.rm = TRUE), g = mean(g, na.rm = TRUE))
 
-str(user_movie_genre_effects)
-head(user_movie_genre_effects)
-
-sum(is.na(user_movie_genre_effects$g))
-#> [1] 0
-sum(is.na(user_movie_genre_effects$g))
+# sum(is.na(user_movie_genre_effects$g))
+# #> [1] 0
+# sum(is.na(user_movie_genre_effects$g))
 #> [1] 0
 
 # Plot a histogram of the User+Movie+Genre Effects (Movie Bias) ----------------
@@ -1202,7 +1169,7 @@ hist(user_movie_genre_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
 # Plot a histogram of the User+Movie+Genre Effects (Genre Bias) ----------------
 #par(cex = 0.7)
 hist(user_movie_genre_effects$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
-     main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
+     main = TeX(r'[Histogram of $\hat{g}_{j}$]'))
 
 #### Compute RMSE: user+movie+genre effects ------------------------------------
 
