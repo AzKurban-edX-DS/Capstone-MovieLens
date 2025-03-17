@@ -167,7 +167,7 @@ make_ordinal_no <- function(n){
   }
 }
 
-mse <- function(r) mean(r^2, rm.na = TRUE)
+mse <- function(r) mean(r^2)
 mse_cv <- function(r_list) {
   mses <- sapply(r_list, mse(r))
   mean(mses)
@@ -179,7 +179,7 @@ rmse2 <- function(true_ratings, predicted_ratings) {
   rmse(true_ratings - predicted_ratings)
 }
 
-final_rmse <- function(r) sqrt(mean(r^2, rm.na = TRUE))
+#final_rmse <- function(r) sqrt(mean(r^2))
 
 RMSEs <- NULL
 RMSEs
@@ -669,32 +669,29 @@ RMSEs <- tibble(Method = c("Project Objective"),
                 RMSE = project_objective)
 rmse_kable()
 put("RMSE Results Table created.")
-#### Compute Naive RMSE -------------------------------------------------------
+##### Support Functions --------------------------------------------------------
 
-# ratings_avg <- sapply(edx_CV, function(cv_item){
-#   mean(cv_item$train_set$rating, na.rm = TRUE)
-# })
-# 
-# plot(ratings_avg)
-# put_log1("Overall Mean Rating Model:
-# Mean Ratings plotted for %1-Fold Cross Validation samples.", CVFolds_N)
-# 
-# mu <- mean(ratings_avg)
-mu <- mean(edx$rating, na.rm = TRUE)
-put_log1("Overall Mean Rating Model:
-The Overall Mean Rating is: %1", mu)
+naive_model_MSEs <- function(val) {
+  sapply(edx_CV, function(cv_item){
+    mse(cv_item$validation_set$rating - val)
+  })
+}
+naive_model_RMSE <- function(val){
+  sqrt(mean(naive_model_MSEs(val)))
+}
+
+#### Compute Naive RMSE --------------------------------------------------------
+
+mu <- mean(edx$rating)
+put_log1("The Overall Mean Rating is: %1", mu)
 #> The Overall Mean Rating is: 3.51246520160155
-rmses <- sapply(edx_CV, function(cv_item){
-  sqrt(mse(cv_item$validation_set$rating - mu))
-})
-plot(rmses)
-put_log1("Overall Mean Rating Model:
-RMSE values plotted for %1-Fold Cross Validation samples.", CVFolds_N)
-
-naive_rmse <- mean(rmses)
-put_log2("Overall Mean Rating Model:
-%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, naive_rmse)
-#> 5-Fold Cross Validation ultimate RMSE: 1.06186141545291
+MSEs <- naive_model_MSEs(mu)
+plot(MSEs)
+put_log1("MSE values plotted for %1-Fold Cross Validation samples.", CVFolds_N)
+naive_rmse <- sqrt(mean(MSEs))
+# naive_rmse <- naive_model_RMSE(mu)
+put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, naive_rmse)
+#> 5-Fold Cross Validation ultimate RMSE: 1.06034335317133
 
 #### Ensure that this is the best RMSE value for the current model ----------------
 #> If we plug in any other number, we will get a higher RMSE. 
@@ -703,57 +700,37 @@ put_log2("Overall Mean Rating Model:
 deviation <- seq(0, 6, 0.1) - 3
 deviation
 
-rmse_test_results <- lapply(kfold_index, function(i){
-  cv_item <- edx_CV[[i]]
-  rmse_val <-rmses[i] 
-  rmse_values <- sapply(deviation, function(diff){
-    sqrt(mse(cv_item$validation_set$rating - (mu + diff)))
-  })
-  print(rmse_values)
-  put_log2("Overall Mean Rating Model:
-RMSE values have been computed for the %1-Fold Cross-validation, %2 iteration result for the deviations from the Overall Mean Rating.",
-           CVFolds_N, make_ordinal_no(i))
-  
-  rmse_plot <- data.frame(deviation = deviation, 
-                    rmse_values = rmse_values) |> 
-    ggplot(aes(deviation, rmse_values)) +
-    geom_line()
-  put_log2("Overall Mean Rating Model:
-A plot was constructed for the %1-Fold Cross-validation, %2 iteration result for the deviations from the Overall Mean Rating.",
-           CVFolds_N, make_ordinal_no(i))
-  rmse_plot
+start = put_start_date()
+rmse_values <- sapply(deviation, function(delta){
+  naive_model_RMSE(mu + delta)
 })
+put_end_date(start)
+print(rmse_values)
+put_log1("RMSE values have been computed for %1 deviations from the Overall Mean Rating.",
+         length(deviation))
 
-n <- length(rmse_test_results)
-nCol <- floor(sqrt(n))
-do.call("grid.arrange", c(rmse_test_results, ncol = nCol))
-put_log1("Overall Mean Rating Model:
-%1-Fold Cross-validation results for the deviations from the Overall Mean Rating have been plotted.",
-         CVFolds_N)
+data.frame(deviation = deviation, 
+                        rmse_values = rmse_values) |> 
+  ggplot(aes(deviation, rmse_values)) +
+  geom_line()
 
-for (i in kfold_index) {
-  dvs <- rmse_test_results[[i]]$data$deviation
-  test_vals <- rmse_test_results[[i]]$data$rmse_values
-  rmse_val <-rmses[i] 
-  
-  which_min_deviation <- dvs[which.min(test_vals)]
-  min_rmse = min(test_vals)
-  
-  put_log2("For Validation Set %1:
-Minimum MSE is achieved when the deviation from the mean is: %2",
-           i, which_min_deviation)
+put_log("A plot was constructed for the deviations from the Overall Mean Rating.")
 
-  put_log1("Is the previously computed RMSE the best for the current model: %1",
-           rmse_val == min_rmse)
-  #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
-  writeLines("")
-}
+which_min_deviation <- deviation[which.min(rmse_values)]
+min_rmse = min(rmse_values)
 
-#### Add a row to the RMSE Result Table for the Overall Mean Rating Model ---------------- 
+put_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
+         which_min_deviation)
+
+put_log1("Is the previously computed RMSE the best for the current model: %1",
+         naive_rmse == min_rmse)
+#> [1] "Is the previously computed RMSE the best for the current model: TRUE"
+writeLines("")
+
+#### Add a row to the RMSE Result Table for the Overall Mean Rating Model ------ 
 RMSEs <- rmses_add_row("Overall Mean Rating Model", naive_rmse)
 rmse_kable()
-put_log("Overall Mean Rating Model:
-A row has been added to the RMSE Result Table for the `Simple Mean Rating Model`.")
+put_log("A row has been added to the RMSE Result Table for the `Simple Mean Rating Model`.")
 #### Close Log ---------------------------------------------------------------
 log_close()
 
