@@ -730,7 +730,7 @@ writeLines("")
 #### Add a row to the RMSE Result Table for the Overall Mean Rating Model ------ 
 RMSEs <- rmses_add_row("Overall Mean Rating Model", naive_rmse)
 rmse_kable()
-put_log("A row has been added to the RMSE Result Table for the `Simple Mean Rating Model`.")
+put_log("A row has been added to the RMSE Result Table for the `Overall Mean Rating Model`.")
 #### Close Log ---------------------------------------------------------------
 log_close()
 
