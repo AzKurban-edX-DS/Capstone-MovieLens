@@ -739,7 +739,7 @@ log_close()
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
 
 #### Open log -------------------------------------------------------------------
-open_logfile("user-effect")
+open_logfile(".user-effect")
 put("Building User Effect Model...")
 #### Model building: User Effect ----------------------------------------------
 # Let's visualize the average rating for each user:
