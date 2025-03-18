@@ -1041,7 +1041,7 @@ genre_mean_ratings <- genre_ratings_united |>
 put_log1("Mean Rating per Genre list has been computed for %1-Fold Cross Validation samples.",
          CVFolds_N)
 
-put(str(genre_mean_ratings))
+str(genre_mean_ratings)
 #print(head(genre_mean_ratings))
 
 put(sprintf("The worst rating is for the genre category: %s (average rating is %s)",
@@ -1139,76 +1139,98 @@ has been plotted alternative way.",
 # mutate(userId = as.integer(userId),
 #        movieId = as.integer(movieId)) |>
 
-put_log1("Computing Genre Bias list for %1-Fold Cross Validation samples...", 
+put_log1("Computing User+Movie+Genre Effects list for %1-Fold Cross Validation samples...", 
          CVFolds_N)
 
 start <- put_start_date()
-user_movie_genre_effects_ls <- lapply(edx_CV, function(cv_item){
-  genre_bias <- cv_item$train_gs_set |>
-    left_join(user_effects, by = "userId") |>
-    left_join(user_movie_effects, by = "movieId") |>
+user_movie_genre_effects_ls <- lapply(kfold_index, function(fold_i){
+  cv_dat <- user_movie_effects_ls[[fold_i]]
+  
+  put_log2("Processing User+Movie+Genre Effects for %1-Fold Cross Validation samples (Fold %2)...",
+           CVFolds_N,
+           fold_i)
+  
+  start <- put_start_date()
+  genre_bias <- cv_dat$cv_set$train_gs_set |>
+    left_join(cv_dat$user_effects, by = "userId") |>
+    left_join(cv_dat$user_movie_effects, by = "movieId") |>
     group_by(genres) |>
     summarise(g = mean(rating - (mu + a + b), na.rm = TRUE), n = n()) |>
     filter(n > min_nratings)
   
   # print(c(g_NAs = sum(is.na(genre_bias$g))))
   
-  mg_bias <- cv_item$train_gs_set |>
+  mg_bias <- cv_dat$cv_set$train_gs_set |>
     left_join(genre_bias, by = "genres") |>
-    left_join(user_movie_effects, by = "movieId") |>
+    left_join(cv_dat$user_movie_effects, by = "movieId") |>
     filter(!is.na(b)) |>
     group_by(movieId) |>
     summarise(b = mean(b, na.rm = TRUE), g = mean(g, na.rm = TRUE))
   
+  put_end_date(start)
   #print(c(g_NAs = sum(is.na(mg_bias$g)), b_NAs = sum(is.na(mg_bias$b))))
-  mg_bias
+
+  put_log2("User+Movie+Genre Effects have been computed for the Fold %1 
+of the %2-Fold Cross Validation samples.",
+           fold_i,
+           CVFolds_N)
+
+  list(user_effects = cv_dat$user_effects,
+       # user_movie_effects = cv_dat$user_movie_effects,
+       mean_user_movie_genre_bias = mg_bias,
+       cv_set = cv_dat$cv_set)
 })
 put_end_date(start)
-
-put_log1("Genre Bias list has been computed for %1-Fold Cross Validation samples.", 
+#> Time difference of 34.83447 secs
+put_log1("User+Movie+Genre Effects list has been computed
+for %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-put(str(user_movie_genre_effects_ls))
+str(user_movie_genre_effects_ls)
 #head(user_movie_genre_effects_ls)
 
-user_movie_genre_effects_united <- union_cv_results(user_movie_genre_effects_ls)
-put(str(user_movie_genre_effects_united))
+umge_ls <- lapply(user_movie_genre_effects_ls, function(cv_dat){
+  cv_dat$mean_user_movie_genre_bias
+})
+str(umge_ls)
+user_movie_genre_effects_united <- union_cv_results(umge_ls)
+str(user_movie_genre_effects_united)
 # sum(user_movie_genre_effects_united$g != 0)
 # sum(is.na(user_movie_genre_effects_united$b))
 # sum(is.na(user_movie_genre_effects_united$g))
 
 # edx_cv_item <- edx_CV[[1]]$train_set
 
-##### Compute Genre Movie Bias -----------------------------------------------------
+##### Compute Mean User+Movie+Genre Bias -----------------------------------------------------
 
-user_movie_genre_effects <- user_movie_genre_effects_united |>
+mean_user_movie_genre_bias <- user_movie_genre_effects_united |>
   group_by(movieId) |>
   summarise(b = mean(b), g = mean(g))
 
-put_log("User+Movie+Genre Effects have been computed.")
-str(user_movie_genre_effects)
-# sum(is.na(user_movie_genre_effects$b))
+put_log("Mean User+Movie+Genre Bias have been computed.")
+str(mean_user_movie_genre_bias)
+# sum(is.na(mean_user_movie_genre_bias$b))
 #> [1] 0
-# sum(is.na(user_movie_genre_effects$g))
+# sum(is.na(mean_user_movie_genre_bias$g))
 #> [1] 0
 
 ##### Finalize User+Movie+Genre Effects ---------------------------------------------
 
-# sum(is.na(user_movie_genre_effects$g))
+# sum(is.na(mean_user_movie_genre_bias$g))
 # #> [1] 0
-# sum(is.na(user_movie_genre_effects$g))
+# sum(is.na(mean_user_movie_genre_bias$g))
 #> [1] 0
 
 ###### Plot a histogram of the Movie Effect distribution ----------------------------
 par(cex = 0.7)
-hist(user_movie_genre_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
+hist(mean_user_movie_genre_bias$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 
 put_log("A histogram of the Movie Effect (adjusted for Genre Bias) distribution has been plotted.")
 
 ###### Plot a histogram of the Genre Effect distribution ----------------------------
 #par(cex = 0.7)
-hist(user_movie_genre_effects$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
+hist(mean_user_movie_genre_bias$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
      main = TeX(r'[Histogram of $\hat{g}_{j}$]'))
 
 put_log("A histogram of the Genre Effect distribution has been plotted.")
@@ -1217,27 +1239,27 @@ put_log("A histogram of the Genre Effect distribution has been plotted.")
 
 put_log("Computing RMSEs on Validation Sets...")
 start <- put_start_date()
-user_movie_genre_effects_rmses <- sapply(edx_CV, function(cv_item){
-  cv_item$validation_set |>
-    left_join(user_effects, by = "userId") |>
-    left_join(user_movie_genre_effects, by = "movieId") |>
+user_movie_genre_effects_mses <- sapply(user_movie_genre_effects_ls, function(cv_dat){
+  cv_dat$cv_set$validation_set |>
+    left_join(cv_dat$user_effects, by = "userId") |>
+    left_join(cv_dat$user_movie_genre_effects, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b + g)) |> 
     filter(!is.na(resid)) |>
-    pull(resid) |> rmse()
+    pull(resid) |> mse()
 })
 put_end_date(start)
 
-plot(user_movie_genre_effects_rmses)
-put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
+plot(user_movie_genre_effects_mses)
+put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-user_movie_genre_effects_rmse <- mean(user_movie_genre_effects_rmses)
+user_movie_genre_effects_rmse <- sqrt(mean(user_movie_genre_effects_mses))
 put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
          CVFolds_N, 
          user_movie_genre_effects_rmse)
 
 user_movie_genre_effects_rmse
-#> [1] 0.8594752
+#> [1] 0.8632564
 
 #### Add a row to the RMSE Result Table for the User+Movie+Genre Effect Model ---- 
 RMSEs <- rmses_add_row("User+Movie+Genre Effect Model", 
@@ -1246,7 +1268,7 @@ rmse_kable()
 
 # final_holdout_test |>
 #   left_join(user_effects, by = "userId") |>
-#   left_join(user_movie_genre_effects, by = "movieId") |>
+#   left_join(mean_user_movie_genre_bias, by = "movieId") |>
 #   mutate(resid = rating - clamp(mu + a + b + g)) |> 
 #   filter(!is.na(resid)) |>
 #   pull(resid) |> final_rmse()
@@ -1304,7 +1326,7 @@ global_date_effects <- sapply(kfold_index,  function(fold_i){
   # start <- put_start_date()
   de_global <- edx_CV[[fold_i]]$train_set |> 
     left_join(user_effects, by = "userId") |>
-    left_join(user_movie_genre_effects, by = "movieId") |>
+    left_join(mean_user_movie_genre_bias, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     mutate(rating_residue = rating - (mu + a + b + g)) |>
     filter(!is.na(rating_residue)) |>
@@ -1377,7 +1399,7 @@ date_smoothed_RMSEs <- function(date_smoothed_effect){
   RMSEs <- sapply(kfold_index, function(fold_i){
     rmse_i <- edx_CV[[fold_i]]$validation_set |>
       left_join(user_effects, by = "userId") |>
-      left_join(user_movie_genre_effects, by = "movieId") |>
+      left_join(mean_user_movie_genre_bias, by = "movieId") |>
       left_join(date_days_map, by = "timestamp") |>
       left_join(date_smoothed_effect, by='days') |>
       mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |> 
@@ -1582,7 +1604,7 @@ rmse_kable()
 # final_holdout_test |>
 #   left_join(date_days_map, by = "timestamp") |>
 #   left_join(user_effects, by = "userId") |>
-#   left_join(user_movie_genre_effects, by = "movieId") |>
+#   left_join(mean_user_movie_genre_bias, by = "movieId") |>
 #   left_join(date_smoothed_effect, by='days') |>
 #   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
 #   filter(!is.na(resid)) |>
