@@ -174,7 +174,7 @@ mse_cv <- function(r_list) {
 }
 
 rmse <- function(r) sqrt(mse(r))
-rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
+# rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
 rmse2 <- function(true_ratings, predicted_ratings) {
   rmse(true_ratings - predicted_ratings)
 }
@@ -518,6 +518,10 @@ put(summary(edx))
 
 movielens_datasets <- init_source_datasets()
 
+#> Inpired by Chapter 29. Resampling methods
+#> (in particular starting from 
+#> Section 29.5 "Mathematical description of resampling methods" onwards.
+#> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html
 edx_CV <- movielens_datasets$edx_CV
 put("Set of K-Fold Cross Validation datasets summary: edx_CV")
 put(summary(edx_CV))
@@ -745,7 +749,7 @@ put("Building User Effect Model...")
 # Let's visualize the average rating for each user:
 put_log("Computing Average Ratings per User (User Mean Ratings)...")
 start <- put_start_date()
-user_ratings_avg_ls <- lapply(edx_CV, function(cv_item){
+user_mean_ratings_ls <- lapply(edx_CV, function(cv_item){
   # print(dim(cv_item$train_mx))
   #str(cv_item$train_mx)
   user_ratings_avg <- rowMeans(cv_item$train_mx, na.rm = TRUE)
@@ -753,19 +757,28 @@ user_ratings_avg_ls <- lapply(edx_CV, function(cv_item){
   # print(sum(is.na(user_ratings_avg))) # 0 (there are no NAs in there)
   # print(str(user_ratings_avg))
   
-  data.frame(userId = names(user_ratings_avg), 
+  user_ratings <- data.frame(userId = names(user_ratings_avg), 
              ratings_avg = user_ratings_avg,
              n = n_ratings)
+  list(validation_set = cv_item$validation_set,
+       user_ratings = user_ratings)
 })
 put_end_date(start)
 put_log1("User Average Rating list has been computed for %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-put(str(user_ratings_avg_ls))
+str(user_mean_ratings_ls)
+
+##### User Mean Ratings: Analysis & Visualization ------------------------------
+user_ratings_avg_ls <- lapply(user_mean_ratings_ls, function(mean_ratings){
+  mean_ratings$user_ratings
+})
+
+str(user_ratings_avg_ls)
 
 user_ratings_avg_united <- union_cv_results(user_ratings_avg_ls)
-put(str(user_ratings_avg_united))
-#sum(is.na(user_ratings_avg_united))
+str(user_ratings_avg_united)
+# sum(is.na(user_ratings_avg_united))
 
 user_mean_ratings <- user_ratings_avg_united |>
   group_by(userId) |>
@@ -789,22 +802,43 @@ put_log("A histogram of the User Mean Rating distribution has been plotted.")
 #> It can be shown that the least squares estimate `α[i]` is just the average 
 #> of `y[i,j] - μ` for each user. So we can compute them this way:
 
-put_log("User Effect Model:
-Computing User Effect per users ...")
-user_effects <- user_mean_ratings |> 
-  mutate(a = mean_rating - mu,
-         userId = as.integer(userId)) |>
-  select(userId, a)
+##### Computing User Effects ---------------------------------------------------
+put_log("Computing User Effect per users ...")
 
-put_log("A User Effect Model has been builded and trained")
-put(str(user_effects))
+start = put_start_date()
+user_effects_ls <- lapply(user_mean_ratings_ls, function(umratings_set){
+  user_effects <- umratings_set$user_ratings |> 
+    mutate(a = ratings_avg - mu,
+           userId = as.integer(userId)) |>
+    select(userId, a)
+  list(user_effects = user_effects, 
+       validation_set = umratings_set$validation_set)
+})
+put_end_date(start)
+put_log1("A User Effect Model list  has been computed for %1-Fold Cross Validation samples.",
+         CVFolds_N)
+
+str(user_effects_ls)
 
 # Plot a histogram of the user effects -----------------------------------------
+
+u_effects_ls <- lapply(user_effects_ls, function(ue){
+  ue$user_effects
+})
+
+user_effects_united <- union_cv_results(u_effects_ls)
+str(user_effects_united)
+
+user_effects <- user_effects_united |>
+  group_by(userId) |>
+  summarise(a = mean(a))
+
+str(user_effects)
+
 par(cex = 0.7)
 hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
-put_log("User Effect Model:
-A histogram of the User Effect distribution has been plotted.")
+put_log("A histogram of the User Effect distribution has been plotted.")
 
 
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
@@ -812,8 +846,8 @@ A histogram of the User Effect distribution has been plotted.")
 
 # Computing the RMSE taking into account user effects --------------------------
 put_log("Computing the RMSE taking into account user effects...")
-#start <- put_start_date()
-user_effect_rmses <- sapply(edx_CV, function(cv_item){
+start <- put_start_date()
+user_effect_mses <- sapply(user_effects_ls, function(cv_item){
   # a <- cv_item$validation_set |>
   #   left_join(user_effects, by = "userId") |>
   #   pull(a)
@@ -822,23 +856,23 @@ user_effect_rmses <- sapply(edx_CV, function(cv_item){
   # print(sum(!is.na(a)))
   
   cv_item$validation_set |>
-    left_join(user_effects, by = "userId") |>
+    left_join(cv_item$user_effects, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
     filter(!is.na(resid)) |>
-    pull(resid) |> rmse()
+    pull(resid) |> mse()
 })
-#put_end_date(start)
+put_end_date(start)
 
-plot(user_effect_rmses)
+plot(user_effect_mses)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-user_effect_rmse <- mean(user_effect_rmses)
+user_effect_rmse <- sqrt(mean(user_effect_mses))
 put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
          CVFolds_N, 
          user_effect_rmse)
 user_effect_rmse
-#> [1] 0.9689451
+#> [1] 0.9716054
 
 # Add a row to the RMSE Result Table for the User Effect Model ---------------- 
 RMSEs <- rmses_add_row("User Effect Model", user_effect_rmse)
