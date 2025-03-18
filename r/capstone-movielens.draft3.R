@@ -760,7 +760,8 @@ user_mean_ratings_ls <- lapply(edx_CV, function(cv_item){
   user_ratings <- data.frame(userId = names(user_ratings_avg), 
              ratings_avg = user_ratings_avg,
              n = n_ratings)
-  list(validation_set = cv_item$validation_set,
+  
+  list(cv_set = cv_item,
        user_ratings = user_ratings)
 })
 put_end_date(start)
@@ -806,13 +807,13 @@ put_log("A histogram of the User Mean Rating distribution has been plotted.")
 put_log("Computing User Effect per users ...")
 
 start = put_start_date()
-user_effects_ls <- lapply(user_mean_ratings_ls, function(umratings_set){
-  user_effects <- umratings_set$user_ratings |> 
+user_effects_ls <- lapply(user_mean_ratings_ls, function(cv_dat){
+  user_effects <- cv_dat$user_ratings |> 
     mutate(a = ratings_avg - mu,
            userId = as.integer(userId)) |>
     select(userId, a)
   list(user_effects = user_effects, 
-       validation_set = umratings_set$validation_set)
+       cv_set = cv_dat$cv_set)
 })
 put_end_date(start)
 put_log1("A User Effect Model list  has been computed for %1-Fold Cross Validation samples.",
@@ -822,23 +823,24 @@ str(user_effects_ls)
 
 # Plot a histogram of the user effects -----------------------------------------
 
-u_effects_ls <- lapply(user_effects_ls, function(ue){
-  ue$user_effects
+user_effects_tmp_ls <- lapply(user_effects_ls, function(cv_dat){
+  cv_dat$user_effects
 })
 
-user_effects_united <- union_cv_results(u_effects_ls)
+user_effects_united <- union_cv_results(user_effects_tmp_ls)
 str(user_effects_united)
 
-user_effects <- user_effects_united |>
+mean_user_effects <- user_effects_united |>
   group_by(userId) |>
-  summarise(a = mean(a))
+  summarise(mean_a = mean(a))
 
-str(user_effects)
+str(mean_user_effects)
 
 par(cex = 0.7)
-hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
-     main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
-put_log("A histogram of the User Effect distribution has been plotted.")
+hist(mean_user_effects$mean_a, 30, xlab = TeX(r'[mean($\hat{alpha}_{i}$)]'),
+     main = TeX(r'[Histogram of mean($\hat{alpha}_{i}$)]'))
+put_log1("A histogram of the Mean User Effect distribution
+across %1-Fold Cross Validation samples has been plotted.", CVFolds_N)
 
 
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
@@ -847,16 +849,16 @@ put_log("A histogram of the User Effect distribution has been plotted.")
 # Computing the RMSE taking into account user effects --------------------------
 put_log("Computing the RMSE taking into account user effects...")
 start <- put_start_date()
-user_effect_mses <- sapply(user_effects_ls, function(cv_item){
-  # a <- cv_item$validation_set |>
+user_effect_mses <- sapply(user_effects_ls, function(cv_dat){
+  # a <- cv_dat$validation_set |>
   #   left_join(user_effects, by = "userId") |>
   #   pull(a)
   # 
   # print(sum(is.na(a)))
   # print(sum(!is.na(a)))
   
-  cv_item$validation_set |>
-    left_join(cv_item$user_effects, by = "userId") |>
+  cv_dat$cv_set$validation_set |>
+    left_join(cv_dat$user_effects, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
