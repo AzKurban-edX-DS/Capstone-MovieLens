@@ -1381,7 +1381,11 @@ date_smoothed_MSEs <- function(dse_list){
            CVFolds_N)
   MSEs
 }
-
+date_smoothed_RMSE <- function(degree = NA, span = NA){
+  dse_ls <- compute_date_smoothed_effects(degree, span) 
+  MSEs <- date_smoothed_MSEs(dse_ls)
+  sqrt(mean(MSEs))
+}
 ##### Train model using `loess` function with default `span` & `degree` params----
 put_log1("Training User+Movie+Genre+Date Effect Model using `loess` function 
 with default `span` & `degree` parameters for %1-Fold Cross Validation samples...",
@@ -1421,12 +1425,18 @@ put_log1("Mean Date Smoothed Effect has been plotted for the %1-Fold Cross Valid
          CVFolds_N)
 
 # Calculate RMSE for loess fitted with default parameters ----------------------
-user_movie_genre_date_effects_MSEs <- date_smoothed_MSEs(date_smoothed_effect_ls)
-plot(user_movie_genre_date_effects_MSEs)
-put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
-         CVFolds_N)
+# user_movie_genre_date_effects_MSEs <- date_smoothed_MSEs(date_smoothed_effect_ls)
+# plot(user_movie_genre_date_effects_MSEs)
+# put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
+#          CVFolds_N)
 
-user_movie_genre_date_effects_rmse <- sqrt(mean(user_movie_genre_date_effects_MSEs))
+# user_movie_genre_date_effects_rmse <- sqrt(mean(user_movie_genre_date_effects_MSEs))
+start <- put_start_date()
+user_movie_genre_date_effects_rmse <- date_smoothed_RMSE()
+put_end_date(start)
+put_log1("RMSE value has been computed using `loess` function 
+with default parameters (degree & span) for the %1-Fold Cross Validation samples.",
+         CVFolds_N)
 print(user_movie_genre_date_effects_rmse)
 #> [1] 0.8627526
 
