@@ -980,7 +980,7 @@ log_close()
 #> Let's do some preliminary analysis first.
 
 #### Open log -------------------------------------------------------------------
-open_logfile("user+movie+genre-effect")
+open_logfile(".user+movie+genre-effect")
 
 #### Data Analysis and Visualization -------------------------------------------
 
@@ -1284,7 +1284,7 @@ log_close()
 
 # library(lubridate)
 #### Open log -------------------------------------------------------------------
-open_logfile("user+movie+genre+date-effect")
+open_logfile(".user+movie+genre+date-effect")
 
 # Let's take a look at the Average rating per year:
 #### Plot: Average Rating per Year ------------------------------------------------
