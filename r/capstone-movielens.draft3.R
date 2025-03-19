@@ -1160,7 +1160,7 @@ user_movie_genre_effects_ls <- lapply(kfold_index, function(fold_i){
   
   # print(c(g_NAs = sum(is.na(genre_bias$g))))
   
-  mg_bias <- cv_dat$cv_set$train_gs_set |>
+  movie_genre_effects <- cv_dat$cv_set$train_gs_set |>
     left_join(genre_bias, by = "genres") |>
     left_join(cv_dat$user_movie_effects, by = "movieId") |>
     filter(!is.na(b)) |>
@@ -1177,7 +1177,7 @@ of the %2-Fold Cross Validation samples.",
 
   list(user_effects = cv_dat$user_effects,
        # user_movie_effects = cv_dat$user_movie_effects,
-       mean_user_movie_genre_bias = mg_bias,
+       movie_genre_effects = movie_genre_effects,
        cv_set = cv_dat$cv_set)
 })
 put_end_date(start)
@@ -1190,7 +1190,7 @@ str(user_movie_genre_effects_ls)
 #head(user_movie_genre_effects_ls)
 
 umge_ls <- lapply(user_movie_genre_effects_ls, function(cv_dat){
-  cv_dat$mean_user_movie_genre_bias
+  cv_dat$movie_genre_effects
 })
 str(umge_ls)
 user_movie_genre_effects_united <- union_cv_results(umge_ls)
@@ -1242,7 +1242,7 @@ start <- put_start_date()
 user_movie_genre_effects_mses <- sapply(user_movie_genre_effects_ls, function(cv_dat){
   cv_dat$cv_set$validation_set |>
     left_join(cv_dat$user_effects, by = "userId") |>
-    left_join(cv_dat$user_movie_genre_effects, by = "movieId") |>
+    left_join(cv_dat$movie_genre_effects, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b + g)) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
