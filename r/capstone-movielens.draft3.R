@@ -1316,78 +1316,81 @@ put("Average Rating per Year distribution has been plotted.")
 #### Calculate Date Smoothed Effect -----------------------------------------------
 #train_set1 <- edx_CV[[1]]$train_set
 
-put_log1("Computing Global Date Bias list for %1-Fold Cross Validation samples...", 
+put_log1("Computing Date Global Effect list for %1-Fold Cross Validation samples...", 
          CVFolds_N)
 
 start <- put_start_date()
-global_date_effects <- sapply(kfold_index,  function(fold_i){
-  put(sprintf("Creating K-Fold CV Global Date Effects Set, Vector %s", fold_i))
-
+date_global_effects_ls <- lapply(user_movie_genre_effects_ls,  function(cv_dat){
   # start <- put_start_date()
-  de_global <- edx_CV[[fold_i]]$train_set |> 
-    left_join(user_effects, by = "userId") |>
-    left_join(mean_user_movie_genre_bias, by = "movieId") |>
+  date_global_effects <- cv_dat$cv_set$train_set |> 
+    left_join(cv_dat$user_effects, by = "userId") |>
+    left_join(cv_dat$movie_genre_effects, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     mutate(rating_residue = rating - (mu + a + b + g)) |>
     filter(!is.na(rating_residue)) |>
     group_by(days) |>
     summarise(de = mean(rating_residue, na.rm = TRUE))
-  # put_end_date(start)
   
-  # put("Global Date Effect Vector Structure:")
-  # put(str(de_global))
-  # put("Global Date Effect Vector Structure:")
-  names(de_global$de) = de_global$days
-  # put(str(de_global$de))
-  de_global$de
-})
+  list(user_effects = cv_dat$user_effects,
+       # user_movie_effects = cv_dat$user_movie_effects,
+       movie_genre_effects = cv_dat$movie_genre_effects,
+       date_global_effects = date_global_effects,
+       cv_set = cv_dat$cv_set)
+  })
+str(date_global_effects_ls)
 put_end_date(start)
-put_log1("Global Date Bias list has been computed for %1-Fold Cross Validation samples.", 
+put_log1("Date Global Effect list has been computed for %1-Fold Cross Validation samples.", 
          CVFolds_N)
-
-print(str(global_date_effects))
-
-de_vector <- global_date_effects |> unlist()
-str(de_vector)
-
-date_global_effect <- 
-  data.frame(days = as.integer(names(de_vector)),
-             de = de_vector) |>
-  group_by(days) |>
-  summarise(de = mean(de, na.rm = TRUE)) |>
-  sort_by.data.frame(~days)
-
-put_log("Global Date Effect has been computed.")
-print(str(date_global_effect))
-# sum(is.na(date_global_effect$de))
-#> [1] 0
-
 ##### Train model using `loess` function with default `span` & `degree` params----
 
-put_log("Training model using `loess` function with default `span` & `degree` params...")
-# start <- put_start_date()
-fit <- loess(de ~ days, data = date_global_effect)
-# put_end_date(start)
-put_log("Model was trained using `loess` function with default `span` & `degree` params.")
-str(fit$fitted)
-# sum(is.na(fit$fitted))
-#> [1] 0
-put(str(fit$pars))
+put_log1("Training User+Movie+Genre+Date Effect Model using `loess` function 
+with default `span` & `degree` parameters for %1-Fold Cross Validation samples...",
+CVFolds_N)
 
-date_smoothed_effect <- date_global_effect |>
-  mutate(de_smoothed = fit$fitted)
-
-put_log("Date Smoothed Effect has been computed.")
-put(str(date_smoothed_effect))
-
-# Date Smoothed Effect Visualization:
 start <- put_start_date()
-date_smoothed_effect |>
+date_smoothed_effect_ls <- lapply(date_global_effects_ls, function(cv_dat){
+  # start <- put_start_date()
+  fit <- loess(de ~ days, data = cv_dat$date_global_effects)
+  date_smoothed_effect <- cv_dat$date_global_effects |>
+    mutate(de_smoothed = fit$fitted)
+  # put_end_date(start)
+
+  list(user_effects = cv_dat$user_effects,
+       # user_movie_effects = cv_dat$user_movie_effects,
+       movie_genre_effects = cv_dat$movie_genre_effects,
+       date_smoothed_effect = date_smoothed_effect,
+       cv_set = cv_dat$cv_set)
+})
+str(date_smoothed_effect_ls)
+put_end_date(start)
+put_log1("User+Movie+Genre+Date Effect Model has been trained
+using `loess` function with default `span` & `degree` parameters 
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+
+##### Mean Date Smoothed Effect Visualization ----------------------------------
+
+mean_date_smoothed_effect_ls <- lapply(date_smoothed_effect_ls, function(cv_dat){
+  cv_dat$date_smoothed_effect
+})
+str(mean_date_smoothed_effect_ls)
+
+mean_date_smoothed_effect_united <- union_cv_results(mean_date_smoothed_effect_ls)
+str(mean_date_smoothed_effect_united)
+
+mean_date_smoothed_effect <- mean_date_smoothed_effect_united |>
+  group_by(days) |>
+  summarise(de = mean(de), de_smoothed = mean(de_smoothed))
+
+str(mean_date_smoothed_effect)
+
+mean_date_smoothed_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
-put_end_date(start)
-put_log("Date Smoothed Effect has been plotted.")
+
+put_log1("Mean Date Smoothed Effect has been plotted for the %1-Fold Cross Validation samples.",
+         CVFolds_N)
 
 # Function for RMSEs calculation of Smoothed Date Model ----------------------
 
