@@ -1313,7 +1313,7 @@ edx |>
 put_end_date(start)
 put("Average Rating per Year distribution has been plotted.")
 
-#### Calculate Date Smoothed Effect --------------------------------------------
+#### Compute Date Global Effect --------------------------------------------
 put_log1("Computing Date Global Effect list for %1-Fold Cross Validation samples...", 
          CVFolds_N)
 
@@ -1361,6 +1361,19 @@ compute_date_smoothed_effects <- function(degree = NA, span = NA){
          cv_set = cv_dat$cv_set)
   })
 }
+compute_mean_dse <- function(dse_list) {
+  mean_dse_ls <- lapply(dse_list, function(cv_dat){
+    cv_dat$date_smoothed_effect
+  })
+  # print(str(mean_dse_ls))
+  
+  mean_dse_united <- union_cv_results(mean_dse_ls)
+  # print(str(mean_dse_united))
+  
+  mean_dse_united |>
+    group_by(days) |>
+    summarise(de = mean(de), de_smoothed = mean(de_smoothed))
+}
 date_smoothed_MSEs <- function(dse_list){
   put_log1("Computing RMSE values for the %1-Fold Cross Validation samples...", 
            CVFolds_N)
@@ -1386,6 +1399,40 @@ date_smoothed_RMSE <- function(degree = NA, span = NA){
   MSEs <- date_smoothed_MSEs(dse_ls)
   sqrt(mean(MSEs))
 }
+tune_de_model_RMSEs <- function(degree, spans){
+  model_diu_rmses <- sapply(spans, function(span){
+    put_log2("Computing RMSE using `loess` function with the following parameters: 
+degree = %1, span = %2...", 
+             degree,
+             span)
+    
+    rmse <- date_smoothed_RMSE(degree, span)
+    put_log2("RMSE has been computed for the `loess` function parameters: 
+degree = %1, span = %2.", 
+             degree,
+             span)
+    rmse
+  })
+}
+date_smoothed_tuned_RMSEs <- function(degree, spans) {
+  n_spans <- length(spans)
+
+  start <- put_start_date()
+  put_log2("Tuning the Smothed Date Effect Model for Degree = %1 (%2 spans)", 
+              degree, n_spans)
+  model_diu_rmses <- tune_de_model_RMSEs(degree, spans)
+  put_end_date(start)
+  put_log2("RMSEs computed for the Smothed Date Effect Model (Degree = %1, %2 spans)", 
+           degree, n_spans)
+  data.frame(span = spans, rmse = model_diu_rmses)
+}
+best_rmse <- function(span_rmses){
+  idx <- which.min(span_rmses$rmse)
+  rmse <- c(span_rmses$span[idx], min(span_rmses$rmse))
+  names(rmse) <- c("Span", "RMSE")
+  rmse
+}
+
 ##### Train model using `loess` function with default `span` & `degree` params----
 put_log1("Training User+Movie+Genre+Date Effect Model using `loess` function 
 with default `span` & `degree` parameters for %1-Fold Cross Validation samples...",
@@ -1396,24 +1443,12 @@ date_smoothed_effect_ls <- compute_date_smoothed_effects()
 str(date_smoothed_effect_ls)
 put_end_date(start)
 put_log1("User+Movie+Genre+Date Effect Model has been trained
-using `loess` function with default `span` & `degree` parameters 
+using `loess` function with default `span` & `degree` parameters
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
 
 ##### Mean Date Smoothed Effect Visualization ----------------------------------
-
-mean_date_smoothed_effect_ls <- lapply(date_smoothed_effect_ls, function(cv_dat){
-  cv_dat$date_smoothed_effect
-})
-str(mean_date_smoothed_effect_ls)
-
-mean_date_smoothed_effect_united <- union_cv_results(mean_date_smoothed_effect_ls)
-str(mean_date_smoothed_effect_united)
-
-mean_date_smoothed_effect <- mean_date_smoothed_effect_united |>
-  group_by(days) |>
-  summarise(de = mean(de), de_smoothed = mean(de_smoothed))
-
+mean_date_smoothed_effect <- compute_mean_dse(date_smoothed_effect_ls)
 str(mean_date_smoothed_effect)
 
 mean_date_smoothed_effect |>
@@ -1425,78 +1460,17 @@ put_log1("Mean Date Smoothed Effect has been plotted for the %1-Fold Cross Valid
          CVFolds_N)
 
 # Calculate RMSE for loess fitted with default parameters ----------------------
-# user_movie_genre_date_effects_MSEs <- date_smoothed_MSEs(date_smoothed_effect_ls)
-# plot(user_movie_genre_date_effects_MSEs)
-# put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
-#          CVFolds_N)
-
-# user_movie_genre_date_effects_rmse <- sqrt(mean(user_movie_genre_date_effects_MSEs))
 start <- put_start_date()
 user_movie_genre_date_effects_rmse <- date_smoothed_RMSE()
 put_end_date(start)
 put_log1("RMSE value has been computed using `loess` function 
-with default parameters (degree & span) for the %1-Fold Cross Validation samples.",
+with default (degree & span) parameters for the %1-Fold Cross Validation samples.",
          CVFolds_N)
+
 print(user_movie_genre_date_effects_rmse)
 #> [1] 0.8627526
 
 #### Re-train tuning `loess` function's with `span` & `degree` params-----------
-##### Support Functions ------------------------------------------------------------
-fit_loess <- function(train_dat_ls, spans, dgr){
-  n_spans <- length(spans)
-  put_log2("Fitting model for degree = %1 (%2 spans)...", dgr, n_spans)
-  start <- put_start_date()
-  fits <- lapply(spans, function(span){
-    fit <- loess(de ~ days, span = span, degree = dgr, data = train_dat)
-  })
-  put_end_date(start = start)
-  put_log2("Model fitted for degree = %1 (%2 spans).", dgr, n_spans)
-  fits
-}
-tune_de_model_MSEs <- function(fits){
-  model_diu_rmses <- sapply(fits, function(fit){
-    put_log2("Tuning Model for degree = %1, span = %2...", 
-             fit$pars$degree,
-             fit$pars$span)
-    
-    # print(str(fit$fitted))
-    date_smoothed_effect <- date_global_effect |>
-      mutate(de_smoothed = fit$fitted)
-
-    rmses <- date_smoothed_MSEs(date_smoothed_effect)
-    rmse <- mean(rmses)
-    put_log2("RMSE has been computed for degree = %1, span = %2.", 
-             fit$pars$degree,
-             fit$pars$span)
-    rmse
-  })
-}
-date_smoothed_tuning_RMSEs <- function(spans, dgr) {
-  n_spans <- length(spans)
-  # dgr <- degree[1] # debug
-  # put_log2("Fitting the model for degree = %1 (%2 spans)...", dgr, n_spans)
-  # start <- put_start_date()
-  fits <- fit_loess(spans,dgr)
-  # put_end_date(start)
-  # put_log2("Model has been fitted for degree = %1 (%2 spans).", dgr, n_spans)
-  dim(fits)
-
-  start <- put_start_date()
-  put(sprintf("Tuning the Smothed Date Effect Model for Degree = %s (%s spans)", 
-              dgr, n_spans))
-  model_diu_rmses <- tune_de_model_MSEs(fits)
-  put(sprintf("RMSEs computed for the Smothed Date Effect Model (Degree: %s)", dgr))
-  put_end_date(start)
-
-  data.frame(span = spans, rmse = model_diu_rmses)
-}
-best_rmse <- function(span_rmses){
-  idx <- which.min(span_rmses$rmse)
-  rmse <- c(span_rmses$span[idx], min(span_rmses$rmse))
-  names(rmse) <- c("Span", "RMSE")
-  rmse
-}
-
 ##### Tune the Global Date Smoothed Effect model -------------------------------
 degree <- c(0, 1, 2)
 put_log("Tuning `loess` function for degrees:")
@@ -1508,10 +1482,8 @@ put("Case 1. `degree = 0`")
 # spans <- seq(0.00100, 0.00102, 0.00001)
 spans <- seq(0.0005, 0.0015, 0.00001)
 put_log2("Tuning for spans %1:%2...", "0.0005", max(spans))
-# spans
+ds0_rmses <- date_smoothed_tuned_RMSEs(degree[1], spans)
 
-ds0_rmses <- date_smoothed_tuning_RMSEs(spans, 
-                               degree[1])
 put("Case 1. `degree = 0` RMSEs:")
 str(ds0_rmses)
 plot(ds0_rmses)
@@ -1528,9 +1500,7 @@ put("Case 2. `degree = 1`")
 #spans <- seq(0.0005, 0.002, 0.00001)
 spans <- seq(0.001, 0.0014, 0.00001)
 put_log2("Tuning for spans %1:%2...", min(spans), max(spans))
-
-ds1_rmses <- date_smoothed_tuning_RMSEs(spans, 
-                                 degree[2])
+ds1_rmses <- date_smoothed_tuned_RMSEs(degree[2], spans)
 put("Case 2. `degree = 1` RMSEs:")
 str(ds1_rmses)
 plot(ds1_rmses)
@@ -1539,19 +1509,17 @@ put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples
 
 ds_rmse1 <- best_rmse(ds1_rmses)
 put(ds_rmse1)
-#      Span      RMSE 
-# 0.0010000 0.8568608 
+#     Span     RMSE 
+# 0.001090 0.860964
+
 ###### 3. `degree = 2` --------------------------------------------------------------
 put("Case 3. `degree = 2`")
 #spans <- seq(0.0003, 0.01, 0.00001)
 spans <- seq(0.0007, 0.002, 0.00001)
-put("Tuning for spans:")
-put(spans)
-
-ds2_rmses <- date_smoothed_tuning_RMSEs(spans, 
-                                 degree[3])
+put_log2("Tuning for spans %1:%2...", min(spans), max(spans))
+ds2_rmses <- date_smoothed_tuned_RMSEs(degree[3], spans)
 put("Case 3. `degree = 2` RMSEs:")
-put(str(ds2_rmses))
+str(ds2_rmses)
 plot(ds2_rmses)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
@@ -1579,37 +1547,37 @@ put(best_rmse)
 put_log2("Re-training model using `loess` function with the best parameters: 
 span = %1, degree = %2", best_span, best_degree)
 start <- put_start_date()
-fit <- loess(de ~ days, 
-             degree = best_degree, 
-             span = best_span, 
-             data = date_global_effect)
+date_smoothed_effect_ls <- compute_date_smoothed_effects(best_degree, best_span)
+str(date_smoothed_effect_ls)
 put_end_date(start)
-put_log("The model has been re-trained with the best parameters.") 
+put_log2("The model has been re-trained using `loess` function with the best parameters: 
+span = %1, degree = %2", best_span, best_degree)
 
-put("Best Fit:")
-put(sprintf("Contains NAs: %s", sum(is.na(fit$fitted))))
-str(fit$pars)
-str(fit$fitted)
-put(fit)
+##### Mean Date Smoothed Effect Visualization ----------------------------------
+mean_date_smoothed_effect <- compute_mean_dse(date_smoothed_effect_ls)
+str(mean_date_smoothed_effect)
 
-date_smoothed_effect <- as.data.frame(date_global_effect) |>
-  mutate(de_smoothed = fit$fitted)
-str(date_smoothed_effect)
-head(date_smoothed_effect)
-
-start <- put_start_date()
-date_smoothed_effect |>
+mean_date_smoothed_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
-put_end_date(start)
-put_log("Optimized Date Smoothed Effect has been plotted.")
 
-user_movie_genre_tuned_date_effect_RMSEs <- date_smoothed_MSEs(date_smoothed_effect)
-plot(user_movie_genre_tuned_date_effect_RMSEs)
-user_movie_genre_tuned_date_effect_rmse <- mean(user_movie_genre_tuned_date_effect_RMSEs)
-put(user_movie_genre_tuned_date_effect_rmse)
-#> [1] 0.8568608
+put_log1("Optimized Mean Date Smoothed Effect has been plotted for the %1-Fold Cross Validation samples.",
+         CVFolds_N)
+# Calculate RMSE for `loess` function fitted with the best parameters ----------
+start <- put_start_date()
+user_movie_genre_tuned_date_effect_rmse <- date_smoothed_RMSE(best_degree, best_span)
+put_end_date(start)
+put_log3("RMSE value has been computed using `loess` function 
+with the best parameters for the %1-Fold Cross Validation samples:
+degree = %2;
+span = %3.",
+CVFolds_N,
+best_degree,
+best_span)
+
+print(user_movie_genre_tuned_date_effect_rmse)
+#> [1] 0.860964
 
 ##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs <- rmses_add_row("User+Movie+Genre+Date Effects Model (tuned)", 
