@@ -864,35 +864,25 @@ open_logfile(".user+movie-effect")
 #### Model building: User+Movie Effects -----------------------------------------
 put_log("Computing User+Movie Effect...")
 start <- put_start_date()
-user_movie_effects_ls <- lapply(user_effects_ls, function(cv_dat){
-  ume_dat <- cv_dat$cv_set$train_set |>
-    left_join(cv_dat$user_effects, by = "userId") |>
-    filter(!is.na(rating)) |>
-    mutate(ume = rating - mu - ifelse(!is.na(a), a, 0)) |> 
+user_movie_effects_ls <- lapply(edx_CV, function(cv_fold_dat){
+  cv_fold_dat$train_set |>
+    left_join(user_effects, by = "userId") |>
+    mutate(ume = rating - (mu + a)) |> 
+    filter(!is.na(ume)) |>
     group_by(movieId) |>
     summarise(b = mean(ume), n = n())
-  
-  list(user_effects = cv_dat$user_effects, 
-       user_movie_effects = ume_dat,
-       cv_set = cv_dat$cv_set)
 })
 put_end_date(start)
-put(str(user_movie_effects_ls))
+str(user_movie_effects_ls)
+put_log("User+Movie Effect list have been computed")
 
-put_log("User+Movie Effects have been computed")
-
-##### User+Movie Effects: Analysis & Visualization ------------------------------
-
-ume_ls <- lapply(user_movie_effects_ls, function(cv_dat){
-  cv_dat$user_movie_effects
-})
-user_movie_effects_united <- union_cv_results(ume_ls)
+user_movie_effects_united <- union_cv_results(user_movie_effects_ls)
 str(user_movie_effects_united)
 # sum(is.na(user_movie_effects_united$cv_dat)) # 0 (there are no NAs in there)
 
 user_movie_effects <- user_movie_effects_united |>
   group_by(movieId) |>
-  summarise(mean_b = mean(b), n = mean(n))
+  summarise(b = mean(b), n = mean(n))
 
 str(user_movie_effects)
 # sum(is.na(user_movie_effects$b)) # 0 (there are no NAs in there)
@@ -900,37 +890,37 @@ str(user_movie_effects)
 #user_movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
 put_log("Computed Mean User+Movie Effects model.")
 
-#### Plot a histogram of the User+Movie Effects -----------------------------------
+##### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
-hist(user_movie_effects$mean_b, 30, xlab = TeX(r'[mean($\hat{beta}_{j}$)]'),
-     main = TeX(r'[Histogram of mean($\hat{beta}_{j}$)]'))
+hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
+     main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
 #### Calculate RMSEs on Validation Sets --------------------------------------------
 put_log("Computing the RMSE taking into account User+Movie Effects...")
 start <- put_start_date()
-user_movie_effects_mses <- sapply(user_movie_effects_ls, function(cv_dat){
-  cv_dat$cv_set$validation_set |>
-    left_join(cv_dat$user_effects, by = "userId") |>
-    left_join(cv_dat$user_movie_effects, by = "movieId") |>
+user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
+  cv_fold_dat$validation_set |>
+    left_join(user_effects, by = "userId") |>
+    left_join(user_movie_effects, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b)) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
 })
 put_end_date(start)
 
-plot(user_movie_effects_mses)
+plot(user_movie_effects_MSEs)
 put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-user_movie_effects_rmse <- sqrt(mean(user_movie_effects_mses))
-put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_movie_effects_rmse)
-user_movie_effects_rmse
-#> [1] 0.8632579
+user_movie_effects_RMSE <- sqrt(mean(user_movie_effects_MSEs))
+put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_movie_effects_RMSE)
+user_movie_effects_RMSE
+#> [1] 0.8594763
 
 #### Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
 RMSEs <- rmses_add_row("User+Movie Effect Model", 
-                       user_movie_effects_rmse)
+                       user_movie_effects_RMSE)
 rmse_kable()
 
 #### Close Log -----------------------------------------------------------------
@@ -1105,28 +1095,30 @@ put_log1("Computing User+Movie+Genre Effects list for %1-Fold Cross Validation s
 
 start <- put_start_date()
 user_movie_genre_effects_ls <- lapply(kfold_index, function(fold_i){
-  cv_dat <- user_movie_effects_ls[[fold_i]]
+  cv_fold_dat <- edx_CV[[fold_i]]
   
   put_log2("Processing User+Movie+Genre Effects for %1-Fold Cross Validation samples (Fold %2)...",
            CVFolds_N,
            fold_i)
   
   start <- put_start_date()
-  genre_bias <- cv_dat$cv_set$train_gs_set |>
-    left_join(cv_dat$user_effects, by = "userId") |>
-    left_join(cv_dat$user_movie_effects, by = "movieId") |>
+  genre_bias <- cv_fold_dat$train_gs_set |>
+    left_join(user_effects, by = "userId") |>
+    left_join(user_movie_effects, by = "movieId") |>
+    mutate(resid = rating - (mu + a + b)) |>
+    filter(!is.na(resid)) |>
     group_by(genres) |>
-    summarise(g = mean(rating - (mu + a + b), na.rm = TRUE), n = n()) |>
-    filter(n > min_nratings)
+    summarise(g = mean(resid, na.rm = TRUE), n = n()) #|>
+    #filter(n > min_nratings)
   
   # print(c(g_NAs = sum(is.na(genre_bias$g))))
   
-  movie_genre_effects <- cv_dat$cv_set$train_gs_set |>
+  movie_genre_effects <- cv_fold_dat$train_gs_set |>
     left_join(genre_bias, by = "genres") |>
-    left_join(cv_dat$user_movie_effects, by = "movieId") |>
-    filter(!is.na(b)) |>
+    left_join(user_movie_effects, by = "movieId") |>
+    filter(!is.na(g)) |>
     group_by(movieId) |>
-    summarise(b = mean(b, na.rm = TRUE), g = mean(g, na.rm = TRUE))
+    summarise(g = mean(g, na.rm = TRUE))
   
   put_end_date(start)
   #print(c(g_NAs = sum(is.na(mg_bias$g)), b_NAs = sum(is.na(mg_bias$b))))
@@ -1136,95 +1128,71 @@ of the %2-Fold Cross Validation samples.",
            fold_i,
            CVFolds_N)
 
-  list(user_effects = cv_dat$user_effects,
-       # user_movie_effects = cv_dat$user_movie_effects,
-       movie_genre_effects = movie_genre_effects,
-       cv_set = cv_dat$cv_set)
+  movie_genre_effects  
 })
+str(user_movie_genre_effects_ls)
 put_end_date(start)
 #> Time difference of 34.83447 secs
 put_log1("User+Movie+Genre Effects list has been computed
 for %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-str(user_movie_genre_effects_ls)
 #head(user_movie_genre_effects_ls)
 
-umge_ls <- lapply(user_movie_genre_effects_ls, function(cv_dat){
-  cv_dat$movie_genre_effects
-})
-str(umge_ls)
-user_movie_genre_effects_united <- union_cv_results(umge_ls)
+# umge_ls <- lapply(user_movie_genre_effects_ls, function(cv_dat){
+#   cv_dat$movie_genre_effects
+# })
+# str(umge_ls)
+user_movie_genre_effects_united <- union_cv_results(user_movie_genre_effects_ls)
 str(user_movie_genre_effects_united)
 # sum(user_movie_genre_effects_united$g != 0)
 # sum(is.na(user_movie_genre_effects_united$b))
 # sum(is.na(user_movie_genre_effects_united$g))
 
-# edx_cv_item <- edx_CV[[1]]$train_set
-
-##### Compute Mean User+Movie+Genre Bias -----------------------------------------------------
-
-mean_user_movie_genre_bias <- user_movie_genre_effects_united |>
+user_movie_genre_effects <- user_movie_genre_effects_united |>
   group_by(movieId) |>
-  summarise(b = mean(b), g = mean(g))
+  summarise(g = mean(g))
 
-put_log("Mean User+Movie+Genre Bias have been computed.")
-str(mean_user_movie_genre_bias)
-# sum(is.na(mean_user_movie_genre_bias$b))
-#> [1] 0
-# sum(is.na(mean_user_movie_genre_bias$g))
-#> [1] 0
+str(user_movie_genre_effects)
+put_log("Mean User+Movie+Genre Effects have been computed.")
 
-##### Finalize User+Movie+Genre Effects ---------------------------------------------
-
-# sum(is.na(mean_user_movie_genre_bias$g))
-# #> [1] 0
-# sum(is.na(mean_user_movie_genre_bias$g))
-#> [1] 0
-
-###### Plot a histogram of the Movie Effect distribution ----------------------------
+###### Plot a histogram of the Movie Genre Effect distribution -----------------
 par(cex = 0.7)
-hist(mean_user_movie_genre_bias$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$]'),
-     main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
+hist(user_movie_genre_effects$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
+     main = TeX(r'[Histogram of $\hat{g}_{i,j}$]'))
 
-put_log("A histogram of the Movie Effect (adjusted for Genre Bias) distribution has been plotted.")
-
-###### Plot a histogram of the Genre Effect distribution ----------------------------
-#par(cex = 0.7)
-hist(mean_user_movie_genre_bias$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
-     main = TeX(r'[Histogram of $\hat{g}_{j}$]'))
-
-put_log("A histogram of the Genre Effect distribution has been plotted.")
+put_log("A histogram of the Movie Genre Effect distribution has been plotted.")
 
 ###### Compute RMSE: user+movie+genre effects ------------------------------------
 
 put_log("Computing RMSEs on Validation Sets...")
 start <- put_start_date()
-user_movie_genre_effects_mses <- sapply(user_movie_genre_effects_ls, function(cv_dat){
-  cv_dat$cv_set$validation_set |>
-    left_join(cv_dat$user_effects, by = "userId") |>
-    left_join(cv_dat$movie_genre_effects, by = "movieId") |>
+user_movie_genre_effects_MSEs <- sapply(edx_CV, function(cv_dat){
+  cv_dat$validation_set |>
+    left_join(user_effects, by = "userId") |>
+    left_join(user_movie_effects, by = "movieId") |>
+    left_join(user_movie_genre_effects, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b + g)) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
 })
 put_end_date(start)
 
-plot(user_movie_genre_effects_mses)
+plot(user_movie_genre_effects_MSEs)
 put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-user_movie_genre_effects_rmse <- sqrt(mean(user_movie_genre_effects_mses))
+user_movie_genre_effects_RMSE <- sqrt(mean(user_movie_genre_effects_MSEs))
 put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
          CVFolds_N, 
-         user_movie_genre_effects_rmse)
+         user_movie_genre_effects_RMSE)
 
-user_movie_genre_effects_rmse
-#> [1] 0.8632564
+user_movie_genre_effects_RMSE
+#> [1] 0.8594761
 
 #### Add a row to the RMSE Result Table for the User+Movie+Genre Effect Model ---- 
 RMSEs <- rmses_add_row("User+Movie+Genre Effect Model", 
-                       user_movie_genre_effects_rmse)
+                       user_movie_genre_effects_RMSE)
 rmse_kable()
 
 # final_holdout_test |>
@@ -1279,73 +1247,55 @@ put_log1("Computing Date Global Effect list for %1-Fold Cross Validation samples
          CVFolds_N)
 
 start <- put_start_date()
-date_global_effects_ls <- lapply(user_movie_genre_effects_ls,  function(cv_dat){
+date_global_effects_ls <- lapply(edx_CV,  function(cv_fold_dat){
   # start <- put_start_date()
-  date_global_effects <- cv_dat$cv_set$train_set |> 
-    left_join(cv_dat$user_effects, by = "userId") |>
-    left_join(cv_dat$movie_genre_effects, by = "movieId") |>
+  cv_fold_dat$train_set |> 
+    left_join(user_effects, by = "userId") |>
+    left_join(user_movie_effects, by = "movieId") |>
+    left_join(user_movie_genre_effects, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
-    mutate(rating_residue = rating - (mu + a + b + g)) |>
-    filter(!is.na(rating_residue)) |>
+    mutate(resid = rating - (mu + a + b + g)) |>
+    filter(!is.na(resid)) |>
     group_by(days) |>
-    summarise(de = mean(rating_residue, na.rm = TRUE))
-  
-  list(user_effects = cv_dat$user_effects,
-       # user_movie_effects = cv_dat$user_movie_effects,
-       movie_genre_effects = cv_dat$movie_genre_effects,
-       date_global_effects = date_global_effects,
-       cv_set = cv_dat$cv_set)
+    summarise(de = mean(resid, na.rm = TRUE))
   })
 str(date_global_effects_ls)
 put_end_date(start)
 put_log1("Date Global Effect list has been computed for %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
+date_global_effects_united <- union_cv_results(date_global_effects_ls)
+str(date_global_effects_united)
+
+date_global_effects <- date_global_effects_united |>
+  group_by(days) |>
+  summarise(de = mean(de))
+
+str(date_global_effects)
+
+  
 ##### Date Smoothed Effect Computation Support Functions ------------------------
 loess_de <- function(train_dat, degree = NA, span = NA){
   if(is.na(degree)) degree = 2
   if(is.na(span)) span = 0.75
   loess(de ~ days, span = span, degree = degree, data = train_dat)
 }
-compute_date_smoothed_effects <- function(degree = NA, span = NA){
-  lapply(date_global_effects_ls, function(cv_dat){
-    # start <- put_start_date()
-    fit <- cv_dat$date_global_effects |> loess_de(degree, span)
-    
-    date_smoothed_effect <- cv_dat$date_global_effects |>
-      mutate(de_smoothed = fit$fitted)
-    # put_end_date(start)
-    
-    list(user_effects = cv_dat$user_effects,
-         movie_genre_effects = cv_dat$movie_genre_effects,
-         date_smoothed_effect = date_smoothed_effect,
-         cv_set = cv_dat$cv_set)
-  })
+compute_date_smoothed_effect <- function(degree = NA, span = NA){
+  fit <- date_global_effects |> loess_de(degree, span)
+  date_global_effects |> mutate(de_smoothed = fit$fitted)
 }
-compute_mean_dse <- function(dse_list) {
-  mean_dse_ls <- lapply(dse_list, function(cv_dat){
-    cv_dat$date_smoothed_effect
-  })
-  # print(str(mean_dse_ls))
-  
-  mean_dse_united <- union_cv_results(mean_dse_ls)
-  # print(str(mean_dse_united))
-  
-  mean_dse_united |>
-    group_by(days) |>
-    summarise(de = mean(de), de_smoothed = mean(de_smoothed))
-}
-date_smoothed_MSEs <- function(dse_list){
-  put_log1("Computing RMSE values for the %1-Fold Cross Validation samples...", 
+date_smoothed_MSEs <- function(date_smoothed_effect){
+  put_log1("Computing MSE values for the %1-Fold Cross Validation samples...", 
            CVFolds_N)
   
   start <- put_start_date()
-  MSEs <- sapply(dse_list, function(cv_dat){
-    cv_dat$cv_set$validation_set |>
-      left_join(cv_dat$user_effects, by = "userId") |>
-      left_join(cv_dat$movie_genre_effects, by = "movieId") |>
+  MSEs <- sapply(edx_CV, function(cv_fold_dat){
+    cv_fold_dat$validation_set |>
+      left_join(user_effects, by = "userId") |>
+      left_join(user_movie_effects, by = "movieId") |>
+      left_join(user_movie_genre_effects, by = "movieId") |>
       left_join(date_days_map, by = "timestamp") |>
-      left_join(cv_dat$date_smoothed_effect, by='days') |>
+      left_join(date_smoothed_effect, by='days') |>
       mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |> 
       filter(!is.na(resid)) |>
       pull(resid) |> mse()
@@ -1356,8 +1306,8 @@ date_smoothed_MSEs <- function(dse_list){
   MSEs
 }
 date_smoothed_RMSE <- function(degree = NA, span = NA){
-  dse_ls <- compute_date_smoothed_effects(degree, span) 
-  MSEs <- date_smoothed_MSEs(dse_ls)
+  date_smoothed_effect <- compute_date_smoothed_effect(degree, span) 
+  MSEs <- date_smoothed_MSEs(date_smoothed_effect)
   sqrt(mean(MSEs))
 }
 tune_de_model_RMSEs <- function(degree, spans){
@@ -1400,36 +1350,36 @@ with default `span` & `degree` parameters for %1-Fold Cross Validation samples..
 CVFolds_N)
 
 start <- put_start_date()
-date_smoothed_effect_ls <- compute_date_smoothed_effects()
-str(date_smoothed_effect_ls)
+date_smoothed_effect <- compute_date_smoothed_effect()
+str(date_smoothed_effect)
 put_end_date(start)
 put_log1("User+Movie+Genre+Date Effect Model has been trained
 using `loess` function with default `span` & `degree` parameters
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
 
-##### Mean Date Smoothed Effect Visualization ----------------------------------
-mean_date_smoothed_effect <- compute_mean_dse(date_smoothed_effect_ls)
-str(mean_date_smoothed_effect)
+##### Date Smoothed Effect Visualization ----------------------------------
+# mean_date_smoothed_effect <- compute_mean_dse(date_smoothed_effect_ls)
+# str(mean_date_smoothed_effect)
 
-mean_date_smoothed_effect |>
+date_smoothed_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
 
-put_log1("Mean Date Smoothed Effect has been plotted for the %1-Fold Cross Validation samples.",
-         CVFolds_N)
+put_log("Date Smoothed Effect has been plotted 
+for the `loess` function fitted with default parameters.")
 
-# Calculate RMSE for loess fitted with default parameters ----------------------
+# Calculate RMSE for the `loess` function fitted with default parameters -------
 start <- put_start_date()
-user_movie_genre_date_effects_rmse <- date_smoothed_RMSE()
+user_movie_genre_date_effects_RMSE <- date_smoothed_RMSE()
 put_end_date(start)
 put_log1("RMSE value has been computed using `loess` function 
 with default (degree & span) parameters for the %1-Fold Cross Validation samples.",
          CVFolds_N)
 
-print(user_movie_genre_date_effects_rmse)
-#> [1] 0.8627526
+print(user_movie_genre_date_effects_RMSE)
+#> [1] 0.8589679
 
 #### Re-train tuning `loess` function's with `span` & `degree` params-----------
 ##### Tune the Global Date Smoothed Effect model -------------------------------
@@ -1454,12 +1404,12 @@ put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples
 ds_rmse0 <- best_rmse(ds0_rmses)
 put(ds_rmse0)
 #      Span      RMSE 
-# 0.0008700 0.8573265  
+# 0.0008700 0.8573269 
 
 ###### 2. `degree = 1` --------------------------------------------------------------
 put("Case 2. `degree = 1`")
 #spans <- seq(0.0005, 0.002, 0.00001)
-spans <- seq(0.001, 0.0014, 0.00001)
+spans <- seq(0.0005, 0.00135, 0.00001)
 put_log2("Tuning for spans %1:%2...", min(spans), max(spans))
 ds1_rmses <- date_smoothed_tuned_RMSEs(degree[2], spans)
 put("Case 2. `degree = 1` RMSEs:")
@@ -1470,8 +1420,8 @@ put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples
 
 ds_rmse1 <- best_rmse(ds1_rmses)
 put(ds_rmse1)
-#     Span     RMSE 
-# 0.001090 0.860964
+#      Span      RMSE 
+# 0.0008700 0.8568612
 
 ###### 3. `degree = 2` --------------------------------------------------------------
 put("Case 3. `degree = 2`")
@@ -1488,10 +1438,9 @@ put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples
 ds_rmse2 <- best_rmse(ds2_rmses)
 put(ds_rmse2)
 #      Span      RMSE 
-# 0.0013100 0.8571513
+# 0.0013100 0.8571522
 
-#### Retrain with the best parameters figured out above ---------------------------
-
+###### The Best Parameters and RMSE Value --------------------------------------
 loess_rmse <- data.frame(degree = degree, 
                          span = c(ds_rmse0[1], ds_rmse1[1], ds_rmse2[1]),
                          rmse = c(ds_rmse0[2], ds_rmse1[2], ds_rmse2[2]))
@@ -1500,25 +1449,32 @@ put(loess_rmse)
 idx_best_rmse <- which.min(loess_rmse$rmse)
 
 best_degree <- loess_rmse[idx_best_rmse, 1]  # 1
-best_span <- loess_rmse[idx_best_rmse, 2]# 0.00108
-best_rmse <- loess_rmse[idx_best_rmse, 3]
-put(best_rmse)
-#> [1] 0.8568608
+put_log1("The Best Degree: %1", best_degree)
+best_degree
+#> [1] 1
 
+best_span <- loess_rmse[idx_best_rmse, 2]# 0.00108
+put_log1("The Best Span: %1", best_span)
+best_span
+#> [1] 0.00087
+
+best_rmse <- loess_rmse[idx_best_rmse, 3]
+put_log1("The Best RMSE: %1",best_rmse)
+best_rmse
+#> [1] 0.8568612
+
+#### Retrain with the best parameters figured out above ------------------------
 put_log2("Re-training model using `loess` function with the best parameters: 
 span = %1, degree = %2", best_span, best_degree)
 start <- put_start_date()
-date_smoothed_effect_ls <- compute_date_smoothed_effects(best_degree, best_span)
-str(date_smoothed_effect_ls)
+best_date_smoothed_effect <- compute_date_smoothed_effect(best_degree, best_span)
+str(date_smoothed_effect)
 put_end_date(start)
 put_log2("The model has been re-trained using `loess` function with the best parameters: 
 span = %1, degree = %2", best_span, best_degree)
 
-##### Mean Date Smoothed Effect Visualization ----------------------------------
-mean_date_smoothed_effect <- compute_mean_dse(date_smoothed_effect_ls)
-str(mean_date_smoothed_effect)
-
-mean_date_smoothed_effect |>
+##### The Best Date Smoothed Effect Visualization ----------------------------------
+best_date_smoothed_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
@@ -1527,7 +1483,7 @@ put_log1("Optimized Mean Date Smoothed Effect has been plotted for the %1-Fold C
          CVFolds_N)
 # Calculate RMSE for `loess` function fitted with the best parameters ----------
 start <- put_start_date()
-user_movie_genre_tuned_date_effect_rmse <- date_smoothed_RMSE(best_degree, best_span)
+user_movie_genre_tuned_date_effect_RMSE <- date_smoothed_RMSE(best_degree, best_span)
 put_end_date(start)
 put_log3("RMSE value has been computed using `loess` function 
 with the best parameters for the %1-Fold Cross Validation samples:
@@ -1537,12 +1493,12 @@ CVFolds_N,
 best_degree,
 best_span)
 
-print(user_movie_genre_tuned_date_effect_rmse)
-#> [1] 0.860964
+print(user_movie_genre_tuned_date_effect_RMSE)
+#> [1] 0.8568612
 
 ##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs <- rmses_add_row("User+Movie+Genre+Date Effects Model (tuned)", 
-                       user_movie_genre_tuned_date_effect_rmse)
+                       user_movie_genre_tuned_date_effect_RMSE)
 rmse_kable()
 
 # start <- put_start_date()
