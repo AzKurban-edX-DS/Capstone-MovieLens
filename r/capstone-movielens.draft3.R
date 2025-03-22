@@ -843,7 +843,7 @@ RMSEs <- rmses_add_row("User Effect Model", user_effect_rmse)
 rmse_kable()
 #### Close Log -----------------------------------------------------------------
 log_close()
-### Taking into account User+Movie Effects ------------------------------------------
+### Taking into account User+Movie Effects -------------------------------------
 
 # Reference: the Textbook section "23.5 Movie effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects
@@ -859,70 +859,104 @@ log_close()
 #> α[i], and then estimating β[j] as the average of the residuals 
 #> `y[i,j] - μ - α[i]`:
 
-#### Open log -------------------------------------------------------------------
+#### Open log ------------------------------------------------------------------
 open_logfile(".user+movie-effect")
 
-#### Model building: User+Movie Effects -----------------------------------------
-put_log("Computing User+Movie Effect...")
-start <- put_start_date()
-user_movie_effects_ls <- lapply(edx_CV, function(cv_fold_dat){
-  cv_fold_dat$train_set |>
-    left_join(user_effects, by = "userId") |>
-    mutate(ume = rating - (mu + a)) |> 
-    filter(!is.na(ume)) |>
+#### Support Functions ---------------------------------------------------------
+get_regularized <- function(vals, lambda){
+  sum(vals)/(length(vals) + lambda)
+}
+get_summarized <- function(vals, lambda = NA){
+  if(is.na(lambda)){
+    mean(vals)
+  } else {
+    get_regularized(vals, lambda)
+  }
+}
+train_user_movie_effect <- function(lambda = NA){
+  put_log("Computing User+Movie Effect...")
+  start <- put_start_date()
+  user_movie_effects_ls <- lapply(edx_CV, function(cv_fold_dat){
+    cv_fold_dat$train_set |>
+      left_join(user_effects, by = "userId") |>
+      mutate(resid = rating - (mu + a)) |> 
+      filter(!is.na(resid)) |>
+      group_by(movieId) |>
+      summarise(b = get_summarized(resid, lambda), n = n())
+  })
+  put_end_date(start)
+  str(user_movie_effects_ls)
+  put_log("User+Movie Effect list have been computed")
+  
+  user_movie_effects_united <- union_cv_results(user_movie_effects_ls)
+  str(user_movie_effects_united)
+  # sum(is.na(user_movie_effects_united$cv_dat)) # 0 (there are no NAs in there)
+  
+  user_movie_effect <- user_movie_effects_united |>
     group_by(movieId) |>
-    summarise(b = mean(ume), n = n())
-})
-put_end_date(start)
-str(user_movie_effects_ls)
-put_log("User+Movie Effect list have been computed")
+    summarise(b = mean(b), n = mean(n))
+  
+  # sum(is.na(user_movie_effect$b)) # 0 (there are no NAs in there)
+  
+  #user_movie_effect <- data.frame(movieId = as.integer(names(b)), b = b)
+  put_log("Computed Mean User+Movie Effects model.")
+  user_movie_effect
+}
+calc_user_movie_effect_RMSE <- function(um_effect){
+  put_log("Computing the RMSE taking into account User+Movie Effects...")
+  start <- put_start_date()
+  user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
+    cv_fold_dat$validation_set |>
+      left_join(user_effects, by = "userId") |>
+      left_join(um_effect, by = "movieId") |>
+      mutate(resid = rating - clamp(mu + a + b)) |> 
+      filter(!is.na(resid)) |>
+      pull(resid) |> mse()
+  })
+  put_end_date(start)
+  
+  #plot(user_movie_effects_MSEs)
+  put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
+           CVFolds_N)
+  
+  um_effect_RMSE <- sqrt(mean(user_movie_effects_MSEs))
+  put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
+  um_effect_RMSE
+}
 
-user_movie_effects_united <- union_cv_results(user_movie_effects_ls)
-str(user_movie_effects_united)
-# sum(is.na(user_movie_effects_united$cv_dat)) # 0 (there are no NAs in there)
-
-user_movie_effects <- user_movie_effects_united |>
-  group_by(movieId) |>
-  summarise(b = mean(b), n = mean(n))
-
-str(user_movie_effects)
-# sum(is.na(user_movie_effects$b)) # 0 (there are no NAs in there)
-
-#user_movie_effects <- data.frame(movieId = as.integer(names(b)), b = b)
-put_log("Computed Mean User+Movie Effects model.")
+#### Model building: User+Movie Effects ----------------------------------------
+user_movie_effect <- train_user_movie_effect()
+str(user_movie_effect)
 
 ##### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
-hist(user_movie_effects$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
+hist(user_movie_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
-#### Calculate RMSEs on Validation Sets --------------------------------------------
-put_log("Computing the RMSE taking into account User+Movie Effects...")
-start <- put_start_date()
-user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
-  cv_fold_dat$validation_set |>
-    left_join(user_effects, by = "userId") |>
-    left_join(user_movie_effects, by = "movieId") |>
-    mutate(resid = rating - clamp(mu + a + b)) |> 
-    filter(!is.na(resid)) |>
-    pull(resid) |> mse()
-})
-put_end_date(start)
-
-plot(user_movie_effects_MSEs)
-put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
-         CVFolds_N)
-
-user_movie_effects_RMSE <- sqrt(mean(user_movie_effects_MSEs))
-put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, user_movie_effects_RMSE)
-user_movie_effects_RMSE
+#### Calculate RMSEs on Validation Sets ----------------------------------------
+user_movie_effect_RMSE <- calc_user_movie_effect_RMSE(user_movie_effect)
 #> [1] 0.8594763
 
-#### Add a row to the RMSE Result Table for the User+Movie Effect Model ---------- 
+#### Add a row to the RMSE Result Table for the User+Movie Effect Model --------
 RMSEs <- rmses_add_row("User+Movie Effect Model", 
-                       user_movie_effects_RMSE)
+                       user_movie_effect_RMSE)
 rmse_kable()
+
+### Regularizing User+Movie Effects --------------------------------------------
+# lambdas <- seq(0, 10, 0.1)
+lambdas <- seq(-1, 1, 0.1)
+
+user_movie_reg_RMSEs <- sapply(lambdas, function(lambda){
+  um_reg_effect <- train_user_movie_effect(lambda)
+  calc_user_movie_effect_RMSE(um_reg_effect)
+})
+
+plot(user_movie_reg_RMSEs)
+
+user_movie_lambda <- lambdas[which.min(user_movie_reg_RMSEs)]
+user_movie_lambda
+min(user_movie_reg_RMSEs)
 
 #### Close Log -----------------------------------------------------------------
 log_close()
@@ -1105,7 +1139,7 @@ user_movie_genre_effects_ls <- lapply(kfold_index, function(fold_i){
   start <- put_start_date()
   genre_bias <- cv_fold_dat$train_gs_set |>
     left_join(user_effects, by = "userId") |>
-    left_join(user_movie_effects, by = "movieId") |>
+    left_join(user_movie_effect, by = "movieId") |>
     mutate(resid = rating - (mu + a + b)) |>
     filter(!is.na(resid)) |>
     group_by(genres) |>
@@ -1116,7 +1150,7 @@ user_movie_genre_effects_ls <- lapply(kfold_index, function(fold_i){
   
   movie_genre_effects <- cv_fold_dat$train_gs_set |>
     left_join(genre_bias, by = "genres") |>
-    left_join(user_movie_effects, by = "movieId") |>
+    left_join(user_movie_effect, by = "movieId") |>
     filter(!is.na(g)) |>
     group_by(movieId) |>
     summarise(g = mean(g, na.rm = TRUE))
@@ -1171,7 +1205,7 @@ start <- put_start_date()
 user_movie_genre_effects_MSEs <- sapply(edx_CV, function(cv_dat){
   cv_dat$validation_set |>
     left_join(user_effects, by = "userId") |>
-    left_join(user_movie_effects, by = "movieId") |>
+    left_join(user_movie_effect, by = "movieId") |>
     left_join(user_movie_genre_effects, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b + g)) |> 
     filter(!is.na(resid)) |>
@@ -1252,7 +1286,7 @@ date_global_effects_ls <- lapply(edx_CV,  function(cv_fold_dat){
   # start <- put_start_date()
   cv_fold_dat$train_set |> 
     left_join(user_effects, by = "userId") |>
-    left_join(user_movie_effects, by = "movieId") |>
+    left_join(user_movie_effect, by = "movieId") |>
     left_join(user_movie_genre_effects, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     mutate(resid = rating - (mu + a + b + g)) |>
@@ -1287,7 +1321,7 @@ start <- put_start_date()
 date_year_effect_MSEs <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
     left_join(user_effects, by = "userId") |>
-    left_join(user_movie_effects, by = "movieId") |>
+    left_join(user_movie_effect, by = "movieId") |>
     left_join(user_movie_genre_effects, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     left_join(date_year_effects, by='year') |>
@@ -1333,7 +1367,7 @@ day_smoothed_MSEs <- function(day_smoothed_effect){
   MSEs <- sapply(edx_CV, function(cv_fold_dat){
     cv_fold_dat$validation_set |>
       left_join(user_effects, by = "userId") |>
-      left_join(user_movie_effects, by = "movieId") |>
+      left_join(user_movie_effect, by = "movieId") |>
       left_join(user_movie_genre_effects, by = "movieId") |>
       left_join(date_days_map, by = "timestamp") |>
       #left_join(date_year_effects, by='year') |>
@@ -1503,7 +1537,7 @@ best_span
 best_rmse <- loess_rmse[idx_best_rmse, 3]
 put_log1("The Best RMSE: %1",best_rmse)
 best_rmse
-#> [1] 0.8568612
+#> [1] 0.8568619
 
 #### Retrain with the best parameters figured out above ------------------------
 put_log2("Re-training model using `loess` function with the best parameters: 
@@ -1567,7 +1601,7 @@ log_close()
 #> we minimize an equation that adds a penalty:
 
 #  ∑{i,j}(y[i,j] - y_hat[i,j])^2 + λ*∑{j}β[j]^2
-# where y_hat[i,j] = μ + α[i] + β[j] + g[i,j] + f(d[i,j])
+# where y_hat[i,j] = μ + α[i] + β[j] + g[i,j] + ye[i,j] + f(d[i,j])
 
 #> The values of `β[j]` that minimize this equation are:
 
