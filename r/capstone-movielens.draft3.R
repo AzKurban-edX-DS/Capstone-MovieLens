@@ -976,7 +976,7 @@ put_log1("Regularized User+Movie Effect Model has been re-trained for the best `
 put_log1("Is this a best RMSE? %1",
          best_user_movie_reg_RMSE == user_movie_effect_best_lambda_RMSE)
 
-#### Add a row to the RMSE Result Table for the User+Movie Effect Model --------
+#### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
 RMSEs <- rmses_add_row("Regularized User+Movie Effect Model", 
                        best_user_movie_reg_RMSE)
 rmse_kable()
