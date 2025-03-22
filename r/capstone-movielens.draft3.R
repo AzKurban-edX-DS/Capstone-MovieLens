@@ -874,7 +874,10 @@ get_summarized <- function(vals, lambda = NA){
   }
 }
 train_user_movie_effect <- function(lambda = NA){
-  put_log("Computing User+Movie Effect...")
+  if(is.na(lambda)) put_log("Computing User+Movie Effect...")
+  else put_log1("Computing User+Movie Effect for lambda: %1...",
+                lambda)
+  
   start <- put_start_date()
   user_movie_effects_ls <- lapply(edx_CV, function(cv_fold_dat){
     cv_fold_dat$train_set |>
@@ -899,7 +902,10 @@ train_user_movie_effect <- function(lambda = NA){
   # sum(is.na(user_movie_effect$b)) # 0 (there are no NAs in there)
   
   #user_movie_effect <- data.frame(movieId = as.integer(names(b)), b = b)
-  put_log("Computed Mean User+Movie Effects model.")
+  if(is.na(lambda)) put_log("Training completed: User+Movie Effects model.")
+  else put_log1("raining completed: User+Movie Effects model for lambda: %1...",
+                lambda)
+  
   user_movie_effect
 }
 calc_user_movie_effect_RMSE <- function(um_effect){
@@ -945,18 +951,36 @@ rmse_kable()
 
 ### Regularizing User+Movie Effects --------------------------------------------
 # lambdas <- seq(0, 10, 0.1)
-lambdas <- seq(-1, 1, 0.1)
+lambdas <- seq(-1, 3, 0.1)
 
 user_movie_reg_RMSEs <- sapply(lambdas, function(lambda){
   um_reg_effect <- train_user_movie_effect(lambda)
   calc_user_movie_effect_RMSE(um_reg_effect)
 })
+plot(lambdas, user_movie_reg_RMSEs)
 
-plot(user_movie_reg_RMSEs)
+best_user_movie_lambda <- lambdas[which.min(user_movie_reg_RMSEs)]
+best_user_movie_lambda
 
-user_movie_lambda <- lambdas[which.min(user_movie_reg_RMSEs)]
-user_movie_lambda
-min(user_movie_reg_RMSEs)
+best_user_movie_reg_RMSE <- min(user_movie_reg_RMSEs)
+print(best_user_movie_reg_RMSE)
+
+put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
+         best_user_movie_lambda)
+
+user_movie_effect_best_lambda <- train_user_movie_effect(best_user_movie_lambda)
+user_movie_effect_best_lambda_RMSE <- calc_user_movie_effect_RMSE(user_movie_effect_best_lambda)
+
+put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
+         best_user_movie_lambda)
+put_log1("Is this a best RMSE? %1",
+         best_user_movie_reg_RMSE == user_movie_effect_best_lambda_RMSE)
+
+#### Add a row to the RMSE Result Table for the User+Movie Effect Model --------
+RMSEs <- rmses_add_row("Regularized User+Movie Effect Model", 
+                       best_user_movie_reg_RMSE)
+rmse_kable()
+
 
 #### Close Log -----------------------------------------------------------------
 log_close()
