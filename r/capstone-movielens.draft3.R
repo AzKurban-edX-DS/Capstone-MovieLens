@@ -1250,6 +1250,12 @@ calc_user_movie_genre_effect_RMSE <- function(umg_effect){
   
   umg_effect_RMSE
 }
+reg_tune_use_movie_genre_effect <- function(lambdas){
+  sapply(lambdas, function(lambda){
+    umg_reg_effect <- train_user_movie_genre_effect(lambda)
+    calc_user_movie_genre_effect_RMSE(umg_reg_effect)
+  })
+}
 
 #### Train User+Movie+Genre Effect Model ---------------------------------------
 user_movie_genre_effect <- train_user_movie_genre_effect()
@@ -1274,12 +1280,10 @@ rmse_kable()
 
 ### Regularizing User+Movie Effects --------------------------------------------
 # lambdas <- seq(0, 10, 0.1)
-lambdas <- seq(-10, 0, 0.1)
+# lambdas <- seq(-10, 0, 0.1)
+lambdas <- seq(-7, -4, 0.1)
 
-user_movie_genre_reg_RMSEs <- sapply(lambdas, function(lambda){
-  umg_reg_effect <- train_user_movie_genre_effect(lambda)
-  calc_user_movie_genre_effect_RMSE(umg_reg_effect)
-})
+user_movie_genre_reg_RMSEs <- reg_tune_use_movie_genre_effect(lambdas)
 plot(lambdas, user_movie_genre_reg_RMSEs)
 user_movie_genre_reg_RMSEs
 
@@ -1289,6 +1293,7 @@ best_user_movie_genre_lambda
 best_user_movie_genre_reg_RMSE <- min(user_movie_genre_reg_RMSEs)
 print(best_user_movie_genre_reg_RMSE)
 
+##### Re-training Regularized User+Movie Effect Model for the best `lambda` value ----
 put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
          best_user_movie_genre_lambda)
 
