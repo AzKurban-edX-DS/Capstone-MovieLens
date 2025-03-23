@@ -1281,18 +1281,28 @@ rmse_kable()
 ### Regularizing User+Movie Effects --------------------------------------------
 # lambdas <- seq(0, 10, 0.1)
 # lambdas <- seq(-10, 0, 0.1)
+# lambdas <- seq(-7, -4, 0.02)
 lambdas <- seq(-7, -4, 0.1)
-
-user_movie_genre_reg_RMSEs <- reg_tune_use_movie_genre_effect(lambdas)
+user_movie_genre_reg_RMSEs_m7_m4_0_1 <- reg_tune_use_movie_genre_effect(lambdas)
 plot(lambdas, user_movie_genre_reg_RMSEs)
-user_movie_genre_reg_RMSEs
+
+lambdas <- seq(-6.06, -5.91, 0.006)
+user_movie_genre_reg_RMSEs_m606_m591_0_006 <- reg_tune_use_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_m606_m591_0_006)
+
+lambdas <- seq(-5.06, -4.91, 0.006)
+user_movie_genre_reg_RMSEs_m606_m591_0_006 <- reg_tune_use_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_m606_m591_0_006)
+
+#user_movie_genre_reg_RMSEs
 
 best_user_movie_genre_lambda <- lambdas[which.min(user_movie_genre_reg_RMSEs)]
 best_user_movie_genre_lambda
+#> [1] -6.0
 
 best_user_movie_genre_reg_RMSE <- min(user_movie_genre_reg_RMSEs)
 print(best_user_movie_genre_reg_RMSE)
-
+#> [1] 0.859472310809863
 ##### Re-training Regularized User+Movie Effect Model for the best `lambda` value ----
 put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
          best_user_movie_genre_lambda)
