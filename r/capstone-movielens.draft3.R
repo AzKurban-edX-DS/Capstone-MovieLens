@@ -1295,28 +1295,100 @@ rmse_kable()
 # plot(lambdas, user_movie_genre_reg_RMSEs_m606_m591_0_006)
 # 
 # lambdas <- seq(-6.01, -5.99, 0.001)
-# user_movie_genre_reg_RMSEs_m601_m599_0_001 <- reg_tune_use_movie_genre_effect(lambdas)
+# user_movie_genre_reg_RMSEs_m601_m599_0_001 <- reg_tune_user_movie_genre_effect(lambdas)
 # plot(lambdas, user_movie_genre_reg_RMSEs_m601_m599_0_001)
 # 
 # lambdas <- seq(-6.001, -5.999, 0.0001)
-# user_movie_genre_reg_RMSEs_m6001_m5999_0_0001 <- reg_tune_use_movie_genre_effect(lambdas)
+# user_movie_genre_reg_RMSEs_m6001_m5999_0_0001 <- reg_tune_user_movie_genre_effect(lambdas)
 # plot(lambdas, user_movie_genre_reg_RMSEs_m6001_m5999_0_0001)
 
-lambdas <- seq(-6.0001, -5.9999, 0.00001)
-user_movie_genre_reg_RMSEs_m60001_m59999_0_00001 <- reg_tune_use_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs_m60001_m59999_0_00001)
+# lambdas <- seq(-6.0001, -5.9999, 0.00001)
+# user_movie_genre_reg_RMSEs_m60001_m59999_0_00001 <- reg_tune_user_movie_genre_effect(lambdas)
+# plot(lambdas, user_movie_genre_reg_RMSEs_m60001_m59999_0_00001)
 
-user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m60001_m59999_0_00001
+# lambdas <- seq(-6.00001, -5.99999, 0.000001)
+# user_movie_genre_reg_RMSEs_m600001_m599999_0_000001 <- reg_tune_user_movie_genre_effect(lambdas)
+# plot(lambdas, user_movie_genre_reg_RMSEs_m600001_m599999_0_000001)
+# 
+# user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m600001_m599999_0_000001
+
+lambdas <- seq(-6.6, -4.2, 0.2)
+user_movie_genre_reg_RMSEs_m66_42_0_2 <- reg_tune_user_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_m66_42_0_2)
+user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m66_42_0_2
+
+# First minimum (lambda = 6) ---------------------------------------------------
+lambdas <- seq(-6.4, -5.5, 0.1)
+user_movie_genre_reg_RMSEs_m64_55_0_1 <- reg_tune_user_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_m64_55_0_1)
+user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m64_55_0_1
 
 best_user_movie_genre_lambda <- lambdas[which.min(user_movie_genre_reg_RMSEs)]
 best_user_movie_genre_lambda
-#> [1] -6.0
-
+#> [1] -6
 best_user_movie_genre_reg_RMSE <- min(user_movie_genre_reg_RMSEs)
 print(best_user_movie_genre_reg_RMSE)
 #> [1] 0.8594723
 
-##### Re-training Regularized User+Movie Effect Model for the best `lambda` value ----
+# lambdas <- seq(-6.000001, -5.999999, 0.0000001)
+# lambdas <- seq(-6.0000005, -5.9999995, 0.00000001)
+# lambdas <- seq(-6.000000005, -5.999999995, 0.000000001)
+# lambdas <- seq(-6.0000000005, -5.9999999995, 0.0000000001)
+#lambdas <- seq(-6.000000000005, -5.999999999995, 0.000000000001)
+lambdas <- seq(-6.0000000000005, -5.9999999999995, 0.0000000000001)
+user_movie_genre_reg_RMSEs_lambda6 <- reg_tune_user_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_lambda6)
+
+best_user_movie_genre_lambda6 <- lambdas[which.min(user_movie_genre_reg_RMSEs_lambda6)]
+best_user_movie_genre_lambda6
+#> [1] -6.0
+best_user_movie_genre_reg_RMSE_lambda6 <- min(user_movie_genre_reg_RMSEs_lambda6)
+best_user_movie_genre_reg_RMSE_lambda6
+#> [1] 0.8594723
+
+# Second minimum (lambda = -5) ---------------------------------------------------
+
+lambdas <- seq(-5.4, -4.5, 0.1)
+user_movie_genre_reg_RMSEs_m54_45_0_1 <- reg_tune_user_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_m54_45_0_1)
+user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m54_45_0_1
+
+best_user_movie_genre_lambda <- lambdas[which.min(user_movie_genre_reg_RMSEs)]
+best_user_movie_genre_lambda
+#> [1] -5
+best_user_movie_genre_reg_RMSE <- min(user_movie_genre_reg_RMSEs)
+print(best_user_movie_genre_reg_RMSE)
+#> [1] 0.8594723
+
+lambdas <- seq(-5.0000000000005, -4.9999999999995, 0.0000000000001)
+user_movie_genre_reg_RMSEs_lambda5 <- reg_tune_user_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_lambda5)
+# user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_lambda5
+
+best_user_movie_genre_lambda5 <- lambdas[which.min(user_movie_genre_reg_RMSEs_lambda5)]
+best_user_movie_genre_lambda5
+#> [1] -5.0
+best_user_movie_genre_reg_RMSE_lambda5 <- min(user_movie_genre_reg_RMSEs_lambda5)
+print(best_user_movie_genre_reg_RMSE_lambda5)
+#> [1] 0.8594723
+
+
+##### Re-training Regularized User+Movie+Genre Effect Model for the best `lambda` value ----
+
+best_user_movie_genre_lambda_RMSEs <- 
+  data.frame(lambda = c(best_user_movie_genre_lambda5, 
+                        best_user_movie_genre_lambda6),
+             RMSE = c(best_user_movie_genre_reg_RMSE_lambda5, 
+                      best_user_movie_genre_reg_RMSE_lambda6))
+put(best_user_movie_genre_lambda_RMSEs)
+
+best_lambda_idx <- which.min(best_user_movie_genre_lambda_RMSEs$lambda)
+best_lambda_idx
+best_user_movie_genre_lambda <- best_user_movie_genre_lambda_RMSEs[best_lambda_idx,]$lambda
+best_user_movie_genre_lambda
+best_user_movie_genre_reg_RMSE <- best_user_movie_genre_lambda_RMSEs[best_lambda_idx,]$RMSE
+best_user_movie_genre_reg_RMSE
+
 put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
          best_user_movie_genre_lambda)
 
