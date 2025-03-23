@@ -1282,25 +1282,25 @@ rmse_kable()
 # lambdas <- seq(0, 10, 0.1)
 # lambdas <- seq(-10, 0, 0.1)
 # lambdas <- seq(-7, -4, 0.02)
-lambdas <- seq(-7, -4, 0.1)
-user_movie_genre_reg_RMSEs_m7_m4_0_1 <- reg_tune_user_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs)
-
-lambdas <- seq(-5.06, -4.91, 0.006)
-user_movie_genre_reg_RMSEs_m506_m491_0_006 <- reg_tune_user_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs_m506_m491_0_006)
-
-lambdas <- seq(-6.06, -5.91, 0.006)
-user_movie_genre_reg_RMSEs_m606_m591_0_006 <- reg_tune_user_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs_m606_m591_0_006)
-
-lambdas <- seq(-6.01, -5.99, 0.001)
-user_movie_genre_reg_RMSEs_m601_m599_0_001 <- reg_tune_use_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs_m601_m599_0_001)
-
-lambdas <- seq(-6.001, -5.999, 0.0001)
-user_movie_genre_reg_RMSEs_m6001_m5999_0_0001 <- reg_tune_use_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs_m6001_m5999_0_0001)
+# lambdas <- seq(-7, -4, 0.1)
+# user_movie_genre_reg_RMSEs_m7_m4_0_1 <- reg_tune_user_movie_genre_effect(lambdas)
+# plot(lambdas, user_movie_genre_reg_RMSEs)
+# 
+# lambdas <- seq(-5.06, -4.91, 0.006)
+# user_movie_genre_reg_RMSEs_m506_m491_0_006 <- reg_tune_user_movie_genre_effect(lambdas)
+# plot(lambdas, user_movie_genre_reg_RMSEs_m506_m491_0_006)
+# 
+# lambdas <- seq(-6.06, -5.91, 0.006)
+# user_movie_genre_reg_RMSEs_m606_m591_0_006 <- reg_tune_user_movie_genre_effect(lambdas)
+# plot(lambdas, user_movie_genre_reg_RMSEs_m606_m591_0_006)
+# 
+# lambdas <- seq(-6.01, -5.99, 0.001)
+# user_movie_genre_reg_RMSEs_m601_m599_0_001 <- reg_tune_use_movie_genre_effect(lambdas)
+# plot(lambdas, user_movie_genre_reg_RMSEs_m601_m599_0_001)
+# 
+# lambdas <- seq(-6.001, -5.999, 0.0001)
+# user_movie_genre_reg_RMSEs_m6001_m5999_0_0001 <- reg_tune_use_movie_genre_effect(lambdas)
+# plot(lambdas, user_movie_genre_reg_RMSEs_m6001_m5999_0_0001)
 
 lambdas <- seq(-6.0001, -5.9999, 0.00001)
 user_movie_genre_reg_RMSEs_m60001_m59999_0_00001 <- reg_tune_use_movie_genre_effect(lambdas)
