@@ -1291,8 +1291,8 @@ user_movie_genre_reg_RMSEs_m606_m591_0_006 <- reg_tune_use_movie_genre_effect(la
 plot(lambdas, user_movie_genre_reg_RMSEs_m606_m591_0_006)
 
 lambdas <- seq(-5.06, -4.91, 0.006)
-user_movie_genre_reg_RMSEs_m606_m591_0_006 <- reg_tune_use_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs_m606_m591_0_006)
+user_movie_genre_reg_RMSEs_m506_m491_0_006 <- reg_tune_use_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_m506_m491_0_006)
 
 #user_movie_genre_reg_RMSEs
 
