@@ -1317,7 +1317,34 @@ user_movie_genre_reg_RMSEs_m66_42_0_2 <- reg_tune_user_movie_genre_effect(lambda
 plot(lambdas, user_movie_genre_reg_RMSEs_m66_42_0_2)
 user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m66_42_0_2
 
-# First minimum (lambda = 6) ---------------------------------------------------
+# First minimum (lambda = -5) ---------------------------------------------------
+
+lambdas <- seq(-5.4, -4.5, 0.1)
+user_movie_genre_reg_RMSEs_m54_45_0_1 <- reg_tune_user_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_m54_45_0_1)
+user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m54_45_0_1
+
+best_user_movie_genre_lambda <- lambdas[which.min(user_movie_genre_reg_RMSEs)]
+best_user_movie_genre_lambda
+#> [1] -5
+best_user_movie_genre_reg_RMSE <- min(user_movie_genre_reg_RMSEs)
+print(best_user_movie_genre_reg_RMSE)
+#> [1] 0.8594723
+
+lambdas <- seq(-5.0000000000005, -4.9999999999995, 0.0000000000001)
+user_movie_genre_reg_RMSEs_lambda5 <- reg_tune_user_movie_genre_effect(lambdas)
+plot(lambdas, user_movie_genre_reg_RMSEs_lambda5)
+# user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_lambda5
+
+best_user_movie_genre_lambda5 <- lambdas[which.min(user_movie_genre_reg_RMSEs_lambda5)]
+best_user_movie_genre_lambda5
+#> [1] -5.0
+best_user_movie_genre_reg_RMSE_lambda5 <- min(user_movie_genre_reg_RMSEs_lambda5)
+print(best_user_movie_genre_reg_RMSE_lambda5)
+#> [1] 0.8594723
+
+
+# Second minimum (lambda = -6) ---------------------------------------------------
 lambdas <- seq(-6.4, -5.5, 0.1)
 user_movie_genre_reg_RMSEs_m64_55_0_1 <- reg_tune_user_movie_genre_effect(lambdas)
 plot(lambdas, user_movie_genre_reg_RMSEs_m64_55_0_1)
@@ -1345,33 +1372,6 @@ best_user_movie_genre_lambda6
 best_user_movie_genre_reg_RMSE_lambda6 <- min(user_movie_genre_reg_RMSEs_lambda6)
 best_user_movie_genre_reg_RMSE_lambda6
 #> [1] 0.8594723
-
-# Second minimum (lambda = -5) ---------------------------------------------------
-
-lambdas <- seq(-5.4, -4.5, 0.1)
-user_movie_genre_reg_RMSEs_m54_45_0_1 <- reg_tune_user_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs_m54_45_0_1)
-user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m54_45_0_1
-
-best_user_movie_genre_lambda <- lambdas[which.min(user_movie_genre_reg_RMSEs)]
-best_user_movie_genre_lambda
-#> [1] -5
-best_user_movie_genre_reg_RMSE <- min(user_movie_genre_reg_RMSEs)
-print(best_user_movie_genre_reg_RMSE)
-#> [1] 0.8594723
-
-lambdas <- seq(-5.0000000000005, -4.9999999999995, 0.0000000000001)
-user_movie_genre_reg_RMSEs_lambda5 <- reg_tune_user_movie_genre_effect(lambdas)
-plot(lambdas, user_movie_genre_reg_RMSEs_lambda5)
-# user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_lambda5
-
-best_user_movie_genre_lambda5 <- lambdas[which.min(user_movie_genre_reg_RMSEs_lambda5)]
-best_user_movie_genre_lambda5
-#> [1] -5.0
-best_user_movie_genre_reg_RMSE_lambda5 <- min(user_movie_genre_reg_RMSEs_lambda5)
-print(best_user_movie_genre_reg_RMSE_lambda5)
-#> [1] 0.8594723
-
 
 ##### Re-training Regularized User+Movie+Genre Effect Model for the best `lambda` value ----
 
@@ -1519,12 +1519,20 @@ reg_tune_user_movie_genre_year_effect <- function(lambdas){
   })
 }
 
-##### Training Date (Year) Effect Model -------------------------------------------------
+##### Training Date (Year) Effect Model ----------------------------------------
+dg_effect <- calc_date_global_effect()
+str(dg_effect)
 date_year_effect <- train_date_year_effect()
 str(date_year_effect)
 
 ##### Compute Date (Year) Effect Model RMSE ------------------------------------
 date_year_effect_RMSE <- calc_date_year_effect_RMSE(date_year_effect)
+date_year_effect_RMSE
+#> [1] 0.8590795
+##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date (Year) Effects Model ---- 
+RMSEs <- rmses_add_row("User+Movie+Genre+Year Effects Model", 
+                       date_year_effect_RMSE)
+rmse_kable()
 
 ### Regularizing User+Movie+Genre+Year Effects --------------------------------------------
 # lambdas <- seq(0, 10, 0.1)
@@ -1532,10 +1540,48 @@ date_year_effect_RMSE <- calc_date_year_effect_RMSE(date_year_effect)
 # lambdas <- seq(-7, -4, 0.02)
 lambdas <- seq(-7, -4, 0.1)
 umgy_reg_RMSEs_m7_m4_0_1 <- reg_tune_user_movie_genre_year_effect(lambdas)
-plot(lambdas, umgy_reg_RMSEs)
+plot(lambdas, umgy_reg_RMSEs_m7_m4_0_1)
 
-best_umgy_effect_lambda <- lambdas[which.min(umgy_reg_RMSEs)]
+best_lambda_idx <- which.min(umgy_reg_RMSEs_m7_m4_0_1)
+best_umgy_effect_lambda <- lambdas[best_lambda_idx]
 best_umgy_effect_lambda
+#> [1] -4
+best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m7_m4_0_1[best_lambda_idx] 
+best_umgy_effect_lambda_RMSE
+#> [1] 0.8502114
+
+# First minimum (lambda = -4) ---------------------------------------------------
+lambdas <- seq(-4.2, 0, 0.1)
+umgy_reg_RMSEs_m42_0_0_1 <- reg_tune_user_movie_genre_year_effect(lambdas)
+plot(lambdas, umgy_reg_RMSEs_m42_0_0_1)
+
+best_lambda_idx <- which.min(umgy_reg_RMSEs_m42_0_0_1)
+best_umgy_effect_lambda <- lambdas[best_lambda_idx]
+best_umgy_effect_lambda
+#> [1] -5
+best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m42_0_0_1[best_lambda_idx] 
+best_umgy_effect_lambda_RMSE
+
+
+# Second minimum (lambda = -5) ---------------------------------------------------
+lambdas <- seq(-5.16, -4.86, 0.02)
+umgy_reg_RMSEs_m516_m486_0_02 <- reg_tune_user_movie_genre_year_effect(lambdas)
+plot(lambdas, umgy_reg_RMSEs_m516_m486_0_02)
+
+best_lambda_idx <- which.min(umgy_reg_RMSEs_m516_m486_0_02)
+best_umgy_effect_lambda <- lambdas[best_lambda_idx]
+best_umgy_effect_lambda
+#> [1] -5
+best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m516_m486_0_02[best_lambda_idx] 
+best_umgy_effect_lambda_RMSE
+
+# Third minimum (lambda = -6) ---------------------------------------------------
+
+
+best_lambda_idx <- which.min(umgy_reg_RMSEs)
+best_umgy_effect_lambda <- lambdas[best_lambda_idx]
+#> [1] -6.0
+best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs[best_lambda_idx]
 #> [1] -6.0
 
 best_user_movie_genre_year_reg_RMSE <- min(umgy_reg_RMSEs)
@@ -1556,7 +1602,7 @@ put_log1("Is this a best RMSE? %1",
 
 
 ##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date (Year) Effects Model ---- 
-RMSEs <- rmses_add_row("User+Movie+Genre+Year Effects Model", 
+RMSEs <- rmses_add_row("Regularized User+Movie+Genre+Year Effects Model", 
                        best_user_movie_genre_year_reg_RMSE)
 rmse_kable()
 ##### Compute Date Day Effects -------------------------------------------------
