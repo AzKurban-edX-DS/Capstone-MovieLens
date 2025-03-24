@@ -253,6 +253,41 @@ union_cv_results <- function(data_list) {
   out_dat
 }
 
+sample_train_validation_sets <- function(seed){
+  put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `edx` data...")
+  set.seed(seed)
+  validation_ind <- 
+    sapply(splitByUser(edx),
+           function(i) sample(i, ceiling(length(i)*.2))) |> 
+    unlist() |> 
+    sort()
+  
+  put_log("Function: `sample_train_validation_sets`: 
+For training our models, we will ignore the data from users 
+who have provided no more than the specified number of ratings. ({min_nratings})")
+  
+  put_log("Function: `sample_train_validation_sets`: 
+Extracting 80% of the `edx` data not used for the Validation Set, 
+excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
+  train_set <- edx[-validation_ind,] |>
+    filter_noMore_nratings(min_nratings)
+  
+  put_log("Function: `sample_train_validation_sets`: Dataset created: train_set")
+  put(summary(train_set))
+  
+  put_log("Function: `sample_train_validation_sets`: 
+To make sure we don’t include movies in the Training Set that should not be there, 
+we remove entries using the semi_join function from the Validation Set.")
+  validation_set <- edx[validation_ind,] |> 
+    semi_join(train_set, by = "movieId") |> 
+    as.data.frame()
+  
+  put_log("Function: `sample_train_validation_sets`: Dataset created: validation_set")
+  put(summary(validation_set))
+  
+  list(train_set = train_set, validation_set = validation_set)
+}
+
 ## Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
@@ -331,41 +366,10 @@ Creating K-Fold Cross Validation Datasets, Fold %1", fold_i)
     #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
     #> of the Course Textbook.
 
-    put_log("Function: `make_source_datasets`: 
-For each user we are going to process, we will split their ratings
-into 80% for training and 20% for validation.")
-    
-    put_log("Function: `make_source_datasets`: Sampling 20% of the `edx` data...")
-    set.seed(fold_i*1000)
-    validation_ind <- 
-      sapply(splitByUser(edx),
-             function(i) sample(i, ceiling(length(i)*.2))) |> 
-      unlist() |> 
-      sort()
-    
-    put_log("Function: `make_source_datasets`: 
-For training our models, we will ignore the data from users 
-who have provided no more than the specified number of ratings. ({min_nratings})")
+    split_sets <- sample_train_validation_sets(fold_i*1000)
+    train_set <- split_sets$train_set
+    validation_set <- split_sets$validation_set
 
-    put_log("Function: `make_source_datasets`: 
-Extracting 80% of the `edx` data not used for the Validation Set, 
-excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
-    train_set <- edx[-validation_ind,] |>
-      filter_noMore_nratings(min_nratings)
-
-    put_log("Function: `make_source_datasets`: Dataset created: train_set")
-    put(summary(train_set))
-
-    put_log("Function: `make_source_datasets`: 
-To make sure we don’t include movies in the Training Set that should not be there, 
-we remove entries using the semi_join function from the Validation Set.")
-    validation_set <- edx[validation_ind,] |> 
-      semi_join(train_set, by = "movieId") |> 
-      as.data.frame()
-    
-    put_log("Function: `make_source_datasets`: Dataset created: validation_set")
-    put(summary(validation_set))
-    
     put_log("Function: `make_source_datasets`: 
 To account for the Movie Genre Effect, we need a dataset with split rows 
 for movies belonging to multiple genres.")
@@ -1447,6 +1451,12 @@ put_end_date(start)
 put("Average Rating per Year distribution has been plotted.")
 
 #### Support Functions ---------------------------------------------------------
+umgy_tune_sets <- sample_train_validation_sets(3)
+umgy_train_set <- umgy_tune_sets$train_set
+str(umgy_train_set)
+umgy_test_set <- umgy_tune_sets$validation_set
+str(umgy_test_set)
+
 calc_date_global_effect <- function(lambda = NA){
   if(is.na(lambda)) put_log("Computing Date Global Effect...")
   else put_log1("Computing Date Global Effect for lambda: %1...",
@@ -1492,30 +1502,37 @@ train_date_year_effect <- function(lambda = NA){
     group_by(year) |>
     summarise(ye = mean(de))
 }
+calc_date_year_effect_MSE <- function(test_set, dy_effect){
+  test_set |>
+    left_join(user_effects, by = "userId") |>
+    left_join(user_movie_effect_best_lambda, by = "movieId") |>
+    left_join(user_movie_genre_effect_best_lambda, by = "movieId") |>
+    left_join(date_days_map, by = "timestamp") |>
+    left_join(dy_effect, by='year') |>
+    mutate(resid = rating - clamp(mu + a + b + g + ye)) |> 
+    filter(!is.na(resid)) |>
+    pull(resid) |> mse()
+}
 calc_date_year_effect_RMSE <- function(dy_effect){
   start <- put_start_date()
   date_year_effect_MSEs <- sapply(edx_CV, function(cv_fold_dat){
-    cv_fold_dat$validation_set |>
-      left_join(user_effects, by = "userId") |>
-      left_join(user_movie_effect_best_lambda, by = "movieId") |>
-      left_join(user_movie_genre_effect_best_lambda, by = "movieId") |>
-      left_join(date_days_map, by = "timestamp") |>
-      left_join(dy_effect, by='year') |>
-      mutate(resid = rating - clamp(mu + a + b + g + ye)) |> 
-      filter(!is.na(resid)) |>
-      pull(resid) |> mse()
+    cv_fold_dat$validation_set |> calc_date_year_effect_MSE(dy_effect)
   })
   put_end_date(start)
-  put_log1("Date (Year) Effect MSE values have been computed for the %1-Fold Cross Validation samples.", 
+  put_log1("Function: calc_date_year_effect_RMSE
+Date (Year) Effect MSE values have been computed for the %1-Fold Cross Validation samples.", 
            CVFolds_N)
   
-  # plot(date_year_effect_MSEs)
   sqrt(mean(date_year_effect_MSEs))
+}
+tune_date_year_effect_RMSE <- function(dy_effect){
+  mse <- umgy_test_set |> calc_date_year_effect_MSE(dy_effect)
+  sqrt(mse)
 }
 reg_tune_user_movie_genre_year_effect <- function(lambdas){
   sapply(lambdas, function(lambda){
     umgy_reg_effect <- train_date_year_effect(lambda)
-    calc_date_year_effect_RMSE(umgy_reg_effect)
+    tune_date_year_effect_RMSE(umgy_reg_effect)
   })
 }
 
@@ -1534,13 +1551,29 @@ RMSEs <- rmses_add_row("User+Movie+Genre+Year Effects Model",
                        date_year_effect_RMSE)
 rmse_kable()
 
-### Regularizing User+Movie+Genre+Year Effects --------------------------------------------
-# lambdas <- seq(0, 10, 0.1)
-# lambdas <- seq(-10, 0, 0.1)
-# lambdas <- seq(-7, -4, 0.02)
-lambdas <- seq(-7, -4, 0.1)
-umgy_reg_RMSEs_m7_m4_0_1 <- reg_tune_user_movie_genre_year_effect(lambdas)
-plot(lambdas, umgy_reg_RMSEs_m7_m4_0_1)
+### Regularizing User+Movie+Genre+Year Effects ---------------------------------
+date_year_tuning_file <- "date-year-tuning.RData"
+umgy_reg_RMSEs_m7_7_0_1_file <- file.path(data_path,"umgy_reg_RMSEs_m7_7_0_1.RData")
+
+if (file.exists(umgy_reg_RMSEs_m7_7_0_1_file)) {
+  put_log("Loading `umgy_reg_RMSEs_m7_7_0_1` data from file...")
+  start <- put_start_date()
+  load(umgy_reg_RMSEs_m7_7_0_1_file)
+  put_end_date(start)
+  put_log("`umgy_reg_RMSEs_m7_7_0_1` data has been loaded from file.")
+} else {
+  lambdas_m7_7_0_1 <- seq(-7, 7, 0.1)
+  umgy_reg_RMSEs_m7_7_0_1 <- reg_tune_user_movie_genre_year_effect(lambdas_m7_7_0_1)
+  
+  save(lambdas_m7_7_0_1,
+       umgy_reg_RMSEs_m7_7_0_1, 
+       file = umgy_reg_RMSEs_m7_7_0_1_file)
+}
+
+plot(lambdas, umgy_reg_RMSEs_m7_7_0_1)
+
+lambdas_m7_7_0_1 <- lambdas
+umgy_reg_RMSEs_m7_7_0_1 <- umgy_reg_RMSEs_m7_m4_0_1
 
 best_lambda_idx <- which.min(umgy_reg_RMSEs_m7_m4_0_1)
 best_umgy_effect_lambda <- lambdas[best_lambda_idx]
@@ -1551,17 +1584,47 @@ best_umgy_effect_lambda_RMSE
 #> [1] 0.8502114
 
 # First minimum (lambda = -4) ---------------------------------------------------
-lambdas <- seq(-4.2, 0, 0.1)
-umgy_reg_RMSEs_m42_0_0_1 <- reg_tune_user_movie_genre_year_effect(lambdas)
-plot(lambdas, umgy_reg_RMSEs_m42_0_0_1)
+# lambdas <- seq(-4.2, 0, 0.1)
+# umgy_reg_RMSEs_m42_0_0_1 <- reg_tune_user_movie_genre_year_effect(lambdas)
+# plot(lambdas, umgy_reg_RMSEs_m42_0_0_1)
+# 
+# best_lambda_idx <- which.min(umgy_reg_RMSEs_m42_0_0_1)
+# best_umgy_effect_lambda <- lambdas[best_lambda_idx]
+# best_umgy_effect_lambda
+# #> [1] -4
+# best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m42_0_0_1[best_lambda_idx] 
+# best_umgy_effect_lambda_RMSE
+#> [1] 0.8502114
 
-best_lambda_idx <- which.min(umgy_reg_RMSEs_m42_0_0_1)
+umgy_reg_RMSEs_m402_m388_0_001_file <- 
+  file.path(data_path,
+            "umgy_reg_RMSEs_m402_m388_0_001.RData")
+
+if (file.exists(umgy_reg_RMSEs_m402_m388_0_001_file)) {
+  put_log("Loading `umgy_reg_RMSEs_m402_m388_0_001` data from file...")
+  start <- put_start_date()
+  load(umgy_reg_RMSEs_m402_m388_0_001_file)
+  put_end_date(start)
+  put_log("`umgy_reg_RMSEs_m402_m388_0_001` data has been loaded from file.")
+  
+} else {
+  lambdas__m402_m388_0_001 <- seq(-4.02, -3.88, 0.001)
+  umgy_reg_RMSEs_m402_m388_0_001 <- 
+    reg_tune_user_movie_genre_year_effect(lambdas__m402_m388_0_001)
+  
+  save(lambdas__m402_m388_0_001,
+       umgy_reg_RMSEs_m402_m388_0_001, 
+       file = umgy_reg_RMSEs_m402_m388_0_001_file)
+}
+plot(lambdas__m402_m388_0_001, umgy_reg_RMSEs_m402_388_0_001)
+
+best_lambda_idx <- which.min(umgy_reg_RMSEs_m402_388_0_001)
 best_umgy_effect_lambda <- lambdas[best_lambda_idx]
 best_umgy_effect_lambda
-#> [1] -5
-best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m42_0_0_1[best_lambda_idx] 
+#> [1] -4
+best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m402_388_0_001[best_lambda_idx] 
 best_umgy_effect_lambda_RMSE
-
+#> [1] 0.8502114
 
 # Second minimum (lambda = -5) ---------------------------------------------------
 lambdas <- seq(-5.16, -4.86, 0.02)
