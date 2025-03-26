@@ -2303,10 +2303,11 @@ log_close()
 #### Open log -------------------------------------------------------------------
 open_logfile(".tuning-umgy-effect-loop_m120_200_d64")
 
-# lamdas in loop starting from r`lambdas = seq(-120, 200, (200+120)/64)` -------
-lambdas <- c(-120,0,200)
+# lamdas in loop starting from r`lambdas = seq(-300, 400, (400+300)/140)` -------
+loop_starter <- c(-300,0,400)
+lambdas <- loop_starter
 lambda_rmses <- c(0,-1,0)
-range_divider <- 64 
+range_divider <- 140 
 
 repeat{ 
   rmses_min_ind <- which.min(lambda_rmses)
@@ -2376,12 +2377,16 @@ repeat{
   
   lambdas <- seq(seq_start, seq_end, seq_increment)
   
-  file_name_tmp <- "umgy_reg-loop-from-0_1000_100_" |>
+  file_name_tmp <- "umgy_reg-loop_" |>
+    str_c(as.character(loop_starter[1])) |>
+    str_c("_") |>
+    str_c(as.character(loop_starter[3])) |>
+    str_c("_") |>
+    str_c(as.character(range_divider)) |>
+    str_c(".") |>
     str_c(as.character(seq_start)) |>
     str_c("-") |>
     str_c(as.character(seq_end)) |>
-    str_c("-") |>
-    str_c(as.character(seq_increment)) |>
     str_c(".RData")
   
   file_path_tmp <- file.path(data_path, file_name_tmp)
