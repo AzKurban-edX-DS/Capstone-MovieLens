@@ -1451,13 +1451,14 @@ edx |>
 put_end_date(start)
 put("Average Rating per Year distribution has been plotted.")
 
-#### Support Functions ---------------------------------------------------------
+#### Sample Train & Test sets for computing Date Effects -----------------------
 umgy_tune_sets <- sample_train_validation_sets(3)
 umgy_train_set <- umgy_tune_sets$train_set
 str(umgy_train_set)
 umgy_test_set <- umgy_tune_sets$validation_set
 str(umgy_test_set)
 
+#### Support Functions ---------------------------------------------------------
 calc_date_global_effect <- function(lambda = NA){
   if(is.na(lambda)) put_log("Computing Date Global Effect...")
   else put_log1("Computing Date Global Effect for lambda: %1...",
@@ -1489,8 +1490,10 @@ calc_date_global_effect <- function(lambda = NA){
   str(date_global_effect_united)
   
   date_global_effect <- date_global_effect_united |>
+    #filter(!is.na(de)) |>
+    filter(!is.infinite(de)) |>
     group_by(days) |>
-    summarise(de = mean(de), year = mean(year))
+    summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
   
   if(is.na(lambda)) put_log("Training completed: Date Global Effects model.")
   else put_log1("Training completed: Date Global Effects model for lambda: %1...",
@@ -1501,7 +1504,7 @@ calc_date_global_effect <- function(lambda = NA){
 train_date_year_effect <- function(lambda = NA){
   calc_date_global_effect(lambda) |>
     group_by(year) |>
-    summarise(ye = mean(de))
+    summarise(ye = mean(de, na.rm = TRUE))
 }
 calc_date_year_effect_MSE <- function(test_set, dy_effect){
   test_set |>
@@ -1530,28 +1533,56 @@ tune_date_year_effect_RMSE <- function(dy_effect){
   mse <- umgy_test_set |> calc_date_year_effect_MSE(dy_effect)
   sqrt(mse)
 }
-reg_tune_user_movie_genre_year_effect <- function(lambdas){
+reg_tune_user_movie_genre_year_effect0 <- function(lambdas){
   sapply(lambdas, function(lambda){
     umgy_reg_effect <- train_date_year_effect(lambda)
     tune_date_year_effect_RMSE(umgy_reg_effect)
   })
 }
-reqularize_umgy_effect <- function(lambdas, file_path){
-  if (file.exists(file_path)) {
-    put_log("Loading tuning data from file...")
-    start <- put_start_date()
-    load(file_path)
-    put_end_date(start)
-    put_log("Tuning data has been loaded from file.")
-    NA
-  } else {
-    reg_tune_user_movie_genre_year_effect(lambdas)
+reg_tune_user_movie_genre_year_effect <- function(lambdas){
+  n <- length(lambdas)
+  lambdas_tmp <- numeric(n)
+  rmses_tmp <- numeric(n)
+  put_log("Function: reg_tune_user_movie_genre_year_effect
+lambdas:")
+  print(lambdas)
+  
+  for (i in 1:n) {
+    put_log1("Function: reg_tune_user_movie_genre_year_effect
+Iteration %1", i)
+    lambda <- lambdas[i]
+    put_log1("Function: reg_tune_user_movie_genre_year_effect
+lambda: %1", lambda)
+    lambdas_tmp[i] <- lambda
+    
+    put_log2("Function: reg_tune_user_movie_genre_year_effect
+lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
+    put_log1("Function: reg_tune_user_movie_genre_year_effect
+lambdas_tmp length: %1", length(lambdas_tmp))
+print(lambdas_tmp)
+
+    umgy_reg_effect <- train_date_year_effect(lambda)
+    rmse_tmp <- tune_date_year_effect_RMSE(umgy_reg_effect)
+    put_log1("Function: reg_tune_user_movie_genre_year_effect
+rmse_tmp: %1", rmse_tmp)
+    rmses_tmp[i] <- rmse_tmp
+    
+    put_log2("Function: reg_tune_user_movie_genre_year_effect
+rmses_tmp[%1]: %2", i, rmses_tmp[i])
+    put_log1("Function: reg_tune_user_movie_genre_year_effect
+rmses_tmp length: %1", length(rmses_tmp))
+    print(rmses_tmp)
+    
+    plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
   }
+  
+  rmses_tmp
 }
 
 ##### Training Date (Year) Effect Model ----------------------------------------
-dg_effect <- calc_date_global_effect()
-str(dg_effect)
+date_global_effect <- calc_date_global_effect()
+str(date_global_effect)
+
 date_year_effect <- train_date_year_effect()
 str(date_year_effect)
 
@@ -1564,19 +1595,257 @@ RMSEs <- rmses_add_row("User+Movie+Genre+Year Effects Model",
                        date_year_effect_RMSE)
 rmse_kable()
 
+#### Close Log -----------------------------------------------------------------
+log_close()
+
+
 ### Regularizing User+Movie+Genre+Year Effects ---------------------------------
-date_year_tuning_file <- "date-year-tuning.RData"
+#### Open log -------------------------------------------------------------------
+open_logfile(".tuning-umgy-effect-lambda_m1000_0_100")
+
+# Let's take a look at the Average rating per year:
+
+# lamdas = seq(-1000, 0, 100) --------------------------------------------------
+umgy_reg_RMSEs_m1000_0_100_file <- 
+  file.path(data_path,"umgy_reg_RMSEs_m1000_0_100.RData")
+
+rm(umgy_reg_RMSEs_m1000_0_100)
+
+lambdas_m1000_0_100 <- seq(-1000, 0, 100)
+file_path_tmp <- umgy_reg_RMSEs_m1000_0_100_file
+RMSEs_tmp <- numeric()
+
+if (file.exists(file_path_tmp)) {
+  put_log("Loading tuning data from file...")
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log("Tuning data has been loaded from file.")
+  numeric()
+} else {
+  RMSEs_tmp <- reg_tune_user_movie_genre_year_effect(lambdas_m1000_0_100)
+}
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_m1000_0_100 <- RMSEs_tmp
+  
+  save(lambdas_m1000_0_100,
+       umgy_reg_RMSEs_m1000_0_100,
+       file = file_path_tmp)
+}
+rm(file_path_tmp)
+
+plot(lambdas_m1000_0_100, umgy_reg_RMSEs_m1000_0_100)
+
+lambdas_m1000_0_100_best_results <- 
+  get_reg_best_params(lambdas_m1000_0_100, 
+                      umgy_reg_RMSEs_m1000_0_100)
+
+# Plot a histogram of the RMSE distribution 
+#par(cex = 0.7)
+# hist_RMSEs <- hist(umgy_reg_RMSEs_m1000_0_100, 30, xlab = "RMSE",
+#                    main = TeX(r'[Histogram of RMSE]'))
+
+put_log("A histogram of the RMSE distribution has been plotted.")
+
+n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+n_max_rmse
+
+lambdas_m1000_0_100_best_results
+# best_lambda    best_RMSE 
+# -100.0000000    0.8580053 
+
+best_rmse <- min(umgy_reg_RMSEs_m1000_0_100)
+best_rmse
+#> [1] 0.8580053
+
+# rmse_threshold <- best_rmse + (n_max_rmse - best_rmse)/2
+# rmse_threshold
+# 
+# RMSE_localMin_ind <- umgy_reg_RMSEs_m1000_0_100 < rmse_threshold
+# RMSE_localMin_ind
+# 
+# RMSE_localMin <- umgy_reg_RMSEs_m1000_0_100[RMSE_localMin_ind]
+# RMSE_localMin
+# 
+# lambda_localMin <- lambdas_m1000_0_100[RMSE_localMin_ind]
+# lambda_localMin
+
+#### Close Log -----------------------------------------------------------------
+log_close()
+
+
+
+#### Open log -------------------------------------------------------------------
+open_logfile(".tuning-umg-year-effect-in-loop_m1000_0_100")
+
+# lamdas in loop starting from results of `lambdas = seq(-1000, 0, 100)` -------
+
+lambdas <- lambdas_m1000_0_100
+lambda_rmses <- umgy_reg_RMSEs_m1000_0_100 
+
+repeat{ 
+  rmses_min_ind <- which.min(lambda_rmses)
+  rmse_min <- min(lambda_rmses)
+  print(rmse_min)
+  
+  if(sum(lambda_rmses > rmse_min) == 0){
+    put_log1("Reached best RMSE: %1", rmse_min)
+    break
+  }
+  
+  seq_start_ind <- rmses_min_ind - 1
+  
+  if (seq_start_ind < 1) {
+    seq_start_ind <- 1
+    warning("`lambdas` index too small, so it assigned a value %1.",
+            seq_start_ind)
+  }
+  
+  seq_end_ind <- rmses_min_ind + 1
+  
+  if (length(lambdas) < seq_end_ind) {
+    warning("Index too large.")
+    seq_end_ind <- rmses_min_ind
+    put_log1("Index exeeded the length of `lambdas`, 
+            so it is set to maximum possible value of %1",
+            seq_end_ind)
+  }
+  
+  if (seq_end_ind - seq_start_ind == 0) {
+    put_log1("Reached best RMSE: %1", rmse_min)
+    
+    put_log2("Final lambda (%1) best RMSE: %2",
+             lambdas_best_results["best_lambda"],
+             lambdas_best_results["best_RMSE"])
+    
+    put(lambdas_best_results)
+    break
+  }
+  
+  lambda_rmses <- numeric()
+  seq_start <- lambdas[seq_start_ind]
+  seq_end <- lambdas[seq_end_ind]
+  seq_increment <- (seq_end - seq_start)/32 
+  
+  if (seq_increment < 0.0000000000001) {
+    warning("lambda increment is too small.")
+    
+    put_log2("Final lambda (%1) best RMSE: %2",
+             lambdas_best_results["best_lambda"],
+             lambdas_best_results["best_RMSE"])
+    
+    # Final lambda (-75) best RMSE: 0.857852155782141
+
+    put(lambdas_best_results)
+    # best_lambda   best_RMSE 
+    # -75.0000000   0.8578522 
+    break
+  }
+  
+  lambdas <- seq(seq_start, seq_end, seq_increment)
+  
+  file_name_tmp <- "umgy_reg-loop-from-m1000-0-100_" |>
+    str_c(as.character(seq_start)) |>
+    str_c("-") |>
+    str_c(as.character(seq_end)) |>
+    str_c("-") |>
+    str_c(as.character(seq_increment)) |>
+    str_c(".RData")
+  
+  file_path_tmp <- file.path(data_path, file_name_tmp)
+  
+  put_log1("File path generated: %1", file_path_tmp)
+  
+  if (file.exists(file_path_tmp)) {
+    put_log1("Loading tuning data from file: %1...", file_path_tmp)
+    start <- put_start_date()
+    load(file_path_tmp)
+    put_end_date(start)
+    put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+    lambdas <- umgy_reg_lambdas
+    lambda_rmses <- umgy_reg_RMSEs
+  } else {
+    lambda_rmses <- reg_tune_user_movie_genre_year_effect(lambdas)
+    umgy_reg_RMSEs <- lambda_rmses
+    umgy_reg_lambdas <- lambdas
+    
+    save(umgy_reg_lambdas,
+         umgy_reg_RMSEs,
+         file = file_path_tmp)
+    put_log1("File saved: %1", file_path_tmp)
+  }
+  
+  plot(lambdas, lambda_rmses)
+  
+  lambdas_best_results <- 
+    get_reg_best_params(lambdas, 
+                        lambda_rmses)
+  put_log2("Current lambda (%1) best RMSE: %2",
+           lambdas_best_results["best_lambda"],
+           lambdas_best_results["best_RMSE"])
+  
+  put(lambdas_best_results)
+  
+  # Plot a histogram of the RMSE distribution 
+  #par(cex = 0.7)
+  # hist_RMSEs <- hist(umgy_reg_RMSEs_0_1000_100, 30, xlab = "RMSE",
+  #                    main = TeX(r'[Histogram of RMSE]'))
+  
+  # put_log("A histogram of the RMSE distribution has been plotted.")
+  # 
+  # n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+  # n_max_rmse
+}
+
+# stop("Procedure Completed")
+
+# best_lambda   best_RMSE 
+# -75.0000000   0.8578522 
+
+
+#### Close Log -----------------------------------------------------------------
+log_close()
+
+#### Open log -------------------------------------------------------------------
+open_logfile(".tuning-umg-year-effect-experiments")
+
+
+# lamdas = seq(-10, 0, 0.1) ------------------------------------------------------------
 
 umgy_reg_RMSEs_m10_0_0_1_file <- file.path(data_path,"umgy_reg_RMSEs_m10_0_0_1.RData")
 lambdas_m10_0_0_1 <- seq(-10, 0, 0.1)
+rm(umgy_reg_RMSEs_m10_0_0_1)
+
+file_path_tmp <- umgy_reg_RMSEs_m10_0_0_1_file
+
+# if (file.exists(file_path_tmp)) {
+#   put_log1("Loading tuning data from file: %1...", file_path_tmp)
+#   start <- put_start_date()
+#   load(file_path_tmp)
+#   put_end_date(start)
+#   put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+#   lambdas <- umgy_reg_lambdas
+#   lambda_rmses <- umgy_reg_RMSEs
+# } else {
+#   lambda_rmses <- reg_tune_user_movie_genre_year_effect(lambdas)
+#   umgy_reg_RMSEs <- lambda_rmses
+#   umgy_reg_lambdas <- lambdas
+#   
+#   save(umgy_reg_lambdas,
+#        umgy_reg_RMSEs,
+#        file = file_path_tmp)
+#   put_log1("File saved: %1", file_path_tmp)
+# }
+
 
 RMSEs_tmp <- reqularize_umgy_effect(lambdas_m10_0_0_1,
                                     umgy_reg_RMSEs_m10_0_0_1_file)
 
-if (!is.na(RMSEs_tmp)) {
+if (length(RMSEs_tmp) > 1) {
   umgy_reg_RMSEs_m10_0_0_1 <- RMSEs_tmp
-  
-  save(lambdas_m10_0_0_1,
+
+    save(lambdas_m10_0_0_1,
        umgy_reg_RMSEs_m10_0_0_1,
        file = umgy_reg_RMSEs_m10_0_0_1_file)
 }
@@ -1587,121 +1856,810 @@ lambdas_m10_0_0_1_best_results <-
   get_reg_best_params(lambdas_m10_0_0_1, 
                       umgy_reg_RMSEs_m10_0_0_1)
 
+
+# Plot a histogram of the RMSE distribution 
+#par(cex = 0.7)
+hist_RMSEs <- hist(umgy_reg_RMSEs_m10_0_0_1, 30, xlab = "RMSE",
+     main = TeX(r'[Histogram of RMSE]'))
+
+put_log("A histogram of the RMSE distribution has been plotted.")
+
+n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+n_max_rmse
+
 lambdas_m10_0_0_1_best_results
-#--------------------------------------------------------------
-if (file.exists(umgy_reg_RMSEs_m7_7_0_1_file)) {
-  put_log("Loading `umgy_reg_RMSEs_m7_7_0_1` data from file...")
-  start <- put_start_date()
-  load(umgy_reg_RMSEs_m7_7_0_1_file)
-  put_end_date(start)
-  put_log("`umgy_reg_RMSEs_m7_7_0_1` data has been loaded from file.")
-} else {
-  umgy_reg_RMSEs_m7_7_0_1 <- reg_tune_user_movie_genre_year_effect(lambdas_m7_7_0_1)
-  
-  save(lambdas_m7_7_0_1,
-       umgy_reg_RMSEs_m7_7_0_1, 
-       file = umgy_reg_RMSEs_m7_7_0_1_file)
+# best_lambda   best_RMSE 
+#  -8.1000000   0.8579123 
+
+best_rmse <- min(umgy_reg_RMSEs_m10_0_0_1)
+best_rmse
+rmse_threshold <- best_rmse + (n_max_rmse - best_rmse)/2
+rmse_threshold
+
+RMSE_localMin_ind <- umgy_reg_RMSEs_m10_0_0_1 < rmse_threshold
+RMSE_localMin_ind
+
+RMSE_localMin <- umgy_reg_RMSEs_m10_0_0_1[RMSE_localMin_ind]
+RMSE_localMin
+
+lambda_localMin <- lambdas_m10_0_0_1[RMSE_localMin_ind]
+lambda_localMin
+
+# lamdas = seq(0, 5, 0.1) ------------------------------------------------------------
+umgy_reg_RMSEs_0_5_p1_file <- file.path(data_path,"umgy_reg_RMSEs_0_5_p1.RData")
+lambdas_0_5_p1 <- seq(0, 5, 0.1)
+rm(umgy_reg_RMSEs_0_5_p1)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_0_5_p1,
+                                    umgy_reg_RMSEs_0_5_p1_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_0_5_p1 <- RMSEs_tmp
+
+    save(lambdas_0_5_p1,
+       umgy_reg_RMSEs_0_5_p1,
+       file = umgy_reg_RMSEs_0_5_p1_file)
 }
 
-plot(lambdas_m7_7_0_1, umgy_reg_RMSEs_m7_7_0_1)
+plot(lambdas_0_5_p1, umgy_reg_RMSEs_0_5_p1)
 
-best_lambda_idx <- which.min(umgy_reg_RMSEs_m7_m4_0_1)
-best_umgy_effect_lambda <- lambdas[best_lambda_idx]
-best_umgy_effect_lambda
-#> [1] -4
-best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m7_m4_0_1[best_lambda_idx] 
-best_umgy_effect_lambda_RMSE
-#> [1] 0.8488779
+lambdas_0_5_p1_best_results <- 
+  get_reg_best_params(lambdas_0_5_p1, 
+                      umgy_reg_RMSEs_0_5_p1)
 
-# First minimum (lambda = -4) ---------------------------------------------------
-# lambdas <- seq(-4.2, 0, 0.1)
-# umgy_reg_RMSEs_m42_0_0_1 <- reg_tune_user_movie_genre_year_effect(lambdas)
-# plot(lambdas, umgy_reg_RMSEs_m42_0_0_1)
+
+# Plot a histogram of the RMSE distribution 
+#par(cex = 0.7)
+# hist_RMSEs <- hist(umgy_reg_RMSEs_0_5_p1, 30, xlab = "RMSE",
+#      main = TeX(r'[Histogram of RMSE]'))
+
+put_log("A histogram of the RMSE distribution has been plotted.")
+
+n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+n_max_rmse
+
+lambdas_0_5_p1_best_results
+# best_lambda   best_RMSE 
+#    5.000000    0.858092
+
+best_rmse <- min(umgy_reg_RMSEs_0_5_p1)
+best_rmse
+rmse_threshold <- best_rmse + (n_max_rmse - best_rmse)/2
+rmse_threshold
+
+RMSE_localMin_ind <- umgy_reg_RMSEs_0_5_p1 < rmse_threshold
+RMSE_localMin_ind
+
+RMSE_localMin <- umgy_reg_RMSEs_0_5_p1[RMSE_localMin_ind]
+RMSE_localMin
+
+lambda_localMin <- lambdas_0_5_p1[RMSE_localMin_ind]
+lambda_localMin
+
+# lamdas = seq(4, 20, 0.2) ------------------------------------------------------------
+umgy_reg_RMSEs_4_20_p2_file <- file.path(data_path,"umgy_reg_RMSEs_4_20_p2.RData")
+lambdas_4_20_p2 <- seq(4, 20, 0.2)
+rm(umgy_reg_RMSEs_4_20_p2)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_4_20_p2,
+                                    umgy_reg_RMSEs_4_20_p2_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_4_20_p2 <- RMSEs_tmp
+
+    save(lambdas_4_20_p2,
+       umgy_reg_RMSEs_4_20_p2,
+       file = umgy_reg_RMSEs_4_20_p2_file)
+}
+
+plot(lambdas_4_20_p2, umgy_reg_RMSEs_4_20_p2)
+
+lambdas_4_20_p2_best_results <- 
+  get_reg_best_params(lambdas_4_20_p2, 
+                      umgy_reg_RMSEs_4_20_p2)
+
+
+# Plot a histogram of the RMSE distribution 
+#par(cex = 0.7)
+# hist_RMSEs <- hist(umgy_reg_RMSEs_4_20_p2, 30, xlab = "RMSE",
+#      main = TeX(r'[Histogram of RMSE]'))
+
+put_log("A histogram of the RMSE distribution has been plotted.")
+
+n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+n_max_rmse
+
+lambdas_4_20_p2_best_results
+# best_lambda   best_RMSE 
+#   20.000000    0.858021 
+
+best_rmse <- min(umgy_reg_RMSEs_4_20_p2)
+best_rmse
+rmse_threshold <- best_rmse + (n_max_rmse - best_rmse)/2
+rmse_threshold
+
+RMSE_localMin_ind <- umgy_reg_RMSEs_4_20_p2 < rmse_threshold
+RMSE_localMin_ind
+
+RMSE_localMin <- umgy_reg_RMSEs_4_20_p2[RMSE_localMin_ind]
+RMSE_localMin
+
+lambda_localMin <- lambdas_4_20_p2[RMSE_localMin_ind]
+lambda_localMin
+
+# lamdas = seq(16, 40, 2) ------------------------------------------------------------
+
+umgy_reg_RMSEs_16_40_2_file <- file.path(data_path,"umgy_reg_RMSEs_16_40_2.RData")
+lambdas_16_40_2 <- seq(16, 40, 2)
+rm(umgy_reg_RMSEs_16_40_2)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_16_40_2,
+                                    umgy_reg_RMSEs_16_40_2_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_16_40_2 <- RMSEs_tmp
+  
+  save(lambdas_16_40_2,
+       umgy_reg_RMSEs_16_40_2,
+       file = umgy_reg_RMSEs_16_40_2_file)
+}
+
+plot(lambdas_16_40_2, umgy_reg_RMSEs_16_40_2)
+
+lambdas_16_40_2_best_results <- 
+  get_reg_best_params(lambdas_16_40_2, 
+                      umgy_reg_RMSEs_16_40_2)
+
+
+# Plot a histogram of the RMSE distribution 
+#par(cex = 0.7)
+# hist_RMSEs <- hist(umgy_reg_RMSEs_16_40_2, 30, xlab = "RMSE",
+#                    main = TeX(r'[Histogram of RMSE]'))
+
+put_log("A histogram of the RMSE distribution has been plotted.")
+
+n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+n_max_rmse
+
+lambdas_16_40_2_best_results
+# best_lambda   best_RMSE 
+#  -8.1000000   0.8579123 
+
+best_rmse <- min(umgy_reg_RMSEs_16_40_2)
+best_rmse
+rmse_threshold <- best_rmse + (n_max_rmse - best_rmse)/2
+rmse_threshold
+
+RMSE_localMin_ind <- umgy_reg_RMSEs_16_40_2 < rmse_threshold
+RMSE_localMin_ind
+
+RMSE_localMin <- umgy_reg_RMSEs_16_40_2[RMSE_localMin_ind]
+RMSE_localMin
+
+lambda_localMin <- lambdas_16_40_2[RMSE_localMin_ind]
+lambda_localMin
+
+
+
+# lamdas = seq(36, 100, 2) ------------------------------------------------------------
+umgy_reg_RMSEs_36_100_2_file <- file.path(data_path,"umgy_reg_RMSEs_36_100_2.RData")
+rm(umgy_reg_RMSEs_36_100_2)
+lambdas_36_100_2 <- seq(36, 100, 2)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_36_100_2,
+                                    umgy_reg_RMSEs_36_100_2_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_36_100_2 <- RMSEs_tmp
+  
+  save(lambdas_36_100_2,
+       umgy_reg_RMSEs_36_100_2,
+       file = umgy_reg_RMSEs_36_100_2_file)
+}
+
+plot(lambdas_36_100_2, umgy_reg_RMSEs_36_100_2)
+
+lambdas_36_100_2_best_results <- 
+  get_reg_best_params(lambdas_36_100_2, 
+                      umgy_reg_RMSEs_36_100_2)
+
+
+# Plot a histogram of the RMSE distribution 
+#par(cex = 0.7)
+# hist_RMSEs <- hist(umgy_reg_RMSEs_36_100_2, 30, xlab = "RMSE",
+#                    main = TeX(r'[Histogram of RMSE]'))
+
+put_log("A histogram of the RMSE distribution has been plotted.")
+
+n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+n_max_rmse
+
+lambdas_36_100_2_best_results
+# best_lambda   best_RMSE 
+#  -8.1000000   0.8579123 
+
+best_rmse <- min(umgy_reg_RMSEs_36_100_2)
+best_rmse
+rmse_threshold <- best_rmse + (n_max_rmse - best_rmse)/2
+rmse_threshold
+
+RMSE_localMin_ind <- umgy_reg_RMSEs_36_100_2 < rmse_threshold
+RMSE_localMin_ind
+
+RMSE_localMin <- umgy_reg_RMSEs_36_100_2[RMSE_localMin_ind]
+RMSE_localMin
+
+lambda_localMin <- lambdas_36_100_2[RMSE_localMin_ind]
+lambda_localMin
+
+
+
+#### Close Log -----------------------------------------------------------------
+log_close()
+
+#### Open log -------------------------------------------------------------------
+open_logfile(".tuning-umgy-effect-lambda_0_1000_100")
+
+# Let's take a look at the Average rating per year:
+
+
+# lamdas = seq(0, 1000, 100) ------------------------------------------------------------
+umgy_reg_RMSEs_0_1000_100_file <- 
+  file.path(data_path,"umgy_reg_RMSEs_0_1000_100.RData")
+
+rm(umgy_reg_RMSEs_0_1000_100)
+
+lambdas_0_1000_100 <- seq(0, 1000, 100)
+file_path_tmp <- umgy_reg_RMSEs_0_1000_100_file
+RMSEs_tmp <- numeric()
+
+if (file.exists(file_path_tmp)) {
+  put_log("Loading tuning data from file...")
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log("Tuning data has been loaded from file.")
+  numeric()
+} else {
+  RMSEs_tmp <- reg_tune_user_movie_genre_year_effect(lambdas_0_1000_100)
+}
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_0_1000_100 <- RMSEs_tmp
+  
+  save(lambdas_0_1000_100,
+       umgy_reg_RMSEs_0_1000_100,
+       file = file_path_tmp)
+}
+rm(file_path_tmp)
+
+plot(lambdas_0_1000_100, umgy_reg_RMSEs_0_1000_100)
+
+lambdas_0_1000_100_best_results <- 
+  get_reg_best_params(lambdas_0_1000_100, 
+                      umgy_reg_RMSEs_0_1000_100)
+
+# Plot a histogram of the RMSE distribution 
+#par(cex = 0.7)
+# hist_RMSEs <- hist(umgy_reg_RMSEs_0_1000_100, 30, xlab = "RMSE",
+#                    main = TeX(r'[Histogram of RMSE]'))
+
+put_log("A histogram of the RMSE distribution has been plotted.")
+
+n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+n_max_rmse
+
+lambdas_0_1000_100_best_results
+# best_lambda   best_RMSE 
+#  200.000000    0.857932 
+
+best_rmse <- min(umgy_reg_RMSEs_0_1000_100)
+best_rmse
+
+# rmse_threshold <- best_rmse + (n_max_rmse - best_rmse)/2
+# rmse_threshold
 # 
-# best_lambda_idx <- which.min(umgy_reg_RMSEs_m42_0_0_1)
-# best_umgy_effect_lambda <- lambdas[best_lambda_idx]
-# best_umgy_effect_lambda
-# #> [1] -4
-# best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m42_0_0_1[best_lambda_idx] 
-# best_umgy_effect_lambda_RMSE
-#> [1] 0.8502114
+# RMSE_localMin_ind <- umgy_reg_RMSEs_0_1000_100 < rmse_threshold
+# RMSE_localMin_ind
+# 
+# RMSE_localMin <- umgy_reg_RMSEs_0_1000_100[RMSE_localMin_ind]
+# RMSE_localMin
+# 
+# lambda_localMin <- lambdas_0_1000_100[RMSE_localMin_ind]
+# lambda_localMin
 
-umgy_reg_RMSEs_m402_m388_0_001_file <- 
-  file.path(data_path,
-            "umgy_reg_RMSEs_m402_m388_0_001.RData")
 
-if (file.exists(umgy_reg_RMSEs_m402_m388_0_001_file)) {
-  put_log("Loading `umgy_reg_RMSEs_m402_m388_0_001` data from file...")
-  start <- put_start_date()
-  load(umgy_reg_RMSEs_m402_m388_0_001_file)
-  put_end_date(start)
-  put_log("`umgy_reg_RMSEs_m402_m388_0_001` data has been loaded from file.")
+#### Open log -------------------------------------------------------------------
+open_logfile(".tuning-umg-year-effect-in-loop_0_1000_100")
+
+# lamdas in loop starting from results of `lambdas = seq(0, 1000, 100)` ----------
+
+lambdas <- lambdas_0_1000_100
+lambda_rmses <- umgy_reg_RMSEs_0_1000_100 
+
+repeat{ 
+  rmses_min_ind <- which.min(lambda_rmses)
+  rmse_min <- min(lambda_rmses)
+  print(rmse_min)
   
-} else {
-  lambdas__m402_m388_0_001 <- seq(-4.02, -3.88, 0.001)
-  umgy_reg_RMSEs_m402_m388_0_001 <- 
-    reg_tune_user_movie_genre_year_effect(lambdas__m402_m388_0_001)
+  if(sum(lambda_rmses > rmse_min) == 0){
+    put_log1("Reached best RMSE: %1", rmse_min)
+    break
+  }
+
+  seq_start_ind <- rmses_min_ind - 1
   
-  save(lambdas__m402_m388_0_001,
-       umgy_reg_RMSEs_m402_m388_0_001, 
-       file = umgy_reg_RMSEs_m402_m388_0_001_file)
+  if (seq_start_ind < 1) {
+    seq_start_ind <- 1
+    warning("`lambdas` index too small, so it assigned a value %1.",
+            seq_start_ind)
+  }
+  
+  seq_end_ind <- rmses_min_ind + 1
+  
+  if (length(lambdas) < seq_end_ind) {
+    warning("Index too large.")
+    seq_end_ind <- rmses_min_ind
+    put_log1("Index exeeded the length of `lambdas`, 
+            so it is set to maximum possible value of %1",
+            seq_end_ind)
+  }
+  
+  if (seq_end_ind - seq_start_ind == 0) {
+    put_log1("Reached best RMSE: %1", rmse_min)
+
+    put_log2("Final lambda (%1) best RMSE: %2",
+             lambdas_best_results["best_lambda"],
+             lambdas_best_results["best_RMSE"])
+    
+    put(lambdas_best_results)
+    break
+  }
+
+  lambda_rmses <- numeric()
+  seq_start <- lambdas[seq_start_ind]
+  seq_end <- lambdas[seq_end_ind]
+  seq_increment <- (seq_end - seq_start)/32 
+  
+  if (seq_increment < 0.0000000000001) {
+    warning("lambda increment is too small.")
+    
+    put_log2("Final lambda (%1) best RMSE: %2",
+             lambdas_best_results["best_lambda"],
+             lambdas_best_results["best_RMSE"])
+
+    # Final lambda (170.425100252312) best RMSE: 0.857931162318245    
+    
+    put(lambdas_best_results)
+    # best_lambda   best_RMSE 
+    # 170.4251003   0.8579312 
+    
+    break
+  }
+  
+  lambdas <- seq(seq_start, seq_end, seq_increment)
+  
+  file_name_tmp <- "umgy_reg-loop-from-0_1000_100_" |>
+    str_c(as.character(seq_start)) |>
+    str_c("-") |>
+    str_c(as.character(seq_end)) |>
+    str_c("-") |>
+    str_c(as.character(seq_increment)) |>
+    str_c(".RData")
+  
+  file_path_tmp <- file.path(data_path, file_name_tmp)
+  
+  put_log1("File path generated: %1", file_path_tmp)
+  
+  if (file.exists(file_path_tmp)) {
+    put_log1("Loading tuning data from file: %1...", file_path_tmp)
+    start <- put_start_date()
+    load(file_path_tmp)
+    put_end_date(start)
+    put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+    lambdas <- umgy_reg_lambdas
+    lambda_rmses <- umgy_reg_RMSEs
+  } else {
+    lambda_rmses <- reg_tune_user_movie_genre_year_effect(lambdas)
+    umgy_reg_RMSEs <- lambda_rmses
+    umgy_reg_lambdas <- lambdas
+    
+    save(umgy_reg_lambdas,
+         umgy_reg_RMSEs,
+         file = file_path_tmp)
+    put_log1("File saved: %1", file_path_tmp)
+  }
+  
+  plot(lambdas, lambda_rmses)
+  
+  lambdas_best_results <- 
+    get_reg_best_params(lambdas, 
+                        lambda_rmses)
+  put_log2("Current lambda (%1) best RMSE: %2",
+           lambdas_best_results["best_lambda"],
+           lambdas_best_results["best_RMSE"])
+  
+  put(lambdas_best_results)
+  
+  # Plot a histogram of the RMSE distribution 
+  #par(cex = 0.7)
+  # hist_RMSEs <- hist(umgy_reg_RMSEs_0_1000_100, 30, xlab = "RMSE",
+  #                    main = TeX(r'[Histogram of RMSE]'))
+  
+  # put_log("A histogram of the RMSE distribution has been plotted.")
+  # 
+  # n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+  # n_max_rmse
 }
-plot(lambdas__m402_m388_0_001, umgy_reg_RMSEs_m402_m388_0_001)
 
-best_lambda_idx <- which.min(umgy_reg_RMSEs_m402_m388_0_001)
-best_umgy_effect_lambda <- lambdas__m402_m388_0_001[best_lambda_idx]
-best_umgy_effect_lambda
-#> [1] -4
-best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m402_m388_0_001[best_lambda_idx] 
-best_umgy_effect_lambda_RMSE
-#> [1] 0.8502114
+# stop("Procedure Completed")
 
-# Second minimum (lambda = -5) ---------------------------------------------------
-lambdas <- seq(-5.16, -4.86, 0.02)
-umgy_reg_RMSEs_m516_m486_0_02 <- reg_tune_user_movie_genre_year_effect(lambdas)
-plot(lambdas, umgy_reg_RMSEs_m516_m486_0_02)
-
-best_lambda_idx <- which.min(umgy_reg_RMSEs_m516_m486_0_02)
-best_umgy_effect_lambda <- lambdas[best_lambda_idx]
-best_umgy_effect_lambda
-#> [1] -5
-best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs_m516_m486_0_02[best_lambda_idx] 
-best_umgy_effect_lambda_RMSE
-
-# Third minimum (lambda = -6) ---------------------------------------------------
+# best_lambda   best_RMSE 
+# 170.4251003   0.8579312 
 
 
-best_lambda_idx <- which.min(umgy_reg_RMSEs)
-best_umgy_effect_lambda <- lambdas[best_lambda_idx]
-#> [1] -6.0
-best_umgy_effect_lambda_RMSE <- umgy_reg_RMSEs[best_lambda_idx]
-#> [1] -6.0
+#### Close Log -----------------------------------------------------------------
+log_close()
+#### Open log -------------------------------------------------------------------
+open_logfile(".tuning-umgy-effect-loop_m120_200_d64")
 
-best_user_movie_genre_year_reg_RMSE <- min(umgy_reg_RMSEs)
-print(best_user_movie_genre_year_reg_RMSE)
-#> [1] 0.859472310809863
+# lamdas in loop starting from r`lambdas = seq(-120, 200, (200+120)/64)` -------
+lambdas <- c(-120,0,200)
+lambda_rmses <- c(0,-1,0)
+range_divider <- 64 
+
+repeat{ 
+  rmses_min_ind <- which.min(lambda_rmses)
+  rmse_min <- min(lambda_rmses)
+  print(rmse_min)
+  
+  if (rmse_min >= 0) {
+    put_log2("Current lambda (%1) minimal RMSE: %2",
+             lambdas[rmses_min_ind],
+             rmse_min)
+  }
+  
+  if(sum(lambda_rmses > rmse_min) == 0){
+    put_log1("Reached best RMSE: %1", rmse_min)
+    break
+  }
+  
+  seq_start_ind <- rmses_min_ind - 1
+  
+  if (seq_start_ind < 1) {
+    seq_start_ind <- 1
+    warning("`lambdas` index too small, so it assigned a value %1.",
+            seq_start_ind)
+  }
+  
+  seq_end_ind <- rmses_min_ind + 1
+  
+  if (length(lambdas) < seq_end_ind) {
+    warning("Index too large.")
+    seq_end_ind <- rmses_min_ind
+    put_log1("Index exeeded the length of `lambdas`, 
+            so it is set to maximum possible value of %1",
+            seq_end_ind)
+  }
+  
+  if (seq_end_ind - seq_start_ind == 0) {
+    put_log1("Reached best RMSE: %1", rmse_min)
+    
+    put_log2("Final lambda (%1) best RMSE: %2",
+             lambdas_best_results["best_lambda"],
+             lambdas_best_results["best_RMSE"])
+    
+    put(lambdas_best_results)
+    break
+  }
+  
+  lambda_rmses <- numeric()
+  seq_start <- lambdas[seq_start_ind]
+  seq_end <- lambdas[seq_end_ind]
+  seq_increment <- (seq_end - seq_start)/range_divider 
+  
+  if (seq_increment < 0.0000000000001) {
+    warning("lambda increment is too small.")
+    
+    put_log2("Final lambda (%1) best RMSE: %2",
+             lambdas_best_results["best_lambda"],
+             lambdas_best_results["best_RMSE"])
+    
+    # Final lambda (170.425100252312) best RMSE: 0.857931162318245    
+    
+    put(lambdas_best_results)
+    # best_lambda   best_RMSE 
+    # 170.4251003   0.8579312 
+    
+    break
+  }
+  
+  lambdas <- seq(seq_start, seq_end, seq_increment)
+  
+  file_name_tmp <- "umgy_reg-loop-from-0_1000_100_" |>
+    str_c(as.character(seq_start)) |>
+    str_c("-") |>
+    str_c(as.character(seq_end)) |>
+    str_c("-") |>
+    str_c(as.character(seq_increment)) |>
+    str_c(".RData")
+  
+  file_path_tmp <- file.path(data_path, file_name_tmp)
+  
+  put_log1("File path generated: %1", file_path_tmp)
+  
+  if (file.exists(file_path_tmp)) {
+    put_log1("Loading tuning data from file: %1...", file_path_tmp)
+    start <- put_start_date()
+    load(file_path_tmp)
+    put_end_date(start)
+    put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+    lambdas <- umgy_reg_lambdas
+    lambda_rmses <- umgy_reg_RMSEs
+  } else {
+    lambda_rmses <- reg_tune_user_movie_genre_year_effect(lambdas)
+    umgy_reg_RMSEs <- lambda_rmses
+    umgy_reg_lambdas <- lambdas
+    
+    save(umgy_reg_lambdas,
+         umgy_reg_RMSEs,
+         file = file_path_tmp)
+    put_log1("File saved: %1", file_path_tmp)
+  }
+  
+  plot(lambdas, lambda_rmses)
+  
+  lambdas_best_results <- 
+    get_reg_best_params(lambdas, 
+                        lambda_rmses)
+  put_log2("Current lambda (%1) best RMSE: %2",
+           lambdas_best_results["best_lambda"],
+           lambdas_best_results["best_RMSE"])
+  
+  put(lambdas_best_results)
+  
+  # Plot a histogram of the RMSE distribution 
+  #par(cex = 0.7)
+  # hist_RMSEs <- hist(umgy_reg_RMSEs_0_1000_100, 30, xlab = "RMSE",
+  #                    main = TeX(r'[Histogram of RMSE]'))
+  
+  # put_log("A histogram of the RMSE distribution has been plotted.")
+  # 
+  # n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
+  # n_max_rmse
+}
+
+# stop("Procedure Completed")
+
+# best_lambda   best_RMSE 
+# 170.4251003   0.8579312 
+
+
+#### Close Log -----------------------------------------------------------------
+log_close()
+
+
+#### Open log -------------------------------------------------------------------
+open_logfile(".continue-tuning-umg-date-effect")
+
+# First minimum (lambda = -9) --------------------------------------------------
+# lamdas = seq(-9.2, -8.8, 0.01) ------------------------------------------------------------
+umgy_reg_RMSEs_m92_m88_p01_file <- file.path(data_path,"umgy_reg_RMSEs_m92_m88_p01.RData")
+lambdas_m92_m88_p01 <- seq(-9.2, -8.8, 0.01)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_m92_m88_p01,
+                                    umgy_reg_RMSEs_m92_m88_p01_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_m92_m88_p01 <- RMSEs_tmp
+  
+  save(lambdas_m92_m88_p01,
+       umgy_reg_RMSEs_m92_m88_p01,
+       file = umgy_reg_RMSEs_m92_m88_p01_file)
+}
+
+plot(lambdas_m92_m88_p01, umgy_reg_RMSEs_m92_m88_p01)
+
+lambdas_m92_m88_p01_best_results <- 
+  get_reg_best_params(lambdas_m92_m88_p01, 
+                      umgy_reg_RMSEs_m92_m88_p01)
+
+lambdas_m92_m88_p01_best_results
+# best_lambda   best_RMSE 
+#  -9.0000000   0.8488281 
+
+# lambdas = seq(-9.04, -8.9, 0.001) ------------------------------------------------------------
+umgy_reg_RMSEs_m904_m89_p001_file <- file.path(data_path,"umgy_reg_RMSEs_m904_m89_p001.RData")
+lambdas_m904_m89_p001 <- seq(-9.04, -8.9, 0.001)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_m904_m89_p001,
+                                    umgy_reg_RMSEs_m904_m89_p001_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_m904_m89_p001 <- RMSEs_tmp
+  
+  save(lambdas_m904_m89_p001,
+       umgy_reg_RMSEs_m904_m89_p001,
+       file = umgy_reg_RMSEs_m904_m89_p001_file)
+}
+
+plot(lambdas_m904_m89_p001, umgy_reg_RMSEs_m904_m89_p001)
+
+lambdas_m904_m89_p001_best_results <- 
+  get_reg_best_params(lambdas_m904_m89_p001, 
+                      umgy_reg_RMSEs_m904_m89_p001)
+
+lambdas_m904_m89_p001_best_results
+
+
+# lambdas = seq(-9.012, -8.98, 0.0001) ------------------------------------------------------------
+umgy_reg_RMSEs_m9012_m898_p0001_file <- file.path(data_path,"umgy_reg_RMSEs_m9012_m898_p0001.RData")
+lambdas_m9012_m898_p0001 <- seq(-9.012, -8.98, 0.0001)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_m9012_m898_p0001,
+                                    umgy_reg_RMSEs_m9012_m898_p0001_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_m9012_m898_p0001 <- RMSEs_tmp
+  
+  save(lambdas_m9012_m898_p0001,
+       umgy_reg_RMSEs_m9012_m898_p0001,
+       file = umgy_reg_RMSEs_m9012_m898_p0001_file)
+}
+
+plot(lambdas_m9012_m898_p0001, umgy_reg_RMSEs_m9012_m898_p0001)
+
+lambdas_m9012_m898_p0001_best_results <- 
+  get_reg_best_params(lambdas_m9012_m898_p0001, 
+                      umgy_reg_RMSEs_m9012_m898_p0001)
+
+lambdas_m9012_m898_p0001_best_results
+
+# lambdas = seq(-9.002, -8.998, 0.00001) ------------------------------------------------------------
+umgy_reg_RMSEs_m9002_m8998_p00001_file <- 
+  file.path(data_path,"umgy_reg_RMSEs_m9002_m8998_p00001.RData")
+
+lambdas_m9002_m8998_p00001 <- seq(-9.002, -8.998, 0.00001)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_m9002_m8998_p00001,
+                                    umgy_reg_RMSEs_m9002_m8998_p00001_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_m9002_m8998_p00001 <- RMSEs_tmp
+  
+  save(lambdas_m9002_m8998_p00001,
+       umgy_reg_RMSEs_m9002_m8998_p00001,
+       file = umgy_reg_RMSEs_m9002_m8998_p00001_file)
+}
+
+plot(lambdas_m9002_m8998_p00001, umgy_reg_RMSEs_m9002_m8998_p00001)
+
+lambdas_m9002_m8998_p00001_best_results <- 
+  get_reg_best_params(lambdas_m9002_m8998_p00001, 
+                      umgy_reg_RMSEs_m9002_m8998_p00001)
+
+lambdas_m9002_m8998_p00001_best_results
+# best_lambda   best_RMSE 
+#  -9.0000000   0.8488281 
+
+# lambdas = seq(-9., -8., 0.0000) ------------------------------------------------------------
+umgy_reg_RMSEs_m92_m88_p001_file <- file.path(data_path,"umgy_reg_RMSEs_m92_m88_p001.RData")
+lambdas_m92_m88_p001 <- seq(-9.1, -8.9, 0.0001)
+
+RMSEs_tmp <- reqularize_umgy_effect(lambdas_m92_m88_p001,
+                                    umgy_reg_RMSEs_m92_m88_p001_file)
+
+if (length(RMSEs_tmp) > 1) {
+  umgy_reg_RMSEs_m92_m88_p001 <- RMSEs_tmp
+  
+  save(lambdas_m92_m88_p001,
+       umgy_reg_RMSEs_m92_m88_p001,
+       file = umgy_reg_RMSEs_m92_m88_p001_file)
+}
+
+plot(lambdas_m92_m88_p001, umgy_reg_RMSEs_m92_m88_p001)
+
+lambdas_m92_m88_p001_best_results <- 
+  get_reg_best_params(lambdas_m92_m88_p001, 
+                      umgy_reg_RMSEs_m92_m88_p001)
+
+lambdas_m92_m88_p001_best_results
+
+
+
+
+
+
+
+
+
+#------------------------------------------------------------
+# lambdas <- seq(-9.0000000000005, -8.9999999999995, 0.0000000000001) ----------
+umgy_reg_RMSEs_m9p12_05_m8p12_95_p12_01_file <- 
+  file.path(data_path,"umgy_reg_RMSEs_m9p12_05_m8p12_95_p12_01.RData")
+
+lambdas_m9p12_05_m8p12_95_p12_01 <- 
+  seq(-9.0000000000005, -8.9999999999995, 0.0000000000001)
+# seq(-9.000,000,000,000,5, -8.999,999,999,999,5, 0.000,000,000,000,1)
+
+file_path_tmp <- umgy_reg_RMSEs_m9p12_05_m8p12_95_p12_01_file
+
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading tuning data from file: %1...", file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+  # lambdas <- umgy_reg_lambdas
+  # lambda_rmses <- umgy_reg_RMSEs
+} else {
+  umgy_reg_RMSEs_m9p12_05_m8p12_95_p12_01 <- 
+    reg_tune_user_movie_genre_year_effect(lambdas_m9p12_05_m8p12_95_p12_01)
+
+  save(lambdas_m9p12_05_m8p12_95_p12_01,
+       umgy_reg_RMSEs_m9p12_05_m8p12_95_p12_01,
+       file = file_path_tmp)
+  
+  put_log1("File saved: %1", file_path_tmp)
+}
+
+plot(lambdas_m9p12_05_m8p12_95_p12_01, umgy_reg_RMSEs_m9p12_05_m8p12_95_p12_01)
+
+lambdas_m9p12_05_m8p12_95_p12_01_best_results <- 
+  get_reg_best_params(lambdas_m9p12_05_m8p12_95_p12_01, 
+                      umgy_reg_RMSEs_m9p12_05_m8p12_95_p12_01)
+
+lambdas_m9p12_05_m8p12_95_p12_01_best_results
+# best_lambda   best_RMSE 
+#  -9.0000000   0.8582678 
+
+# Second minimum (lambda = -6) ---------------------------------------------------
+
+# Third minimum (lambda = -5) ---------------------------------------------------
+
+# 4th minimum (lambda = -4) ---------------------------------------------------
+
 ##### Re-training Regularized User+Movie Effect Model for the best `lambda` value ----
+best_umgy_effect_lambda <- 
+  lambdas_m9p12_05_m8p12_95_p12_01_best_results["best_lambda"]
+
 put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
          best_umgy_effect_lambda)
 
-umgy_effect_best_lambda <- train_date_year_effect(best_umgy_effect_lambda)
+# umgy_effect_best_lambda <- train_date_year_effect(best_umgy_effect_lambda)
+
+best_date_global_effect <- 
+  calc_date_global_effect(best_umgy_effect_lambda)
+
+str(best_date_global_effect)
+sum(is.na(best_date_global_effect$de))
+#> [1] 0
+sum(is.infinite(best_date_global_effect$de))
+#> [1] 0
+
+umgy_effect_best_lambda <- best_date_global_effect |>
+  group_by(year) |>
+  summarise(ye = mean(de, na.rm = TRUE))
+
+str(umgy_effect_best_lambda)
+umgy_effect_best_lambda
+
 umgy_effect_best_lambda_RMSE <- calc_date_year_effect_RMSE(umgy_effect_best_lambda)
+umgy_effect_best_lambda_RMSE
+#> [1] 0.8500172
+#> [1] 0.8592063
 
 put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
          best_umgy_effect_lambda)
-put_log1("Is this a best RMSE? %1",
-         best_user_movie_genre_year_reg_RMSE == umgy_effect_best_lambda_RMSE)
-
-
 
 ##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date (Year) Effects Model ---- 
 RMSEs <- rmses_add_row("Regularized User+Movie+Genre+Year Effects Model", 
-                       best_user_movie_genre_year_reg_RMSE)
+                       umgy_effect_best_lambda_RMSE)
 rmse_kable()
 ##### Compute Date Day Effects -------------------------------------------------
 year_day_effects <- date_global_effect |>
-  left_join(date_year_effect, by = "year") |>
-  mutate(de = de - ye)
+  left_join(umgy_effect_best_lambda, by = "year") |>
+  mutate(de = de -   ye)
 
 str(year_day_effects)
 
