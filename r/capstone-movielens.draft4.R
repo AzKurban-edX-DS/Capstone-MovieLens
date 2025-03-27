@@ -1062,6 +1062,46 @@ calc_user_movie_effect_RMSE <- function(um_effect){
   put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
   um_effect_RMSE
 }
+reg_tune_user_movie_effect <- function(lambdas){
+  n <- length(lambdas)
+  lambdas_tmp <- numeric(n)
+  rmses_tmp <- numeric(n)
+  put_log("Function: reg_tune_user_movie_effect
+lambdas:")
+  print(lambdas)
+  
+  for (i in 1:n) {
+    put_log1("Function: reg_tune_user_movie_effect
+Iteration %1", i)
+    lambda <- lambdas[i]
+    put_log1("Function: reg_tune_user_movie_effect
+lambda: %1", lambda)
+    lambdas_tmp[i] <- lambda
+    
+    put_log2("Function: reg_tune_user_movie_effect
+lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
+    put_log1("Function: reg_tune_user_movie_effect
+lambdas_tmp length: %1", length(lambdas_tmp))
+    print(lambdas_tmp)
+    
+    um_reg_effect <- train_user_movie_effect(lambda)
+    rmse_tmp <- calc_user_movie_effect_RMSE(um_reg_effect)
+    
+    put_log1("Function: reg_tune_user_movie_effect
+rmse_tmp: %1", rmse_tmp)
+    rmses_tmp[i] <- rmse_tmp
+    
+    put_log2("Function: reg_tune_user_movie_effect
+rmses_tmp[%1]: %2", i, rmses_tmp[i])
+    put_log1("Function: reg_tune_user_movie_effect
+rmses_tmp length: %1", length(rmses_tmp))
+    print(rmses_tmp)
+    
+    plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
+  }
+  
+  rmses_tmp
+}
 
 #### Model building: User+Movie Effects ----------------------------------------
 file_name_tmp <- "user-movie-effect.RData"
@@ -1111,62 +1151,170 @@ RMSEs <- rmses_add_row("User+Movie Effect Model",
                        user_movie_effect_RMSE)
 rmse_kable()
 
+#### Close Log -----------------------------------------------------------------
+log_close()
 ### Regularizing User+Movie Effects --------------------------------------------
-file_name_tmp <- "user-movie.reg-lambda_m1_3_p1.RData"
-file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
+#### Open log -------------------------------------------------------------------
+open_logfile(".tuning-um-effect-loop_0_10_d10")
 
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading Regularized User+Movie Effect data from file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1("Regularized User+Movie Effect data has been loaded from file: %1", file_path_tmp)
+#### Process lamdas in loop starting from `lambdas = seq(0, 10, 10/10` -------
+loop_starter <- c(0,0,10)
+lambdas <- loop_starter
+lambda_RMSEs <- c(2,1,2)
+range_divider <- 10 
+
+best_RMSE <- 1
+um_reg_lambdas_best_results <- c(best_lambda = 0, 
+                          best_RMSE = best_RMSE)
+repeat{ 
+  rmses_min_ind <- which.min(lambda_RMSEs)
+  rmse_min <- min(lambda_RMSEs)
+  print(rmse_min)
   
-} else {
-  # lambdas <- seq(0, 10, 0.1)
-  user_movie_reg_lambdas <- seq(-1, 3, 0.1)
-  user_movie_reg_RMSEs <- sapply(user_movie_reg_lambdas, function(lambda){
-    um_reg_effect <- train_user_movie_effect(lambda)
-    calc_user_movie_effect_RMSE(um_reg_effect)
-  })
+  if (rmse_min >= 0) {
+    put_log2("Current lambda (%1) minimal RMSE: %2",
+             lambdas[rmses_min_ind],
+             rmse_min)
+  }
+  
+  if(sum(lambda_RMSEs > rmse_min) == 0){
+    put_log1("Reached best RMSE: %1", rmse_min)
+    break
+  }
+  
+  seq_start_ind <- rmses_min_ind - 1
+  
+  if (seq_start_ind < 1) {
+    seq_start_ind <- 1
+    warning("`lambdas` index too small, so it assigned a value %1.",
+            seq_start_ind)
+  }
+  
+  seq_end_ind <- rmses_min_ind + 1
+  
+  if (length(lambdas) < seq_end_ind) {
+    warning("Index too large.")
+    seq_end_ind <- rmses_min_ind
+    put_log1("Index exeeded the length of `lambdas`, 
+            so it is set to maximum possible value of %1",
+            seq_end_ind)
+  }
+  
+  if (seq_end_ind - seq_start_ind == 0) {
+    put_log1("Reached best RMSE: %1", rmse_min)
+    
+    put_log2("Final lambda (%1) best RMSE: %2",
+             um_reg_lambdas_best_results["best_lambda"],
+             um_reg_lambdas_best_results["best_RMSE"])
+    
+    put(um_reg_lambdas_best_results)
+    break
+  }
+  
+  seq_start <- lambdas[seq_start_ind]
+  seq_end <- lambdas[seq_end_ind]
+  seq_increment <- (seq_end - seq_start)/range_divider 
+  
+  if (seq_increment < 0.0000000000001) {
+    warning("lambda increment is too small.")
+    
+    put_log2("Final lambda (%1) best RMSE: %2",
+             um_reg_lambdas_best_results["best_lambda"],
+             um_reg_lambdas_best_results["best_RMSE"])
+    
+    # Final lambda (-75) best RMSE: 0.857852155782141    
+    
+    put(um_reg_lambdas_best_results)
+    # best_lambda   best_RMSE 
+    # -75.0000000   0.8578522    
+    break
+  }
+  
+  lambdas <- seq(seq_start, seq_end, seq_increment)
+  
+  file_name_tmp <- "umgy_reg-loop_" |>
+    str_c(as.character(loop_starter[1])) |>
+    str_c("_") |>
+    str_c(as.character(loop_starter[3])) |>
+    str_c("_") |>
+    str_c(as.character(range_divider)) |>
+    str_c(".") |>
+    str_c(as.character(seq_start)) |>
+    str_c("-") |>
+    str_c(as.character(seq_end)) |>
+    str_c(".RData")
+  
+  file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
+  
+  put_log1("File path generated: %1", file_path_tmp)
+  
+  if (file.exists(file_path_tmp)) {
+    put_log1("Loading tuning data from file: %1...", file_path_tmp)
+    start <- put_start_date()
+    load(file_path_tmp)
+    put_end_date(start)
+    put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+    lambdas <- um_reg_lambdas
+    lambda_RMSEs <- um_reg_RMSEs
+  } else {
+    lambda_RMSEs <- reg_tune_user_movie_effect(lambdas)
+    um_reg_RMSEs <- lambda_RMSEs
+    um_reg_lambdas <- lambdas
+    
+    save(um_reg_lambdas,
+         um_reg_RMSEs,
+         file = file_path_tmp)
+    put_log1("File saved: %1", file_path_tmp)
+  }
+  
+  plot(um_reg_lambdas, um_reg_RMSEs)
+  min_RMSE <- min(um_reg_RMSEs)
+  
+  if (best_RMSE <= min_RMSE) {
+    put_log1("Reached best RMSE: %1", rmse_min)
+    
+    put_log2("Final lambda (%1) best RMSE: %2",
+             um_reg_lambdas_best_results["best_lambda"],
+             um_reg_lambdas_best_results["best_RMSE"])
+    
+    put(um_reg_lambdas_best_results)
+    break
+  }
+  
+  best_RMSE <- min_RMSE
 
-  put_log1("Regularized User+Movie Effect data has been saved to file: %1", 
-           file_path_tmp)
-  start <- put_start_date()
-  save(mu,
-       naive_rmse,
-       deviation,
-       rmse_values,
-       user_mean_ratings,
-       user_effects,
-       user_movie_effect,
-       user_movie_reg_lambdas,
-       user_movie_reg_RMSEs,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1("Regularized User+Movie Effect data has been saved to file: %1", 
-           file_path_tmp)
-} 
+  um_reg_lambdas_best_results <- 
+    get_reg_best_params(lambdas, 
+                        lambda_RMSEs)
+  put_log2("Current lambda (%1) best RMSE: %2",
+           um_reg_lambdas_best_results["best_lambda"],
+           um_reg_lambdas_best_results["best_RMSE"])
+  
+  put(um_reg_lambdas_best_results)
+}
 
-plot(user_movie_reg_lambdas, user_movie_reg_RMSEs)
+# stop("Procedure Completed")
 
-best_user_movie_lambda <- user_movie_reg_lambdas[which.min(user_movie_reg_RMSEs)]
-best_user_movie_lambda
+# best_lambda   best_RMSE 
+# -75.0000000   0.8578522 
 
-best_user_movie_reg_RMSE <- min(user_movie_reg_RMSEs)
+#### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
+best_user_movie_reg_lambda <- um_reg_lambdas_best_results["best_lambda"]
+best_user_movie_reg_lambda
+
+best_user_movie_reg_RMSE <- um_reg_lambdas_best_results["best_RMSE"]
 print(best_user_movie_reg_RMSE)
 
 put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
-         best_user_movie_lambda)
+         best_user_movie_reg_lambda)
 
-user_movie_effect_best_lambda <- train_user_movie_effect(best_user_movie_lambda)
-user_movie_effect_best_lambda_RMSE <- calc_user_movie_effect_RMSE(user_movie_effect_best_lambda)
+best_lambda_user_movie_effect <- train_user_movie_effect(best_user_movie_reg_lambda)
+best_lambda_user_movie_effect_RMSE <- calc_user_movie_effect_RMSE(best_lambda_user_movie_effect)
 
 put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
-         best_user_movie_lambda)
+         best_user_movie_reg_lambda)
 put_log1("Is this a best RMSE? %1",
-         best_user_movie_reg_RMSE == user_movie_effect_best_lambda_RMSE)
+         best_user_movie_reg_RMSE == best_lambda_user_movie_effect_RMSE)
 
 #### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
 RMSEs <- rmses_add_row("Regularized User+Movie Effect Model", 
@@ -1378,7 +1526,7 @@ train_user_movie_genre_effect <- function(lambda = NA){
     start <- put_start_date()
     genre_bias <- cv_fold_dat$train_gs_set |>
       left_join(user_effects, by = "userId") |>
-      left_join(user_movie_effect_best_lambda, by = "movieId") |>
+      left_join(best_lambda_user_movie_effect, by = "movieId") |>
       mutate(resid = rating - (mu + a + b)) |>
       filter(!is.na(resid)) |>
       group_by(genres) |>
@@ -1440,7 +1588,7 @@ calc_user_movie_genre_effect_RMSE <- function(umg_effect){
   user_movie_genre_effects_MSEs <- sapply(edx_CV, function(cv_dat){
     cv_dat$validation_set |>
       left_join(user_effects, by = "userId") |>
-      left_join(user_movie_effect_best_lambda, by = "movieId") |>
+      left_join(best_lambda_user_movie_effect, by = "movieId") |>
       left_join(umg_effect, by = "movieId") |>
       mutate(resid = rating - clamp(mu + a + b + g)) |> 
       filter(!is.na(resid)) |>
@@ -1778,7 +1926,7 @@ calc_date_global_effect <- function(lambda = NA){
     # start <- put_start_date()
     cv_fold_dat$train_set |> 
       left_join(user_effects, by = "userId") |>
-      left_join(user_movie_effect_best_lambda, by = "movieId") |>
+      left_join(best_lambda_user_movie_effect, by = "movieId") |>
       left_join(user_movie_genre_effect_best_lambda, by = "movieId") |>
       left_join(date_days_map, by = "timestamp") |>
       mutate(resid = rating - (mu + a + b + g)) |>
@@ -1815,7 +1963,7 @@ train_date_year_effect <- function(lambda = NA){
 calc_date_year_effect_MSE <- function(test_set, dy_effect){
   test_set |>
     left_join(user_effects, by = "userId") |>
-    left_join(user_movie_effect_best_lambda, by = "movieId") |>
+    left_join(best_lambda_user_movie_effect, by = "movieId") |>
     left_join(user_movie_genre_effect_best_lambda, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     left_join(dy_effect, by='year') |>
