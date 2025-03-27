@@ -701,12 +701,13 @@ file_name_tmp <- "overall-mean-rating.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading overal mean rating value (`mu`) from file: %1...", 
+  put_log1("Loading overal mean rating value from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Overall mean rating data (`mu`) has been loaded from file: %1", 
+  put_log2("Overall mean rating data (`mu = %1`) has been loaded from file: %2",
+           mu,
            file_path_tmp)
 } else {
   mu <- mean(edx$rating)
@@ -719,6 +720,9 @@ if (file.exists(file_path_tmp)) {
   put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, naive_rmse)
   #> 5-Fold Cross Validation ultimate RMSE: 1.06034335317133
   
+  put_log2("Saving Overall mean rating value (`mu = %1`) to file: %1...", 
+           mu,
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -746,7 +750,7 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+  put_log1("Overall Mean Deviation  data has been loaded from file: %1", file_path_tmp)
   
 } else {
   deviation <- seq(0, 6, 0.1) - 3
@@ -759,6 +763,8 @@ if (file.exists(file_path_tmp)) {
   put_log1("RMSE values have been computed for %1 deviations from the Overall Mean Rating.",
            length(deviation))
   
+  put_log1("Saving Overall Mean Rating Deviation data to file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -808,12 +814,12 @@ file_name_tmp <- "user-mean-ratings.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading User Mean Rating data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+  put_log1("User Mean Rating data has been loaded from file: %1", file_path_tmp)
   
 } else {
   put_log("Computing Average Ratings per User (User Mean Ratings)...")
@@ -846,6 +852,8 @@ if (file.exists(file_path_tmp)) {
   put_log("User Mean Ratings (User Effect) have been computed.")
   str(user_mean_ratings)
 
+  put_log1("Saving User Mean Rating data to file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -854,7 +862,7 @@ if (file.exists(file_path_tmp)) {
        user_mean_ratings,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("Overall Mean Rating Deviation data has been saved to file: %1", 
+  put_log1("User Mean Rating data has been saved to file: %1", 
            file_path_tmp)
 } 
 
@@ -883,15 +891,23 @@ file_name_tmp <- "user-effect-model.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading User Effect Model data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+  put_log1("User Effect Model data has been loaded from file: %1", file_path_tmp)
   
 } else {
-
+  put_log("Computing User Effect per users ...")
+  user_effects <- user_mean_ratings |>
+    mutate(userId = as.integer(userId),
+           a = mean_rating - mu)
+  
+  put_log("A User Effect Model has been builded and trained")
+  
+  put_log1("Saving User Effect Model data to file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -901,16 +917,11 @@ if (file.exists(file_path_tmp)) {
        user_effects,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("Overall Mean Rating Deviation data has been saved to file: %1", 
+  put_log1("User Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-put_log("Computing User Effect per users ...")
-user_effects <- user_mean_ratings |>
-  mutate(userId = as.integer(userId),
-         a = mean_rating - mu)
-str(user_effects)
-put_log("A User Effect Model has been builded and trained")
+put(str(user_effects))
 
 # Plot a histogram of the user effects -----------------------------------------
 par(cex = 0.7)
@@ -1057,15 +1068,18 @@ file_name_tmp <- "user-movie-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading User+Movie Effect data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+  put_log1("User+Movie Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
+  user_movie_effect <- train_user_movie_effect()
   
+  put_log1("Saving User+Movie Effect data to file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -1076,12 +1090,11 @@ if (file.exists(file_path_tmp)) {
        user_movie_effect,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("Overall Mean Rating Deviation data has been saved to file: %1", 
+  put_log1("User+Movie Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-user_movie_effect <- train_user_movie_effect()
-str(user_movie_effect)
+put(str(user_movie_effect))
 
 ##### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
@@ -1103,15 +1116,23 @@ file_name_tmp <- "user-movie.reg-lambda_m1_3_p1.RData"
 file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading Regularized User+Movie Effect data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
+  put_log1("Regularized User+Movie Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  
+  # lambdas <- seq(0, 10, 0.1)
+  user_movie_reg_lambdas <- seq(-1, 3, 0.1)
+  user_movie_reg_RMSEs <- sapply(lambdas, function(lambda){
+    um_reg_effect <- train_user_movie_effect(lambda)
+    calc_user_movie_effect_RMSE(um_reg_effect)
+  })
+
+  put_log1("Regularized User+Movie Effect data has been saved to file: %1", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -1124,20 +1145,13 @@ if (file.exists(file_path_tmp)) {
        user_movie_reg_RMSEs,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("Overall Mean Rating Deviation data has been saved to file: %1", 
+  put_log1("Regularized User+Movie Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-# lambdas <- seq(0, 10, 0.1)
-user_movie_reg_lambdas <- seq(-1, 3, 0.1)
-lambdas <- user_movie_reg_lambdas
-user_movie_reg_RMSEs <- sapply(lambdas, function(lambda){
-  um_reg_effect <- train_user_movie_effect(lambda)
-  calc_user_movie_effect_RMSE(um_reg_effect)
-})
-plot(lambdas, user_movie_reg_RMSEs)
+plot(user_movie_reg_lambdas, user_movie_reg_RMSEs)
 
-best_user_movie_lambda <- lambdas[which.min(user_movie_reg_RMSEs)]
+best_user_movie_lambda <- user_movie_reg_lambdas[which.min(user_movie_reg_RMSEs)]
 best_user_movie_lambda
 
 best_user_movie_reg_RMSE <- min(user_movie_reg_RMSEs)
@@ -1184,15 +1198,51 @@ file_name_tmp <- "genre-average-rating.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading Genre Average Rating data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
+  put_log1("Genre Average Rating data has been loaded from file: %1", file_path_tmp)
   
 } else {
+  # Preparing data for plotting:
+  put_log1("Computing Genre Summary list for %1-Fold Cross Validation samples...", 
+           CVFolds_N)
+  
+  genres_summary_list <- lapply(edx_CV, function(cv_item){
+    cv_item$train_set |> 
+      mutate(genre_categories = as.factor(genres)) |>
+      group_by(genre_categories) |>
+      summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+      filter(n > min_nratings) |>
+      mutate(genres = reorder(genre_categories, rating_avg)) |>
+      select(genres, rating_avg, se, n)
+  })
+  put_log1("Genre Summary list has been computed for %1-Fold Cross Validation samples.", 
+           CVFolds_N)
+  
+  str(genres_summary_list)
+  
+  put_log1("Computing Average Rating per Genre list for %1-Fold Cross Validation samples...", 
+           CVFolds_N)
+  
+  genre_ratings_united <- union_cv_results(genres_summary_list)
+  str(genre_ratings_united)
+  
+  genre_mean_ratings <- genre_ratings_united |>
+    group_by(genres) |>
+    summarise(ratings = mean(rating_avg),
+              se = mean(se),
+              n = mean(n)) |>
+    mutate(genres = reorder(genres, ratings)) |>
+    sort_by.data.frame(~ratings)
+  
+  put_log1("Mean Rating per Genre list has been computed for %1-Fold Cross Validation samples.",
+           CVFolds_N)
 
+  put_log1("Saving Genre Average Rating data to file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -1206,59 +1256,11 @@ if (file.exists(file_path_tmp)) {
        genre_mean_ratings,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("Genre Average Rating data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-# Preparing data for plotting:
-put_log1("Computing Genre Summary list for %1-Fold Cross Validation samples...", 
-        CVFolds_N)
-
-genres_summary_list <- lapply(edx_CV, function(cv_item){
-  cv_item$train_set |> 
-    mutate(genre_categories = as.factor(genres)) |>
-    group_by(genre_categories) |>
-    summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
-    filter(n > min_nratings) |>
-    mutate(genres = reorder(genre_categories, rating_avg)) |>
-    select(genres, rating_avg, se, n)
-})
-put_log1("Genre Summary list has been computed for %1-Fold Cross Validation samples.", 
-         CVFolds_N)
-
-str(genres_summary_list)
-
-# genres_summary_list_nas <- lapply(genres_summary_list, function(item){
-#   c(sum(is.na(item$genres)), sum(is.na(item$rating_avg)), sum(is.na(item$se)), sum(is.na(item$n)))
-# })
-# genres_summary_list_nas
-
-put_log1("Computing Average Rating per Genre list for %1-Fold Cross Validation samples...", 
-         CVFolds_N)
-
-genre_ratings_united <- union_cv_results(genres_summary_list)
-str(genre_ratings_united)
-
-# genre_ratings_united |>
-#   summarise(na_test = c(sum(is.na(genres)), 
-#                         sum(is.na(rating_avg)),
-#                         sum(is.na(se)),
-#                         sum(is.na(n))
-#                         )) |>
-#   pull(na_test)
-
-genre_mean_ratings <- genre_ratings_united |>
-  group_by(genres) |>
-  summarise(ratings = mean(rating_avg),
-            se = mean(se),
-            n = mean(n)) |>
-  mutate(genres = reorder(genres, ratings)) |>
-  sort_by.data.frame(~ratings)
-
-put_log1("Mean Rating per Genre list has been computed for %1-Fold Cross Validation samples.",
-         CVFolds_N)
-
-str(genre_mean_ratings)
+put(str(genre_mean_ratings))
 #print(head(genre_mean_ratings))
 
 put(sprintf("The worst rating is for the genre category: %s (average rating is %s)",
@@ -1469,15 +1471,18 @@ file_name_tmp <- "user-movie-genre-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading User+Movie+Genre Effect Model data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
+  put_log1("User+Movie+Genre Effect Model data has been loaded from file: %1", file_path_tmp)
   
 } else {
+  user_movie_genre_effect <- train_user_movie_genre_effect()
   
+  put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -1492,13 +1497,11 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_effect,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("User+Movie+Genre Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-
-user_movie_genre_effect <- train_user_movie_genre_effect()
-str(user_movie_genre_effect)
+put(str(user_movie_genre_effect))
 
 ###### Plot a histogram of the Movie Genre Effect distribution -----------------
 par(cex = 0.7)
@@ -1551,22 +1554,24 @@ rmse_kable()
 # 
 # user_movie_genre_reg_RMSEs <- user_movie_genre_reg_RMSEs_m600001_m599999_0_000001
 
-file_name_tmp <- "user-movie-genre-regularized.RData"
+file_name_tmp <- "user-movie-genre-reg_lambdas_6p6_m4p2_p2.RData"
 file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading User+Movie+Genre Effect Regularized data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
-  
+  put_log1("User+Movie+Genre Effect Regularized data has been loaded from file: %1", 
+           file_path_tmp)
 } else {
   user_movie_genre_reg_lambdas_6p6_m4p2_p2 <- seq(-6.6, -4.2, 0.2)
   user_movie_genre_reg_RMSEs_m66_42_0_2 <- 
     reg_tune_user_movie_genre_effect(user_movie_genre_reg_lambdas_6p6_m4p2_p2)
   
+  put_log1("Saving User+Movie+Genre Effect Regularized data to file: %1", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -1583,10 +1588,9 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("User+Movie+Genre Effect Regularized data has been saved to file: %1", 
            file_path_tmp)
 } 
-
 plot(user_movie_genre_reg_lambdas_6p6_m4p2_p2, user_movie_genre_reg_RMSEs_m66_42_0_2)
 
 # First minimum (lambda = -5) ---------------------------------------------------
@@ -1723,16 +1727,17 @@ file_name_tmp <- "sample-year-tune-sets.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading Year Bias Tuning data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
-  
+  put_log1("Year Bias Tuning data has been loaded from file: %1", file_path_tmp)
 } else {
   umgy_tune_sets <- sample_train_validation_sets(3)
   
+  put_log1("Saving Year Bias Tuning data to file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -1750,7 +1755,7 @@ if (file.exists(file_path_tmp)) {
        umgy_tune_sets,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("Year Bias Tuning data has been saved to file: %1", 
            file_path_tmp)
 } 
 
@@ -1885,12 +1890,12 @@ file_name_tmp <- "date-global-and-year-effects.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading Year Effect data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
+  put_log1("Year Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
   date_global_effect <- calc_date_global_effect()
@@ -1899,6 +1904,8 @@ if (file.exists(file_path_tmp)) {
   date_year_effect <- train_date_year_effect()
   str(date_year_effect)
 
+  put_log1("Saving Year Effect data has been saved to file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -1918,11 +1925,9 @@ if (file.exists(file_path_tmp)) {
        date_year_effect,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("Year Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
-
-
 
 ##### Compute Date (Year) Effect Model RMSE ------------------------------------
 date_year_effect_RMSE <- calc_date_year_effect_RMSE(date_year_effect)
@@ -2091,7 +2096,7 @@ repeat{
     str_c(as.character(seq_increment)) |>
     str_c(".RData")
   
-  file_path_tmp <- file.path(data_path, file_name_tmp)
+  file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
   
   put_log1("File path generated: %1", file_path_tmp)
   
@@ -2661,7 +2666,7 @@ repeat{
     str_c(as.character(seq_increment)) |>
     str_c(".RData")
   
-  file_path_tmp <- file.path(data_path, file_name_tmp)
+  file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
   
   put_log1("File path generated: %1", file_path_tmp)
   
@@ -2802,7 +2807,7 @@ repeat{
     str_c(as.character(seq_end)) |>
     str_c(".RData")
   
-  file_path_tmp <- file.path(data_path, file_name_tmp)
+  file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
   
   put_log1("File path generated: %1", file_path_tmp)
   
@@ -3074,19 +3079,24 @@ RMSEs <- rmses_add_row("Regularized User+Movie+Genre+Year Effects Model",
                        umgy_effect_best_lambda_RMSE)
 rmse_kable()
 ##### Compute Date Day Effects -------------------------------------------------
-file_name_tmp <- ".RData"
+file_name_tmp <- "umg-year-day-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading User+Movie+Year+Day Effect data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
-  
+  put_log1("User+Movie+Year+Day Effect data has been loaded from file: %1", 
+           file_path_tmp)
 } else {
+  year_day_effects <- date_global_effect |>
+    left_join(umgy_effect_best_lambda, by = "year") |>
+    mutate(de = de -   ye)
   
+  put_log1("Saving User+Movie+Year+Day Effect data to file: %1", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -3107,17 +3117,10 @@ if (file.exists(file_path_tmp)) {
        year_day_effects,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("User+Movie+Year+Day Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
-
-
-
-year_day_effects <- date_global_effect |>
-  left_join(umgy_effect_best_lambda, by = "year") |>
-  mutate(de = de -   ye)
-
-str(year_day_effects)
+put(str(year_day_effects))
 
 ##### Date Effect Computation Support Functions -----------------------
 loess_de <- function(train_dat, degree = NA, span = NA){
@@ -3191,22 +3194,31 @@ best_rmse <- function(span_rmses){
 }
 
 ##### Train model using `loess` function with default `span` & `degree` params----
-put_log1("Training User+Movie+Genre+Date/Day Effect Model using `loess` function 
+put_log1("Training User+Movie+Genre+Day Smoothed Effect Model using `loess` function 
 with default `span` & `degree` parameters for %1-Fold Cross Validation samples...",
 CVFolds_N)
 
-file_name_tmp <- ".RData"
+file_name_tmp <- "umg-year-day-smoothed-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading User+Movie+Year+Day Smoothed Effect data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
+  put_log1("User+Movie+Year+Day Smoothed Effect data has been loaded from file: %1", 
+           file_path_tmp)
   
 } else {
+  start <- put_start_date()
+  day_smoothed_effect <- compute_day_smoothed_effect()
+  str(day_smoothed_effect)
+  put_end_date(start)
+  put_log1("User+Movie+Genre+Date Effect Model has been trained
+using `loess` function with default `span` & `degree` parameters
+for the %1-Fold Cross Validation samples.",
+          CVFolds_N)
   
   start <- put_start_date()
   save(mu,
@@ -3229,18 +3241,10 @@ if (file.exists(file_path_tmp)) {
        day_smoothed_effect,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("User+Movie+Year+Day Smoothed Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-start <- put_start_date()
-day_smoothed_effect <- compute_day_smoothed_effect()
-str(day_smoothed_effect)
-put_end_date(start)
-put_log1("User+Movie+Genre+Date Effect Model has been trained
-using `loess` function with default `span` & `degree` parameters
-for the %1-Fold Cross Validation samples.",
-CVFolds_N)
 
 ##### Date Smoothed Effect Visualization ----------------------------------
 # mean_day_smoothed_effect <- compute_mean_dse(day_smoothed_effect_ls)
@@ -3266,65 +3270,35 @@ print(day_smoothed_effects_RMSE)
 #> [1] 0.859081
 
 #### Re-train tuning `loess` function's with `span` & `degree` params-----------
-##### Tune the Global Date Smoothed Effect model -------------------------------
-file_name_tmp <- ".RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
-
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
-  
-} else {
-  
-  start <- put_start_date()
-  save(mu,
-       naive_rmse,
-       deviation,
-       rmse_values,
-       user_mean_ratings,
-       user_effects,
-       user_movie_effect,
-       user_movie_reg_lambdas,
-       user_movie_reg_RMSEs,
-       genre_mean_ratings,
-       user_movie_genre_effect,
-       user_movie_genre_reg_lambdas_6p6_m4p2_p2,
-       user_movie_genre_reg_RMSEs_m66_42_0_2,
-       umgy_tune_sets,
-       date_global_effect,
-       date_year_effect,
-       year_day_effects,
-       day_smoothed_effect,
-       degree,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
-           file_path_tmp)
-} 
-
+##### Tune the Global/Day Smoothed Effect model -------------------------------
 degree <- c(0, 1, 2)
 put_log("Tuning `loess` function for degrees:")
 put(degree)
 
 ###### 1. `degree = 0` ---------------------------------------------------------
 put("Case 1. `degree = 0`")
-file_name_tmp <- ".RData"
+file_name_tmp <- "day-smoothed-loess-degree0.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading data for `loess` function with parameter `degree = 0` from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
-  
+  put_log1("Data for `loess` function with parameter `degree = 0` has been loaded from file: %1", 
+           file_path_tmp)
 } else {
+  # spans <- seq(0.0003, 0.002, 0.00001)
+  # spans <- seq(0.00100, 0.00102, 0.00001)
+  degree0_spans <- seq(0.0005, 0.0015, 0.00001)
   
+  put_log2("Tuning for degree0_spans %1:%2...", "0.0005", max(degree0_spans))
+  degree0_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[1], degree0_spans)
+  degree0_best_RMSE <- best_rmse(degree0_tuned_RMSEs)
+  
+  put_log1("Saving data for `loess` function with parameter `degree = 0` to file: %1", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -3350,43 +3324,45 @@ if (file.exists(file_path_tmp)) {
        degree0_best_RMSE,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("Data for `loess` function with parameter `degree = 0` has been saved to file: %1", 
            file_path_tmp)
 } 
 
-# spans <- seq(0.0003, 0.002, 0.00001)
-# spans <- seq(0.00100, 0.00102, 0.00001)
-degree0_spans <- seq(0.0005, 0.0015, 0.00001)
-
-put_log2("Tuning for degree0_spans %1:%2...", "0.0005", max(degree0_spans))
-degree0_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[1], degree0_spans)
-
 put("Case 1. `degree = 0` RMSEs:")
-str(degree0_tuned_RMSEs)
-plot(degree0_tuned_RMSEs)
+put(str(degree0_tuned_RMSEs))
+
+plot(degree0_spans, degree0_tuned_RMSEs)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-degree0_best_RMSE <- best_rmse(degree0_tuned_RMSEs)
+put_log("The best RMSE for `degree = 0`:")
 put(degree0_best_RMSE)
 #      Span      RMSE 
 # 0.0008700 0.8573269 
 
 ###### 2. `degree = 1` --------------------------------------------------------------
 put("Case 2. `degree = 1`")
-file_name_tmp <- ".RData"
+file_name_tmp <- "day-smoothed-loess-degree1.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading data for `loess` function with parameter `degree = 1` from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
-  
+  put_log1("Data for `loess` function with parameter `degree = 1 has been loaded from file: %1", 
+           file_path_tmp)
 } else {
+  #degree1_spans <- seq(0.0005, 0.002, 0.00001)
+  degree1_spans <- seq(0.0005, 0.00135, 0.00001)
+  put_log2("Tuning for degree1_spans %1:%2...", min(degree1_spans), max(degree1_spans))
+  degree1_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[2], degree1_spans)
   
+  degree1_best_RMSE <- best_rmse(degree1_tuned_RMSEs)
+
+  put_log1("Saving data for `loess` function with parameter `degree = 1` to file: %1", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -3415,43 +3391,42 @@ if (file.exists(file_path_tmp)) {
        degree1_best_RMSE,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("Data for `loess` function with parameter `degree = 1` has been saved to file: %1", 
            file_path_tmp)
 } 
-
-
-
-
-#degree1_spans <- seq(0.0005, 0.002, 0.00001)
-degree1_spans <- seq(0.0005, 0.00135, 0.00001)
-put_log2("Tuning for degree1_spans %1:%2...", min(degree1_spans), max(degree1_spans))
-degree1_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[2], degree1_spans)
 put("Case 2. `degree = 1` RMSEs:")
-str(degree1_tuned_RMSEs)
-plot(degree1_tuned_RMSEs)
+put(str(degree1_tuned_RMSEs))
+
+plot(degree1_spans, degree1_tuned_RMSEs)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-degree1_best_RMSE <- best_rmse(degree1_tuned_RMSEs)
+put_log("The best RMSE for `degree = 1`:")
 put(degree1_best_RMSE)
 #      Span      RMSE 
 # 0.0008700 0.8568612
 
 ###### 3. `degree = 2` --------------------------------------------------------------
 put("Case 3. `degree = 2`")
-file_name_tmp <- ".RData"
+file_name_tmp <- "day-smoothed-loess-degree2.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading  data from file: %1...", 
+  put_log1("Loading  data for `loess` function with parameter `degree = 2` from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
-  
+  put_log1("Data for `loess` function with parameter `degree = 2` has been loaded from file: %1", 
+           file_path_tmp)
 } else {
+  #degree2_spans <- seq(0.0003, 0.01, 0.00001)
+  degree2_spans <- seq(0.0007, 0.002, 0.00001)
+  put_log2("Tuning for spans %1:%2...", min(degree2_spans), max(degree2_spans))
+  degree2_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[3], degree2_spans)
   
+  degree2_best_RMSE <- best_rmse(degree2_tuned_RMSEs)
+
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -3483,42 +3458,68 @@ if (file.exists(file_path_tmp)) {
        degree2_best_RMSE,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("Data for `loess` function with parameter `degree = 2` has been saved to file: %1", 
            file_path_tmp)
 } 
-
-
-
-#degree2_spans <- seq(0.0003, 0.01, 0.00001)
-degree2_spans <- seq(0.0007, 0.002, 0.00001)
-put_log2("Tuning for spans %1:%2...", min(degree2_spans), max(degree2_spans))
-degree2_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[3], degree2_spans)
 put("Case 3. `degree = 2` RMSEs:")
 str(degree2_tuned_RMSEs)
-plot(degree2_tuned_RMSEs)
+
+plot(degree2_spans, degree2_tuned_RMSEs)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-degree2_best_RMSE <- best_rmse(degree2_tuned_RMSEs)
+put_log("The best RMSE for `degree = 2`:")
 put(degree2_best_RMSE)
 #      Span      RMSE 
 # 0.0013100 0.8571522
 
 #### Retrain with the best parameters figured out above ------------------------
-file_name_tmp <- ".RData"
+file_name_tmp <- "day-smoothed-tuned.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
-file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Overall Mean Deviation data from file: %1...", 
+  put_log1("Loading Tuned Day Smoothed Effect data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been loaded from file: %1", file_path_tmp)
-  
+  put_log1("Tuned Day Smoothed Effect data has been loaded from file: %1", 
+           file_path_tmp)
 } else {
+  # The Best Parameters and RMSE Value 
+  loess_rmse <- data.frame(degree = degree, 
+                           span = c(degree0_best_RMSE[1], degree1_best_RMSE[1], degree2_best_RMSE[1]),
+                           rmse = c(degree0_best_RMSE[2], degree1_best_RMSE[2], degree2_best_RMSE[2]))
+  put(loess_rmse)
   
+  idx_best_rmse <- which.min(loess_rmse$rmse)
+  
+  day_loess_best_degree <- loess_rmse[idx_best_rmse, 1]  # 1
+  put_log1("The Best Degree: %1", day_loess_best_degree)
+  day_loess_best_degree
+  #> [1] 1
+  
+  day_loess_best_span <- loess_rmse[idx_best_rmse, 2]# 0.00108
+  put_log1("The Best Span: %1", day_loess_best_span)
+  day_loess_best_span
+  #> [1] 0.00087
+  
+  day_loess_best_RMSE <- loess_rmse[idx_best_rmse, 3]
+  put_log1("The Best RMSE: %1",day_loess_best_RMSE)
+  day_loess_best_RMSE
+  #> [1] 0.8568619
+  
+  put_log2("Re-training model using `loess` function with the best parameters: 
+span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
+  start <- put_start_date()
+  best_day_smoothed_effect <- compute_day_smoothed_effect(day_loess_best_degree, day_loess_best_span)
+  str(best_day_smoothed_effect)
+  put_end_date(start)
+  put_log2("The model has been re-trained using `loess` function with the best parameters: 
+span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
+  
+  put_log1("Saving Tuned Day Smoothed Effect data to file: %1", 
+           file_path_tmp)
   start <- put_start_date()
   save(mu,
        naive_rmse,
@@ -3552,47 +3553,11 @@ if (file.exists(file_path_tmp)) {
        day_loess_best_span,
        day_loess_best_RMSE,
        best_day_smoothed_effect,
-       
        file = file_path_tmp)
   put_end_date(start)
-  put_log1(" data has been saved to file: %1", 
+  put_log1("Tuned Day Smoothed Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
-
-
-
-
-# The Best Parameters and RMSE Value 
-loess_rmse <- data.frame(degree = degree, 
-                         span = c(degree0_best_RMSE[1], degree1_best_RMSE[1], degree2_best_RMSE[1]),
-                         rmse = c(degree0_best_RMSE[2], degree1_best_RMSE[2], degree2_best_RMSE[2]))
-put(loess_rmse)
-
-idx_best_rmse <- which.min(loess_rmse$rmse)
-
-day_loess_best_degree <- loess_rmse[idx_best_rmse, 1]  # 1
-put_log1("The Best Degree: %1", day_loess_best_degree)
-day_loess_best_degree
-#> [1] 1
-
-day_loess_best_span <- loess_rmse[idx_best_rmse, 2]# 0.00108
-put_log1("The Best Span: %1", day_loess_best_span)
-day_loess_best_span
-#> [1] 0.00087
-
-day_loess_best_RMSE <- loess_rmse[idx_best_rmse, 3]
-put_log1("The Best RMSE: %1",day_loess_best_RMSE)
-day_loess_best_RMSE
-#> [1] 0.8568619
-
-put_log2("Re-training model using `loess` function with the best parameters: 
-span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
-start <- put_start_date()
-best_day_smoothed_effect <- compute_day_smoothed_effect(day_loess_best_degree, day_loess_best_span)
-str(best_day_smoothed_effect)
-put_end_date(start)
-put_log2("The model has been re-trained using `loess` function with the best parameters: 
-span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
 
 ##### The Best Date Smoothed Effect Visualization ----------------------------------
 best_day_smoothed_effect |>
@@ -3610,9 +3575,9 @@ put_log3("RMSE value has been computed using `loess` function
 with the best parameters for the %1-Fold Cross Validation samples:
 degree = %2;
 span = %3.",
-CVFolds_N,
-day_loess_best_degree,
-day_loess_best_span)
+        CVFolds_N,
+        day_loess_best_degree,
+        day_loess_best_span)
 
 print(user_movie_genre_tuned_date_effect_RMSE)
 #> [1] 0.8568612
