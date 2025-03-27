@@ -1126,7 +1126,7 @@ if (file.exists(file_path_tmp)) {
 } else {
   # lambdas <- seq(0, 10, 0.1)
   user_movie_reg_lambdas <- seq(-1, 3, 0.1)
-  user_movie_reg_RMSEs <- sapply(lambdas, function(lambda){
+  user_movie_reg_RMSEs <- sapply(user_movie_reg_lambdas, function(lambda){
     um_reg_effect <- train_user_movie_effect(lambda)
     calc_user_movie_effect_RMSE(um_reg_effect)
   })
