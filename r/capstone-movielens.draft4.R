@@ -1096,6 +1096,14 @@ lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
 lambdas_tmp length: %1", length(lambdas_tmp))
     print(lambdas_tmp)
     
+    if(is.cv){
+      um_reg_effect <- train_user_movie_effect.cv(lambda)
+      rmse_tmp <- calc_user_movie_effect_RMSE.cv(um_reg_effect)
+    } else {
+      um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
+      rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
+    }
+    
     put_log1("Function: regularize.user_movie_effect
 rmse_tmp: %1", rmse_tmp)
     rmses_tmp[i] <- rmse_tmp
@@ -1107,14 +1115,6 @@ rmses_tmp length: %1", length(rmses_tmp))
     print(rmses_tmp)
     
     plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
-    
-    if(is.cv){
-      um_reg_effect <- train_user_movie_effect.cv(lambda)
-      rmse_tmp <- calc_user_movie_effect_RMSE.cv(um_reg_effect)
-    } else {
-      um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
-      rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
-    }
     
     if(rmse_tmp > rmse_min && break_if_min){
       break
@@ -1199,7 +1199,7 @@ open_logfile(".reg-um-effect.loop_0_10_d10")
 loop_starter <- c(0,0,10)
 lambdas <- loop_starter
 lambda_RMSEs <- c(2,1,2)
-range_divider <- 10 
+range_divider <- 100 
 
 best_RMSE <- 1
 um_reg_lambdas_best_results <- c(best_lambda = 0, 
