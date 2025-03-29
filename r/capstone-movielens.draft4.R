@@ -1133,18 +1133,18 @@ if (file.exists(file_path_tmp)) {
   
   put_log1("Saving User+Movie Effect data to file: %1...", 
            file_path_tmp)
-  # start <- put_start_date()
-  # save(mu,
-  #      naive_rmse,
-  #      deviation,
-  #      rmse_values,
-  #      user_mean_ratings,
-  #      user_effects,
-  #      user_movie_effect,
-  #      file = file_path_tmp)
-  # put_end_date(start)
-  # put_log1("User+Movie Effect data has been saved to file: %1", 
-  #          file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       naive_rmse,
+       deviation,
+       rmse_values,
+       user_mean_ratings,
+       user_effects,
+       user_movie_effect,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie Effect data has been saved to file: %1",
+           file_path_tmp)
 } 
 
 put(str(user_movie_effect))
@@ -1288,10 +1288,10 @@ repeat{
     um_reg_RMSEs <- lambda_RMSEs
     um_reg_lambdas <- lambdas
     
-    # save(um_reg_lambdas,
-    #      um_reg_RMSEs,
-    #      file = file_path_tmp)
-    # put_log1("File saved: %1", file_path_tmp)
+    save(um_reg_lambdas,
+         um_reg_RMSEs,
+         file = file_path_tmp)
+    put_log1("File saved: %1", file_path_tmp)
   }
   
   plot(um_reg_lambdas, um_reg_RMSEs)
