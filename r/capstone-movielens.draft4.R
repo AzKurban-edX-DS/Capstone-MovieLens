@@ -1023,8 +1023,10 @@ train_user_movie_effect <- function(train_set, lambda = NA){
     summarise(b = get_summarized(resid, lambda), n = n())
 }
 train_user_movie_effect.cv <- function(lambda = NA){
-  if(is.na(lambda)) put_log("Computing User+Movie Effect...")
-  else put_log1("Computing User+Movie Effect for lambda: %1...",
+  if(is.na(lambda)) put_log("Function: train_user_movie_effect.cv:
+Computing User+Movie Effect...")
+  else put_log1("Function: train_user_movie_effect.cv:
+Computing User+Movie Effect for lambda: %1...",
                 lambda)
   
   start <- put_start_date()
@@ -1033,7 +1035,8 @@ train_user_movie_effect.cv <- function(lambda = NA){
   })
   put_end_date(start)
   str(user_movie_effects_ls)
-  put_log("User+Movie Effect list have been computed")
+  put_log("Function: train_user_movie_effect.cv:
+User+Movie Effect list have been computed")
   
   user_movie_effects_united <- union_cv_results(user_movie_effects_ls)
   str(user_movie_effects_united)
@@ -1046,8 +1049,10 @@ train_user_movie_effect.cv <- function(lambda = NA){
   # sum(is.na(user_movie_effect$b)) # 0 (there are no NAs in there)
   
   #user_movie_effect <- data.frame(movieId = as.integer(names(b)), b = b)
-  if(is.na(lambda)) put_log("Training completed: User+Movie Effects model.")
-  else put_log1("Training completed: User+Movie Effects model for lambda: %1...",
+  if(is.na(lambda)) put_log("Function: train_user_movie_effect.cv:
+Training completed: User+Movie Effects model.")
+  else put_log1("Function: train_user_movie_effect.cv:
+Training completed: User+Movie Effects model for lambda: %1...",
                 lambda)
   
   user_movie_effect
@@ -1065,7 +1070,15 @@ calc_user_movie_effect_MSE <- function(test_set, um_effect){
     pull(resid) |> mse()
 }
 calc_user_movie_effect_RMSE.cv <- function(um_effect){
-  put_log("Computing the RMSE taking into account User+Movie Effects...")
+  user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
+  um_effect_RMSE <- sqrt(user_movie_effects_MSE)
+  put_log2("Function: user_movie_effects_RMSE.cv:
+%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
+  um_effect_RMSE
+}
+calc_user_movie_effect_MSE.cv <- function(um_effect){
+  put_log("Function: user_movie_effects_MSE.cv:
+Computing the RMSE taking into account User+Movie Effects...")
   start <- put_start_date()
   user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
     cv_fold_dat$validation_set |> calc_user_movie_effect_MSE(um_effect)
@@ -1073,12 +1086,11 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
   put_end_date(start)
   
   plot(user_movie_effects_MSEs)
-  put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
+  put_log1("Function: user_movie_effects_MSE.cv:
+MSE values have been plotted for the %1-Fold Cross Validation samples.", 
            CVFolds_N)
   
-  um_effect_RMSE <- sqrt(mean(user_movie_effects_MSEs))
-  put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
-  um_effect_RMSE
+  mean(user_movie_effects_MSEs)
 }
 reg_tune_user_movie_effect <- function(lambdas){
   n <- length(lambdas)
