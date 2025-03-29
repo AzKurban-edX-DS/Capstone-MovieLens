@@ -1070,10 +1070,14 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
   
   mean(user_movie_effects_MSEs)
 }
-regularize.user_movie_effect <- function(lambdas, is.cv = TRUE){
+regularize.user_movie_effect <- function(lambdas, 
+                                         is.cv = TRUE, 
+                                         break_if_min = TRUE){
   n <- length(lambdas)
-  lambdas_tmp <- numeric(n)
-  rmses_tmp <- numeric(n)
+  lambdas_tmp <- numeric()
+  rmses_tmp <- numeric()
+  rmse_min <- 10000
+  
   put_log("Function: regularize.user_movie_effect
 lambdas:")
   print(lambdas)
@@ -1092,14 +1096,6 @@ lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
 lambdas_tmp length: %1", length(lambdas_tmp))
     print(lambdas_tmp)
     
-    if(is.cv){
-      um_reg_effect <- train_user_movie_effect.cv(lambda)
-      rmse_tmp <- calc_user_movie_effect_RMSE.cv(um_reg_effect)
-    } else {
-      um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
-      rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
-    }
-    
     put_log1("Function: regularize.user_movie_effect
 rmse_tmp: %1", rmse_tmp)
     rmses_tmp[i] <- rmse_tmp
@@ -1111,9 +1107,24 @@ rmses_tmp length: %1", length(rmses_tmp))
     print(rmses_tmp)
     
     plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
+    
+    if(is.cv){
+      um_reg_effect <- train_user_movie_effect.cv(lambda)
+      rmse_tmp <- calc_user_movie_effect_RMSE.cv(um_reg_effect)
+    } else {
+      um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
+      rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
+    }
+    
+    if(rmse_tmp > rmse_min && break_if_min){
+      break
+    } else if(rmse_tmp < rmse_min){
+      rmse_min <- rmse_tmp
+    }
   }
   
-  rmses_tmp
+  list(RMSEs = rmses_tmp,
+       lambdas = lambdas_tmp)
 }
 
 #### Model building: User+Movie Effect ----------------------------------------
@@ -1284,13 +1295,18 @@ repeat{
     lambdas <- um_reg_lambdas
     lambda_RMSEs <- um_reg_RMSEs
   } else {
-    lambda_RMSEs <- regularize.user_movie_effect(lambdas)
+    reg_result <- regularize.user_movie_effect(lambdas)
+    
+    lambda_RMSEs <- reg_result$RMSEs
+    lambdas <- reg_result$lambdas
+    
     um_reg_RMSEs <- lambda_RMSEs
     um_reg_lambdas <- lambdas
     
-    save(um_reg_lambdas,
-         um_reg_RMSEs,
-         file = file_path_tmp)
+    # save(um_reg_lambdas,
+    #      um_reg_RMSEs,
+    #      file = file_path_tmp)
+    
     put_log1("File saved: %1", file_path_tmp)
   }
   
