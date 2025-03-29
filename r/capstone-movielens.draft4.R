@@ -984,22 +984,6 @@ log_close()
 #> α[i], and then estimating β[j] as the average of the residuals 
 #> `y[i,j] - μ - α[i]`:
 
-#### Utilizing Penalized least squares-------------------------------------------
-
-# Reference: the Textbook section "23.6 Penalized least squares"
-# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares
-
-#> Instead of minimizing the least squares equation, 
-#> we minimize an equation that adds a penalty:
-
-#  ∑{i,j}(y[i,j] - y_hat[i,j])^2 + λ*∑{j}β[j]^2
-# where y_hat[i,j] = μ + α[i] + β[j] + g[i,j] + ye[i,j] + f(d[i,j])
-
-#> The values of `β[j]` that minimize this equation are:
-
-# β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
-# where `n[j]` is the number of ratings made for movie `j`.
-
 #### Open log ------------------------------------------------------------------
 open_logfile(".user+movie-effect")
 
@@ -1015,7 +999,7 @@ get_summarized <- function(vals, lambda = NA){
   }
 }
 train_user_movie_effect <- function(train_set, lambda = NA){
-  cv_fold_dat$train_set |>
+  train_set |>
     left_join(user_effects, by = "userId") |>
     mutate(resid = rating - (mu + a)) |> 
     filter(!is.na(resid)) |>
@@ -1062,7 +1046,7 @@ calc_user_movie_effect_RMSE <- function(test_set, um_effect){
   sqrt(mse)
 }
 calc_user_movie_effect_MSE <- function(test_set, um_effect){
-  cv_fold_dat$validation_set |>
+  test_set |>
     left_join(user_effects, by = "userId") |>
     left_join(um_effect, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b)) |> 
@@ -1092,38 +1076,38 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
   
   mean(user_movie_effects_MSEs)
 }
-reg_tune_user_movie_effect <- function(lambdas){
+regularized.user_movie_effect <- function(lambdas){
   n <- length(lambdas)
   lambdas_tmp <- numeric(n)
   rmses_tmp <- numeric(n)
-  put_log("Function: reg_tune_user_movie_effect
+  put_log("Function: regularized.user_movie_effect
 lambdas:")
   print(lambdas)
   
   for (i in 1:n) {
-    put_log1("Function: reg_tune_user_movie_effect
+    put_log1("Function: regularized.user_movie_effect
 Iteration %1", i)
     lambda <- lambdas[i]
-    put_log1("Function: reg_tune_user_movie_effect
+    put_log1("Function: regularized.user_movie_effect
 lambda: %1", lambda)
     lambdas_tmp[i] <- lambda
     
-    put_log2("Function: reg_tune_user_movie_effect
+    put_log2("Function: regularized.user_movie_effect
 lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
-    put_log1("Function: reg_tune_user_movie_effect
+    put_log1("Function: regularized.user_movie_effect
 lambdas_tmp length: %1", length(lambdas_tmp))
     print(lambdas_tmp)
     
-    um_reg_effect <- train_user_movie_effect(lambda)
-    rmse_tmp <- calc_user_movie_effect_RMSE(um_reg_effect)
+    um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
+    rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
     
-    put_log1("Function: reg_tune_user_movie_effect
+    put_log1("Function: regularized.user_movie_effect
 rmse_tmp: %1", rmse_tmp)
     rmses_tmp[i] <- rmse_tmp
     
-    put_log2("Function: reg_tune_user_movie_effect
+    put_log2("Function: regularized.user_movie_effect
 rmses_tmp[%1]: %2", i, rmses_tmp[i])
-    put_log1("Function: reg_tune_user_movie_effect
+    put_log1("Function: regularized.user_movie_effect
 rmses_tmp length: %1", length(rmses_tmp))
     print(rmses_tmp)
     
@@ -1133,7 +1117,7 @@ rmses_tmp length: %1", length(rmses_tmp))
   rmses_tmp
 }
 
-#### Model building: User+Movie Effects ----------------------------------------
+#### Model building: User+Movie Effect ----------------------------------------
 file_name_tmp <- "user-movie-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
@@ -1183,7 +1167,21 @@ rmse_kable()
 
 #### Close Log -----------------------------------------------------------------
 log_close()
-### Regularizing User+Movie Effects --------------------------------------------
+#### Utilizing Penalized least squares (Regularizing User+Movie Effects) -------
+# Reference: the Textbook section "23.6 Penalized least squares"
+# https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares
+
+#> Instead of minimizing the least squares equation, 
+#> we minimize an equation that adds a penalty:
+
+#  ∑{i,j}(y[i,j] - y_hat[i,j])^2 + λ*∑{j}β[j]^2
+# where y_hat[i,j] = μ + α[i] + β[j] + g[i,j] + ye[i,j] + f(d[i,j])
+
+#> The values of `β[j]` that minimize this equation are:
+
+# β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
+# where `n[j]` is the number of ratings made for movie `j`.
+
 #### Open log -------------------------------------------------------------------
 open_logfile(".reg-um-effect.loop_0_10_d10")
 
@@ -1191,7 +1189,7 @@ open_logfile(".reg-um-effect.loop_0_10_d10")
 loop_starter <- c(0,0,10)
 lambdas <- loop_starter
 lambda_RMSEs <- c(2,1,2)
-range_divider <- 10 
+range_divider <- 100 
 
 best_RMSE <- 1
 um_reg_lambdas_best_results <- c(best_lambda = 0, 
@@ -1287,7 +1285,7 @@ repeat{
     lambdas <- um_reg_lambdas
     lambda_RMSEs <- um_reg_RMSEs
   } else {
-    lambda_RMSEs <- reg_tune_user_movie_effect(lambdas)
+    lambda_RMSEs <- regularized.user_movie_effect(lambdas)
     um_reg_RMSEs <- lambda_RMSEs
     um_reg_lambdas <- lambdas
     
