@@ -1076,38 +1076,38 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
   
   mean(user_movie_effects_MSEs)
 }
-regularized.user_movie_effect <- function(lambdas){
+regularize.user_movie_effect <- function(lambdas){
   n <- length(lambdas)
   lambdas_tmp <- numeric(n)
   rmses_tmp <- numeric(n)
-  put_log("Function: regularized.user_movie_effect
+  put_log("Function: regularize.user_movie_effect
 lambdas:")
   print(lambdas)
   
   for (i in 1:n) {
-    put_log1("Function: regularized.user_movie_effect
+    put_log1("Function: regularize.user_movie_effect
 Iteration %1", i)
     lambda <- lambdas[i]
-    put_log1("Function: regularized.user_movie_effect
+    put_log1("Function: regularize.user_movie_effect
 lambda: %1", lambda)
     lambdas_tmp[i] <- lambda
     
-    put_log2("Function: regularized.user_movie_effect
+    put_log2("Function: regularize.user_movie_effect
 lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
-    put_log1("Function: regularized.user_movie_effect
+    put_log1("Function: regularize.user_movie_effect
 lambdas_tmp length: %1", length(lambdas_tmp))
     print(lambdas_tmp)
     
     um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
     rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
     
-    put_log1("Function: regularized.user_movie_effect
+    put_log1("Function: regularize.user_movie_effect
 rmse_tmp: %1", rmse_tmp)
     rmses_tmp[i] <- rmse_tmp
     
-    put_log2("Function: regularized.user_movie_effect
+    put_log2("Function: regularize.user_movie_effect
 rmses_tmp[%1]: %2", i, rmses_tmp[i])
-    put_log1("Function: regularized.user_movie_effect
+    put_log1("Function: regularize.user_movie_effect
 rmses_tmp length: %1", length(rmses_tmp))
     print(rmses_tmp)
     
@@ -1285,7 +1285,7 @@ repeat{
     lambdas <- um_reg_lambdas
     lambda_RMSEs <- um_reg_RMSEs
   } else {
-    lambda_RMSEs <- regularized.user_movie_effect(lambdas)
+    lambda_RMSEs <- regularize.user_movie_effect(lambdas)
     um_reg_RMSEs <- lambda_RMSEs
     um_reg_lambdas <- lambdas
     
