@@ -1196,79 +1196,30 @@ log_close()
 open_logfile(".reg-um-effect.loop_0_10_d10")
 
 #### Process lamdas in loop starting from `lambdas = seq(0, 10, 10/10` -------
-loop_starter <- c(0,0,10)
-lambdas <- loop_starter
-lambda_RMSEs <- c(2,1,2)
-range_divider <- 100 
+loop_starter <- c(0,4,2)
+seq_start <- loop_starter[1]
+seq_end <- loop_starter[2]
+range_divider <- loop_starter[3] 
 
-best_RMSE <- 1
+best_RMSE <- Inf
+
 um_reg_lambdas_best_results <- c(best_lambda = 0, 
                           best_RMSE = best_RMSE)
 repeat{ 
-  rmses_min_ind <- which.min(lambda_RMSEs)
-  rmse_min <- min(lambda_RMSEs)
-  print(rmse_min)
-  
-  if (rmse_min >= 0) {
-    put_log2("Current lambda (%1) minimal RMSE: %2",
-             lambdas[rmses_min_ind],
-             rmse_min)
-  }
-  
-  if(sum(lambda_RMSEs > rmse_min) == 0){
-    put_log1("Reached best RMSE: %1", rmse_min)
-    break
-  }
-  
-  seq_start_ind <- rmses_min_ind - 1
-  
-  if (seq_start_ind < 1) {
-    seq_start_ind <- 1
-    warning("`lambdas` index too small, so it assigned a value ",
-            seq_start_ind)
-  }
-  
-  seq_end_ind <- rmses_min_ind + 1
-  
-  if (length(lambdas) < seq_end_ind) {
-    warning("Index too large.")
-    seq_end_ind <- rmses_min_ind
-    put_log1("Index exeeded the length of `lambdas`, 
-            so it is set to maximum possible value of %1",
-            seq_end_ind)
-  }
-  
-  if (seq_end_ind - seq_start_ind == 0) {
-    put_log1("Reached best RMSE: %1", rmse_min)
-    
-    put_log2("Final lambda (%1) best RMSE: %2",
-             um_reg_lambdas_best_results["best_lambda"],
-             um_reg_lambdas_best_results["best_RMSE"])
-    
-    put(um_reg_lambdas_best_results)
-    break
-  }
-  
-  seq_start <- lambdas[seq_start_ind]
-  seq_end <- lambdas[seq_end_ind]
   seq_increment <- (seq_end - seq_start)/range_divider 
   
   if (seq_increment < 0.0000000000001) {
     warning("lambda increment is too small.")
     
-    put_log2("Final lambda (%1) best RMSE: %2",
+    put_log2("Final best RMSE for `lambda = %1`: %2",
              um_reg_lambdas_best_results["best_lambda"],
              um_reg_lambdas_best_results["best_RMSE"])
-    
-    # Final lambda (-75) best RMSE: 0.857852155782141    
     
     put(um_reg_lambdas_best_results)
     # best_lambda   best_RMSE 
     # -75.0000000   0.8578522    
     break
   }
-  
-  lambdas <- seq(seq_start, seq_end, seq_increment)
   
   file_name_tmp <- "umgy_reg-loop_" |>
     str_c(as.character(loop_starter[1])) |>
@@ -1295,13 +1246,11 @@ repeat{
     lambdas <- um_reg_lambdas
     lambda_RMSEs <- um_reg_RMSEs
   } else {
+    lambdas <- seq(seq_start, seq_end, seq_increment)
     reg_result <- regularize.user_movie_effect(lambdas)
-    
-    lambda_RMSEs <- reg_result$RMSEs
-    lambdas <- reg_result$lambdas
-    
-    um_reg_RMSEs <- lambda_RMSEs
-    um_reg_lambdas <- lambdas
+
+    um_reg_RMSEs <- reg_result$RMSEs
+    um_reg_lambdas <- reg_result$lambdas
     
     # save(um_reg_lambdas,
     #      um_reg_RMSEs,
@@ -1311,17 +1260,26 @@ repeat{
   }
   
   plot(um_reg_lambdas, um_reg_RMSEs)
-  min_RMSE <- min(um_reg_RMSEs)
+  
+  lambda_RMSEs <- um_reg_RMSEs
+  lambdas <- um_reg_lambdas
+  min_RMSE <- min(lambda_RMSEs)
   
   if (best_RMSE <= min_RMSE) {
-    put_log1("Reached best RMSE: %1", rmse_min)
+    warning("Currently computed minimal RMSE not greater than the previously reached best one: ",
+            best_RMSE)
     
-    put_log2("Final lambda (%1) best RMSE: %2",
+    put_log2("Current minimal RMSE for `lambda = %1`: %2",
+             min_RMSE,
+             lambdas[which.min(lambda_RMSEs)])
+    
+    put_log2("So far reached best RMSE for `lambda = %1`: %2",
              um_reg_lambdas_best_results["best_lambda"],
              um_reg_lambdas_best_results["best_RMSE"])
-    
+
     put(um_reg_lambdas_best_results)
-    break
+    range_divider*2
+    next
   }
   
   best_RMSE <- min_RMSE
@@ -1329,11 +1287,45 @@ repeat{
   um_reg_lambdas_best_results <- 
     get_reg_best_params(lambdas, 
                         lambda_RMSEs)
-  put_log2("Current lambda (%1) best RMSE: %2",
+ 
+  put_log2("Currently reached best RMSE for `lambda = %1`: %2",
            um_reg_lambdas_best_results["best_lambda"],
            um_reg_lambdas_best_results["best_RMSE"])
-  
+
   put(um_reg_lambdas_best_results)
+  
+  rmses_min_ind <- which.min(lambda_RMSEs)
+  seq_start_ind <- rmses_min_ind - 1
+  
+  if (seq_start_ind < 1) {
+    seq_start_ind <- 1
+    warning("`lambdas` index too small, so it assigned a value ",
+            seq_start_ind)
+  }
+  
+  seq_end_ind <- rmses_min_ind + 1
+  
+  if (length(lambdas) < seq_end_ind) {
+    warning("`seq_end_ind` index too large and will be set to `rmses_min_ind`.")
+    seq_end_ind <- rmses_min_ind
+    put_log1("Index exeeded the length of `lambdas`, 
+            so it is set to maximum possible value of %1",
+            seq_end_ind)
+  }
+  
+  if (seq_end_ind - seq_start_ind == 0) {
+    warning("`lambdas` sequential start and end indexes are the same.")
+    put_log1("Current minimal RMSE: %1", rmse_min)
+    put_log2("Reached minimal RMSE for lambda = %1: %2",
+             um_reg_lambdas_best_results["best_lambda"],
+             um_reg_lambdas_best_results["best_RMSE"])
+    
+    put(um_reg_lambdas_best_results)
+    break
+  }
+  
+  seq_start <- lambdas[seq_start_ind]
+  seq_end <- lambdas[seq_end_ind]
 }
 
 # stop("Procedure Completed")
