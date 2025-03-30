@@ -202,6 +202,10 @@ rmse_kable <- function(){
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 
 ### Data processing functions & global variables -------------------------------
+r_path <- "r"
+src_path <- "src"
+r_src_path <- file.path(r_path, src_path)
+
 data_path <- "data"
 models_path <- "models"
 regularization_path <- "regularization"
@@ -988,145 +992,13 @@ log_close()
 open_logfile(".user+movie-effect")
 
 #### Support Functions ---------------------------------------------------------
-mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
-  sums <- sum(vals, na.rm = na.rm)
-  N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
-  sums/(N + lambda)
-}
-train_user_movie_effect <- function(train_set, lambda = 0){
-  train_set |>
-    left_join(user_effects, by = "userId") |>
-    mutate(resid = rating - (mu + a)) |> 
-    filter(!is.na(resid)) |>
-    group_by(movieId) |>
-    summarise(b = mean_reg(resid, lambda), n = n())
-}
-train_user_movie_effect.cv <- function(lambda = 0){
-  if(is.na(lambda)) put_log("Function: train_user_movie_effect.cv:
-Computing User+Movie Effect...")
-  else put_log1("Function: train_user_movie_effect.cv:
-Computing User+Movie Effect for lambda: %1...",
-                lambda)
-  
-  start <- put_start_date()
-  user_movie_effects_ls <- lapply(edx_CV, function(cv_fold_dat){
-    cv_fold_dat$train_set |> train_user_movie_effect(lambda)
-  })
-  put_end_date(start)
-  str(user_movie_effects_ls)
-  put_log("Function: train_user_movie_effect.cv:
-User+Movie Effect list have been computed")
-  
-  user_movie_effects_united <- union_cv_results(user_movie_effects_ls)
-  str(user_movie_effects_united)
-  # sum(is.na(user_movie_effects_united$cv_dat)) # 0 (there are no NAs in there)
-  
-  user_movie_effect <- user_movie_effects_united |>
-    group_by(movieId) |>
-    summarise(b = mean(b), n = mean(n))
-  
-  # sum(is.na(user_movie_effect$b)) # 0 (there are no NAs in there)
-  
-  #user_movie_effect <- data.frame(movieId = as.integer(names(b)), b = b)
-  if(is.na(lambda)) put_log("Function: train_user_movie_effect.cv:
-Training completed: User+Movie Effects model.")
-  else put_log1("Function: train_user_movie_effect.cv:
-Training completed: User+Movie Effects model for lambda: %1...",
-                lambda)
-  
-  user_movie_effect
-}
-calc_user_movie_effect_RMSE <- function(test_set, um_effect){
-  mse <- test_set |> calc_user_movie_effect_MSE(um_effect)
-  sqrt(mse)
-}
-calc_user_movie_effect_MSE <- function(test_set, um_effect){
-  test_set |>
-    left_join(user_effects, by = "userId") |>
-    left_join(um_effect, by = "movieId") |>
-    mutate(resid = rating - clamp(mu + a + b)) |> 
-    filter(!is.na(resid)) |>
-    pull(resid) |> mse()
-}
-calc_user_movie_effect_RMSE.cv <- function(um_effect){
-  user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
-  um_effect_RMSE <- sqrt(user_movie_effects_MSE)
-  put_log2("Function: user_movie_effects_RMSE.cv:
-%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
-  um_effect_RMSE
-}
-calc_user_movie_effect_MSE.cv <- function(um_effect){
-  put_log("Function: user_movie_effects_MSE.cv:
-Computing the RMSE taking into account User+Movie Effects...")
-  start <- put_start_date()
-  user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
-    cv_fold_dat$validation_set |> calc_user_movie_effect_MSE(um_effect)
-  })
-  put_end_date(start)
-  
-  put_log1("Function: user_movie_effects_MSE.cv:
-MSE values have been plotted for the %1-Fold Cross Validation samples.", 
-           CVFolds_N)
-  
-  mean(user_movie_effects_MSEs)
-}
-regularize.user_movie_effect <- function(lambdas, 
-                                         is.cv = TRUE, 
-                                         break_if_min = TRUE){
-  n <- length(lambdas)
-  lambdas_tmp <- numeric()
-  rmses_tmp <- numeric()
-  rmse_min <- 10000
-  
-  put_log("Function: regularize.user_movie_effect
-lambdas:")
-  print(lambdas)
-  
-  for (i in 1:n) {
-    put_log1("Function: regularize.user_movie_effect
-Iteration %1", i)
-    lambda <- lambdas[i]
-    put_log1("Function: regularize.user_movie_effect
-lambda: %1", lambda)
-    lambdas_tmp[i] <- lambda
-    
-    put_log2("Function: regularize.user_movie_effect
-lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
-    put_log1("Function: regularize.user_movie_effect
-lambdas_tmp length: %1", length(lambdas_tmp))
-    print(lambdas_tmp)
-    
-    if(is.cv){
-      um_reg_effect <- train_user_movie_effect.cv(lambda)
-      rmse_tmp <- calc_user_movie_effect_RMSE.cv(um_reg_effect)
-    } else {
-      um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
-      rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
-    }
-    
-    put_log1("Function: regularize.user_movie_effect
-rmse_tmp: %1", rmse_tmp)
-    rmses_tmp[i] <- rmse_tmp
-    
-    put_log2("Function: regularize.user_movie_effect
-rmses_tmp[%1]: %2", i, rmses_tmp[i])
-    put_log1("Function: regularize.user_movie_effect
-rmses_tmp length: %1", length(rmses_tmp))
-    print(rmses_tmp)
-    
-    plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
-    
-    if(rmse_tmp > rmse_min && break_if_min){
-      break
-    } else if(rmse_tmp < rmse_min){
-      rmse_min <- rmse_tmp
-    }
-  }
-  
-  list(RMSEs = rmses_tmp,
-       lambdas = lambdas_tmp)
-}
-
+um_support_functions.file_path <- file.path(r_src_path, "support-functions.R")
+source(um_support_functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
 #### Model building: User+Movie Effect ----------------------------------------
 file_name_tmp <- "user-movie-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
@@ -1191,174 +1063,15 @@ log_close()
 
 # β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
 # where `n[j]` is the number of ratings made for movie `j`.
+ume_regularization.file_path <- file.path(r_src_path, 
+                                            "user-movie-effect-regularization.R")
 
-#### Open log -------------------------------------------------------------------
-open_logfile(".reg-um-effect.loop_0_10_d10")
-
-#### Process lamdas in loop starting from `lambdas = seq(0, 10, 10/10` -------
-loop_starter <- c(0,4,2)
-seq_start <- loop_starter[1]
-seq_end <- loop_starter[2]
-range_divider <- loop_starter[3] 
-
-best_RMSE <- Inf
-
-um_reg_lambdas_best_results <- c(best_lambda = 0, 
-                          best_RMSE = best_RMSE)
-repeat{ 
-  seq_increment <- (seq_end - seq_start)/range_divider 
-  
-  if (seq_increment < 0.0000000000001) {
-    warning("lambda increment is too small.")
-    
-    put_log2("Final best RMSE for `lambda = %1`: %2",
-             um_reg_lambdas_best_results["best_lambda"],
-             um_reg_lambdas_best_results["best_RMSE"])
-    
-    put(um_reg_lambdas_best_results)
-    # best_lambda   best_RMSE 
-    # -75.0000000   0.8578522    
-    break
-  }
-  
-  file_name_tmp <- "umgy_reg-loop_" |>
-    str_c(as.character(loop_starter[1])) |>
-    str_c("_") |>
-    str_c(as.character(loop_starter[3])) |>
-    str_c("_") |>
-    str_c(as.character(range_divider)) |>
-    str_c(".") |>
-    str_c(as.character(seq_start)) |>
-    str_c("-") |>
-    str_c(as.character(seq_end)) |>
-    str_c(".RData")
-  
-  file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
-  
-  put_log1("File path generated: %1", file_path_tmp)
-  
-  if (file.exists(file_path_tmp)) {
-    put_log1("Loading tuning data from file: %1...", file_path_tmp)
-    start <- put_start_date()
-    load(file_path_tmp)
-    put_end_date(start)
-    put_log1("Tuning data has been loaded from file: %1", file_path_tmp)
-    lambdas <- um_reg_lambdas
-    lambda_RMSEs <- um_reg_RMSEs
-  } else {
-    lambdas <- seq(seq_start, seq_end, seq_increment)
-    reg_result <- regularize.user_movie_effect(lambdas)
-
-    um_reg_RMSEs <- reg_result$RMSEs
-    um_reg_lambdas <- reg_result$lambdas
-    
-    # save(um_reg_lambdas,
-    #      um_reg_RMSEs,
-    #      file = file_path_tmp)
-    
-    put_log1("File saved: %1", file_path_tmp)
-  }
-  
-  plot(um_reg_lambdas, um_reg_RMSEs)
-  
-  lambda_RMSEs <- um_reg_RMSEs
-  lambdas <- um_reg_lambdas
-  min_RMSE <- min(lambda_RMSEs)
-  
-  if (best_RMSE <= min_RMSE) {
-    warning("Currently computed minimal RMSE not greater than the previously reached best one: ",
-            best_RMSE)
-    
-    put_log2("Current minimal RMSE for `lambda = %1`: %2",
-             min_RMSE,
-             lambdas[which.min(lambda_RMSEs)])
-    
-    put_log2("So far reached best RMSE for `lambda = %1`: %2",
-             um_reg_lambdas_best_results["best_lambda"],
-             um_reg_lambdas_best_results["best_RMSE"])
-
-    put(um_reg_lambdas_best_results)
-    range_divider*2
-    next
-  }
-  
-  best_RMSE <- min_RMSE
-
-  um_reg_lambdas_best_results <- 
-    get_reg_best_params(lambdas, 
-                        lambda_RMSEs)
- 
-  put_log2("Currently reached best RMSE for `lambda = %1`: %2",
-           um_reg_lambdas_best_results["best_lambda"],
-           um_reg_lambdas_best_results["best_RMSE"])
-
-  put(um_reg_lambdas_best_results)
-  
-  rmses_min_ind <- which.min(lambda_RMSEs)
-  seq_start_ind <- rmses_min_ind - 1
-  
-  if (seq_start_ind < 1) {
-    seq_start_ind <- 1
-    warning("`lambdas` index too small, so it assigned a value ",
-            seq_start_ind)
-  }
-  
-  seq_end_ind <- rmses_min_ind + 1
-  
-  if (length(lambdas) < seq_end_ind) {
-    warning("`seq_end_ind` index too large and will be set to `rmses_min_ind`.")
-    seq_end_ind <- rmses_min_ind
-    put_log1("Index exeeded the length of `lambdas`, 
-            so it is set to maximum possible value of %1",
-            seq_end_ind)
-  }
-  
-  if (seq_end_ind - seq_start_ind == 0) {
-    warning("`lambdas` sequential start and end indexes are the same.")
-    put_log1("Current minimal RMSE: %1", rmse_min)
-    put_log2("Reached minimal RMSE for lambda = %1: %2",
-             um_reg_lambdas_best_results["best_lambda"],
-             um_reg_lambdas_best_results["best_RMSE"])
-    
-    put(um_reg_lambdas_best_results)
-    break
-  }
-  
-  seq_start <- lambdas[seq_start_ind]
-  seq_end <- lambdas[seq_end_ind]
-}
-
-# stop("Procedure Completed")
-
-# best_lambda   best_RMSE 
-# -75.0000000   0.8578522 
-
-#### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
-best_user_movie_reg_lambda <- um_reg_lambdas_best_results["best_lambda"]
-best_user_movie_reg_lambda
-
-best_user_movie_reg_RMSE <- um_reg_lambdas_best_results["best_RMSE"]
-print(best_user_movie_reg_RMSE)
-
-put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
-         best_user_movie_reg_lambda)
-
-best_lambda_user_movie_effect <- train_user_movie_effect.cv(best_user_movie_reg_lambda)
-best_lambda_user_movie_effect_RMSE <- calc_user_movie_effect_RMSE.cv(best_lambda_user_movie_effect)
-
-put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
-         best_user_movie_reg_lambda)
-put_log1("The best RMSE after being regularized: %1",
-         best_lambda_user_movie_effect_RMSE)
-
-#### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
-RMSEs <- rmses_add_row("Regularized User+Movie Effect Model", 
-                       best_lambda_user_movie_effect_RMSE)
-rmse_kable()
-
-
-#### Close Log -----------------------------------------------------------------
-log_close()
+source(ume_regularization.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
 
 ### Accounting for Movie Genres ------------------------------------------------
 #> We can slightly improve our naive model by accounting for movie genres.
