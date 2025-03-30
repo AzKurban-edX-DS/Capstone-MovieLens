@@ -78,7 +78,7 @@ File NOT saved (disabled for debug purposes): %1", file_path_tmp)
   }
   
   plot(um_reg_lambdas, um_reg_RMSEs)
-  browser()
+  # browser()
   
   lambda_RMSEs <- um_reg_RMSEs
   lambdas <- um_reg_lambdas
@@ -100,7 +100,7 @@ So far reached best RMSE for `lambda = %1`: %2",
     
     put(um_reg_lambdas_best_results)
     range_divider <- range_divider*2
-    browser()
+    # browser()
     next
   }
   
@@ -130,9 +130,9 @@ Currently reached best RMSE for `lambda = %1`: %2",
   if (seq_start_ind_tmp <= seq_start_ind) {
     range_divider <- range_divider*2
     # browser()
-  } else {
-    seq_start_ind <- seq_start_ind_tmp
   }
+  
+  seq_start_ind <- seq_start_ind_tmp
   seq_end_ind <- rmses_min_ind + 1
   
   if (length(lambdas) < seq_end_ind) {
@@ -141,11 +141,11 @@ Currently reached best RMSE for `lambda = %1`: %2",
     put_log1("Main loop:
 Index exeeded the length of `lambdas`, so it is set to maximum possible value of %1",
              seq_end_ind)
-    browser()
+    # browser()
   }
   
-  if (seq_end_ind - seq_start_ind == 0) {
-    warning("`lambdas` sequential start and end indexes are the same.")
+  if (seq_end_ind - seq_start_ind <= 0) {
+    warning("`lambdas` sequential start index are the same or greater than end one.")
     put_log1("Main loop:
 Current minimal RMSE: %1", rmse_min)
     
