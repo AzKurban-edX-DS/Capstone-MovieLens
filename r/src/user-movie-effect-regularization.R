@@ -3,7 +3,7 @@
 open_logfile(".reg-um-effect.loop_0_10_d10")
 
 ## Process lamdas in loop starting from `lambdas = seq(0, 10, 10/10` -------
-loop_starter <- c(0,4,2)
+loop_starter <- c(0, 4, 2)
 seq_start <- loop_starter[1]
 seq_end <- loop_starter[2]
 range_divider <- loop_starter[3] 
@@ -59,9 +59,10 @@ Tuning data has been loaded from file: %1", file_path_tmp)
     
     lambdas <- um_reg_lambdas
     lambda_RMSEs <- um_reg_RMSEs
+    browser()
   } else {
     lambdas <- seq(seq_start, seq_end, seq_increment)
-    reg_result <- regularize.user_movie_effect(lambdas)
+    reg_result <- regularize.user_movie_effect(lambdas, is.cv = TRUE)
     
     um_reg_RMSEs <- reg_result$RMSEs
     um_reg_lambdas <- reg_result$lambdas
@@ -98,7 +99,8 @@ So far reached best RMSE for `lambda = %1`: %2",
              um_reg_lambdas_best_results["best_RMSE"])
     
     put(um_reg_lambdas_best_results)
-    range_divider*2
+    range_divider <- range_divider*2
+    browser()
     next
   }
   
@@ -116,14 +118,21 @@ Currently reached best RMSE for `lambda = %1`: %2",
   put(um_reg_lambdas_best_results)
   
   rmses_min_ind <- which.min(lambda_RMSEs)
-  seq_start_ind <- rmses_min_ind - 1
+  seq_start_ind_tmp <- rmses_min_ind - 1
   
-  if (seq_start_ind < 1) {
-    seq_start_ind <- 1
+  if (seq_start_ind_tmp < 1) {
+    seq_start_ind_tmp <- 1
     warning("`lambdas` index too small, so it assigned a value ",
             seq_start_ind)
+    # browser()
   }
   
+  if (seq_start_ind_tmp <= seq_start_ind) {
+    range_divider <- range_divider*2
+    # browser()
+  } else {
+    seq_start_ind <- seq_start_ind_tmp
+  }
   seq_end_ind <- rmses_min_ind + 1
   
   if (length(lambdas) < seq_end_ind) {
@@ -132,6 +141,7 @@ Currently reached best RMSE for `lambda = %1`: %2",
     put_log1("Main loop:
 Index exeeded the length of `lambdas`, so it is set to maximum possible value of %1",
              seq_end_ind)
+    browser()
   }
   
   if (seq_end_ind - seq_start_ind == 0) {
@@ -145,6 +155,7 @@ Reached minimal RMSE for lambda = %1: %2",
              um_reg_lambdas_best_results["best_RMSE"])
     
     put(um_reg_lambdas_best_results)
+    browser()
     break
   }
   
@@ -152,11 +163,11 @@ Reached minimal RMSE for lambda = %1: %2",
   seq_end <- lambdas[seq_end_ind]
 }
 
+browser()
 # stop("Procedure Completed")
 
 # best_lambda   best_RMSE 
 # -75.0000000   0.8578522 
-
 ## Re-train Regularized User+Movie Effect Model for the best `lambda` --------
 best_user_movie_reg_lambda <- um_reg_lambdas_best_results["best_lambda"]
 best_user_movie_reg_lambda

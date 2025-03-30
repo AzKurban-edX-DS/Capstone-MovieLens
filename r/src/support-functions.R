@@ -110,9 +110,11 @@ lambdas_tmp length: %1", length(lambdas_tmp))
     if(is.cv){
       um_reg_effect <- train_user_movie_effect.cv(lambda)
       rmse_tmp <- calc_user_movie_effect_RMSE.cv(um_reg_effect)
+      # browser()
     } else {
       um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
       rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
+      # browser()
     }
     
     put_log1("Function: regularize.user_movie_effect
@@ -128,10 +130,15 @@ rmses_tmp length: %1", length(rmses_tmp))
     plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
     
     if(rmse_tmp > rmse_min && break_if_min){
+      # next
+      # browser()
       break
     } else if(rmse_tmp < rmse_min){
       rmse_min <- rmse_tmp
+      # next
+      # browser()
     }
+    # browser()
   }
   
   put_log1("Function: regularize.user_movie_effect
