@@ -129,15 +129,13 @@ rmses_tmp length: %1", length(rmses_tmp))
     
     plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
     
-    if(rmse_tmp > rmse_min && break_if_min){
+    if(rmse_tmp >= rmse_min && break_if_min){
       # next
       # browser()
       break
-    } else if(rmse_tmp < rmse_min){
-      rmse_min <- rmse_tmp
-      # next
-      # browser()
     }
+    
+    rmse_min <- rmse_tmp
     # browser()
   }
   

@@ -208,10 +208,8 @@ r_src_path <- file.path(r_path, src_path)
 
 data_path <- "data"
 models_path <- "models"
-regularization_path <- "regularization"
-
 models_data_path <- file.path(data_path, models_path)
-regularization_data_path <- file.path(data_path, regularization_path)
+regularization_path <- "regularization"
 
 CVFolds_N <- 5
 kfold_index <- seq(from = 1:CVFolds_N)

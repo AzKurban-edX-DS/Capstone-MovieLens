@@ -1,45 +1,56 @@
 # User+Movie Effect Regularization
+## Global Variables -------------------------------------------------------------
+regularization_data_path <- file.path(data_path, 
+                                      regularization_path, 
+                                      "user-movie-effect")
+
 ## Open log -------------------------------------------------------------------
 open_logfile(".reg-um-effect.loop_0_10_d10")
 
-## Process lamdas in loop starting from `lambdas = seq(0, 10, 10/10` -------
+## Process lamdas in loop starting from `ume_reg_lambdas = seq(0, 10, 10/10` -------
 loop_starter <- c(0, 4, 2)
-seq_start <- loop_starter[1]
-seq_end <- loop_starter[2]
-range_divider <- loop_starter[3] 
+ume_seq_start <- loop_starter[1]
+ume_seq_end <- loop_starter[2]
+ume_range_divider <- loop_starter[3] 
+ume_max_range_divider <- 128
 
-best_RMSE <- Inf
+ume_best_RMSE <- Inf
+ume_best_lambda <- 0
 
-um_reg_lambdas_best_results <- c(best_lambda = 0, 
-                                 best_RMSE = best_RMSE)
-repeat{ 
-  seq_increment <- (seq_end - seq_start)/range_divider 
+ume_reg_lambdas_best_results <- c(best_lambda = ume_best_lambda, 
+                                 best_RMSE = ume_best_RMSE)
+
+repeat{
+  ume_seq_increment <- (ume_seq_end - ume_seq_start)/ume_range_divider 
   
-  if (seq_increment < 0.0000000000001) {
+  if (ume_seq_increment < 0.0000000000001) {
     warning("Main loop:
 lambda increment is too small.")
     
     put_log2("Main loop:
 Final best RMSE for `lambda = %1`: %2",
-             um_reg_lambdas_best_results["best_lambda"],
-             um_reg_lambdas_best_results["best_RMSE"])
+             ume_reg_lambdas_best_results["best_lambda"],
+             ume_reg_lambdas_best_results["best_RMSE"])
     
-    put(um_reg_lambdas_best_results)
+    put(ume_reg_lambdas_best_results)
     # best_lambda   best_RMSE 
-    # -75.0000000   0.8578522    
+    # -75.0000000   0.8578522  
+    browser()
     break
   }
   
+  test_lambdas <- seq(ume_seq_start, ume_seq_end, ume_seq_increment)
+
   file_name_tmp <- "umgy_reg-loop_" |>
     str_c(as.character(loop_starter[1])) |>
     str_c("_") |>
     str_c(as.character(loop_starter[3])) |>
     str_c("_") |>
-    str_c(as.character(range_divider)) |>
+    str_c(as.character(ume_range_divider)) |>
     str_c(".") |>
-    str_c(as.character(seq_start)) |>
+    str_c(as.character(ume_seq_start)) |>
     str_c("-") |>
-    str_c(as.character(seq_end)) |>
+    str_c(as.character(ume_seq_end)) |>
     str_c(".RData")
   
   file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
@@ -57,110 +68,118 @@ Loading tuning data from file: %1...", file_path_tmp)
     put_log1("Main loop:
 Tuning data has been loaded from file: %1", file_path_tmp)
     
-    lambdas <- um_reg_lambdas
-    lambda_RMSEs <- um_reg_RMSEs
-    browser()
+    if(length(file_path_tmp) > 0) {
+      # browser()
+    }
   } else {
-    lambdas <- seq(seq_start, seq_end, seq_increment)
-    reg_result <- regularize.user_movie_effect(lambdas, is.cv = TRUE)
+    reg_result <- regularize.user_movie_effect(test_lambdas, 
+                                               is.cv = TRUE,
+                                               break_if_min = TRUE)
+    ume_reg_RMSEs <- reg_result$RMSEs
+    ume_reg_lambdas <- reg_result$lambdas
     
-    um_reg_RMSEs <- reg_result$RMSEs
-    um_reg_lambdas <- reg_result$lambdas
-    
-    put_log1("Main loop:
-File NOT saved (disabled for debug purposes): %1", file_path_tmp)
-    #     save(um_reg_lambdas,
-    #          um_reg_RMSEs,
-    #          file = file_path_tmp)
-    # 
-    #     put_log1("Main loop:
-    # File saved: %1", file_path_tmp)
+#     put_log1("Main loop:
+# File NOT saved (disabled for debug purposes): %1", file_path_tmp)
+        save(ume_reg_lambdas,
+             ume_reg_RMSEs,
+             ume_best_lambda,
+             ume_best_RMSE,
+             ume_seq_increment,
+             ume_range_divider,
+             ume_max_range_divider,
+             file = file_path_tmp)
+
+        put_log1("Main loop:
+File saved: %1", file_path_tmp)
   }
   
-  plot(um_reg_lambdas, um_reg_RMSEs)
+  plot(ume_reg_lambdas, ume_reg_RMSEs)
   # browser()
   
-  lambda_RMSEs <- um_reg_RMSEs
-  lambdas <- um_reg_lambdas
-  min_RMSE <- min(lambda_RMSEs)
+  min_RMSE <- min(ume_reg_RMSEs)
+  RMSEs_min_ind <- which.min(ume_reg_RMSEs)
   
-  if (best_RMSE <= min_RMSE) {
+  
+  if (ume_best_RMSE <= min_RMSE) {
     warning("Currently computed minimal RMSE not greater than the previously reached best one: ",
-            best_RMSE)
+            ume_best_RMSE)
     
     put_log2("Main loop:
 Current minimal RMSE for `lambda = %1`: %2",
              min_RMSE,
-             lambdas[which.min(lambda_RMSEs)])
+             ume_reg_lambdas[which.min(ume_reg_RMSEs)])
     
     put_log2("Main loop:
 So far reached best RMSE for `lambda = %1`: %2",
-             um_reg_lambdas_best_results["best_lambda"],
-             um_reg_lambdas_best_results["best_RMSE"])
+             ume_reg_lambdas_best_results["best_lambda"],
+             ume_reg_lambdas_best_results["best_RMSE"])
     
-    put(um_reg_lambdas_best_results)
-    range_divider <- range_divider*2
-    # browser()
-    next
+    put(ume_reg_lambdas_best_results)
+    
+    if (ume_range_divider < ume_max_range_divider) {
+      ume_range_divider <- ume_range_divider*2
+      # browser()
+    } else {
+      warning("`ume_range_divider` reached its maximum allowed value: ",
+              ume_max_range_divider)
+      put_log1("The actual value of the `ume_range_divider` is %1",
+               ume_range_divider)
+      browser()
+      break
+    }
+  } else {
+    ume_best_RMSE <- min_RMSE
+    ume_best_lambda <- ume_reg_lambdas[RMSEs_min_ind]
   }
-  
-  best_RMSE <- min_RMSE
-  
-  um_reg_lambdas_best_results <- 
-    get_reg_best_params(lambdas, 
-                        lambda_RMSEs)
+
+  ume_reg_lambdas_best_results <- 
+    get_reg_best_params(ume_reg_lambdas, 
+                        ume_reg_RMSEs)
   
   put_log2("Main loop:
 Currently reached best RMSE for `lambda = %1`: %2",
-           um_reg_lambdas_best_results["best_lambda"],
-           um_reg_lambdas_best_results["best_RMSE"])
+           ume_reg_lambdas_best_results["best_lambda"],
+           ume_reg_lambdas_best_results["best_RMSE"])
   
-  put(um_reg_lambdas_best_results)
+  put(ume_reg_lambdas_best_results)
   
-  rmses_min_ind <- which.min(lambda_RMSEs)
-  seq_start_ind_tmp <- rmses_min_ind - 1
+  ume_seq_start_ind <- RMSEs_min_ind - 1
   
-  if (seq_start_ind_tmp < 1) {
-    seq_start_ind_tmp <- 1
-    warning("`lambdas` index too small, so it assigned a value ",
-            seq_start_ind)
+  if (ume_seq_start_ind < 1) {
+    ume_seq_start_ind <- 1
+    warning("`ume_reg_lambdas` index too small, so it assigned a value ",
+            ume_seq_start_ind)
     # browser()
   }
   
-  if (seq_start_ind_tmp <= seq_start_ind) {
-    range_divider <- range_divider*2
-    # browser()
-  }
+  ume_seq_end_ind <- RMSEs_min_ind + 1
   
-  seq_start_ind <- seq_start_ind_tmp
-  seq_end_ind <- rmses_min_ind + 1
-  
-  if (length(lambdas) < seq_end_ind) {
-    warning("`seq_end_ind` index too large and will be set to `rmses_min_ind`.")
-    seq_end_ind <- rmses_min_ind
+  if (length(ume_reg_lambdas) < ume_seq_end_ind) {
+    warning("`ume_seq_end_ind` index too large and will be set to `RMSEs_min_ind`.")
+    ume_seq_end_ind <- RMSEs_min_ind
     put_log1("Main loop:
-Index exeeded the length of `lambdas`, so it is set to maximum possible value of %1",
-             seq_end_ind)
+Index exeeded the length of `ume_reg_lambdas`, so it is set to maximum possible value of %1",
+             ume_seq_end_ind)
     # browser()
   }
   
-  if (seq_end_ind - seq_start_ind <= 0) {
-    warning("`lambdas` sequential start index are the same or greater than end one.")
+  if (ume_seq_end_ind - ume_seq_start_ind <= 0) {
+    warning("`ume_reg_lambdas` sequential start index are the same or greater than end one.")
     put_log1("Main loop:
 Current minimal RMSE: %1", rmse_min)
     
     put_log2("Main loop:
 Reached minimal RMSE for lambda = %1: %2",
-             um_reg_lambdas_best_results["best_lambda"],
-             um_reg_lambdas_best_results["best_RMSE"])
+             ume_reg_lambdas_best_results["best_lambda"],
+             ume_reg_lambdas_best_results["best_RMSE"])
     
-    put(um_reg_lambdas_best_results)
+    put(ume_reg_lambdas_best_results)
     browser()
     break
   }
   
-  seq_start <- lambdas[seq_start_ind]
-  seq_end <- lambdas[seq_end_ind]
+  ume_seq_start <- ume_reg_lambdas[ume_seq_start_ind]
+  ume_seq_end <- ume_reg_lambdas[ume_seq_end_ind]
 }
 
 browser()
@@ -169,10 +188,10 @@ browser()
 # best_lambda   best_RMSE 
 # -75.0000000   0.8578522 
 ## Re-train Regularized User+Movie Effect Model for the best `lambda` --------
-best_user_movie_reg_lambda <- um_reg_lambdas_best_results["best_lambda"]
+best_user_movie_reg_lambda <- ume_reg_lambdas_best_results["best_lambda"]
 best_user_movie_reg_lambda
 
-best_user_movie_reg_RMSE <- um_reg_lambdas_best_results["best_RMSE"]
+best_user_movie_reg_RMSE <- ume_reg_lambdas_best_results["best_RMSE"]
 print(best_user_movie_reg_RMSE)
 
 put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
