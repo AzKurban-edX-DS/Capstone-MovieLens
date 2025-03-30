@@ -35,7 +35,7 @@ Final best RMSE for `lambda = %1`: %2",
     put(ume_reg_lambdas_best_results)
     # best_lambda   best_RMSE 
     # -75.0000000   0.8578522  
-    browser()
+    # browser()
     break
   }
   
@@ -124,7 +124,7 @@ So far reached best RMSE for `lambda = %1`: %2",
               ume_max_range_divider)
       put_log1("The actual value of the `ume_range_divider` is %1",
                ume_range_divider)
-      browser()
+      # browser()
       break
     }
   } else {
@@ -174,7 +174,7 @@ Reached minimal RMSE for lambda = %1: %2",
              ume_reg_lambdas_best_results["best_RMSE"])
     
     put(ume_reg_lambdas_best_results)
-    browser()
+    # browser()
     break
   }
   
@@ -182,7 +182,7 @@ Reached minimal RMSE for lambda = %1: %2",
   ume_seq_end <- ume_reg_lambdas[ume_seq_end_ind]
 }
 
-browser()
+# browser()
 # stop("Procedure Completed")
 
 # best_lambda   best_RMSE 
