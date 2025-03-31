@@ -79,19 +79,6 @@ conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
 conflict_prefer("kable", "kableExtra", quiet = TRUE)
 conflict_prefer("year", "lubridate", quiet = TRUE)
 
-## Open log Function -----------------------------------------------------------
-open_logfile <- function(file_name){
-  log_file_name <- as.character(Sys.time()) |> 
-    str_replace_all(':', '_') |> 
-    str_replace(' ', 'T') |>
-    str_c(file_name)
-  
-  log_open(file_name = log_file_name)
-}
-
-## Open log -----------------------------------------------------------
-open_logfile(".init-project-data")
-
 ## Init Project Global Variables ----------------------------------------------
 put("Set Project Objective according to Capstone course requirements")
 project_objective <- 0.86490
@@ -101,204 +88,37 @@ put("Set minimum number of ratings to ignore")
 min_nratings <- as.integer(100)
 put(min_nratings)
 
-## Defining helper functions --------------------------------------------------
+CVFolds_N <- 5
+kfold_index <- seq(from = 1:CVFolds_N)
 
-#> Let's define some helper functions that we will use in our subsequent analysis:
-print_start_date <- function(){
-  print(date())
-  Sys.time()
-}
-put_start_date <- function(){
-  put(date())
-  Sys.time()
-}
-print_end_date <- function(start){
-  print(date())
-  print(Sys.time() - start)
-}
-put_end_date <- function(start){
-  put(date())
-  put(Sys.time() - start)
-}
+#RMSEs.ResultTibble <- NULL
 
-print_log <- function(msg){
-  print(str_glue(msg))
-}
-put_log <- function(msg){
-  put(str_glue(msg))
-}
-put_log1 <- function(msg_template, arg1){
-  msg <- str_replace_all(msg_template, "%1", as.character(arg1))
-  put(str_glue(msg))
-}
-put_log2 <- function(msg_template, arg1, arg2){
-  msg <- msg_template |> 
-    str_replace_all("%1", as.character(arg1)) |>
-    str_replace_all("%2", as.character(arg2))
-  put(str_glue(msg))
-}
-
-put_log3 <- function(msg_template, arg1, arg2, arg3){
-  msg <- msg_template |> 
-    str_replace_all("%1", as.character(arg1)) |>
-    str_replace_all("%2", as.character(arg2)) |>
-    str_replace_all("%3", as.character(arg2))
-  put(str_glue(msg))
-}
-
-put_log3 <- function(msg_template, arg1, arg2, arg3, arg4){
-  msg <- msg_template |> 
-    str_replace_all("%1", as.character(arg1)) |>
-    str_replace_all("%2", as.character(arg2)) |>
-    str_replace_all("%3", as.character(arg2)) |>
-    str_replace_all("%4", as.character(arg2))
-  put(str_glue(msg))
-}
-
-make_ordinal_no <- function(n){
-  if(n == 1){
-    "1st"
-  } else if(n == 2) {
-    "2nd"
-  } else if(n == 3) {
-    "3rd"
-  } else {
-    str_glue("{n}th")
-  }
-}
-
-mse <- function(r) mean(r^2)
-mse_cv <- function(r_list) {
-  mses <- sapply(r_list, mse(r))
-  mean(mses)
-}
-
-rmse <- function(r) sqrt(mse(r))
-# rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
-rmse2 <- function(true_ratings, predicted_ratings) {
-  rmse(true_ratings - predicted_ratings)
-}
-
-#final_rmse <- function(r) sqrt(mean(r^2))
-
-RMSEs <- NULL
-RMSEs
-
-rmses_add_row <- function(method, value){
-  RMSEs |>
-    add_row(Method = method,
-            RMSE = value)
-}
-
-rmse_kable <- function(){
-  RMSEs |>
-    kable(align='lrr', booktabs = T, padding = 5) |> 
-    row_spec(0, bold = T) |>
-    column_spec(column = 1, width = "25em")
-}
-
-# Because we know ratings can’t be below 0.5 or above 5, 
-# we define the function clamp:
-clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
-
-### Data processing functions & global variables -------------------------------
-r_path <- "r"
-src_path <- "src"
-r_src_path <- file.path(r_path, src_path)
+### File Paths -----------------------------------------------------------------
+r_folder <- "r"
+src_folder <- "src"
+functions_folder <- support-functions
+r_src_path <- file.path(r_folder, src_folder)
+functions_path <- file.path(r_src_path, functions_folder)
 
 data_path <- "data"
 models_path <- "models"
 models_data_path <- file.path(data_path, models_path)
 regularization_path <- "regularization"
 
-CVFolds_N <- 5
-kfold_index <- seq(from = 1:CVFolds_N)
 
-load_movielens_data_from_file <- function(file_path){
-  put(sprintf("Loading MovieLens datasets from file: %s...", 
-                file_path))
-  start <- put_start_date()
-  load(file_path)
-  put_end_date(start)
-  put(sprintf("MoviLens datasets have been loaded from file: %s.", 
-                file_path))
-  movielens_datasets
-}
-filter_noMore_nratings <- function(data, nratings){
-  data |> 
-    group_by(userId) |>
-    filter(n() > nratings) |>
-    ungroup()  
-}
-splitByUser <- function(data){
-  split(1:nrow(data), data$userId)
-}
-mutateDateTimeAndDays <- function(data){
-  data |>
-    mutate(date_time = as_datetime(timestamp)) |>
-    mutate(date = as_date(date_time)) |>
-    mutate(days = as.integer(date - min(date)))
-  
-}
-separateGenreRows <- function(data){
-  put("Splitting dataset rows related to multiple genres...")
-  start <- put_start_date()
-  gs_splitted <- data |>
-    separate_rows(genres, sep = "\\|")
-  put("Dataset rows related to multiple genres have been splitted to have single genre per row.")
-  put_end_date(start)
-  gs_splitted
-}
-union_cv_results <- function(data_list) {
-  out_dat <- data_list[[1]]
+## Defining helper functions --------------------------------------------------
+um_support_functions.file_path <- file.path(functions_path, 
+                                            "common-helper.functions.R")
+source(um_support_functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
 
-  for (i in 2:CVFolds_N){
-    out_dat <- union(out_dat, 
-                           data_list[[i]])
-  }
-  
-  out_dat
-}
-sample_train_validation_sets <- function(seed){
-  put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `edx` data...")
-  set.seed(seed)
-  validation_ind <- 
-    sapply(splitByUser(edx),
-           function(i) sample(i, ceiling(length(i)*.2))) |> 
-    unlist() |> 
-    sort()
-  
-  put_log("Function: `sample_train_validation_sets`: 
-For training our models, we will ignore the data from users 
-who have provided no more than the specified number of ratings. ({min_nratings})")
-  
-  put_log("Function: `sample_train_validation_sets`: 
-Extracting 80% of the `edx` data not used for the Validation Set, 
-excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
-  train_set <- edx[-validation_ind,] |>
-    filter_noMore_nratings(min_nratings)
-  
-  put_log("Function: `sample_train_validation_sets`: Dataset created: train_set")
-  put(summary(train_set))
-  
-  put_log("Function: `sample_train_validation_sets`: 
-To make sure we don’t include movies in the Training Set that should not be there, 
-we remove entries using the semi_join function from the Validation Set.")
-  validation_set <- edx[validation_ind,] |> 
-    semi_join(train_set, by = "movieId") |> 
-    as.data.frame()
-  
-  put_log("Function: `sample_train_validation_sets`: Dataset created: validation_set")
-  put(summary(validation_set))
-  
-  list(train_set = train_set, 
-       validation_set = validation_set)
-}
-get_reg_best_params <- function(lambdas, rmses){
-  best_lambda_idx <- which.min(rmses)
-  c(best_lambda = lambdas[best_lambda_idx], 
-    best_RMSE = rmses[best_lambda_idx])
-}
+
+## Open log -----------------------------------------------------------
+open_logfile(".init-project-data")
 
 ## Datasets ===================================================================
 
@@ -693,10 +513,9 @@ open_logfile(".overall-mean-rating")
 ### Create an RMSE Result Table and add a first row for the Project Objective ----
 
 # Add the RMSE value of the Naive Model to a tibble.
-RMSEs <- tibble(Method = c("Project Objective"),
-                RMSE = project_objective)
-rmse_kable()
-put("RMSE Results Table created.")
+RMSEs.ResultTibble <- CreateRMSEs_ResultTibble()
+RMSE_kable(RMSEs.ResultTibble)
+put("RMSE Results Tibble created.")
 ##### Support Functions --------------------------------------------------------
 naive_model_MSEs <- function(val) {
   sapply(edx_CV, function(cv_item){
@@ -804,10 +623,12 @@ put_log1("Is the previously computed RMSE the best for the current model: %1",
 #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
 writeLines("")
 
-#### Add a row to the RMSE Result Table for the Overall Mean Rating Model ------ 
-RMSEs <- rmses_add_row("Overall Mean Rating Model", naive_rmse)
-rmse_kable()
-put_log("A row has been added to the RMSE Result Table for the `Overall Mean Rating Model`.")
+#### Add a row to the RMSE Result Tibble for the Overall Mean Rating Model ------ 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Overall Mean Rating Model", naive_rmse)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble for the `Overall Mean Rating Model`.")
 #### Close Log ---------------------------------------------------------------
 log_close()
 
@@ -965,9 +786,13 @@ put_log2("%1-Fold Cross Validation ultimate RMSE: %2",
 user_effect_rmse
 #> [1] 0.9716054
 
-# Add a row to the RMSE Result Table for the User Effect Model ---------------- 
-RMSEs <- rmses_add_row("User Effect Model", user_effect_rmse)
-rmse_kable()
+# Add a row to the RMSE Result Tibble for the User Effect Model ---------------- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("User Effect Model", user_effect_rmse)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble for the `User Effect Model`.")
+
 #### Close Log -----------------------------------------------------------------
 log_close()
 ### Taking into account User+Movie Effects -------------------------------------
@@ -990,7 +815,8 @@ log_close()
 open_logfile(".user+movie-effect")
 
 #### Support Functions ---------------------------------------------------------
-um_support_functions.file_path <- file.path(r_src_path, "support-functions.R")
+um_support_functions.file_path <- file.path(functions_path, 
+                                            "user+movie-effect.functions.R")
 source(um_support_functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
@@ -1036,14 +862,16 @@ hist(user_movie_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
-#### Calculate RMSEs on Validation Sets ----------------------------------------
+#### Calculate RMSEs.ResultTibble on Validation Sets ----------------------------------------
 user_movie_effect_RMSE <- calc_user_movie_effect_RMSE.cv(user_movie_effect)
 #> [1] 0.8594763
 
-#### Add a row to the RMSE Result Table for the User+Movie Effect Model --------
-RMSEs <- rmses_add_row("User+Movie Effect Model", 
-                       user_movie_effect_RMSE)
-rmse_kable()
+#### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("User+Movie Effect Model", user_movie_effect_RMSE)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble for the `User+Movie Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
 log_close()
@@ -1329,7 +1157,7 @@ CVFolds_N)
   user_movie_genre_effect
 }
 calc_user_movie_genre_effect_RMSE <- function(umg_effect){
-  put_log("Computing RMSEs on Validation Sets...")
+  put_log("Computing RMSEs.ResultTibble on Validation Sets...")
   start <- put_start_date()
   user_movie_genre_effects_MSEs <- sapply(edx_CV, function(cv_dat){
     cv_dat$validation_set |>
@@ -1409,10 +1237,12 @@ user_movie_genre_effect_RMSE <- calc_user_movie_genre_effect_RMSE(user_movie_gen
 user_movie_genre_effect_RMSE
 #> [1] 0.859473
 
-#### Add a row to the RMSE Result Table for the User+Movie+Genre Effect Model ---- 
-RMSEs <- rmses_add_row("User+Movie+Genre Effect Model", 
-                       user_movie_genre_effect_RMSE)
-rmse_kable()
+#### Add a row to the RMSE Result Tibble for the User+Movie+Genre Effect Model ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("User+Movie+Genre Effect Model", user_movie_genre_effect_RMSE)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre Effect Model`.")
 
 ### Regularizing User+Movie+Genre Effects --------------------------------------------
 # lambdas <- seq(0, 10, 0.1)
@@ -1570,12 +1400,13 @@ put_log1("Regularized User+Movie Effect Model has been re-trained for the best `
 put_log1("Is this a best RMSE? %1",
          best_user_movie_genre_reg_RMSE == user_movie_genre_effect_best_lambda_RMSE)
 
-#### Add a row to the RMSE Result Table for the Regularized User+Movie+Genre Effect Model --------
-RMSEs <- rmses_add_row("Regularized User+Movie+Genre Effect Model", 
-                       best_user_movie_genre_reg_RMSE)
-rmse_kable()
+#### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model --------
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
+               best_user_movie_genre_reg_RMSE)
 
-
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble for the `Regularized User+Movie+Genre Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
 log_close()
@@ -1844,10 +1675,13 @@ if (file.exists(file_path_tmp)) {
 date_year_effect_RMSE <- calc_date_year_effect_RMSE.cv(date_year_effect)
 date_year_effect_RMSE
 #> [1] 0.8590795
-##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date (Year) Effects Model ---- 
-RMSEs <- rmses_add_row("User+Movie+Genre+Year Effects Model", 
-                       date_year_effect_RMSE)
-rmse_kable()
+##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date (Year) Effect Model ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("User+Movie+Genre+Year Effect Model", 
+               date_year_effect_RMSE)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre+Year Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
 log_close()
@@ -2985,10 +2819,15 @@ umgy_effect_best_lambda_RMSE
 put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
          best_umgy_effect_lambda)
 
-##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date (Year) Effects Model ---- 
-RMSEs <- rmses_add_row("Regularized User+Movie+Genre+Year Effects Model", 
-                       umgy_effect_best_lambda_RMSE)
-rmse_kable()
+##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date (Year) Effects Model ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Regularized User+Movie+Genre+Year Effect Model", 
+               umgy_effect_best_lambda_RMSE)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble 
+for the `Regularized User+Movie+Genre+Year Effect Model`.")
+
 ##### Compute Date Day Effects -------------------------------------------------
 file_name_tmp <- "umg-year-day-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
@@ -3093,7 +2932,7 @@ date_smoothed_tuned_RMSEs <- function(degree, spans) {
               degree, n_spans)
   model_diu_rmses <- tune_de_model_RMSEs(degree, spans)
   put_end_date(start)
-  put_log2("RMSEs computed for the Smothed Date Effect Model (Degree = %1, %2 spans)", 
+  put_log2("RMSEs.ResultTibble computed for the Smothed Date Effect Model (Degree = %1, %2 spans)", 
            degree, n_spans)
   data.frame(span = spans, rmse = model_diu_rmses)
 }
@@ -3239,7 +3078,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 } 
 
-put("Case 1. `degree = 0` RMSEs:")
+put("Case 1. `degree = 0` RMSEs.ResultTibble:")
 put(str(degree0_tuned_RMSEs))
 
 plot(degree0_spans, degree0_tuned_RMSEs)
@@ -3305,7 +3144,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("Data for `loess` function with parameter `degree = 1` has been saved to file: %1", 
            file_path_tmp)
 } 
-put("Case 2. `degree = 1` RMSEs:")
+put("Case 2. `degree = 1` RMSEs.ResultTibble:")
 put(str(degree1_tuned_RMSEs))
 
 plot(degree1_spans, degree1_tuned_RMSEs)
@@ -3372,7 +3211,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("Data for `loess` function with parameter `degree = 2` has been saved to file: %1", 
            file_path_tmp)
 } 
-put("Case 3. `degree = 2` RMSEs:")
+put("Case 3. `degree = 2` RMSEs.ResultTibble:")
 str(degree2_tuned_RMSEs)
 
 plot(degree2_spans, degree2_tuned_RMSEs)
@@ -3493,10 +3332,13 @@ span = %3.",
 print(user_movie_genre_tuned_date_effect_RMSE)
 #> [1] 0.8568612
 
-##### Add a row to the RMSE Result Table for the User+Movie+Genre+Date Effects Model ---- 
-RMSEs <- rmses_add_row("User+Movie+Genre+Date Effects Model (tuned)", 
-                       user_movie_genre_tuned_date_effect_RMSE)
-rmse_kable()
+##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("User+Movie+Genre+Date Effect Model (tuned)", 
+               user_movie_genre_tuned_date_effect_RMSE)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble for the tuned `User+Movie+Genre+Date Effect Model`.")
 
 # start <- put_start_date()
 # final_holdout_test |>
