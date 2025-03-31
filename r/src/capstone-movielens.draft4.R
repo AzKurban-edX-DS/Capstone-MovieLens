@@ -94,28 +94,32 @@ kfold_index <- seq(from = 1:CVFolds_N)
 #RMSEs.ResultTibble <- NULL
 
 ### File Paths -----------------------------------------------------------------
-r_folder <- "r"
+r_path <- "r"
+
 src_folder <- "src"
-functions_folder <- support-functions
-r_src_path <- file.path(r_folder, src_folder)
+functions_folder <- "support-functions"
+regularization_folder <- "regularization"
+
+r_src_path <- file.path(r_path, src_folder)
 functions_path <- file.path(r_src_path, functions_folder)
+src_regularization_path <- file.path(r_src_path, regularization_folder)
 
 data_path <- "data"
-models_path <- "models"
-models_data_path <- file.path(data_path, models_path)
-regularization_path <- "regularization"
+models_folder <- "models"
+models_data_path <- file.path(data_path, models_folder)
+regularization_data_path <- file.path(data_path, regularization_folder)
+
 
 
 ## Defining helper functions --------------------------------------------------
-um_support_functions.file_path <- file.path(functions_path, 
+common_helper_functions.file_path <- file.path(functions_path, 
                                             "common-helper.functions.R")
-source(um_support_functions.file_path, 
+source(common_helper_functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
        spaced = TRUE,
        verbose = TRUE,
        keep.source = TRUE)
-
 
 ## Open log -----------------------------------------------------------
 open_logfile(".init-project-data")
@@ -510,21 +514,11 @@ log_close()
 
 #### Open log -------------------------------------------------------------------
 open_logfile(".overall-mean-rating")
-### Create an RMSE Result Table and add a first row for the Project Objective ----
-
-# Add the RMSE value of the Naive Model to a tibble.
+### Create an RMSE Result Tibble and add a first row for the Project Objective ----
 RMSEs.ResultTibble <- CreateRMSEs_ResultTibble()
 RMSE_kable(RMSEs.ResultTibble)
 put("RMSE Results Tibble created.")
-##### Support Functions --------------------------------------------------------
-naive_model_MSEs <- function(val) {
-  sapply(edx_CV, function(cv_item){
-    mse(cv_item$validation_set$rating - val)
-  })
-}
-naive_model_RMSE <- function(val){
-  sqrt(mean(naive_model_MSEs(val)))
-}
+
 #### Compute Naive RMSE --------------------------------------------------------
 file_name_tmp <- "overall-mean-rating.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
@@ -815,9 +809,9 @@ log_close()
 open_logfile(".user+movie-effect")
 
 #### Support Functions ---------------------------------------------------------
-um_support_functions.file_path <- file.path(functions_path, 
-                                            "user+movie-effect.functions.R")
-source(um_support_functions.file_path, 
+ume_functions.file_path <- file.path(functions_path, 
+                                               "user+movie-effect.functions.R")
+source(ume_functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
        spaced = TRUE,
@@ -875,7 +869,7 @@ put_log("A row has been added to the RMSE Result Tibble for the `User+Movie Effe
 
 #### Close Log -----------------------------------------------------------------
 log_close()
-#### Utilizing Penalized least squares (Regularizing User+Movie Effects) -------
+#### Regularizing User+Movie Effects (Utilizing Penalized least squares)  -----
 # Reference: the Textbook section "23.6 Penalized least squares"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares
 
@@ -889,7 +883,7 @@ log_close()
 
 # β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
 # where `n[j]` is the number of ratings made for movie `j`.
-ume_regularization.file_path <- file.path(r_src_path, 
+ume_regularization.file_path <- file.path(src_regularization_path, 
                                             "user-movie-effect-regularization.R")
 
 source(ume_regularization.file_path, 

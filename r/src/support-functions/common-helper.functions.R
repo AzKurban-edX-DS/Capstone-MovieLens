@@ -96,13 +96,11 @@ CreateRMSEs_ResultTibble <- function(){
   tibble(Method = c("Project Objective"),
          RMSE = project_objective)
 }
-
 RMSEs.AddRow <- function(RMSEs, method, value){
   RMSEs |>
     add_row(Method = method,
             RMSE = value)
 }
-
 RMSE_kable <- function(RMSEs){
   RMSEs |>
     kable(align='lrr', booktabs = T, padding = 5) |> 
@@ -110,9 +108,7 @@ RMSE_kable <- function(RMSEs){
     column_spec(column = 1, width = "25em")
 }
 
-
 ## Data processing functions -------------------------------
-
 load_movielens_data_from_file <- function(file_path){
   put(sprintf("Loading MovieLens datasets from file: %s...", 
               file_path))
@@ -199,6 +195,15 @@ get_reg_best_params <- function(lambdas, rmses){
     best_RMSE = rmses[best_lambda_idx])
 }
 
+## Overall Mean Rating Model ---------------------------------------------------
+naive_model_MSEs <- function(val) {
+  sapply(edx_CV, function(cv_item){
+    mse(cv_item$validation_set$rating - val)
+  })
+}
+naive_model_RMSE <- function(val){
+  sqrt(mean(naive_model_MSEs(val)))
+}
 
 
 

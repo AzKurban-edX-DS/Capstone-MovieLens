@@ -1,7 +1,6 @@
 # User+Movie Effect Regularization
 ## Global Variables -------------------------------------------------------------
-regularization_data_path <- file.path(data_path, 
-                                      regularization_path, 
+ume_regularization_path <- file.path(regularization_data_path, 
                                       "user-movie-effect")
 
 ## Open log -------------------------------------------------------------------
@@ -53,7 +52,7 @@ Final best RMSE for `lambda = %1`: %2",
     str_c(as.character(ume_seq_end)) |>
     str_c(".RData")
   
-  file_path_tmp <- file.path(regularization_data_path, file_name_tmp)
+  file_path_tmp <- file.path(ume_regularization_path, file_name_tmp)
   
   put_log1("Main loop:
 File path generated: %1", file_path_tmp)
@@ -206,11 +205,13 @@ put_log1("The best RMSE after being regularized: %1",
          best_lambda_user_movie_effect_RMSE)
 
 ## Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
-RMSEs <- rmses_add_row("Regularized User+Movie Effect Model", 
-                       best_lambda_user_movie_effect_RMSE)
-rmse_kable()
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Regularized User+Movie Effect Model", 
+               best_lambda_user_movie_effect_RMSE)
 
-
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble 
+for the `Regularized User+Movie Effect Model`.")
 ## Close Log -----------------------------------------------------------------
 log_close()
 
