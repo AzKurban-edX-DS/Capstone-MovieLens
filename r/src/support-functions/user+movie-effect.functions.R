@@ -82,66 +82,13 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
   
   mean(user_movie_effects_MSEs)
 }
-regularize.user_movie_effect <- function(lambdas, 
-                                         is.cv = TRUE, 
-                                         break_if_min = TRUE){
-  n <- length(lambdas)
-  lambdas_tmp <- numeric()
-  rmses_tmp <- numeric()
-  rmse_min <- 10000
-  
-  put_log("Function: regularize.user_movie_effect
-lambdas:")
-  print(lambdas)
-  
-  for (i in 1:n) {
-    put_log1("Function: regularize.user_movie_effect
-Iteration %1", i)
-    lambda <- lambdas[i]
-    put_log1("Function: regularize.user_movie_effect
-lambda: %1", lambda)
-    lambdas_tmp[i] <- lambda
-    
-    put_log2("Function: regularize.user_movie_effect
-lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
-    put_log1("Function: regularize.user_movie_effect
-lambdas_tmp length: %1", length(lambdas_tmp))
-    print(lambdas_tmp)
-    
-    if(is.cv){
-      um_reg_effect <- train_user_movie_effect.cv(lambda)
-      rmse_tmp <- calc_user_movie_effect_RMSE.cv(um_reg_effect)
-      # browser()
-    } else {
-      um_reg_effect <- tune.train_set |> train_user_movie_effect(lambda)
-      rmse_tmp <- tune.test_set |> calc_user_movie_effect_RMSE(um_reg_effect)
-      # browser()
-    }
-    
-    put_log1("Function: regularize.user_movie_effect
-rmse_tmp: %1", rmse_tmp)
-    rmses_tmp[i] <- rmse_tmp
-    
-    put_log2("Function: regularize.user_movie_effect
-rmses_tmp[%1]: %2", i, rmses_tmp[i])
-    put_log1("Function: regularize.user_movie_effect
-rmses_tmp length: %1", length(rmses_tmp))
-    print(rmses_tmp)
-    
-    plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
-    
-    if(rmse_tmp >= rmse_min && break_if_min){
-      # next
-      # browser()
-      break
-    }
-    
-    rmse_min <- rmse_tmp
-    # browser()
-  }
-  
-  put_log1("Function: regularize.user_movie_effect
-Completed with rmses_tmp length: %1", length(rmses_tmp))
-  list(RMSEs = rmses_tmp,
-       lambdas = lambdas_tmp)
+
+## Regularization --------------------------------------------------------------
+regularize.test_lambda.user_movie_effect.cv <- function(lambda){
+  um_effect <- train_user_movie_effect.cv(lambda)
+  calc_user_movie_effect_RMSE.cv(um_effect)
 }
+
+
+
+

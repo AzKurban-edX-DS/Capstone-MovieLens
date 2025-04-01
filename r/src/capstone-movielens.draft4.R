@@ -898,7 +898,7 @@ ume_cache_file_base_name <- "ume_reg-loop"
 ume_reg_lambdas_best_results <- model.regularize(ume_loop_starter,
                                                  ume_regularization_path,
                                                  ume_cache_file_base_name,
-                                                 regularize.user_movie_effect)
+                                                 regularize.test_lambda.user_movie_effect.cv)
 
 ##### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
 best_user_movie_reg_lambda <- ume_reg_lambdas_best_results["best_lambda"]

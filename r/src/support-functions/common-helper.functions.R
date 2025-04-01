@@ -206,10 +206,65 @@ naive_model_RMSE <- function(val){
 }
 
 # Model Regularization ---------------------------------------------------------
+regularize.tune_model <- function(lambdas, 
+                                  fn_reg.test_lambda, 
+                                  break.if_min = TRUE){
+  n <- length(lambdas)
+  lambdas_tmp <- numeric()
+  rmses_tmp <- numeric()
+  rmse_min <- 10000
+  
+  put_log("Function: regularize.tune_model
+lambdas:")
+  print(lambdas)
+  
+  for (i in 1:n) {
+    put_log1("Function: regularize.tune_model
+Iteration %1", i)
+    lambda <- lambdas[i]
+    put_log1("Function: regularize.tune_model
+lambda: %1", lambda)
+    lambdas_tmp[i] <- lambda
+    
+    put_log2("Function: regularize.tune_model
+lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
+    put_log1("Function: regularize.tune_model
+lambdas_tmp length: %1", length(lambdas_tmp))
+    print(lambdas_tmp)
+
+    rmse_tmp <- fn_reg.test_lambda(lambda)
+
+    put_log1("Function: regularize.tune_model
+rmse_tmp: %1", rmse_tmp)
+    rmses_tmp[i] <- rmse_tmp
+    
+    put_log2("Function: regularize.tune_model
+rmses_tmp[%1]: %2", i, rmses_tmp[i])
+    put_log1("Function: regularize.tune_model
+rmses_tmp length: %1", length(rmses_tmp))
+    print(rmses_tmp)
+    
+    plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
+    
+    if(rmse_tmp >= rmse_min && break.if_min){
+      # next
+      # browser()
+      break
+    }
+    
+    rmse_min <- rmse_tmp
+    # browser()
+  }
+  
+  put_log1("Function: regularize.tune_model
+Completed with rmses_tmp length: %1", length(rmses_tmp))
+  list(RMSEs = rmses_tmp,
+       lambdas = lambdas_tmp)
+}
 model.regularize <- function(loop_starter,
                              regularization_path,
                              cache_file_base_name,
-                             regularize.func,
+                             fn_reg.test_lambda,
                              is.cv = TRUE,
                              break.if_min = TRUE){
 
@@ -278,9 +333,9 @@ Tuning data has been loaded from file: %1", file_path_tmp)
         # browser()
       }
     } else {
-      reg_result <- regularize.func(test_lambdas, 
-                                    is.cv,
-                                    break.if_min)
+      reg_result <- regularize.tune_model(test_lambdas, 
+                                          fn_reg.test_lambda,
+                                          break.if_min)
       reg_RMSEs <- reg_result$RMSEs
       reg_lambdas <- reg_result$lambdas
       
