@@ -1129,7 +1129,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Genre Effect Model data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  user_movie_genre_effect <- train_user_movie_genre_effect()
+  user_movie_genre_effect <- train_user_movie_genre_effect.cv()
   
   put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
            file_path_tmp)
@@ -1169,6 +1169,42 @@ put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genr
 log_close()
 
 ### Regularizing User+Movie+Genre Effects --------------------------------------------
+##### Open log --------------------------------------------------------------------
+open_logfile(".reg-um-effect.loop_0_10_d10")
+
+##### Process User+Movie+Genre Model Regularization -------------------------------------
+# ume_regularization.file_path <- file.path(src_regularization_path, 
+#                                             "user-movie-effect-regularization.R")
+# source(ume_regularization.file_path, 
+#        catch.aborts = TRUE,
+#        echo = TRUE,
+#        spaced = TRUE,
+#        verbose = TRUE,
+#        keep.source = TRUE)
+
+ume_regularization_path <- file.path(regularization_data_path, 
+                                     "user+movie+genre-effect")
+ume_loop_starter <- c(0, 128, 128, 128)
+ume_cache_file_base_name <- "ume_reg-loop"
+
+ume_reg_lambdas_best_results <- model.regularize(ume_loop_starter,
+                                                 ume_regularization_path,
+                                                 ume_cache_file_base_name,
+                                                 regularize.test_lambda.user_movie_genre_effect.cv)
+
+put(ume_reg_lambdas_best_results)
+
+##### Close Log -----------------------------------------------------------------
+log_close()
+
+
+
+
+
+
+# 0ld --------------------------------------------------------------------------
+
+
 # lambdas <- seq(0, 10, 0.1)
 # lambdas <- seq(-10, 0, 0.1)
 # lambdas <- seq(-7, -4, 0.02)

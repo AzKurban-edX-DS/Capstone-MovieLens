@@ -1,6 +1,6 @@
 # User+Movie+Genre Effect Support Functions ------------------------------------
 train_user_movie_genre_effect <- function(train_set, lambda = 0){
-    train_set |>
+  genre_bias <- train_set |>
       left_join(user_effects, by = "userId") |>
       left_join(best_lambda_user_movie_effect, by = "movieId") |>
       mutate(resid = rating - (mu + a + b)) |>
@@ -36,7 +36,7 @@ Computing User+Movie+Genre Effects list for %1-Fold Cross Validation samples..."
     put_log2("Processing User+Movie+Genre Effects for %1-Fold Cross Validation samples (Fold %2)...",
              CVFolds_N,
              fold_i)
-    cv_fold_dat$train_gs_set |> train_user_movie_genre_effect(lambda)
+    umg_effect <- cv_fold_dat$train_gs_set |> train_user_movie_genre_effect(lambda)
     
     
     put_log2("User+Movie+Genre Effects have been computed for the Fold %1 
@@ -44,7 +44,7 @@ of the %2-Fold Cross Validation samples.",
              fold_i,
              CVFolds_N)
     # print(movie_genre_effects)
-    movie_genre_effects
+    umg_effect
   })
   print(str(user_movie_genre_effects_ls))
   put_end_date(start)
@@ -81,7 +81,7 @@ calc_user_movie_genre_effect_MSE <- function(train_set, umg_effect){
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
 }
-calc_user_movie_genre_effect_MSE <- function(train_set, umg_effect){
+calc_user_movie_genre_effect_RMSE <- function(train_set, umg_effect){
   umg_mse <- train_set |> calc_user_movie_genre_effect_MSE(umg_effect)
   sqrt(umg_mse)
 }
