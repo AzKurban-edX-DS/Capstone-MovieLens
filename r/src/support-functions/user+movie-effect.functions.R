@@ -1,10 +1,4 @@
-# User+Movie Effect Model Functions
-
-mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
-  sums <- sum(vals, na.rm = na.rm)
-  N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
-  sums/(N + lambda)
-}
+# User+Movie Effect Model Functions --------------------------------------------
 train_user_movie_effect <- function(train_set, lambda = 0){
   train_set |>
     left_join(user_effects, by = "userId") |>

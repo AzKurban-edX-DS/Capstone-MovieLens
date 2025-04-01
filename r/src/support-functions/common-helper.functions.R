@@ -206,6 +206,11 @@ naive_model_RMSE <- function(val){
 }
 
 # Model Regularization ---------------------------------------------------------
+mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
+  sums <- sum(vals, na.rm = na.rm)
+  N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
+  sums/(N + lambda)
+}
 regularize.tune_model <- function(lambdas, 
                                   fn_reg.test_lambda, 
                                   break.if_min = TRUE){
