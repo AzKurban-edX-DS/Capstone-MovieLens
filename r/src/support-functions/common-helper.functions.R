@@ -344,19 +344,19 @@ Tuning data has been loaded from file: %1", file_path_tmp)
       reg_RMSEs <- reg_result$RMSEs
       reg_lambdas <- reg_result$lambdas
       
-      #     put_log1("Function `model.regularize`:
-      # File NOT saved (disabled for debug purposes): %1", file_path_tmp)
-      save(reg_lambdas,
-           reg_RMSEs,
-           best_lambda,
-           best_RMSE,
-           seq_increment,
-           range_divider,
-           max_range_divider,
-           file = file_path_tmp)
-      
-      put_log1("Function `model.regularize`:
-File saved: %1", file_path_tmp)
+          put_log1("Function `model.regularize`:
+      File NOT saved (disabled for debug purposes): %1", file_path_tmp)
+#       save(reg_lambdas,
+#            reg_RMSEs,
+#            best_lambda,
+#            best_RMSE,
+#            seq_increment,
+#            range_divider,
+#            max_range_divider,
+#            file = file_path_tmp)
+#       
+#       put_log1("Function `model.regularize`:
+# File saved: %1", file_path_tmp)
     }
     
     plot(reg_lambdas, reg_RMSEs)

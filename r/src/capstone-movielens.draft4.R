@@ -1155,7 +1155,7 @@ hist(user_movie_genre_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
 put_log("A histogram of the Movie Genre Effect distribution has been plotted.")
 
 ###### Compute RMSE: user+movie+genre effects ------------------------------------
-user_movie_genre_effect_RMSE <- calc_user_movie_genre_effect_RMSE(user_movie_genre_effect)
+user_movie_genre_effect_RMSE <- calc_user_movie_genre_effect_RMSE.cv(user_movie_genre_effect)
 user_movie_genre_effect_RMSE
 #> [1] 0.859473
 
@@ -1170,7 +1170,7 @@ log_close()
 
 ### Regularizing User+Movie+Genre Effects --------------------------------------------
 ##### Open log --------------------------------------------------------------------
-open_logfile(".reg-um-effect.loop_0_10_d10")
+open_logfile(".reg-umg-effect.loop_0_128_d128")
 
 ##### Process User+Movie+Genre Model Regularization -------------------------------------
 # ume_regularization.file_path <- file.path(src_regularization_path, 
@@ -1183,7 +1183,7 @@ open_logfile(".reg-um-effect.loop_0_10_d10")
 #        keep.source = TRUE)
 
 ume_regularization_path <- file.path(regularization_data_path, 
-                                     "user+movie+genre-effect")
+                                     "user-movie-genre-effect")
 ume_loop_starter <- c(0, 128, 128, 128)
 ume_cache_file_base_name <- "ume_reg-loop"
 
@@ -1347,7 +1347,7 @@ put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`:
          best_user_movie_genre_lambda)
 
 user_movie_genre_effect_best_lambda <- train_user_movie_genre_effect(best_user_movie_genre_lambda)
-user_movie_genre_effect_best_lambda_RMSE <- calc_user_movie_genre_effect_RMSE(user_movie_genre_effect_best_lambda)
+user_movie_genre_effect_best_lambda_RMSE <- calc_user_movie_genre_effect_RMSE.cv(user_movie_genre_effect_best_lambda)
 
 put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
          best_user_movie_genre_lambda)
