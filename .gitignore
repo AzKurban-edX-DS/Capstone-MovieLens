@@ -22,3 +22,4 @@ docs/r-help/
 log/
 .RDataTmp
 data/movielens-datasets.RData
+data/
