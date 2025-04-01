@@ -205,5 +205,196 @@ naive_model_RMSE <- function(val){
   sqrt(mean(naive_model_MSEs(val)))
 }
 
+# Model Regularization ---------------------------------------------------------
+loop_starter <- c(0, 4, 2)
+ume_max_range_divider <- 128
+cache_file_base_name <- "ume_reg-loop"
+
+model.regularize <- function(loop_starter,
+                             regularization_path,
+                             cache_file_base_name,
+                             regularize.func,
+                             is.cv = TRUE,
+                             break.if_min = TRUE){
+
+  seq_start <- loop_starter[1]
+  seq_end <- loop_starter[2]
+  range_divider <- loop_starter[3] 
+  
+  best_RMSE <- Inf
+  best_lambda <- 0
+  
+  
+  reg_lambdas_best_results <- c(best_lambda = best_lambda, 
+                                best_RMSE = best_RMSE)
+  
+  repeat{
+    seq_increment <- (seq_end - seq_start)/range_divider 
+    
+    if (seq_increment < 0.0000000000001) {
+      warning("Function `model.regularize`:
+lambda increment is too small.")
+      
+      put_log2("Function `model.regularize`:
+Final best RMSE for `lambda = %1`: %2",
+               reg_lambdas_best_results["best_lambda"],
+               reg_lambdas_best_results["best_RMSE"])
+      
+      put(reg_lambdas_best_results)
+      # best_lambda   best_RMSE 
+      # -75.0000000   0.8578522  
+      # browser()
+      break
+    }
+    
+    test_lambdas <- seq(seq_start, seq_end, seq_increment)
+    
+    file_name_tmp <- cache_file_base_name |>
+      str_c("_") |>
+      str_c(as.character(loop_starter[1])) |>
+      str_c("_") |>
+      str_c(as.character(loop_starter[3])) |>
+      str_c("_") |>
+      str_c(as.character(range_divider)) |>
+      str_c(".") |>
+      str_c(as.character(seq_start)) |>
+      str_c("-") |>
+      str_c(as.character(seq_end)) |>
+      str_c(".RData")
+    
+    file_path_tmp <- file.path(regularization_path, file_name_tmp)
+    
+    put_log1("Function `model.regularize`:
+File path generated: %1", file_path_tmp)
+    
+    if (file.exists(file_path_tmp)) {
+      put_log1("Function `model.regularize`:
+Loading tuning data from file: %1...", file_path_tmp)
+      
+      start <- put_start_date()
+      load(file_path_tmp)
+      put_end_date(start)
+      put_log1("Function `model.regularize`:
+Tuning data has been loaded from file: %1", file_path_tmp)
+      
+      if(length(file_path_tmp) > 0) {
+        # browser()
+      }
+    } else {
+      reg_result <- regularize.func(test_lambdas, 
+                                    is.cv,
+                                    break.if_min)
+      reg_RMSEs <- reg_result$RMSEs
+      reg_lambdas <- reg_result$lambdas
+      
+      #     put_log1("Function `model.regularize`:
+      # File NOT saved (disabled for debug purposes): %1", file_path_tmp)
+      save(reg_lambdas,
+           reg_RMSEs,
+           best_lambda,
+           best_RMSE,
+           seq_increment,
+           range_divider,
+           max_range_divider,
+           file = file_path_tmp)
+      
+      put_log1("Function `model.regularize`:
+File saved: %1", file_path_tmp)
+    }
+    
+    plot(reg_lambdas, reg_RMSEs)
+    # browser()
+    
+    min_RMSE <- min(reg_RMSEs)
+    RMSEs_min_ind <- which.min(reg_RMSEs)
+    
+    
+    if (best_RMSE <= min_RMSE) {
+      warning("Currently computed minimal RMSE not greater than the previously reached best one: ",
+              best_RMSE)
+      
+      put_log2("Function `model.regularize`:
+Current minimal RMSE for `lambda = %1`: %2",
+               min_RMSE,
+               reg_lambdas[which.min(reg_RMSEs)])
+      
+      put_log2("Function `model.regularize`:
+So far reached best RMSE for `lambda = %1`: %2",
+               reg_lambdas_best_results["best_lambda"],
+               reg_lambdas_best_results["best_RMSE"])
+      
+      put(reg_lambdas_best_results)
+      
+      if (range_divider < max_range_divider) {
+        range_divider <- range_divider*2
+        # browser()
+      } else {
+        warning("`range_divider` reached its maximum allowed value: ",
+                max_range_divider)
+        put_log1("The actual value of the `range_divider` is %1",
+                 range_divider)
+        # browser()
+        break
+      }
+    } else {
+      best_RMSE <- min_RMSE
+      best_lambda <- reg_lambdas[RMSEs_min_ind]
+    }
+    
+    reg_lambdas_best_results <- 
+      get_reg_best_params(reg_lambdas, 
+                          reg_RMSEs)
+    
+    put_log2("Function `model.regularize`:
+Currently reached best RMSE for `lambda = %1`: %2",
+             reg_lambdas_best_results["best_lambda"],
+             reg_lambdas_best_results["best_RMSE"])
+    
+    put(reg_lambdas_best_results)
+    
+    seq_start_ind <- RMSEs_min_ind - 1
+    
+    if (seq_start_ind < 1) {
+      seq_start_ind <- 1
+      warning("`reg_lambdas` index too small, so it assigned a value ",
+              seq_start_ind)
+      # browser()
+    }
+    
+    seq_end_ind <- RMSEs_min_ind + 1
+    
+    if (length(reg_lambdas) < seq_end_ind) {
+      warning("`seq_end_ind` index too large and will be set to `RMSEs_min_ind`.")
+      seq_end_ind <- RMSEs_min_ind
+      put_log1("Function `model.regularize`:
+Index exeeded the length of `reg_lambdas`, so it is set to maximum possible value of %1",
+               seq_end_ind)
+      # browser()
+    }
+    
+    if (seq_end_ind - seq_start_ind <= 0) {
+      warning("`reg_lambdas` sequential start index are the same or greater than end one.")
+      put_log1("Function `model.regularize`:
+Current minimal RMSE: %1", rmse_min)
+      
+      put_log2("Function `model.regularize`:
+Reached minimal RMSE for lambda = %1: %2",
+               reg_lambdas_best_results["best_lambda"],
+               reg_lambdas_best_results["best_RMSE"])
+      
+      put(reg_lambdas_best_results)
+      # browser()
+      break
+    }
+    
+    seq_start <- reg_lambdas[seq_start_ind]
+    seq_end <- reg_lambdas[seq_end_ind]
+  }
+  
+  # browser()
+  reg_lambdas_best_results
+}
+
+
 
 
