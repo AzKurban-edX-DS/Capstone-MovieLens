@@ -892,8 +892,7 @@ open_logfile(".reg-um-effect.loop_0_10_d10")
 
 ume_regularization_path <- file.path(regularization_data_path, 
                                      "user-movie-effect")
-ume_loop_starter <- c(0, 4, 2)
-ume_max_range_divider <- 128
+ume_loop_starter <- c(0, 4, 2, 128)
 ume_cache_file_base_name <- "ume_reg-loop"
 
 ume_reg_lambdas_best_results <- model.regularize(ume_loop_starter,
