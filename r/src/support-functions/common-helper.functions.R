@@ -206,10 +206,6 @@ naive_model_RMSE <- function(val){
 }
 
 # Model Regularization ---------------------------------------------------------
-loop_starter <- c(0, 4, 2)
-ume_max_range_divider <- 128
-cache_file_base_name <- "ume_reg-loop"
-
 model.regularize <- function(loop_starter,
                              regularization_path,
                              cache_file_base_name,

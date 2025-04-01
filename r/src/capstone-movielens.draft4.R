@@ -876,15 +876,60 @@ log_close()
 
 # β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
 # where `n[j]` is the number of ratings made for movie `j`.
-ume_regularization.file_path <- file.path(src_regularization_path, 
-                                            "user-movie-effect-regularization.R")
 
-source(ume_regularization.file_path, 
-       catch.aborts = TRUE,
-       echo = TRUE,
-       spaced = TRUE,
-       verbose = TRUE,
-       keep.source = TRUE)
+##### Open log --------------------------------------------------------------------
+open_logfile(".reg-um-effect.loop_0_10_d10")
+
+##### Process User+Movie Model Regularization -------------------------------------
+# ume_regularization.file_path <- file.path(src_regularization_path, 
+#                                             "user-movie-effect-regularization.R")
+# source(ume_regularization.file_path, 
+#        catch.aborts = TRUE,
+#        echo = TRUE,
+#        spaced = TRUE,
+#        verbose = TRUE,
+#        keep.source = TRUE)
+
+ume_regularization_path <- file.path(regularization_data_path, 
+                                     "user-movie-effect")
+ume_loop_starter <- c(0, 4, 2)
+ume_max_range_divider <- 128
+ume_cache_file_base_name <- "ume_reg-loop"
+
+ume_reg_lambdas_best_results <- model.regularize(ume_loop_starter,
+                                                 ume_regularization_path,
+                                                 ume_cache_file_base_name,
+                                                 regularize.user_movie_effect)
+
+##### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
+best_user_movie_reg_lambda <- ume_reg_lambdas_best_results["best_lambda"]
+best_user_movie_reg_lambda
+
+best_user_movie_reg_RMSE <- ume_reg_lambdas_best_results["best_RMSE"]
+print(best_user_movie_reg_RMSE)
+
+put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
+         best_user_movie_reg_lambda)
+
+best_lambda_user_movie_effect <- train_user_movie_effect.cv(best_user_movie_reg_lambda)
+best_lambda_user_movie_effect_RMSE <- calc_user_movie_effect_RMSE.cv(best_lambda_user_movie_effect)
+
+put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
+         best_user_movie_reg_lambda)
+put_log1("The best RMSE after being regularized: %1",
+         best_lambda_user_movie_effect_RMSE)
+
+##### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Regularized User+Movie Effect Model", 
+               best_lambda_user_movie_effect_RMSE)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble 
+for the `Regularized User+Movie Effect Model`.")
+##### Close Log -----------------------------------------------------------------
+log_close()
+
 
 ### Accounting for Movie Genres ------------------------------------------------
 #> We can slightly improve our naive model by accounting for movie genres.
