@@ -1175,7 +1175,7 @@ open_logfile(".reg-umg-effect.loop_0_128_d128")
 ##### Process User+Movie+Genre Model Regularization -------------------------------------
 umge_regularization_path <- file.path(regularization_data_path, 
                                      "user-movie-genre-effect")
-umge_loop_starter <- c(0, 2, 2, 128)
+umge_loop_starter <- c(0, 2, 4, 64)
 umge_cache_file_base_name <- "umge_reg-loop"
 
 umge_reg_lambdas_best_results <- model.regularize(umge_loop_starter,
@@ -1213,11 +1213,6 @@ put_log("A row has been added to the RMSE Result Tibble for the `Regularized Use
 log_close()
 
 ### Accounting for Date Effect ------------------------------------------
-# Y[i,j] = μ + α[i] + β[j] + g[i,j]  + f(d[i,j]) + ε[i,j]
-
-# with `f` a smooth function of `d[(i,j]`
-
-# library(lubridate)
 #### Open log -------------------------------------------------------------------
 open_logfile(".user+movie+genre+date-effect")
 
@@ -2618,6 +2613,10 @@ put_log("A row has been added to the RMSE Result Tibble
 for the `Regularized User+Movie+Genre+Year Effect Model`.")
 
 ##### Compute Date Day Effects -------------------------------------------------
+# Y[i,j] = μ + α[i] + β[j] + g[i,j] yr[i,j]  + f(d[i,j]) + ε[i,j]
+
+# with `f` a smooth function of `d[(i,j]`
+
 file_name_tmp <- "umg-year-day-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 

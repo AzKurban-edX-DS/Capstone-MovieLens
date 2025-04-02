@@ -276,8 +276,8 @@ model.regularize <- function(loop_starter,
   seq_start <- loop_starter[1]
   seq_end <- loop_starter[2]
   range_divider <- loop_starter[3]
-  if (range_divider < 3) {
-    range_divider <- 3
+  if (range_divider < 4) {
+    range_divider <- 4
   }
   max_range_divider <- loop_starter[4]
   
