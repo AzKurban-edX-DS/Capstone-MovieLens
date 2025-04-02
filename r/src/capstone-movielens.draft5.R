@@ -1187,24 +1187,25 @@ put(umge_reg_lambdas_best_results)
 
 ##### Re-training Regularized User+Movie+Genre Effect Model for the best `lambda` value ----
 
-best_umge_reg_lambda <- umge_reg_lambdas_best_results["best_lambda"]
-best_umge_reg_RMSE <- umge_reg_lambdas_best_results["best_RMSE"]
+rgz_UMG_effect_best_lambda <- umge_reg_lambdas_best_results["best_lambda"]
+rgz_UMG_effect_best_RMSE <- umge_reg_lambdas_best_results["best_RMSE"]
 
 put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
-         best_umge_reg_lambda)
+         rgz_UMG_effect_best_lambda)
 
-user_movie_genre_effect_best_lambda <- train_user_movie_genre_effect.cv(best_umge_reg_lambda)
-user_movie_genre_effect_best_RMSE <- calc_user_movie_genre_effect_RMSE.cv(user_movie_genre_effect_best_lambda)
+rgz_UMG_effect <- train_user_movie_genre_effect.cv(rgz_UMG_effect_best_lambda)
+rgz_UMG_effect_RMSE <- calc_user_movie_genre_effect_RMSE.cv(rgz_UMG_effect)
 
-put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
-         best_umge_reg_lambda)
+put_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",
+         rgz_UMG_effect_best_lambda,
+         rgz_UMG_effect_RMSE)
 put_log1("Is this a best RMSE? %1",
-         best_umge_reg_RMSE == user_movie_genre_effect_best_RMSE)
+         rgz_UMG_effect_best_RMSE == rgz_UMG_effect_RMSE)
 
 #### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
-               user_movie_genre_effect_best_RMSE)
+               rgz_UMG_effect_RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `Regularized User+Movie+Genre Effect Model`.")
@@ -1244,178 +1245,45 @@ put_end_date(start)
 put("Average Rating per Year distribution has been plotted.")
 
 #### Sample Train & Test sets for computing Date Effects -----------------------
-file_name_tmp <- "sample-year-tune-sets.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
-
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading Year Bias Tuning data from file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1("Year Bias Tuning data has been loaded from file: %1", file_path_tmp)
-} else {
-  umgy_tune_sets <- sample_train_validation_sets(3)
-  
-  put_log1("Saving Year Bias Tuning data to file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  save(mu,
-       user_effects,
-       user_movie_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
-       user_movie_genre_reg_lambdas_6p6_m4p2_p2,
-       user_movie_genre_reg_RMSEs_m66_42_0_2,
-       umgy_tune_sets,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1("Year Bias Tuning data has been saved to file: %1", 
-           file_path_tmp)
-} 
-
-umgy_train_set <- umgy_tune_sets$train_set
-str(umgy_train_set)
-umgy_test_set <- umgy_tune_sets$validation_set
-str(umgy_test_set)
+# file_name_tmp <- "sample-year-tune-sets.RData"
+# file_path_tmp <- file.path(models_data_path, file_name_tmp)
+# 
+# if (file.exists(file_path_tmp)) {
+#   put_log1("Loading Year Bias Tuning data from file: %1...", 
+#            file_path_tmp)
+#   start <- put_start_date()
+#   load(file_path_tmp)
+#   put_end_date(start)
+#   put_log1("Year Bias Tuning data has been loaded from file: %1", file_path_tmp)
+# } else {
+#   umgy_tune_sets <- sample_train_validation_sets(3)
+#   
+#   put_log1("Saving Year Bias Tuning data to file: %1...", 
+#            file_path_tmp)
+#   start <- put_start_date()
+#   save(mu,
+#        user_effects,
+#        user_movie_effect,
+#        genre_mean_ratings,
+#        user_movie_genre_effect,
+#        umgy_tune_sets,
+#        file = file_path_tmp)
+#   put_end_date(start)
+#   put_log1("Year Bias Tuning data has been saved to file: %1", 
+#            file_path_tmp)
+# } 
 
 #### Support Functions ---------------------------------------------------------
-calc_date_global_effect <- function(train_set, lambda = 0){
-  if(is.na(lambda)) put_log("Computing Date Global Effect for given Train Set data...")
-  else put_log1("Computing Date Global Effect for lambda: %1...",
-                lambda)
-  dg_effect <- train_set |> 
-    left_join(user_effects, by = "userId") |>
-    left_join(best_lambda_user_movie_effect, by = "movieId") |>
-    left_join(user_movie_genre_effect_best_lambda, by = "movieId") |>
-    left_join(date_days_map, by = "timestamp") |>
-    mutate(resid = rating - (mu + a + b + g)) |>
-    filter(!is.na(resid)) |>
-    filter(!is.infinite(de))
-    group_by(days) |>
-    summarise(de = mean_reg(resid, lambda), 
-              year = mean(year))
-    
-    if(is.na(lambda)) put_log("Date Global Effect has been computed.")
-    else put_log1("Date Global Effect has been computed for lambda: %1...",
-                  lambda)
-    dg_effect
-}
-  
-  
-calc_date_global_effect.cv <- function(lambda = 0){
-  if(is.na(lambda)) put_log("Computing Date Global Effect...")
-  else put_log1("Computing Date Global Effect for lambda: %1...",
-                lambda)
-  
-  put_log1("Computing Date Global Effect list for %1-Fold Cross Validation samples...", 
-           CVFolds_N)
-  start <- put_start_date()
-  date_global_effect_ls <- lapply(edx_CV,  function(cv_fold_dat){
-    # start <- put_start_date()
-    cv_fold_dat$train_set |> calc_date_global_effect(lambda)
-  })
-  str(date_global_effect_ls)
-  put_end_date(start)
-  put_log1("Date Global Effect list has been computed for %1-Fold Cross Validation samples.", 
-           CVFolds_N)
-  
-  date_global_effect_united <- union_cv_results(date_global_effect_ls)
-  str(date_global_effect_united)
-  
-  date_global_effect <- date_global_effect_united |>
-    #filter(!is.na(de)) |>
-    filter(!is.infinite(de)) |>
-    group_by(days) |>
-    summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
-  
-  if(is.na(lambda)) put_log("Training completed: Date Global Effects model.")
-  else put_log1("Training completed: Date Global Effects model for lambda: %1...",
-                lambda)
-  
-  date_global_effect
-}
+UMGY_effect.functions_file <- "UMGY-effect.functions.R"
+UMGY_effect.functions.file_path <- file.path(functions_path, 
+                                      UMGY_effect.functions_file)
+source(UMGY_effect.functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
 
-train_date_year_effect <- function(train_set, lambda = 0){
-  train_set |>
-    calc_date_global_effect(lambda) |>
-    group_by(year) |>
-    summarise(ye = mean(de, na.rm = TRUE))
-}
-train_date_year_effect.cv <- function(lambda = 0){
-  calc_date_global_effect.cv(lambda) |>
-    group_by(year) |>
-    summarise(ye = mean(de, na.rm = TRUE))
-}
-calc_date_year_effect_MSE <- function(test_set, dy_effect){
-  test_set |>
-    left_join(user_effects, by = "userId") |>
-    left_join(best_lambda_user_movie_effect, by = "movieId") |>
-    left_join(user_movie_genre_effect_best_lambda, by = "movieId") |>
-    left_join(date_days_map, by = "timestamp") |>
-    left_join(dy_effect, by='year') |>
-    mutate(resid = rating - clamp(mu + a + b + g + ye)) |> 
-    filter(!is.na(resid)) |>
-    pull(resid) |> mse()
-}
-calc_date_year_effect_RMSE.cv <- function(dy_effect){
-  start <- put_start_date()
-  date_year_effect_MSEs <- sapply(edx_CV, function(cv_fold_dat){
-    cv_fold_dat$validation_set |> calc_date_year_effect_MSE(dy_effect)
-  })
-  put_end_date(start)
-  put_log1("Function: calc_date_year_effect_RMSE.cv
-Date (Year) Effect MSE values have been computed for the %1-Fold Cross Validation samples.", 
-           CVFolds_N)
-  
-  sqrt(mean(date_year_effect_MSEs))
-}
-calc_date_year_effect_RMSE <- function(test_set, dy_effect){
-  mse <- test_set |> calc_date_year_effect_MSE(dy_effect)
-  sqrt(mse)
-}
-reg_tune_user_movie_genre_year_effect <- function(lambdas){
-  n <- length(lambdas)
-  lambdas_tmp <- numeric(n)
-  rmses_tmp <- numeric(n)
-  put_log("Function: reg_tune_user_movie_genre_year_effect
-lambdas:")
-  print(lambdas)
-  
-  for (i in 1:n) {
-    put_log1("Function: reg_tune_user_movie_genre_year_effect
-Iteration %1", i)
-    lambda <- lambdas[i]
-    put_log1("Function: reg_tune_user_movie_genre_year_effect
-lambda: %1", lambda)
-    lambdas_tmp[i] <- lambda
-    
-    put_log2("Function: reg_tune_user_movie_genre_year_effect
-lambdas_tmp[%1]: %2", i, lambdas_tmp[i])
-    put_log1("Function: reg_tune_user_movie_genre_year_effect
-lambdas_tmp length: %1", length(lambdas_tmp))
-print(lambdas_tmp)
-
-    umgy_reg_effect <- umgy_train_set |> train_date_year_effect(lambda)
-    
-    rmse_tmp <- umgy_test_set |> 
-      calc_date_year_effect_RMSE(umgy_reg_effect)
-    
-    put_log1("Function: reg_tune_user_movie_genre_year_effect
-rmse_tmp: %1", rmse_tmp)
-    rmses_tmp[i] <- rmse_tmp
-    
-    put_log2("Function: reg_tune_user_movie_genre_year_effect
-rmses_tmp[%1]: %2", i, rmses_tmp[i])
-    put_log1("Function: reg_tune_user_movie_genre_year_effect
-rmses_tmp length: %1", length(rmses_tmp))
-    print(rmses_tmp)
-    
-    plot(lambdas_tmp[rmses_tmp > 0], rmses_tmp[rmses_tmp > 0])
-  }
-  
-  rmses_tmp
-}
 
 ##### Training Date (Year) Effect Model ----------------------------------------
 file_name_tmp <- "date-global-and-year-effects.RData"
@@ -1433,8 +1301,8 @@ if (file.exists(file_path_tmp)) {
   date_global_effect <- calc_date_global_effect.cv()
   str(date_global_effect)
   
-  date_year_effect <- train_date_year_effect.cv()
-  str(date_year_effect)
+  UMGY_effect._effect <- train_UMGY_effect._effect.cv()
+  str(UMGY_effect._effect)
 
   put_log1("Saving Year Effect data has been saved to file: %1...", 
            file_path_tmp)
@@ -1448,7 +1316,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
        date_global_effect,
-       date_year_effect,
+       UMGY_effect._effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("Year Effect data has been saved to file: %1", 
@@ -1456,13 +1324,13 @@ if (file.exists(file_path_tmp)) {
 } 
 
 ##### Compute Date (Year) Effect Model RMSE ------------------------------------
-date_year_effect_RMSE <- calc_date_year_effect_RMSE.cv(date_year_effect)
-date_year_effect_RMSE
+UMGY_effect._effect_RMSE <- calc_UMGY_effect._effect_RMSE.cv(UMGY_effect._effect)
+UMGY_effect._effect_RMSE
 #> [1] 0.8590795
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date (Year) Effect Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("User+Movie+Genre+Year Effect Model", 
-               date_year_effect_RMSE)
+               UMGY_effect._effect_RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre+Year Effect Model`.")
@@ -2577,7 +2445,7 @@ best_umgy_effect_lambda <-
 put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
          best_umgy_effect_lambda)
 
-# umgy_effect_best_lambda <- train_date_year_effect.cv(best_umgy_effect_lambda)
+# umgy_effect_best_lambda <- train_UMGY_effect._effect.cv(best_umgy_effect_lambda)
 
 best_date_global_effect <- 
   calc_date_global_effect.cv(best_umgy_effect_lambda)
@@ -2595,7 +2463,7 @@ umgy_effect_best_lambda <- best_date_global_effect |>
 str(umgy_effect_best_lambda)
 umgy_effect_best_lambda
 
-umgy_effect_best_lambda_RMSE <- calc_date_year_effect_RMSE.cv(umgy_effect_best_lambda)
+umgy_effect_best_lambda_RMSE <- calc_UMGY_effect._effect_RMSE.cv(umgy_effect_best_lambda)
 umgy_effect_best_lambda_RMSE
 #> [1] 0.8500172
 #> [1] 0.8592063
@@ -2645,7 +2513,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
        date_global_effect,
-       date_year_effect,
+       UMGY_effect._effect,
        year_day_effects,
        file = file_path_tmp)
   put_end_date(start)
@@ -2675,7 +2543,7 @@ day_smoothed_MSEs <- function(day_smoothed_effect){
       left_join(user_movie_effect, by = "movieId") |>
       left_join(user_movie_genre_effect, by = "movieId") |>
       left_join(date_days_map, by = "timestamp") |>
-      #left_join(date_year_effect, by='year') |>
+      #left_join(UMGY_effect._effect, by='year') |>
       left_join(day_smoothed_effect, by='days') |>
       mutate(resid = rating - clamp(mu + a + b + g + ye + de_smoothed)) |> 
       filter(!is.na(resid)) |>
@@ -2762,7 +2630,7 @@ for the %1-Fold Cross Validation samples.",
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
        date_global_effect,
-       date_year_effect,
+       UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        file = file_path_tmp)
@@ -2835,7 +2703,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
        date_global_effect,
-       date_year_effect,
+       UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        degree,
@@ -2893,7 +2761,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
        date_global_effect,
-       date_year_effect,
+       UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        degree,
@@ -2951,7 +2819,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
        date_global_effect,
-       date_year_effect,
+       UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        degree,
@@ -3038,7 +2906,7 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
        date_global_effect,
-       date_year_effect,
+       UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        degree,

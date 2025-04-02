@@ -109,12 +109,6 @@ calc_user_movie_genre_effect_RMSE.cv <- function(umg_effect){
 }
 
 ## Regularization --------------------------------------------------------------
-reg_tune_user_movie_genre_effect <- function(lambdas){
-  sapply(lambdas, function(lambda){
-    umg_reg_effect <- train_user_movie_genre_effect.cv(lambda)
-    calc_user_movie_genre_effect_RMSE(umg_reg_effect)
-  })
-}
 regularize.test_lambda.user_movie_genre_effect.cv <- function(lambda){
   umg_effect <- train_user_movie_genre_effect.cv(lambda)
   calc_user_movie_genre_effect_RMSE.cv(umg_effect)
