@@ -1197,7 +1197,7 @@ user_movie_genre_effect_best_lambda <- train_user_movie_genre_effect.cv(best_umg
 user_movie_genre_effect_best_RMSE <- calc_user_movie_genre_effect_RMSE.cv(user_movie_genre_effect_best_lambda)
 
 put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
-         best_user_movie_genre_lambda)
+         best_umge_reg_lambda)
 put_log1("Is this a best RMSE? %1",
          best_umge_reg_RMSE == user_movie_genre_effect_best_RMSE)
 
