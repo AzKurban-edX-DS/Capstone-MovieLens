@@ -1173,66 +1173,38 @@ log_close()
 open_logfile(".reg-umg-effect.loop_0_128_d128")
 
 ##### Process User+Movie+Genre Model Regularization -------------------------------------
-# ume_regularization.file_path <- file.path(src_regularization_path, 
-#                                             "user-movie-effect-regularization.R")
-# source(ume_regularization.file_path, 
-#        catch.aborts = TRUE,
-#        echo = TRUE,
-#        spaced = TRUE,
-#        verbose = TRUE,
-#        keep.source = TRUE)
-
-ume_regularization_path <- file.path(regularization_data_path, 
+umge_regularization_path <- file.path(regularization_data_path, 
                                      "user-movie-genre-effect")
-ume_loop_starter <- c(0, 2, 2, 128)
-ume_cache_file_base_name <- "ume_reg-loop"
+umge_loop_starter <- c(0, 2, 2, 128)
+umge_cache_file_base_name <- "umge_reg-loop"
 
-ume_reg_lambdas_best_results <- model.regularize(ume_loop_starter,
-                                                 ume_regularization_path,
-                                                 ume_cache_file_base_name,
+umge_reg_lambdas_best_results <- model.regularize(umge_loop_starter,
+                                                 umge_regularization_path,
+                                                 umge_cache_file_base_name,
                                                  regularize.test_lambda.user_movie_genre_effect.cv)
 
-put(ume_reg_lambdas_best_results)
-
-##### Close Log -----------------------------------------------------------------
-log_close()
-
-
-
-
-
+put(umge_reg_lambdas_best_results)
 
 ##### Re-training Regularized User+Movie+Genre Effect Model for the best `lambda` value ----
 
-best_user_movie_genre_lambda_RMSEs <- 
-  data.frame(lambda = c(best_user_movie_genre_lambda5, 
-                        best_user_movie_genre_lambda6),
-             RMSE = c(best_user_movie_genre_reg_RMSE_lambda5, 
-                      best_user_movie_genre_reg_RMSE_lambda6))
-put(best_user_movie_genre_lambda_RMSEs)
+best_umge_reg_lambda <- umge_reg_lambdas_best_results["best_lambda"]
+best_umge_reg_RMSE <- umge_reg_lambdas_best_results["best_RMSE"]
 
-best_lambda_idx <- which.min(best_user_movie_genre_lambda_RMSEs$lambda)
-best_lambda_idx
-best_user_movie_genre_lambda <- best_user_movie_genre_lambda_RMSEs[best_lambda_idx,]$lambda
-best_user_movie_genre_lambda
-best_user_movie_genre_reg_RMSE <- best_user_movie_genre_lambda_RMSEs[best_lambda_idx,]$RMSE
-best_user_movie_genre_reg_RMSE
+put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
+         best_umge_reg_lambda)
 
-put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
-         best_user_movie_genre_lambda)
-
-user_movie_genre_effect_best_lambda <- train_user_movie_genre_effect(best_user_movie_genre_lambda)
-user_movie_genre_effect_best_lambda_RMSE <- calc_user_movie_genre_effect_RMSE.cv(user_movie_genre_effect_best_lambda)
+user_movie_genre_effect_best_lambda <- train_user_movie_genre_effect.cv(best_umge_reg_lambda)
+user_movie_genre_effect_best_RMSE <- calc_user_movie_genre_effect_RMSE.cv(user_movie_genre_effect_best_lambda)
 
 put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
          best_user_movie_genre_lambda)
 put_log1("Is this a best RMSE? %1",
-         best_user_movie_genre_reg_RMSE == user_movie_genre_effect_best_lambda_RMSE)
+         best_umge_reg_RMSE == user_movie_genre_effect_best_RMSE)
 
 #### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
-               best_user_movie_genre_reg_RMSE)
+               user_movie_genre_effect_best_RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `Regularized User+Movie+Genre Effect Model`.")
