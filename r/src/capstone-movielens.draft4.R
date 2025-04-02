@@ -1184,7 +1184,7 @@ open_logfile(".reg-umg-effect.loop_0_128_d128")
 
 ume_regularization_path <- file.path(regularization_data_path, 
                                      "user-movie-genre-effect")
-ume_loop_starter <- c(0, 128, 128, 128)
+ume_loop_starter <- c(0, 2, 2, 128)
 ume_cache_file_base_name <- "ume_reg-loop"
 
 ume_reg_lambdas_best_results <- model.regularize(ume_loop_starter,

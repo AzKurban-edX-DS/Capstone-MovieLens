@@ -275,8 +275,12 @@ model.regularize <- function(loop_starter,
 
   seq_start <- loop_starter[1]
   seq_end <- loop_starter[2]
-  range_divider <- loop_starter[3] 
+  range_divider <- loop_starter[3]
+  if (range_divider < 3) {
+    range_divider <- 3
+  }
   max_range_divider <- loop_starter[4]
+  
   
   best_RMSE <- Inf
   best_lambda <- 0
@@ -344,19 +348,19 @@ Tuning data has been loaded from file: %1", file_path_tmp)
       reg_RMSEs <- reg_result$RMSEs
       reg_lambdas <- reg_result$lambdas
       
-          put_log1("Function `model.regularize`:
-      File NOT saved (disabled for debug purposes): %1", file_path_tmp)
-#       save(reg_lambdas,
-#            reg_RMSEs,
-#            best_lambda,
-#            best_RMSE,
-#            seq_increment,
-#            range_divider,
-#            max_range_divider,
-#            file = file_path_tmp)
-#       
-#       put_log1("Function `model.regularize`:
-# File saved: %1", file_path_tmp)
+      #     put_log1("Function `model.regularize`:
+      # File NOT saved (disabled for debug purposes): %1", file_path_tmp)
+      save(reg_lambdas,
+           reg_RMSEs,
+           best_lambda,
+           best_RMSE,
+           seq_increment,
+           range_divider,
+           max_range_divider,
+           file = file_path_tmp)
+
+      put_log1("Function `model.regularize`:
+File saved: %1", file_path_tmp)
     }
     
     plot(reg_lambdas, reg_RMSEs)
@@ -372,8 +376,8 @@ Tuning data has been loaded from file: %1", file_path_tmp)
       
       put_log2("Function `model.regularize`:
 Current minimal RMSE for `lambda = %1`: %2",
-               min_RMSE,
-               reg_lambdas[which.min(reg_RMSEs)])
+               reg_lambdas[which.min(reg_RMSEs)],
+               min_RMSE)
       
       put_log2("Function `model.regularize`:
 So far reached best RMSE for `lambda = %1`: %2",
@@ -391,7 +395,7 @@ So far reached best RMSE for `lambda = %1`: %2",
         put_log1("The actual value of the `range_divider` is %1",
                  range_divider)
         # browser()
-        break
+        #break
       }
     } else {
       best_RMSE <- min_RMSE
