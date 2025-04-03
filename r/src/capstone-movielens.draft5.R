@@ -1426,7 +1426,7 @@ if (file.exists(file_path_tmp)) {
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date (Year) Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie+Genre+Year Effect Model", 
-               rg.UMGY_effect)
+               rg.UMGY_effect.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
