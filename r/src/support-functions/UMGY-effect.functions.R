@@ -1,4 +1,4 @@
-# User+Movie+Genre+Year Effect functions
+# User+Movie+Genre+Year Effect functions ---------------------------------------
 
 calc_date_global_effect <- function(train_set, lambda = 0){
   if(is.na(lambda)) put_log("Function `calc_date_global_effect`:
@@ -63,16 +63,26 @@ Training completed: Date Global Effects model for lambda: %1...",
   
   date_global_effect
 }
-train_UMGY_effect <- function(train_set, lambda = 0){
+calc_UMGY_effect <- function(train_set, date_global_effect){
   train_set |>
-    calc_date_global_effect(lambda) |>
+    date_global_effect |>
     group_by(year) |>
     summarise(ye = mean(de, na.rm = TRUE))
 }
-train_UMGY_effect.cv <- function(lambda = 0){
-  calc_date_global_effect.cv(lambda) |>
+calc_UMGY_effect.cv <- function(cv.dg_effect){
+  cv.dg_effect |>
     group_by(year) |>
     summarise(ye = mean(de, na.rm = TRUE))
+}
+train_UMGY_effect <- function(train_set, lambda = 0){
+  DG_effect <- train_set |>
+    calc_date_global_effect(lambda)
+  
+  train_set |>
+    calc_UMGY_effect(DG_effect)
+}
+train_UMGY_effect.cv <- function(lambda = 0){
+  calc_date_global_effect.cv(lambda) |> calc_UMGY_effect.cv()  
 }
 calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
   test_set |>

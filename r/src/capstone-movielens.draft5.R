@@ -1298,11 +1298,13 @@ if (file.exists(file_path_tmp)) {
   put_log1("Year Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  date_global_effect <- calc_date_global_effect.cv()
-  str(date_global_effect)
+  put_log("Computing User+Movie+Genre+Global-Date Effect...")
+  UMGDG_effect <- calc_date_global_effect.cv()
+  put_log("User+Movie+Genre+Global-Date Effect has been computed.")
+  put(summary(UMGDG_effect))
   
-  UMGY_effect._effect <- train_UMGY_effect._effect.cv()
-  str(UMGY_effect._effect)
+  UMGY_effect <- train_UMGY_effect._effect.cv(UMGDG_effect)
+  str(UMGY_effect)
 
   put_log1("Saving Year Effect data has been saved to file: %1...", 
            file_path_tmp)
@@ -1315,7 +1317,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       date_global_effect,
+       UMGDG_effect,
        UMGY_effect._effect,
        file = file_path_tmp)
   put_end_date(start)
@@ -2497,7 +2499,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Year+Day Effect data has been loaded from file: %1", 
            file_path_tmp)
 } else {
-  year_day_effects <- date_global_effect |>
+  year_day_effects <- UMGDG_effect |>
     left_join(umgy_effect_best_lambda, by = "year") |>
     mutate(de = de -   ye)
   
@@ -2512,7 +2514,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       date_global_effect,
+       UMGDG_effect,
        UMGY_effect._effect,
        year_day_effects,
        file = file_path_tmp)
@@ -2629,7 +2631,7 @@ for the %1-Fold Cross Validation samples.",
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       date_global_effect,
+       UMGDG_effect,
        UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
@@ -2702,7 +2704,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       date_global_effect,
+       UMGDG_effect,
        UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
@@ -2760,7 +2762,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       date_global_effect,
+       UMGDG_effect,
        UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
@@ -2818,7 +2820,7 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       date_global_effect,
+       UMGDG_effect,
        UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
@@ -2905,7 +2907,7 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       date_global_effect,
+       UMGDG_effect,
        UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
