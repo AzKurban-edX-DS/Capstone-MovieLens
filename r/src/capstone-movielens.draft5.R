@@ -1363,7 +1363,7 @@ log_close()
 
 ### Regularizing User+Movie+Genre+Year Effects ---------------------------------
 ##### Open log --------------------------------------------------------------------
-open_logfile(".reg-umg-effect.loop_0_128_d16_max128")
+open_logfile(".reg-umgy-effect.loop_0_128_d16_max128")
 
 ##### Process User+Movie+Genre Model Regularization -------------------------------------
 umgye.regularization_path <- file.path(regularization_data_path, 
