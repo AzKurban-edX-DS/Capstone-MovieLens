@@ -13,12 +13,11 @@ Computing Date Global Effect for lambda: %1...",
     left_join(date_days_map, by = "timestamp") |>
     mutate(resid = rating - (mu + a + b + g)) |>
     filter(!is.na(resid)) |>
-    filter(!is.infinite(de))
   group_by(days) |>
     summarise(de = mean_reg(resid, lambda), 
               year = mean(year))
   
-  if(is.na(lambda)) put_log("Function `calc_date_global_effect`:
+  if(lambda == 0) put_log("Function `calc_date_global_effect`:
 Date Global Effect has been computed.")
   else put_log1("Function `calc_date_global_effect`:
 Date Global Effect has been computed for lambda: %1...",
@@ -51,7 +50,6 @@ Date Global Effect list has been computed for %1-Fold Cross Validation samples."
   
   date_global_effect <- date_global_effect_united |>
     #filter(!is.na(de)) |>
-    filter(!is.infinite(de)) |>
     group_by(days) |>
     summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
   
