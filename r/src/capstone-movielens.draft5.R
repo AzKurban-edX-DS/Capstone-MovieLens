@@ -1309,7 +1309,7 @@ source(cv.UMGY_effect.functions.file_path,
 
 
 ##### Training User+Movie+Genre+Year Effect Model ----------------------------------------
-file_name_tmp <- "9.UMGY-effects.RData"
+file_name_tmp <- "10.UMGY-effects.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1337,8 +1337,7 @@ if (file.exists(file_path_tmp)) {
   save(mu,
        user_effect,
        rg.UM_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
+       rg.UMG_effect,
        cv.UMGDG_effect,
        cv.UMGY_effect,
        file = file_path_tmp)
