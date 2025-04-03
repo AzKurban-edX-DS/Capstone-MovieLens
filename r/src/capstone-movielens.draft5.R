@@ -1368,7 +1368,7 @@ open_logfile(".reg-umgy-effect.loop_0_128_d16_max128")
 ##### Process User+Movie+Genre Model Regularization -------------------------------------
 umgye.regularization_path <- file.path(regularization_data_path, 
                                       "UMGY-effect")
-umgye.loop_starter <- c(0, 128, 16, 128)
+umgye.loop_starter <- c(0, 256, 16, 128)
 umgye.cache_file_base_name <- "umgye.reg-loop"
 
 umgye.reg_lambdas_best_results <- model.regularize(umgye.loop_starter,
