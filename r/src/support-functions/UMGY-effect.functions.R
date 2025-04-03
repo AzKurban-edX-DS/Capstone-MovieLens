@@ -64,13 +64,12 @@ Training completed: Date Global Effects model for lambda: %1...",
   date_global_effect
 }
 calc_UMGY_effect <- function(train_set, date_global_effect){
-  train_set |>
-    date_global_effect |>
+  date_global_effect |>
     group_by(year) |>
     summarise(ye = mean(de, na.rm = TRUE))
 }
-calc_UMGY_effect.cv <- function(cv.dg_effect){
-  cv.dg_effect |>
+calc_UMGY_effect.cv <- function(cv.date_global_effect){
+  cv.date_global_effect |>
     group_by(year) |>
     summarise(ye = mean(de, na.rm = TRUE))
 }

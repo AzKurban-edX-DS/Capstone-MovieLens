@@ -1196,7 +1196,7 @@ log_close()
 
 ### Regularizing User+Movie+Genre Effects --------------------------------------------
 ##### Open log --------------------------------------------------------------------
-open_logfile(".reg-umg-effect.loop_0_128_d128")
+open_logfile(".reg-umg-effect.loop_0_2_d4_max64")
 
 ##### Process User+Movie+Genre Model Regularization -------------------------------------
 umge_regularization_path <- file.path(regularization_data_path, 
@@ -1361,78 +1361,65 @@ put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genr
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-
 ### Regularizing User+Movie+Genre+Year Effects ---------------------------------
-#### Open log -------------------------------------------------------------------
-open_logfile(".tuning-umgy-effect-lambda_m1000_0_100")
+##### Open log --------------------------------------------------------------------
+open_logfile(".reg-umg-effect.loop_0_128_d16_max128")
 
-# Let's take a look at the Average rating per year:
+##### Process User+Movie+Genre Model Regularization -------------------------------------
+umgye.regularization_path <- file.path(regularization_data_path, 
+                                      "UMGY-effect")
+umgye.loop_starter <- c(0, 128, 16, 128)
+umgye.cache_file_base_name <- "umgye.reg-loop"
 
-# lamdas = seq(-1000, 0, 100) --------------------------------------------------
-umgy_reg_RMSEs_m1000_0_100_file <- 
-  file.path(data_path,"umgy_reg_RMSEs_m1000_0_100.RData")
+umgye.reg_lambdas_best_results <- model.regularize(umgye.loop_starter,
+                                                  umgye.regularization_path,
+                                                  umgye.cache_file_base_name,
+                                                  regularize.test_lambda.UMGY_effect.cv)
 
-rm(umgy_reg_RMSEs_m1000_0_100)
+put(umgye.reg_lambdas_best_results)
 
-lambdas_m1000_0_100 <- seq(-1000, 0, 100)
-file_path_tmp <- umgy_reg_RMSEs_m1000_0_100_file
-RMSEs_tmp <- numeric()
+##### Re-training Regularized User+Movie+Genre Effect Model for the best `lambda` value ----
+file_name_tmp <- "9.rg.UMG-effect.RData"
+file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log("Loading tuning data from file...")
+  put_log1("Loading Regularized User+Movie+Genre Effect Model data from file: %1...", 
+           file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log("Tuning data has been loaded from file.")
-  numeric()
-} else {
-  RMSEs_tmp <- reg_tune_user_movie_genre_year_effect(lambdas_m1000_0_100)
-}
-
-if (length(RMSEs_tmp) > 1) {
-  umgy_reg_RMSEs_m1000_0_100 <- RMSEs_tmp
+  put_log1("Regularized User+Movie+Genre Effect Model data has been loaded from file: %1", 
+           file_path_tmp)
   
-  save(lambdas_m1000_0_100,
-       umgy_reg_RMSEs_m1000_0_100,
+} else {
+  rgz_UMG_effect_best_lambda <- umge_reg_lambdas_best_results["best_lambda"]
+  rgz_UMG_effect_best_RMSE <- umge_reg_lambdas_best_results["best_RMSE"]
+  
+  put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
+           rgz_UMG_effect_best_lambda)
+  
+  rg.UMG_effect <- train_user_movie_genre_effect.cv(rgz_UMG_effect_best_lambda)
+  rg.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rg.UMG_effect)
+  
+  put_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",
+           rgz_UMG_effect_best_lambda,
+           rg.UMG_effect.RMSE)
+  put_log1("Is this a best RMSE? %1",
+           rgz_UMG_effect_best_RMSE == rg.UMG_effect.RMSE)
+  
+  
+  put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       user_effect,
+       rg.UM_effect,
+       rg.UMG_effect,
        file = file_path_tmp)
-}
-rm(file_path_tmp)
-
-plot(lambdas_m1000_0_100, umgy_reg_RMSEs_m1000_0_100)
-
-lambdas_m1000_0_100_best_results <- 
-  get_reg_best_params(lambdas_m1000_0_100, 
-                      umgy_reg_RMSEs_m1000_0_100)
-
-# Plot a histogram of the RMSE distribution 
-#par(cex = 0.7)
-# hist_RMSEs <- hist(umgy_reg_RMSEs_m1000_0_100, 30, xlab = "RMSE",
-#                    main = TeX(r'[Histogram of RMSE]'))
-
-put_log("A histogram of the RMSE distribution has been plotted.")
-
-n_max_rmse <- hist_RMSEs$breaks[which.max(hist_RMSEs$density)]
-n_max_rmse
-
-lambdas_m1000_0_100_best_results
-# best_lambda    best_RMSE 
-# -100.0000000    0.8580053 
-
-best_rmse <- min(umgy_reg_RMSEs_m1000_0_100)
-best_rmse
-#> [1] 0.8580053
-
-# rmse_threshold <- best_rmse + (n_max_rmse - best_rmse)/2
-# rmse_threshold
-# 
-# RMSE_localMin_ind <- umgy_reg_RMSEs_m1000_0_100 < rmse_threshold
-# RMSE_localMin_ind
-# 
-# RMSE_localMin <- umgy_reg_RMSEs_m1000_0_100[RMSE_localMin_ind]
-# RMSE_localMin
-# 
-# lambda_localMin <- lambdas_m1000_0_100[RMSE_localMin_ind]
-# lambda_localMin
+  put_end_date(start)
+  put_log1("User+Movie+Genre Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
 
 #### Close Log -----------------------------------------------------------------
 log_close()
