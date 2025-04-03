@@ -1,7 +1,7 @@
 # User+Movie Effect Model Functions --------------------------------------------
 train_user_movie_effect <- function(train_set, lambda = 0){
   train_set |>
-    left_join(user_effects, by = "userId") |>
+    left_join(user_effect, by = "userId") |>
     mutate(resid = rating - (mu + a)) |> 
     filter(!is.na(resid)) |>
     group_by(movieId) |>
@@ -48,7 +48,7 @@ calc_user_movie_effect_RMSE <- function(test_set, um_effect){
 }
 calc_user_movie_effect_MSE <- function(test_set, um_effect){
   test_set |>
-    left_join(user_effects, by = "userId") |>
+    left_join(user_effect, by = "userId") |>
     left_join(um_effect, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b)) |> 
     filter(!is.na(resid)) |>

@@ -1,8 +1,8 @@
 # User+Movie+Genre Effect Support Functions ------------------------------------
 train_user_movie_genre_effect <- function(train_set, lambda = 0){
   genre_bias <- train_set |>
-      left_join(user_effects, by = "userId") |>
-      left_join(best_lambda_user_movie_effect, by = "movieId") |>
+      left_join(user_effect, by = "userId") |>
+      left_join(rg.UM_effect, by = "movieId") |>
       mutate(resid = rating - (mu + a + b)) |>
       filter(!is.na(resid)) |>
       group_by(genres) |>
@@ -13,7 +13,7 @@ train_user_movie_genre_effect <- function(train_set, lambda = 0){
     
     train_set |>
       left_join(genre_bias, by = "genres") |>
-      left_join(user_movie_effect, by = "movieId") |>
+      left_join(rg.UM_effect, by = "movieId") |>
       filter(!is.na(g)) |>
       group_by(movieId) |>
       summarise(g = mean(g, na.rm = TRUE))
@@ -74,8 +74,8 @@ Training completed: User+Movie+Genre Effects model for lambda: %1...",
 }
 calc_user_movie_genre_effect_MSE <- function(train_set, umg_effect){
   train_set |>
-    left_join(user_effects, by = "userId") |>
-    left_join(best_lambda_user_movie_effect, by = "movieId") |>
+    left_join(user_effect, by = "userId") |>
+    left_join(rg.UM_effect, by = "movieId") |>
     left_join(umg_effect, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b + g)) |> 
     filter(!is.na(resid)) |>

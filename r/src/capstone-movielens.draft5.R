@@ -520,7 +520,7 @@ RMSE_kable(RMSEs.ResultTibble)
 put("RMSE Results Tibble created.")
 
 #### Compute Naive RMSE --------------------------------------------------------
-file_name_tmp <- "overall-mean-rating.RData"
+file_name_tmp <- "1.mu.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -564,7 +564,7 @@ put_log1("The Naive RMSE is: %1", naive_rmse)
 #> If we plug in any other number, we will get a higher RMSE. 
 #> Let's prove that by the following small investigation:
 
-file_name_tmp <- "mu-deviation.RData"
+file_name_tmp <- "2.mu-deviation.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -635,7 +635,7 @@ open_logfile(".user-effect")
 put("Building User Effect Model...")
 #### Model building: User Effect -----------------------------------------------
 ##### User Mean Ratings Computation --------------------------------------------
-file_name_tmp <- "user-mean-ratings.RData"
+file_name_tmp <- "3.user-mean-ratings.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -700,7 +700,7 @@ if (file.exists(file_path_tmp)) {
 hist(user_mean_ratings$mean_rating, nclass = 30)
 put_log("A histogram of the User Mean Rating distribution has been plotted.")
 
-##### Building User Effects Model ----------------------------------------------
+##### Building User Effect Model ----------------------------------------------
 
 # we notice that there is substantial variability across users.
 #>  To account for this, we can use a linear model with a treatment effect `α[i]` 
@@ -712,7 +712,7 @@ put_log("A histogram of the User Mean Rating distribution has been plotted.")
 #> It can be shown that the least squares estimate `α[i]` is just the average 
 #> of `y[i,j] - μ` for each user. So we can compute them this way:
 
-file_name_tmp <- "user-effect-model.RData"
+file_name_tmp <- "4.user-effect-model.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -725,7 +725,7 @@ if (file.exists(file_path_tmp)) {
   
 } else {
   put_log("Computing User Effect per users ...")
-  user_effects <- user_mean_ratings |>
+  user_effect <- user_mean_ratings |>
     mutate(userId = as.integer(userId),
            a = mean_rating - mu)
   
@@ -736,18 +736,18 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        naive_rmse,
-       user_effects,
+       user_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-put(str(user_effects))
+put(str(user_effect))
 
 # Plot a histogram of the user effects -----------------------------------------
 par(cex = 0.7)
-hist(user_effects$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
+hist(user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 put_log("A histogram of the User Effect distribution has been plotted.")
 
@@ -759,7 +759,7 @@ put_log("Computing the RMSE taking into account user effects...")
 start <- put_start_date()
 user_effect_mses <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
-    left_join(user_effects, by = "userId") |>
+    left_join(user_effect, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
@@ -815,7 +815,7 @@ source(ume_functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 #### Model building: User+Movie Effect ----------------------------------------
-file_name_tmp <- "user-movie-effect.RData"
+file_name_tmp <- "5.UM-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -833,7 +833,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        file = file_path_tmp)
   put_end_date(start)
@@ -901,27 +901,52 @@ ume_reg_lambdas_best_results <- model.regularize(ume_loop_starter,
                                                  regularize.test_lambda.user_movie_effect.cv)
 
 ##### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
-best_user_movie_reg_lambda <- ume_reg_lambdas_best_results["best_lambda"]
-best_user_movie_reg_lambda
+file_name_tmp <- "6.rg.UM-effect.RData"
+file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
-best_user_movie_reg_RMSE <- ume_reg_lambdas_best_results["best_RMSE"]
-print(best_user_movie_reg_RMSE)
-
-put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
-         best_user_movie_reg_lambda)
-
-best_lambda_user_movie_effect <- train_user_movie_effect.cv(best_user_movie_reg_lambda)
-best_lambda_user_movie_effect_RMSE <- calc_user_movie_effect_RMSE.cv(best_lambda_user_movie_effect)
-
-put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
-         best_user_movie_reg_lambda)
-put_log1("The best RMSE after being regularized: %1",
-         best_lambda_user_movie_effect_RMSE)
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading User+Movie Effect data from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie Effect data has been loaded from file: %1", file_path_tmp)
+  
+} else {
+  best_user_movie_reg_lambda <- ume_reg_lambdas_best_results["best_lambda"]
+  best_user_movie_reg_lambda
+  
+  best_user_movie_reg_RMSE <- ume_reg_lambdas_best_results["best_RMSE"]
+  print(best_user_movie_reg_RMSE)
+  
+  put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
+           best_user_movie_reg_lambda)
+  
+  rg.UM_effect <- train_user_movie_effect.cv(best_user_movie_reg_lambda)
+  rg.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(rg.UM_effect)
+  
+  put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
+           best_user_movie_reg_lambda)
+  put_log1("The best RMSE after being regularized: %1",
+           rg.UM_effect.RMSE)
+  
+  put_log1("Saving Regularized User+Movie Effect data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       user_effect,
+       rg.UM_effect,
+       rg.UM_effect.RMSE,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie Effect data has been saved to file: %1",
+           file_path_tmp)
+} 
 
 ##### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
-               best_lambda_user_movie_effect_RMSE)
+               rg.UM_effect.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
@@ -998,7 +1023,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        file = file_path_tmp)
@@ -1135,7 +1160,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
@@ -1193,19 +1218,19 @@ rgz_UMG_effect_best_RMSE <- umge_reg_lambdas_best_results["best_RMSE"]
 put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
          rgz_UMG_effect_best_lambda)
 
-rgz_UMG_effect <- train_user_movie_genre_effect.cv(rgz_UMG_effect_best_lambda)
-rgz_UMG_effect_RMSE <- calc_user_movie_genre_effect_RMSE.cv(rgz_UMG_effect)
+rg.UMG_effect <- train_user_movie_genre_effect.cv(rgz_UMG_effect_best_lambda)
+rg.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rg.UMG_effect)
 
 put_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",
          rgz_UMG_effect_best_lambda,
-         rgz_UMG_effect_RMSE)
+         rg.UMG_effect.RMSE)
 put_log1("Is this a best RMSE? %1",
-         rgz_UMG_effect_best_RMSE == rgz_UMG_effect_RMSE)
+         rgz_UMG_effect_best_RMSE == rg.UMG_effect.RMSE)
 
 #### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
-               rgz_UMG_effect_RMSE)
+               rg.UMG_effect.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `Regularized User+Movie+Genre Effect Model`.")
@@ -1262,7 +1287,7 @@ put("Average Rating per Year distribution has been plotted.")
 #            file_path_tmp)
 #   start <- put_start_date()
 #   save(mu,
-#        user_effects,
+#        user_effect,
 #        user_movie_effect,
 #        genre_mean_ratings,
 #        user_movie_genre_effect,
@@ -1274,10 +1299,10 @@ put("Average Rating per Year distribution has been plotted.")
 # } 
 
 #### Support Functions ---------------------------------------------------------
-UMGY_effect.functions_file <- "UMGY-effect.functions.R"
-UMGY_effect.functions.file_path <- file.path(functions_path, 
-                                      UMGY_effect.functions_file)
-source(UMGY_effect.functions.file_path, 
+cv.UMGY_effect.functions_file <- "UMGY-effect.functions.R"
+cv.UMGY_effect.functions.file_path <- file.path(functions_path, 
+                                      cv.UMGY_effect.functions_file)
+source(cv.UMGY_effect.functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
        spaced = TRUE,
@@ -1285,54 +1310,56 @@ source(UMGY_effect.functions.file_path,
        keep.source = TRUE)
 
 
-##### Training Date (Year) Effect Model ----------------------------------------
-file_name_tmp <- "date-global-and-year-effects.RData"
+##### Training User+Movie+Genre+Year Effect Model ----------------------------------------
+file_name_tmp <- "UMGY-effects.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Year Effect data from file: %1...", 
+  put_log1("Loading User+Movie+Genre+Year Effect data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Year Effect data has been loaded from file: %1", file_path_tmp)
+  put_log1("User+Movie+Genre+Year Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
   put_log("Computing User+Movie+Genre+Global-Date Effect...")
-  UMGDG_effect <- calc_date_global_effect.cv()
+  cv.UMGDG_effect <- calc_date_global_effect.cv()
   put_log("User+Movie+Genre+Global-Date Effect has been computed.")
-  put(summary(UMGDG_effect))
+  put(summary(cv.UMGDG_effect))
   
-  UMGY_effect <- train_UMGY_effect._effect.cv(UMGDG_effect)
-  str(UMGY_effect)
+  put_log("Computing User+Movie+Genre+Year Effect...")
+  cv.UMGY_effect <- calc_UMGY_effect.cv(cv.UMGDG_effect)
+  put_log("User+Movie+Genre+Year Effect has been computed.")
+  put(summary(cv.UMGY_effect))
 
-  put_log1("Saving Year Effect data has been saved to file: %1...", 
+  put_log1("Saving User+Movie+Genre+Year Effect data has been saved to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       UMGDG_effect,
-       UMGY_effect._effect,
+       cv.UMGDG_effect,
+       cv.UMGY_effect._effect,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("Year Effect data has been saved to file: %1", 
+  put_log1("User+Movie+Genre+Year Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
 
 ##### Compute Date (Year) Effect Model RMSE ------------------------------------
-UMGY_effect._effect_RMSE <- calc_UMGY_effect._effect_RMSE.cv(UMGY_effect._effect)
-UMGY_effect._effect_RMSE
+cv.UMGY_effect._effect_RMSE <- calc_UMGY_effect._effect_RMSE.cv(cv.UMGY_effect._effect)
+cv.UMGY_effect._effect_RMSE
 #> [1] 0.8590795
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date (Year) Effect Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("User+Movie+Genre+Year Effect Model", 
-               UMGY_effect._effect_RMSE)
+               cv.UMGY_effect._effect_RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre+Year Effect Model`.")
@@ -2499,7 +2526,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Year+Day Effect data has been loaded from file: %1", 
            file_path_tmp)
 } else {
-  year_day_effects <- UMGDG_effect |>
+  year_day_effects <- cv.UMGDG_effect |>
     left_join(umgy_effect_best_lambda, by = "year") |>
     mutate(de = de -   ye)
   
@@ -2507,15 +2534,15 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       UMGDG_effect,
-       UMGY_effect._effect,
+       cv.UMGDG_effect,
+       cv.UMGY_effect._effect,
        year_day_effects,
        file = file_path_tmp)
   put_end_date(start)
@@ -2541,11 +2568,11 @@ day_smoothed_MSEs <- function(day_smoothed_effect){
   start <- put_start_date()
   MSEs <- sapply(edx_CV, function(cv_fold_dat){
     cv_fold_dat$validation_set |>
-      left_join(user_effects, by = "userId") |>
+      left_join(user_effect, by = "userId") |>
       left_join(user_movie_effect, by = "movieId") |>
       left_join(user_movie_genre_effect, by = "movieId") |>
       left_join(date_days_map, by = "timestamp") |>
-      #left_join(UMGY_effect._effect, by='year') |>
+      #left_join(cv.UMGY_effect._effect, by='year') |>
       left_join(day_smoothed_effect, by='days') |>
       mutate(resid = rating - clamp(mu + a + b + g + ye + de_smoothed)) |> 
       filter(!is.na(resid)) |>
@@ -2624,15 +2651,15 @@ for the %1-Fold Cross Validation samples.",
   
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       UMGDG_effect,
-       UMGY_effect._effect,
+       cv.UMGDG_effect,
+       cv.UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        file = file_path_tmp)
@@ -2697,15 +2724,15 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       UMGDG_effect,
-       UMGY_effect._effect,
+       cv.UMGDG_effect,
+       cv.UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        degree,
@@ -2755,15 +2782,15 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       UMGDG_effect,
-       UMGY_effect._effect,
+       cv.UMGDG_effect,
+       cv.UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        degree,
@@ -2813,15 +2840,15 @@ if (file.exists(file_path_tmp)) {
 
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       UMGDG_effect,
-       UMGY_effect._effect,
+       cv.UMGDG_effect,
+       cv.UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        degree,
@@ -2900,15 +2927,15 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effects,
+       user_effect,
        user_movie_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       UMGDG_effect,
-       UMGY_effect._effect,
+       cv.UMGDG_effect,
+       cv.UMGY_effect._effect,
        year_day_effects,
        day_smoothed_effect,
        degree,
@@ -2965,7 +2992,7 @@ put_log("A row has been added to the RMSE Result Tibble for the tuned `User+Movi
 # start <- put_start_date()
 # final_holdout_test |>
 #   left_join(date_days_map, by = "timestamp") |>
-#   left_join(user_effects, by = "userId") |>
+#   left_join(user_effect, by = "userId") |>
 #   left_join(mean_user_movie_genre_bias, by = "movieId") |>
 #   left_join(day_smoothed_effect, by='days') |>
 #   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
