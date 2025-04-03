@@ -102,7 +102,7 @@ calc_UMGY_effect_MSE.cv <- function(UMGY_effect){
 Date (Year) Effect MSE values have been computed for the %1-Fold Cross Validation samples.", 
            CVFolds_N)
   
-  sqrt(mean(UMGY_effect_MSEs))
+  mean(UMGY_effect_MSEs)
 }
 calc_UMGY_effect_RMSE <- function(test_set, UMGY_effect){
   mse <- test_set |> calc_UMGY_effect_MSE(UMGY_effect)
