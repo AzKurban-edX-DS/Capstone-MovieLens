@@ -1,9 +1,8 @@
 # User+Movie+Genre+Year Effect functions ---------------------------------------
-
-calc_date_global_effect <- function(train_set, lambda = 0){
-  if(lambda == 0) put_log("Function `calc_date_global_effect`:
+calc_date_general_effect <- function(train_set, lambda = 0){
+  if(lambda == 0) put_log("Function `calc_date_general_effect`:
 Computing Date Global Effect for given Train Set data...")
-  else put_log1("Function `calc_date_global_effect`:
+  else put_log1("Function `calc_date_general_effect`:
 Computing Date Global Effect for lambda: %1...",
                 lambda)
   dg_effect <- train_set |> 
@@ -17,64 +16,62 @@ Computing Date Global Effect for lambda: %1...",
     summarise(de = mean_reg(resid, lambda), 
               year = mean(year))
   
-  if(lambda == 0) put_log("Function `calc_date_global_effect`:
+  if(lambda == 0) put_log("Function `calc_date_general_effect`:
 Date Global Effect has been computed.")
-  else put_log1("Function `calc_date_global_effect`:
+  else put_log1("Function `calc_date_general_effect`:
 Date Global Effect has been computed for lambda: %1...",
                 lambda)
   dg_effect
 }
-calc_date_global_effect.cv <- function(lambda = 0){
-  if(lambda == 0) put_log("Function `calc_date_global_effect.cv`:
+calc_date_general_effect.cv <- function(lambda = 0){
+  if(lambda == 0) put_log("Function `calc_date_general_effect.cv`:
 Computing Date Global Effect...")
-  else put_log1("Function `calc_date_global_effect.cv`:
+  else put_log1("Function `calc_date_general_effect.cv`:
 Computing Date Global Effect for lambda: %1...",
                 lambda)
   
-  put_log1("Function `calc_date_global_effect.cv`:
+  put_log1("Function `calc_date_general_effect.cv`:
 Computing Date Global Effect list for %1-Fold Cross Validation samples...", 
            CVFolds_N)
   start <- put_start_date()
-  date_global_effect_ls <- lapply(edx_CV,  function(cv_fold_dat){
+  date_general_effect_ls <- lapply(edx_CV,  function(cv_fold_dat){
     # start <- put_start_date()
-    cv_fold_dat$train_set |> calc_date_global_effect(lambda)
+    cv_fold_dat$train_set |> calc_date_general_effect(lambda)
   })
-  str(date_global_effect_ls)
+  str(date_general_effect_ls)
   put_end_date(start)
-  put_log1("Function `calc_date_global_effect.cv`:
+  put_log1("Function `calc_date_general_effect.cv`:
 Date Global Effect list has been computed for %1-Fold Cross Validation samples.", 
            CVFolds_N)
   
-  date_global_effect_united <- union_cv_results(date_global_effect_ls)
-  str(date_global_effect_united)
+  date_general_effect_united <- union_cv_results(date_general_effect_ls)
+  str(date_general_effect_united)
   
-  date_global_effect <- date_global_effect_united |>
+  date_general_effect <- date_general_effect_united |>
     #filter(!is.na(de)) |>
     group_by(days) |>
     summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
   
-  if(lambda == 0) put_log("Function `calc_date_global_effect.cv`:
+  if(lambda == 0) put_log("Function `calc_date_general_effect.cv`:
 Training completed: Date Global Effects model.")
-  else put_log1("Function `calc_date_global_effect.cv`:
+  else put_log1("Function `calc_date_general_effect.cv`:
 Training completed: Date Global Effects model for lambda: %1...",
                 lambda)
   
-  date_global_effect
+  date_general_effect
 }
-calc_UMGY_effect <- function(train_set, date_global_effect){
-  date_global_effect |>
+calc_UMGY_effect <- function(date_general_effect){
+  date_general_effect |>
     group_by(year) |>
     summarise(ye = mean(de, na.rm = TRUE))
 }
 train_UMGY_effect <- function(train_set, lambda = 0){
-  DG_effect <- train_set |>
-    calc_date_global_effect(lambda)
-  
   train_set |>
-    calc_UMGY_effect(DG_effect)
+    calc_date_general_effect(lambda) |>
+    calc_UMGY_effect()
 }
 train_UMGY_effect.cv <- function(lambda = 0){
-  calc_date_global_effect.cv(lambda) |> calc_UMGY_effect()  
+  calc_date_general_effect.cv(lambda) |> calc_UMGY_effect()  
 }
 calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
   test_set |>
