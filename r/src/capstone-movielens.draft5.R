@@ -1265,9 +1265,9 @@ put_log("A row has been added to the RMSE Result Tibble for the `Regularized Use
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-### Accounting for Date Effect ------------------------------------------
+### Accounting for User+Movie+Genre+Year Effect --------------------------------
 #### Open log -------------------------------------------------------------------
-open_logfile(".user+movie+genre+date-effect")
+open_logfile(".user+movie+genre+year-effect")
 
 # Let's take a look at the Average rating per year:
 #### Plot: Average Rating per Year ------------------------------------------------
@@ -1308,8 +1308,8 @@ source(cv.UMGY_effect.functions.file_path,
        keep.source = TRUE)
 
 
-##### Training User+Movie+Genre+Year Effect Model ----------------------------------------
-file_name_tmp <- "10.UMGY-effects.RData"
+#### Training User+Movie+Genre+Year Effect Model ----------------------------------------
+file_name_tmp <- "10.UMGY-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1346,11 +1346,11 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 } 
 
-##### Compute Date (Year) Effect Model RMSE ------------------------------------
+#### Compute User+Movie+Genre+Year Effect Model RMSE ------------------------------------
 cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 cv.UMGY_effect.RMSE
 #> [1] 0.8590795
-##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date (Year) Effect Model ---- 
+#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Year Effect Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("User+Movie+Genre+Year Effect Model", 
                cv.UMGY_effect.RMSE)
@@ -1361,11 +1361,11 @@ put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genr
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-### Regularizing User+Movie+Genre+Year Effects ---------------------------------
-##### Open log --------------------------------------------------------------------
+#### Regularizing User+Movie+Genre+Year Effects ---------------------------------
+#### Open log --------------------------------------------------------------------
 open_logfile(".reg-umgy-effect.loop_0_128_d16_max128")
 
-##### Process User+Movie+Genre+Year Model Regularization -------------------------------------
+#### Process User+Movie+Genre+Year Model Regularization -------------------------------------
 umgye.regularization_path <- file.path(regularization_data_path, 
                                       "UMGY-effect")
 umgye.loop_starter <- c(0, 256, 16, 128)
@@ -1378,19 +1378,18 @@ umgye.reg_lambdas_best_results <- model.regularize(umgye.loop_starter,
 
 put(umgye.reg_lambdas_best_results)
 
-##### Re-training Regularized User+Movie+Genre+Year Effect Model for the best `lambda` value ----
-file_name_tmp <- "11.rg.UMGY-effects.RData"
+#### Re-training Regularized User+Movie+Genre+Year Effect Model for the best `lambda` value ----
+file_name_tmp <- "11.rg.UMGY-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading Regularized User+Movie+Genre Effect Model data from file: %1...", 
+  put_log1("Loading Regularized User+Movie+Genre+Year Effect Model data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Regularized User+Movie+Genre Effect Model data has been loaded from file: %1", 
+  put_log1("Regularized User+Movie+Genre+Year Effect Model data has been loaded from file: %1", 
            file_path_tmp)
-  
 } else {
   rgz_UMGY_effect_best_lambda <- umgye.reg_lambdas_best_results["best_lambda"]
   rgz_UMGY_effect_best_RMSE <- umgye.reg_lambdas_best_results["best_RMSE"]
@@ -1419,11 +1418,11 @@ if (file.exists(file_path_tmp)) {
        rg.UMGY_effect,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("User+Movie+Genre Effect Model data has been saved to file: %1", 
+  put_log1("User+Movie+Genre+Year Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date (Year) Effects Model ---- 
+#### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre+Year Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie+Genre+Year Effect Model", 
                rg.UMGY_effect.RMSE)
@@ -1435,171 +1434,77 @@ for the `Regularized User+Movie+Genre+Year Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-##### Compute Date Day Effects -------------------------------------------------
+### Accounting for User+Movie+Genre+Year+Day Effect ---------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j] yr[i,j]  + f(d[i,j]) + ε[i,j]
 
 # with `f` a smooth function of `d[(i,j]`
+#### Open log ------------------------------------------------------------------
+open_logfile(".user+movie+genre+year+day-effect")
 
-file_name_tmp <- "umg-year-day-effect.RData"
+##### Support Functions --------------------------------------------------------
+cv.UMGYD_effect.functions_file <- "UMGYD-effect.functions.R"
+cv.UMGYD_effect.functions.file_path <- file.path(functions_path, 
+                                                cv.UMGYD_effect.functions_file)
+source(cv.UMGYD_effect.functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
+
+
+
+#### Training Global Day+Day Effect Model --------------------------
+file_name_tmp <- "12.cv.UMGDG_Day_effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
-  put_log1("Loading User+Movie+Year+Day Effect data from file: %1...", 
+  put_log1("Loading Global Day Effect Model data from file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("User+Movie+Year+Day Effect data has been loaded from file: %1", 
+  put_log1("Global Day Effect Model data has been loaded from file: %1", 
            file_path_tmp)
 } else {
-  year_day_effects <- cv.UMGDG_effect |>
-    left_join(umgy_effect_best_lambda, by = "year") |>
-    mutate(de = de -   ye)
-  
-  put_log1("Saving User+Movie+Year+Day Effect data to file: %1", 
+  cv.UMGDG_Day_effect <- calc_UMGDG_Day_effect.cv()
+  put_log1("Saving Global Day Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
        user_effect,
-       user_movie_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
-       user_movie_genre_reg_lambdas_6p6_m4p2_p2,
-       user_movie_genre_reg_RMSEs_m66_42_0_2,
-       umgy_tune_sets,
+       rg.UM_effect,
+       rg.UMG_effect,
        cv.UMGDG_effect,
-       cv.UMGY_effect._effect,
-       year_day_effects,
+       rg.UMGY_effect,
+       cv.UMGDG_Day_effect,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("User+Movie+Year+Day Effect data has been saved to file: %1", 
+  put_log1("Global Day Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
-put(str(year_day_effects))
 
-##### Date Effect Computation Support Functions -----------------------
-loess_de <- function(train_dat, degree = NA, span = NA){
-  if(is.na(degree)) degree = 2
-  if(is.na(span)) span = 0.75
-  loess(de ~ days, span = span, degree = degree, data = train_dat)
-}
-compute_day_smoothed_effect <- function(degree = NA, span = NA){
-  fit <- year_day_effects |> loess_de(degree, span)
-  year_day_effects |> mutate(de_smoothed = fit$fitted)
-}
-day_smoothed_MSEs <- function(day_smoothed_effect){
-  put_log1("Computing MSE values for the %1-Fold Cross Validation samples...", 
-           CVFolds_N)
-  
-  start <- put_start_date()
-  MSEs <- sapply(edx_CV, function(cv_fold_dat){
-    cv_fold_dat$validation_set |>
-      left_join(user_effect, by = "userId") |>
-      left_join(user_movie_effect, by = "movieId") |>
-      left_join(user_movie_genre_effect, by = "movieId") |>
-      left_join(date_days_map, by = "timestamp") |>
-      #left_join(cv.UMGY_effect._effect, by='year') |>
-      left_join(day_smoothed_effect, by='days') |>
-      mutate(resid = rating - clamp(mu + a + b + g + ye + de_smoothed)) |> 
-      filter(!is.na(resid)) |>
-      pull(resid) |> mse()
-  })
-  put_end_date(start)
-  put_log1("MSE values have been computed for the %1-Fold Cross Validation samples.", 
-           CVFolds_N)
-  MSEs
-}
-day_smoothed_effect_RMSE <- function(degree = NA, span = NA){
-  day_smoothed_effect <- compute_day_smoothed_effect(degree, span) 
-  MSEs <- day_smoothed_MSEs(day_smoothed_effect)
-  sqrt(mean(MSEs))
-}
-tune_de_model_RMSEs <- function(degree, spans){
-  model_diu_rmses <- sapply(spans, function(span){
-    put_log2("Computing RMSE using `loess` function with the following parameters: 
-degree = %1, span = %2...", 
-             degree,
-             span)
-    
-    rmse <- day_smoothed_effect_RMSE(degree, span)
-    put_log2("RMSE has been computed for the `loess` function parameters: 
-degree = %1, span = %2.", 
-             degree,
-             span)
-    rmse
-  })
-}
-date_smoothed_tuned_RMSEs <- function(degree, spans) {
-  n_spans <- length(spans)
-
-  start <- put_start_date()
-  put_log2("Tuning the Smothed Date Effect Model for Degree = %1 (%2 spans)", 
-              degree, n_spans)
-  model_diu_rmses <- tune_de_model_RMSEs(degree, spans)
-  put_end_date(start)
-  put_log2("RMSEs.ResultTibble computed for the Smothed Date Effect Model (Degree = %1, %2 spans)", 
-           degree, n_spans)
-  data.frame(span = spans, rmse = model_diu_rmses)
-}
-best_rmse <- function(span_rmses){
-  idx <- which.min(span_rmses$rmse)
-  rmse <- c(span_rmses$span[idx], min(span_rmses$rmse))
-  names(rmse) <- c("Span", "RMSE")
-  rmse
-}
+put(str(cv.UMGDG_Day_effect))
 
 ##### Train model using `loess` function with default `span` & `degree` params----
-put_log1("Training User+Movie+Genre+Day Smoothed Effect Model using `loess` function 
+put_log1("Training User+Movie+Genre+Year+Day Smoothed Effect Model using `loess` function 
 with default `span` & `degree` parameters for %1-Fold Cross Validation samples...",
 CVFolds_N)
 
-file_name_tmp <- "umg-year-day-smoothed-effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
-
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading User+Movie+Year+Day Smoothed Effect data from file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1("User+Movie+Year+Day Smoothed Effect data has been loaded from file: %1", 
-           file_path_tmp)
-  
-} else {
-  start <- put_start_date()
-  day_smoothed_effect <- compute_day_smoothed_effect()
-  str(day_smoothed_effect)
-  put_end_date(start)
-  put_log1("User+Movie+Genre+Date Effect Model has been trained
+start <- put_start_date()
+cv.UMGY.SmthDay_effect <- train_UMGY.SmoothedDay_effect.cv()
+str(cv.UMGY.SmthDay_effect)
+put_end_date(start)
+put_log1("User+Movie+Genre+Date Effect Model has been trained
 using `loess` function with default `span` & `degree` parameters
 for the %1-Fold Cross Validation samples.",
-          CVFolds_N)
-  
-  start <- put_start_date()
-  save(mu,
-       user_effect,
-       user_movie_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
-       user_movie_genre_reg_lambdas_6p6_m4p2_p2,
-       user_movie_genre_reg_RMSEs_m66_42_0_2,
-       umgy_tune_sets,
-       cv.UMGDG_effect,
-       cv.UMGY_effect._effect,
-       year_day_effects,
-       day_smoothed_effect,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1("User+Movie+Year+Day Smoothed Effect data has been saved to file: %1", 
-           file_path_tmp)
-} 
-
+CVFolds_N)
 
 ##### Date Smoothed Effect Visualization ----------------------------------
 # mean_day_smoothed_effect <- compute_mean_dse(day_smoothed_effect_ls)
 # str(mean_day_smoothed_effect)
 
-day_smoothed_effect |>
+cv.UMGY.SmthDay_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
@@ -1609,13 +1514,13 @@ for the `loess` function fitted with default parameters.")
 
 # Calculate RMSE for the `loess` function fitted with default parameters -------
 start <- put_start_date()
-day_smoothed_effects_RMSE <- day_smoothed_effect_RMSE()
+cv.UMGY.SmthDay_effect.RMSE <- day_smoothed_effect_RMSE()
 put_end_date(start)
 put_log1("RMSE value has been computed using `loess` function 
 with default (degree & span) parameters for the %1-Fold Cross Validation samples.",
          CVFolds_N)
 
-print(day_smoothed_effects_RMSE)
+print(cv.UMGY.SmthDay_effect.RMSE)
 #> [1] 0.859081
 
 #### Re-train tuning `loess` function's with `span` & `degree` params-----------
@@ -1644,7 +1549,7 @@ if (file.exists(file_path_tmp)) {
   
   put_log2("Tuning for degree0_spans %1:%2...", "0.0005", max(degree0_spans))
   degree0_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[1], degree0_spans)
-  degree0_best_RMSE <- best_rmse(degree0_tuned_RMSEs)
+  degree0_best_RMSE <- get_best_RMSE(degree0_tuned_RMSEs)
   
   put_log1("Saving data for `loess` function with parameter `degree = 0` to file: %1", 
            file_path_tmp)
@@ -1657,10 +1562,10 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       cv.UMGDG_effect,
-       cv.UMGY_effect._effect,
-       year_day_effects,
-       day_smoothed_effect,
+       # cv.UMGDG_effect,
+       # cv.UMGY_effect._effect,
+       cv.UMGDG_Day_effect,
+       cv.UMGY.SmthDay_effect,
        degree,
        degree0_spans,
        degree0_tuned_RMSEs,
@@ -1702,7 +1607,7 @@ if (file.exists(file_path_tmp)) {
   put_log2("Tuning for degree1_spans %1:%2...", min(degree1_spans), max(degree1_spans))
   degree1_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[2], degree1_spans)
   
-  degree1_best_RMSE <- best_rmse(degree1_tuned_RMSEs)
+  degree1_best_RMSE <- get_best_RMSE(degree1_tuned_RMSEs)
 
   put_log1("Saving data for `loess` function with parameter `degree = 1` to file: %1", 
            file_path_tmp)
@@ -1715,10 +1620,10 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       cv.UMGDG_effect,
-       cv.UMGY_effect._effect,
-       year_day_effects,
-       day_smoothed_effect,
+       # cv.UMGDG_effect,
+       # cv.UMGY_effect._effect,
+       cv.UMGDG_Day_effect,
+       cv.UMGY.SmthDay_effect,
        degree,
        degree0_spans,
        degree0_tuned_RMSEs,
@@ -1762,7 +1667,7 @@ if (file.exists(file_path_tmp)) {
   put_log2("Tuning for spans %1:%2...", min(degree2_spans), max(degree2_spans))
   degree2_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[3], degree2_spans)
   
-  degree2_best_RMSE <- best_rmse(degree2_tuned_RMSEs)
+  degree2_best_RMSE <- get_best_RMSE(degree2_tuned_RMSEs)
 
   start <- put_start_date()
   save(mu,
@@ -1773,10 +1678,10 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       cv.UMGDG_effect,
-       cv.UMGY_effect._effect,
-       year_day_effects,
-       day_smoothed_effect,
+       # cv.UMGDG_effect,
+       # cv.UMGY_effect._effect,
+       cv.UMGDG_Day_effect,
+       cv.UMGY.SmthDay_effect,
        degree,
        degree0_spans,
        degree0_tuned_RMSEs,
@@ -1843,7 +1748,7 @@ if (file.exists(file_path_tmp)) {
   put_log2("Re-training model using `loess` function with the best parameters: 
 span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
   start <- put_start_date()
-  best_day_smoothed_effect <- compute_day_smoothed_effect(day_loess_best_degree, day_loess_best_span)
+  best_day_smoothed_effect <- train_UMGY.SmoothedDay_effect.cv(day_loess_best_degree, day_loess_best_span)
   str(best_day_smoothed_effect)
   put_end_date(start)
   put_log2("The model has been re-trained using `loess` function with the best parameters: 
@@ -1860,10 +1765,10 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       cv.UMGDG_effect,
-       cv.UMGY_effect._effect,
-       year_day_effects,
-       day_smoothed_effect,
+       # cv.UMGDG_effect,
+       # cv.UMGY_effect._effect,
+       cv.UMGDG_Day_effect,
+       cv.UMGY.SmthDay_effect,
        degree,
        degree0_spans,
        degree0_tuned_RMSEs,
@@ -1920,7 +1825,7 @@ put_log("A row has been added to the RMSE Result Tibble for the tuned `User+Movi
 #   left_join(date_days_map, by = "timestamp") |>
 #   left_join(user_effect, by = "userId") |>
 #   left_join(mean_user_movie_genre_bias, by = "movieId") |>
-#   left_join(day_smoothed_effect, by='days') |>
+#   left_join(cv.UMGY.SmthDay_effect, by='days') |>
 #   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
 #   filter(!is.na(resid)) |>
 #   pull(resid) |> final_rmse()

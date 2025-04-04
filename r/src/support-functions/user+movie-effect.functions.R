@@ -8,7 +8,7 @@ train_user_movie_effect <- function(train_set, lambda = 0){
     summarise(b = mean_reg(resid, lambda), n = n())
 }
 train_user_movie_effect.cv <- function(lambda = 0){
-  if(is.na(lambda)) put_log("Function: train_user_movie_effect.cv:
+  if(lambda == 0) put_log("Function: train_user_movie_effect.cv:
 Computing User+Movie Effect...")
   else put_log1("Function: train_user_movie_effect.cv:
 Computing User+Movie Effect for lambda: %1...",
@@ -34,7 +34,7 @@ User+Movie Effect list have been computed")
   # sum(is.na(user_movie_effect$b)) # 0 (there are no NAs in there)
   
   #user_movie_effect <- data.frame(movieId = as.integer(names(b)), b = b)
-  if(is.na(lambda)) put_log("Function: train_user_movie_effect.cv:
+  if(lambda == 0) put_log("Function: train_user_movie_effect.cv:
 Training completed: User+Movie Effects model.")
   else put_log1("Function: train_user_movie_effect.cv:
 Training completed: User+Movie Effects model for lambda: %1...",

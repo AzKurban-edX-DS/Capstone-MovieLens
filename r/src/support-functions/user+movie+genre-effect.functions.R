@@ -19,7 +19,7 @@ train_user_movie_genre_effect <- function(train_set, lambda = 0){
       summarise(g = mean(g, na.rm = TRUE))
 }
 train_user_movie_genre_effect.cv <- function(lambda = 0){
-  if(is.na(lambda)) put_log("Function `train_user_movie_genre_effect.cv`:
+  if(lambda == 0) put_log("Function `train_user_movie_genre_effect.cv`:
 Computing User+Movie+Genre Effect...")
   else put_log1("Function `train_user_movie_genre_effect.cv`:
 Computing User+Movie+Genre Effect for lambda: %1...",
@@ -63,7 +63,7 @@ User+Movie+Genre Effects list has been computed for %1-Fold Cross Validation sam
     group_by(movieId) |>
     summarise(g = mean(g))
   
-  if(is.na(lambda)) put_log("Function `train_user_movie_genre_effect.cv`:
+  if(lambda == 0) put_log("Function `train_user_movie_genre_effect.cv`:
 Training completed: User+Movie+Genre Effects model.")
   else put_log1("Function `train_user_movie_genre_effect.cv`:
 Training completed: User+Movie+Genre Effects model for lambda: %1...",

@@ -1,7 +1,7 @@
 # User+Movie+Genre+Year Effect functions ---------------------------------------
 
 calc_date_global_effect <- function(train_set, lambda = 0){
-  if(is.na(lambda)) put_log("Function `calc_date_global_effect`:
+  if(lambda == 0) put_log("Function `calc_date_global_effect`:
 Computing Date Global Effect for given Train Set data...")
   else put_log1("Function `calc_date_global_effect`:
 Computing Date Global Effect for lambda: %1...",
@@ -25,7 +25,7 @@ Date Global Effect has been computed for lambda: %1...",
   dg_effect
 }
 calc_date_global_effect.cv <- function(lambda = 0){
-  if(is.na(lambda)) put_log("Function `calc_date_global_effect.cv`:
+  if(lambda == 0) put_log("Function `calc_date_global_effect.cv`:
 Computing Date Global Effect...")
   else put_log1("Function `calc_date_global_effect.cv`:
 Computing Date Global Effect for lambda: %1...",
@@ -53,7 +53,7 @@ Date Global Effect list has been computed for %1-Fold Cross Validation samples."
     group_by(days) |>
     summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
   
-  if(is.na(lambda)) put_log("Function `calc_date_global_effect.cv`:
+  if(lambda == 0) put_log("Function `calc_date_global_effect.cv`:
 Training completed: Date Global Effects model.")
   else put_log1("Function `calc_date_global_effect.cv`:
 Training completed: Date Global Effects model for lambda: %1...",
