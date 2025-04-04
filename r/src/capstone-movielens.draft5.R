@@ -895,7 +895,7 @@ ume_regularization_path <- file.path(regularization_data_path,
 ume_loop_starter <- c(0, 4, 2, 128)
 ume_cache_file_base_name <- "ume_reg-loop"
 
-ume_reg_lambdas_best_results <- model.regularize(ume_loop_starter,
+ume_reg_lambdas_best_results <- model.tune.param_range(ume_loop_starter,
                                                  ume_regularization_path,
                                                  ume_cache_file_base_name,
                                                  regularize.test_lambda.user_movie_effect.cv)
@@ -1204,7 +1204,7 @@ umge_regularization_path <- file.path(regularization_data_path,
 umge_loop_starter <- c(0, 2, 4, 64)
 umge_cache_file_base_name <- "umge_reg-loop"
 
-umge_reg_lambdas_best_results <- model.regularize(umge_loop_starter,
+umge_reg_lambdas_best_results <- model.tune.param_range(umge_loop_starter,
                                                  umge_regularization_path,
                                                  umge_cache_file_base_name,
                                                  regularize.test_lambda.user_movie_genre_effect.cv)
@@ -1365,7 +1365,7 @@ umgye.regularization_path <- file.path(regularization_data_path,
 umgye.loop_starter <- c(0, 256, 16, 128)
 umgye.cache_file_base_name <- "umgye.reg-loop"
 
-umgye.reg_lambdas_best_results <- model.regularize(umgye.loop_starter,
+umgye.reg_lambdas_best_results <- model.tune.param_range(umgye.loop_starter,
                                                   umgye.regularization_path,
                                                   umgye.cache_file_base_name,
                                                   regularize.test_lambda.UMGY_effect.cv)
@@ -1537,11 +1537,11 @@ if (file.exists(file_path_tmp)) {
 } else {
   # spans <- seq(0.0003, 0.002, 0.00001)
   # spans <- seq(0.00100, 0.00102, 0.00001)
-  degree0_spans <- seq(0.0005, 0.0015, 0.00001)
+  degree0.spans <- seq(0.0005, 0.0015, 0.00001)
   
-  put_log2("Tuning for degree0_spans %1:%2...", "0.0005", max(degree0_spans))
-  degree0_tuned_RMSEs <- tune.UMGY_SmoothedDayEffect(degree[1], degree0_spans)
-  degree0_best_RMSE <- get_best_RMSE(degree0_tuned_RMSEs)
+  put_log2("Tuning for degree0.spans %1:%2...", "0.0005", max(degree0.spans))
+  cv.UMGYSD.tuned.dgr0.RMSEs <- tune.UMGY_SmoothedDayEffect(degree[1], degree0.spans)
+  cv.UMGYSD.tuned.dgr0.best_RMSE <- get_best_RMSE(cv.UMGYSD.tuned.dgr0.RMSEs)
   
   put_log1("Saving data for `loess` function with parameter `degree = 0` to file: %1", 
            file_path_tmp)
@@ -1553,9 +1553,9 @@ if (file.exists(file_path_tmp)) {
        rg.UMGY_effect,
        cv.UMGY.SmthDay_effect,
        degree,
-       degree0_spans,
-       degree0_tuned_RMSEs,
-       degree0_best_RMSE,
+       degree0.spans,
+       cv.UMGYSD.tuned.dgr0.RMSEs,
+       cv.UMGYSD.tuned.dgr0.best_RMSE,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("Data for `loess` function with parameter `degree = 0` has been saved to file: %1", 
@@ -1563,14 +1563,14 @@ if (file.exists(file_path_tmp)) {
 } 
 
 put("Case 1. `degree = 0` RMSEs.ResultTibble:")
-put(str(degree0_tuned_RMSEs))
+put(str(cv.UMGYSD.tuned.dgr0.RMSEs))
 
-plot(degree0_spans, degree0_tuned_RMSEs)
+plot(degree0.spans, cv.UMGYSD.tuned.dgr0.RMSEs)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
 put_log("The best RMSE for `degree = 0`:")
-put(degree0_best_RMSE)
+put(cv.UMGYSD.tuned.dgr0.best_RMSE)
 #      Span      RMSE 
 # 0.0008700 0.8573269 
 
@@ -1609,9 +1609,9 @@ if (file.exists(file_path_tmp)) {
        cv.UMGDG_Day_effect,
        cv.UMGY.SmthDay_effect,
        degree,
-       degree0_spans,
-       degree0_tuned_RMSEs,
-       degree0_best_RMSE,
+       degree0.spans,
+       cv.UMGYSD.tuned.dgr0.RMSEs,
+       cv.UMGYSD.tuned.dgr0.best_RMSE,
        degree1_spans,
        degree1_tuned_RMSEs,
        degree1_best_RMSE,
@@ -1667,9 +1667,9 @@ if (file.exists(file_path_tmp)) {
        cv.UMGDG_Day_effect,
        cv.UMGY.SmthDay_effect,
        degree,
-       degree0_spans,
-       degree0_tuned_RMSEs,
-       degree0_best_RMSE,
+       degree0.spans,
+       cv.UMGYSD.tuned.dgr0.RMSEs,
+       cv.UMGYSD.tuned.dgr0.best_RMSE,
        degree1_spans,
        degree1_tuned_RMSEs,
        degree1_best_RMSE,
@@ -1708,8 +1708,8 @@ if (file.exists(file_path_tmp)) {
 } else {
   # The Best Parameters and RMSE Value 
   loess_rmse <- data.frame(degree = degree, 
-                           span = c(degree0_best_RMSE[1], degree1_best_RMSE[1], degree2_best_RMSE[1]),
-                           rmse = c(degree0_best_RMSE[2], degree1_best_RMSE[2], degree2_best_RMSE[2]))
+                           span = c(cv.UMGYSD.tuned.dgr0.best_RMSE[1], degree1_best_RMSE[1], degree2_best_RMSE[1]),
+                           rmse = c(cv.UMGYSD.tuned.dgr0.best_RMSE[2], degree1_best_RMSE[2], degree2_best_RMSE[2]))
   put(loess_rmse)
   
   idx_best_rmse <- which.min(loess_rmse$rmse)
@@ -1754,9 +1754,9 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
        cv.UMGDG_Day_effect,
        cv.UMGY.SmthDay_effect,
        degree,
-       degree0_spans,
-       degree0_tuned_RMSEs,
-       degree0_best_RMSE,
+       degree0.spans,
+       cv.UMGYSD.tuned.dgr0.RMSEs,
+       cv.UMGYSD.tuned.dgr0.best_RMSE,
        degree1_spans,
        degree1_tuned_RMSEs,
        degree1_best_RMSE,
