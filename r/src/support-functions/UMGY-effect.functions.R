@@ -111,8 +111,8 @@ calc_UMGY_effect_RMSE.cv <- function(UMGY_effect){
 
 ## Regularization --------------------------------------------------------------
 regularize.test_lambda.UMGY_effect.cv <- function(lambda){
-  UMGY_effect <- train_UMGY_effect.cv(lambda)
-  calc_UMGY_effect_RMSE.cv(UMGY_effect)
+  train_UMGY_effect.cv(lambda) |>
+    calc_UMGY_effect_RMSE.cv()
 }
 
 
