@@ -1321,13 +1321,8 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Genre+Year Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  put_log("Computing User+Movie+Genre+Global-Date Effect...")
-  cv.UMGDG_effect <- calc_date_global_effect.cv()
-  put_log("User+Movie+Genre+Global-Date Effect has been computed.")
-  put(summary(cv.UMGDG_effect))
-  
   put_log("Computing User+Movie+Genre+Year Effect...")
-  cv.UMGY_effect <- calc_UMGY_effect.cv(cv.UMGDG_effect)
+  cv.UMGY_effect <- train_UMGY_effect.cv()
   put_log("User+Movie+Genre+Year Effect has been computed.")
   put(summary(cv.UMGY_effect))
 
@@ -1338,7 +1333,6 @@ if (file.exists(file_path_tmp)) {
        user_effect,
        rg.UM_effect,
        rg.UMG_effect,
-       cv.UMGDG_effect,
        cv.UMGY_effect,
        file = file_path_tmp)
   put_end_date(start)
@@ -1414,7 +1408,6 @@ if (file.exists(file_path_tmp)) {
        user_effect,
        rg.UM_effect,
        rg.UMG_effect,
-       cv.UMGDG_effect,
        rg.UMGY_effect,
        file = file_path_tmp)
   put_end_date(start)
@@ -1475,7 +1468,6 @@ if (file.exists(file_path_tmp)) {
        user_effect,
        rg.UM_effect,
        rg.UMG_effect,
-       cv.UMGDG_effect,
        rg.UMGY_effect,
        cv.UMGDG_Day_effect,
        file = file_path_tmp)
@@ -1562,8 +1554,6 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       # cv.UMGDG_effect,
-       # cv.UMGY_effect._effect,
        cv.UMGDG_Day_effect,
        cv.UMGY.SmthDay_effect,
        degree,
@@ -1620,8 +1610,6 @@ if (file.exists(file_path_tmp)) {
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
-       # cv.UMGDG_effect,
-       # cv.UMGY_effect._effect,
        cv.UMGDG_Day_effect,
        cv.UMGY.SmthDay_effect,
        degree,

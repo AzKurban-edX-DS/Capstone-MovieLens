@@ -66,11 +66,6 @@ calc_UMGY_effect <- function(train_set, date_global_effect){
     group_by(year) |>
     summarise(ye = mean(de, na.rm = TRUE))
 }
-calc_UMGY_effect.cv <- function(cv.date_global_effect){
-  cv.date_global_effect |>
-    group_by(year) |>
-    summarise(ye = mean(de, na.rm = TRUE))
-}
 train_UMGY_effect <- function(train_set, lambda = 0){
   DG_effect <- train_set |>
     calc_date_global_effect(lambda)
@@ -79,7 +74,7 @@ train_UMGY_effect <- function(train_set, lambda = 0){
     calc_UMGY_effect(DG_effect)
 }
 train_UMGY_effect.cv <- function(lambda = 0){
-  calc_date_global_effect.cv(lambda) |> calc_UMGY_effect.cv()  
+  calc_date_global_effect.cv(lambda) |> calc_UMGY_effect()  
 }
 calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
   test_set |>
