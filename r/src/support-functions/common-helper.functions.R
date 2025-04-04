@@ -205,6 +205,11 @@ naive_model_RMSE <- function(val){
 }
 ## Regularization --------------------------------------------------------------
 mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
+  if (is.na(lambda)) {
+    stop("Function: mean_reg
+`lambda` is `NA`")
+  }
+  
   sums <- sum(vals, na.rm = na.rm)
   N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
   sums/(N + lambda)

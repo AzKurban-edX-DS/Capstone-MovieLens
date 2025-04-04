@@ -1,5 +1,10 @@
 # User+Movie+Genre Effect Support Functions ------------------------------------
 train_user_movie_genre_effect <- function(train_set, lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_user_movie_genre_effect
+`lambda` is `NA`")
+  }
+
   genre_bias <- train_set |>
       left_join(user_effect, by = "userId") |>
       left_join(rg.UM_effect, by = "movieId") |>
@@ -19,6 +24,11 @@ train_user_movie_genre_effect <- function(train_set, lambda = 0){
       summarise(g = mean(g, na.rm = TRUE))
 }
 train_user_movie_genre_effect.cv <- function(lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_user_movie_genre_effect.cv
+`lambda` is `NA`")
+  }
+  
   if(lambda == 0) put_log("Function `train_user_movie_genre_effect.cv`:
 Computing User+Movie+Genre Effect...")
   else put_log1("Function `train_user_movie_genre_effect.cv`:
@@ -110,6 +120,11 @@ calc_user_movie_genre_effect_RMSE.cv <- function(umg_effect){
 
 ## Regularization --------------------------------------------------------------
 regularize.test_lambda.user_movie_genre_effect.cv <- function(lambda){
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.user_movie_genre_effect.cv
+`lambda` is `NA`")
+  }
+  
   umg_effect <- train_user_movie_genre_effect.cv(lambda)
   calc_user_movie_genre_effect_RMSE.cv(umg_effect)
 }

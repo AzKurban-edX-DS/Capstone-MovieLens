@@ -913,7 +913,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  best_user_movie_reg_lambda <- ume_reg_lambdas_best_results["best_lambda"]
+  best_user_movie_reg_lambda <- ume_reg_lambdas_best_results["param.best_value"]
   best_user_movie_reg_lambda
   
   best_user_movie_reg_RMSE <- ume_reg_lambdas_best_results["best_RMSE"]
@@ -1225,7 +1225,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   
 } else {
-  rgz_UMG_effect_best_lambda <- umge_reg_lambdas_best_results["best_lambda"]
+  rgz_UMG_effect_best_lambda <- umge_reg_lambdas_best_results["param.best_value"]
   rgz_UMG_effect_best_RMSE <- umge_reg_lambdas_best_results["best_RMSE"]
   
   put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
@@ -1385,7 +1385,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("Regularized User+Movie+Genre+Year Effect Model data has been loaded from file: %1", 
            file_path_tmp)
 } else {
-  rgz_UMGY_effect_best_lambda <- umgye.reg_lambdas_best_results["best_lambda"]
+  rgz_UMGY_effect_best_lambda <- umgye.reg_lambdas_best_results["param.best_value"]
   rgz_UMGY_effect_best_RMSE <- umgye.reg_lambdas_best_results["best_RMSE"]
   
   put_log1("Re-training Regularized User+Movie+Genre+Year Effect Model for the best `lambda`: %1...",

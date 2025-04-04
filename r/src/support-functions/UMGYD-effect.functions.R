@@ -1,5 +1,10 @@
 # Support Functions --------------------------------------------------------
 calc_day_general_effect <- function(train_set, lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function:calc_day_general_effect 
+`lambda` is `NA`")
+  }
+  
   if(lambda == 0) put_log("Function `day_gen_effect`:
 Computing Global Day Effect for given Train Set data...")
   else put_log1("Function `day_gen_effect`:
@@ -25,6 +30,11 @@ Global Day Effect has been computed for lambda: %1...",
   gday_effect
 }
 calc_day_general_effect.cv <- function(lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: calc_day_general_effect.cv
+`lambda` is `NA`")
+  }
+  
   if(lambda == 0) put_log("Function `calc_day_general_effect.cv`:
 Computing Global Day Effect...")
   else put_log1("Function `calc_day_general_effect.cv`:
@@ -76,6 +86,11 @@ train_UMGY_SmoothedDay_effect <- function(train_set,
                                           degree = NA, 
                                           span = NA,
                                           lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_UMGY_SmoothedDay_effect
+`lambda` is `NA`")
+  }
+  
   train_set |> 
     calc_day_general_effect(lambda) |>
     calc_UMGY_SmoothedDay_effect(degree, span)
@@ -84,6 +99,11 @@ train_UMGY_SmoothedDay_effect <- function(train_set,
 train_UMGY_SmoothedDay_effect.cv <- function(degree = NA, 
                                              span = NA,
                                              lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_UMGY_SmoothedDay_effect.cv
+`lambda` is `NA`")
+  }
+  
   calc_day_general_effect.cv(lambda) |>
     calc_UMGY_SmoothedDay_effect(degree, span)
 }

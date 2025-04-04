@@ -1,5 +1,10 @@
 # User+Movie Effect Model Functions --------------------------------------------
 train_user_movie_effect <- function(train_set, lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_user_movie_effect
+`lambda` is `NA`")
+  }
+
   train_set |>
     left_join(user_effect, by = "userId") |>
     mutate(resid = rating - (mu + a)) |> 
@@ -8,6 +13,11 @@ train_user_movie_effect <- function(train_set, lambda = 0){
     summarise(b = mean_reg(resid, lambda), n = n())
 }
 train_user_movie_effect.cv <- function(lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_user_movie_effect.cv
+`lambda` is `NA`")
+  }
+  
   if(lambda == 0) put_log("Function: train_user_movie_effect.cv:
 Computing User+Movie Effect...")
   else put_log1("Function: train_user_movie_effect.cv:
@@ -79,6 +89,10 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
 
 ## Regularization --------------------------------------------------------------
 regularize.test_lambda.user_movie_effect.cv <- function(lambda){
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.user_movie_effect.cv
+`lambda` is `NA`")
+  }
   um_effect <- train_user_movie_effect.cv(lambda)
   calc_user_movie_effect_RMSE.cv(um_effect)
 }

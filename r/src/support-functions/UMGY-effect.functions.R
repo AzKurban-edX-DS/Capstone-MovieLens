@@ -1,5 +1,10 @@
 # User+Movie+Genre+Year Effect functions ---------------------------------------
 calc_date_general_effect <- function(train_set, lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: calc_date_general_effect
+`lambda` is `NA`")
+  }
+  
   if(lambda == 0) put_log("Function `calc_date_general_effect`:
 Computing Date Global Effect for given Train Set data...")
   else put_log1("Function `calc_date_general_effect`:
@@ -24,6 +29,11 @@ Date Global Effect has been computed for lambda: %1...",
   dg_effect
 }
 calc_date_general_effect.cv <- function(lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: calc_date_general_effect.cv
+`lambda` is `NA`")
+  }
+  
   if(lambda == 0) put_log("Function `calc_date_general_effect.cv`:
 Computing Date Global Effect...")
   else put_log1("Function `calc_date_general_effect.cv`:
@@ -66,11 +76,21 @@ calc_UMGY_effect <- function(date_general_effect){
     summarise(ye = mean(de, na.rm = TRUE))
 }
 train_UMGY_effect <- function(train_set, lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_UMGY_effect
+`lambda` is `NA`")
+  }
+  
   train_set |>
     calc_date_general_effect(lambda) |>
     calc_UMGY_effect()
 }
 train_UMGY_effect.cv <- function(lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_UMGY_effect.cv
+`lambda` is `NA`")
+  }
+  
   calc_date_general_effect.cv(lambda) |> calc_UMGY_effect()  
 }
 calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
@@ -111,6 +131,11 @@ calc_UMGY_effect_RMSE.cv <- function(UMGY_effect){
 
 ## Regularization --------------------------------------------------------------
 regularize.test_lambda.UMGY_effect.cv <- function(lambda){
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.UMGY_effect.cv
+`lambda` is `NA`")
+  }
+  
   train_UMGY_effect.cv(lambda) |>
     calc_UMGY_effect_RMSE.cv()
 }
