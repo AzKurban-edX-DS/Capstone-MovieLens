@@ -1,5 +1,35 @@
 
 
+#### Training Global Day+Day Effect Model --------------------------
+file_name_tmp <- "12.cv.UMGDG_Day_effect.RData"
+file_path_tmp <- file.path(models_data_path, file_name_tmp)
+
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading Global Day Effect Model data from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Global Day Effect Model data has been loaded from file: %1", 
+           file_path_tmp)
+} else {
+  cv.UMGDG_Day_effect <- calc_UMGDG_Day_effect.cv()
+  put_log1("Saving Global Day Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       user_effect,
+       rg.UM_effect,
+       rg.UMG_effect,
+       rg.UMGY_effect,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("Global Day Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
+
+put(str(cv.UMGDG_Day_effect))
+
 
 file_name_tmp <- "12.rg.UMGY-effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)

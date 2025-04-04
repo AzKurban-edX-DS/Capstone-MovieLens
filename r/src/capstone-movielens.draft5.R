@@ -1447,8 +1447,8 @@ source(cv.UMGYD_effect.functions.file_path,
 
 
 
-#### Training Global Day+Day Effect Model --------------------------
-file_name_tmp <- "12.cv.UMGDG_Day_effect.RData"
+##### Train model using `loess` function with default `span` & `degree` params----
+file_name_tmp <- "12.cv.UMGY.SmthDay_effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1460,7 +1460,18 @@ if (file.exists(file_path_tmp)) {
   put_log1("Global Day Effect Model data has been loaded from file: %1", 
            file_path_tmp)
 } else {
-  cv.UMGDG_Day_effect <- calc_UMGDG_Day_effect.cv()
+  put_log1("Training User+Movie+Genre+Year+Day Smoothed Effect Model using `loess` function 
+with default `span` & `degree` parameters for %1-Fold Cross Validation samples...",
+CVFolds_N)
+  
+  start <- put_start_date()
+  cv.UMGY.SmthDay_effect <- train_UMGY_SmoothedDay_effect.cv()
+  str(cv.UMGY.SmthDay_effect)
+  put_end_date(start)
+  put_log1("User+Movie+Genre+Date Effect Model has been trained
+using `loess` function with default `span` & `degree` parameters
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
   put_log1("Saving Global Day Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
@@ -1469,28 +1480,14 @@ if (file.exists(file_path_tmp)) {
        rg.UM_effect,
        rg.UMG_effect,
        rg.UMGY_effect,
-       cv.UMGDG_Day_effect,
+       cv.UMGY.SmthDay_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("Global Day Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-put(str(cv.UMGDG_Day_effect))
-
-##### Train model using `loess` function with default `span` & `degree` params----
-put_log1("Training User+Movie+Genre+Year+Day Smoothed Effect Model using `loess` function 
-with default `span` & `degree` parameters for %1-Fold Cross Validation samples...",
-CVFolds_N)
-
-start <- put_start_date()
-cv.UMGY.SmthDay_effect <- train_UMGY.SmoothedDay_effect.cv()
-str(cv.UMGY.SmthDay_effect)
-put_end_date(start)
-put_log1("User+Movie+Genre+Date Effect Model has been trained
-using `loess` function with default `span` & `degree` parameters
-for the %1-Fold Cross Validation samples.",
-CVFolds_N)
+put(str(cv.UMGY.SmthDay_effect))
 
 ##### Date Smoothed Effect Visualization ----------------------------------
 # mean_day_smoothed_effect <- compute_mean_dse(day_smoothed_effect_ls)
@@ -1506,14 +1503,17 @@ for the `loess` function fitted with default parameters.")
 
 # Calculate RMSE for the `loess` function fitted with default parameters -------
 start <- put_start_date()
-cv.UMGY.SmthDay_effect.RMSE <- day_smoothed_effect_RMSE()
+cv.UMGY.SmthDay_effect.RMSE <- cv.UMGY.SmthDay_effect |>
+  calc_UMGY_SmoothedDay_effect.RMSE.cv()
 put_end_date(start)
-put_log1("RMSE value has been computed using `loess` function 
-with default (degree & span) parameters for the %1-Fold Cross Validation samples.",
-         CVFolds_N)
+put_log2("RMSE value has been computed using `loess` function 
+with default (degree & span) parameters for the %1-Fold Cross Validation samples: %2.",
+         CVFolds_N,
+         cv.UMGY.SmthDay_effect.RMSE)
 
 print(cv.UMGY.SmthDay_effect.RMSE)
 #> [1] 0.859081
+
 
 #### Re-train tuning `loess` function's with `span` & `degree` params-----------
 ##### Tune the Global/Day Smoothed Effect model -------------------------------
@@ -1523,7 +1523,7 @@ put(degree)
 
 ###### 1. `degree = 0` ---------------------------------------------------------
 put("Case 1. `degree = 0`")
-file_name_tmp <- "day-smoothed-loess-degree0.RData"
+file_name_tmp <- "12.day-smoothed-loess-degree0.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1540,7 +1540,7 @@ if (file.exists(file_path_tmp)) {
   degree0_spans <- seq(0.0005, 0.0015, 0.00001)
   
   put_log2("Tuning for degree0_spans %1:%2...", "0.0005", max(degree0_spans))
-  degree0_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[1], degree0_spans)
+  degree0_tuned_RMSEs <- tune.UMGY_SmoothedDayEffect(degree[1], degree0_spans)
   degree0_best_RMSE <- get_best_RMSE(degree0_tuned_RMSEs)
   
   put_log1("Saving data for `loess` function with parameter `degree = 0` to file: %1", 
@@ -1548,13 +1548,9 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       user_movie_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
-       user_movie_genre_reg_lambdas_6p6_m4p2_p2,
-       user_movie_genre_reg_RMSEs_m66_42_0_2,
-       umgy_tune_sets,
-       cv.UMGDG_Day_effect,
+       rg.UM_effect,
+       rg.UMG_effect,
+       rg.UMGY_effect,
        cv.UMGY.SmthDay_effect,
        degree,
        degree0_spans,
@@ -1595,7 +1591,7 @@ if (file.exists(file_path_tmp)) {
   #degree1_spans <- seq(0.0005, 0.002, 0.00001)
   degree1_spans <- seq(0.0005, 0.00135, 0.00001)
   put_log2("Tuning for degree1_spans %1:%2...", min(degree1_spans), max(degree1_spans))
-  degree1_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[2], degree1_spans)
+  degree1_tuned_RMSEs <- tune.UMGY_SmoothedDayEffect(degree[2], degree1_spans)
   
   degree1_best_RMSE <- get_best_RMSE(degree1_tuned_RMSEs)
 
@@ -1653,7 +1649,7 @@ if (file.exists(file_path_tmp)) {
   #degree2_spans <- seq(0.0003, 0.01, 0.00001)
   degree2_spans <- seq(0.0007, 0.002, 0.00001)
   put_log2("Tuning for spans %1:%2...", min(degree2_spans), max(degree2_spans))
-  degree2_tuned_RMSEs <- date_smoothed_tuned_RMSEs(degree[3], degree2_spans)
+  degree2_tuned_RMSEs <- tune.UMGY_SmoothedDayEffect(degree[3], degree2_spans)
   
   degree2_best_RMSE <- get_best_RMSE(degree2_tuned_RMSEs)
 
@@ -1736,7 +1732,7 @@ if (file.exists(file_path_tmp)) {
   put_log2("Re-training model using `loess` function with the best parameters: 
 span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
   start <- put_start_date()
-  best_day_smoothed_effect <- train_UMGY.SmoothedDay_effect.cv(day_loess_best_degree, day_loess_best_span)
+  best_day_smoothed_effect <- train_UMGY_SmoothedDay_effect.cv(day_loess_best_degree, day_loess_best_span)
   str(best_day_smoothed_effect)
   put_end_date(start)
   put_log2("The model has been re-trained using `loess` function with the best parameters: 
