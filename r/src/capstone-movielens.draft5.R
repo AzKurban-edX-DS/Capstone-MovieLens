@@ -1568,9 +1568,11 @@ if (file.exists(file_path_tmp)) {
   
   put_log2("Tuning for degree0.spans %1:%2...", "0.0005", max(degree0.spans))
   cv.UMGYSD.tuned.dgr0.RMSEs <- tune.UMGY_SmoothedDayEffect(degree[1], degree0.spans)
-  cv.UMGYSD.tuned.dgr0.best_RMSE <- get_best_RMSE(cv.UMGYSD.tuned.dgr0.RMSEs)
-  
-  put_log1("Saving data for `loess` function with parameter `degree = 0` to file: %1", 
+  cv.UMGYSD.tuned.dgr0.best_RMSE <- get_best.RMSE(cv.UMGYSD.tuned.dgr0.RMSEs)
+#      Span      RMSE 
+# 0.0008700 0.8573253   
+
+    put_log1("Saving data for `loess` function with parameter `degree = 0` to file: %1", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
@@ -1592,7 +1594,7 @@ if (file.exists(file_path_tmp)) {
 put("Case 1. `degree = 0` RMSEs.ResultTibble:")
 put(str(cv.UMGYSD.tuned.dgr0.RMSEs))
 
-plot(degree0.spans, cv.UMGYSD.tuned.dgr0.RMSEs)
+plot(degree0.spans, cv.UMGYSD.tuned.dgr0.RMSEs$rmse)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
