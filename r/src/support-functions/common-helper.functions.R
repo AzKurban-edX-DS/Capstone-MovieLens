@@ -215,7 +215,7 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   sums/(N + lambda)
 }
 
-# Model Tuning ---------------------------------------------------------
+## Model Tuning ---------------------------------------------------------
 tune.model_param <- function(param_values, 
                                   fn_tune.test.param_value, 
                                   break.if_min = TRUE){

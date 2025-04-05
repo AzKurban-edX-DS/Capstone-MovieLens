@@ -5,10 +5,10 @@ calc_day_general_effect <- function(train_set, lambda = 0){
 `lambda` is `NA`")
   }
   
-  if(lambda == 0) put_log("Function `day_gen_effect`:
-Computing Global Day Effect for given Train Set data...")
-  else put_log1("Function `day_gen_effect`:
-Computing Global Day Effect for lambda: %1...",
+  if(lambda == 0) put_log("Function `calc_day_general_effect`:
+Computing Day General Effect for given Train Set data...")
+  else put_log1("Function `calc_day_general_effect`:
+Computing Day General Effect for lambda: %1...",
                 lambda)
   gday_effect <- train_set |> 
     left_join(user_effect, by = "userId") |>
@@ -22,10 +22,10 @@ Computing Global Day Effect for lambda: %1...",
     summarise(de = mean_reg(resid, lambda), 
               year = mean(year))
   
-  if(lambda == 0) put_log("Function `day_gen_effect`:
-Global Day Effect has been computed.")
-  else put_log1("Function `day_gen_effect`:
-Global Day Effect has been computed for lambda: %1...",
+  if(lambda == 0) put_log("Function `calc_day_general_effect`:
+Day General Effect has been computed.")
+  else put_log1("Function `calc_day_general_effect`:
+Day General Effect has been computed for lambda: %1...",
                 lambda)
   gday_effect
 }
@@ -36,13 +36,13 @@ calc_day_general_effect.cv <- function(lambda = 0){
   }
   
   if(lambda == 0) put_log("Function `calc_day_general_effect.cv`:
-Computing Global Day Effect...")
+Computing Day General Effect...")
   else put_log1("Function `calc_day_general_effect.cv`:
-Computing Global Day Effect for lambda: %1...",
+Computing Day General Effect for lambda: %1...",
                 lambda)
   
   put_log1("Function `calc_day_general_effect.cv`:
-Computing Global Day Effect list for %1-Fold Cross Validation samples...", 
+Computing Day General Effect list for %1-Fold Cross Validation samples...", 
            CVFolds_N)
   start <- put_start_date()
   gday_effect_ls <- lapply(edx_CV,  function(cv_fold_dat){
@@ -52,7 +52,7 @@ Computing Global Day Effect list for %1-Fold Cross Validation samples...",
   str(gday_effect_ls)
   put_end_date(start)
   put_log1("Function `calc_day_general_effect.cv`:
-Global Day Effect list has been computed for %1-Fold Cross Validation samples.", 
+Day General Effect list has been computed for %1-Fold Cross Validation samples.", 
            CVFolds_N)
   
   gday_effect_united <- union_cv_results(gday_effect_ls)
@@ -64,9 +64,9 @@ Global Day Effect list has been computed for %1-Fold Cross Validation samples.",
     summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
   
   if(lambda == 0) put_log("Function `calc_day_general_effect.cv`:
-Training completed: Global Day Effects model.")
+Training completed: Day General Effects model.")
   else put_log1("Function `calc_day_general_effect.cv`:
-Training completed: Global Day Effects model for lambda: %1...",
+Training completed: Day General Effects model for lambda: %1...",
                 lambda)
   
   gday_effect
@@ -79,8 +79,25 @@ loess_de <- function(de_bias.dat, degree = NA, span = NA){
 calc_UMGY_SmoothedDay_effect <- function(day_gen_effect, 
                                          degree = NA, 
                                          span = NA){
+  put_log2("Function `calc_UMGY_SmoothedDay_effect`: 
+Training model using `loess` function with the following parameters:
+degree: %1;
+span: %2
+...",
+           degree,
+           span)
+  # browser()
   fit <- day_gen_effect |> loess_de(degree, span)
-  day_gen_effect |> mutate(de_smoothed = fit$fitted)
+  smth_day_effect <- day_gen_effect |> mutate(de_smoothed = fit$fitted)
+  
+  put_log2("Function `calc_UMGY_SmoothedDay_effect`: 
+Model has been trained using `loess` function with the following parameters:
+degree: %1;
+span: %2.",
+           degree,
+           span)
+  
+  smth_day_effect
 }
 train_UMGY_SmoothedDay_effect <- function(train_set, 
                                           degree = NA, 
@@ -109,6 +126,7 @@ train_UMGY_SmoothedDay_effect.cv <- function(degree = NA,
 }
 
 calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
+  # browser()
   test_set |>
     left_join(user_effect, by = "userId") |>
     left_join(rg.UM_effect, by = "movieId") |>
@@ -146,22 +164,37 @@ calc_UMGY_SmoothedDay_effect.RMSE.cv <- function(day_smoothed_effect){
   sqrt(calc_UMGY_SmoothedDay_effect.MSE.cv(day_smoothed_effect))
 }
 ## Tuning `loess` Parameters ---------------------------------------------------
-tune_de_model_RMSEs <- function(degree, spans){
- sapply(spans, function(span){
-    put_log2("Computing RMSE using `loess` function with the following parameters: 
+train_UMGY_SmoothedDay_effect.RMSE.cv <- function(degree = NA, span = NA) {
+  put_log2("Function `train_UMGY_SmoothedDay_effect.RMSE.cv`:
+Computing RMSE using `loess` function with the following parameters: 
 degree = %1, span = %2...", 
-             degree,
-             span)
-    
-    smth_de.RMSE <- train_UMGY.SmoothedDay_effect.cv(degree, span) |>
-      calc_UMGY_SmoothedDay_effect.RMSE.cv()
-      
-    put_log2("RMSE has been computed for the `loess` function parameters: 
+           degree,
+           span)
+  
+  # browser()
+  smth_de.RMSE <- train_UMGY_SmoothedDay_effect.cv(degree, span) |>
+    calc_UMGY_SmoothedDay_effect.RMSE.cv()
+  
+  put_log2("Function `train_UMGY_SmoothedDay_effect.RMSE.cv`:
+RMSE has been computed for the `loess` function parameters: 
 degree = %1, span = %2.", 
-             degree,
-             span)
-    
-    smth_de.RMSE
+           degree,
+           span)
+  
+  smth_de.RMSE
+}
+train_UMGY_SmoothedDay_effect.RMSE.cv.degree0 <- function(span) {
+  train_UMGY_SmoothedDay_effect.RMSE.cv(degree = 0, span)
+}
+train_UMGY_SmoothedDay_effect.RMSE.cv.degree1 <- function(span) {
+  train_UMGY_SmoothedDay_effect.RMSE.cv(degree = 1, span)
+}
+train_UMGY_SmoothedDay_effect.RMSE.cv.degree2 <- function(span) {
+  train_UMGY_SmoothedDay_effect.RMSE.cv(degree = 2, span)
+}
+tune_de_model_RMSEs <- function(degree, spans){
+  sapply(spans, function(span){
+    train_UMGY_SmoothedDay_effect.RMSE.cv(degree, span)   
   })
 }
 tune.UMGY_SmoothedDayEffect <- function(degree, spans) {

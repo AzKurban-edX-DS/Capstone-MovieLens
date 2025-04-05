@@ -99,6 +99,7 @@ r_path <- "r"
 src_folder <- "src"
 functions_folder <- "support-functions"
 regularization_folder <- "regularization"
+model_tuning_folder <- "model-tuning"
 
 r_src_path <- file.path(r_path, src_folder)
 functions_path <- file.path(r_src_path, functions_folder)
@@ -108,8 +109,7 @@ data_path <- "data"
 models_folder <- "models"
 models_data_path <- file.path(data_path, models_folder)
 regularization_data_path <- file.path(data_path, regularization_folder)
-
-
+model_tuning.data_path <- file.path(data_path, model_tuning_folder)
 
 ## Defining helper functions --------------------------------------------------
 common_helper_functions.file_path <- file.path(functions_path, 
@@ -1521,9 +1521,35 @@ degree <- c(0, 1, 2)
 put_log("Tuning `loess` function for degrees:")
 put(degree)
 
+UMGY.SmthDay.folder <- "UMGY.SmthDay"
+UMGY.SmthDay.data_path <- file.path(model_tuning.data_path, UMGY.SmthDay.folder)
+
+degree_param_folders <- c("degree0", 
+                          "degree1", 
+                          "degree2")
+
 ###### 1. `degree = 0` ---------------------------------------------------------
 put("Case 1. `degree = 0`")
-file_name_tmp <- "12.day-smoothed-loess-degree0.RData"
+UMGY.SmthDay.degree0.data_path <- file.path(UMGY.SmthDay.data_path, 
+                                           degree_param_folders[1])
+
+UMGY.SmthDay.degree0.loop_starter <- c(0.0003, 1.0, 100, 1600)
+UMGY.SmthDay.degree0.cache_file.base_name <- "UMGY.SmthDay.degree0.tuning-span"
+
+UMGY.SmthDay.degree0.best_result <- 
+  model.tune.param_range(UMGY.SmthDay.degree0.loop_starter,
+                         UMGY.SmthDay.degree0.data_path,
+                         UMGY.SmthDay.degree0.cache_file.base_name,
+                         train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
+
+put(UMGY.SmthDay.degree0.best_result)
+
+
+
+
+
+#-----------------------------------------------------------------------------
+file_name_tmp <- ".day-smoothed-loess-degree0.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1576,6 +1602,9 @@ put(cv.UMGYSD.tuned.dgr0.best_RMSE)
 
 ###### 2. `degree = 1` --------------------------------------------------------------
 put("Case 2. `degree = 1`")
+UMGY.SmthDay.degree1.data_path <- file.path(UMGY.SmthDay.data_path, 
+                                           degree_param_folders[2])
+
 file_name_tmp <- "day-smoothed-loess-degree1.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
@@ -1634,6 +1663,9 @@ put(degree1_best_RMSE)
 
 ###### 3. `degree = 2` --------------------------------------------------------------
 put("Case 3. `degree = 2`")
+UMGY.SmthDay.degree2.data_path <- file.path(UMGY.SmthDay.data_path, 
+                                           degree_param_folders[3])
+
 file_name_tmp <- "day-smoothed-loess-degree2.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
 
