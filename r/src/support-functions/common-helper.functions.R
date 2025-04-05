@@ -217,56 +217,75 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
 
 ## Model Tuning ---------------------------------------------------------
 tune.model_param <- function(param_values, 
-                                  fn_tune.test.param_value, 
-                                  break.if_min = TRUE){
+                             fn_tune.test.param_value, 
+                             break.if_min = TRUE){
   n <- length(param_values)
   param_vals_tmp <- numeric()
   RMSEs_tmp <- numeric()
   RMSE_min <- Inf
+  i_max.beyond_RMSE_min <- Inf
   
-  put_log("Function: tune.model_param
+  put_log("Function: `tune.model_param`:
 param_values:")
   print(param_values)
   
   for (i in 1:n) {
-    put_log1("Function: tune.model_param
+    put_log1("Function: `tune.model_param`:
 Iteration %1", i)
     pvalue <- param_values[i]
-    put_log1("Function: tune.model_param
+    put_log1("Function: `tune.model_param`:
 pvalue: %1", pvalue)
     param_vals_tmp[i] <- pvalue
     
-    put_log2("Function: tune.model_param
+    put_log2("Function: `tune.model_param`:
 param_vals_tmp[%1]: %2", i, param_vals_tmp[i])
-    put_log1("Function: tune.model_param
+    put_log1("Function: `tune.model_param`:
 param_vals_tmp length: %1", length(param_vals_tmp))
     print(param_vals_tmp)
 
     RMSE_tmp <- fn_tune.test.param_value(pvalue)
 
-    put_log1("Function: tune.model_param
+    put_log1("Function: `tune.model_param`:
 RMSE_tmp: %1", RMSE_tmp)
     RMSEs_tmp[i] <- RMSE_tmp
     
-    put_log2("Function: tune.model_param
+    put_log2("Function: `tune.model_param`:
 RMSEs_tmp[%1]: %2", i, RMSEs_tmp[i])
-    put_log1("Function: tune.model_param
+    put_log1("Function: `tune.model_param`:
 RMSEs_tmp length: %1", length(RMSEs_tmp))
     print(RMSEs_tmp)
     
     plot(param_vals_tmp[RMSEs_tmp > 0], RMSEs_tmp[RMSEs_tmp > 0])
     
-    if(RMSE_tmp >= RMSE_min && break.if_min){
-      # next
+    if(RMSE_tmp > RMSE_min){
+      warning("Function: `tune.model_param`:
+`RSME` reached its minimum: ", RMSE_min)
+      put_log2("Function: `tune.model_param`:
+Current `RMSE` value is %1 related to parameter value: %2",
+               RMSE_tmp,
+               pvalue)
+      
+      if (i > i_max.beyond_RMSE_min) {
+        warning("Function: `tune.model_param`:
+Operation is breaked (after `RSME` reached its minimum) on the following step: ", i)
+        # browser()
+        break
+      }
       # browser()
-      break
+      next
     }
     
+    
+    
     RMSE_min <- RMSE_tmp
+    
+    if (break.if_min) {
+      i_max.beyond_RMSE_min <- i + 4
+    }
     # browser()
   }
   
-  put_log1("Function: tune.model_param
+  put_log1("Function: `tune.model_param`:
 Completed with RMSEs_tmp length: %1", length(RMSEs_tmp))
   list(RMSEs = RMSEs_tmp,
        param_values = param_vals_tmp)

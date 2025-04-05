@@ -1530,10 +1530,58 @@ degree_param_folders <- c("degree0",
 
 ###### 1. `degree = 0` ---------------------------------------------------------
 put("Case 1. `degree = 0`")
+####### Preliminary setting-up of spans range ----------------------------------
+file_name_tmp <- "13.pre-tune.degree0.UMGY+SmthDay_effect.RData"
+file_path_tmp <- file.path(models_data_path, file_name_tmp)
+
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading Preliminary set-up data for UMGY+Smoothed-Day Effect from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Preliminary set-up data for UMGY+Smoothed-Day Effect has been loaded from file: %1", 
+           file_path_tmp)
+} else {
+  put_log1("Preliminary setting-up of spans range for `loess` function 
+with `degree = 0` parameter for %1-Fold Cross Validation samples...",
+CVFolds_N)
+  
+  start <- put_start_date()
+  spans <- seq(0.0003, 1, 0.001)
+  cv.UMGY.SmthDay_effect.pretune.result <- 
+    tune.model_param(spans,train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
+  put_end_date(start)
+  put_log1("Preliminary set-up data for UMGY+Smoothed-Day Effect has been computed
+using `loess` function with `degree = 0` parameter.
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+  
+  plot(cv.UMGY.SmthDay_effect.pretune.result$param_values,
+       cv.UMGY.SmthDay_effect.pretune.result$RMSEs)
+
+  put_log1("Saving UMGY+Smoothed-Day Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       user_effect,
+       rg.UM_effect,
+       rg.UMG_effect,
+       rg.UMGY_effect,
+       cv.UMGY.SmthDay_effect,
+       cv.UMGY.SmthDay_effect.pretune.result,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("UMGY+Smoothed-Day Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
+
+
+####### Fine-tuning of a span parameter value ---------------------------------- 
 UMGY.SmthDay.degree0.data_path <- file.path(UMGY.SmthDay.data_path, 
                                            degree_param_folders[1])
 
-UMGY.SmthDay.degree0.loop_starter <- c(0.0003, 1.0, 100, 1600)
+UMGY.SmthDay.degree0.loop_starter <- c(0.0005, 0.01, 4, 128)
 UMGY.SmthDay.degree0.cache_file.base_name <- "UMGY.SmthDay.degree0.tuning-span"
 
 UMGY.SmthDay.degree0.best_result <- 
@@ -1545,7 +1593,8 @@ UMGY.SmthDay.degree0.best_result <-
 put(UMGY.SmthDay.degree0.best_result)
 # param.best_value        best_RMSE 
 #       0.00069988       0.85790025 
-
+# param.best_value        best_RMSE 
+#      0.000796875      0.857900254 
 
 
 
