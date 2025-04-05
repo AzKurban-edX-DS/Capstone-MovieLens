@@ -1581,7 +1581,11 @@ CVFolds_N)
 UMGY.SmthDay.degree0.data_path <- file.path(UMGY.SmthDay.data_path, 
                                            degree_param_folders[1])
 
-UMGY.SmthDay.degree0.loop_starter <- c(0.0005, 0.01, 4, 128)
+# UMGY.SmthDay.degree0.loop_starter <- c(0.0005, 0.01, 4, 128)
+UMGY.SmthDay.degree0.loop_starter <- c(cv.UMGY.SmthDay_effect.pretune.result$param_values[1], 
+                                       cv.UMGY.SmthDay_effect.pretune.result$param_values[3], 
+                                       4, 
+                                       256)
 UMGY.SmthDay.degree0.cache_file.base_name <- "UMGY.SmthDay.degree0.tuning-span"
 
 UMGY.SmthDay.degree0.best_result <- 
