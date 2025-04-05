@@ -1543,7 +1543,8 @@ UMGY.SmthDay.degree0.best_result <-
                          train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
 
 put(UMGY.SmthDay.degree0.best_result)
-
+# param.best_value        best_RMSE 
+#       0.00069988       0.85790025 
 
 
 
