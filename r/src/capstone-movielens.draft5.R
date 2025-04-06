@@ -1670,9 +1670,6 @@ put(cv.UMGYSD.tuned.dgr0.best_RMSE)
 #      Span      RMSE 
 # 0.0008700 0.8573269 
 
-#### Close Log -----------------------------------------------------------------
-log_close()
-
 ###### 2. `degree = 1` --------------------------------------------------------------
 put("Case 2. `degree = 1`")
 UMGY.SmthDay.degree1.data_path <- file.path(UMGY.SmthDay.data_path, 
