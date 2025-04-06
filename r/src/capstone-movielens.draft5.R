@@ -111,7 +111,7 @@ models_data_path <- file.path(data_path, models_folder)
 regularization_data_path <- file.path(data_path, regularization_folder)
 model_tuning.data_path <- file.path(data_path, model_tuning_folder)
 
-## Defining helper functions --------------------------------------------------
+## Common Helper functions --------------------------------------------------
 common_helper_functions.file_path <- file.path(functions_path, 
                                             "common-helper.functions.R")
 source(common_helper_functions.file_path, 
@@ -1431,13 +1431,11 @@ log_close()
 # Y[i,j] = μ + α[i] + β[j] + g[i,j] yr[i,j]  + f(d[i,j]) + ε[i,j]
 
 # with `f` a smooth function of `d[(i,j]`
-#### Open log ------------------------------------------------------------------
-open_logfile(".user+movie+genre+year+day-effect")
-
 ##### Support Functions --------------------------------------------------------
 cv.UMGYD_effect.functions_file <- "UMGYD-effect.functions.R"
 cv.UMGYD_effect.functions.file_path <- file.path(functions_path, 
                                                 cv.UMGYD_effect.functions_file)
+
 source(cv.UMGYD_effect.functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
@@ -1445,7 +1443,8 @@ source(cv.UMGYD_effect.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-
+#### Open log ------------------------------------------------------------------
+open_logfile(".UMGY.SmthDay_effect.loess.default-params")
 
 ##### Train model using `loess` function with default `span` & `degree` params----
 file_name_tmp <- "12.cv.UMGY.SmthDay_effect.RData"
@@ -1515,6 +1514,10 @@ print(cv.UMGY.SmthDay_effect.RMSE)
 #> [1] 0.859081
 
 
+#### Close Log -----------------------------------------------------------------
+log_close()
+
+
 #### Re-train tuning `loess` function's with `span` & `degree` params-----------
 ##### Tune the Global/Day Smoothed Effect model -------------------------------
 degree <- c(0, 1, 2)
@@ -1530,6 +1533,9 @@ degree_param_folders <- c("degree0",
 
 ###### 1. `degree = 0` ---------------------------------------------------------
 put("Case 1. `degree = 0`")
+#### Open log ------------------------------------------------------------------
+open_logfile(".UMGY.SmthDay_effect.loess.degree0.pre-tuning")
+
 ####### Preliminary setting-up of spans range ----------------------------------
 file_name_tmp <- "13.pre-tune.degree0.UMGY+SmthDay_effect.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
@@ -1548,7 +1554,7 @@ with `degree = 0` parameter for %1-Fold Cross Validation samples...",
 CVFolds_N)
   
   start <- put_start_date()
-  spans <- seq(0.0003, 1, 0.001)
+  spans <- seq(0.0005, 1, 0.001)
   cv.UMGY.SmthDay_effect.pretune.result <- 
     tune.model_param(spans,train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
   put_end_date(start)
@@ -1575,6 +1581,11 @@ CVFolds_N)
   put_log1("UMGY+Smoothed-Day Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
+#### Close Log -----------------------------------------------------------------
+log_close()
+#### Open log ------------------------------------------------------------------
+open_logfile(".UMGY.SmthDay_effect.loess.degree0.fine-tuning")
+
 
 
 ####### Fine-tuning of a span parameter value ---------------------------------- 
@@ -1584,8 +1595,7 @@ UMGY.SmthDay.degree0.data_path <- file.path(UMGY.SmthDay.data_path,
 # UMGY.SmthDay.degree0.loop_starter <- c(0.0005, 0.01, 4, 128)
 UMGY.SmthDay.degree0.loop_starter <- c(cv.UMGY.SmthDay_effect.pretune.result$param_values[1], 
                                        cv.UMGY.SmthDay_effect.pretune.result$param_values[3], 
-                                       4, 
-                                       256)
+                                       8)
 UMGY.SmthDay.degree0.cache_file.base_name <- "UMGY.SmthDay.degree0.tuning-span"
 
 UMGY.SmthDay.degree0.best_result <- 
@@ -1599,9 +1609,13 @@ put(UMGY.SmthDay.degree0.best_result)
 #       0.00069988       0.85790025 
 # param.best_value        best_RMSE 
 #      0.000796875      0.857900254 
+#      Span      RMSE 
+# 0.0008700 0.8573253   
 
 
 
+#### Close Log -----------------------------------------------------------------
+log_close()
 #-----------------------------------------------------------------------------
 file_name_tmp <- ".day-smoothed-loess-degree0.RData"
 file_path_tmp <- file.path(models_data_path, file_name_tmp)
@@ -1655,6 +1669,9 @@ put_log("The best RMSE for `degree = 0`:")
 put(cv.UMGYSD.tuned.dgr0.best_RMSE)
 #      Span      RMSE 
 # 0.0008700 0.8573269 
+
+#### Close Log -----------------------------------------------------------------
+log_close()
 
 ###### 2. `degree = 1` --------------------------------------------------------------
 put("Case 2. `degree = 1`")

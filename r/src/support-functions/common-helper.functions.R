@@ -218,32 +218,34 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
 ## Model Tuning ---------------------------------------------------------
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
-                             break.if_min = TRUE){
+                             break.if_min = TRUE,
+                             steps.beyond_min = 2){
   n <- length(param_values)
   param_vals_tmp <- numeric()
   RMSEs_tmp <- numeric()
   RMSE_min <- Inf
   i_max.beyond_RMSE_min <- Inf
+  prm_val.best <- NA
   
   put_log("Function: `tune.model_param`:
 param_values:")
-  print(param_values)
+  put(param_values)
   
   for (i in 1:n) {
     put_log1("Function: `tune.model_param`:
 Iteration %1", i)
-    pvalue <- param_values[i]
+    prm_val <- param_values[i]
     put_log1("Function: `tune.model_param`:
-pvalue: %1", pvalue)
-    param_vals_tmp[i] <- pvalue
+prm_val: %1", prm_val)
+    param_vals_tmp[i] <- prm_val
     
     put_log2("Function: `tune.model_param`:
 param_vals_tmp[%1]: %2", i, param_vals_tmp[i])
     put_log1("Function: `tune.model_param`:
 param_vals_tmp length: %1", length(param_vals_tmp))
-    print(param_vals_tmp)
+    put(param_vals_tmp)
 
-    RMSE_tmp <- fn_tune.test.param_value(pvalue)
+    RMSE_tmp <- fn_tune.test.param_value(prm_val)
 
     put_log1("Function: `tune.model_param`:
 RMSE_tmp: %1", RMSE_tmp)
@@ -253,17 +255,18 @@ RMSE_tmp: %1", RMSE_tmp)
 RMSEs_tmp[%1]: %2", i, RMSEs_tmp[i])
     put_log1("Function: `tune.model_param`:
 RMSEs_tmp length: %1", length(RMSEs_tmp))
-    print(RMSEs_tmp)
+    put(RMSEs_tmp)
     
     plot(param_vals_tmp[RMSEs_tmp > 0], RMSEs_tmp[RMSEs_tmp > 0])
     
     if(RMSE_tmp > RMSE_min){
       warning("Function: `tune.model_param`:
-`RSME` reached its minimum: ", RMSE_min)
+`RSME` reached its minimum: ", RMSE_min, "
+for parameter value: ", prm_val)
       put_log2("Function: `tune.model_param`:
 Current `RMSE` value is %1 related to parameter value: %2",
                RMSE_tmp,
-               pvalue)
+               prm_val)
       
       if (i > i_max.beyond_RMSE_min) {
         warning("Function: `tune.model_param`:
@@ -274,13 +277,12 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
       # browser()
       next
     }
-    
-    
-    
+
     RMSE_min <- RMSE_tmp
+    prm_val.best <- prm_val
     
     if (break.if_min) {
-      i_max.beyond_RMSE_min <- i + 4
+      i_max.beyond_RMSE_min <- i + steps.beyond_min
     }
     # browser()
   }
@@ -294,8 +296,11 @@ model.tune.param_range <- function(loop_starter,
                              tune_dir_path,
                              cache_file_base_name,
                              fn_tune.test.param_value,
+                             # range_divider.multiplier = 4,
+                             max.identical.min_RMSE.count = 4,
                              is.cv = TRUE,
-                             break.if_min = TRUE){
+                             break.if_min = TRUE,
+                             steps.beyond_min = 2){
 
   seq_start <- loop_starter[1]
   seq_end <- loop_starter[2]
@@ -303,7 +308,7 @@ model.tune.param_range <- function(loop_starter,
   if (range_divider < 4) {
     range_divider <- 4
   }
-  max_range_divider <- loop_starter[4]
+  # max_range_divider <- loop_starter[4]
   
   
   best_RMSE <- Inf
@@ -368,7 +373,8 @@ Tuning data has been loaded from file: %1", file_path_tmp)
     } else {
       tuning_result <- tune.model_param(test_param_vals, 
                                         fn_tune.test.param_value,
-                                        break.if_min)
+                                        break.if_min,
+                                        steps.beyond_min)
       
       tuning_result.RMSEs <- tuning_result$RMSEs
       tuning_result.param_values <- tuning_result$param_values
@@ -381,7 +387,7 @@ Tuning data has been loaded from file: %1", file_path_tmp)
            best_RMSE,
            seq_increment,
            range_divider,
-           max_range_divider,
+           # max_range_divider,
            file = file_path_tmp)
 
       put_log1("Function `model.tune.param_range`:
@@ -394,10 +400,20 @@ File saved: %1", file_path_tmp)
     min_RMSE <- min(tuning_result.RMSEs)
     RMSEs_min_ind <- which.min(tuning_result.RMSEs)
     
+    if (best_RMSE < min_RMSE) {
+      warning("Current minimal RMSE is greater than previously computed best value: ",
+              best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
+      stop("Current minimal RMSE is greater than previously computed best value: ",
+           best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
     
-    if (best_RMSE <= min_RMSE) {
-      warning("Currently computed minimal RMSE not greater than the previously reached best one: ",
-              best_RMSE)
+    }
+
+    if (best_RMSE == min_RMSE) {
+      warning("Currently computed minimal RMSE equals the previously reached best one: ",
+              best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
       
       put_log2("Function `model.tune.param_range`:
 Current minimal RMSE for `parameter value = %1`: %2",
@@ -410,23 +426,40 @@ So far reached best RMSE for `parameter value = %1`: %2",
                param_values.best_result["best_RMSE"])
       
       put(param_values.best_result)
-      
-      if (range_divider < max_range_divider) {
-        range_divider <- range_divider*2
-        # browser()
-      } else {
-        warning("`range_divider` reached its maximum allowed value: ",
-                max_range_divider)
-        put_log1("The actual value of the `range_divider` is %1",
-                 range_divider)
-        # browser()
-        #break
+
+      if (sum(tuning_result.RMSEs[tuning_result.RMSEs == min_RMSE]) >= max.identical.min_RMSE.count) {
+        warning("Minimal `RMSE`identical values count reached it maximum allowed value: ",
+                max.identical.min_RMSE.count)
+        
+        put(tuning_result.RMSEs)
+        
+        param_values.best_result <-
+          get_best_param.result(tuning_result.param_values,
+                                tuning_result.RMSEs)
+        
+        put_log2("Function `model.tune.param_range`:
+      Reached the best RMSE for `parameter value = %1`: %2",
+                 param_values.best_result["param.best_value"],
+                 param_values.best_result["best_RMSE"])
+        break
       }
-    } else {
-      best_RMSE <- min_RMSE
-      param.best_value <- tuning_result.param_values[RMSEs_min_ind]
-    }
+      
+      # if (range_divider < max_range_divider) {
+      #   range_divider <- range_divider*range_divider.multiplier
+      #   # browser()
+      # } else {
+      #   warning("`range_divider` reached its maximum allowed value: ",
+      #           max_range_divider)
+      #   put_log1("The actual value of the `range_divider` is %1",
+      #            range_divider)
+      #   # browser()
+      #   #break
+      # }
+    } 
     
+    best_RMSE <- min_RMSE
+    param.best_value <- tuning_result.param_values[RMSEs_min_ind]
+
     param_values.best_result <- 
       get_best_param.result(tuning_result.param_values, 
                           tuning_result.RMSEs)
@@ -478,7 +511,8 @@ Reached minimal RMSE for the test parameter value = %1: %2",
   }
   
   # browser()
-  param_values.best_result
+  list(best_result = param_values.best_result,
+       tuning_result = tuning_result)
 }
 
 
