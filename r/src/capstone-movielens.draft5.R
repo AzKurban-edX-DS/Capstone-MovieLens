@@ -1589,22 +1589,22 @@ open_logfile(".UMGY.SmthDay_effect.loess.degree0.fine-tuning")
 
 
 ####### Fine-tuning of a span parameter value ---------------------------------- 
-UMGY.SmthDay.degree0.data_path <- file.path(UMGY.SmthDay.data_path, 
+UMGYD_effect.degree0.data_path <- file.path(UMGY.SmthDay.data_path, 
                                            degree_param_folders[1])
 
-# UMGY.SmthDay.degree0.loop_starter <- c(0.0005, 0.01, 4, 128)
-UMGY.SmthDay.degree0.loop_starter <- c(cv.UMGY.SmthDay_effect.pretune.result$param_values[1], 
+# UMGYD_effect.degree0.loop_starter <- c(0.0005, 0.01, 4, 128)
+UMGYD_effect.degree0.loop_starter <- c(cv.UMGY.SmthDay_effect.pretune.result$param_values[1], 
                                        cv.UMGY.SmthDay_effect.pretune.result$param_values[3], 
                                        8)
-UMGY.SmthDay.degree0.cache_file.base_name <- "UMGY.SmthDay.degree0.tuning-span"
+UMGYD_effect.degree0.cache_file.base_name <- "UMGYD_effect.degree0.tuning-span"
 
-UMGY.SmthDay.degree0.best_result <- 
-  model.tune.param_range(UMGY.SmthDay.degree0.loop_starter,
-                         UMGY.SmthDay.degree0.data_path,
-                         UMGY.SmthDay.degree0.cache_file.base_name,
+UMGYD_effect.tuning_result.degree0 <- 
+  model.tune.param_range(UMGYD_effect.degree0.loop_starter,
+                         UMGYD_effect.degree0.data_path,
+                         UMGYD_effect.degree0.cache_file.base_name,
                          train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
 
-put(UMGY.SmthDay.degree0.best_result)
+put(UMGYD_effect.tuning_result.degree0)
 # param.best_value        best_RMSE 
 #       0.00069988       0.85790025 
 # param.best_value        best_RMSE 
