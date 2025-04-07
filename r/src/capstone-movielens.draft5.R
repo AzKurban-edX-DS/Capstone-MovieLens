@@ -94,25 +94,39 @@ kfold_index <- seq(from = 1:CVFolds_N)
 #RMSEs.ResultTibble <- NULL
 
 ### File Paths -----------------------------------------------------------------
-r_path <- "r"
+data.path <- "data"
+dir.create(data.path)
 
-src_folder <- "src"
-functions_folder <- "support-functions"
-regularization_folder <- "regularization"
-model_tuning_folder <- "model-tuning"
+r.path <- "r"
+dir.create(r.path)
 
-r_src_path <- file.path(r_path, src_folder)
-functions_path <- file.path(r_src_path, functions_folder)
-src_regularization_path <- file.path(r_src_path, regularization_folder)
+src.folder <- "src"
+support_functions.folder <- "support-functions"
+regularization.folder <- "regularization"
+models.folder <- "models"
+model_tuning.folder <- "model-tuning"
+fine_tuning.folder <- "fine-tuning"
 
-data_path <- "data"
-models_folder <- "models"
-models_data_path <- file.path(data_path, models_folder)
-regularization_data_path <- file.path(data_path, regularization_folder)
-model_tuning.data_path <- file.path(data_path, model_tuning_folder)
+r.src.path <- file.path(r.path, src.folder)
+dir.create(r.src.path)
+
+support_functions.path <- file.path(r.src.path, support_functions.folder)
+dir.create(support_functions.path)
+
+# src.regularization.path <- file.path(r.src.path, regularization.folder)
+# dir.create(src.regularization.path)
+
+data.models.path <- file.path(data.path, models.folder)
+dir.create(data.models.path)
+
+data.regularization.path <- file.path(data.path, regularization.folder)
+dir.create(data.regularization.path)
+
+data.model_tuning.path <- file.path(data.path, model_tuning.folder)
+dir.create(data.model_tuning.path)
 
 ## Common Helper functions --------------------------------------------------
-common_helper_functions.file_path <- file.path(functions_path, 
+common_helper_functions.file_path <- file.path(support_functions.path, 
                                             "common-helper.functions.R")
 source(common_helper_functions.file_path, 
        catch.aborts = TRUE,
@@ -146,8 +160,8 @@ if(!require(edx.capstone.movielens.data)) {
 }
 
 movielens_datasets_file <- "movielens-datasets.RData"
-movielens_datasets_file_path <- file.path(data_path, movielens_datasets_file)
-movielens_datasets_zip <- file.path(data_path, "movielens-datasets.zip")
+movielens_datasets_file_path <- file.path(data.path, movielens_datasets_file)
+movielens_datasets_zip <- file.path(data.path, "movielens-datasets.zip")
 
 make_source_datasets <- function(){
   put_log("Function: `make_source_datasets`: Creating source datasets...")
@@ -315,7 +329,7 @@ All required datasets have been created.")
     put_log("Method `init_source_datasets`: 
 Saving newly created input datasets to file...")
     start <- put_start_date()
-    dir.create(data_path)
+    dir.create(data.path)
     save(movielens_datasets, file =  movielens_datasets_file_path)
     put_end_date(start)
     
@@ -521,7 +535,7 @@ put("RMSE Results Tibble created.")
 
 #### Compute Naive RMSE --------------------------------------------------------
 file_name_tmp <- "1.mu.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading overal mean rating value from file: %1...", 
@@ -565,7 +579,7 @@ put_log1("The Naive RMSE is: %1", naive_rmse)
 #> Let's prove that by the following small investigation:
 
 file_name_tmp <- "2.mu-deviation.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading Overall Mean Deviation data from file: %1...", 
@@ -636,7 +650,7 @@ put("Building User Effect Model...")
 #### Model building: User Effect -----------------------------------------------
 ##### User Mean Ratings Computation --------------------------------------------
 file_name_tmp <- "3.user-mean-ratings.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading User Mean Rating data from file: %1...", 
@@ -713,7 +727,7 @@ put_log("A histogram of the User Mean Rating distribution has been plotted.")
 #> of `y[i,j] - μ` for each user. So we can compute them this way:
 
 file_name_tmp <- "4.user-effect-model.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading User Effect Model data from file: %1...", 
@@ -802,21 +816,21 @@ log_close()
 #> α[i], and then estimating β[j] as the average of the residuals 
 #> `y[i,j] - μ - α[i]`:
 
-#### Open log ------------------------------------------------------------------
-open_logfile(".user+movie-effect")
-
 #### Support Functions ---------------------------------------------------------
-ume_functions.file_path <- file.path(functions_path, 
+UM_effect.functions.file_path <- file.path(support_functions.path, 
                                                "user+movie-effect.functions.R")
-source(ume_functions.file_path, 
+source(UM_effect.functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
        spaced = TRUE,
        verbose = TRUE,
        keep.source = TRUE)
+#### Open log ------------------------------------------------------------------
+open_logfile(".user+movie-effect")
+
 #### Model building: User+Movie Effect ----------------------------------------
 file_name_tmp <- "5.UM-effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading User+Movie Effect data from file: %1...", 
@@ -827,30 +841,30 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  user_movie_effect <- train_user_movie_effect.cv()
+  UM_effect <- train_user_movie_effect.cv()
   
   put_log1("Saving User+Movie Effect data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
        user_effect,
-       user_movie_effect,
+       UM_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User+Movie Effect data has been saved to file: %1",
            file_path_tmp)
 } 
 
-put(str(user_movie_effect))
+put(str(UM_effect))
 
 ##### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
-hist(user_movie_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
+hist(UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
 #### Calculate RMSEs.ResultTibble on Validation Sets ----------------------------------------
-user_movie_effect_RMSE <- calc_user_movie_effect_RMSE.cv(user_movie_effect)
+user_movie_effect_RMSE <- calc_user_movie_effect_RMSE.cv(UM_effect)
 #> [1] 0.8594763
 
 #### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
@@ -877,32 +891,119 @@ log_close()
 # β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
 # where `n[j]` is the number of ratings made for movie `j`.
 
-##### Open log --------------------------------------------------------------------
-open_logfile(".reg-um-effect.loop_0_10_d10")
-
 ##### Process User+Movie Model Regularization -------------------------------------
-# ume_regularization.file_path <- file.path(src_regularization_path, 
+# UM_effect.regularization.file_path <- file.path(src.regularization.path, 
 #                                             "user-movie-effect-regularization.R")
-# source(ume_regularization.file_path, 
+# source(UM_effect.regularization.file_path, 
 #        catch.aborts = TRUE,
 #        echo = TRUE,
 #        spaced = TRUE,
 #        verbose = TRUE,
 #        keep.source = TRUE)
 
-ume_regularization_path <- file.path(regularization_data_path, 
-                                     "user-movie-effect")
-ume_loop_starter <- c(0, 4, 2, 128)
-ume_cache_file_base_name <- "ume_reg-loop"
+UM_effect.regularization.path <- file.path(data.regularization.path, 
+                                           "1.UM-effect")
+dir.create(UM_effect.regularization.path)
 
-ume_reg_lambdas_best_results <- model.tune.param_range(ume_loop_starter,
-                                                 ume_regularization_path,
-                                                 ume_cache_file_base_name,
-                                                 regularize.test_lambda.user_movie_effect.cv)
+UM_effect.rg.fine_tuning.path <- file.path(UM_effect.regularization.path, 
+                                           "fine-tuning")
+dir.create(UM_effect.rg.fine_tuning.path)
+
+##### Open log --------------------------------------------------------------------
+open_logfile(".reg-um-effect.pre-set-lambdas")
+
+###### Preliminary setting-up of lambda range ----------------------------------
+file_name_tmp <- "1.UM-effect.rg.pre-tune.RData"
+file_path_tmp <- file.path(UM_effect.regularization.path, file_name_tmp)
+
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading preliminary regularization set-up data for User+Movie Effect from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Preliminary regularization set-up data for User+Movie Effect has been loaded from file: %1", 
+           file_path_tmp)
+} else {
+  put_log1("Preliminary setting-up of `lambda`s range for %1-Fold Cross Validation samples...",
+CVFolds_N)
+  
+  start <- put_start_date()
+  lambdas <- seq(0, 1, 0.1)
+  cv.UM_effect.pretune.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+  put_end_date(start)
+  put_log1("Preliminary regularization set-up of `lambda`s range for the User+Movie Effect has been completed.
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+  
+  plot(cv.UM_effect.pretune.result$param_values,
+       cv.UM_effect.pretune.result$RMSEs)
+  
+  put_log1("Saving User+Movie Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       user_effect,
+       #cv.UM_effect,
+       cv.UM_effect.pretune.result,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
+
+#### Close Log -----------------------------------------------------------------
+log_close()
+
+#### Open log ------------------------------------------------------------------
+open_logfile(".UM-effect.rg.fine-tuning")
+
+####### Fine-tuning for `lambda` parameters value ---------------------------------- 
+
+result <- cv.UM_effect.pretune.result
+
+
+best_RMSE <- min(result$RMSEs)
+best_RMSE.idx <- which.min(result$RMSEs)
+best_lambda <- result$param_values[best_RMSE.idx]
+
+result.N <- length(result$RMSEs)
+i <- best_RMSE.idx
+j <- i
+
+while (i > 1) {
+  i <- i - 1
+  
+  if (result$RMSEs[i] > best_RMSE) {
+    break
+  }
+}
+
+while (j < result.N) {
+  j <- j + 1
+  
+  if (result$RMSEs[j] > best_RMSE) {
+    break
+  }
+}
+
+UM_effect.loop_starter <- c(result$param_values[i], 
+                            cv.UM_effect.pretune.result$param_values[j], 
+                            8)
+UM_effect.loop_starter
+#> [1] 0.3 0.5 8.0
+
+UM_effect.cache_file_base_name <- "UM_effect.rg.fine-tuning"
+
+UM_effect.reg_lambdas_best_results <- model.tune.param_range(UM_effect.loop_starter,
+                                                 UM_effect.regularization.path,
+                                                 UM_effect.cache_file_base_name,
+                                                 regularize.test_lambda.UM_effect.cv)
 
 ##### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
 file_name_tmp <- "6.rg.UM-effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading User+Movie Effect data from file: %1...", 
@@ -913,10 +1014,12 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  best_user_movie_reg_lambda <- ume_reg_lambdas_best_results["param.best_value"]
+  best_result <- UM_effect.reg_lambdas_best_results$best_result
+  
+  best_user_movie_reg_lambda <- best_result["param.best_value"]
   best_user_movie_reg_lambda
   
-  best_user_movie_reg_RMSE <- ume_reg_lambdas_best_results["best_RMSE"]
+  best_user_movie_reg_RMSE <- best_result["best_RMSE"]
   print(best_user_movie_reg_RMSE)
   
   put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
@@ -973,7 +1076,7 @@ open_logfile(".user+movie+genre-effect")
 
 ##### Genre Mean Rating --------------------------------------------------------
 file_name_tmp <- "7.genre-mean-rating.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading Genre Average Rating data from file: %1...", 
@@ -1133,7 +1236,7 @@ has been plotted alternative way.",
 
 #### Support Functions ---------------------------------------------------------
 umge_functions_file <- "user+movie+genre-effect.functions.R"
-umge_functions.file_path <- file.path(functions_path, 
+umge_functions.file_path <- file.path(support_functions.path, 
                                       umge_functions_file)
 source(umge_functions.file_path, 
        catch.aborts = TRUE,
@@ -1144,7 +1247,7 @@ source(umge_functions.file_path,
 
 #### Train User+Movie+Genre Effect Model ---------------------------------------
 file_name_tmp <- "8.UMG-effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading User+Movie+Genre Effect Model data from file: %1...", 
@@ -1199,8 +1302,8 @@ log_close()
 open_logfile(".reg-umg-effect.loop_0_2_d4_max64")
 
 ##### Process User+Movie+Genre Model Regularization -------------------------------------
-umge_regularization_path <- file.path(regularization_data_path, 
-                                     "user-movie-genre-effect")
+umge_regularization_path <- file.path(data.regularization.path, 
+                                     "2.UMG-effect")
 umge_loop_starter <- c(0, 2, 4, 64)
 umge_cache_file_base_name <- "umge_reg-loop"
 
@@ -1213,7 +1316,7 @@ put(umge_reg_lambdas_best_results)
 
 ##### Re-training Regularized User+Movie+Genre Effect Model for the best `lambda` value ----
 file_name_tmp <- "9.rg.UMG-effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading Regularized User+Movie+Genre Effect Model data from file: %1...", 
@@ -1298,7 +1401,7 @@ put("Average Rating per Year distribution has been plotted.")
 
 #### Support Functions ---------------------------------------------------------
 cv.UMGY_effect.functions_file <- "UMGY-effect.functions.R"
-cv.UMGY_effect.functions.file_path <- file.path(functions_path, 
+cv.UMGY_effect.functions.file_path <- file.path(support_functions.path, 
                                       cv.UMGY_effect.functions_file)
 source(cv.UMGY_effect.functions.file_path, 
        catch.aborts = TRUE,
@@ -1310,7 +1413,7 @@ source(cv.UMGY_effect.functions.file_path,
 
 #### Training User+Movie+Genre+Year Effect Model ----------------------------------------
 file_name_tmp <- "10.UMGY-effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading User+Movie+Genre+Year Effect data from file: %1...", 
@@ -1360,8 +1463,8 @@ log_close()
 open_logfile(".reg-umgy-effect.loop_0_128_d16_max128")
 
 #### Process User+Movie+Genre+Year Model Regularization -------------------------------------
-umgye.regularization_path <- file.path(regularization_data_path, 
-                                      "UMGY-effect")
+umgye.regularization_path <- file.path(data.regularization.path, 
+                                      "3.UMGY-effect")
 umgye.loop_starter <- c(0, 256, 16, 128)
 umgye.cache_file_base_name <- "umgye.reg-loop"
 
@@ -1374,7 +1477,7 @@ put(umgye.reg_lambdas_best_results)
 
 #### Re-training Regularized User+Movie+Genre+Year Effect Model for the best `lambda` value ----
 file_name_tmp <- "11.rg.UMGY-effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading Regularized User+Movie+Genre+Year Effect Model data from file: %1...", 
@@ -1427,13 +1530,13 @@ for the `Regularized User+Movie+Genre+Year Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-### Accounting for User+Movie+Genre+Year+Day Effect ---------------------------------
+### Accounting for User+Movie+Genre+Year+Day-Smoothed Effect ---------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j] yr[i,j]  + f(d[i,j]) + ε[i,j]
 
 # with `f` a smooth function of `d[(i,j]`
 ##### Support Functions --------------------------------------------------------
 cv.UMGYD_effect.functions_file <- "UMGYD-effect.functions.R"
-cv.UMGYD_effect.functions.file_path <- file.path(functions_path, 
+cv.UMGYD_effect.functions.file_path <- file.path(support_functions.path, 
                                                 cv.UMGYD_effect.functions_file)
 
 source(cv.UMGYD_effect.functions.file_path, 
@@ -1444,11 +1547,11 @@ source(cv.UMGYD_effect.functions.file_path,
        keep.source = TRUE)
 
 #### Open log ------------------------------------------------------------------
-open_logfile(".UMGY.SmthDay_effect.loess.default-params")
+open_logfile(".UMGYD-effect.loess.default-params")
 
 ##### Train model using `loess` function with default `span` & `degree` params----
-file_name_tmp <- "12.cv.UMGY.SmthDay_effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_name_tmp <- "12.cv.UMGYD-effect.RData"
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading Global Day Effect Model data from file: %1...", 
@@ -1464,8 +1567,8 @@ with default `span` & `degree` parameters for %1-Fold Cross Validation samples..
 CVFolds_N)
   
   start <- put_start_date()
-  cv.UMGY.SmthDay_effect <- train_UMGY_SmoothedDay_effect.cv()
-  str(cv.UMGY.SmthDay_effect)
+  cv.UMGYD_effect <- train_UMGY_SmoothedDay_effect.cv()
+  str(cv.UMGYD_effect)
   put_end_date(start)
   put_log1("User+Movie+Genre+Date Effect Model has been trained
 using `loess` function with default `span` & `degree` parameters
@@ -1479,20 +1582,20 @@ CVFolds_N)
        rg.UM_effect,
        rg.UMG_effect,
        rg.UMGY_effect,
-       cv.UMGY.SmthDay_effect,
+       cv.UMGYD_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("Global Day Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-put(str(cv.UMGY.SmthDay_effect))
+put(str(cv.UMGYD_effect))
 
-##### Date Smoothed Effect Visualization ----------------------------------
+##### User+Movie+Genre+Year+Day-Smoothed Effect Visualization ----------------------------------
 # mean_day_smoothed_effect <- compute_mean_dse(day_smoothed_effect_ls)
 # str(mean_day_smoothed_effect)
 
-cv.UMGY.SmthDay_effect |>
+cv.UMGYD_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
@@ -1502,43 +1605,63 @@ for the `loess` function fitted with default parameters.")
 
 # Calculate RMSE for the `loess` function fitted with default parameters -------
 start <- put_start_date()
-cv.UMGY.SmthDay_effect.RMSE <- cv.UMGY.SmthDay_effect |>
+cv.UMGYD_effect.RMSE <- cv.UMGYD_effect |>
   calc_UMGY_SmoothedDay_effect.RMSE.cv()
 put_end_date(start)
 put_log2("RMSE value has been computed using `loess` function 
 with default (degree & span) parameters for the %1-Fold Cross Validation samples: %2.",
          CVFolds_N,
-         cv.UMGY.SmthDay_effect.RMSE)
+         cv.UMGYD_effect.RMSE)
 
-print(cv.UMGY.SmthDay_effect.RMSE)
+print(cv.UMGYD_effect.RMSE)
 #> [1] 0.859081
 
 
 #### Close Log -----------------------------------------------------------------
 log_close()
 
+##### Tune the model using `loess` with `span` & `degree` params----
+UMGYD_effect.tuning_folder <- "UMGYD-effect"
 
-#### Re-train tuning `loess` function's with `span` & `degree` params-----------
-##### Tune the Global/Day Smoothed Effect model -------------------------------
+UMGYD_effect.tuning.data.path <- 
+  file.path(data.model_tuning.path, UMGYD_effect.tuning_folder)
+
 degree <- c(0, 1, 2)
 put_log("Tuning `loess` function for degrees:")
 put(degree)
 
-UMGY.SmthDay.folder <- "UMGY.SmthDay"
-UMGY.SmthDay.data_path <- file.path(model_tuning.data_path, UMGY.SmthDay.folder)
+UMGYD_effect.tuning.degree_param_folders <- c("degree0", 
+                                              "degree1", 
+                                              "degree2")
 
-degree_param_folders <- c("degree0", 
-                          "degree1", 
-                          "degree2")
+###### Tuning Data File Paths --------------------------------------------------
+UMGYD_effect.tuning.degree0.data.path <- file.path(UMGYD_effect.tuning.data.path, 
+                                           UMGYD_effect.tuning.degree_param_folders[1])
+
+UMGYD_effect.tuning.degree1.data.path <- file.path(UMGYD_effect.tuning.data.path, 
+                                           UMGYD_effect.tuning.degree_param_folders[2])
+
+UMGYD_effect.tuning.degree2.data.path <- file.path(UMGYD_effect.tuning.data.path, 
+                                           UMGYD_effect.tuning.degree_param_folders[3])
+
+UMGYD_effect.fine_tuning.degree0.data.path <- 
+  file.path(UMGYD_effect.tuning.degree0.data.path, fine_tuning.folder)
+
+UMGYD_effect.fine_tuning.degree1.data.path <- 
+  file.path(UMGYD_effect.tuning.degree1.data.path, fine_tuning.folder)
+
+UMGYD_effect.fine_tuning.degree2.data.path <- 
+  file.path(UMGYD_effect.tuning.degree2.data.path, fine_tuning.folder)
 
 ###### 1. `degree = 0` ---------------------------------------------------------
 put("Case 1. `degree = 0`")
+# UMGYD_effect.tuning.data.path
 #### Open log ------------------------------------------------------------------
-open_logfile(".UMGY.SmthDay_effect.loess.degree0.pre-tuning")
+open_logfile(".UMGYD_effect.loess.degree0.pre-tuning")
 
 ####### Preliminary setting-up of spans range ----------------------------------
-file_name_tmp <- "13.pre-tune.degree0.UMGY+SmthDay_effect.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_name_tmp <- "1.pre-tune.degree0.UMGYD-effect.RData"
+file_path_tmp <- file.path(UMGYD_effect.tuning.degree0.data.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading Preliminary set-up data for UMGY+Smoothed-Day Effect from file: %1...", 
@@ -1555,7 +1678,7 @@ CVFolds_N)
   
   start <- put_start_date()
   spans <- seq(0.0005, 1, 0.001)
-  cv.UMGY.SmthDay_effect.pretune.result <- 
+  cv.UMGYD_effect.pretune.result <- 
     tune.model_param(spans,train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
   put_end_date(start)
   put_log1("Preliminary set-up data for UMGY+Smoothed-Day Effect has been computed
@@ -1563,8 +1686,8 @@ using `loess` function with `degree = 0` parameter.
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
   
-  plot(cv.UMGY.SmthDay_effect.pretune.result$param_values,
-       cv.UMGY.SmthDay_effect.pretune.result$RMSEs)
+  plot(cv.UMGYD_effect.pretune.result$param_values,
+       cv.UMGYD_effect.pretune.result$RMSEs)
 
   put_log1("Saving UMGY+Smoothed-Day Effect Model data to file: %1...", 
            file_path_tmp)
@@ -1574,8 +1697,8 @@ CVFolds_N)
        rg.UM_effect,
        rg.UMG_effect,
        rg.UMGY_effect,
-       cv.UMGY.SmthDay_effect,
-       cv.UMGY.SmthDay_effect.pretune.result,
+       cv.UMGYD_effect,
+       cv.UMGYD_effect.pretune.result,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("UMGY+Smoothed-Day Effect Model data has been saved to file: %1", 
@@ -1583,25 +1706,21 @@ CVFolds_N)
 } 
 #### Close Log -----------------------------------------------------------------
 log_close()
+
 #### Open log ------------------------------------------------------------------
-open_logfile(".UMGY.SmthDay_effect.loess.degree0.fine-tuning")
-
-
+open_logfile(".UMGYD-effect.loess.degree0.fine-tuning")
 
 ####### Fine-tuning of a span parameter value ---------------------------------- 
-UMGYD_effect.degree0.data_path <- file.path(UMGY.SmthDay.data_path, 
-                                           degree_param_folders[1])
-
-# UMGYD_effect.degree0.loop_starter <- c(0.0005, 0.01, 4, 128)
-UMGYD_effect.degree0.loop_starter <- c(cv.UMGY.SmthDay_effect.pretune.result$param_values[1], 
-                                       cv.UMGY.SmthDay_effect.pretune.result$param_values[3], 
+# UMGYD_effect.tuning.degree0.loop_starter <- c(0.0005, 0.01, 4, 128)
+UMGYD_effect.tuning.degree0.loop_starter <- c(cv.UMGYD_effect.pretune.result$param_values[1], 
+                                       cv.UMGYD_effect.pretune.result$param_values[3], 
                                        8)
-UMGYD_effect.degree0.cache_file.base_name <- "UMGYD_effect.degree0.tuning-span"
+UMGYD_effect.tuning.degree0.cache_file.base_name <- "UMGYD-effect.degree0.tuning-span"
 
 UMGYD_effect.tuning_result.degree0 <- 
-  model.tune.param_range(UMGYD_effect.degree0.loop_starter,
-                         UMGYD_effect.degree0.data_path,
-                         UMGYD_effect.degree0.cache_file.base_name,
+  model.tune.param_range(UMGYD_effect.tuning.degree0.loop_starter,
+                         UMGYD_effect.fine_tuning.degree0.data.path,
+                         UMGYD_effect.tuning.degree0.cache_file.base_name,
                          train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
 
 put(UMGYD_effect.tuning_result.degree0)
@@ -1618,7 +1737,7 @@ put(UMGYD_effect.tuning_result.degree0)
 log_close()
 #-----------------------------------------------------------------------------
 file_name_tmp <- ".day-smoothed-loess-degree0.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading data for `loess` function with parameter `degree = 0` from file: %1...", 
@@ -1647,7 +1766,7 @@ if (file.exists(file_path_tmp)) {
        rg.UM_effect,
        rg.UMG_effect,
        rg.UMGY_effect,
-       cv.UMGY.SmthDay_effect,
+       cv.UMGYD_effect,
        degree,
        degree0.spans,
        cv.UMGYSD.tuned.dgr0.RMSEs,
@@ -1672,11 +1791,11 @@ put(cv.UMGYSD.tuned.dgr0.best_RMSE)
 
 ###### 2. `degree = 1` --------------------------------------------------------------
 put("Case 2. `degree = 1`")
-UMGY.SmthDay.degree1.data_path <- file.path(UMGY.SmthDay.data_path, 
-                                           degree_param_folders[2])
+UMGYD_effect.tuning.degree1.data.path <- file.path(UMGYD_effect.tuning.data.path, 
+                                           UMGYD_effect.tuning.degree_param_folders[2])
 
 file_name_tmp <- "day-smoothed-loess-degree1.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading data for `loess` function with parameter `degree = 1` from file: %1...", 
@@ -1699,14 +1818,14 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       user_movie_effect,
+       UM_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
        cv.UMGDG_Day_effect,
-       cv.UMGY.SmthDay_effect,
+       cv.UMGYD_effect,
        degree,
        degree0.spans,
        cv.UMGYSD.tuned.dgr0.RMSEs,
@@ -1733,11 +1852,11 @@ put(degree1_best_RMSE)
 
 ###### 3. `degree = 2` --------------------------------------------------------------
 put("Case 3. `degree = 2`")
-UMGY.SmthDay.degree2.data_path <- file.path(UMGY.SmthDay.data_path, 
-                                           degree_param_folders[3])
+UMGYD_effect.tuning.degree2.data.path <- file.path(UMGYD_effect.tuning.data.path, 
+                                           UMGYD_effect.tuning.degree_param_folders[3])
 
 file_name_tmp <- "day-smoothed-loess-degree2.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading  data for `loess` function with parameter `degree = 2` from file: %1...", 
@@ -1758,7 +1877,7 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       user_movie_effect,
+       UM_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
@@ -1767,7 +1886,7 @@ if (file.exists(file_path_tmp)) {
        # cv.UMGDG_effect,
        # cv.UMGY_effect._effect,
        cv.UMGDG_Day_effect,
-       cv.UMGY.SmthDay_effect,
+       cv.UMGYD_effect,
        degree,
        degree0.spans,
        cv.UMGYSD.tuned.dgr0.RMSEs,
@@ -1797,7 +1916,7 @@ put(degree2_best_RMSE)
 
 #### Retrain with the best parameters figured out above ------------------------
 file_name_tmp <- "day-smoothed-tuned.RData"
-file_path_tmp <- file.path(models_data_path, file_name_tmp)
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading Tuned Day Smoothed Effect data from file: %1...", 
@@ -1845,7 +1964,7 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
   start <- put_start_date()
   save(mu,
        user_effect,
-       user_movie_effect,
+       UM_effect,
        genre_mean_ratings,
        user_movie_genre_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
@@ -1854,7 +1973,7 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
        # cv.UMGDG_effect,
        # cv.UMGY_effect._effect,
        cv.UMGDG_Day_effect,
-       cv.UMGY.SmthDay_effect,
+       cv.UMGYD_effect,
        degree,
        degree0.spans,
        cv.UMGYSD.tuned.dgr0.RMSEs,
@@ -1911,7 +2030,7 @@ put_log("A row has been added to the RMSE Result Tibble for the tuned `User+Movi
 #   left_join(date_days_map, by = "timestamp") |>
 #   left_join(user_effect, by = "userId") |>
 #   left_join(mean_user_movie_genre_bias, by = "movieId") |>
-#   left_join(cv.UMGY.SmthDay_effect, by='days') |>
+#   left_join(cv.UMGYD_effect, by='days') |>
 #   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
 #   filter(!is.na(resid)) |>
 #   pull(resid) |> final_rmse()

@@ -88,9 +88,9 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
 }
 
 ## Regularization --------------------------------------------------------------
-regularize.test_lambda.user_movie_effect.cv <- function(lambda){
+regularize.test_lambda.UM_effect.cv <- function(lambda){
   if (is.na(lambda)) {
-    stop("Function: regularize.test_lambda.user_movie_effect.cv
+    stop("Function: regularize.test_lambda.UM_effect.cv
 `lambda` is `NA`")
   }
   um_effect <- train_user_movie_effect.cv(lambda)
