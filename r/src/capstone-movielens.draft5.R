@@ -79,16 +79,89 @@ conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
 conflict_prefer("kable", "kableExtra", quiet = TRUE)
 conflict_prefer("year", "lubridate", quiet = TRUE)
 
-## Common Helper functions --------------------------------------------------
+## Logging Helper functions -----------------------------------------------------
+open_logfile <- function(file_name){
+  log_file_name <- as.character(Sys.time()) |> 
+    str_replace_all(':', '_') |> 
+    str_replace(' ', 'T') |>
+    str_c(file_name)
+  
+  log_open(file_name = log_file_name)
+}
+print_start_date <- function(){
+  print(date())
+  Sys.time()
+}
+put_start_date <- function(){
+  put(date())
+  Sys.time()
+}
+print_end_date <- function(start){
+  print(date())
+  print(Sys.time() - start)
+}
+put_end_date <- function(start){
+  put(date())
+  put(Sys.time() - start)
+}
+
+print_log <- function(msg){
+  print(str_glue(msg))
+}
+put_log <- function(msg){
+  put(str_glue(msg))
+}
+put_log1 <- function(msg_template, arg1){
+  msg <- str_replace_all(msg_template, "%1", as.character(arg1))
+  put(str_glue(msg))
+}
+put_log2 <- function(msg_template, arg1, arg2){
+  msg <- msg_template |> 
+    str_replace_all("%1", as.character(arg1)) |>
+    str_replace_all("%2", as.character(arg2))
+  put(str_glue(msg))
+}
+put_log3 <- function(msg_template, arg1, arg2, arg3){
+  msg <- msg_template |> 
+    str_replace_all("%1", as.character(arg1)) |>
+    str_replace_all("%2", as.character(arg2)) |>
+    str_replace_all("%3", as.character(arg2))
+  put(str_glue(msg))
+}
+put_log3 <- function(msg_template, arg1, arg2, arg3, arg4){
+  msg <- msg_template |> 
+    str_replace_all("%1", as.character(arg1)) |>
+    str_replace_all("%2", as.character(arg2)) |>
+    str_replace_all("%3", as.character(arg2)) |>
+    str_replace_all("%4", as.character(arg2))
+  put(str_glue(msg))
+}
+### Open log file for `Initialize Source File Paths` Feature -------------------
+open_logfile(".src.file-paths")
+## Source File Paths -----------------------------------------------------------
+r.path <- "r"
+dir.create(r.path)
+put_log1("Directory path has been created: %1", r.path)
+
+src.folder <- "src"
+support_functions.folder <- "support-functions"
+
+r.src.path <- file.path(r.path, src.folder)
+dir.create(r.src.path)
+put_log1("Directory path has been created: %1", r.src.path)
+
+support_functions.path <- file.path(r.src.path, support_functions.folder)
+dir.create(support_functions.path)
+put_log1("Directory path has been created: %1", support_functions.path)
 common_helper_functions.file_path <- file.path(support_functions.path, 
                                             "common-helper.functions.R")
+## Import External Common Helper functions -------------------------------------
 source(common_helper_functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
        spaced = TRUE,
        verbose = TRUE,
        keep.source = TRUE)
-
 ## Init Project Global Variables ----------------------------------------------
 put("Set Project Objective according to Capstone course requirements")
 project_objective <- 0.86490
@@ -103,29 +176,15 @@ kfold_index <- seq(from = 1:CVFolds_N)
 
 #RMSEs.ResultTibble <- NULL
 
-### File Paths -----------------------------------------------------------------
+### Data File Paths ------------------------------------------------------------
 data.path <- "data"
 dir.create(data.path)
 put_log1("Directory path has been created: %1", data.path)
 
-r.path <- "r"
-dir.create(r.path)
-put_log1("Directory path has been created: %1", r.path)
-
-src.folder <- "src"
-support_functions.folder <- "support-functions"
 regularization.folder <- "regularization"
 models.folder <- "models"
 model_tuning.folder <- "model-tuning"
 fine_tuning.folder <- "fine-tuning"
-
-r.src.path <- file.path(r.path, src.folder)
-dir.create(r.src.path)
-put_log1("Directory path has been created: %1", r.src.path)
-
-support_functions.path <- file.path(r.src.path, support_functions.folder)
-dir.create(support_functions.path)
-put_log1("Directory path has been created: %1", support_functions.path)
 
 data.models.path <- file.path(data.path, models.folder)
 dir.create(data.models.path)
