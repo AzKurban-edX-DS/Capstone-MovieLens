@@ -937,9 +937,6 @@ CVFolds_N)
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
   
-  plot(cv.UME.preset.result$param_values,
-       cv.UME.preset.result$RMSEs)
-  
   put_log1("Saving User+Movie Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
@@ -952,6 +949,9 @@ CVFolds_N)
   put_log1("User+Movie Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
+
+plot(cv.UME.preset.result$param_values,
+     cv.UME.preset.result$RMSEs)
 
 ###### Close Log -----------------------------------------------------------------
 log_close()
@@ -997,7 +997,7 @@ if (file.exists(file_path_tmp)) {
   fine_tuning.result <- UM_effect.reg_lambdas_best_results
   seq_start <- fine_tuning.result$param_values.endpoints[1]
   seq_end <- fine_tuning.result$param_values.endpoints[2]
-  seq_step <- (seq_end - seq_start)/100  
+  seq_step <- (seq_end - seq_start)/64  
 
   lambdas <- seq(seq_start, seq_end, seq_step)
   

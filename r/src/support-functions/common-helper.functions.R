@@ -214,7 +214,6 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
   sums/(N + lambda)
 }
-
 ## Model Tuning ---------------------------------------------------------
 get_fine_tuning.param.endpoints <- function(preset_result) {
   best_RMSE <- min(preset_result$RMSEs)
@@ -353,7 +352,7 @@ model.tune.param_range <- function(loop_starter,
   
   best_RMSE <- Inf
   param.best_value <- 0
-  
+  endpoint.min_diff <- 1e-07
   
   param_values.best_result <- c(param.best_value = param.best_value, 
                                 best_RMSE = best_RMSE)
@@ -432,20 +431,27 @@ File saved: %1", file_path_tmp)
     
     plot(tuning_result$param_values, tuning_result$RMSEs)
     # browser()
-    prm_val.leftmost <- tuning_result$param_values[1]
-    RMSE.leftmost <- tuning_result$RMSEs[1]
+    prm_val.leftmost.tmp <- tuning_result$param_values[1]
+    RMSE.leftmost.tmp <- tuning_result$RMSEs[1]
 
     tuning_result.N <- length(tuning_result$param_values)
-    prm_val.rightmost <- tuning_result$param_values[tuning_result.N]
-    RMSE.rightmost <- tuning_result$RMSEs[tuning_result.N]
+    prm_val.rightmost.tmp <- tuning_result$param_values[tuning_result.N]
+    RMSE.rightmost.tmp <- tuning_result$RMSEs[tuning_result.N]
     
     min_RMSE <- min(tuning_result$RMSEs)
     RMSEs_min_ind <- which.min(tuning_result$RMSEs)
+
+    if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
+      prm_val.leftmost <- prm_val.leftmost.tmp
+      RMSE.leftmost <- RMSE.leftmost.tmp
+    } 
     
-    if (best_RMSE > min_RMSE) {
-      prm_val.leftmost <- param.best_value
-      RMSE.leftmost <- best_RMSE
-    } else if (best_RMSE == min_RMSE) {
+    if (RMSE.rightmost.tmp - min_RMSE >= endpoint.min_diff) {
+      prm_val.rightmost <- prm_val.rightmost.tmp
+      RMSE.rightmost <- RMSE.rightmost.tmp
+    } 
+
+    if (best_RMSE == min_RMSE) {
       warning("Currently computed minimal RMSE equals the previously reached best one: ",
               best_RMSE, "
 Currently computed minial value is: ", min_RMSE)
