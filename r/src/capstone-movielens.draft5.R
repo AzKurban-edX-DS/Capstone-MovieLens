@@ -909,7 +909,7 @@ UM_effect.rg.fine_tuning.path <- file.path(UM_effect.regularization.path,
                                            "fine-tuning")
 dir.create(UM_effect.rg.fine_tuning.path)
 
-##### Open log --------------------------------------------------------------------
+###### Open log --------------------------------------------------------------------
 open_logfile(".rg.UM-effect.pre-set-lambdas")
 
 ###### Preliminary setting-up of lambda range ----------------------------------
@@ -953,12 +953,12 @@ CVFolds_N)
            file_path_tmp)
 } 
 
-#### Close Log -----------------------------------------------------------------
+###### Close Log -----------------------------------------------------------------
 log_close()
 
-#### Open log ------------------------------------------------------------------
+###### Open log ------------------------------------------------------------------
 open_logfile(".UME.rg.fine-tuning")
-####### Fine-tuning for `lambda` parameters value ---------------------------------- 
+###### Fine-tuning for `lambda` parameters value ---------------------------------- 
 endpoints <- 
   get_fine_tuning.param.endpoints(cv.UME.preset.result)
 
@@ -976,8 +976,61 @@ UM_effect.reg_lambdas_best_results <-
                          UM_effect.cache_file_base_name,
                          regularize.test_lambda.UM_effect.cv)
 
-##### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
-file_name_tmp <- "2.UME.rg.re-train.best-lambda.RData"
+###### Open log --------------------------------------------------------------------
+open_logfile(".rg.UME.final-tuning")
+###### Final Tuning with refined lambda range ----------------------------------
+file_name_tmp <- "2.UME.rg.final-tune.RData" # UME stands for `User+Movie Effect`
+file_path_tmp <- file.path(UM_effect.regularization.path, file_name_tmp)
+
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading final-tuned data for User+Movie Effect from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Final-tuned data for User+Movie Effect has been loaded from file: %1", 
+           file_path_tmp)
+} else {
+  put_log1("Final-tuning UM Effect Model for %1-Fold Cross Validation samples...",
+           CVFolds_N)
+  
+  fine_tuning.result <- UM_effect.reg_lambdas_best_results
+  seq_start <- fine_tuning.result$param_values.endpoints[1]
+  seq_end <- fine_tuning.result$param_values.endpoints[2]
+  seq_step <- (seq_end - seq_start)/100  
+
+  lambdas <- seq(seq_start, seq_end, seq_step)
+  
+  start <- put_start_date()
+  cv.UME.final_tuned.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+  put_end_date(start)
+  put_log1("Final-tuning of User+Movie Effect has been completed.
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+  
+  plot(cv.UME.final_tuned.result$param_values,
+       cv.UME.final_tuned.result$RMSEs)
+  
+  put_log1("Saving Final-tuning User+Movie Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       user_effect,
+       #cv.UM_effect,
+       cv.UME.final_tuned.result,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
+
+###### Close Log -----------------------------------------------------------------
+log_close()
+#### Open log ------------------------------------------------------------------
+open_logfile(".UME.rg.re-train.best-lambda")
+###### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
+file_name_tmp <- "3.UME.rg.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UM_effect.regularization.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -989,8 +1042,8 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  best_result <- UM_effect.reg_lambdas_best_results$best_result
   
+  best_result <- cv.UME.final_tuned.result$best_result
   best_user_movie_reg_lambda <- best_result["param.best_value"]
   best_user_movie_reg_lambda
   
@@ -1002,6 +1055,9 @@ if (file.exists(file_path_tmp)) {
   
   rg.UM_effect <- train_user_movie_effect.cv(best_user_movie_reg_lambda)
   rg.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(rg.UM_effect)
+  
+  put_log1("Is this a best RMSE? %1",
+           best_user_movie_reg_RMSE == rg.UM_effect.RMSE)
   
   put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
            best_user_movie_reg_lambda)
@@ -1020,8 +1076,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie Effect data has been saved to file: %1",
            file_path_tmp)
 } 
-
-##### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
+###### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
                rg.UM_effect.RMSE)
@@ -1029,10 +1084,8 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie Effect Model`.")
-##### Close Log -----------------------------------------------------------------
+###### Close Log -----------------------------------------------------------------
 log_close()
-
-
 ### Accounting for Movie Genres ------------------------------------------------
 #> We can slightly improve our naive model by accounting for movie genres.
 #> Let's do some preliminary analysis first.
