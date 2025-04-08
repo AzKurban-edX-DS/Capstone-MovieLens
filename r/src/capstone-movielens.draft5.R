@@ -202,9 +202,10 @@ put_log1("Directory path has been created: %1", data.model_tuning.path)
 # dir.create(src.regularization.path)
 # put_log1("Directory path has been created: %1", src.regularization.path)
 
+#### Close Log ---------------------------------------------------------------
+log_close()
 ## Open log -----------------------------------------------------------
 open_logfile(".init-project-data")
-
 ## Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
