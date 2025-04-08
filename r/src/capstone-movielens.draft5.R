@@ -808,7 +808,6 @@ put_log("A row has been added to the RMSE Result Tibble for the `User Effect Mod
 #### Close Log -----------------------------------------------------------------
 log_close()
 ### Taking into account User+Movie Effects -------------------------------------
-
 # Reference: the Textbook section "23.5 Movie effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects
 
@@ -863,17 +862,15 @@ if (file.exists(file_path_tmp)) {
 } 
 
 put(str(UM_effect))
-
 #### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
 hist(UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
-#### Calculate RMSEs.ResultTibble on Validation Sets ----------------------------------------
+#### Calculate RMSEs.ResultTibble on Validation Sets ---------------------------
 user_movie_effect_RMSE <- calc_user_movie_effect_RMSE.cv(UM_effect)
 #> [1] 0.8594763
-
 #### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("User+Movie Effect Model", user_movie_effect_RMSE)
