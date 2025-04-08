@@ -818,7 +818,7 @@ log_close()
 
 #### Support Functions ---------------------------------------------------------
 UM_effect.functions.file_path <- file.path(support_functions.path, 
-                                               "user+movie-effect.functions.R")
+                                               "UM-effect.functions.R")
 source(UM_effect.functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
@@ -826,8 +826,8 @@ source(UM_effect.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 #### Open log ------------------------------------------------------------------
-open_logfile(".user+movie-effect")
-
+# User+Movie Effect log: 
+open_logfile(".UM-effect")
 #### Model building: User+Movie Effect ----------------------------------------
 file_name_tmp <- "5.UM-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
@@ -910,10 +910,10 @@ UM_effect.rg.fine_tuning.path <- file.path(UM_effect.regularization.path,
 dir.create(UM_effect.rg.fine_tuning.path)
 
 ##### Open log --------------------------------------------------------------------
-open_logfile(".reg-um-effect.pre-set-lambdas")
+open_logfile(".rg.UM-effect.pre-set-lambdas")
 
 ###### Preliminary setting-up of lambda range ----------------------------------
-file_name_tmp <- "1.UM-effect.rg.pre-tune.RData"
+file_name_tmp <- "1.UME.rg.pre-tune.RData" # UME stands for `User+Movie Effect`
 file_path_tmp <- file.path(UM_effect.regularization.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -930,15 +930,15 @@ CVFolds_N)
   
   start <- put_start_date()
   lambdas <- seq(0, 1, 0.1)
-  cv.UM_effect.pretune.result <- 
+  cv.UME.preset.result <- 
     tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
   put_end_date(start)
   put_log1("Preliminary regularization set-up of `lambda`s range for the User+Movie Effect has been completed.
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
   
-  plot(cv.UM_effect.pretune.result$param_values,
-       cv.UM_effect.pretune.result$RMSEs)
+  plot(cv.UME.preset.result$param_values,
+       cv.UME.preset.result$RMSEs)
   
   put_log1("Saving User+Movie Effect Model data to file: %1...", 
            file_path_tmp)
@@ -946,7 +946,7 @@ CVFolds_N)
   save(mu,
        user_effect,
        #cv.UM_effect,
-       cv.UM_effect.pretune.result,
+       cv.UME.preset.result,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User+Movie Effect Model data has been saved to file: %1", 
@@ -957,53 +957,28 @@ CVFolds_N)
 log_close()
 
 #### Open log ------------------------------------------------------------------
-open_logfile(".UM-effect.rg.fine-tuning")
-
+open_logfile(".UME.rg.fine-tuning")
 ####### Fine-tuning for `lambda` parameters value ---------------------------------- 
+endpoints <- 
+  get_fine_tuning.param.endpoints(cv.UME.preset.result)
 
-result <- cv.UM_effect.pretune.result
-
-
-best_RMSE <- min(result$RMSEs)
-best_RMSE.idx <- which.min(result$RMSEs)
-best_lambda <- result$param_values[best_RMSE.idx]
-
-result.N <- length(result$RMSEs)
-i <- best_RMSE.idx
-j <- i
-
-while (i > 1) {
-  i <- i - 1
-  
-  if (result$RMSEs[i] > best_RMSE) {
-    break
-  }
-}
-
-while (j < result.N) {
-  j <- j + 1
-  
-  if (result$RMSEs[j] > best_RMSE) {
-    break
-  }
-}
-
-UM_effect.loop_starter <- c(result$param_values[i], 
-                            cv.UM_effect.pretune.result$param_values[j], 
+UM_effect.loop_starter <- c(endpoints["start"], 
+                            endpoints["end"], 
                             8)
 UM_effect.loop_starter
 #> [1] 0.3 0.5 8.0
 
-UM_effect.cache_file_base_name <- "UM_effect.rg.fine-tuning"
+UM_effect.cache_file_base_name <- "UME.rg.fine-tuning"
 
-UM_effect.reg_lambdas_best_results <- model.tune.param_range(UM_effect.loop_starter,
-                                                 UM_effect.regularization.path,
-                                                 UM_effect.cache_file_base_name,
-                                                 regularize.test_lambda.UM_effect.cv)
+UM_effect.reg_lambdas_best_results <- 
+  model.tune.param_range(UM_effect.loop_starter,
+                         UM_effect.rg.fine_tuning.path,
+                         UM_effect.cache_file_base_name,
+                         regularize.test_lambda.UM_effect.cv)
 
 ##### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
-file_name_tmp <- "6.rg.UM-effect.RData"
-file_path_tmp <- file.path(data.models.path, file_name_tmp)
+file_name_tmp <- "2.UME.rg.re-train.best-lambda.RData"
+file_path_tmp <- file.path(UM_effect.regularization.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
   put_log1("Loading User+Movie Effect data from file: %1...", 

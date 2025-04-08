@@ -216,6 +216,34 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
 }
 
 ## Model Tuning ---------------------------------------------------------
+get_fine_tuning.param.endpoints <- function(preset_result) {
+  best_RMSE <- min(preset_result$RMSEs)
+  best_RMSE.idx <- which.min(preset_result$RMSEs)
+  best_lambda <- preset_result$param_values[best_RMSE.idx]
+  
+  preset_result.N <- length(preset_result$RMSEs)
+  i <- best_RMSE.idx
+  j <- i
+  
+  while (i > 1) {
+    i <- i - 1
+    
+    if (preset_result$RMSEs[i] > best_RMSE) {
+      break
+    }
+  }
+  
+  while (j < preset_result.N) {
+    j <- j + 1
+    
+    if (preset_result$RMSEs[j] > best_RMSE) {
+      break
+    }
+  }
+  
+  c(start = preset_result$param_values[i], 
+    end = preset_result$param_values[j])
+}
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
                              break.if_min = TRUE,
