@@ -315,10 +315,15 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
     # browser()
   }
   
+  param_values.best_result <- c(param.best_value = prm_val.best, 
+                                best_RMSE = RMSE_min)
+  
+  
   put_log1("Function: `tune.model_param`:
 Completed with RMSEs_tmp length: %1", length(RMSEs_tmp))
   list(RMSEs = RMSEs_tmp,
-       param_values = param_vals_tmp)
+       param_values = param_vals_tmp,
+       best_result = param_values.best_result)
 }
 model.tune.param_range <- function(loop_starter,
                              tune_dir_path,
