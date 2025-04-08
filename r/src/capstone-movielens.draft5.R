@@ -96,9 +96,11 @@ kfold_index <- seq(from = 1:CVFolds_N)
 ### File Paths -----------------------------------------------------------------
 data.path <- "data"
 dir.create(data.path)
+put_log1("Directory path has been created: %1", data.path)
 
 r.path <- "r"
 dir.create(r.path)
+put_log1("Directory path has been created: %1", r.path)
 
 src.folder <- "src"
 support_functions.folder <- "support-functions"
@@ -109,21 +111,27 @@ fine_tuning.folder <- "fine-tuning"
 
 r.src.path <- file.path(r.path, src.folder)
 dir.create(r.src.path)
+put_log1("Directory path has been created: %1", r.src.path)
 
 support_functions.path <- file.path(r.src.path, support_functions.folder)
 dir.create(support_functions.path)
-
-# src.regularization.path <- file.path(r.src.path, regularization.folder)
-# dir.create(src.regularization.path)
+put_log1("Directory path has been created: %1", support_functions.path)
 
 data.models.path <- file.path(data.path, models.folder)
 dir.create(data.models.path)
+put_log1("Directory path has been created: %1", data.models.path)
 
 data.regularization.path <- file.path(data.path, regularization.folder)
 dir.create(data.regularization.path)
+put_log1("Directory path has been created: %1", data.regularization.path)
 
 data.model_tuning.path <- file.path(data.path, model_tuning.folder)
 dir.create(data.model_tuning.path)
+put_log1("Directory path has been created: %1", data.model_tuning.path)
+
+# src.regularization.path <- file.path(r.src.path, regularization.folder)
+# dir.create(src.regularization.path)
+# put_log1("Directory path has been created: %1", src.regularization.path)
 
 ## Common Helper functions --------------------------------------------------
 common_helper_functions.file_path <- file.path(support_functions.path, 
@@ -329,7 +337,6 @@ All required datasets have been created.")
     put_log("Method `init_source_datasets`: 
 Saving newly created input datasets to file...")
     start <- put_start_date()
-    dir.create(data.path)
     save(movielens_datasets, file =  movielens_datasets_file_path)
     put_end_date(start)
     
@@ -892,14 +899,15 @@ log_close()
 # where `n[j]` is the number of ratings made for movie `j`.
 
 ##### Regularization Directory Paths -------------------------------------------
-
 UM_effect.regularization.path <- file.path(data.regularization.path, 
                                            "1.UM-effect")
 dir.create(UM_effect.regularization.path)
+put_log1("Directory path has been created: %1", UM_effect.regularization.path)
 
 UM_effect.rg.fine_tuning.path <- file.path(UM_effect.regularization.path, 
-                                           "fine-tuning")
+                                           fine_tuning.folder)
 dir.create(UM_effect.rg.fine_tuning.path)
+put_log1("Directory path has been created: %1", UM_effect.rg.fine_tuning.path)
 
 ##### Open log --------------------------------------------------------------------
 open_logfile(".rg.UM-effect.pre-set-lambdas")
@@ -943,7 +951,6 @@ CVFolds_N)
 
 plot(cv.UME.preset.result$param_values,
      cv.UME.preset.result$RMSEs)
-
 ##### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log ------------------------------------------------------------------
@@ -1019,7 +1026,7 @@ CVFolds_N)
 log_close()
 ##### Open log ------------------------------------------------------------------
 open_logfile(".UME.rg.re-train.best-lambda")
-##### Re-train Regularized User+Movie Effect Model for the best `lambda` --------
+##### Re-train Regularized User+Movie Effect Model for the best `lambda` -------
 file_name_tmp <- "3.UME.rg.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UM_effect.regularization.path, file_name_tmp)
 
@@ -1081,7 +1088,7 @@ log_close()
 #> Let's do some preliminary analysis first.
 
 #### Open log -------------------------------------------------------------------
-open_logfile(".user+movie+genre-effect")
+open_logfile(".UMG-effect")
 
 #### Data Analysis and Visualization -------------------------------------------
 

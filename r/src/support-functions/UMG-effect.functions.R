@@ -119,7 +119,7 @@ calc_user_movie_genre_effect_RMSE.cv <- function(umg_effect){
 }
 
 ## Regularization --------------------------------------------------------------
-regularize.test_lambda.user_movie_genre_effect.cv <- function(lambda){
+regularize.test_lambda.UMG_effect.cv <- function(lambda){
   if (is.na(lambda)) {
     stop("Function: regularize.test_lambda.user_movie_genre_effect.cv
 `lambda` is `NA`")
