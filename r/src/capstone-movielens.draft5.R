@@ -79,6 +79,16 @@ conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
 conflict_prefer("kable", "kableExtra", quiet = TRUE)
 conflict_prefer("year", "lubridate", quiet = TRUE)
 
+## Common Helper functions --------------------------------------------------
+common_helper_functions.file_path <- file.path(support_functions.path, 
+                                            "common-helper.functions.R")
+source(common_helper_functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
+
 ## Init Project Global Variables ----------------------------------------------
 put("Set Project Objective according to Capstone course requirements")
 project_objective <- 0.86490
@@ -132,16 +142,6 @@ put_log1("Directory path has been created: %1", data.model_tuning.path)
 # src.regularization.path <- file.path(r.src.path, regularization.folder)
 # dir.create(src.regularization.path)
 # put_log1("Directory path has been created: %1", src.regularization.path)
-
-## Common Helper functions --------------------------------------------------
-common_helper_functions.file_path <- file.path(support_functions.path, 
-                                            "common-helper.functions.R")
-source(common_helper_functions.file_path, 
-       catch.aborts = TRUE,
-       echo = TRUE,
-       spaced = TRUE,
-       verbose = TRUE,
-       keep.source = TRUE)
 
 ## Open log -----------------------------------------------------------
 open_logfile(".init-project-data")
