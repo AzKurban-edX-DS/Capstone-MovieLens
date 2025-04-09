@@ -1385,7 +1385,7 @@ CVFolds_N)
   start <- put_start_date()
   save(mu,
        user_effect,
-       #cv.UMG_effect,
+       rg.UM_effect,
        cv.UMGE.preset.result,
        file = file_path_tmp)
   put_end_date(start)
@@ -1464,7 +1464,7 @@ CVFolds_N)
   start <- put_start_date()
   save(mu,
        user_effect,
-       #cv.UMG_effect,
+       rg.UM_effect,
        cv.UMGE.final_tuned.result,
        file = file_path_tmp)
   put_end_date(start)
@@ -1474,9 +1474,9 @@ CVFolds_N)
 
 ##### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log ------------------------------------------------------------------
+##### Open log for `Re-train Regularized User+Movie+Genre Effect Model` feature for the best `lambda` value----
 open_logfile(".UMGE.rg.re-train.best-lambda")
-##### Re-training Regularized User+Movie+Genre Effect Model for the best `lambda` value ----
+##### Re-train `Regularized User+Movie+Genre Effect Model` for the best `lambda` value ----
 file_name_tmp <- "9.rg.UMG-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1490,20 +1490,20 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   
 } else {
-  rgz_UMG_effect_best_lambda <- umge_reg_lambdas_best_results["param.best_value"]
-  rgz_UMG_effect_best_RMSE <- umge_reg_lambdas_best_results["best_RMSE"]
+  rg.UMGE.final_tuned.best_lambda <- cv.UMGE.final_tuned.result$best_result["param.best_value"]
+  rg.UMGE.final_tuned.best_RMSE <- cv.UMGE.final_tuned.result$best_result["best_RMSE"]
   
   put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
-           rgz_UMG_effect_best_lambda)
+           rg.UMGE.final_tuned.best_lambda)
   
-  rg.UMG_effect <- train_user_movie_genre_effect.cv(rgz_UMG_effect_best_lambda)
+  rg.UMG_effect <- train_user_movie_genre_effect.cv(rg.UMGE.final_tuned.best_lambda)
   rg.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rg.UMG_effect)
   
   put_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",
-           rgz_UMG_effect_best_lambda,
+           rg.UMGE.final_tuned.best_lambda,
            rg.UMG_effect.RMSE)
   put_log1("Is this a best RMSE? %1",
-           rgz_UMG_effect_best_RMSE == rg.UMG_effect.RMSE)
+           rg.UMGE.final_tuned.best_RMSE == rg.UMG_effect.RMSE)
   
   
   put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
@@ -1511,7 +1511,7 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       rg.UMG_effect,
+       rg.UM_effect,
        rg.UMG_effect,
        file = file_path_tmp)
   put_end_date(start)
