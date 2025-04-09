@@ -1400,21 +1400,7 @@ plot(cv.UMGE.preset.result$param_values,
 log_close()
 ##### Open log file for `User+Movie+Genre Effect Regularization (Fine-Tuning)` feature ----
 open_logfile(".UMGE.rg.fine-tuning")
-##### Fine-tuning for `lambda` parameters value ---------------------------------- 
-# umge_regularization_path <- file.path(data.regularization.path, 
-#                                       "2.UMG-effect")
-# umge_loop_starter <- c(0, 2, 4, 64)
-# umge_cache_file_base_name <- "umge_reg-loop"
-# 
-# umge_reg_lambdas_best_results <- model.tune.param_range(umge_loop_starter,
-#                                                         umge_regularization_path,
-#                                                         umge_cache_file_base_name,
-#                                                         regularize.test_lambda.UMG_effect.cv)
-# 
-# put(umge_reg_lambdas_best_results)
-
-#---------------------------------------------------
-
+##### Fine-tuning for `lambda` parameters value -------------------------------- 
 endpoints <- 
   get_fine_tuning.param.endpoints(cv.UMGE.preset.result)
 
@@ -1437,7 +1423,7 @@ has ended up with with the following results:")
 put(UMG_effect.reg_lambdas_best_results)
 #### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log --------------------------------------------------------------------
+##### Open log for the `Final-tuning` stage of the  `User+Movie+Genre Effect Regularization` feature ----
 open_logfile(".rg.UMGE.final-tuning")
 ##### Final Tuning with refined lambda range ----------------------------------
 file_name_tmp <- "2.UMGE.rg.final-tune.RData" # UMGE stands for `User+Movie+Genre Effect`
