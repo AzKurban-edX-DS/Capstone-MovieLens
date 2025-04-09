@@ -1143,21 +1143,27 @@ log_close()
 ### Accounting for Movie Genres ------------------------------------------------
 #> We can slightly improve our naive model by accounting for movie genres.
 #> Let's do some preliminary analysis first.
-
-#### Open log -------------------------------------------------------------------
+#### Open logging file for the feature: Building User+Movie+Genre Effect Model----
 open_logfile(".UMG-effect")
+#### Support Functions ---------------------------------------------------------
+umge_functions_file <- "UMG-effect.functions.R"
+umge_functions.file_path <- file.path(support_functions.path, 
+                                      umge_functions_file)
+source(umge_functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
 
 #### Data Analysis and Visualization -------------------------------------------
-
 # Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises
-
 #> The `edx` dataset also has a genres column. This column includes 
 #> every genre that applies to the movie 
 #> (some movies fall under several genres)[@IDS2_23-7].
-
-##### Genre Mean Rating --------------------------------------------------------
-file_name_tmp <- "7.genre-mean-rating.RData"
+##### Computing Genre Mean Ratings ---------------------------------------------
+file_name_tmp <- "7.genre-mean-ratings.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1166,78 +1172,48 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log1("Genre Average Rating data has been loaded from file: %1", file_path_tmp)
+  put_log1("Genre Mean Ratings data has been loaded from file: %1", file_path_tmp)
   
 } else {
   # Preparing data for plotting:
-  put_log1("Computing Genre Summary list for %1-Fold Cross Validation samples...", 
+  put_log1("Computing Genre Mean Ratings for %1-Fold Cross Validation samples...", 
            CVFolds_N)
-  
-  genres_summary_list <- lapply(edx_CV, function(cv_item){
-    cv_item$train_set |> 
-      mutate(genre_categories = as.factor(genres)) |>
-      group_by(genre_categories) |>
-      summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
-      filter(n > min_nratings) |>
-      mutate(genres = reorder(genre_categories, rating_avg)) |>
-      select(genres, rating_avg, se, n)
-  })
-  put_log1("Genre Summary list has been computed for %1-Fold Cross Validation samples.", 
-           CVFolds_N)
-  
-  str(genres_summary_list)
-  
-  put_log1("Computing Average Rating per Genre list for %1-Fold Cross Validation samples...", 
-           CVFolds_N)
-  
-  genre_ratings_united <- union_cv_results(genres_summary_list)
-  str(genre_ratings_united)
-  
-  genre_mean_ratings <- genre_ratings_united |>
-    group_by(genres) |>
-    summarise(ratings = mean(rating_avg),
-              se = mean(se),
-              n = mean(n)) |>
-    mutate(genres = reorder(genres, ratings)) |>
-    sort_by.data.frame(~ratings)
-  
-  put_log1("Mean Rating per Genre list has been computed for %1-Fold Cross Validation samples.",
+  gnr_mean_ratings.cv <- calc_genre_mean_ratings.cv()
+  put_log1("Mean Ratings per Genre list has been computed for %1-Fold Cross Validation samples.",
            CVFolds_N)
 
-  put_log1("Saving Genre Average Rating data to file: %1...", 
+  put_log1("Saving Genre Mean Ratings data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
        user_effect,
        rg.UM_effect,
-       rg.UM_effect.RMSE,
-       genre_mean_ratings,
+       gnr_mean_ratings.cv,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("Genre Average Rating data has been saved to file: %1", 
            file_path_tmp)
 } 
+put_log("Genre Mean Rating data structure:")
+put(str(gnr_mean_ratings.cv))
 
-put(str(genre_mean_ratings))
-#print(head(genre_mean_ratings))
+put_log2("The worst rating is for the genre category: %1 (average rating is %2)",
+            gnr_mean_ratings.cv$genres[which.min(gnr_mean_ratings.cv$ratings)],
+            as.character(clamp(min(gnr_mean_ratings.cv$ratings))))
 
-put(sprintf("The worst rating is for the genre category: %s (average rating is %s)",
-            genre_mean_ratings$genres[which.min(genre_mean_ratings$ratings)],
-            as.character(clamp(min(genre_mean_ratings$ratings)))))
-
-put(sprintf("The best rating is for the genre category: %s (average rating is %s)",
-            genre_mean_ratings$genres[which.max(genre_mean_ratings$ratings)],
-            as.character(clamp(max(genre_mean_ratings$ratings)))))
+put_log2("The best rating is for the genre category: %1 (average rating is %2)",
+            gnr_mean_ratings.cv$genres[which.max(gnr_mean_ratings.cv$ratings)],
+            as.character(clamp(max(gnr_mean_ratings.cv$ratings))))
 
 ##### Genres Popularity ------------------------------------------------------------
 
-put(sprintf("The worst popularity was for the genre category: %s (%s ratings)",
-            genre_mean_ratings$genres[which.min(genre_mean_ratings$n)],
-            as.character(min(genre_mean_ratings$n))))
+put_log2("The worst popularity was for the genre category: %1 (%2 ratings)",
+            gnr_mean_ratings.cv$genres[which.min(gnr_mean_ratings.cv$n)],
+            as.character(min(gnr_mean_ratings.cv$n)))
 
-put(sprintf("The best popularity was for the genre category: %s (%s ratings)",
-            genre_mean_ratings$genres[which.max(genre_mean_ratings$n)],
-            as.character(max(genre_mean_ratings$n))))
+put_log2("The best popularity was for the genre category: %1 (%2 ratings)",
+            gnr_mean_ratings.cv$genres[which.max(gnr_mean_ratings.cv$n)],
+            as.character(max(gnr_mean_ratings.cv$n)))
 
 ##### Genres Info Visualization ------------------------------------------------
 #> For illustrative purposes, we will limit the genre information 
@@ -1245,7 +1221,7 @@ put(sprintf("The best popularity was for the genre category: %s (%s ratings)",
 nratings <- 24000
 
 ###### Plot Genre Info --------------------------------------------------------------  
-genre_ratings_plot_dat <- genre_mean_ratings |>
+genre_ratings_plot_dat <- gnr_mean_ratings.cv |>
   filter(n > nratings)
 
 dim(genre_ratings_plot_dat)
@@ -1269,10 +1245,10 @@ put_log1("Mean Rating per Genre list distribution filtered by ratings amount gre
 has been plotted.",
          nratings)
 
-sprintf("The worst ratings were for the genre category: %s",
+put_log1("The worst ratings were for the genre category: %1",
         genre_ratings_plot_dat$genres[which.min(genre_ratings_plot_dat$ratings)])
 
-sprintf("The best ratings were for the genre category: %s",
+put_log1("The best ratings were for the genre category: %1",
         genre_ratings_plot_dat$genres[which.max(genre_ratings_plot_dat$ratings)])
 
 ####### Alternative way of visualizing a Genre Effect ----------------------------
@@ -1304,10 +1280,7 @@ plot_dat |>
 put_log1("Mean Rating per Genre list distribution filtered by ratings amount greater than %1
 has been plotted alternative way.",
          nratings)
-
-##### Genre Separated Data Analysis ------------------------------------------------
-
-#### Including Genre effect -----------------------------------------------------
+#### Including Separated Genre effect -----------------------------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j]  + ε[i,j]
 # where g[i,j] is a combination of genres for movie `i` rated by user `j`,
 # so that g[i,j] = ∑{k=1,K}(x[i,j]^k*𝜸[k]) 
@@ -1315,17 +1288,6 @@ has been plotted alternative way.",
 
 # mutate(userId = as.integer(userId),
 #        movieId = as.integer(movieId)) |>
-
-#### Support Functions ---------------------------------------------------------
-umge_functions_file <- "user+movie+genre-effect.functions.R"
-umge_functions.file_path <- file.path(support_functions.path, 
-                                      umge_functions_file)
-source(umge_functions.file_path, 
-       catch.aborts = TRUE,
-       echo = TRUE,
-       spaced = TRUE,
-       verbose = TRUE,
-       keep.source = TRUE)
 
 #### Train User+Movie+Genre Effect Model ---------------------------------------
 file_name_tmp <- "8.UMG-effect.RData"
@@ -1340,7 +1302,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Genre Effect Model data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  user_movie_genre_effect <- train_user_movie_genre_effect.cv()
+  UMG_effect <- train_user_movie_genre_effect.cv()
   
   put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
            file_path_tmp)
@@ -1348,54 +1310,186 @@ if (file.exists(file_path_tmp)) {
   save(mu,
        user_effect,
        rg.UM_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
+       gnr_mean_ratings.cv,
+       UMG_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User+Movie+Genre Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-put(str(user_movie_genre_effect))
+put_log("User+Movie+Genre Effect Model data structure:")
+put(str(UMG_effect))
 
 ###### Plot a histogram of the Movie Genre Effect distribution -----------------
 par(cex = 0.7)
-hist(user_movie_genre_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
+hist(UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
      main = TeX(r'[Histogram of $\hat{g}_{i,j}$]'))
 
 put_log("A histogram of the Movie Genre Effect distribution has been plotted.")
 
-###### Compute RMSE: user+movie+genre effects ------------------------------------
-user_movie_genre_effect_RMSE <- calc_user_movie_genre_effect_RMSE.cv(user_movie_genre_effect)
-user_movie_genre_effect_RMSE
+###### Compute RMSE: User+Movie+Genre effects ------------------------------------
+UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(UMG_effect)
+UMG_effect.RMSE
 #> [1] 0.859473
 
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre Effect Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("User+Movie+Genre Effect Model", user_movie_genre_effect_RMSE)
+  RMSEs.AddRow("User+Movie+Genre Effect Model", UMG_effect.RMSE)
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-### Regularizing User+Movie+Genre Effects --------------------------------------------
+### Regularizing User+Movie+Genre Effects --------------------------------------
+##### Open log file for `Preliminary setting-up of lambda range` feature -------
+open_logfile(".rg.UM-effect.pre-set-lambdas")
+##### UMG Effect Regularization Directory Paths --------------------------------
+UMG_effect.regularization.path <- file.path(data.regularization.path, 
+                                           "2.UMG-effect")
+dir.create(UMG_effect.regularization.path)
+put_log1("Directory path has been created: %1", UMG_effect.regularization.path)
+
+UMG_effect.rg.fine_tuning.path <- file.path(UMG_effect.regularization.path, 
+                                           fine_tuning.folder)
+dir.create(UMG_effect.rg.fine_tuning.path)
+put_log1("Directory path has been created: %1", UMG_effect.rg.fine_tuning.path)
+##### Process Preliminary setting-up of lambda range ---------------------------
+file_name_tmp <- "2.UMGE.rg.pre-tune.RData" # UMGE stands for `User+Movie+Genre Effect`
+file_path_tmp <- file.path(UMG_effect.regularization.path, file_name_tmp)
+
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading preliminary regularization set-up data for User+Movie+Genre Effect from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Preliminary regularization set-up data for User+Movie+Genre Effect has been loaded from file: %1", 
+           file_path_tmp)
+} else {
+  put_log1("Preliminary setting-up of `lambda`s range for %1-Fold Cross Validation samples...",
+           CVFolds_N)
+  
+  start <- put_start_date()
+  lambdas <- seq(0, 1, 0.1)
+  cv.UMGE.preset.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
+  put_end_date(start)
+  put_log1("Preliminary regularization set-up of `lambda`s range for the User+Movie+Genre Effect has been completed.
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+  
+  put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       user_effect,
+       #cv.UMG_effect,
+       cv.UMGE.preset.result,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie+Genre Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
+
+plot(cv.UMGE.preset.result$param_values,
+     cv.UMGE.preset.result$RMSEs)
+
+##### Close Log -----------------------------------------------------------------
+log_close()
+##### Open log file for `User+Movie+Genre Effect Regularization (Fine-Tuning)` feature ----
+open_logfile(".UMGE.rg.fine-tuning")
+##### Fine-tuning for `lambda` parameters value ---------------------------------- 
+# umge_regularization_path <- file.path(data.regularization.path, 
+#                                       "2.UMG-effect")
+# umge_loop_starter <- c(0, 2, 4, 64)
+# umge_cache_file_base_name <- "umge_reg-loop"
+# 
+# umge_reg_lambdas_best_results <- model.tune.param_range(umge_loop_starter,
+#                                                         umge_regularization_path,
+#                                                         umge_cache_file_base_name,
+#                                                         regularize.test_lambda.UMG_effect.cv)
+# 
+# put(umge_reg_lambdas_best_results)
+
+#---------------------------------------------------
+
+endpoints <- 
+  get_fine_tuning.param.endpoints(cv.UMGE.preset.result)
+
+UMG_effect.loop_starter <- c(endpoints["start"], 
+                            endpoints["end"], 
+                            8)
+UMG_effect.loop_starter
+#> [1] 0.4   0.6   8.0
+
+UMG_effect.cache_file_base_name <- "UMGE.rg.fine-tuning"
+
+UMG_effect.reg_lambdas_best_results <- 
+  model.tune.param_range(UMG_effect.loop_starter,
+                         UMG_effect.rg.fine_tuning.path,
+                         UMG_effect.cache_file_base_name,
+                         regularize.test_lambda.UMG_effect.cv)
+
+put_log("Fine-tuning stage of the User+Movie+Genre Effect Model Regularization 
+has ended up with with the following results:")
+put(UMG_effect.reg_lambdas_best_results)
+#### Close Log -----------------------------------------------------------------
+log_close()
 ##### Open log --------------------------------------------------------------------
-open_logfile(".reg-umg-effect.loop_0_2_d4_max64")
+open_logfile(".rg.UMGE.final-tuning")
+##### Final Tuning with refined lambda range ----------------------------------
+file_name_tmp <- "2.UMGE.rg.final-tune.RData" # UMGE stands for `User+Movie+Genre Effect`
+file_path_tmp <- file.path(UMG_effect.regularization.path, file_name_tmp)
 
-##### Process User+Movie+Genre Model Regularization -------------------------------------
-umge_regularization_path <- file.path(data.regularization.path, 
-                                     "2.UMG-effect")
-umge_loop_starter <- c(0, 2, 4, 64)
-umge_cache_file_base_name <- "umge_reg-loop"
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading final-tuned data for User+Movie+Genre Effect from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Final-tuned data for User+Movie+Genre Effect has been loaded from file: %1", 
+           file_path_tmp)
+} else {
+  put_log1("Final-tuning UM Effect Model for %1-Fold Cross Validation samples...",
+           CVFolds_N)
+  
+  fine_tuning.result <- UMG_effect.reg_lambdas_best_results
+  seq_start <- fine_tuning.result$param_values.endpoints[1]
+  seq_end <- fine_tuning.result$param_values.endpoints[2]
+  seq_step <- (seq_end - seq_start)/64  
+  
+  lambdas <- seq(seq_start, seq_end, seq_step)
+  
+  start <- put_start_date()
+  cv.UMGE.final_tuned.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
+  put_end_date(start)
+  put_log1("Final-tuning of User+Movie+Genre Effect has been completed.
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+  
+  plot(cv.UMGE.final_tuned.result$param_values,
+       cv.UMGE.final_tuned.result$RMSEs)
+  
+  put_log1("Saving Final-tuning User+Movie+Genre Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       user_effect,
+       #cv.UMG_effect,
+       cv.UMGE.final_tuned.result,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie+Genre Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
 
-umge_reg_lambdas_best_results <- model.tune.param_range(umge_loop_starter,
-                                                 umge_regularization_path,
-                                                 umge_cache_file_base_name,
-                                                 regularize.test_lambda.user_movie_genre_effect.cv)
-
-put(umge_reg_lambdas_best_results)
-
+##### Close Log -----------------------------------------------------------------
+log_close()
+##### Open log ------------------------------------------------------------------
+open_logfile(".UMGE.rg.re-train.best-lambda")
 ##### Re-training Regularized User+Movie+Genre Effect Model for the best `lambda` value ----
 file_name_tmp <- "9.rg.UMG-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
@@ -1431,7 +1525,7 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       rg.UM_effect,
+       rg.UMG_effect,
        rg.UMG_effect,
        file = file_path_tmp)
   put_end_date(start)
@@ -1516,7 +1610,7 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       rg.UM_effect,
+       rg.UMG_effect,
        rg.UMG_effect,
        cv.UMGY_effect,
        file = file_path_tmp)
@@ -1591,7 +1685,7 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       rg.UM_effect,
+       rg.UMG_effect,
        rg.UMG_effect,
        rg.UMGY_effect,
        file = file_path_tmp)
@@ -1661,7 +1755,7 @@ CVFolds_N)
   start <- put_start_date()
   save(mu,
        user_effect,
-       rg.UM_effect,
+       rg.UMG_effect,
        rg.UMG_effect,
        rg.UMGY_effect,
        cv.UMGYD_effect,
@@ -1776,7 +1870,7 @@ CVFolds_N)
   start <- put_start_date()
   save(mu,
        user_effect,
-       rg.UM_effect,
+       rg.UMG_effect,
        rg.UMG_effect,
        rg.UMGY_effect,
        cv.UMGYD_effect,
@@ -1845,7 +1939,7 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       rg.UM_effect,
+       rg.UMG_effect,
        rg.UMG_effect,
        rg.UMGY_effect,
        cv.UMGYD_effect,
@@ -1900,9 +1994,9 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       UM_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
+       UMG_effect,
+       gnr_mean_ratings.cv,
+       UMG_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
@@ -1959,9 +2053,9 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   save(mu,
        user_effect,
-       UM_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
+       UMG_effect,
+       gnr_mean_ratings.cv,
+       UMG_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,
@@ -2046,9 +2140,9 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
   start <- put_start_date()
   save(mu,
        user_effect,
-       UM_effect,
-       genre_mean_ratings,
-       user_movie_genre_effect,
+       UMG_effect,
+       gnr_mean_ratings.cv,
+       UMG_effect,
        user_movie_genre_reg_lambdas_6p6_m4p2_p2,
        user_movie_genre_reg_RMSEs_m66_42_0_2,
        umgy_tune_sets,

@@ -1,4 +1,36 @@
 # User+Movie+Genre Effect Support Functions ------------------------------------
+calc_genre_mean_ratings <- function(train_set) {
+  train_set |> 
+    mutate(genre_categories = as.factor(genres)) |>
+    group_by(genre_categories) |>
+    summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+    filter(n > min_nratings) |>
+    mutate(genres = reorder(genre_categories, rating_avg)) |>
+    select(genres, rating_avg, se, n)
+}
+calc_genre_mean_ratings.cv <- function() {
+  
+  gnr_mean_rating_ls <- lapply(edx_CV, function(cv_item){
+    cv_item$train_set |> 
+      calc_genre_mean_ratings()
+  })
+  put_log1("Genre Mean Ratings list has been computed for %1-Fold Cross Validation samples.", 
+           CVFolds_N)
+  put(str(gnr_mean_rating_ls))
+
+  put_log1("Computing Mean Ratings per Genre list for %1-Fold Cross Validation samples...", 
+           CVFolds_N)
+  gnr_mean_ratings_united <- union_cv_results(gnr_mean_rating_ls)
+  str(gnr_mean_ratings_united)
+  
+  gnr_mean_ratings_united |>
+    group_by(genres) |>
+    summarise(ratings = mean(rating_avg),
+              se = mean(se),
+              n = mean(n)) |>
+    mutate(genres = reorder(genres, ratings)) |>
+    sort_by.data.frame(~ratings)
+}
 train_user_movie_genre_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
     stop("Function: train_user_movie_genre_effect
