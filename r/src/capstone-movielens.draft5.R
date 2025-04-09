@@ -955,7 +955,10 @@ log_close()
 # β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
 # where `n[j]` is the number of ratings made for movie `j`.
 
-##### Regularization Directory Paths -------------------------------------------
+##### Preliminary setting-up of lambda range -----------------------------------
+###### Open log ----------------------------------------------------------------
+open_logfile(".rg.UM-effect.pre-set-lambdas")
+###### Regularization Directory Paths ------------------------------------------
 UM_effect.regularization.path <- file.path(data.regularization.path, 
                                            "1.UM-effect")
 dir.create(UM_effect.regularization.path)
@@ -966,9 +969,7 @@ UM_effect.rg.fine_tuning.path <- file.path(UM_effect.regularization.path,
 dir.create(UM_effect.rg.fine_tuning.path)
 put_log1("Directory path has been created: %1", UM_effect.rg.fine_tuning.path)
 
-##### Open log --------------------------------------------------------------------
-open_logfile(".rg.UM-effect.pre-set-lambdas")
-##### Preliminary setting-up of lambda range ----------------------------------
+###### Process Preliminary setting-up of lambda range --------------------------
 file_name_tmp <- "1.UME.rg.pre-tune.RData" # UME stands for `User+Movie Effect`
 file_path_tmp <- file.path(UM_effect.regularization.path, file_name_tmp)
 
