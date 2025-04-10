@@ -1574,7 +1574,7 @@ source(cv.UMGY_effect.functions.file_path,
 
 
 #### Training User+Movie+Genre+Year Effect Model ----------------------------------------
-file_name_tmp <- "10.UMGY-effect.RData"
+file_name_tmp <- "9.UMGY-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
