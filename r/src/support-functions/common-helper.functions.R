@@ -32,18 +32,22 @@ rmse2 <- function(true_ratings, predicted_ratings) {
 ## RMSEs Result Tibble ---------------------------------------------------------
 CreateRMSEs_ResultTibble <- function(){
   tibble(Method = c("Project Objective"),
-         RMSE = project_objective)
+         RMSE = project_objective,
+         Comment = " ")
 }
-RMSEs.AddRow <- function(RMSEs, method, value){
+RMSEs.AddRow <- function(RMSEs, method, value, comment = ""){
   RMSEs |>
     add_row(Method = method,
-            RMSE = value)
+            RMSE = value,
+            Comment = comment)
 }
 RMSE_kable <- function(RMSEs){
   RMSEs |>
-    kable(align='lrr', booktabs = T, padding = 5) |> 
+    kable(align='lcl', booktabs = T, padding = 5) |> 
     row_spec(0, bold = T) |>
-    column_spec(column = 1, width = "25em")
+    column_spec(column = 1, width = "35em") |>
+    column_spec(column = 2, width = "10em") |>
+    column_spec(column = 3, width = "50em") 
 }
 
 ## Data processing functions -------------------------------

@@ -105,6 +105,16 @@ put_end_date <- function(start){
   put(Sys.time() - start)
 }
 
+msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
+  msg_template |> 
+    str_replace_all(arg.name, as.character(arg))
+}
+msg.glue <- function(msg_template, arg, arg.name = "%1"){
+  msg_template |>
+    msg.set_arg(arg, arg.name) |>
+    str_glue()
+}
+
 print_log <- function(msg){
   print(str_glue(msg))
 }
@@ -118,8 +128,10 @@ put_log1 <- function(msg_template, arg1){
 put_log2 <- function(msg_template, arg1, arg2){
   msg <- msg_template |> 
     str_replace_all("%1", as.character(arg1)) |>
-    str_replace_all("%2", as.character(arg2))
-  put(str_glue(msg))
+    str_replace_all("%2", as.character(arg2)) |>
+    str_glue()
+  
+  put(msg)
 }
 put_log3 <- function(msg_template, arg1, arg2, arg3){
   msg <- msg_template |> 
@@ -1136,7 +1148,6 @@ if (file.exists(file_path_tmp)) {
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
                rg.UM_effect.RMSE)
-
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie Effect Model`.")
@@ -1989,6 +2000,15 @@ print(cv.UMGYDE.default_params.RMSE)
 #> [1] 0.8588864
 
 
+##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
+               cv.UMGYDE.default_params.RMSE,
+               comment = "Computed using `loess` function with default `degree` & `span` parameters.")
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble 
+for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
 #### Tune the model using `loess` with `span` & `degree` params ---------------
@@ -2174,6 +2194,7 @@ for the best `span` value (%1) and `degree = 0` parameters: %2.",
        rg.UMGY_effect,
        UMGYDE.final_tune.degree0.result,
        tuned.degree0.best_span.UMGYD_effect,
+       UMGYDE.final_tuned.best_span,
        tuned.degree0.best_span.UMGYDE.RMSE,
        file = file_path_tmp)
   put_end_date(start)
@@ -2185,8 +2206,19 @@ with the best `span` value and `degree = 0` parameters has been saved to file: %
 put_log2("Completed re-training UMGY+(Smoothed)Day Effect Model
 for `degree = 0` and `span = %1` (the best span value) parameters
 with the following result RMSE: %2...",
-UMGYDE.final_tune.degree0.result$best_result["param.best_value"],
+UMGYDE.final_tuned.best_span,
 tuned.degree0.best_span.UMGYDE.RMSE)
+
+##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
+               tuned.degree0.best_span.UMGYDE.RMSE,
+               comment = "Computed using function call: `loess(degree = 0, span = %1)`" |>
+  msg.glue(UMGYDE.final_tuned.best_span))
+
+RMSE_kable(RMSEs.ResultTibble)
+
+
 ##### Close Log -----------------------------------------------------------------
 log_close()
 ###### 2. `degree = 1` --------------------------------------------------------------
@@ -2419,11 +2451,12 @@ print(user_movie_genre_tuned_date_effect_RMSE)
 
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("User+Movie+Genre+Date Effect Model (tuned)", 
+  RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
                user_movie_genre_tuned_date_effect_RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
-put_log("A row has been added to the RMSE Result Tibble for the tuned `User+Movie+Genre+Date Effect Model`.")
+put_log("A row has been added to the RMSE Result Tibble 
+for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 
 # start <- put_start_date()
 # final_holdout_test |>
