@@ -2047,9 +2047,6 @@ using `loess` function with parameter `degree = 0` has been computed
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
   
-  plot(cv.UMGYDE.degree0.pretune.result$param_values,
-       cv.UMGYDE.degree0.pretune.result$RMSEs)
-
   put_log1("Saving UMGY+(Smoothed)Day Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
@@ -2064,6 +2061,9 @@ CVFolds_N)
   put_log1("UMGY+(Smoothed)Day Effect Model data has been saved to file: %1", 
            file_path_tmp)
 }
+
+plot(cv.UMGYDE.degree0.pretune.result$param_values,
+     cv.UMGYDE.degree0.pretune.result$RMSEs)
 
 put_log("Preliminary tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 0` has ended up with with the following results:")
@@ -2087,6 +2087,33 @@ UMGYDE.fine_tune.result.degree0 <-
                          UMGYDE.fine_tune.degree0.data.path,
                          UMGYDE.fine_tune.degree0.cache_file.base_name,
                          train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
+
+plot(UMGYDE.fine_tune.result.degree0$tuning_result$param_values,
+     UMGYDE.fine_tune.result.degree0$tuning_result$RMSEs)
+
+plot_dat <- data.frame(spans = UMGYDE.fine_tune.result.degree0$tuning_result$param_values,
+           fine_tuned.RMSE = UMGYDE.fine_tune.result.degree0$tuning_result$RMSEs) |>
+  mutate(spans.right = lead(spans, 5),
+         fine_tuned.RMSE.right = lead(fine_tuned.RMSE, 5))
+
+p1 <- plot_dat |>
+  ggplot(aes(spans, fine_tuned.RMSE)) +
+  geom_point() + 
+  geom_line(color="red")
+
+#plot_dat.right_details <- plot_dat |>
+
+p2 <- plot_dat |>
+  ggplot(aes(spans.right, fine_tuned.RMSE.right)) +
+  geom_point() + 
+  geom_line(color="red")
+  
+grid.arrange(p1, p2)
+
+  
+
+  # geom_smooth(color="red",  span = 0.15,
+  #             method = "loess", method.args = list(degree=1))
 
 put_log("Fine-tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 0` has ended up with with the following results:")
@@ -2131,10 +2158,7 @@ using `loess` function with parameter `degree = 0` has been loaded from file: %1
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
   
-  plot(UMGYDE.final_tune.degree0.result$param_values,
-       UMGYDE.final_tune.degree0.result$RMSEs)
-  
-  put_log1("Saving the final-tuned UMGY+(Smoothed)Day Effect Model data to file: %1...", 
+put_log1("Saving the final-tuned UMGY+(Smoothed)Day Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
@@ -2149,9 +2173,18 @@ CVFolds_N)
            file_path_tmp)
 } 
 
+plot(UMGYDE.final_tune.degree0.result$param_values,
+     UMGYDE.final_tune.degree0.result$RMSEs)
+
 put_log("Final-tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 0` has ended up with with the following results:")
 put(UMGYDE.final_tune.degree0.result)
+
+UMGYDE.degree0.best_RMSE = min(UMGYDE.final_tune.degree0.result$RMSE)
+sum(UMGYDE.final_tune.degree0.result$RMSE == UMGYDE.degree0.best_RMSE)
+UMGYDE.degree0.best_lambda.idx <- 
+  which(UMGYDE.final_tune.degree0.result$RMSE == UMGYDE.degree0.best_RMSE)
+
 
 ##### Close Log -----------------------------------------------------------------
 log_close()

@@ -273,6 +273,7 @@ model.tune.param_range <- function(loop_starter,
                              # range_divider.multiplier = 4,
                              max.identical.min_RMSE.count = 4,
                              is.cv = TRUE,
+                             endpoint.min_diff = 1e-07,
                              break.if_min = TRUE,
                              steps.beyond_min = 2){
 
@@ -294,7 +295,7 @@ model.tune.param_range <- function(loop_starter,
   
   best_RMSE <- Inf
   param.best_value <- 0
-  endpoint.min_diff <- 1e-07
+  
   
   param_values.best_result <- c(param.best_value = param.best_value, 
                                 best_RMSE = best_RMSE)
@@ -499,6 +500,12 @@ Reached minimal RMSE for the test parameter value = %1: %2",
     seq_start <- tuning_result$param_values[seq_start_ind]
     seq_end <- tuning_result$param_values[seq_end_ind]
   }
+  n <- length(tuning_result$param_values)
+  tuning_result$param_values[1] <- prm_val.leftmost
+  tuning_result$param_values[n+1] <- prm_val.rightmost
+  
+  tuning_result$RMSEs[1] <- RMSE.leftmost
+  tuning_result$RMSEs[n+1] <- RMSE.rightmost
   
   # browser()
   list(best_result = param_values.best_result,
