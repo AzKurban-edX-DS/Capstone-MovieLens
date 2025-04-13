@@ -672,10 +672,10 @@ if (file.exists(file_path_tmp)) {
   deviation <- seq(0, 6, 0.1) - 3
 
   start = put_start_date()
-  rmse_values <- sapply(deviation, function(delta){
+  deviation.RMSE <- sapply(deviation, function(delta){
     naive_model_RMSE(mu + delta)
   })
-  print(rmse_values)
+  print(deviation.RMSE)
   put_log1("RMSE values have been computed for %1 deviations from the Overall Mean Rating.",
            length(deviation))
   
@@ -685,7 +685,7 @@ if (file.exists(file_path_tmp)) {
   save(mu,
        naive_rmse,
        deviation,
-       rmse_values,
+       deviation.RMSE,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("Overall Mean Rating Deviation data has been saved to file: %1", 
@@ -693,14 +693,19 @@ if (file.exists(file_path_tmp)) {
 } 
 
 data.frame(deviation = deviation, 
-                        rmse_values = rmse_values) |> 
-  ggplot(aes(deviation, rmse_values)) +
-  geom_line()
+           deviation.RMSE = deviation.RMSE) |> 
+  tuning.plot(title = "RMSE as a function of Deviation from the Overall Mean Rating",
+              xname = "deviation", 
+              yname = "deviation.RMSE", 
+              xlabel = "deviation", 
+              ylabel = "RMSE")
+
+
 
 put_log("A plot was constructed for the deviations from the Overall Mean Rating.")
 
-which_min_deviation <- deviation[which.min(rmse_values)]
-min_rmse = min(rmse_values)
+which_min_deviation <- deviation[which.min(deviation.RMSE)]
+min_rmse = min(deviation.RMSE)
 
 put_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
          which_min_deviation)
@@ -2068,9 +2073,6 @@ cv.UMGYDE.degree0.pretune_results$tuned.result |>
               yname = "RMSE", 
               xlabel = "spans", 
               ylabel = "RMSE")
-
-# plot(cv.UMGYDE.degree0.pretune_results$param_values,
-#      cv.UMGYDE.degree0.pretune_results$RMSE)
 
 put_log("Preliminary tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 0` has ended up with with the following results:")
