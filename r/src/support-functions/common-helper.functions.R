@@ -262,8 +262,8 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
   
   put_log1("Function: `tune.model_param`:
 Completed with RMSEs_tmp length: %1", length(RMSEs_tmp))
-  list(RMSEs = RMSEs_tmp,
-       param_values = param_vals_tmp,
+  list(tuned.result = data.frame(RMSE = RMSEs_tmp,
+                                parameter.value = param_vals_tmp),
        best_result = param_values.best_result)
 }
 model.tune.param_range <- function(loop_starter,
@@ -353,36 +353,39 @@ Tuning data has been loaded from file: %1", file_path_tmp)
         # browser()
       }
     } else {
-      tuning_result <- tune.model_param(test_param_vals, 
+      tuned_result <- tune.model_param(test_param_vals, 
                                         fn_tune.test.param_value,
                                         break.if_min,
                                         steps.beyond_min)
       
       #     put_log1("Function `model.tune.param_range`:
       # File NOT saved (disabled for debug purposes): %1", file_path_tmp)
-      save(tuning_result,
+      save(tuned_result,
            param.best_value,
            best_RMSE,
            seq_increment,
            range_divider,
-           # max_range_divider,
            file = file_path_tmp)
 
       put_log1("Function `model.tune.param_range`:
 File saved: %1", file_path_tmp)
     }
     
-    plot(tuning_result$param_values, tuning_result$RMSEs)
-    # browser()
-    prm_val.leftmost.tmp <- tuning_result$param_values[1]
-    RMSE.leftmost.tmp <- tuning_result$RMSEs[1]
+    tuned.result <- tuned_result$tuned.result
+    # tuned_result.param_values <- tuned_result$param_values
+    # tuned_result.RMSE <- tuned_result$RMSE
 
-    tuning_result.N <- length(tuning_result$param_values)
-    prm_val.rightmost.tmp <- tuning_result$param_values[tuning_result.N]
-    RMSE.rightmost.tmp <- tuning_result$RMSEs[tuning_result.N]
+    plot(tuned.result$parameter.value, tuned.result$RMSE)
+    # browser()
+    prm_val.leftmost.tmp <- tuned.result$parameter.value[1]
+    RMSE.leftmost.tmp <- tuned.result$RMSE[1]
+
+    tuned.result.N <- length(tuned.result$parameter.value)
+    prm_val.rightmost.tmp <- tuned.result$parameter.value[tuned.result.N]
+    RMSE.rightmost.tmp <- tuned.result$RMSE[tuned.result.N]
     
-    min_RMSE <- min(tuning_result$RMSEs)
-    RMSEs_min_ind <- which.min(tuning_result$RMSEs)
+    min_RMSE <- min(tuned.result$RMSE)
+    RMSEs_min_ind <- which.min(tuned.result$RMSE)
 
     if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
       prm_val.leftmost <- prm_val.leftmost.tmp
@@ -401,7 +404,7 @@ Currently computed minial value is: ", min_RMSE)
       
       put_log2("Function `model.tune.param_range`:
 Current minimal RMSE for `parameter value = %1`: %2",
-               tuning_result$param_values[which.min(tuning_result$RMSEs)],
+               tuned.result$parameter.value[which.min(tuned.result$RMSE)],
                min_RMSE)
       
       put_log2("Function `model.tune.param_range`:
@@ -411,20 +414,21 @@ So far reached best RMSE for `parameter value = %1`: %2",
       
       put(param_values.best_result)
 
-      if (sum(tuning_result$RMSEs[tuning_result$RMSEs == min_RMSE]) >= max.identical.min_RMSE.count) {
+      if (sum(tuned.result$RMSE[tuned.result$RMSE == min_RMSE]) >= max.identical.min_RMSE.count) {
         warning("Minimal `RMSE`identical values count reached it maximum allowed value: ",
                 max.identical.min_RMSE.count)
-        
-        put(tuning_result$RMSEs)
+        # browser()
+        put(tuned.result$RMSE)
         
         param_values.best_result <-
-          get_best_param.result(tuning_result$param_values,
-                                tuning_result$RMSEs)
-        
+          get_best_param.result(tuned.result$parameter.value,
+                                tuned.result$RMSE)
+        # browser()
         put_log2("Function `model.tune.param_range`:
       Reached the best RMSE for `parameter value = %1`: %2",
                  param_values.best_result["param.best_value"],
                  param_values.best_result["best_RMSE"])
+        # browser()
         break
       }
 
@@ -449,11 +453,11 @@ Currently computed minial value is: ", min_RMSE)
     }
 
     best_RMSE <- min_RMSE
-    param.best_value <- tuning_result$param_values[RMSEs_min_ind]
+    param.best_value <- tuned.result$parameter.value[RMSEs_min_ind]
 
     param_values.best_result <- 
-      get_best_param.result(tuning_result$param_values, 
-                          tuning_result$RMSEs)
+      get_best_param.result(tuned.result$parameter.value, 
+                          tuned.result$RMSE)
     
     put_log2("Function `model.tune.param_range`:
 Currently reached best RMSE for `parameter value = %1`: %2",
@@ -466,24 +470,24 @@ Currently reached best RMSE for `parameter value = %1`: %2",
     
     if (seq_start_ind < 1) {
       seq_start_ind <- 1
-      warning("`tuning_result$param_values` index too small, so it assigned a value ",
+      warning("`tuned.result$parameter.value` index too small, so it assigned a value ",
               seq_start_ind)
       # browser()
     }
     
     seq_end_ind <- RMSEs_min_ind + 1
     
-    if (length(tuning_result$param_values) < seq_end_ind) {
+    if (length(tuned.result$parameter.value) < seq_end_ind) {
       warning("`seq_end_ind` index too large and will be set to `RMSEs_min_ind`.")
       seq_end_ind <- RMSEs_min_ind
       put_log1("Function `model.tune.param_range`:
-Index exeeded the length of `tuning_result$param_values`, so it is set to maximum possible value of %1",
+Index exeeded the length of `tuned.result$parameter.value`, so it is set to maximum possible value of %1",
                seq_end_ind)
       # browser()
     }
     
     if (seq_end_ind - seq_start_ind <= 0) {
-      warning("`tuning_result$param_values` sequential start index are the same or greater than end one.")
+      warning("`tuned.result$parameter.value` sequential start index are the same or greater than end one.")
       put_log1("Function `model.tune.param_range`:
 Current minimal RMSE: %1", rmse_min)
       
@@ -497,22 +501,114 @@ Reached minimal RMSE for the test parameter value = %1: %2",
       break
     }
     
-    seq_start <- tuning_result$param_values[seq_start_ind]
-    seq_end <- tuning_result$param_values[seq_end_ind]
+    seq_start <- tuned.result$parameter.value[seq_start_ind]
+    seq_end <- tuned.result$parameter.value[seq_end_ind]
   }
-  n <- length(tuning_result$param_values)
-  tuning_result$param_values[1] <- prm_val.leftmost
-  tuning_result$param_values[n+1] <- prm_val.rightmost
+  n <- length(tuned.result$parameter.value)
   
-  tuning_result$RMSEs[1] <- RMSE.leftmost
-  tuning_result$RMSEs[n+1] <- RMSE.rightmost
+  # browser()
+  parameter.value <- tuned.result$parameter.value
+  result.RMSE <- tuned.result$RMSE
+  
+  parameter.value[1] <- prm_val.leftmost
+  parameter.value[n+1] <- prm_val.rightmost
+  
+  result.RMSE[1] <- RMSE.leftmost
+  result.RMSE[n+1] <- RMSE.rightmost
   
   # browser()
   list(best_result = param_values.best_result,
-       param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost),
-       tuning_result = tuning_result)
+       param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
+       tuned.result = data.frame(parameter.value = parameter.value,
+                                 RMSE = result.RMSE))
 }
 
+### Model Tuning Results Visualization -----------------------------------------
+
+tuning.plot.right_detailed <- function(data, 
+                                      shift = 1,
+                                      title = NULL,
+                                      title.right = NULL,
+                                      xname, 
+                                      yname, 
+                                      xlabel1 = NULL, 
+                                      xlabel2 = NULL, 
+                                      ylabel1 = NULL,
+                                      ylabel2 = NULL,
+                                      line_col1 = "blue",
+                                      line_col2 = "red") {
+  if(is.null(xlabel1)) {
+    xlabel1 <- xname
+  }
+  if(is.null(xlabel2)) {
+    xlabel2 <- str_glue(xlabel1, " (shifted right)")
+  }
+  if(is.null(ylabel1)) {
+    ylabel1 <- yname
+  }
+  if(is.null(ylabel2)) {
+    ylabel2 <- ylabel1
+  }
+
+  p1 <- data |>
+    tuning.plot(title = title,
+                xname = xname, 
+                yname = yname, 
+                xlabel = xlabel1, 
+                ylabel = ylabel1,
+                line_col = line_col1)
+
+  p2 <- data |>
+    tuning.plot.shifted.right(shift = shift,
+                              title = title.right,
+                              xname = xname, 
+                              yname = yname, 
+                              xlabel = xlabel2, 
+                              ylabel = ylabel2,
+                              line_col = line_col2)
+  grid.arrange(p1, p2)
+}
+
+tuning.plot.shifted.right <- function(data, 
+                                      shift = 1,
+                                      title, 
+                                      xname, 
+                                      yname, 
+                                      xlabel, 
+                                      ylabel,
+                                      line_col = "red") {
+  x_col <- data[, xname] 
+  y_col <- data[, yname]
+
+  data.right <- data |>
+    mutate(x_right = lead(x_col, shift),
+           y_right = lead(y_col, shift)) |>
+    filter(!is.na(x_right))
+  
+  tuning.plot(data.right,
+              title,
+              "x_right",
+              "y_right",
+              xlabel,
+              ylabel,
+              line_col)
+}
+tuning.plot <- function(data, 
+                        title, 
+                        xname, 
+                        yname, 
+                        xlabel, 
+                        ylabel,
+                        line_col = "blue") {
+  aes_mapping <- aes(x = data[, xname], y = data[, yname])
+  data |> 
+    ggplot(mapping = aes_mapping) +
+    ggtitle(title) +
+    xlab(xlabel) +
+    ylab(ylabel) +
+    geom_point() + 
+    geom_line(color=line_col)
+}
 
 
 
