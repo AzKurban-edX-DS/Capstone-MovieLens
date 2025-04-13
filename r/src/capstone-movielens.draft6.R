@@ -700,8 +700,6 @@ data.frame(deviation = deviation,
               xlabel = "deviation", 
               ylabel = "RMSE")
 
-
-
 put_log("A plot was constructed for the deviations from the Overall Mean Rating.")
 
 which_min_deviation <- deviation[which.min(deviation.RMSE)]
@@ -779,9 +777,6 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       naive_rmse,
-       deviation,
-       rmse_values,
        user_mean_ratings,
        file = file_path_tmp)
   put_end_date(start)
@@ -833,7 +828,6 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       naive_rmse,
        user_effect,
        file = file_path_tmp)
   put_end_date(start)
@@ -855,7 +849,7 @@ put_log("A histogram of the User Effect distribution has been plotted.")
 
 put_log("Computing the RMSE taking into account user effects...")
 start <- put_start_date()
-user_effect_mses <- sapply(edx_CV, function(cv_fold_dat){
+user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
     left_join(user_effect, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
@@ -864,20 +858,20 @@ user_effect_mses <- sapply(edx_CV, function(cv_fold_dat){
 })
 put_end_date(start)
 
-plot(user_effect_mses)
+plot(user_effect.MSEs)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-user_effect_rmse <- sqrt(mean(user_effect_mses))
+user_effect.RMSE <- sqrt(mean(user_effect.MSEs))
 put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
          CVFolds_N, 
-         user_effect_rmse)
-user_effect_rmse
+         user_effect.RMSE)
+user_effect.RMSE
 #> [1] 0.9716054
 
 # Add a row to the RMSE Result Tibble for the User Effect Model ---------------- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("User Effect Model", user_effect_rmse)
+  RMSEs.AddRow("User Effect Model", user_effect.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `User Effect Model`.")
