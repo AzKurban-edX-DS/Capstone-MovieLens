@@ -631,9 +631,9 @@ if (file.exists(file_path_tmp)) {
   MSEs <- naive_model_MSEs(mu)
   plot(MSEs)
   put_log1("MSE values plotted for %1-Fold Cross Validation samples.", CVFolds_N)
-  naive_rmse <- sqrt(mean(MSEs))
-  # naive_rmse <- naive_model_RMSE(mu)
-  put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, naive_rmse)
+  mu.RMSE <- sqrt(mean(MSEs))
+  # mu.RMSE <- naive_model_RMSE(mu)
+  put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, mu.RMSE)
   #> 5-Fold Cross Validation ultimate RMSE: 1.06034335317133
   
   put_log2("Saving Overall mean rating value (`mu = %1`) to file: %1...", 
@@ -641,7 +641,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       naive_rmse,
+       mu.RMSE,
        file = file_path_tmp)
   put_end_date(start)
   put_log2("Overall mean rating value (`mu = %1`) has been saved to file: %1", 
@@ -651,7 +651,7 @@ if (file.exists(file_path_tmp)) {
 
 put_log1("The Overall Mean Rating is: %1", mu)
 #> The Overall Mean Rating is: 3.51246520160155
-put_log1("The Naive RMSE is: %1", naive_rmse)
+put_log1("The Naive RMSE is: %1", mu.RMSE)
 
 #### Ensure that this is the best RMSE value for the current model ----------------
 #> If we plug in any other number, we will get a higher RMSE. 
@@ -683,7 +683,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       naive_rmse,
+       mu.RMSE,
        deviation,
        deviation.RMSE,
        file = file_path_tmp)
@@ -711,13 +711,13 @@ put_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
          which_min_deviation)
 
 put_log1("Is the previously computed RMSE the best for the current model: %1",
-         naive_rmse == min_rmse)
+         mu.RMSE == min_rmse)
 #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
 writeLines("")
 
 #### Add a row to the RMSE Result Tibble for the Overall Mean Rating Model ------ 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Overall Mean Rating Model", naive_rmse)
+  RMSEs.AddRow("Overall Mean Rating Model", mu.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `Overall Mean Rating Model`.")
