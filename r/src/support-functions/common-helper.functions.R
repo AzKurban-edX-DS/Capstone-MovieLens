@@ -157,33 +157,46 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   sums/(N + lambda)
 }
 ## Model Tuning ---------------------------------------------------------
-get_fine_tuning.param.endpoints <- function(preset_result) {
-  best_RMSE <- min(preset_result$RMSEs)
-  best_RMSE.idx <- which.min(preset_result$RMSEs)
-  best_lambda <- preset_result$param_values[best_RMSE.idx]
+get_fine_tune.param.endpoints <- function(preset.result) {
+
+  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
   
-  preset_result.N <- length(preset_result$RMSEs)
+  i <- preset.result.idx["start"]
+  j <- preset.result.idx["end"]
+  best.idx <- preset.result.idx["best"]
+  
+  c(start = preset.result$parameter.value[i], 
+    end = preset.result$parameter.value[j],
+    best = preset.result$parameter.value[best.idx])
+}
+get_fine_tune.param.endpoints.idx <- function(preset.result) {
+  best_RMSE <- min(preset.result$RMSE)
+  best_RMSE.idx <- which.min(preset.result$RMSE)
+  # best_lambda <- preset.result$parameter.value[best_RMSE.idx]
+  
+  preset.result.N <- length(preset.result$RMSE)
   i <- best_RMSE.idx
   j <- i
   
   while (i > 1) {
     i <- i - 1
     
-    if (preset_result$RMSEs[i] > best_RMSE) {
+    if (preset.result$RMSE[i] > best_RMSE) {
       break
     }
   }
   
-  while (j < preset_result.N) {
+  while (j < preset.result.N) {
     j <- j + 1
     
-    if (preset_result$RMSEs[j] > best_RMSE) {
+    if (preset.result$RMSE[j] > best_RMSE) {
       break
     }
   }
   
-  c(start = preset_result$param_values[i], 
-    end = preset_result$param_values[j])
+  c(start = i, 
+    end = j,
+    best = best_RMSE.idx)
 }
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
@@ -273,7 +286,7 @@ model.tune.param_range <- function(loop_starter,
                              # range_divider.multiplier = 4,
                              max.identical.min_RMSE.count = 4,
                              is.cv = TRUE,
-                             endpoint.min_diff = 1e-07,
+                             endpoint.min_diff = 0, #1e-07,
                              break.if_min = TRUE,
                              steps.beyond_min = 2){
 
@@ -293,7 +306,7 @@ model.tune.param_range <- function(loop_starter,
   # max_range_divider <- loop_starter[4]
   
   
-  best_RMSE <- Inf
+  best_RMSE <- NA
   param.best_value <- 0
   
   
@@ -349,6 +362,8 @@ Loading tuning data from file: %1...", file_path_tmp)
       put_log1("Function `model.tune.param_range`:
 Tuning data has been loaded from file: %1", file_path_tmp)
       
+      tuned.result <- tuned_result$tuned.result
+      
       if(length(file_path_tmp) > 0) {
         # browser()
       }
@@ -358,11 +373,14 @@ Tuning data has been loaded from file: %1", file_path_tmp)
                                         break.if_min,
                                         steps.beyond_min)
       
+      tuned.result <- tuned_result$tuned.result
+      
+      
       #     put_log1("Function `model.tune.param_range`:
       # File NOT saved (disabled for debug purposes): %1", file_path_tmp)
       save(tuned_result,
            param.best_value,
-           best_RMSE,
+           # best_RMSE,
            seq_increment,
            range_divider,
            file = file_path_tmp)
@@ -371,32 +389,68 @@ Tuning data has been loaded from file: %1", file_path_tmp)
 File saved: %1", file_path_tmp)
     }
     
-    tuned.result <- tuned_result$tuned.result
-    # tuned_result.param_values <- tuned_result$param_values
-    # tuned_result.RMSE <- tuned_result$RMSE
-
     plot(tuned.result$parameter.value, tuned.result$RMSE)
-    # browser()
-    prm_val.leftmost.tmp <- tuned.result$parameter.value[1]
-    RMSE.leftmost.tmp <- tuned.result$RMSE[1]
-
-    tuned.result.N <- length(tuned.result$parameter.value)
-    prm_val.rightmost.tmp <- tuned.result$parameter.value[tuned.result.N]
-    RMSE.rightmost.tmp <- tuned.result$RMSE[tuned.result.N]
+    bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
+    start.idx <- bound.idx["start"]
+    end.idx <- bound.idx["end"]
+    best_RMSE.idx <- bound.idx["best"]
     
-    min_RMSE <- min(tuned.result$RMSE)
-    RMSEs_min_ind <- which.min(tuned.result$RMSE)
+    prm_val.leftmost.tmp <- tuned.result$parameter.value[start.idx]
+    RMSE.leftmost.tmp <- tuned.result$RMSE[start.idx]
+
+    # tuned.result.N <- length(tuned.result$parameter.value)
+    prm_val.rightmost.tmp <- tuned.result$parameter.value[end.idx]
+    RMSE.rightmost.tmp <- tuned.result$RMSE[end.idx]
+    
+    min_RMSE <- tuned.result$RMSE[best_RMSE.idx]
+    min_RMSE.prm_val <- tuned.result$parameter.value[best_RMSE.idx]
+
+    seq_start <- prm_val.leftmost.tmp
+    seq_end <- prm_val.rightmost.tmp
+    
+    if (is.na(best_RMSE)) {
+      prm_val.leftmost <- prm_val.leftmost.tmp
+      RMSE.leftmost <- RMSE.leftmost.tmp
+      
+      # n <- length(tuned.result$parameter.value)
+      prm_val.rightmost <- prm_val.rightmost.tmp
+      RMSE.rightmost <- RMSE.rightmost.tmp
+      
+      param.best_value <- min_RMSE.prm_val
+      best_RMSE <- min_RMSE
+      
+      # browser()
+    }
+    
+    # browser()
 
     if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
       prm_val.leftmost <- prm_val.leftmost.tmp
       RMSE.leftmost <- RMSE.leftmost.tmp
+      # browser()
     } 
     
     if (RMSE.rightmost.tmp - min_RMSE >= endpoint.min_diff) {
       prm_val.rightmost <- prm_val.rightmost.tmp
       RMSE.rightmost <- RMSE.rightmost.tmp
+      # browser()
     } 
-
+    
+    if (end.idx - start.idx <= 0) {
+      warning("`tuned.result$parameter.value` sequential start index are the same or greater than end one.")
+      put_log1("Function `model.tune.param_range`:
+Current minimal RMSE: %1", rmse_min)
+      
+      put_log2("Function `model.tune.param_range`:
+Reached minimal RMSE for the test parameter value = %1: %2",
+               param_values.best_result["param.best_value"],
+               param_values.best_result["best_RMSE"])
+      
+      put(param_values.best_result)
+      # browser()
+      break
+    }
+    
     if (best_RMSE == min_RMSE) {
       warning("Currently computed minimal RMSE equals the previously reached best one: ",
               best_RMSE, "
@@ -453,7 +507,7 @@ Currently computed minial value is: ", min_RMSE)
     }
 
     best_RMSE <- min_RMSE
-    param.best_value <- tuned.result$parameter.value[RMSEs_min_ind]
+    param.best_value <- min_RMSE.prm_val
 
     param_values.best_result <- 
       get_best_param.result(tuned.result$parameter.value, 
@@ -466,43 +520,26 @@ Currently reached best RMSE for `parameter value = %1`: %2",
     
     put(param_values.best_result)
     
-    seq_start_ind <- RMSEs_min_ind - 1
+    #seq_start_ind <- best_RMSE.idx - 1
     
-    if (seq_start_ind < 1) {
-      seq_start_ind <- 1
-      warning("`tuned.result$parameter.value` index too small, so it assigned a value ",
-              seq_start_ind)
-      # browser()
-    }
+    # if (seq_start_ind < 1) {
+    #   seq_start_ind <- 1
+    #   warning("`tuned.result$parameter.value` index too small, so it assigned a value ",
+    #           seq_start_ind)
+    #   # browser()
+    # }
     
-    seq_end_ind <- RMSEs_min_ind + 1
+    #seq_end_ind <- best_RMSE.idx + 1
     
-    if (length(tuned.result$parameter.value) < seq_end_ind) {
-      warning("`seq_end_ind` index too large and will be set to `RMSEs_min_ind`.")
-      seq_end_ind <- RMSEs_min_ind
-      put_log1("Function `model.tune.param_range`:
-Index exeeded the length of `tuned.result$parameter.value`, so it is set to maximum possible value of %1",
-               seq_end_ind)
-      # browser()
-    }
+#     if (length(tuned.result$parameter.value) < seq_end_ind) {
+#       warning("`seq_end_ind` index too large and will be set to `best_RMSE.idx`.")
+#       seq_end_ind <- best_RMSE.idx
+#       put_log1("Function `model.tune.param_range`:
+# Index exeeded the length of `tuned.result$parameter.value`, so it is set to maximum possible value of %1",
+#                seq_end_ind)
+#       # browser()
+#     }
     
-    if (seq_end_ind - seq_start_ind <= 0) {
-      warning("`tuned.result$parameter.value` sequential start index are the same or greater than end one.")
-      put_log1("Function `model.tune.param_range`:
-Current minimal RMSE: %1", rmse_min)
-      
-      put_log2("Function `model.tune.param_range`:
-Reached minimal RMSE for the test parameter value = %1: %2",
-               param_values.best_result["param.best_value"],
-               param_values.best_result["best_RMSE"])
-      
-      put(param_values.best_result)
-      # browser()
-      break
-    }
-    
-    seq_start <- tuned.result$parameter.value[seq_start_ind]
-    seq_end <- tuned.result$parameter.value[seq_end_ind]
   }
   n <- length(tuned.result$parameter.value)
   
@@ -510,11 +547,16 @@ Reached minimal RMSE for the test parameter value = %1: %2",
   parameter.value <- tuned.result$parameter.value
   result.RMSE <- tuned.result$RMSE
   
-  parameter.value[1] <- prm_val.leftmost
-  parameter.value[n+1] <- prm_val.rightmost
-  
-  result.RMSE[1] <- RMSE.leftmost
-  result.RMSE[n+1] <- RMSE.rightmost
+  if (result.RMSE[1] == best_RMSE) {
+    parameter.value[1] <- prm_val.leftmost
+    result.RMSE[1] <- RMSE.leftmost
+    # browser()
+  }
+  if (result.RMSE[n] == best_RMSE) {
+    parameter.value[n+1] <- prm_val.rightmost
+    result.RMSE[n+1] <- RMSE.rightmost
+    # browser()
+  }
   
   # browser()
   list(best_result = param_values.best_result,
@@ -599,8 +641,17 @@ tuning.plot <- function(data,
                         yname, 
                         xlabel, 
                         ylabel,
-                        line_col = "blue") {
-  aes_mapping <- aes(x = data[, xname], y = data[, yname])
+                        line_col = "blue",
+                        # scale = 1,
+                        normalize = FALSE) {
+  y <- data[, yname]
+  
+  if (normalize) {
+    y <- y - min(y)
+  }
+  
+  aes_mapping <- aes(x = data[, xname], y = y)
+  
   data |> 
     ggplot(mapping = aes_mapping) +
     ggtitle(title) +
