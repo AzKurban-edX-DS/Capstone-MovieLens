@@ -13,7 +13,7 @@ Computing Date Global Effect for lambda: %1...",
   dg_effect <- train_set |> 
     left_join(user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
-    left_join(rg.UMG_effect, by = "movieId") |>
+    left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     mutate(resid = rating - (mu + a + b + g)) |>
     filter(!is.na(resid)) |>
@@ -97,7 +97,7 @@ calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
   test_set |>
     left_join(user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
-    left_join(rg.UMG_effect, by = "movieId") |>
+    left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     left_join(UMGY_effect, by='year') |>
     mutate(resid = rating - clamp(mu + a + b + g + ye)) |> 
