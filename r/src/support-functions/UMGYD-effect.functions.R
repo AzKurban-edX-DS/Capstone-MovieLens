@@ -15,7 +15,7 @@ Computing Day General Effect for lambda: %1...",
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
-    left_join(rg.UMGY_effect, by='year') |>
+    left_join(rglr.UMGY_effect, by='year') |>
     mutate(resid = rating - (mu + a + b + g + ye)) |>
     filter(!is.na(resid)) |>
     group_by(days) |>
@@ -132,7 +132,7 @@ calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
-    left_join(rg.UMGY_effect, by='year') |>
+    left_join(rglr.UMGY_effect, by='year') |>
     left_join(day_smoothed_effect, by='days') |>
     mutate(resid = rating - clamp(mu + a + b + g + ye + de_smoothed)) |> 
     filter(!is.na(resid)) |>
