@@ -12,7 +12,7 @@ Computing Day General Effect for lambda: %1...",
                 lambda)
   gday_effect <- train_set |> 
     left_join(user_effect, by = "userId") |>
-    left_join(rg.UM_effect, by = "movieId") |>
+    left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rg.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     left_join(rg.UMGY_effect, by='year') |>
@@ -129,7 +129,7 @@ calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
   # browser()
   test_set |>
     left_join(user_effect, by = "userId") |>
-    left_join(rg.UM_effect, by = "movieId") |>
+    left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rg.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     left_join(rg.UMGY_effect, by='year') |>

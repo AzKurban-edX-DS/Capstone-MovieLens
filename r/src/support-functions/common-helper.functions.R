@@ -52,13 +52,13 @@ RMSE_kable <- function(RMSEs){
 
 ## Data processing functions -------------------------------
 load_movielens_data_from_file <- function(file_path){
-  put(sprintf("Loading MovieLens datasets from file: %s...", 
-              file_path))
+  put_log1("Loading MovieLens datasets from file: %1...", 
+           file_path)
   start <- put_start_date()
   load(file_path)
   put_end_date(start)
-  put(sprintf("MoviLens datasets have been loaded from file: %s.", 
-              file_path))
+  put_log1("MoviLens datasets have been loaded from file: %s.", 
+           file_path)
   movielens_datasets
 }
 filter_noMore_nratings <- function(data, nratings){
