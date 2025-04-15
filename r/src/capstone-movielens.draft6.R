@@ -731,7 +731,7 @@ open_logfile(".user-effect")
 put("Building User Effect Model...")
 #### Model building: User Effect -----------------------------------------------
 ##### User Mean Ratings Computation --------------------------------------------
-file_name_tmp <- "3.user-mean-ratings.RData"
+file_name_tmp <- "3.cv.user-mean-ratings.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -745,7 +745,7 @@ if (file.exists(file_path_tmp)) {
 } else {
   put_log("Computing Average Ratings per User (User Mean Ratings)...")
   start <- put_start_date()
-  user_mean_ratings_ls <- lapply(edx_CV, function(cv_item){
+  cv.user_mean_ratings_ls <- lapply(edx_CV, function(cv_item){
     # print(dim(cv_item$train_mx))
     #str(cv_item$train_mx)
     user_ratings_avg <- rowMeans(cv_item$train_mx, na.rm = TRUE)
@@ -757,27 +757,27 @@ if (file.exists(file_path_tmp)) {
                ratings_avg = user_ratings_avg,
                n = n_ratings)
   })
-  str(user_mean_ratings_ls)
+  str(cv.user_mean_ratings_ls)
   put_end_date(start)
   put_log1("User Average Rating list has been computed for %1-Fold Cross Validation samples.", 
            CVFolds_N)
   
-  user_ratings_avg_united <- union_cv_results(user_mean_ratings_ls)
-  str(user_ratings_avg_united)
-  # sum(is.na(user_ratings_avg_united))
+  cv.user_ratings_avg_united <- union_cv_results(cv.user_mean_ratings_ls)
+  str(cv.user_ratings_avg_united)
+  # sum(is.na(cv.user_ratings_avg_united))
   
-  user_mean_ratings <- user_ratings_avg_united |>
+  cv.user_mean_ratings <- cv.user_ratings_avg_united |>
     group_by(userId) |>
     summarise(mean_rating = mean(ratings_avg), n = mean(n))
   
   put_log("User Mean Ratings (User Effect) have been computed.")
-  str(user_mean_ratings)
+  str(cv.user_mean_ratings)
 
   put_log1("Saving User Mean Rating data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_mean_ratings,
+       cv.user_mean_ratings,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User Mean Rating data has been saved to file: %1", 
@@ -787,10 +787,10 @@ if (file.exists(file_path_tmp)) {
 ##### User Mean Ratings: Visualization ------------------------------
 # Let's visualize the average rating for each user:
 
-# sum(is.na(user_mean_ratings$mean_rating))
+# sum(is.na(cv.user_mean_ratings$mean_rating))
 #> [1] 0 (there are no NAs in there)
 
-hist(user_mean_ratings$mean_rating, nclass = 30)
+hist(cv.user_mean_ratings$mean_rating, nclass = 30)
 put_log("A histogram of the User Mean Rating distribution has been plotted.")
 
 ##### Building User Effect Model ----------------------------------------------
@@ -805,7 +805,7 @@ put_log("A histogram of the User Mean Rating distribution has been plotted.")
 #> It can be shown that the least squares estimate `α[i]` is just the average 
 #> of `y[i,j] - μ` for each user. So we can compute them this way:
 
-file_name_tmp <- "4.user-effect-model.RData"
+file_name_tmp <- "4.cv.User-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -818,7 +818,7 @@ if (file.exists(file_path_tmp)) {
   
 } else {
   put_log("Computing User Effect per users ...")
-  user_effect <- user_mean_ratings |>
+  cv.user_effect <- cv.user_mean_ratings |>
     mutate(userId = as.integer(userId),
            a = mean_rating - mu)
   
@@ -828,18 +828,18 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-put(str(user_effect))
+put(str(cv.user_effect))
 
 # Plot a histogram of the user effects -----------------------------------------
 par(cex = 0.7)
-hist(user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
+hist(cv.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 put_log("A histogram of the User Effect distribution has been plotted.")
 
@@ -849,29 +849,29 @@ put_log("A histogram of the User Effect distribution has been plotted.")
 
 put_log("Computing the RMSE taking into account user effects...")
 start <- put_start_date()
-user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
+cv.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
-    left_join(user_effect, by = "userId") |>
+    left_join(cv.user_effect, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
 })
 put_end_date(start)
 
-plot(user_effect.MSEs)
+plot(cv.user_effect.MSEs)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-user_effect.RMSE <- sqrt(mean(user_effect.MSEs))
+cv.user_effect.RMSE <- sqrt(mean(cv.user_effect.MSEs))
 put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
          CVFolds_N, 
-         user_effect.RMSE)
-user_effect.RMSE
+         cv.user_effect.RMSE)
+cv.user_effect.RMSE
 #> [1] 0.9716054
 
 # Add a row to the RMSE Result Tibble for the User Effect Model ---------------- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("User Effect Model", user_effect.RMSE)
+  RMSEs.AddRow("User Effect Model", cv.user_effect.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `User Effect Model`.")
@@ -924,7 +924,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        cv.UM_effect,
        file = file_path_tmp)
   put_end_date(start)
@@ -1008,7 +1008,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        cv.UME.preset.result,
        file = file_path_tmp)
   put_end_date(start)
@@ -1112,7 +1112,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        UME.rglr.best_RMSE,
        file = file_path_tmp)
@@ -1152,7 +1152,7 @@ source(umge_functions.file_path,
 #> every genre that applies to the movie 
 #> (some movies fall under several genres)[@IDS2_23-7].
 ##### Computing Genre Mean Ratings ---------------------------------------------
-file_name_tmp <- "7.genre-mean-ratings.RData"
+file_name_tmp <- "6.cv.genre-mean-ratings.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1175,7 +1175,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        gnr_mean_ratings.cv,
        file = file_path_tmp)
@@ -1279,7 +1279,7 @@ has been plotted alternative way.",
 #        movieId = as.integer(movieId)) |>
 
 #### Train User+Movie+Genre Effect Model ---------------------------------------
-file_name_tmp <- "8.UMG-effect.RData"
+file_name_tmp <- "7.cv.UMG-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1297,7 +1297,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        gnr_mean_ratings.cv,
        cv.UMG_effect,
@@ -1373,7 +1373,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        cv.UMGE.preset.result,
        file = file_path_tmp)
@@ -1437,7 +1437,7 @@ log_close()
 ##### Open log for re-training Regularized UMGE Model for the best `lambda` value ----
 open_logfile(".UMGE.rglr.re-train.best-lambda")
 ##### Re-train `Regularized UMGE Model` for the best `lambda` value ----
-file_name_tmp <- "3.UMGE.rglr.re-train.best-lambda.RData"
+file_name_tmp <- "2.UMGE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGE.regularization.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1471,7 +1471,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMG_effect.RMSE,
@@ -1533,7 +1533,7 @@ source(cv.UMGY_effect.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 #### Training User+Movie+Genre+Year Effect Model ----------------------------------------
-file_name_tmp <- "9.UMGY-effect.RData"
+file_name_tmp <- "8.cv.UMGY-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1554,7 +1554,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        cv.UMGY_effect,
@@ -1621,7 +1621,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        cv.UMGYE.preset.result,
@@ -1686,7 +1686,7 @@ log_close()
 ##### Open log file for re-training Regularized Model for the best `lambda` value----
 open_logfile(".UMGYE.rg.re-train.best-lambda")
 #### Re-train Regularized User+Movie+Genre+Year Effect Model for the best `lambda` value ----
-file_name_tmp <- "3.UMGYE.rglr.re-train.best-lambda.RData"
+file_name_tmp <- "2.UMGYE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGYE.regularization.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1719,7 +1719,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -1742,7 +1742,7 @@ for the `Regularized User+Movie+Genre+Year Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-### Accounting for User+Movie+Genre+Year+(Smoothed)Day Effect ---------------------------------
+### Accounting for User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect (UMGYDE) ----
 # Y[i,j] = μ + α[i] + β[j] + g[i,j] yr[i,j]  + f(d[i,j]) + ε[i,j]
 
 # with `f` a smooth function of `d[(i,j]`
@@ -1758,7 +1758,7 @@ source(cv.UMGYDE.default_params.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-#### Open log file for training the model using `loess` function with default parameters ----
+#### Open log file for training the UMGYDE model using `loess` function with default parameters ----
 open_logfile(".UMGYDE.loess.default-params")
 ###### Model Tuning Data File Paths --------------------------------------------
 UMGYDE.tuning_folder <- "UMGYD-effect"
@@ -1840,7 +1840,7 @@ using `loess` function with parameter `degree = 2`: %1",
 UMGYDE.fine_tune.degree2.data.path)
 
 #### Train model using `loess` function with default `span` & `degree` params----
-file_name_tmp <- "10.cv.UMGYDE.loess.default-params.RData"
+file_name_tmp <- "9.cv.UMGYDE.loess.default-params.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1869,7 +1869,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -1957,7 +1957,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2059,7 +2059,7 @@ put_log1("Saving the final-tuned UMGY+(Smoothed)Day Effect Model data to file: %
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2136,7 +2136,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2220,7 +2220,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2282,7 +2282,7 @@ tuned.degree1.best_span.UMGYDE.RMSE)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2353,7 +2353,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2437,7 +2437,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2500,7 +2500,7 @@ tuned.degree2.best_span.UMGYDE.RMSE)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2581,7 +2581,7 @@ span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       user_effect,
+       cv.user_effect,
        UMG_effect,
        gnr_mean_ratings.cv,
        UMG_effect,
@@ -2644,7 +2644,7 @@ for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 # start <- put_start_date()
 # final_holdout_test |>
 #   left_join(date_days_map, by = "timestamp") |>
-#   left_join(user_effect, by = "userId") |>
+#   left_join(cv.user_effect, by = "userId") |>
 #   left_join(mean_user_movie_genre_bias, by = "movieId") |>
 #   left_join(# cv.UMGYDE.default_params, by='days') |>
 #   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
