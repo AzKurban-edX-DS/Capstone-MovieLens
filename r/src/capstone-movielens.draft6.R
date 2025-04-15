@@ -918,33 +918,33 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie Effect data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  UM_effect <- train_user_movie_effect.cv()
+  cv.UM_effect <- train_user_movie_effect.cv()
   
   put_log1("Saving User+Movie Effect data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
        user_effect,
-       UM_effect,
+       cv.UM_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User+Movie Effect data has been saved to file: %1",
            file_path_tmp)
 } 
 
-put(str(UM_effect))
+put(str(cv.UM_effect))
 #### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
-hist(UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
+hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
 #### Calculate RMSEs.ResultTibble on Validation Sets ---------------------------
-UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(UM_effect)
+cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 #> [1] 0.8594763
 #### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("User+Movie Effect Model", UM_effect.RMSE)
+  RMSEs.AddRow("User+Movie Effect Model", cv.UM_effect.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie Effect Model`.")
@@ -1288,7 +1288,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Genre Effect Model data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  UMG_effect <- train_user_movie_genre_effect.cv()
+  cv.UMG_effect <- train_user_movie_genre_effect.cv()
   
   put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
            file_path_tmp)
@@ -1297,7 +1297,7 @@ if (file.exists(file_path_tmp)) {
        user_effect,
        rglr.UM_effect,
        gnr_mean_ratings.cv,
-       UMG_effect,
+       cv.UMG_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User+Movie+Genre Effect Model data has been saved to file: %1", 
@@ -1305,23 +1305,23 @@ if (file.exists(file_path_tmp)) {
 } 
 
 put_log("User+Movie+Genre Effect Model data structure:")
-put(str(UMG_effect))
+put(str(cv.UMG_effect))
 
 ###### Plot a histogram of the Movie Genre Effect distribution -----------------
 par(cex = 0.7)
-hist(UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
+hist(cv.UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
      main = TeX(r'[Histogram of $\hat{g}_{i,j}$]'))
 
 put_log("A histogram of the Movie Genre Effect distribution has been plotted.")
 
 ###### Compute RMSE: User+Movie+Genre effects ------------------------------------
-UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(UMG_effect)
-UMG_effect.RMSE
+cv.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(cv.UMG_effect)
+cv.UMG_effect.RMSE
 #> [1] 0.859473
 
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre Effect Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("User+Movie+Genre Effect Model", UMG_effect.RMSE)
+  RMSEs.AddRow("User+Movie+Genre Effect Model", cv.UMG_effect.RMSE)
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre Effect Model`.")
 
