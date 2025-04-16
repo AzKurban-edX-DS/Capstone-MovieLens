@@ -1658,7 +1658,7 @@ UMGYE.loop_starter <- c(endpoints["start"],
 UMGYE.loop_starter
 #> [1] 
 
-cache.base_name <- "UMGE.rg.fine-tuning"
+cache.base_name <- "UMGYE.rglr.fine-tuning"
 
 UMGYE.rglr.fine_tune.results <- 
   model.tune.param_range(UMGYE.loop_starter,
@@ -1669,7 +1669,7 @@ UMGYE.rglr.fine_tune.results <-
 UMGYE.rglr.fine_tune.RMSE.best <- UMGYE.rglr.fine_tune.results$best_result["best_RMSE"]
 
 UMGYE.rglr.fine_tune.results$tuned.result |>
-  tuning.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGE Model",
+  tuning.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGYE Model",
               xname = "parameter.value",
               yname = "RMSE",
               xlabel = TeX(r'[$\lambda$]'),
@@ -2285,6 +2285,21 @@ if (file.exists(file_path_tmp)) {
       span = lss.best_results[lss.best_RMSE.idx, "span"], # 0.00087,
       RMSE = lss.best_results[lss.best_RMSE.idx, "RMSE"]) # 0.8568619
 
+  lss.best_degree <- lss.UMGYDE.best_params["degree"]
+  put_log1("The Best Degree: %1", lss.best_degree)
+  lss.best_degree
+  #> [1] 1
+  
+  lss.best_span <- lss.UMGYDE.best_params["span"]
+  put_log1("The Best Span: %1", lss.best_span)
+  lss.best_span
+  #> [1] 0.00087
+  
+  lss.best_RMSE <- lss.UMGYDE.best_params["RMSE"]
+  put_log1("The Best RMSE: %1",lss.best_RMSE)
+  lss.best_RMSE
+  #> [1] 0.8568619
+
   put_log2("Re-training model using `loess` function with the best parameters: 
 span = %1, degree = %2", lss.best_span, lss.best_degree)
   start <- put_start_date()
@@ -2320,19 +2335,8 @@ put_log1("Optimized Mean Date Smoothed Effect has been plotted for the %1-Fold C
 ##### Calculate RMSE for `loess` function fitted with the best parameters ------
 
 lss.best_degree <- lss.UMGYDE.best_params["degree"]
-put_log1("The Best Degree: %1", lss.best_degree)
-lss.best_degree
-#> [1] 1
-
 lss.best_span <- lss.UMGYDE.best_params["span"]
-put_log1("The Best Span: %1", lss.best_span)
-lss.best_span
-#> [1] 0.00087
-
 lss.best_RMSE <- lss.UMGYDE.best_params["RMSE"]
-put_log1("The Best RMSE: %1",lss.best_RMSE)
-lss.best_RMSE
-#> [1] 0.8568619
 
 start <- put_start_date()
 lss.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(lss.UMGYD_effect)
@@ -2376,20 +2380,177 @@ using `loess` function call with the best degree & span values.")
 
 #### Close Log -----------------------------------------------------------------
 log_close()
+#### Regularizing User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect (UMGYDE) ----
+##### Open log file for UMGYDE `Preliminary setting-up of lambda range` feature -------
+open_logfile(".rglr.UMGYD-effect.pre-set-lambdas")
+##### UMGYD Effect Regularization Directory Paths --------------------------------
+UMGYDE.regularization.path <- file.path(data.regularization.path, 
+                                       "4.UMGYD-effect")
+dir.create(UMGYDE.regularization.path)
+put_log1("Directory path has been created for `User+Movie+Genre+Year+(Smoothed)Day Effect Model` data: %1", 
+         UMGYDE.regularization.path)
 
+UMGYDE.rglr.fine_tune.cache.path <- file.path(UMGYDE.regularization.path, 
+                                             fine_tune.cache.folder)
+dir.create(UMGYDE.rglr.fine_tune.cache.path)
+put_log1("Directory path has been created: %1", UMGYDE.rglr.fine_tune.cache.path)
+##### Process Preliminary setting-up of lambda range ---------------------------
+file_name_tmp <- "1.UMGYDE.rglr.pre-set.RData" # UMGE stands for `User+Movie+Genre+Year+(Smoothed)Day Effect`
+file_path_tmp <- file.path(UMGYDE.regularization.path, file_name_tmp)
 
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading preliminary regularization set-up data for User+Movie+Genre+Year+(Smoothed)Day Effect from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Preliminary regularization set-up data for User+Movie+Genre+Year+(Smoothed)Day Effect has been loaded from file: %1", 
+           file_path_tmp)
+} else {
+  put_log1("Preliminary setting-up of `lambda`s range for %1-Fold Cross Validation samples...",
+           CVFolds_N)
 
+  start <- put_start_date()
+  lambdas <- seq(0, 256, 16)
+  cv.UMGYDE.preset.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UMGYD_effect.cv)
+  put_end_date(start)
+  put_log1("Preliminary regularization set-up of `lambda`s range for the UMGYDE Model has been completed
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+  
+  put_log1("Saving User+Movie+Genre+Year+(Smoothed)Day Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       cv.user_effect,
+       rglr.UM_effect,
+       rglr.UMG_effect,
+       rglr.UMGY_effect,
+       cv.UMGYDE.preset.result,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie+Genre+Year+(Smoothed)Day Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
 
+# plot(cv.UMGYDE.preset.result$param_values,
+#      cv.UMGYDE.preset.result$RMSEs)
 
+cv.UMGYDE.preset.result$tuned.result |>
+  tuning.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie+Genre+Year+(Smoothed)Day Effect Model.]'),
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = TeX(r'[$\lambda$]'), 
+              ylabel = "RMSE")
 
+put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie+Genre+Year+(Smoothed)Day Effect 
+has resulted as follows:")
+put(cv.UMGYDE.preset.result$best_result)
+##### Close Log -----------------------------------------------------------------
+log_close()
+##### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year+(Smoothed)Day Effect Regularization` feature ----
+open_logfile(".UMGYDE.rglr.fine-tuning")
+##### Fine-tuning for the `lambda` parameter values range ----------------------- 
+endpoints <- 
+  get_fine_tune.param.endpoints(cv.UMGYDE.preset.result$tuned.result)
 
+UMGYDE.loop_starter <- c(endpoints["start"], 
+                        endpoints["end"], 
+                        8)
+UMGYDE.loop_starter
+# start   end       
+#     0    32     8 
 
+cache.base_name <- "UMGYDE.rglr.fine-tuning"
 
+UMGYDE.rglr.fine_tune.results <- 
+  model.tune.param_range(UMGYDE.loop_starter,
+                         UMGYDE.rglr.fine_tune.cache.path,
+                         cache.base_name,
+                         regularize.test_lambda.UMGYD_effect.cv)
 
+# UMGYDE.rglr.fine_tune.results$tuned.result |>
+#   tuning.plot(title = TeX(r'[Fine-tune Stage results of the Regularization Process for the UMGYD Model.]'),
+#               xname = "parameter.value", 
+#               yname = "RMSE", 
+#               xlabel = TeX(r'[$\lambda$]'), 
+#               ylabel = "RMSE")
+# 
 
+UMGYDE.rglr.fine_tune.RMSE.best <- UMGYDE.rglr.fine_tune.results$best_result["best_RMSE"]
 
+UMGYDE.rglr.fine_tune.results$tuned.result |>
+  tuning.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGYDE Model",
+              xname = "parameter.value",
+              yname = "RMSE",
+              xlabel = TeX(r'[$\lambda$]'),
+              ylabel = str_glue("Deviation from the best RMSE value (",
+                                as.character(round(UMGYDE.rglr.fine_tune.RMSE.best, digits = 7)),
+                                ")"),
+              normalize = TRUE)
 
+put_log("Fine-tuning stage of the User+Movie+Genre+Year+(Smoothed)Day Effect Model Regularization 
+has ended up with with the following results:")
+put(UMGYDE.rglr.fine_tune.results$best_result)
+#### Close Log -----------------------------------------------------------------
+log_close()
+##### Open log file for re-training Regularized Model for the best `lambda` value----
+open_logfile(".UMGYDE.rg.re-train.best-lambda")
+#### Re-train Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best `lambda` value ----
+file_name_tmp <- "2.UMGYDE.rglr.re-train.best-lambda.RData"
+file_path_tmp <- file.path(UMGYDE.regularization.path, file_name_tmp)
 
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model data from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log1("Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model data has been loaded from file: %1", 
+           file_path_tmp)
+} else {
+  best_result <- UMGYDE.rglr.fine_tune.results$best_result
+  UMGYDE.rglr.best_lambda <- best_result["param.best_value"]
+  UMGYDE.rglr.best_RMSE <- best_result["best_RMSE"]
+  
+  put_log1("Re-training Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best `lambda`: %1...",
+           UMGYDE.rglr.best_lambda)
+  
+  rglr.UMGYD_effect <- regularize.train_UMGYD_effect(UMGYDE.rglr.best_lambda)
+  rglr.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(rglr.UMGYD_effect)
+  
+  put_log2("Regularized User+Movie+Genre+Year+(Smoothed)Day Effect RMSE has been computed for the best `lambda = %1`: %2.",
+           UMGYDE.rglr.best_lambda,
+           rglr.UMGYD_effect.RMSE)
+  put_log1("Is this a best RMSE? %1",
+           UMGYDE.rglr.best_RMSE == rglr.UMGYD_effect.RMSE)
+  
+  
+  put_log1("Saving User+Movie+Genre+Year+(Smoothed)Day Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mu,
+       cv.user_effect,
+       rglr.UM_effect,
+       rglr.UMG_effect,
+       rglr.UMGY_effect,
+       rglr.UMGYD_effect,
+       rglr.UMGYD_effect.RMSE,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie+Genre+Year+(Smoothed)Day Effect Model data has been saved to file: %1", 
+           file_path_tmp)
+} 
 
+#### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre+Year Effects Model ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
+               rglr.UMGYD_effect.RMSE)
 
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble 
+for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 
+#### Close Log -----------------------------------------------------------------
+log_close()

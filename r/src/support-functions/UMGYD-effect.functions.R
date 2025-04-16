@@ -215,4 +215,23 @@ get_best.RMSE <- function(span_rmses){
   names(rmse) <- c("Span", "RMSE")
   rmse
 }
+## Regularization --------------------------------------------------------------
+regularize.train_UMGYD_effect <- function(lambda) {
+  best_degree <- lss.UMGYDE.best_params["degree"]
+  best_span <- lss.UMGYDE.best_params["span"]
+
+  train_UMGY_SmoothedDay_effect.cv(best_degree, 
+                                   best_span, 
+                                   lambda)
+}
+regularize.test_lambda.UMGYD_effect.cv <- function(lambda){
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.UMGY_effect.cv
+`lambda` is `NA`")
+  }
+  
+  regularize.train_UMGYD_effect(lambda) |>
+    calc_UMGY_SmoothedDay_effect.RMSE.cv()
+}
+
 
