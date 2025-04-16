@@ -1852,20 +1852,20 @@ if (file.exists(file_path_tmp)) {
   put_log1("General Day Effect Model data has been loaded from file: %1", 
            file_path_tmp)
 } else {
-  put_log1("Training User+Movie+Genre+Year+(Smoothed)Day Effect Model using `loess` function 
+  put_log1("Training UMGYD Effect Model using `loess` function 
 with default `span` & `degree` parameters for %1-Fold Cross Validation samples...",
 CVFolds_N)
   
   start <- put_start_date()
   cv.UMGYDE.default_params <- train_UMGY_SmoothedDay_effect.cv()
   put_end_date(start)
-  put_log1("User+Movie+Genre+Date Effect Model has been trained
+  put_log1("UMGYD Effect Model has been trained
 using `loess` function with default `span` & `degree` parameters
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
   put(str(cv.UMGYDE.default_params))
   
-  put_log1("Saving General Day Effect Model data to file: %1...", 
+  put_log1("Saving UMGYD Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
@@ -1919,13 +1919,13 @@ put_log("A row has been added to the RMSE Result Tibble
 for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
-#### Tune the model using `loess` with `span` & `degree` params ---------------
+#### Tune the UMGYD model using `loess` with `span` & `degree` params ----------
 ##### 1. `degree = 0` ---------------------------------------------------------
 ###### Open log file for tuning the model using `loess` function with parameter `degree = 0`----
 open_logfile(".UMGYDE.loess.degree0.pre-tuning")
 put("Case 1. `degree = 0`")
 ###### Preliminary setting-up of spans range ----------------------------------
-file_name_tmp <- "1.pre-set.degree0.UMGYD-effect.RData"
+file_name_tmp <- "1.lss.UMGYDE.pre-set.degree0.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree0.data.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -1945,7 +1945,7 @@ CVFolds_N)
   
   start <- put_start_date()
   spans <- seq(0.0005, 1, 0.001)
-  cv.UMGYDE.degree0.pretune_results <- 
+  lss.UMGYDE.preset.degree0.result <- 
     tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
   put_end_date(start)
   put_log1("Preliminary set-up data for tuning UMGY+(Smoothed)Day Effect Model
@@ -1961,14 +1961,14 @@ CVFolds_N)
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
-       cv.UMGYDE.degree0.pretune_results,
+       lss.UMGYDE.preset.degree0.result,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("UMGY+(Smoothed)Day Effect Model data has been saved to file: %1", 
            file_path_tmp)
 }
 
-cv.UMGYDE.degree0.pretune_results$tuned.result |>
+lss.UMGYDE.preset.degree0.result$tuned.result |>
   tuning.plot(title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 0`",
               xname = "parameter.value", 
               yname = "RMSE", 
@@ -1977,31 +1977,31 @@ cv.UMGYDE.degree0.pretune_results$tuned.result |>
 
 put_log("Preliminary tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 0` has ended up with with the following results:")
-put(cv.UMGYDE.degree0.pretune_results$best_result)
+put(lss.UMGYDE.preset.degree0.result$best_result)
 # param.best_value        best_RMSE 
 #          0.00150          0.85762 
 ###### Close Log -----------------------------------------------------------------
 log_close()
 
 ###### Open log file for fine-tuning the model using `loess` function with parameter `degree = 0`----
-open_logfile(".UMGYD-effect.loess.degree0.fine-tuning")
-###### Fine-tuning of a span parameter value for `degree = 0` ------------------ 
-UMGYDE.fine_tune.degree0.loop_starter <- 
-  c(cv.UMGYDE.degree0.pretune_results$tuned.result$parameter.value[1], 
-    cv.UMGYDE.degree0.pretune_results$tuned.result$parameter.value[3], 
+open_logfile(".lss.UMGYDE.fine-tune.degree0")
+###### Fine-tune the span parameter value for `degree = 0` ------------------ 
+lss.fine_tune.loop_starter <- 
+  c(lss.UMGYDE.preset.degree0.result$tuned.result$parameter.value[1], 
+    lss.UMGYDE.preset.degree0.result$tuned.result$parameter.value[3], 
     8)
 # loop_starter <- c(0.0005, 0.0025, 8)
-UMGYDE.fine_tune.degree0.cache_file.base_name <- "UMGYDE.degree0.tuning-span"
+cache_file.base_name <- "UMGYDE.degree0.tuning-span"
 
-UMGYDE.fine_tune.result.degree0 <- 
-  model.tune.param_range(UMGYDE.fine_tune.degree0.loop_starter,
+lss.UMGYDE.fine_tune.degree0.result <- 
+  model.tune.param_range(lss.fine_tune.loop_starter,
                          UMGYDE.fine_tune.degree0.data.path,
-                         UMGYDE.fine_tune.degree0.cache_file.base_name,
+                         cache_file.base_name,
                          train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
 
-UMGYDE.fine_tune.result.degree0$tuned.result |>
+lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
   tuning.plot.right_detailed(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree` = 0", 
-                             title.right = "Right Part of the Chart Above (zoomed in)",
+                             title.right = "Right Part of the Chart Above (Zoomed in)",
                              shift = 5,
                              xname = "parameter.value", 
                              yname = "RMSE", 
@@ -2010,98 +2010,32 @@ UMGYDE.fine_tune.result.degree0$tuned.result |>
 
 put_log("Fine-tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 0` has ended up with with the following results:")
-put(UMGYDE.fine_tune.result.degree0)
-#      Span      RMSE 
-# 0.0008700 0.8573253   
+put(lss.UMGYDE.fine_tune.degree0.result$best_result)
+# param.best_value        best_RMSE 
+#      0.000890625      0.857325313 
 
-###### Close Log ---------------------------------------------------------------
-log_close()
-##### Open log file for final-tuning of the model with `degree = 0` and refined `span` range ----
-open_logfile(".UMGYDE.final-tuning.degree0")
-##### Final tuning of the model with `degree = 0` and refined span range -------
-file_name_tmp <- "2.UMGYDE.final-tune.degree0.RData" # UME stands for `User+Movie Effect`
-file_path_tmp <- file.path(UMGYDE.tuning.degree0.data.path, file_name_tmp)
+lss.UMGYDE.fine_tune.degree0.result.best_span <- 
+  lss.UMGYDE.fine_tune.degree0.result$best_result["param.best_value"]
 
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading saved data for the final-tuned UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 0` from file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1("The data for the final-tune UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 0` has been loaded from file: %1", 
-           file_path_tmp)
-} else {
-  put_log1("Final-tuning of the UMGY+(Smoothed)Day Effect Model for %1-Fold Cross Validation samples...",
-           CVFolds_N)
-  
-  fine_tuning.result <- UMGYDE.fine_tune.result.degree0
-  seq_start <- fine_tuning.result$param_values.endpoints[1]
-  print(seq_start)
-  seq_end <- fine_tuning.result$param_values.endpoints[2]
-  print(seq_end)
-  seq_step <- fine_tuning.result$param_values.endpoints[3]  
-  print(seq_step)
-  
-  spans <- seq(seq_start, seq_end, seq_step)
-  print(spans)
-  
-  start <- put_start_date()
-  UMGYDE.final_tune.degree0.result <- 
-    tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
-  put_end_date(start)
-  put_log1("Final-tuning of the UMGY+(Smoothed)Day Effect Model has been completed
-for the %1-Fold Cross Validation samples.",
-CVFolds_N)
-  
-put_log1("Saving the final-tuned UMGY+(Smoothed)Day Effect Model data to file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  save(mu,
-       cv.user_effect,
-       rglr.UM_effect,
-       rglr.UMG_effect,
-       rglr.UMGY_effect,
-       UMGYDE.final_tune.degree0.result,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1("The final-tuned UMGY+(Smoothed)Day Effect Model data has been saved to file: %1", 
-           file_path_tmp)
-} 
-
-# plot(UMGYDE.final_tune.degree0.result$param_values,
-#      UMGYDE.final_tune.degree0.result$RMSEs)
-
-UMGYDE.final_tune.degree0.result$tuned.result |>
-  tuning.plot.right_detailed(title = "Finaljy tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree` = 0", 
-                             title.right = "Right Part of the Chart Above (zoomed in)",
-                             shift = 5,
-                             xname = "parameter.value", 
-                             yname = "RMSE", 
-                             xlabel1 = "spans", 
-                             ylabel1 = "RMSE")
-
-put_log("Final-tuning stage of the UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 0` has ended up with with the following results:")
-put(UMGYDE.final_tune.degree0.result)
+lss.UMGYDE.fine_tune.degree0.result.best_RMSE <- 
+  lss.UMGYDE.fine_tune.degree0.result$best_result["best_RMSE"]
 
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
-               UMGYDE.final_tune.degree0.result$best_result["best_RMSE"],
+               lss.UMGYDE.fine_tune.degree0.result.best_RMSE,
                comment = "Computed using function call: `loess(degree = 0, span = %1)`" |>
-  msg.glue(UMGYDE.final_tune.degree0.result$best_result["param.best_value"]))
+                 msg.glue(lss.UMGYDE.fine_tune.degree0.result.best_span))
 
 RMSE_kable(RMSEs.ResultTibble)
-##### Close Log -----------------------------------------------------------------
+###### Close Log ---------------------------------------------------------------
 log_close()
 ###### 2. `degree = 1` --------------------------------------------------------------
 ###### Open log file for tuning the model using `loess` function with parameter `degree = 1`----
 open_logfile(".UMGYDE.loess.degree1.pre-tuning")
 put("Case 2. `degree = 1`")
 ###### Preliminary setting-up of spans range ----------------------------------
-file_name_tmp <- "1.pre-set.degree1.UMGYD-effect.RData"
+file_name_tmp <- "1.lss.UMGYDE.pre-set.degree1.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree1.data.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -2121,16 +2055,13 @@ CVFolds_N)
   
   start <- put_start_date()
   spans <- seq(0.0005, 1, 0.001)
-  cv.UMGYDE.degree1.pretune.result <- 
+  lss.UMGYDE.preset.degree1.result <- 
     tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree1)
   put_end_date(start)
   put_log1("Preliminary set-up data for tuning UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 1` has been computed 
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
-  
-  plot(cv.UMGYDE.degree1.pretune.result$param_values,
-       cv.UMGYDE.degree1.pretune.result$RMSEs)
   
   put_log1("Saving UMGY+(Smoothed)Day Effect Model data to file: %1...", 
            file_path_tmp)
@@ -2140,185 +2071,81 @@ CVFolds_N)
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
-       cv.UMGYDE.degree1.pretune.result,
+       lss.UMGYDE.preset.degree1.result,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("UMGY+(Smoothed)Day Effect Model data has been saved to file: %1", 
            file_path_tmp)
 }
 
+lss.UMGYDE.preset.degree1.result$tuned.result |>
+  tuning.plot(title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 1`",
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = "spans", 
+              ylabel = "RMSE")
+
 put_log("Preliminary tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 1` has ended up with with the following results:")
-put(cv.UMGYDE.degree1.pretune.result$best_result)
+put(lss.UMGYDE.preset.degree1.result$best_result)
 # param.best_value        best_RMSE 
 #        0.0015000        0.8576205 
-
 ###### Close Log -----------------------------------------------------------------
 log_close()
 
 ###### Open log file for fine-tuning the model using `loess` function with parameter `degree = 1`----
-open_logfile(".UMGYD-effect.loess.degree1.fine-tuning")
-###### Fine-tuning of a span parameter value for `degree = 1` ------------------ 
-UMGYDE.fine_tune.degree1.loop_starter <- c(cv.UMGYDE.degree1.pretune.result$param_values[1], 
-                                           cv.UMGYDE.degree1.pretune.result$param_values[3], 
-                                           8)
+open_logfile(".lss.UMGYDE.fine-tune.degree1")
+###### Fine-tune the span parameter value for `degree = 1` --------------------- 
+lss.fine_tune.loop_starter <- 
+  c(lss.UMGYDE.preset.degree1.result$tuned.result$parameter.value[1], 
+    lss.UMGYDE.preset.degree1.result$tuned.result$parameter.value[3], 
+    8)
 # loop_starter <- c(0.0005, 0.0025, 8)
-UMGYDE.fine_tune.degree1.cache_file.base_name <- "UMGYDE.degree1.tuning-span"
+cache_file.base_name <- "UMGYDE.degree1.tuning-span"
 
-UMGYDE.fine_tune.result.degree1 <- 
-  model.tune.param_range(UMGYDE.fine_tune.degree1.loop_starter,
+lss.UMGYDE.fine_tune.degree1.result <- 
+  model.tune.param_range(lss.fine_tune.loop_starter,
                          UMGYDE.fine_tune.degree1.data.path,
-                         UMGYDE.fine_tune.degree1.cache_file.base_name,
+                         cache_file.base_name,
                          train_UMGY_SmoothedDay_effect.RMSE.cv.degree1)
+
+lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
+  tuning.plot.right_detailed(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 1`", 
+                             title.right = "Right Part of the Chart Above (Zoomed in)",
+                             shift = 5,
+                             xname = "parameter.value", 
+                             yname = "RMSE", 
+                             xlabel1 = "spans", 
+                             ylabel1 = "RMSE")
 
 put_log("Fine-tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 1` has ended up with with the following results:")
-put(UMGYDE.fine_tune.result.degree1)
+put(lss.UMGYDE.fine_tune.degree1.result$best_result)
 # param.best_value        best_RMSE 
-#        0.0009375        0.8568602 
-###### Close Log ---------------------------------------------------------------
-log_close()
-##### Open log file for final-tuning of the model with refined `span` range ----
-open_logfile(".UMGYDE.final-tuning.degree1")
-##### Final tuning of the model with `degree = 1` and refined span range -------
-file_name_tmp <- "2.UMGYDE.final-tune.degree1.RData" # UME stands for `User+Movie Effect`
-file_path_tmp <- file.path(UMGYDE.tuning.degree1.data.path, file_name_tmp)
+#      0.000890625      0.856860200 
 
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading saved data for the final-tuned UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 1` from file: %1...", 
-file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1("The data for the final-tune UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 1` has been loaded from file: %1", 
-file_path_tmp)
-} else {
-  put_log1("Final-tuning of the UMGY+(Smoothed)Day Effect Model for %1-Fold Cross Validation samples...",
-           CVFolds_N)
-  
-  fine_tuning.result <- UMGYDE.fine_tune.result.degree1
-  seq_start <- fine_tuning.result$param_values.endpoints[1]
-  seq_end <- fine_tuning.result$param_values.endpoints[2]
-  seq_step <- (seq_end - seq_start)/64  
-  
-  spans <- seq(seq_start, seq_end, seq_step)
-  
-  start <- put_start_date()
-  UMGYDE.final_tune.degree1.result <- 
-    tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree1)
-  put_end_date(start)
-  put_log1("Final-tuning of the UMGY+(Smoothed)Day Effect Model has been completed
-for the %1-Fold Cross Validation samples.",
-CVFolds_N)
-  
-  plot(UMGYDE.final_tune.degree1.result$param_values,
-       UMGYDE.final_tune.degree1.result$RMSEs)
-  
-  put_log1("Saving the final-tuned UMGY+(Smoothed)Day Effect Model data to file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  save(mu,
-       cv.user_effect,
-       rglr.UM_effect,
-       rglr.UMG_effect,
-       rglr.UMGY_effect,
-       UMGYDE.final_tune.degree1.result,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1("The final-tuned UMGY+(Smoothed)Day Effect Model data has been saved to file: %1", 
-           file_path_tmp)
-} 
+lss.UMGYDE.fine_tune.degree1.result.best_span <- 
+  lss.UMGYDE.fine_tune.degree1.result$best_result["param.best_value"]
 
-put_log("Final-tuning stage of the UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 1` has ended up with with the following results:")
-put(UMGYDE.final_tune.degree1.result)
-# param.best_value        best_RMSE 
-#      0.001079102      0.856860200 
-##### Close Log -----------------------------------------------------------------
-log_close()
-##### Open log file for re-training of the model with the best `span` value ----
-open_logfile(".UMGYDE.re-train.degree1.best_span")
-#### Re-train the model for `degree = 1` and the best `span` value ----
-file_name_tmp <- "3.UMGYE.re-train.degree1.best-span.RData"
-file_path_tmp <- file.path(UMGYDE.tuning.degree1.data.path, file_name_tmp)
-
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading saved data for the re-trained UMGY+(Smoothed)Day Effect Model
-using `loess` function with the best `span` value and `degree = 1` parameters from file: %1...", 
-file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1("The data of the re-trained UMGY+(Smoothed)Day Effect Model
-using `loess` function with the best `span` value and `degree = 1` parameters 
-has been loaded from file: %1", 
-file_path_tmp)
-} else {
-  UMGYDE.tuned.degree1.best_span <- UMGYDE.final_tune.degree1.result$best_result["param.best_value"]
-  final_tuned.best_RMSE <- UMGYDE.final_tune.degree1.result$best_result["best_RMSE"]
-  
-  put_log1("Re-training UMGY+(Smoothed)Day Effect Model 
-for the best `span` value and `degree = 1` parameters: %1...",
-UMGYDE.tuned.degree1.best_span)
-  
-  tuned.degree1.best_span.UMGYD_effect <- 
-    train_UMGY_SmoothedDay_effect.cv(degree = 1,
-                                     span = UMGYDE.tuned.degree1.best_span)
-  
-  tuned.degree1.best_span.UMGYDE.RMSE <- 
-    calc_UMGY_SmoothedDay_effect.RMSE.cv(tuned.degree1.best_span.UMGYD_effect)
-  
-  put_log2("RMSE has been computed for UMGY+(Smoothed)Day Effect 
-for the best `span` value (%1) and `degree = 1` parameters: %2.",
-UMGYDE.tuned.degree1.best_span,
-tuned.degree1.best_span.UMGYDE.RMSE)
-  put_log1("Is this a best RMSE? %1",
-           final_tuned.best_RMSE == tuned.degree1.best_span.UMGYDE.RMSE)
-  
-  
-  put_log1("Saving User+Movie+Genre+Year Effect Model data to file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  save(mu,
-       cv.user_effect,
-       rglr.UM_effect,
-       rglr.UMG_effect,
-       rglr.UMGY_effect,
-       UMGYDE.final_tune.degree1.result,
-       tuned.degree1.best_span.UMGYD_effect,
-       UMGYDE.tuned.degree1.best_span,
-       tuned.degree1.best_span.UMGYDE.RMSE,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1("Data for the tuned UMGY+(Smoothed)Day Effect Model 
-with the best `span` value and `degree = 1` parameters has been saved to file: %1", 
-file_path_tmp)
-}
-
-put_log2("Completed re-training UMGY+(Smoothed)Day Effect Model
-for `degree = 1` and `span = %1` (the best span value) parameters
-with the following result RMSE: %2...",
-UMGYDE.tuned.degree1.best_span,
-tuned.degree1.best_span.UMGYDE.RMSE)
+lss.UMGYDE.fine_tune.degree1.result.best_RMSE <- 
+  lss.UMGYDE.fine_tune.degree1.result$best_result["best_RMSE"]
 
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
-               tuned.degree1.best_span.UMGYDE.RMSE,
+               lss.UMGYDE.fine_tune.degree1.result.best_RMSE,
                comment = "Computed using function call: `loess(degree = 1, span = %1)`" |>
-                 msg.glue(UMGYDE.tuned.degree1.best_span))
+                 msg.glue(lss.UMGYDE.fine_tune.degree1.result.best_span))
 
 RMSE_kable(RMSEs.ResultTibble)
-##### Close Log -----------------------------------------------------------------
+###### Close Log ---------------------------------------------------------------
 log_close()
-###### 3. `degree = 2` --------------------------------------------------------------
+###### 3. `degree = 2` ---------------------------------------------------------
 ###### Open log file for tuning the model using `loess` function with parameter `degree = 2`----
 open_logfile(".UMGYDE.loess.degree2.pre-tuning")
-put("Case 2. `degree = 2`")
+put("Case 3. `degree = 2`")
 ###### Preliminary setting-up of spans range ----------------------------------
-file_name_tmp <- "1.pre-set.degree2.UMGYD-effect.RData"
+file_name_tmp <- "1.lss.UMGYDE.pre-set.degree2.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree2.data.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -2338,16 +2165,13 @@ CVFolds_N)
   
   start <- put_start_date()
   spans <- seq(0.0005, 1, 0.001)
-  cv.UMGYDE.degree2.pretune.result <- 
+  lss.UMGYDE.preset.degree2.result <- 
     tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree2)
   put_end_date(start)
   put_log1("Preliminary set-up data for tuning UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 2` has been computed 
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
-  
-  plot(cv.UMGYDE.degree2.pretune.result$param_values,
-       cv.UMGYDE.degree2.pretune.result$RMSEs)
   
   put_log1("Saving UMGY+(Smoothed)Day Effect Model data to file: %1...", 
            file_path_tmp)
@@ -2357,183 +2181,80 @@ CVFolds_N)
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
-       cv.UMGYDE.degree2.pretune.result,
+       lss.UMGYDE.preset.degree2.result,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("UMGY+(Smoothed)Day Effect Model data has been saved to file: %1", 
            file_path_tmp)
 }
 
+lss.UMGYDE.preset.degree2.result$tuned.result |>
+  tuning.plot(title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 2`",
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = "spans", 
+              ylabel = "RMSE")
+
 put_log("Preliminary tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 2` has ended up with with the following results:")
-put(cv.UMGYDE.degree2.pretune.result$best_result)
+put(lss.UMGYDE.preset.degree2.result$best_result)
 # param.best_value        best_RMSE 
-#        0.0015000        0.8571511 
+#          0.00150          0.85762 
 ###### Close Log -----------------------------------------------------------------
 log_close()
 
 ###### Open log file for fine-tuning the model using `loess` function with parameter `degree = 2`----
-open_logfile(".UMGYD-effect.loess.degree2.fine-tuning")
-###### Fine-tuning of a span parameter value for `degree = 2` ------------------ 
-UMGYDE.fine_tune.degree2.loop_starter <- c(cv.UMGYDE.degree2.pretune.result$param_values[1], 
-                                           cv.UMGYDE.degree2.pretune.result$param_values[3], 
-                                           8)
+open_logfile(".lss.UMGYDE.fine-tune.degree2")
+###### Fine-tune the span parameter value for `degree = 2` ------------------ 
+lss.fine_tune.loop_starter <- 
+  c(lss.UMGYDE.preset.degree2.result$tuned.result$parameter.value[1], 
+    lss.UMGYDE.preset.degree2.result$tuned.result$parameter.value[3], 
+    8)
 # loop_starter <- c(0.0005, 0.0025, 8)
-UMGYDE.fine_tune.degree2.cache_file.base_name <- "UMGYDE.degree2.tuning-span"
+cache_file.base_name <- "UMGYDE.degree2.tuning-span"
 
-UMGYDE.fine_tune.result.degree2 <- 
-  model.tune.param_range(UMGYDE.fine_tune.degree2.loop_starter,
+lss.UMGYDE.fine_tune.degree2.result <- 
+  model.tune.param_range(lss.fine_tune.loop_starter,
                          UMGYDE.fine_tune.degree2.data.path,
-                         UMGYDE.fine_tune.degree2.cache_file.base_name,
+                         cache_file.base_name,
                          train_UMGY_SmoothedDay_effect.RMSE.cv.degree2)
+
+lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
+  tuning.plot.right_detailed(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 2`", 
+                             title.right = "Right Part of the Chart Above (Zoomed in)",
+                             shift = 5,
+                             xname = "parameter.value", 
+                             yname = "RMSE", 
+                             xlabel1 = "spans", 
+                             ylabel1 = "RMSE")
 
 put_log("Fine-tuning stage of the UMGY+(Smoothed)Day Effect Model
 using `loess` function with parameter `degree = 2` has ended up with with the following results:")
-put(UMGYDE.fine_tune.result.degree2)
-# $best_result
+put(lss.UMGYDE.fine_tune.degree2.result$best_result)
 # param.best_value        best_RMSE 
-#        0.0013750        0.8571511 
-###### Close Log ---------------------------------------------------------------
-log_close()
-##### Open log file for final-tuning of the model with refined `span` range ----
-open_logfile(".UMGYDE.final-tuning.degree2")
-##### Final tuning of the model with `degree = 2` and refined span range -------
-file_name_tmp <- "2.UMGYDE.final-tune.degree2.RData" # UME stands for `User+Movie Effect`
-file_path_tmp <- file.path(UMGYDE.tuning.degree2.data.path, file_name_tmp)
+#      0.001328125      0.857151072 
 
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading saved data for the final-tuned UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 2` from file: %1...", 
-file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1("The data for the final-tune UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 2` has been loaded from file: %1", 
-file_path_tmp)
-} else {
-  put_log1("Final-tuning of the UMGY+(Smoothed)Day Effect Model for %1-Fold Cross Validation samples...",
-           CVFolds_N)
-  
-  fine_tuning.result <- UMGYDE.fine_tune.result.degree2
-  seq_start <- fine_tuning.result$param_values.endpoints[1]
-  seq_end <- fine_tuning.result$param_values.endpoints[2]
-  seq_step <- (seq_end - seq_start)/64  
-  
-  spans <- seq(seq_start, seq_end, seq_step)
-  
-  start <- put_start_date()
-  UMGYDE.final_tune.degree2.result <- 
-    tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree2)
-  put_end_date(start)
-  put_log1("Final-tuning of the UMGY+(Smoothed)Day Effect Model has been completed
-for the %1-Fold Cross Validation samples.",
-CVFolds_N)
-  
-  plot(UMGYDE.final_tune.degree2.result$param_values,
-       UMGYDE.final_tune.degree2.result$RMSEs)
-  
-  put_log1("Saving the final-tuned UMGY+(Smoothed)Day Effect Model data to file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  save(mu,
-       cv.user_effect,
-       rglr.UM_effect,
-       rglr.UMG_effect,
-       rglr.UMGY_effect,
-       UMGYDE.final_tune.degree2.result,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1("The final-tuned UMGY+(Smoothed)Day Effect Model data has been saved to file: %1", 
-           file_path_tmp)
-} 
+lss.UMGYDE.fine_tune.degree2.result.best_span <- 
+  lss.UMGYDE.fine_tune.degree2.result$best_result["param.best_value"]
 
-put_log("Final-tuning stage of the UMGY+(Smoothed)Day Effect Model
-using `loess` function with parameter `degree = 2` has ended up with with the following results:")
-put(UMGYDE.final_tune.degree2.result)
-# $best_result
-# param.best_value        best_RMSE 
-#      0.001516602      0.857151071 
-##### Close Log -----------------------------------------------------------------
-log_close()
-##### Open log file for re-training of the model with the best `span` value ----
-open_logfile(".UMGYDE.re-train.degree2.best_span")
-#### Re-train the model for `degree = 2` and the best `span` value ----
-file_name_tmp <- "3.UMGYE.re-train.degree2.best-span.RData"
-file_path_tmp <- file.path(UMGYDE.tuning.degree2.data.path, file_name_tmp)
-
-if (file.exists(file_path_tmp)) {
-  put_log1("Loading saved data for the re-trained UMGY+(Smoothed)Day Effect Model
-using `loess` function with the best `span` value and `degree = 2` parameters from file: %1...", 
-file_path_tmp)
-  start <- put_start_date()
-  load(file_path_tmp)
-  put_end_date(start)
-  put_log1("The data of the re-trained UMGY+(Smoothed)Day Effect Model
-using `loess` function with the best `span` value and `degree = 2` parameters 
-has been loaded from file: %1", 
-file_path_tmp)
-} else {
-  UMGYDE.tuned.degree2.best_span <- UMGYDE.final_tune.degree2.result$best_result["param.best_value"]
-  final_tuned.best_RMSE <- UMGYDE.final_tune.degree2.result$best_result["best_RMSE"]
-  
-  put_log1("Re-training UMGY+(Smoothed)Day Effect Model 
-for the best `span` value and `degree = 2` parameters: %1...",
-UMGYDE.tuned.degree2.best_span)
-  
-  tuned.degree2.best_span.UMGYD_effect <- 
-    train_UMGY_SmoothedDay_effect.cv(degree = 2,
-                                     span = UMGYDE.tuned.degree2.best_span)
-  
-  tuned.degree2.best_span.UMGYDE.RMSE <- 
-    calc_UMGY_SmoothedDay_effect.RMSE.cv(tuned.degree2.best_span.UMGYD_effect)
-  
-  put_log2("RMSE has been computed for UMGY+(Smoothed)Day Effect 
-for the best `span` value (%1) and `degree = 2` parameters: %2.",
-UMGYDE.tuned.degree2.best_span,
-tuned.degree2.best_span.UMGYDE.RMSE)
-  put_log1("Is this a best RMSE? %1",
-           final_tuned.best_RMSE == tuned.degree2.best_span.UMGYDE.RMSE)
-  
-  
-  put_log1("Saving User+Movie+Genre+Year Effect Model data to file: %1...", 
-           file_path_tmp)
-  start <- put_start_date()
-  save(mu,
-       cv.user_effect,
-       rglr.UM_effect,
-       rglr.UMG_effect,
-       rglr.UMGY_effect,
-       UMGYDE.final_tune.degree2.result,
-       tuned.degree2.best_span.UMGYD_effect,
-       UMGYDE.tuned.degree2.best_span,
-       tuned.degree2.best_span.UMGYDE.RMSE,
-       file = file_path_tmp)
-  put_end_date(start)
-  put_log1("Data for the tuned UMGY+(Smoothed)Day Effect Model 
-with the best `span` value and `degree = 2` parameters has been saved to file: %1", 
-file_path_tmp)
-}
-
-put_log2("Completed re-training UMGY+(Smoothed)Day Effect Model
-for `degree = 2` and `span = %1` (the best span value) parameters
-with the following result RMSE: %2...",
-UMGYDE.tuned.degree2.best_span,
-tuned.degree2.best_span.UMGYDE.RMSE)
+lss.UMGYDE.fine_tune.degree2.result.best_RMSE <- 
+  lss.UMGYDE.fine_tune.degree2.result$best_result["best_RMSE"]
 
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
-               tuned.degree2.best_span.UMGYDE.RMSE,
+               lss.UMGYDE.fine_tune.degree2.result.best_RMSE,
                comment = "Computed using function call: `loess(degree = 2, span = %1)`" |>
-                 msg.glue(UMGYDE.tuned.degree2.best_span))
+                 msg.glue(lss.UMGYDE.fine_tune.degree2.result.best_span))
 
 RMSE_kable(RMSEs.ResultTibble)
 ##### Close Log -----------------------------------------------------------------
 log_close()
 
+##### Open log file for re-training of the model with the best `span` value ----
+open_logfile(".lss.UMGYDE.re-train.best_degree&span")
 #### Retrain with the best parameters figured out above ------------------------
-file_name_tmp <- "4.UMGYE.re-train.loess.best-params.RData"
+file_name_tmp <- "1.lss.UMGYE.re-train.best-params.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.data.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -2546,100 +2267,100 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 } else {
   # The Best Parameters and RMSE Value 
-  loess_rmse <- data.frame(degree = degree, 
-                           span = c(cv.UMGYSD.tuned.dgr0.best_RMSE[1], degree1_best_RMSE[1], degree2_best_RMSE[1]),
-                           rmse = c(cv.UMGYSD.tuned.dgr0.best_RMSE[2], degree1_best_RMSE[2], degree2_best_RMSE[2]))
-  put(loess_rmse)
+  lss.best_results <- data.frame(degree = degree, 
+                           span = c(lss.UMGYDE.fine_tune.degree0.result.best_span,
+                                    lss.UMGYDE.fine_tune.degree1.result.best_span,
+                                    lss.UMGYDE.fine_tune.degree2.result.best_span),
+                           
+                           RMSE = c(lss.UMGYDE.fine_tune.degree0.result.best_RMSE, 
+                                    lss.UMGYDE.fine_tune.degree1.result.best_RMSE,
+                                    lss.UMGYDE.fine_tune.degree2.result.best_RMSE))
+  put(lss.best_results)
   
-  idx_best_rmse <- which.min(loess_rmse$rmse)
+  lss.best_RMSE.idx <- which.min(lss.best_results$RMSE)
   
-  day_loess_best_degree <- loess_rmse[idx_best_rmse, 1]  # 1
-  put_log1("The Best Degree: %1", day_loess_best_degree)
-  day_loess_best_degree
-  #> [1] 1
   
-  day_loess_best_span <- loess_rmse[idx_best_rmse, 2]# 0.00108
-  put_log1("The Best Span: %1", day_loess_best_span)
-  day_loess_best_span
-  #> [1] 0.00087
-  
-  day_loess_best_RMSE <- loess_rmse[idx_best_rmse, 3]
-  put_log1("The Best RMSE: %1",day_loess_best_RMSE)
-  day_loess_best_RMSE
-  #> [1] 0.8568619
-  
+  lss.UMGYDE.best_params <- 
+    c(degree =  lss.best_results[lss.best_RMSE.idx, "degree"],  # 1
+      span = lss.best_results[lss.best_RMSE.idx, "span"], # 0.00087,
+      RMSE = lss.best_results[lss.best_RMSE.idx, "RMSE"]) # 0.8568619
+
   put_log2("Re-training model using `loess` function with the best parameters: 
-span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
+span = %1, degree = %2", lss.best_span, lss.best_degree)
   start <- put_start_date()
-  best_day_smoothed_effect <- train_UMGY_SmoothedDay_effect.cv(day_loess_best_degree, day_loess_best_span)
-  str(best_day_smoothed_effect)
+  lss.UMGYD_effect <- train_UMGY_SmoothedDay_effect.cv(lss.best_degree, lss.best_span)
+  str(lss.UMGYD_effect)
   put_end_date(start)
   put_log2("The model has been re-trained using `loess` function with the best parameters: 
-span = %1, degree = %2", day_loess_best_span, day_loess_best_degree)
+span = %1, degree = %2", lss.best_span, lss.best_degree)
   
   put_log1("Saving Tuned Day Smoothed Effect data to file: %1", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
        cv.user_effect,
-       UMG_effect,
-       gnr_mean_ratings.cv,
-       UMG_effect,
-       user_movie_genre_reg_lambdas_6p6_m4p2_p2,
-       user_movie_genre_reg_RMSEs_m66_42_0_2,
-       umgy_tune_sets,
-       cv.UMGDG_Day_effect,
-       degree,
-       degree0.spans,
-       cv.UMGYSD.tuned.dgr0.RMSEs,
-       cv.UMGYSD.tuned.dgr0.best_RMSE,
-       degree1_spans,
-       degree1_tuned_RMSEs,
-       degree1_best_RMSE,
-       degree2_spans,
-       degree2_tuned_RMSEs,
-       degree2_best_RMSE,
-       day_loess_best_degree,
-       day_loess_best_span,
-       day_loess_best_RMSE,
-       best_day_smoothed_effect,
+       rglr.UM_effect,
+       rglr.UMG_effect,
+       rglr.UMGY_effect,
+       lss.UMGYD_effect,
+       lss.UMGYDE.best_params,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("Tuned Day Smoothed Effect data has been saved to file: %1", 
+  put_log1("Tuned (using `loess` function call) UMGYDE Model data has been saved to file: %1", 
            file_path_tmp)
 } 
-
 ##### The Best Date Smoothed Effect Visualization ----------------------------------
-best_day_smoothed_effect |>
+lss.UMGYD_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
 
 put_log1("Optimized Mean Date Smoothed Effect has been plotted for the %1-Fold Cross Validation samples.",
          CVFolds_N)
-# Calculate RMSE for `loess` function fitted with the best parameters ----------
+##### Calculate RMSE for `loess` function fitted with the best parameters ------
+
+lss.best_degree <- lss.UMGYDE.best_params["degree"]
+put_log1("The Best Degree: %1", lss.best_degree)
+lss.best_degree
+#> [1] 1
+
+lss.best_span <- lss.UMGYDE.best_params["span"]
+put_log1("The Best Span: %1", lss.best_span)
+lss.best_span
+#> [1] 0.00087
+
+lss.best_RMSE <- lss.UMGYDE.best_params["RMSE"]
+put_log1("The Best RMSE: %1",lss.best_RMSE)
+lss.best_RMSE
+#> [1] 0.8568619
+
 start <- put_start_date()
-user_movie_genre_tuned_date_effect_RMSE <- day_smoothed_effect_RMSE(day_loess_best_degree, day_loess_best_span)
+lss.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(lss.UMGYD_effect)
 put_end_date(start)
 put_log3("RMSE value has been computed using `loess` function 
 with the best parameters for the %1-Fold Cross Validation samples:
 degree = %2;
 span = %3.",
         CVFolds_N,
-        day_loess_best_degree,
-        day_loess_best_span)
+        lss.best_degree,
+        lss.best_span)
 
-print(user_movie_genre_tuned_date_effect_RMSE)
+put_log1("Is this a best RMSE? %1",
+         lss.best_RMSE == lss.UMGYD_effect.RMSE)
+
+print(lss.UMGYD_effect.RMSE)
 #> [1] 0.8568612
 
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
-               user_movie_genre_tuned_date_effect_RMSE)
+               lss.UMGYD_effect.RMSE,
+               comment = "Computed using `loess` function call with the best degree & span values.")
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
-for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
+for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`
+using `loess` function call with the best degree & span values.")
 
 # start <- put_start_date()
 # final_holdout_test |>
@@ -2655,4 +2376,20 @@ for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
 log_close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
