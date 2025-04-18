@@ -2519,6 +2519,7 @@ if (file.exists(file_path_tmp)) {
   
   rglr.UMGYD_effect <- regularize.train_UMGYD_effect(UMGYDE.rglr.best_lambda)
   rglr.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(rglr.UMGYD_effect)
+  #> [1] 0.8568333
   
   put_log2("Regularized User+Movie+Genre+Year+(Smoothed)Day Effect RMSE has been computed for the best `lambda = %1`: %2.",
            UMGYDE.rglr.best_lambda,
@@ -2551,6 +2552,11 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
+
+#### Final Test ----------------------------------------------------------------
+
+# calc_UMGY_SmoothedDay_effect.RMSE(final_holdout_test, rglr.UMGYD_effect)
+# #> [1] 0.902012
 
 #### Close Log -----------------------------------------------------------------
 log_close()
