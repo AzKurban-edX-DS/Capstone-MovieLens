@@ -27,6 +27,9 @@ if(!require(pak))
 if(!require("pacman")) 
   install.packages("pacman")
 
+if(!require("recommenderlab")) 
+  install.packages("recommenderlab")
+
 # Loading the required libraries
 library(dslabs)
 library(tidyverse)
@@ -40,6 +43,8 @@ library(ggthemes)
 library(lubridate)
 library(Metrics)
 library(recosystem)
+library(recommenderlab)
+
 library(scales)
 library(stringr)
 library(tibble)
@@ -2518,6 +2523,7 @@ if (file.exists(file_path_tmp)) {
            UMGYDE.rglr.best_lambda)
   
   rglr.UMGYD_effect <- regularize.train_UMGYD_effect(UMGYDE.rglr.best_lambda)
+  str(rglr.UMGYD_effect)
   rglr.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(rglr.UMGYD_effect)
   #> [1] 0.8568333
   
@@ -2552,11 +2558,76 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
+#### Close Log -----------------------------------------------------------------
+log_close()
 
 #### Final Test ----------------------------------------------------------------
 
 # calc_UMGY_SmoothedDay_effect.RMSE(final_holdout_test, rglr.UMGYD_effect)
 # #> [1] 0.902012
 
-#### Close Log -----------------------------------------------------------------
-log_close()
+### Matrix Factorization -------------------------------------------------------
+#> Reference: 
+#> recosystem: Recommender System Using Parallel Matrix Factorization
+#> https://cran.r-project.org/web/packages/recosystem/vignettes/introduction.html
+
+#>
+#> https://www.r-bloggers.com/2016/07/recosystem-recommender-system-using-parallel-matrix-factorization/
+#> https://zhangyk8.github.io/teaching/file_spring2018/Improving_regularized_singular_value_decomposition_for_collaborative_filtering.pdf
+
+set.seed(1)
+train.reco <- with(tune.train_set, data_memory(user_index = userId, 
+                                               item_index = movieId,
+                                               rating = rating))
+                                               # index1 = TRUE))
+
+test.reco <- with(tune.test_set, data_memory(user_index = userId, 
+                                             item_index = movieId, 
+                                             rating = rating))
+                                             ## index1 = TRUE))
+
+
+reco <- Reco()
+
+reco.tuned <- reco$tune(train.reco, opts = list(dim = c(10, 20, 30),
+                                                # costp_l2 = c(0.01, 0.1),
+                                                # costq_l2 = c(0.01, 0.1),
+                                                # costp_l1 = 0,
+                                                # costq_l1 = 0,
+                                                lrate    = c(0.1, 0.2),
+                                                nthread  = 4,
+                                                niter    = 10,
+                                                verbose  = TRUE))
+
+reco$train(train.reco, opts = c(reco.tuned$min,
+                                niter = 20, 
+                                nthread = 4)) 
+
+reco.predicted <- reco$predict(test.reco, out_memory())
+str(reco.predicted)
+
+rmse(tune.test_set$rating - reco.predicted)
+#> [1] 0.868204
+#> [1] 0.8676399
+
+rmse(tune.test_set$rating - clamp(reco.predicted))
+#> [1] 0.8680579
+#> [1] 0.8674511
+
+# final_test.reco <- with(final_holdout_test, 
+#                         data_memory(user_index = userId, 
+#                                     item_index = movieId, 
+#                                     rating = rating))
+#                                     #index1 = TRUE))
+# 
+# final_reco.predicted <- reco$predict(final_test.reco, out_memory())
+# str(reco.predicted)
+# 
+# rmse(final_holdout_test$rating - final_reco.predicted)
+# #> [1] 0.8667141
+# #> [1] 0.8662733
+# 
+# rmse(final_holdout_test$rating - clamp(final_reco.predicted))
+# #> [1] 0.866581
+# #> [1] 0.8660731
+
