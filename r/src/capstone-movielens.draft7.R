@@ -2574,6 +2574,9 @@ log_close()
 #>
 #> https://www.r-bloggers.com/2016/07/recosystem-recommender-system-using-parallel-matrix-factorization/
 #> https://zhangyk8.github.io/teaching/file_spring2018/Improving_regularized_singular_value_decomposition_for_collaborative_filtering.pdf
+#> https://www.csie.ntu.edu.tw/~cjlin/papers/libmf/mf_adaptive_pakdd.pdf
+
+# library(recosystem)
 
 set.seed(1)
 train.reco <- with(tune.train_set, data_memory(user_index = userId, 
