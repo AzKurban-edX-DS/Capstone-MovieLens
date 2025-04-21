@@ -760,7 +760,8 @@ if (file.exists(file_path_tmp)) {
   
   put_log("User Mean Ratings (User Effect) have been computed.")
   str(cv.user_mean_ratings)
-
+  sum(is.na(cv.user_mean_ratings$mean_rating))
+  
   put_log1("Saving User Mean Rating data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
@@ -824,6 +825,7 @@ if (file.exists(file_path_tmp)) {
 } 
 
 put(str(cv.user_effect))
+sum(is.na(cv.user_effect$a))
 
 # Plot a histogram of the user effects -----------------------------------------
 par(cex = 0.7)
