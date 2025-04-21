@@ -106,15 +106,15 @@ sample_train_validation_sets <- function(seed){
     sort()
   
   put_log("Function: `sample_train_validation_sets`: 
-For training our models, we will ignore the data from users 
-who have provided no more than the specified number of ratings. ({min_nratings})")
-  
-  put_log("Function: `sample_train_validation_sets`: 
 Extracting 80% of the `edx` data not used for the Validation Set, 
 excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
+
+  # Make sure userId and movieId in the final hold-out test set are also in the train set
   train_set <- edx[-validation_ind,] |>
-    filter_noMore_nratings(min_nratings)
-  
+    union(edx[-validation_ind,] |>
+            anti_join(final_holdout_test, by = "movieId") |> 
+            anti_join(final_holdout_test, by = "userId"))
+
   put_log("Function: `sample_train_validation_sets`: Dataset created: train_set")
   put(summary(train_set))
   
@@ -123,6 +123,7 @@ To make sure we don’t include movies in the Training Set that should not be th
 we remove entries using the semi_join function from the Validation Set.")
   validation_set <- edx[validation_ind,] |> 
     semi_join(train_set, by = "movieId") |> 
+    semi_join(train_set, by = "userId") |>
     as.data.frame()
   
   put_log("Function: `sample_train_validation_sets`: Dataset created: validation_set")
