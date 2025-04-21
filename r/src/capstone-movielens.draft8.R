@@ -79,6 +79,7 @@ conflict_prefer("left_join", "dplyr", quiet = TRUE)
 conflict_prefer("filter", "dplyr", quiet = TRUE)
 conflict_prefer("slice", "dplyr", quiet = TRUE)
 conflict_prefer("glimpse", "dplyr", quiet = TRUE)
+conflict_prefer("union", "dplyr", quiet = TRUE)
 
 conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
 conflict_prefer("kable", "kableExtra", quiet = TRUE)
@@ -301,7 +302,9 @@ Creating K-Fold Cross Validation Datasets, Fold %1", fold_i)
     #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
     #> of the Course Textbook.
 
-    split_sets <- sample_train_validation_sets(fold_i*1000)
+    split_sets <- edx |>
+      sample_train_validation_sets(fold_i*1000)
+    
     train_set <- split_sets$train_set
     validation_set <- split_sets$validation_set
 
@@ -312,31 +315,11 @@ for movies belonging to multiple genres.")
 
     put_log("Function: `make_source_datasets`: 
 Sampling 20% from the split-row version of the `edx` dataset...")
-    set.seed(fold_i*2000)
-    validation_gs_ind <- 
-      sapply(splitByUser(edx_split_row_genre),
-             function(i) sample(i, ceiling(length(i)*.2))) |> 
-      unlist() |> 
-      sort()
+    split_set.gs <- edx_split_row_genre |> 
+      sample_train_validation_sets(fold_i*2000)
     
-    put_log("Function: `make_source_datasets`:
-Extracting 80% of the split-row `edx` data not used for the Validation Set, 
-excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
-    train_gs_set <- edx_split_row_genre[-validation_gs_ind,] |>
-      filter_noMore_nratings(min_nratings)
-
-    put_log("Function: `make_source_datasets`: Dataset created: train_gs_set")
-    put(summary(train_gs_set))
-
-
-    put_log("Function: `make_source_datasets`: 
-To make sure we don’t include movies in the Training Set (with split rows) 
-that should not be there, we remove entries using the semi_join function 
-from the Validation Set.")
-    validation_gs_set <- edx_split_row_genre[validation_gs_ind,] 
-    validation_gs_set <- validation_gs_set |> 
-      semi_join(train_gs_set, by = "movieId") |> 
-      as.data.frame()
+    train_gs_set <- split_sets.gs$train_set
+    validation_gs_set <- split_sets.gs$validation_set
     
     put_log("Function: `make_source_datasets`: Dataset created: validation_gs_set")
     put(summary(validation_gs_set))

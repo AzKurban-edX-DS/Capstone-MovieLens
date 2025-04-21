@@ -96,22 +96,22 @@ union_cv_results <- function(data_list) {
   
   out_dat
 }
-sample_train_validation_sets <- function(seed){
-  put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `edx` data...")
+sample_train_validation_sets <- function(data, seed){
+  put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `data` data...")
   set.seed(seed)
   validation_ind <- 
-    sapply(splitByUser(edx),
+    sapply(splitByUser(data),
            function(i) sample(i, ceiling(length(i)*.2))) |> 
     unlist() |> 
     sort()
   
   put_log("Function: `sample_train_validation_sets`: 
-Extracting 80% of the `edx` data not used for the Validation Set, 
+Extracting 80% of the original `data` not used for the Validation Set, 
 excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
 
   # Make sure userId and movieId in the final hold-out test set are also in the train set
-  train_set <- edx[-validation_ind,] |>
-    union(edx[-validation_ind,] |>
+  train_set <- data[-validation_ind,] |>
+    union(data[-validation_ind,] |>
             anti_join(final_holdout_test, by = "movieId") |> 
             anti_join(final_holdout_test, by = "userId"))
 
@@ -121,7 +121,7 @@ excluding data for users who provided no more than a specified number of ratings
   put_log("Function: `sample_train_validation_sets`: 
 To make sure we don’t include movies in the Training Set that should not be there, 
 we remove entries using the semi_join function from the Validation Set.")
-  validation_set <- edx[validation_ind,] |> 
+  validation_set <- data[validation_ind,] |> 
     semi_join(train_set, by = "movieId") |> 
     semi_join(train_set, by = "userId") |>
     as.data.frame()
