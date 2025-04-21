@@ -125,8 +125,7 @@ train_UMGY_SmoothedDay_effect.cv <- function(degree = NA,
     calc_UMGY_SmoothedDay_effect(degree, span)
 }
 
-calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
-  # browser()
+UMGY_SmoothedDay_effect.predict <- function(test_set, day_smoothed_effect) {
   test_set |>
     left_join(cv.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
@@ -134,7 +133,23 @@ calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
     left_join(date_days_map, by = "timestamp") |>
     left_join(rglr.UMGY_effect, by='year') |>
     left_join(day_smoothed_effect, by='days') |>
-    mutate(resid = rating - clamp(mu + a + b + g + ye + de_smoothed)) |> 
+    mutate(predicted = clamp(mu + a + b + g + ye + de_smoothed)) |> 
+    # filter(!is.na(predicted)) |>
+    select(userId, movieId, timestamp, rating, predicted)
+    
+}
+
+calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
+  # browser()
+  test_set |>
+    UMGY_SmoothedDay_effect.predict(day_smoothed_effect)
+    # left_join(cv.user_effect, by = "userId") |>
+    # left_join(rglr.UM_effect, by = "movieId") |>
+    # left_join(rglr.UMG_effect, by = "movieId") |>
+    # left_join(date_days_map, by = "timestamp") |>
+    # left_join(rglr.UMGY_effect, by='year') |>
+    # left_join(day_smoothed_effect, by='days') |>
+    mutate(resid = rating - predicted) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
 }

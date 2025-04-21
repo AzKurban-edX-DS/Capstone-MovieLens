@@ -63,6 +63,7 @@ p_load(conflicted, latex2exp, kableExtra)
 
 # For functions with identical names in different packages, ensure the
 # right one is chosen:
+conflicts_prefer(base::as.matrix)
 conflict_prefer("first", "dplyr", quiet = TRUE)
 conflict_prefer("count", "dplyr", quiet = TRUE)
 conflict_prefer("select", "dplyr", quiet = TRUE)
@@ -2570,44 +2571,195 @@ log_close()
 #> Reference: 
 #> recosystem: Recommender System Using Parallel Matrix Factorization
 #> https://cran.r-project.org/web/packages/recosystem/vignettes/introduction.html
+#> https://rpubs.com/delongmeng/557151
 
 #>
 #> https://www.r-bloggers.com/2016/07/recosystem-recommender-system-using-parallel-matrix-factorization/
 #> https://zhangyk8.github.io/teaching/file_spring2018/Improving_regularized_singular_value_decomposition_for_collaborative_filtering.pdf
 #> https://www.csie.ntu.edu.tw/~cjlin/papers/libmf/mf_adaptive_pakdd.pdf
 
+#### Open log file for Matrix Factorization Method ----------------------------
+open_logfile(".matrix-factorization")
+#### Support Functions --------------------------------------------------------
+MF.functions.file <- "MF.functions.R"
+MF.functions.file_path <- file.path(support_functions.path, 
+                                    MF.functions.file)
+source(MF.functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
+
+##### Perform the Matrix Factorization ----------------------------
 # library(recosystem)
 
+#> Experiment; reference: https://rpubs.com/delongmeng/557151
+
+# mu <- mean(edx$rating)
+
+b_i_reg <- edx %>% 
+  group_by(movieId) %>%
+  summarize(b_i = sum(rating - mu)/(n()+lambda))
+b_u_reg <- edx %>% 
+  left_join(b_i_reg, by="movieId") %>%
+  group_by(userId) %>%
+  summarize(b_u = sum(rating - b_i - mu)/(n()+lambda))
+predicted_ratings_6 <- 
+  final_holdout_test %>% 
+  left_join(b_i_reg, by = "movieId") %>%
+  left_join(b_u_reg, by = "userId") %>%
+  mutate(pred = mu + b_i + b_u) %>%
+  pull(pred)
+
+str(predicted_ratings_6)
+sum(is.na(predicted_ratings_6))
+
+model_6_rmse <- RMSE(predicted_ratings_6, validation$rating)   # 0.864818
+rmse_results <- bind_rows(rmse_results,
+                          data_frame(Model="Regularized Movie + User Effect Model",  
+                                     RMSE = model_6_rmse))
+rmse_results 
+
+# Matrix Factorization ---------------------------------------------------------
+lambda <- 4.9
+mu <- mean(edx$rating)
+b_i_reg <- edx %>% 
+  group_by(movieId) %>%
+  summarize(b_i = sum(rating - mu)/(n()+lambda))
+b_u_reg <- edx %>% 
+  left_join(b_i_reg, by="movieId") %>%
+  group_by(userId) %>%
+  summarize(b_u = sum(rating - b_i - mu)/(n()+lambda))
+
+predicted_ratings_6_edx <- 
+  edx %>% 
+  left_join(b_i_reg, by = "movieId") %>%
+  left_join(b_u_reg, by = "userId") %>%
+  mutate(pred = mu + b_i + b_u) %>%
+  pull(pred)
+
+str(predicted_ratings_6_edx)
+sum(is.na(predicted_ratings_6_edx))
+
+edx_residual <- edx %>% 
+  left_join(b_i_reg, by = "movieId") %>%
+  left_join(b_u_reg, by = "userId") %>%
+  mutate(residual = rating - mu - b_i - b_u) %>%
+  select(userId, movieId, residual)
+head(edx_residual)
+str(edx_residual)
+sum(is.na(edx_residual$residual))
+
+trainset.file.path <- file.path(data.models.path,"trainset.txt")
+trainset.file.path
+
+validset.file.path <- file.path(data.models.path,"validset.txt")
+validset.file.path
+
+edx_for_mf <- as.matrix(edx_residual)
+str(edx_for_mf)
+sum(is.na(edx_for_mf[,3]))
+sum(is.na(edx_for_mf[,2]))
+sum(is.na(edx_for_mf[,1]))
+
+validation_for_mf <- final_holdout_test %>% 
+  select(userId, movieId, rating)
+
+validation_for_mf <- as.matrix(validation_for_mf)
+str(validation_for_mf)
+
+# write edx_for_mf and validation_for_mf tables on disk
+write.table(edx_for_mf , file = trainset.file.path, sep = " " , row.names = FALSE, col.names = FALSE)
+write.table(validation_for_mf, file = validset.file.path, sep = " " , row.names = FALSE, col.names = FALSE)
+
+# use data_file() to specify a data set from a file in the hard disk.
+set.seed(2019) 
+train_set <- data_file(trainset.file.path)
+valid_set <- data_file(validset.file.path)
+
+# build a recommender object
+r <-Reco()
+
+# tuning training set
+opts <- r$tune(train_set, opts = list(dim = c(10, 20, 30), lrate = c(0.1, 0.2),
+                                      costp_l1 = 0, costq_l1 = 0,
+                                      nthread = 1, niter = 10))
+opts
+
+r$train(train_set, opts = c(opts$min, nthread = 1, niter = 20))
+
+# Making prediction on validation set and calculating RMSE:
+pred_file <- tempfile()
+r$predict(valid_set, out_file(pred_file))  
+predicted_residuals_mf <- scan(pred_file)
+str(predicted_residuals_mf)
+
+predicted_ratings_mf <- predicted_ratings_6 + predicted_residuals_mf
+str(predicted_ratings_mf)
+rmse(final_holdout_test$rating - predicted_ratings_mf)
+
+rmse_mf <- RMSE(predicted_ratings_mf,validation$rating) # 0.786256
+rmse_results <- bind_rows(rmse_results,
+                          data_frame(Model="Matrix Factorization",  
+                                     RMSE = rmse_mf))
+rmse_results 
+
+
+
+
+
+#-----------------------------------------------------------------
+mf.edx.residual <- mf.residual.dataframe(edx)
+str(mf.edx.residual)
+
 set.seed(1)
-train.reco <- with(tune.train_set, data_memory(user_index = userId, 
+mf.edx.datasource <- with(mf.edx.residual, data_memory(user_index = userId, 
                                                item_index = movieId,
-                                               rating = rating))
+                                               rating = rsdl))
                                                # index1 = TRUE))
+str(mf.edx.datasource)
 
-test.reco <- with(tune.test_set, data_memory(user_index = userId, 
-                                             item_index = movieId, 
-                                             rating = rating))
-                                             ## index1 = TRUE))
+# test.reco <- with(tune.test_set, data_memory(user_index = userId, 
+#                                              item_index = movieId, 
+#                                              rating = rating))
+#                                              ## index1 = TRUE))
 
+mf.final_holdout_test <- with(final_holdout_test,
+                              data_memory(user_index = userId,
+                                          item_index = movieId,
+                                          rating = rating))
+                                          # index1 = TRUE))
+str(mf.final_holdout_test)
 
 reco <- Reco()
 
-reco.tuned <- reco$tune(train.reco, opts = list(dim = c(10, 20, 30),
+reco.options <- reco$tune(mf.edx.datasource, opts = list(dim = c(10, 20, 30),
                                                 # costp_l2 = c(0.01, 0.1),
                                                 # costq_l2 = c(0.01, 0.1),
-                                                # costp_l1 = 0,
-                                                # costq_l1 = 0,
+                                                costp_l1 = 0,
+                                                costq_l1 = 0,
                                                 lrate    = c(0.1, 0.2),
                                                 nthread  = 4,
                                                 niter    = 10,
                                                 verbose  = TRUE))
+str(reco.options)
 
-reco$train(train.reco, opts = c(reco.tuned$min,
+reco$train(mf.edx.datasource, opts = c(reco.options$min,
                                 niter = 20, 
                                 nthread = 4)) 
 
-reco.predicted <- reco$predict(test.reco, out_memory())
-str(reco.predicted)
+mf.final.predicted <- reco$predict(mf.final_holdout_test, out_memory())
+str(final.predicted)
+
+UMGYD.edx.predicted <- UMGYDE_model.predict(edx) #|>
+  #pull(predicted)
+str(UMGYD.edx.predicted)
+
+UMGYD.final.predicted <- UMGYDE_model.predict(final_holdout_test) #|>
+  # pull(predicted)
+
+str(UMGYD.final.predicted)
 
 rmse(tune.test_set$rating - reco.predicted)
 #> [1] 0.868204
@@ -2633,4 +2785,7 @@ rmse(tune.test_set$rating - clamp(reco.predicted))
 # rmse(final_holdout_test$rating - clamp(final_reco.predicted))
 # #> [1] 0.866581
 # #> [1] 0.8660731
+
+#### Close Log -----------------------------------------------------------------
+log_close()
 
