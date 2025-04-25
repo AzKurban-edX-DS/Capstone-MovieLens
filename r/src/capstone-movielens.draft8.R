@@ -84,6 +84,7 @@ conflict_prefer("union", "dplyr", quiet = TRUE)
 conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
 conflict_prefer("kable", "kableExtra", quiet = TRUE)
 conflict_prefer("year", "lubridate", quiet = TRUE)
+conflicts_prefer(base::as.matrix)
 
 ## Logging Helper functions -----------------------------------------------------
 open_logfile <- function(file_name){
@@ -199,6 +200,10 @@ data.path <- "data"
 dir.create(data.path)
 put_log1("Directory path has been created: %1", data.path)
 
+movielens_datasets_file <- "movielens-datasets.RData"
+movielens_datasets_file_path <- file.path(data.path, movielens_datasets_file)
+movielens_datasets_zip <- file.path(data.path, "movielens-datasets.zip")
+
 regularization.cache.folder <- "regularization"
 models.cache.folder <- "models"
 model_tune.cache.folder <- "model-tune"
@@ -239,214 +244,56 @@ open_logfile(".init-project-data")
 # Let's install the development version of this package from the `GitHub` repository 
 # and attach the correspondent library to the global environment:
 
+### Load Source Datasets from Specially Designed Package -----------------------
 if(!require(edx.capstone.movielens.data)) {
   start <- put_start_date()
   pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
   put_end_date(start)
 }
 
-movielens_datasets_file <- "movielens-datasets.RData"
-movielens_datasets_file_path <- file.path(data.path, movielens_datasets_file)
-movielens_datasets_zip <- file.path(data.path, "movielens-datasets.zip")
-
-make_source_datasets <- function(){
-  put_log("Function: `make_source_datasets`: Creating source datasets...")
-
-  put_log("Function: `make_source_datasets`: 
-Dataset loaded from `edx.capstone.movielens.data` package: edx")
-  put(summary(edx))
-
-  put_log("Function: `make_source_datasets`: 
-Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test")
-  put(summary(final_holdout_test))
-  
-  #> To be able to map movie IDs to titles we create the following lookup table:
-  movie_map <- edx |> select(movieId, title, genres) |> 
-    distinct(movieId, .keep_all = TRUE)
-  
-  put_log("Function: `make_source_datasets`: Dataset created: movie_map")
-  put(summary(movie_map))
-  
-  put_log("Function: `make_source_datasets`: Creating Date-Days Map dataset...")
-  date_days_map <- edx |>
-    mutate(date_time = as_datetime(timestamp)) |>
-    mutate(date = as_date(date_time)) |>
-    mutate(year = year(date_time)) |>
-    mutate(days = as.integer(date - min(date))) |>
-    select(timestamp, date_time, date, year, days) |>
-    distinct(timestamp, .keep_all = TRUE)
-  
-  str(date_days_map)
-  put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
-  put(summary(date_days_map))
-  
-
-  #> We will use K-fold cross validation as explained in 
-  #> Section 29.6.1: "K-fold validation" of the Cource Textbook:
-  #> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation
-  #> We are going to compute the following version of the MSE introducing in that section:
-  
-  # $$
-  #   \mbox{MSE}(\lambda) \approx\frac{1}{B} \sum_{b = 1}^B \frac{1}{N}\sum_{i = 1}^N \left(\hat{y}_i^b(\lambda) - y_i^b\right)^2 
-  # $$
-
-  start <- put_start_date()
-  edx_CV <- lapply(kfold_index,  function(fold_i){
-
-    put_log1("Method `make_source_datasets`: 
-Creating K-Fold Cross Validation Datasets, Fold %1", fold_i)
-    
-    #> We split the initial datasets into training sets, which we will use to build 
-    #> and train our models, and validation sets in which we will compute the accuracy 
-    #> of our predictions, the way described in the `Section 23.1.1 Movielens data`
-    #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
-    #> of the Course Textbook.
-
-    split_sets <- edx |>
-      sample_train_validation_sets(fold_i*1000)
-    
-    train_set <- split_sets$train_set
-    validation_set <- split_sets$validation_set
-
-    put_log("Function: `make_source_datasets`: 
-To account for the Movie Genre Effect, we need a dataset with split rows 
-for movies belonging to multiple genres.")
-    edx_split_row_genre <- separateGenreRows(edx)
-
-    put_log("Function: `make_source_datasets`: 
-Sampling 20% from the split-row version of the `edx` dataset...")
-    split_set.gs <- edx_split_row_genre |> 
-      sample_train_validation_sets(fold_i*2000)
-    
-    train_gs_set <- split_sets.gs$train_set
-    validation_gs_set <- split_sets.gs$validation_set
-    
-    put_log("Function: `make_source_datasets`: Dataset created: validation_gs_set")
-    put(summary(validation_gs_set))
-
-    #> We will use the array representation described in `Section 17.5 of the Textbook`
-    #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
-    #> for the training data. 
-    #> To create this matrix, we use `tidyr::pivot_wider` function:
-    
-    # train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
-    # train_gs_set <- mutate(train_gs_set, userId = factor(userId), movieId = factor(movieId))
-    
-    put_log("Function: `make_source_datasets`: Creating Rating Matrix from Train Set...")
-    train_mx <- train_set |> 
-      mutate(userId = factor(userId),
-             movieId = factor(movieId)) |>
-      select(movieId, userId, rating) |>
-      pivot_wider(names_from = movieId, values_from = rating) |>
-      column_to_rownames("userId") |>
-      as.matrix()
-    
-    put_log("Function: `make_source_datasets`: Matrix created: train_mx")
-    put(dim(train_mx))
-
-    list(train_set = train_set,
-         train_gs_set = train_gs_set,
-         train_mx = train_mx, 
-         validation_set = validation_set,
-         validation_gs_set = validation_gs_set)
-  })
-  put_end_date(start)
-  put_log("Function: `make_source_datasets`: 
-Set of K-Fold Cross Validation datasets created: edx_CV")
-
-  tuning_sets <- sample_train_validation_sets(2)
-  
-  list(edx_CV = edx_CV,
-       tuning_sets = tuning_sets,
-       movie_map = movie_map,
-       date_days_map = date_days_map)
-}
-init_source_datasets <- function(){
-  put_log("Method `init_source_datasets`: 
-Initializing sourse datasets...")
-  
-  if(file.exists(movielens_datasets_file_path)){
-    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
-  } else if(file.exists(movielens_datasets_zip)) {
-    put_log("Method `init_source_datasets`: 
-Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...") 
-
-    start <- put_start_date()
-    unzip(movielens_datasets_zip, movielens_datasets_file_path)
-    
-    if(!file.exists(movielens_datasets_file_path)) {
-      put_log("Method `init_source_datasets`: 
-File does not exists: {movielens_datasets_file}.")
-      stop("Failed to unzip MovieLens data zip-archive.")
-    }
-    
-    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
-  } else {
-    put_log("Method `init_source_datasets`: 
-Creating datasets...")
-    library(edx.capstone.movielens.data)
-    put_log("Method `init_source_datasets`: 
-Library attached: 'edx.capstone.movielens.data'")
-    
-    start <- put_start_date()
-    movielens_datasets <- make_source_datasets()
-    put_end_date(start)
-    put("Method `init_source_datasets`: 
-All required datasets have been created.")
-    
-    put_log("Method `init_source_datasets`: 
-Saving newly created input datasets to file...")
-    start <- put_start_date()
-    save(movielens_datasets, file =  movielens_datasets_file_path)
-    put_end_date(start)
-    
-    if(!file.exists(movielens_datasets_file_path)) {
-      put_log("Method `init_source_datasets`: 
-File was not created: {movielens_datasets_file}.")
-      warning("MovieLens data was not saved to file.")
-    } else {
-      put_log("Method `init_source_datasets`: 
-Datasets have been saved to file: {movielens_datasets_file_path}.") 
-
-            
-      put_log("Method `init_source_datasets`: 
-Creating zip-archive: {movielens_datasets_zip}...") 
-
-      zip(movielens_datasets_zip, movielens_datasets_file_path)
-      
-      if(!file.exists(movielens_datasets_zip)){
-        put_log("Method `init_source_datasets`: 
-Failed to zip file: {movielens_datasets_file_path}.")
-        warning("Failed to zip MovieLens data file.")
-      } else {
-        put_log("Method `init_source_datasets`: 
-Zip-archive created: {movielens_datasets_zip}.")
-        #file.remove(movielens_datasets_file)
-        
-        if(file.exists(movielens_datasets_file_path)){
-          put_log("Method `init_source_datasets`: 
-Failed to remove file: {movielens_datasets_file_path}.")
-          warning("Failed to remove MovieLens data file.")
-        } else {
-          put_log("Method `init_source_datasets`: 
-File has been removed: {movielens_datasets_file_path}")
-        }
-      }
-    }
-  }
-  movielens_datasets
-}
-
-# edx <- movielens_datasets$edx
-put("Dataset summary: edx")
+put_log("Dataset loaded from `edx.capstone.movielens.data` package: edx")
+put(str(edx))
+sum(is.na(edx$rating))
+#> [1] 0
 put(summary(edx))
 
+put_log1("Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test:
+%1", str(final_holdout_test))
+sum(is.na(final_holdout_test$rating))
+#> [1] 0
+put(summary(final_holdout_test))
+
+### Support Functions ---------------------------------------------------------
+Data.Helper.functions.file_path <- file.path(support_functions.path, 
+                                           "data.helper.functions.R")
+source(Data.Helper.functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
+
+### `edx` & `final_holdout_test` Input Datasts Consistency Test ----------------
+final_test.ljoin.NAs <- edx |>
+  mutate(tst.col = rating) |>
+  select(userId, movieId, tst.col) |>
+data.consistency.test(final_holdout_test)
+
+put_log("Below are the`edx` & `final_holdout_test` consistency test results:")
+put(final_test.ljoin.NAs)
+ # user.NAs movie.NAs 
+ #        0         0 
+### Initialize Input Datasets --------------------------------------------------
 movielens_datasets <- init_source_datasets()
 
 #> Inpired by Chapter 29. Resampling methods
 #> (in particular starting from 
 #> Section 29.5 "Mathematical description of resampling methods" onwards.
 #> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html
+edx.mx <- movilens_datasets$edx.mx
+put_log("`edx` data initialized as matrix")
+put(edx.mx)
+
 edx_CV <- movielens_datasets$edx_CV
 put("Set of K-Fold Cross Validation datasets summary: edx_CV")
 put(summary(edx_CV))
@@ -458,6 +305,18 @@ put(summary(tune.train_set))
 tune.test_set <- movielens_datasets$tuning_sets$validation_set
 put("Test Set for tuning purposes")
 put(summary(tune.test_set))
+
+#### Tuning Datasts Consistency Test -----------------------------------------------
+tune.test.ljoin.NAs <- tune.train_set |>
+  mutate(tst.col = rating) |>
+  select(userId, movieId, tst.col) |>
+data.consistency.test(tune.train_set)
+
+put_log("Below are the tuning datasets consistency test results:") 
+put(tune.test.ljoin.NAs)
+# user.NAs movie.NAs 
+#        0         0 
+### Initialize Data Maps -------------------------------------------------------
 
 movie_map <- movielens_datasets$movie_map
 put("Dataset summary: movie_map")
@@ -811,6 +670,10 @@ if (file.exists(file_path_tmp)) {
     mutate(userId = as.integer(userId),
            a = mean_rating - mu)
   
+  str(cv.user_effect)
+  sum(is.na(cv.user_effect$a))
+  
+  
   put_log("A User Effect Model has been builded and trained")
   
   put_log1("Saving User Effect Model data to file: %1...", 
@@ -1083,6 +946,10 @@ if (file.exists(file_path_tmp)) {
            UME.rglr.best_lambda)
   
   rglr.UM_effect <- train_user_movie_effect.cv(UME.rglr.best_lambda)
+  str(rglr.UM_effect)
+  sum(is.na(rglr.UM_effect))
+  #> [1] 0
+  
   UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
   
   put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
@@ -1122,8 +989,6 @@ log_close()
 ### Accounting for Movie Genres ------------------------------------------------
 #> We can slightly improve our naive model by accounting for movie genres.
 #> Let's do some preliminary analysis first.
-#### Open log file for the feature: Building User+Movie+Genre Effect Model------
-open_logfile(".UMG-effect")
 #### Support Functions ---------------------------------------------------------
 umge_functions_file <- "UMG-effect.functions.R"
 umge_functions.file_path <- file.path(support_functions.path, 
@@ -1135,6 +1000,8 @@ source(umge_functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
+#### Open log file for the feature: Building User+Movie+Genre Effect Model------
+open_logfile(".UMG-effect")
 #### Data Analysis and Visualization -------------------------------------------
 # Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises
@@ -1175,6 +1042,10 @@ if (file.exists(file_path_tmp)) {
 } 
 put_log("Genre Mean Rating data structure:")
 put(str(gnr_mean_ratings.cv))
+sum(is.na(gnr_mean_ratings.cv$ratings))
+# [1] 0
+sum(is.na(gnr_mean_ratings.cv$se))
+# [1] 0
 
 put_log2("The worst rating is for the genre category: %1 (average rating is %2)",
             gnr_mean_ratings.cv$genres[which.min(gnr_mean_ratings.cv$ratings)],
@@ -1282,6 +1153,9 @@ if (file.exists(file_path_tmp)) {
   
 } else {
   cv.UMG_effect <- train_user_movie_genre_effect.cv()
+  str(cv.UMG_effect)
+  sum(is.na(cv.UMG_effect$g))
+  #> [1] 0
   
   put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
            file_path_tmp)

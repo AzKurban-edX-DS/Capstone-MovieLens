@@ -41,7 +41,7 @@ train_user_movie_genre_effect <- function(train_set, lambda = 0){
       left_join(cv.user_effect, by = "userId") |>
       left_join(rglr.UM_effect, by = "movieId") |>
       mutate(resid = rating - (mu + a + b)) |>
-      filter(!is.na(resid)) |>
+      # filter(!is.na(resid)) |>
       group_by(genres) |>
       summarise(g = mean_reg(resid, lambda), n = n()) #|>
     #filter(n > min_nratings)
@@ -51,7 +51,7 @@ train_user_movie_genre_effect <- function(train_set, lambda = 0){
     train_set |>
       left_join(genre_bias, by = "genres") |>
       left_join(rglr.UM_effect, by = "movieId") |>
-      filter(!is.na(g)) |>
+      # filter(!is.na(g)) |>
       group_by(movieId) |>
       summarise(g = mean(g, na.rm = TRUE))
 }
@@ -114,17 +114,17 @@ Training completed: User+Movie+Genre Effects model for lambda: %1...",
   # print(str(user_movie_genre_effect))
   user_movie_genre_effect
 }
-calc_user_movie_genre_effect_MSE <- function(train_set, umg_effect){
-  train_set |>
+calc_user_movie_genre_effect_MSE <- function(test_set, umg_effect){
+  test_set |>
     left_join(cv.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(umg_effect, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b + g)) |> 
-    filter(!is.na(resid)) |>
+    # filter(!is.na(resid)) |>
     pull(resid) |> mse()
 }
-calc_user_movie_genre_effect_RMSE <- function(train_set, umg_effect){
-  umg_mse <- train_set |> calc_user_movie_genre_effect_MSE(umg_effect)
+calc_user_movie_genre_effect_RMSE <- function(test_set, umg_effect){
+  umg_mse <- test_set |> calc_user_movie_genre_effect_MSE(umg_effect)
   sqrt(umg_mse)
 }
 calc_user_movie_genre_effect_MSE.cv <- function(umg_effect){
@@ -135,7 +135,8 @@ calc_user_movie_genre_effect_MSE.cv <- function(umg_effect){
   })
   put_end_date(start)
   
-  # plot(user_movie_genre_effects_MSEs)
+  # browser()
+  plot(user_movie_genre_effects_MSEs)
   put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
            CVFolds_N)
  

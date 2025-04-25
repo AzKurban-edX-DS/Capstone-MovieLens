@@ -8,7 +8,7 @@ train_user_movie_effect <- function(train_set, lambda = 0){
   train_set |>
     left_join(cv.user_effect, by = "userId") |>
     mutate(resid = rating - (mu + a)) |> 
-    filter(!is.na(resid)) |>
+    # filter(!is.na(resid)) |>
     group_by(movieId) |>
     summarise(b = mean_reg(resid, lambda), n = n())
 }
