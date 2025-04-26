@@ -637,7 +637,7 @@ put_log("A histogram of the User Mean Rating distribution has been plotted.")
 #> It can be shown that the least squares estimate `α[i]` is just the average 
 #> of `y[i,j] - μ` for each user. So we can compute them this way:
 
-file_name_tmp <- "4.cv.User-effect.RData"
+file_name_tmp <- "4.edx.User-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -658,17 +658,7 @@ if (file.exists(file_path_tmp)) {
   sum(is.na(edx.user_effect$a))
   
   put_log("A User Effect Model has been builded and trained")
-  
-  # User Effect data integrity test
-  UE.test.left_join.Nas <- edx.user_effect |>
-    mutate(tst.col = a) |>
-    select(userId, tst.col) |>
-    data.consistency.test(tune.test_set, by.movieId = FALSE)
-  
-  put_log("Below are the User Effect consistency test results")
-  put(UE.test.left_join.Nas)
-  
-  
+
   put_log1("Saving User Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
@@ -680,8 +670,29 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 } 
 
+put_log("Below is a User Effect data structure:")
 put(str(edx.user_effect))
 sum(is.na(edx.user_effect$a))
+
+###### User Effect data integrity test------------------------------------------
+UE.tst <- edx.user_effect |>
+  mutate(tst.col = a) |>
+  select(userId, tst.col)
+
+UE.test.left_join.Nas <- UE.tst |>
+  data.consistency.test(tune.test_set, by.movieId = FALSE)
+
+put_log("Below are the User Effect consistency test results")
+put(UE.test.left_join.Nas)
+
+stopifnot(UE.test.left_join.Nas["user.NAs"] == 0)
+
+cv.UE.test.left_join.Nas <- UE.tst |>
+  data.consistency.test.cv(by.movieId = FALSE)
+
+put_log("Below are the User Effect consistency test results")
+put(cv.UE.test.left_join.Nas)
+stopifnot(colSums(cv.UE.test.left_join.Nas)["user.NAs"] == 0)
 
 # Plot a histogram of the user effects -----------------------------------------
 par(cex = 0.7)
@@ -699,7 +710,6 @@ edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
     left_join(edx.user_effect, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
-    filter(!is.na(resid)) |>
     pull(resid) |> mse()
 })
 put_end_date(start)
@@ -779,15 +789,34 @@ if (file.exists(file_path_tmp)) {
 } 
 
 put(str(cv.UM_effect))
+
+###### User+Movie Effect data integrity test------------------------------------
+UME.tst <- cv.UM_effect |>
+  mutate(tst.col = b) |>
+  select(movieId, tst.col)
+
+cv.UME.test.left_join.Nas <- UME.tst |>
+  data.consistency.test.cv(by.userId = FALSE)
+
+put_log("Below are the User+Movie Effect consistency test results")
+put(cv.UME.test.left_join.Nas)
+#      user.NAs movie.NAs
+# [1,]       NA         0
+# [2,]       NA         0
+# [3,]       NA         0
+# [4,]       NA         0
+# [5,]       NA         0
+
+stopifnot(colSums(cv.UME.test.left_join.Nas)["movie.NAs"] == 0)
 #### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
 hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
-#### Calculate RMSEs.ResultTibble on Validation Sets ---------------------------
+#### Calculate RMSE for trained User+Movie Model ---------------------------
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
-#> [1] 0.8594763
+#> [1] 0.8732081
 #### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("User+Movie Effect Model", cv.UM_effect.RMSE)
@@ -910,6 +939,8 @@ UME.rglr.fine_tune.results$tuned.result |>
 put_log("Fine-tuning stage of the User+Movie Effect Model Regularization 
 has ended up with with the following results:")
 put(UME.rglr.fine_tune.results$best_result)
+# param.best_value        best_RMSE 
+#        0.3874500        0.8732057 
 ##### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log file for re-train Regularized User+Movie Effect Model -----------
@@ -934,29 +965,16 @@ if (file.exists(file_path_tmp)) {
   
   UME.rglr.best_RMSE <- best_result["best_RMSE"]
   print(UME.rglr.best_RMSE)
+# best_RMSE 
+# 0.8732057   
   
   put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
            UME.rglr.best_lambda)
   
-  rglr.UM_effect <- train_user_movie_effect.cv(UME.rglr.best_lambda)
+  rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
   str(rglr.UM_effect)
   sum(is.na(rglr.UM_effect))
   #> [1] 0
-  
-  UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
-  
-  put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
-           UME.rglr.best_lambda)
-  put_log1("The best RMSE after being regularized: %1",
-           UME.rglr.retrain.RMSE)
-
-  is.best.RMSE <- UME.rglr.best_RMSE == UME.rglr.retrain.RMSE
-  put_log1("Is this the best RMSE? %1",
-           is.best.RMSE)
-  
-  if (!is.best.RMSE) {
-    stop("The regularized and re-traned RMSEs do not match!")
-  }
   
   put_log1("Saving Regularized User+Movie Effect data to file: %1...", 
            file_path_tmp)
@@ -964,16 +982,41 @@ if (file.exists(file_path_tmp)) {
   save(mu,
        edx.user_effect,
        rglr.UM_effect,
-       UME.rglr.best_RMSE,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User+Movie Effect data has been saved to file: %1",
            file_path_tmp)
-} 
+}
+###### Regularized User+Movie Effect data integrity test------------------------
+UME.tst <- rglr.UM_effect |>
+  mutate(tst.col = b) |>
+  select(movieId, tst.col)
+
+rglr.UME.test.left_join.Nas <- UME.tst |>
+  data.consistency.test.cv(by.userId = FALSE)
+
+put_log("Below are the User+Movie Effect consistency test results")
+put(rglr.UME.test.left_join.Nas)
+#      user.NAs movie.NAs
+# [1,]       NA         0
+# [2,]       NA         0
+# [3,]       NA         0
+# [4,]       NA         0
+# [5,]       NA         0
+
+stopifnot(colSums(rglr.UME.test.left_join.Nas)["movie.NAs"] == 0)
+#### Calculate RMSE for Regularized User+Movie Model ---------------------------
+UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
+#> [1] 0.872973
+
+put_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
+         UME.rglr.best_lambda)
+put_log1("The best RMSE after being regularized: %1",
+         UME.rglr.retrain.RMSE)
 ##### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
-               UME.rglr.best_RMSE)
+               UME.rglr.retrain.RMSE)
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie Effect Model`.")
@@ -1145,9 +1188,9 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Genre Effect Model data has been loaded from file: %1", file_path_tmp)
   
 } else {
-  cv.UMG_effect <- train_user_movie_genre_effect.cv()
-  str(cv.UMG_effect)
-  sum(is.na(cv.UMG_effect$g))
+  edx.UMG_effect <- train_user_movie_genre_effect.cv()
+  str(edx.UMG_effect)
+  sum(is.na(edx.UMG_effect$g))
   #> [1] 0
   
   put_log1("Saving User+Movie+Genre Effect Model data to file: %1...", 
