@@ -1,6 +1,6 @@
 mf.residual.dataframe <- function(data){
   data |> 
-    left_join(cv.user_effect, by = "userId") |>
+    left_join(edx.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>

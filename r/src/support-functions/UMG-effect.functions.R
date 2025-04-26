@@ -38,7 +38,7 @@ train_user_movie_genre_effect <- function(train_set, lambda = 0){
   }
 
   genre_bias <- train_set |>
-      left_join(cv.user_effect, by = "userId") |>
+      left_join(edx.user_effect, by = "userId") |>
       left_join(rglr.UM_effect, by = "movieId") |>
       mutate(resid = rating - (mu + a + b)) |>
       # filter(!is.na(resid)) |>
@@ -116,7 +116,7 @@ Training completed: User+Movie+Genre Effects model for lambda: %1...",
 }
 calc_user_movie_genre_effect_MSE <- function(test_set, umg_effect){
   test_set |>
-    left_join(cv.user_effect, by = "userId") |>
+    left_join(edx.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(umg_effect, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b + g)) |> 

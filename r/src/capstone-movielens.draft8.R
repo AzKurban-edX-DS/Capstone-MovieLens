@@ -290,9 +290,9 @@ movielens_datasets <- init_source_datasets()
 #> (in particular starting from 
 #> Section 29.5 "Mathematical description of resampling methods" onwards.
 #> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html
-edx.mx <- movilens_datasets$edx.mx
+edx.mx <- movielens_datasets$edx.mx
 put_log("`edx` data initialized as matrix")
-put(edx.mx)
+put(str(edx.mx))
 
 edx_CV <- movielens_datasets$edx_CV
 put("Set of K-Fold Cross Validation datasets summary: edx_CV")
@@ -310,7 +310,7 @@ put(summary(tune.test_set))
 tune.test.ljoin.NAs <- tune.train_set |>
   mutate(tst.col = rating) |>
   select(userId, movieId, tst.col) |>
-data.consistency.test(tune.train_set)
+data.consistency.test(tune.test_set)
 
 put_log("Below are the tuning datasets consistency test results:") 
 put(tune.test.ljoin.NAs)
@@ -578,7 +578,7 @@ open_logfile(".user-effect")
 put("Building User Effect Model...")
 #### Model building: User Effect -----------------------------------------------
 ##### User Mean Ratings Computation --------------------------------------------
-file_name_tmp <- "3.cv.user-mean-ratings.RData"
+file_name_tmp <- "3.edx.user-mean-ratings.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
 if (file.exists(file_path_tmp)) {
@@ -592,40 +592,24 @@ if (file.exists(file_path_tmp)) {
 } else {
   put_log("Computing Average Ratings per User (User Mean Ratings)...")
   start <- put_start_date()
-  cv.user_mean_ratings_ls <- lapply(edx_CV, function(cv_item){
-    # print(dim(cv_item$train_mx))
-    #str(cv_item$train_mx)
-    user_ratings_avg <- rowMeans(cv_item$train_mx, na.rm = TRUE)
-    n_ratings <- rowSums(!is.na(cv_item$train_mx))
-    # print(sum(is.na(user_ratings_avg))) # 0 (there are no NAs in there)
-    # print(str(user_ratings_avg))
-    
-    data.frame(userId = names(user_ratings_avg), 
-               ratings_avg = user_ratings_avg,
-               n = n_ratings)
-  })
-  str(cv.user_mean_ratings_ls)
-  put_end_date(start)
-  put_log1("User Average Rating list has been computed for %1-Fold Cross Validation samples.", 
-           CVFolds_N)
+  user.mean_ratings <- rowMeans(edx.mx, na.rm = TRUE)
+  user_ratings.n <- rowSums(!is.na(edx.mx))
   
-  cv.user_ratings_avg_united <- union_cv_results(cv.user_mean_ratings_ls)
-  str(cv.user_ratings_avg_united)
-  # sum(is.na(cv.user_ratings_avg_united))
   
-  cv.user_mean_ratings <- cv.user_ratings_avg_united |>
-    group_by(userId) |>
-    summarise(mean_rating = mean(ratings_avg), n = mean(n))
+  edx.user_mean_ratings <- 
+    data.frame(userId = names(user.mean_ratings), 
+               mean_rating = user.mean_ratings,
+               n = user_ratings.n)
   
-  put_log("User Mean Ratings (User Effect) have been computed.")
-  str(cv.user_mean_ratings)
-  sum(is.na(cv.user_mean_ratings$mean_rating))
+  put_log("User Mean Ratings have been computed.")
+  str(edx.user_mean_ratings)
+  sum(is.na(edx.user_mean_ratings$mean_rating))
   
   put_log1("Saving User Mean Rating data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_mean_ratings,
+       edx.user_mean_ratings,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User Mean Rating data has been saved to file: %1", 
@@ -635,10 +619,10 @@ if (file.exists(file_path_tmp)) {
 ##### User Mean Ratings: Visualization ------------------------------
 # Let's visualize the average rating for each user:
 
-# sum(is.na(cv.user_mean_ratings$mean_rating))
+# sum(is.na(edx.user_mean_ratings$mean_rating))
 #> [1] 0 (there are no NAs in there)
 
-hist(cv.user_mean_ratings$mean_rating, nclass = 30)
+hist(edx.user_mean_ratings$mean_rating, nclass = 30)
 put_log("A histogram of the User Mean Rating distribution has been plotted.")
 
 ##### Building User Effect Model ----------------------------------------------
@@ -666,33 +650,42 @@ if (file.exists(file_path_tmp)) {
   
 } else {
   put_log("Computing User Effect per users ...")
-  cv.user_effect <- cv.user_mean_ratings |>
+  edx.user_effect <- edx.user_mean_ratings |>
     mutate(userId = as.integer(userId),
            a = mean_rating - mu)
   
-  str(cv.user_effect)
-  sum(is.na(cv.user_effect$a))
-  
+  str(edx.user_effect)
+  sum(is.na(edx.user_effect$a))
   
   put_log("A User Effect Model has been builded and trained")
+  
+  # User Effect data integrity test
+  UE.test.left_join.Nas <- edx.user_effect |>
+    mutate(tst.col = a) |>
+    select(userId, tst.col) |>
+    data.consistency.test(tune.test_set, by.movieId = FALSE)
+  
+  put_log("Below are the User Effect consistency test results")
+  put(UE.test.left_join.Nas)
+  
   
   put_log1("Saving User Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User Effect Model data has been saved to file: %1", 
            file_path_tmp)
 } 
 
-put(str(cv.user_effect))
-sum(is.na(cv.user_effect$a))
+put(str(edx.user_effect))
+sum(is.na(edx.user_effect$a))
 
 # Plot a histogram of the user effects -----------------------------------------
 par(cex = 0.7)
-hist(cv.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
+hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 put_log("A histogram of the User Effect distribution has been plotted.")
 
@@ -702,29 +695,29 @@ put_log("A histogram of the User Effect distribution has been plotted.")
 
 put_log("Computing the RMSE taking into account user effects...")
 start <- put_start_date()
-cv.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
+edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
-    left_join(cv.user_effect, by = "userId") |>
+    left_join(edx.user_effect, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
     filter(!is.na(resid)) |>
     pull(resid) |> mse()
 })
 put_end_date(start)
 
-plot(cv.user_effect.MSEs)
+plot(edx.user_effect.MSEs)
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
-cv.user_effect.RMSE <- sqrt(mean(cv.user_effect.MSEs))
+edx.user_effect.RMSE <- sqrt(mean(edx.user_effect.MSEs))
 put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
          CVFolds_N, 
-         cv.user_effect.RMSE)
-cv.user_effect.RMSE
+         edx.user_effect.RMSE)
+edx.user_effect.RMSE
 #> [1] 0.9716054
 
 # Add a row to the RMSE Result Tibble for the User Effect Model ---------------- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("User Effect Model", cv.user_effect.RMSE)
+  RMSEs.AddRow("User Effect Model", edx.user_effect.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the `User Effect Model`.")
@@ -777,7 +770,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        cv.UM_effect,
        file = file_path_tmp)
   put_end_date(start)
@@ -861,7 +854,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        cv.UME.preset.result,
        file = file_path_tmp)
   put_end_date(start)
@@ -969,7 +962,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        UME.rglr.best_RMSE,
        file = file_path_tmp)
@@ -1032,7 +1025,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        gnr_mean_ratings.cv,
        file = file_path_tmp)
@@ -1161,7 +1154,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        gnr_mean_ratings.cv,
        cv.UMG_effect,
@@ -1237,7 +1230,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        cv.UMGE.preset.result,
        file = file_path_tmp)
@@ -1335,7 +1328,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMG_effect.RMSE,
@@ -1418,7 +1411,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        cv.UMGY_effect,
@@ -1485,7 +1478,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        cv.UMGYE.preset.result,
@@ -1583,7 +1576,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -1733,7 +1726,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -1821,7 +1814,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -1931,7 +1924,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2041,7 +2034,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2177,7 +2170,7 @@ span = %1, degree = %2", lss.best_span, lss.best_degree)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2233,7 +2226,7 @@ using `loess` function call with the best degree & span values.")
 # start <- put_start_date()
 # final_holdout_test |>
 #   left_join(date_days_map, by = "timestamp") |>
-#   left_join(cv.user_effect, by = "userId") |>
+#   left_join(edx.user_effect, by = "userId") |>
 #   left_join(mean_user_movie_genre_bias, by = "movieId") |>
 #   left_join(# cv.UMGYDE.default_params, by='days') |>
 #   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
@@ -2287,7 +2280,7 @@ CVFolds_N)
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
@@ -2397,7 +2390,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
   start <- put_start_date()
   save(mu,
-       cv.user_effect,
+       edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,

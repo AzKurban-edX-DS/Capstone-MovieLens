@@ -11,7 +11,7 @@ Computing Day General Effect for given Train Set data...")
 Computing Day General Effect for lambda: %1...",
                 lambda)
   gday_effect <- train_set |> 
-    left_join(cv.user_effect, by = "userId") |>
+    left_join(edx.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
@@ -127,7 +127,7 @@ train_UMGY_SmoothedDay_effect.cv <- function(degree = NA,
 
 UMGY_SmoothedDay_effect.predict <- function(test_set, day_smoothed_effect) {
   test_set |>
-    left_join(cv.user_effect, by = "userId") |>
+    left_join(edx.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
@@ -143,7 +143,7 @@ calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
   # browser()
   test_set |>
     UMGY_SmoothedDay_effect.predict(day_smoothed_effect)
-    # left_join(cv.user_effect, by = "userId") |>
+    # left_join(edx.user_effect, by = "userId") |>
     # left_join(rglr.UM_effect, by = "movieId") |>
     # left_join(rglr.UMG_effect, by = "movieId") |>
     # left_join(date_days_map, by = "timestamp") |>

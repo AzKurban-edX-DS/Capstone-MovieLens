@@ -54,7 +54,7 @@ we exclude entries using the semi_join function from the Validation Set.")
     data.consistency.test(validation_set)
   
   put_log("Function: `sample_train_validation_sets`:
-Below are the validation set consistency test results")
+Below are the data consistency verification results")
   put(validation.left_join.Nas)
   
   # Return result datassets ----------------------------------------------------    
@@ -83,7 +83,7 @@ filter_noMore_nratings <- function(data, nratings){
     filter(n() > nratings) |>
     ungroup()  
 }
-## Initialize input datasets
+## Initialize input datasets ---------------------------------------------------
 make_source_datasets <- function(){
   put_log("Function: `make_source_datasets`: Creating source datasets...")
   
@@ -280,43 +280,80 @@ File has been removed: {movielens_datasets_file_path}")
   }
   movielens_datasets
 }
-## Data consistency validation ------------------------------------------------
-data.consistency.test <- function(train.dat, 
-                                  test.dat,
-                                  by.userId = TRUE, 
-                                  by.movieId = TRUE) {
-  utrain <- NULL
-  mtrain <- NULL
+## Data consistency validation -------------------------------------------------
+data.consistency.test.cv <- function(data, 
+                                     by.userId = TRUE, 
+                                     by.movieId = TRUE) {
+  user.dat <- NULL
+  movie.dat <- NULL
   
   if (by.userId) {
-    utrain <- train.dat |>
+    user.dat <- data |>
       group_by(userId) |>
       summarise(u = mean(tst.col))
     
-    print(str(utrain))
-    print(sum(is.na(utrain$u)))
+    print(str(user.dat))
+    print(sum(is.na(user.dat$u)))
   }
   
   if (by.movieId) {
-    mtrain <- train.dat |>
+    movie.dat <- data |>
       group_by(movieId) |>
       summarise(m = mean(tst.col))
     
-    print(str(mtrain))
-    print(sum(is.na(mtrain$m)))
+    print(str(movie.dat))
+    print(sum(is.na(movie.dat$m)))
+  }
+
+  edx_CV.left_join.NAs(user.dat, movie.dat)
+}
+
+edx_CV.left_join.NAs <- function(user.dat = NULL, 
+                                 movie.dat = NULL) {
+  result <- sapply(edx_CV, function(cv_item){
+    datasets.left_join.NAs(cv_item$validation_set, user.dat, movie.dat)
+  })
+  
+  t(result)
+}
+
+data.consistency.test <- function(data, 
+                                  test.dat,
+                                  by.userId = TRUE, 
+                                  by.movieId = TRUE) {
+  user.dat <- NULL
+  movie.dat <- NULL
+  
+  if (by.userId) {
+    user.dat <- data |>
+      group_by(userId) |>
+      summarise(u = mean(tst.col))
+    
+    print(str(user.dat))
+    print(sum(is.na(user.dat$u)))
+  }
+  
+  if (by.movieId) {
+    movie.dat <- data |>
+      group_by(movieId) |>
+      summarise(m = mean(tst.col))
+    
+    print(str(movie.dat))
+    print(sum(is.na(movie.dat$m)))
   }
 
   test.dat |>
-    datasets.left_join.NAs(utrain, mtrain)
+    datasets.left_join.NAs(user.dat, movie.dat)
 }
+
 datasets.left_join.NAs <- function(test_set, 
-                                   utrain = NULL, 
-                                   mtrain = NULL) {
+                                   user.dat = NULL, 
+                                   movie.dat = NULL) {
   u.NAs <- NA
   
-  if (!is.null(utrain)) {
+  if (!is.null(user.dat)) {
     u.vals <- test_set |>
-      left_join(utrain, by = "userId") |>
+      left_join(user.dat, by = "userId") |>
       pull(u)
     
     u.NAs <- sum(is.na(u.vals))
@@ -324,16 +361,16 @@ datasets.left_join.NAs <- function(test_set,
   
   m.NAs <- NA
   
-  if (!is.null(mtrain)) {
+  if (!is.null(movie.dat)) {
     m.vals <- test_set |>
-      left_join(mtrain, by = "movieId") |>
+      left_join(movie.dat, by = "movieId") |>
       pull(m)
     
     m.NAs <- sum(is.na(m.vals))
   }
   
   c(user.NAs = u.NAs, movie.NAs = m.NAs)
-} 
+}
 ## Model training ---------------------------------------------------
 union_cv_results <- function(data_list) {
   out_dat <- data_list[[1]]

@@ -11,7 +11,7 @@ Computing Date Global Effect for given Train Set data...")
 Computing Date Global Effect for lambda: %1...",
                 lambda)
   dg_effect <- train_set |> 
-    left_join(cv.user_effect, by = "userId") |>
+    left_join(edx.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
@@ -95,7 +95,7 @@ train_UMGY_effect.cv <- function(lambda = 0){
 }
 calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
   test_set |>
-    left_join(cv.user_effect, by = "userId") |>
+    left_join(edx.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
     left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
