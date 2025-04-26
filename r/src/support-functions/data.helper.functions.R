@@ -68,7 +68,7 @@ mutateDateTimeAndDays <- function(data){
     mutate(days = as.integer(date - min(date)))
   
 }
-separateGenreRows <- function(data){
+splitGenreRows <- function(data){
   put("Splitting dataset rows related to multiple genres...")
   start <- put_start_date()
   gs_splitted <- data |>
@@ -120,6 +120,13 @@ Matrix created: `edx.mx` of the following dimentions:")
   put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
   put(summary(date_days_map))
   
+  put_log("Function: `make_source_datasets`:
+To account for the Movie Genre Effect, we need a dataset with split rows
+for movies belonging to multiple genres.")
+  edx.sgr <- splitGenreRows(edx)
+
+  put_log("Function: `make_source_datasets`:
+Dataset with split genre rows has been created.")
   
   #> We will use K-fold cross validation as explained in 
   #> Section 29.6.1: "K-fold validation" of the Cource Textbook:
@@ -148,21 +155,16 @@ Creating K-Fold Cross Validation Datasets, Fold %1", fold_i)
     train_set <- split_sets$train_set
     validation_set <- split_sets$validation_set
     
-    put_log("Function: `make_source_datasets`: 
-To account for the Movie Genre Effect, we need a dataset with split rows 
-for movies belonging to multiple genres.")
-    edx_split_row_genre <- separateGenreRows(edx)
-    
-    put_log("Function: `make_source_datasets`: 
+    put_log("Function: `make_source_datasets`:
 Sampling 20% from the split-row version of the `edx` dataset...")
-    split_sets.gs <- edx_split_row_genre |> 
+    split_sets.gs <- edx.sgr |>
       sample_train_validation_sets(fold_i*2000)
+
+    train.sgr <- split_sets.gs$train_set
+    validation.sgr <- split_sets.gs$validation_set
     
-    train_gs_set <- split_sets.gs$train_set
-    validation_gs_set <- split_sets.gs$validation_set
-    
-    put_log("Function: `make_source_datasets`: Dataset created: validation_gs_set")
-    put(summary(validation_gs_set))
+    # put_log("Function: `make_source_datasets`: Dataset created: validation.sgr")
+    # put(summary(validation.sgr))
     
     #> We will use the array representation described in `Section 17.5 of the Textbook`
     #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
@@ -170,7 +172,7 @@ Sampling 20% from the split-row version of the `edx` dataset...")
     #> To create this matrix, we use `tidyr::pivot_wider` function:
     
     # train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
-    # train_gs_set <- mutate(train_gs_set, userId = factor(userId), movieId = factor(movieId))
+    # train.sgr <- mutate(train.sgr, userId = factor(userId), movieId = factor(movieId))
     
     put_log("Function: `make_source_datasets`: Creating Rating Matrix from Train Set...")
     train_mx <- train_set |> 
@@ -187,10 +189,9 @@ Matrix created: `train_mx` of the following dimentions:")
 
 
     list(train_set = train_set,
-         train_gs_set = train_gs_set,
-         train_mx = train_mx, 
-         validation_set = validation_set,
-         validation_gs_set = validation_gs_set)
+         train_mx = train_mx,
+         train.sgr = train.sgr,
+         validation_set = validation_set)
   })
   put_end_date(start)
   put_log("Function: `make_source_datasets`: 
@@ -201,6 +202,7 @@ Set of K-Fold Cross Validation datasets created: edx_CV")
   
   list(edx_CV = edx_CV,
        edx.mx = edx.mx,
+       edx.sgr = edx.sgr,
        tuning_sets = tuning_sets,
        movie_map = movie_map,
        date_days_map = date_days_map)
