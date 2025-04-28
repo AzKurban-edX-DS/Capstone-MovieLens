@@ -1276,7 +1276,7 @@ if (file.exists(file_path_tmp)) {
            CVFolds_N)
   
   start <- put_start_date()
-  lambdas <- seq(0, 1, 0.1)
+  lambdas <- seq(0, 0.2, 0.01)
   cv.UMGE.preset.result <- 
     tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
   put_end_date(start)
