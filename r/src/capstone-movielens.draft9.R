@@ -1341,7 +1341,7 @@ put(UMGE.rglr.fine_tune.results$best_result)
 # param.best_value        best_RMSE 
 #       0.03554688       0.87297303 
 
-###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
+###### Plot (fine-tuned) dependency of RMSEs vs lambdas ------------------------  
 UMGE.rglr.fine_tune.results$tuned.result |>
   tuning.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGE Model",
               xname = "parameter.value",

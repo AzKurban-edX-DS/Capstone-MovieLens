@@ -123,7 +123,7 @@ Matrix created: `edx.mx` of the following dimentions:")
   put_log("Function: `make_source_datasets`: 
 To account for the Movie Genre Effect, we need a dataset with split rows 
 for movies belonging to multiple genres.")
-  edx_split_row_genre <- separateGenreRows(edx)
+  edx.sgr <- splitGenreRows(edx)
   
   
   
@@ -201,7 +201,7 @@ Set of K-Fold Cross Validation datasets created: edx_CV")
   
   list(edx_CV = edx_CV,
        edx.mx = edx.mx,
-       edx.sgr = edx_split_row_genre,
+       edx.sgr = edx.sgr,
        tuning_sets = tuning_sets,
        movie_map = movie_map,
        date_days_map = date_days_map)
