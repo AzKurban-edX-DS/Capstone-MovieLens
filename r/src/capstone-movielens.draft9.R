@@ -1327,7 +1327,9 @@ UMGE.rglr.fine_tune.results <-
                          regularize.test_lambda.UMG_effect.cv)
 
 UMGE.rglr.fine_tune.RMSE.best <- UMGE.rglr.fine_tune.results$best_result["best_RMSE"]
-
+# best_RMSE 
+#  0.872973 
+ 
 UMGE.rglr.fine_tune.results$tuned.result |>
   tuning.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGE Model",
               xname = "parameter.value",
@@ -1341,6 +1343,9 @@ UMGE.rglr.fine_tune.results$tuned.result |>
 put_log("Fine-tuning stage of the User+Movie+Genre Effect Model Regularization 
 has ended up with with the following results:")
 put(UMGE.rglr.fine_tune.results$best_result)
+# param.best_value        best_RMSE 
+#       0.03554688       0.87297303 
+
 #### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log for re-training Regularized UMGE Model for the best `lambda` value ----
