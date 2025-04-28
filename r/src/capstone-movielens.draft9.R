@@ -1307,7 +1307,11 @@ cv.UMGE.preset.result$tuned.result |>
               xname = "parameter.value", 
               yname = "RMSE", 
               xlabel = TeX(r'[$\lambda$]'), 
-              ylabel = "RMSE")
+              ylabel = str_glue("Deviation from the best RMSE value (",
+                                as.character(round(cv.UMGE.preset.result$best_result["best_RMSE"], 
+                                                   digits = 7)),
+                                ")"),
+              normalize = TRUE)
 
 ##### Close Log -----------------------------------------------------------------
 log_close()
