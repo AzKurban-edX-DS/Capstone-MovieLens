@@ -50,6 +50,93 @@ RMSE_kable <- function(RMSEs){
     column_spec(column = 3, width = "50em") 
 }
 
+## Data processing functions -------------------------------
+load_movielens_data_from_file <- function(file_path){
+  put_log1("Loading MovieLens datasets from file: %1...", 
+           file_path)
+  start <- put_start_date()
+  load(file_path)
+  put_end_date(start)
+  put_log1("MoviLens datasets have been loaded from file: %s.", 
+           file_path)
+  movielens_datasets
+}
+filter_noMore_nratings <- function(data, nratings){
+  data |> 
+    group_by(userId) |>
+    filter(n() > nratings) |>
+    ungroup()  
+}
+splitByUser <- function(data){
+  split(1:nrow(data), data$userId)
+}
+mutateDateTimeAndDays <- function(data){
+  data |>
+    mutate(date_time = as_datetime(timestamp)) |>
+    mutate(date = as_date(date_time)) |>
+    mutate(days = as.integer(date - min(date)))
+  
+}
+separateGenreRows <- function(data){
+  put("Splitting dataset rows related to multiple genres...")
+  start <- put_start_date()
+  gs_splitted <- data |>
+    separate_rows(genres, sep = "\\|")
+  put("Dataset rows related to multiple genres have been splitted to have single genre per row.")
+  put_end_date(start)
+  gs_splitted
+}
+union_cv_results <- function(data_list) {
+  out_dat <- data_list[[1]]
+  
+  for (i in 2:CVFolds_N){
+    out_dat <- union(out_dat, 
+                     data_list[[i]])
+  }
+  
+  out_dat
+}
+sample_train_validation_sets <- function(data, seed){
+  put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `data` data...")
+  set.seed(seed)
+  validation_ind <- 
+    sapply(splitByUser(data),
+           function(i) sample(i, ceiling(length(i)*.2))) |> 
+    unlist() |> 
+    sort()
+  
+  put_log("Function: `sample_train_validation_sets`: 
+Extracting 80% of the original `data` not used for the Validation Set, 
+excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
+
+  # Make sure userId and movieId in the final hold-out test set are also in the train set
+  train_set <- data[-validation_ind,] |>
+    union(data[-validation_ind,] |>
+            anti_join(final_holdout_test, by = "movieId") |> 
+            anti_join(final_holdout_test, by = "userId"))
+
+  put_log("Function: `sample_train_validation_sets`: Dataset created: train_set")
+  put(summary(train_set))
+  
+  put_log("Function: `sample_train_validation_sets`: 
+To make sure we don’t include movies in the Training Set that should not be there, 
+we remove entries using the semi_join function from the Validation Set.")
+  validation_set <- data[validation_ind,] |> 
+    semi_join(train_set, by = "movieId") |> 
+    semi_join(train_set, by = "userId") |>
+    as.data.frame()
+  
+  put_log("Function: `sample_train_validation_sets`: Dataset created: validation_set")
+  put(summary(validation_set))
+  
+  list(train_set = train_set, 
+       validation_set = validation_set)
+}
+get_best_param.result <- function(param_values, rmses){
+  best_pvalue_idx <- which.min(rmses)
+  c(param.best_value = param_values[best_pvalue_idx], 
+    best_RMSE = rmses[best_pvalue_idx])
+}
 ## Overall Mean Rating Model ---------------------------------------------------
 naive_model_MSEs <- function(val) {
   sapply(edx_CV, function(cv_item){
@@ -154,7 +241,6 @@ RMSEs_tmp length: %1", length(RMSEs_tmp))
     put(RMSEs_tmp)
     
     plot(param_vals_tmp[RMSEs_tmp > 0], RMSEs_tmp[RMSEs_tmp > 0])
-    # browser()
     
     if(RMSE_tmp > RMSE_min){
       warning("Function: `tune.model_param`:
@@ -540,7 +626,7 @@ tuning.plot.shifted.right <- function(data,
   data.right <- data |>
     mutate(x_right = lead(x_col, shift),
            y_right = lead(y_col, shift)) |>
-    # filter(!is.na(x_right))
+    filter(!is.na(x_right))
   
   tuning.plot(data.right,
               title,

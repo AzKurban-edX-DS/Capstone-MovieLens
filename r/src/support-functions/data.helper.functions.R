@@ -120,6 +120,12 @@ Matrix created: `edx.mx` of the following dimentions:")
   put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
   put(summary(date_days_map))
   
+  put_log("Function: `make_source_datasets`: 
+To account for the Movie Genre Effect, we need a dataset with split rows 
+for movies belonging to multiple genres.")
+  edx_split_row_genre <- separateGenreRows(edx)
+  
+  
   
   #> We will use K-fold cross validation as explained in 
   #> Section 29.6.1: "K-fold validation" of the Cource Textbook:
@@ -147,11 +153,6 @@ Creating K-Fold Cross Validation Datasets, Fold %1", fold_i)
     
     train_set <- split_sets$train_set
     validation_set <- split_sets$validation_set
-    
-    put_log("Function: `make_source_datasets`: 
-To account for the Movie Genre Effect, we need a dataset with split rows 
-for movies belonging to multiple genres.")
-    edx_split_row_genre <- separateGenreRows(edx)
     
     put_log("Function: `make_source_datasets`: 
 Sampling 20% from the split-row version of the `edx` dataset...")
@@ -201,6 +202,7 @@ Set of K-Fold Cross Validation datasets created: edx_CV")
   
   list(edx_CV = edx_CV,
        edx.mx = edx.mx,
+       edx.sgr = edx_split_row_genre,
        tuning_sets = tuning_sets,
        movie_map = movie_map,
        date_days_map = date_days_map)
