@@ -1553,9 +1553,11 @@ CVFolds_N)
            file_path_tmp)
 } 
 
-# plot(cv.UMGYE.preset.result$param_values,
-#      cv.UMGYE.preset.result$RMSEs)
+put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie+Genre+Year Effect 
+has resulted as follows:")
+put(cv.UMGYE.preset.result$best_result)
 
+###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 cv.UMGYE.preset.result$tuned.result |>
   tuning.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie+Genre+Year Effect Model.]'),
               xname = "parameter.value", 
@@ -1563,9 +1565,6 @@ cv.UMGYE.preset.result$tuned.result |>
               xlabel = TeX(r'[$\lambda$]'), 
               ylabel = "RMSE")
 
-put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie+Genre+Year Effect 
-has resulted as follows:")
-put(cv.UMGYE.preset.result$best_result)
 ##### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year Effect Regularization` feature ----
@@ -1590,6 +1589,11 @@ UMGYE.rglr.fine_tune.results <-
 
 UMGYE.rglr.fine_tune.RMSE.best <- UMGYE.rglr.fine_tune.results$best_result["best_RMSE"]
 
+put_log("Fine-tuning stage of the User+Movie+Genre+Year Effect Model Regularization 
+has ended up with with the following results:")
+put(UMGYE.rglr.fine_tune.results$best_result)
+
+###### Plot (fine-tuned) dependency of RMSEs vs lambdas -----------------------------  
 UMGYE.rglr.fine_tune.results$tuned.result |>
   tuning.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGYE Model",
               xname = "parameter.value",
@@ -1600,9 +1604,6 @@ UMGYE.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 
-put_log("Fine-tuning stage of the User+Movie+Genre+Year Effect Model Regularization 
-has ended up with with the following results:")
-put(UMGYE.rglr.fine_tune.results$best_result)
 #### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log file for re-training Regularized Model for the best `lambda` value----
