@@ -1,18 +1,24 @@
 # User+Movie+Genre Effect Support Functions ------------------------------------
-calc_genre_mean_ratings <- function(train_set) {
-  train_set |> 
+calc_genre_mean_ratings <- function(train_set, min_nratings = 0) {
+  genre.min_ratings <- train_set |> 
     mutate(genre_categories = as.factor(genres)) |>
     group_by(genre_categories) |>
-    summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
-    filter(n > min_nratings) |>
+    summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) 
+  
+  if (min_nratings > 0) {
+    genre.min_ratings <- genre.min_ratings |>
+      filter(n >= min_nratings)
+  }
+  
+  genre.min_ratings |>
     mutate(genres = reorder(genre_categories, rating_avg)) |>
     select(genres, rating_avg, se, n)
 }
-calc_genre_mean_ratings.cv <- function() {
+calc_genre_mean_ratings.cv <- function(min_nratings = 0) {
   
   gnr_mean_rating_ls <- lapply(edx_CV, function(cv_item){
     cv_item$train_set |> 
-      calc_genre_mean_ratings()
+      calc_genre_mean_ratings(min_nratings)
   })
   put_log1("Genre Mean Ratings list has been computed for %1-Fold Cross Validation samples.", 
            CVFolds_N)

@@ -17,7 +17,7 @@ Computing Day General Effect for lambda: %1...",
     left_join(date_days_map, by = "timestamp") |>
     left_join(rglr.UMGY_effect, by='year') |>
     mutate(resid = rating - (mu + a + b + g + ye)) |>
-    filter(!is.na(resid)) |>
+    # filter(!is.na(resid)) |>
     group_by(days) |>
     summarise(de = mean_reg(resid, lambda), 
               year = mean(year))
@@ -61,7 +61,7 @@ Day General Effect list has been computed for %1-Fold Cross Validation samples."
   gday_effect <- gday_effect_united |>
     #filter(!is.na(de)) |>
     group_by(days) |>
-    summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
+    summarise(de = mean(de), year = mean(year))
   
   if(lambda == 0) put_log("Function `calc_day_general_effect.cv`:
 Training completed: Day General Effects model.")
@@ -150,7 +150,7 @@ calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
     # left_join(rglr.UMGY_effect, by='year') |>
     # left_join(day_smoothed_effect, by='days') |>
     mutate(resid = rating - predicted) |> 
-    filter(!is.na(resid)) |>
+    # filter(!is.na(resid)) |>
     pull(resid) |> mse()
 }
 calc_UMGY_SmoothedDay_effect.MSE.cv <- function(day_smoothed_effect){
@@ -231,7 +231,16 @@ get_best.RMSE <- function(span_rmses){
   rmse
 }
 ## Regularization --------------------------------------------------------------
-regularize.train_UMGYD_effect <- function(lambda) {
+regularize.train_UMGYD_effect <- function(train_set, lambda) {
+  best_degree <- lss.UMGYDE.best_params["degree"]
+  best_span <- lss.UMGYDE.best_params["span"]
+  
+  train_set |>
+    train_UMGY_SmoothedDay_effect(best_degree, 
+                                  best_span, 
+                                  lambda)
+}
+regularize.train_UMGYD_effect.cv <- function(lambda) {
   best_degree <- lss.UMGYDE.best_params["degree"]
   best_span <- lss.UMGYDE.best_params["span"]
 
@@ -245,7 +254,7 @@ regularize.test_lambda.UMGYD_effect.cv <- function(lambda){
 `lambda` is `NA`")
   }
   
-  regularize.train_UMGYD_effect(lambda) |>
+  regularize.train_UMGYD_effect.cv(lambda) |>
     calc_UMGY_SmoothedDay_effect.RMSE.cv()
 }
 
