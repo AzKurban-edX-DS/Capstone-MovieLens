@@ -5,12 +5,14 @@ train_user_movie_effect <- function(train_set, lambda = 0){
 `lambda` is `NA`")
   }
 
-  train_set |>
-    left_join(cv.user_effect, by = "userId") |>
+  UM.effect <- train_set |>
+    left_join(edx.user_effect, by = "userId") |>
     mutate(resid = rating - (mu + a)) |> 
-    filter(!is.na(resid)) |>
     group_by(movieId) |>
     summarise(b = mean_reg(resid, lambda), n = n())
+  
+  stopifnot(!is.na(mean(UM.effect$b)))
+  UM.effect
 }
 train_user_movie_effect.cv <- function(lambda = 0){
   if (is.na(lambda)) {
@@ -57,12 +59,15 @@ calc_user_movie_effect_RMSE <- function(test_set, um_effect){
   sqrt(mse)
 }
 calc_user_movie_effect_MSE <- function(test_set, um_effect){
-  test_set |>
-    left_join(cv.user_effect, by = "userId") |>
+  mse.result <- test_set |>
+    left_join(edx.user_effect, by = "userId") |>
     left_join(um_effect, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b)) |> 
-    filter(!is.na(resid)) |>
+    # filter(!is.na(resid)) |>
     pull(resid) |> mse()
+  
+  stopifnot(!is.na(mse.result))
+  mse.result
 }
 calc_user_movie_effect_RMSE.cv <- function(um_effect){
   user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
