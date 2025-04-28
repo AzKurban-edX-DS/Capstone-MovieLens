@@ -541,16 +541,6 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 } 
 
-data.frame(delta = deviation, 
-           delta.RMSE = deviation.RMSE) |> 
-tuning.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Overall Mean Rating ($\hat{mu}$)]'),
-              xname = "delta", 
-              yname = "delta.RMSE", 
-              xlabel = TeX(r'[$\delta$]'), 
-              ylabel = "RMSE")
-
-put_log("A plot was constructed for the deviations from the Overall Mean Rating.")
-
 which_min_deviation <- deviation[which.min(deviation.RMSE)]
 min_rmse = min(deviation.RMSE)
 
@@ -561,6 +551,17 @@ put_log1("Is the previously computed RMSE the best for the current model: %1",
          mu.RMSE == min_rmse)
 #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
 writeLines("")
+
+##### Plot dependency of RMSEs vs Overal Mean Rating Deviation -----------------  
+data.frame(delta = deviation, 
+           delta.RMSE = deviation.RMSE) |> 
+tuning.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Overall Mean Rating ($\hat{mu}$)]'),
+              xname = "delta", 
+              yname = "delta.RMSE", 
+              xlabel = TeX(r'[$\delta$]'), 
+              ylabel = "RMSE")
+
+put_log("A plot was constructed for the deviations from the Overall Mean Rating.")
 
 #### Add a row to the RMSE Result Tibble for the Overall Mean Rating Model ------ 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
@@ -696,13 +697,13 @@ put_log("Below are the User Effect consistency test results")
 put(cv.UE.test.left_join.Nas)
 stopifnot(colSums(cv.UE.test.left_join.Nas)["user.NAs"] == 0)
 
-# Plot a histogram of the user effects -----------------------------------------
+###### Plot a histogram of the user effects ------------------------------------
 par(cex = 0.7)
 hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 put_log("A histogram of the User Effect distribution has been plotted.")
 
-# Computing the RMSE taking into account user effects --------------------------
+###### Computing the RMSE taking into account user effects ---------------------
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
 #> function `clamp` we defined above to keep predictions in the proper range):
 
@@ -727,7 +728,7 @@ put_log2("%1-Fold Cross Validation ultimate RMSE: %2",
 edx.user_effect.RMSE
 #> [1] 0.9716054
 
-# Add a row to the RMSE Result Tibble for the User Effect Model ---------------- 
+###### Add a row to the RMSE Result Tibble for the User Effect Model -----------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("User Effect Model", edx.user_effect.RMSE)
 
@@ -792,7 +793,7 @@ if (file.exists(file_path_tmp)) {
 
 put(str(cv.UM_effect))
 
-###### User+Movie Effect data integrity test------------------------------------
+##### User+Movie Effect data integrity test------------------------------------
 UME.tst <- cv.UM_effect |>
   mutate(tst.col = b) |>
   select(movieId, tst.col)
@@ -810,16 +811,16 @@ put(cv.UME.test.left_join.Nas)
 # [5,]       NA         0
 
 stopifnot(colSums(cv.UME.test.left_join.Nas)["movie.NAs"] == 0)
-#### User+Movie Effects: Visualization ------------------------------
+##### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
 hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
-#### Calculate RMSE for trained User+Movie Model ---------------------------
+##### Calculate RMSE for trained User+Movie Model ---------------------------
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 #> [1] 0.8732081
-#### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
+##### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("User+Movie Effect Model", cv.UM_effect.RMSE)
 
@@ -893,6 +894,11 @@ CVFolds_N)
            file_path_tmp)
 } 
 
+put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie Effect 
+has resulted as follows:")
+put(cv.UME.preset.result$best_result)
+
+##### Plot (rough) dependency of RMSEs vs lambdas ------------------------------  
 cv.UME.preset.result$tuned.result |>
   tuning.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie Effect Model.]'),
               xname = "parameter.value", 
@@ -900,9 +906,6 @@ cv.UME.preset.result$tuned.result |>
               xlabel = TeX(r'[$\lambda$]'), 
               ylabel = "RMSE")
 
-put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie Effect 
-has resulted as follows:")
-put(cv.UME.preset.result$best_result)
 ##### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log file for Fine-tune Stage of the User+Movie Effect regularization ----
@@ -928,6 +931,14 @@ UME.rglr.fine_tune.results <-
 
 UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMSE"]
 
+put_log("Fine-tuning stage of the User+Movie Effect Model Regularization 
+has ended up with with the following results:")
+put(UME.rglr.fine_tune.results$best_result)
+# param.best_value        best_RMSE 
+#        0.3874500        0.8732057 
+
+###### Plot (fine-tuned) dependency of RMSEs vs lambdas -------------------------  
+
 UME.rglr.fine_tune.results$tuned.result |>
   tuning.plot(title = "Fine-tune Stage results of the Regularization Process for the User+Movie Model",
               xname = "parameter.value",
@@ -938,11 +949,6 @@ UME.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 
-put_log("Fine-tuning stage of the User+Movie Effect Model Regularization 
-has ended up with with the following results:")
-put(UME.rglr.fine_tune.results$best_result)
-# param.best_value        best_RMSE 
-#        0.3874500        0.8732057 
 ##### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log file for re-train Regularized User+Movie Effect Model -----------
@@ -1008,7 +1014,7 @@ put(rglr.UME.test.left_join.Nas)
 # [5,]       NA         0
 
 stopifnot(colSums(rglr.UME.test.left_join.Nas)["movie.NAs"] == 0)
-#### Calculate RMSE for Regularized User+Movie Model ---------------------------
+##### Calculate RMSE for Regularized User+Movie Model --------------------------
 UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
 #> [1] 0.872973
 
@@ -1291,9 +1297,11 @@ CVFolds_N)
            file_path_tmp)
 } 
 
-# plot(cv.UMGE.preset.result$param_values,
-#      cv.UMGE.preset.result$RMSEs)
+put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie+Genre Effect 
+has resulted as follows:")
+put(cv.UMGE.preset.result$best_result)
 
+###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 cv.UMGE.preset.result$tuned.result |>
   tuning.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie+Genre Effect Model.]'),
               xname = "parameter.value", 
@@ -1301,9 +1309,6 @@ cv.UMGE.preset.result$tuned.result |>
               xlabel = TeX(r'[$\lambda$]'), 
               ylabel = "RMSE")
 
-put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie+Genre Effect 
-has resulted as follows:")
-put(cv.UMGE.preset.result$best_result)
 ##### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log file for UMG Effect Regularization (Fine-Tuning)` feature -------
@@ -1330,6 +1335,13 @@ UMGE.rglr.fine_tune.RMSE.best <- UMGE.rglr.fine_tune.results$best_result["best_R
 # best_RMSE 
 #  0.872973 
  
+put_log("Fine-tuning stage of the User+Movie+Genre Effect Model Regularization 
+has ended up with with the following results:")
+put(UMGE.rglr.fine_tune.results$best_result)
+# param.best_value        best_RMSE 
+#       0.03554688       0.87297303 
+
+###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 UMGE.rglr.fine_tune.results$tuned.result |>
   tuning.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGE Model",
               xname = "parameter.value",
@@ -1340,17 +1352,11 @@ UMGE.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 
-put_log("Fine-tuning stage of the User+Movie+Genre Effect Model Regularization 
-has ended up with with the following results:")
-put(UMGE.rglr.fine_tune.results$best_result)
-# param.best_value        best_RMSE 
-#       0.03554688       0.87297303 
-
-#### Close Log -----------------------------------------------------------------
+##### Close Log -----------------------------------------------------------------
 log_close()
 ##### Open log for re-training Regularized UMGE Model for the best `lambda` value ----
 open_logfile(".UMGE.rglr.re-train.best-lambda")
-##### Re-train `Regularized UMGE Model` for the best `lambda` value ----
+##### Re-train `Regularized UMGE Model` for the best `lambda` value ------------
 file_name_tmp <- "2.UMGE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGE.regularization.path, file_name_tmp)
 
@@ -1400,7 +1406,7 @@ if (file.exists(file_path_tmp)) {
            UMGE.rglr.best_lambda)
 } 
 
-#### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model --------
+##### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model ----
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
                rglr.UMG_effect.RMSE)
@@ -1408,9 +1414,8 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble for the Regularized UMGE Model`.")
 
-#### Close Log -----------------------------------------------------------------
+##### Close Log ----------------------------------------------------------------
 log_close()
-
 ### Accounting for User+Movie+Genre+Year (UMGY) Effect (UMGYE) -----------------
 #### Open log file for the feature: `Building  User+Movie+Genre+Year Effect Model`----
 open_logfile(".UMGY-effect")
