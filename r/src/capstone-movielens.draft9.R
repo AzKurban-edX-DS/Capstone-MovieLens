@@ -1365,13 +1365,16 @@ if (file.exists(file_path_tmp)) {
   
 } else {
   best_result <- UMGE.rglr.fine_tune.results$best_result
+  # param.best_value        best_RMSE 
+  #     0.03554688       0.87297303 
+  
   UMGE.rglr.best_lambda <- best_result["param.best_value"]
   UMGE.rglr.best_RMSE <- best_result["best_RMSE"]
   
   put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
            UMGE.rglr.best_lambda)
   
-  rglr.UMG_effect <- train_user_movie_genre_effect.cv(UMGE.rglr.best_lambda)
+  rglr.UMG_effect <- edx |> train_user_movie_genre_effect(UMGE.rglr.best_lambda)
   rglr.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rglr.UMG_effect)
   
   put_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",
