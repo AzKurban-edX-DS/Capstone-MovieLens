@@ -1951,8 +1951,8 @@ lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
   tuning.plot(plt.title, 
               xname = "parameter.value", 
               yname = "RMSE", 
-              xlabel1 = "spans", 
-              ylabel1 = "RMSE")
+              xlabel = "spans", 
+              ylabel = "RMSE")
 rm(plt.title)
 
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
