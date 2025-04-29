@@ -142,7 +142,7 @@ UMGY_SmoothedDay_effect.predict <- function(test_set, day_smoothed_effect) {
 calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
   # browser()
   test_set |>
-    UMGY_SmoothedDay_effect.predict(day_smoothed_effect)
+    UMGY_SmoothedDay_effect.predict(day_smoothed_effect) |>
     # left_join(edx.user_effect, by = "userId") |>
     # left_join(rglr.UM_effect, by = "movieId") |>
     # left_join(rglr.UMG_effect, by = "movieId") |>
