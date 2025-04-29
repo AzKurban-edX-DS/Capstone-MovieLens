@@ -136,7 +136,6 @@ UMGY_SmoothedDay_effect.predict <- function(test_set, day_smoothed_effect) {
     mutate(predicted = clamp(mu + a + b + g + ye + de_smoothed)) |> 
     # filter(!is.na(predicted)) |>
     select(userId, movieId, timestamp, rating, predicted)
-    
 }
 
 calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {

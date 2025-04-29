@@ -2551,8 +2551,59 @@ log_close()
 #> https://zhangyk8.github.io/teaching/file_spring2018/Improving_regularized_singular_value_decomposition_for_collaborative_filtering.pdf
 #> https://www.csie.ntu.edu.tw/~cjlin/papers/libmf/mf_adaptive_pakdd.pdf
 
+#### Open log file for Matrix Factorization Method ----------------------------
+open_logfile(".matrix-factorization")
+#### Support Functions --------------------------------------------------------
+MF.functions.file <- "MF.functions.R"
+MF.functions.file_path <- file.path(support_functions.path, 
+                                    MF.functions.file)
+source(MF.functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
+
+##### Perform the Matrix Factorization & Final Test ----------------------------
 # library(recosystem)
 
+mf.edx.residual <- mf.residual.dataframe(edx) |>
+  pull(rsdl)
+str(mf.edx.residual)
+
+set.seed(5430)
+edx.reco <- with(edx, data_memory(user_index = userId, 
+                                  item_index = movieId,
+                                  rating = rating))
+                                  # index1 = TRUE))
+
+final_test.reco <- with(final_holdout_test, 
+                        data_memory(user_index = userId, 
+                        item_index = movieId, 
+                        rating = rating))
+                        ## index1 = TRUE))
+
+reco <- Reco()
+
+reco.tuned <- reco$tune(edx.reco, opts = list(dim = c(10, 20, 30),
+                                                # costp_l2 = c(0.01, 0.1),
+                                                # costq_l2 = c(0.01, 0.1),
+                                                # costp_l1 = 0,
+                                                # costq_l1 = 0,
+                                                lrate    = c(0.1, 0.2),
+                                                nthread  = 4,
+                                                niter    = 10,
+                                                verbose  = TRUE))
+
+reco$train(final_test.reco, opts = c(reco.tuned$min,
+                                niter = 20, 
+                                nthread = 4)) 
+
+reco.predicted <- reco$predict(final_test.reco, out_memory())
+str(reco.predicted)
+
+
+# ------------------------------------------------------------------------------
 set.seed(1)
 train.reco <- with(tune.train_set, data_memory(user_index = userId, 
                                                item_index = movieId,

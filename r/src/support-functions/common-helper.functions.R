@@ -66,6 +66,7 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
 `lambda` is `NA`")
   }
   
+  names(lambda) <- NULL
   sums <- sum(vals, na.rm = na.rm)
   N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
   sums/(N + lambda)
