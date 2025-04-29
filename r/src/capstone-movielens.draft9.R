@@ -1948,11 +1948,11 @@ lss.UMGYDE.fine_tune.degree0.result.best_RMSE <-
 plt.title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree` = 0"
 
 lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
-  tuning.plottuning.plot(plt.title, 
-                         xname = "parameter.value", 
-                         yname = "RMSE", 
-                         xlabel1 = "spans", 
-                         ylabel1 = "RMSE")
+  tuning.plot(plt.title, 
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel1 = "spans", 
+              ylabel1 = "RMSE")
 rm(plt.title)
 
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
