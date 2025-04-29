@@ -544,7 +544,7 @@ tuning.plot.left.n <- function(data,
   
   if (left.n > 0) {
     data.left <- data |> 
-      top_n(left.n)
+      head(left.n)
   }
 
   data.left |>
