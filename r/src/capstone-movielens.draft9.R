@@ -2173,7 +2173,7 @@ lss.UMGYDE.fine_tune.degree2.result.best_RMSE <-
 lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
   tuning.plot.left_detailed(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 2`", 
                              title.left = "Left Part of the Chart Above (Zoomed in)",
-                             shift = 8,
+                             left.n = 8,
                              xname = "parameter.value", 
                              yname = "RMSE", 
                              xlabel1 = "spans", 
