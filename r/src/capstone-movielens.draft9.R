@@ -2266,16 +2266,16 @@ span = %1, degree = %2", lss.best_span, lss.best_degree)
            file_path_tmp)
 }
 
-###### Regularized UMGYD Effect data integrity test------------------------
-UME.tst <- lss.UMGYD_effect |>
-  mutate(tst.col = b) |>
-  select(movieId, tst.col)
+###### Tuned UMGYD Effect data integrity test------------------------
+tuned.UMGYDE.tst <- lss.UMGYD_effect |>
+  mutate(tst.col = de_smoothed) |>
+  select(days, tst.col)
 
-rglr.UME.test.left_join.Nas <- UME.tst |>
-  data.consistency.test.cv(by.userId = FALSE)
+tuned.UMGYDE.test.left_join.Nas <- tuned.UMGYDE.tst |>
+  data.consistency.days.test.cv()
 
 put_log("Below are the User+Movie Effect consistency test results")
-put(rglr.UME.test.left_join.Nas)
+put(tuned.UMGYDE.test.left_join.Nas)
 #      user.NAs movie.NAs
 # [1,]       NA         0
 # [2,]       NA         0
@@ -2283,7 +2283,7 @@ put(rglr.UME.test.left_join.Nas)
 # [4,]       NA         0
 # [5,]       NA         0
 
-stopifnot(colSums(rglr.UME.test.left_join.Nas)["movie.NAs"] == 0)
+stopifnot(colSums(tuned.UMGYDE.test.left_join.Nas)["days.NAs"] == 0)
 ##### The Best Date Smoothed Effect Visualization ----------------------------------
 lss.UMGYD_effect |>
   ggplot(aes(x = days)) +
@@ -2508,15 +2508,15 @@ if (file.exists(file_path_tmp)) {
 } 
 
 ###### Regularized UMGYD Effect data integrity test------------------------
-UME.tst <- rglr.UM_effect |>
-  mutate(tst.col = b) |>
-  select(movieId, tst.col)
+rglr.UMGYDE.tst <- rglr.UMGYD_effect |>
+  mutate(tst.col = de_smoothed) |>
+  select(days, tst.col)
 
-rglr.UME.test.left_join.Nas <- UME.tst |>
-  data.consistency.test.cv(by.userId = FALSE)
+rglr.UMGYDE.test.left_join.Nas <- rglr.UMGYDE.tst |>
+  data.consistency.days.test.cv()
 
 put_log("Below are the User+Movie Effect consistency test results")
-put(rglr.UME.test.left_join.Nas)
+put(rglr.UMGYDE.test.left_join.Nas)
 #      user.NAs movie.NAs
 # [1,]       NA         0
 # [2,]       NA         0
@@ -2524,7 +2524,7 @@ put(rglr.UME.test.left_join.Nas)
 # [4,]       NA         0
 # [5,]       NA         0
 
-stopifnot(colSums(rglr.UME.test.left_join.Nas)["movie.NAs"] == 0)
+stopifnot(colSums(rglr.UMGYDE.test.left_join.Nas)["days.NAs"] == 0)
 #### Add a row to the RMSE Result Tibble for the Regularized UMGYD Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
