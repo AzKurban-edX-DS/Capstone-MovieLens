@@ -293,6 +293,7 @@ data.consistency.test.cv <- function(data,
                                      by.days = FALSE) {
   user.dat <- NULL
   movie.dat <- NULL
+  days.dat <- NULL
   
   if (by.userId) {
     user.dat <- data |>
