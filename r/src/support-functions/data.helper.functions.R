@@ -395,6 +395,8 @@ datasets.left_join.NAs <- function(test_set,
                                    movie.dat = NULL,
                                    days.dat = NULL) {
   u.NAs <- NA
+  m.NAs <- NA
+  d.NAs <- NA
   
   if (!is.null(user.dat)) {
     u.vals <- test_set |>
@@ -404,7 +406,6 @@ datasets.left_join.NAs <- function(test_set,
     u.NAs <- sum(is.na(u.vals))
   }
   
-  m.NAs <- NA
   
   if (!is.null(movie.dat)) {
     m.vals <- test_set |>
