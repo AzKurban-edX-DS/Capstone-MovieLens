@@ -381,7 +381,9 @@ data.consistency.test <- function(data,
   }
   
   test.dat |>
-    datasets.left_join.NAs(user.dat, movie.dat, days.dat)
+    datasets.left_join.NAs(user.dat, 
+                           movie.dat, 
+                           days.dat)
 }
 
 datasets.left_join.NAs <- function(test_set, 
@@ -410,7 +412,7 @@ datasets.left_join.NAs <- function(test_set,
   
   if (!is.null(days.dat)) {
     d.vals <- test_set |>
-      left_join(movie.dat, by = "days") |>
+      left_join(days.dat, by = "days") |>
       pull(d)
     
     d.NAs <- sum(is.na(d.vals))
