@@ -7,8 +7,8 @@ mf.residual.dataframe <- function(data){
     left_join(rglr.UMGY_effect, by='year') |>
     left_join(rglr.UMGYD_effect, by='days') |>
     mutate(rsdl = rating - (mu + a + b + g + ye + de_smoothed)) |>
-    select(userId, movieId, rsdl) |>
-    filter(!is.na(rsdl)) 
+    select(userId, movieId, rsdl)
+    #filter(!is.na(rsdl)) 
 }
 UMGYDE_model.predict <- function(test_set) {
   test_set |>
