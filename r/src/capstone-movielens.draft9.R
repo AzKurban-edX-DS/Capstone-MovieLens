@@ -2060,13 +2060,11 @@ lss.UMGYDE.fine_tune.degree1.result.best_RMSE <-
 
 ###### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 1) ----  
 lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
-  tuning.plot.right_detailed(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 1`", 
-                             title.right = "Right Part of the Chart Above (Zoomed in)",
-                             shift = 5,
+  tuning.plot(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 1`", 
                              xname = "parameter.value", 
                              yname = "RMSE", 
-                             xlabel1 = "spans", 
-                             ylabel1 = "RMSE")
+                             xlabel = "spans", 
+                             ylabel = "RMSE")
 
 ##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
