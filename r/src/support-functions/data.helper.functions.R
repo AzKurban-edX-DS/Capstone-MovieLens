@@ -331,6 +331,7 @@ edx_CV.left_join.NAs <- function(user.dat = NULL,
                                  days.dat = NULL) {
   result <- sapply(edx_CV, function(cv_item){
     cv_item$validation_set |>
+      left_join(date_days_map, by = "timestamp") |>
       datasets.left_join.NAs(user.dat, 
                              movie.dat,
                              days.dat)
@@ -340,10 +341,12 @@ edx_CV.left_join.NAs <- function(user.dat = NULL,
 }
 
 data.consistency.days.test <- function(data, test.dat) {
-  data |> data.consistency.test(test.dat,
-                                by.userId = FALSE,
-                                by.movieId = FALSE,
-                                by.days = TRUE)
+  data |> 
+    data.consistency.test(test.dat |>
+                            left_join(date_days_map, by = "timestamp"),
+                          by.userId = FALSE,
+                          by.movieId = FALSE,
+                          by.days = TRUE)
 }
 data.consistency.test <- function(data, 
                                   test.dat,
