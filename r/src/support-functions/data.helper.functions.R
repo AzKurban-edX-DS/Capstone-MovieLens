@@ -312,7 +312,7 @@ data.consistency.test.cv <- function(data,
     print(sum(is.na(movie.dat$m)))
   }
 
-  if (by.movieId) {
+  if (by.days) {
     days.dat <- data |>
       group_by(days) |>
       summarise(d = mean(tst.col))
