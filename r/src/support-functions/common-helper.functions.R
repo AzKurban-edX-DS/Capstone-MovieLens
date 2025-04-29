@@ -540,15 +540,13 @@ tuning.plot.shifted.right <- function(data,
   data.right <- data |>
     mutate(x_right = lead(x_col, shift),
            y_right = lead(y_col, shift)) |>
-    # filter(!is.na(x_right))
-  
-  tuning.plot(data.right,
-              title,
-              "x_right",
-              "y_right",
-              xlabel,
-              ylabel,
-              line_col)
+    # filter(!is.na(x_right)) |>
+    tuning.plot(title = title,
+                xname = "x_right",
+                yname = "y_right",
+                xlabel = xlabel,
+                ylabel = ylabel,
+                line_col = line_col)
 }
 tuning.plot <- function(data, 
                         title, 
