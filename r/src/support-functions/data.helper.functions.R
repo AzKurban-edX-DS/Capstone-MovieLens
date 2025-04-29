@@ -282,9 +282,15 @@ File has been removed: {movielens_datasets_file_path}")
   movielens_datasets
 }
 ## Data consistency validation -------------------------------------------------
+data.consistency.days.test.cv <- function(data) {
+  data |> data.consistency.test.cv(by.userId = FALSE,
+                                   by.movieId = FALSE,
+                                   by.days = TRUE)
+}
 data.consistency.test.cv <- function(data, 
                                      by.userId = TRUE, 
-                                     by.movieId = TRUE) {
+                                     by.movieId = TRUE,
+                                     by.days = FALSE) {
   user.dat <- NULL
   movie.dat <- NULL
   
@@ -306,22 +312,44 @@ data.consistency.test.cv <- function(data,
     print(sum(is.na(movie.dat$m)))
   }
 
-  edx_CV.left_join.NAs(user.dat, movie.dat)
+  if (by.movieId) {
+    days.dat <- data |>
+      group_by(days) |>
+      summarise(d = mean(tst.col))
+    
+    print(str(days.dat))
+    print(sum(is.na(days.dat$m)))
+  }
+  
+  edx_CV.left_join.NAs(user.dat, 
+                       movie.dat, 
+                       days.dat)
 }
 
 edx_CV.left_join.NAs <- function(user.dat = NULL, 
-                                 movie.dat = NULL) {
+                                 movie.dat = NULL,
+                                 days.dat = NULL) {
   result <- sapply(edx_CV, function(cv_item){
-    datasets.left_join.NAs(cv_item$validation_set, user.dat, movie.dat)
+    cv_item$validation_set |>
+      datasets.left_join.NAs(user.dat, 
+                             movie.dat,
+                             days.dat)
   })
   
   t(result)
 }
 
+data.consistency.days.test <- function(data, test.dat) {
+  data |> data.consistency.test(test.dat,
+                                by.userId = FALSE,
+                                by.movieId = FALSE,
+                                by.days = TRUE)
+}
 data.consistency.test <- function(data, 
                                   test.dat,
                                   by.userId = TRUE, 
-                                  by.movieId = TRUE) {
+                                  by.movieId = TRUE,
+                                  by.days = FALSE) {
   user.dat <- NULL
   movie.dat <- NULL
   
@@ -343,13 +371,23 @@ data.consistency.test <- function(data,
     print(sum(is.na(movie.dat$m)))
   }
 
+  if (by.days) {
+    days.dat <- data |>
+      group_by(days) |>
+      summarise(d = mean(tst.col))
+    
+    print(str(days.dat))
+    print(sum(is.na(days.dat$d)))
+  }
+  
   test.dat |>
-    datasets.left_join.NAs(user.dat, movie.dat)
+    datasets.left_join.NAs(user.dat, movie.dat, days.dat)
 }
 
 datasets.left_join.NAs <- function(test_set, 
                                    user.dat = NULL, 
-                                   movie.dat = NULL) {
+                                   movie.dat = NULL,
+                                   days.dat = NULL) {
   u.NAs <- NA
   
   if (!is.null(user.dat)) {
@@ -370,7 +408,17 @@ datasets.left_join.NAs <- function(test_set,
     m.NAs <- sum(is.na(m.vals))
   }
   
-  c(user.NAs = u.NAs, movie.NAs = m.NAs)
+  if (!is.null(days.dat)) {
+    d.vals <- test_set |>
+      left_join(movie.dat, by = "days") |>
+      pull(d)
+    
+    d.NAs <- sum(is.na(d.vals))
+  }
+  
+  c(user.NAs = u.NAs, 
+    movie.NAs = m.NAs, 
+    days.NAs = d.NAs)
 }
 ## Model training ---------------------------------------------------
 union_cv_results <- function(data_list) {
