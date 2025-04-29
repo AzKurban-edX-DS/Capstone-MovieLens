@@ -543,15 +543,14 @@ tuning.plot.left.n <- function(data,
   data.left <- data
   
   if (left.n > 0) {
-    data.left <- data |>
-      mutate(x_left = top_n(x_col, left.n),
-             y_left = top_n(y_col, left.n))
+    data.left <- data |> 
+      top_n(left.n)
   }
 
-      data.left |>
-        tuning.plot(title = title,
-                xname = "x_left",
-                yname = "y_left",
+  data.left |>
+    tuning.plot(title = title,
+                xname = xname,
+                yname = yname,
                 xlabel = xlabel,
                 ylabel = ylabel,
                 line_col = line_col,
