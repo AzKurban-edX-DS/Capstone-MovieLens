@@ -2171,9 +2171,9 @@ lss.UMGYDE.fine_tune.degree2.result.best_RMSE <-
 
 ###### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 2) ----  
 lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
-  tuning.plot.right_detailed(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 2`", 
-                             title.right = "Right Part of the Chart Above (Zoomed in)",
-                             shift = 5,
+  tuning.plot.left_detailed(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 2`", 
+                             title.left = "Left Part of the Chart Above (Zoomed in)",
+                             shift = 8,
                              xname = "parameter.value", 
                              yname = "RMSE", 
                              xlabel1 = "spans", 

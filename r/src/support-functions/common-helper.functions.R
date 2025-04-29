@@ -482,6 +482,82 @@ Currently reached best RMSE for `parameter value = %1`: %2",
 
 ### Model Tuning Results Visualization -----------------------------------------
 
+tuning.plot.left_detailed <- function(data, 
+                                      left.n = 0,
+                                      title = NULL,
+                                      title.left = NULL,
+                                      xname, 
+                                      yname, 
+                                      xlabel1 = NULL, 
+                                      xlabel2 = NULL, 
+                                      ylabel1 = NULL,
+                                      ylabel2 = NULL,
+                                      line_col1 = "blue",
+                                      line_col2 = "red",
+                                      normalize = FALSE) {
+  if(is.null(xlabel1)) {
+    xlabel1 <- xname
+  }
+  if(is.null(xlabel2)) {
+    xlabel2 <- str_glue(xlabel1, " (left part)")
+  }
+  if(is.null(ylabel1)) {
+    ylabel1 <- yname
+  }
+  if(is.null(ylabel2)) {
+    ylabel2 <- ylabel1
+  }
+
+  p1 <- data |>
+    tuning.plot(title = title,
+                xname = xname, 
+                yname = yname, 
+                xlabel = xlabel1, 
+                ylabel = ylabel1,
+                line_col = line_col1)
+
+  p2 <- data |>
+    tuning.plot.left.n(left.n = left.n,
+                       title = title.left,
+                       xname = xname, 
+                       yname = yname, 
+                       xlabel = xlabel2, 
+                       ylabel = ylabel2,
+                       line_col = line_col2,
+                       normalize = normalize)
+  grid.arrange(p1, p2)
+}
+tuning.plot.left.n <- function(data, 
+                               left.n = 0,
+                               title, 
+                               xname, 
+                               yname, 
+                               xlabel, 
+                               ylabel,
+                               line_col = "red",
+                               normalize = FALSE) {
+  x_col <- data[, xname] 
+  y_col <- data[, yname]
+  
+  
+  data.left <- data
+  
+  if (left.n > 0) {
+    data.left <- data |>
+      mutate(x_left = top_n(x_col, left.n),
+             y_left = top_n(y_col, left.n))
+  }
+
+      data.left |>
+        tuning.plot(title = title,
+                xname = "x_left",
+                yname = "y_left",
+                xlabel = xlabel,
+                ylabel = ylabel,
+                line_col = line_col,
+                normalize = normalize)
+}
+
 tuning.plot.right_detailed <- function(data, 
                                       shift = 1,
                                       title = NULL,
@@ -493,7 +569,8 @@ tuning.plot.right_detailed <- function(data,
                                       ylabel1 = NULL,
                                       ylabel2 = NULL,
                                       line_col1 = "blue",
-                                      line_col2 = "red") {
+                                      line_col2 = "red",
+                                      normalize = FALSE) {
   if(is.null(xlabel1)) {
     xlabel1 <- xname
   }
@@ -522,10 +599,10 @@ tuning.plot.right_detailed <- function(data,
                               yname = yname, 
                               xlabel = xlabel2, 
                               ylabel = ylabel2,
-                              line_col = line_col2)
+                              line_col = line_col2,
+                              normalize = normalize)
   grid.arrange(p1, p2)
 }
-
 tuning.plot.shifted.right <- function(data, 
                                       shift = 1,
                                       title, 
@@ -533,7 +610,8 @@ tuning.plot.shifted.right <- function(data,
                                       yname, 
                                       xlabel, 
                                       ylabel,
-                                      line_col = "red") {
+                                      line_col = "red",
+                                      normalize = FALSE) {
   x_col <- data[, xname] 
   y_col <- data[, yname]
 
@@ -546,7 +624,8 @@ tuning.plot.shifted.right <- function(data,
                 yname = "y_right",
                 xlabel = xlabel,
                 ylabel = ylabel,
-                line_col = line_col)
+                line_col = line_col,
+                normalize = normalize)
 }
 tuning.plot <- function(data, 
                         title, 
