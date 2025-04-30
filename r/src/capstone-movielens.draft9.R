@@ -2664,7 +2664,7 @@ rmse_results <- bind_rows(rmse_results,
                                      RMSE = model_6_rmse))
 rmse_results 
 
-# Matrix Factorization ---------------------------------------------------------
+# Matrix Factorization from Residuls -------------------------------------------
 lambda <- 4.9
 mu <- mean(edx$rating)
 b_i_reg <- edx %>% 
@@ -2753,7 +2753,9 @@ rmse_results
 
 
 #-----------------------------------------------------------------
-mf.edx.residual <- mf.residual.dataframe(edx)
+# mf.edx.residual <- mf.residual.dataframe(edx) 
+mf.edx.residual <- mf.residual.dataframe(edx) |>
+  pull(rsdl)
 str(mf.edx.residual)
 
 set.seed(1)

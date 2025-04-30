@@ -2581,7 +2581,9 @@ if (file.exists(file_path_tmp)) {
 } else {
   final.residual <- mf.residual.dataframe(final_holdout_test) |>
     pull(rsdl)
-  str(mf.edx.residual)
+  
+  str(final.residual)
+  sum(is.na(final.residual))
   
   set.seed(5430)
   edx.reco <- with(edx, data_memory(user_index = userId, 
@@ -2614,22 +2616,17 @@ if (file.exists(file_path_tmp)) {
   reco.predicted <- reco$predict(final_test.reco, out_memory())
   str(reco.predicted)
   
-  mf.predicted <- reco.predicted + mf.edx.residual
+  mf.predicted <- reco.predicted + final.residual
   str(mf.predicted)
   
   put_log1("Saving User+Movie+Genre+Year+(Smoothed)Day Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
-  save(mf.edx.residual,
+  save(final.residual,
        reco.predicted,
-       rglr.UM_effect,
-       rglr.UMG_effect,
-       rglr.UMGY_effect,
-       rglr.UMGYD_effect,
-       rglr.UMGYD_effect.RMSE,
        file = file_path_tmp)
   put_end_date(start)
-  put_log1("User+Movie+Genre+Year+(Smoothed)Day Effect Model data has been saved to file: %1", 
+  put_log1("Matrix Factorization Method data has been saved to file: %1", 
            file_path_tmp)
 
 }
