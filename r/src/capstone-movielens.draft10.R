@@ -2567,25 +2567,37 @@ source(MF.functions.file_path,
 ##### Perform the Matrix Factorization & Final Test ----------------------------
 # library(recosystem)
 
-mf.edx.residual <- mf.residual.dataframe(edx) |>
-  pull(rsdl)
-str(mf.edx.residual)
+file_name_tmp <- "10.matrix-factorization.RData"
+file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
-set.seed(5430)
-edx.reco <- with(edx, data_memory(user_index = userId, 
-                                  item_index = movieId,
-                                  rating = rating))
-                                  # index1 = TRUE))
-
-final_test.reco <- with(final_holdout_test, 
-                        data_memory(user_index = userId, 
-                        item_index = movieId, 
-                        rating = rating))
-                        ## index1 = TRUE))
-
-reco <- Reco()
-
-reco.tuned <- reco$tune(edx.reco, opts = list(dim = c(10, 20, 30),
+if (file.exists(file_path_tmp)) {
+  put_log1("Loading overal mean rating value from file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  load(file_path_tmp)
+  put_end_date(start)
+  put_log2("Overall mean rating data has been loaded from file: %1",
+           file_path_tmp)
+} else {
+  final.residual <- mf.residual.dataframe(final_holdout_test) |>
+    pull(rsdl)
+  str(mf.edx.residual)
+  
+  set.seed(5430)
+  edx.reco <- with(edx, data_memory(user_index = userId, 
+                                    item_index = movieId,
+                                    rating = rating))
+  # index1 = TRUE))
+  
+  final_test.reco <- with(final_holdout_test, 
+                          data_memory(user_index = userId, 
+                                      item_index = movieId, 
+                                      rating = rating))
+  ## index1 = TRUE))
+  
+  reco <- Reco()
+  
+  reco.tuned <- reco$tune(edx.reco, opts = list(dim = c(10, 20, 30),
                                                 # costp_l2 = c(0.01, 0.1),
                                                 # costq_l2 = c(0.01, 0.1),
                                                 # costp_l1 = 0,
@@ -2594,13 +2606,33 @@ reco.tuned <- reco$tune(edx.reco, opts = list(dim = c(10, 20, 30),
                                                 nthread  = 4,
                                                 niter    = 10,
                                                 verbose  = TRUE))
+  
+  reco$train(final_test.reco, opts = c(reco.tuned$min,
+                                       niter = 20, 
+                                       nthread = 4)) 
+  
+  reco.predicted <- reco$predict(final_test.reco, out_memory())
+  str(reco.predicted)
+  
+  mf.predicted <- reco.predicted + mf.edx.residual
+  str(mf.predicted)
+  
+  put_log1("Saving User+Movie+Genre+Year+(Smoothed)Day Effect Model data to file: %1...", 
+           file_path_tmp)
+  start <- put_start_date()
+  save(mf.edx.residual,
+       reco.predicted,
+       rglr.UM_effect,
+       rglr.UMG_effect,
+       rglr.UMGY_effect,
+       rglr.UMGYD_effect,
+       rglr.UMGYD_effect.RMSE,
+       file = file_path_tmp)
+  put_end_date(start)
+  put_log1("User+Movie+Genre+Year+(Smoothed)Day Effect Model data has been saved to file: %1", 
+           file_path_tmp)
 
-reco$train(final_test.reco, opts = c(reco.tuned$min,
-                                niter = 20, 
-                                nthread = 4)) 
-
-reco.predicted <- reco$predict(final_test.reco, out_memory())
-str(reco.predicted)
+}
 
 
 # ------------------------------------------------------------------------------
