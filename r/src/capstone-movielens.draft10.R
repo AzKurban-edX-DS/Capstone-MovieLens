@@ -502,7 +502,7 @@ put_log1("The Overall Mean Rating is: %1", mu)
 #> The Overall Mean Rating is: 3.51246520160155
 put_log1("The Naive RMSE is: %1", mu.RMSE)
 
-#### Ensure that this is the best RMSE value for the current model ----------------
+#### Ensure that this is the best RMSE value for the current model -------------
 #> If we plug in any other number, we will get a higher RMSE. 
 #> Let's prove that by the following small investigation:
 
@@ -1489,7 +1489,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Genre+Year Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
-#### Compute User+Movie+Genre+Year Effect Model RMSE ------------------------------------
+#### Compute User+Movie+Genre+Year Effect Model RMSE ---------------------------
 cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 cv.UMGY_effect.RMSE
 #> [1] 0.8590795
@@ -2536,10 +2536,49 @@ for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-#### Final Test ----------------------------------------------------------------
+#### UMGYDE Model Final Holdout Test  -------------------------------------------
+
+final.UMGYDE.predicted <- final_holdout_test |>
+  UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
+
+str(final.UMGYDE.predicted)
+sum(is.na(final.UMGYDE.predicted$predicted))
 
 # calc_UMGY_SmoothedDay_effect.RMSE(final_holdout_test, rglr.UMGYD_effect)
 # #> [1] 0.902012
+
+##### UMGYDE Model Final Holdout Test data integrity validation-----------------
+final.predicted.tst <- final.UMGYDE.predicted |>
+  mutate(tst.col = predicted) |>
+  select(userId, movieId, tst.col)
+
+final.predicted.left_join.Nas <- final.predicted.tst |>
+  data.consistency.test(final_holdout_test)
+
+put_log("Below are the User+Movie Effect consistency test results")
+put(final.predicted.left_join.Nas)
+ # user.NAs movie.NAs  days.NAs 
+ #        0         0        NA 
+        
+stopifnot(final.predicted.left_join.Nas["user.NAs"] == 0 &&
+            final.predicted.left_join.Nas["movie.NAs"] == 0)
+
+#### Compute UMGYDE Model Final Holdout Test RMSE ---------------------------
+final.UMGYDE.predicted.RMSE <- rmse2(final_holdout_test$rating,
+                                     final.UMGYDE.predicted$predicted)
+final.UMGYDE.predicted.RMSE
+#> [1] 0.8804351
+
+#### Add a row to the RMSE Result Tibble for the Final Holdout Test of the UMGYD Effects Model ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Final Holdout Test of the UMGYD Effect Model", 
+               final.UMGYDE.predicted.RMSE)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble 
+for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
+#### Close Log -----------------------------------------------------------------
+log_close()
 
 ### Matrix Factorization -------------------------------------------------------
 #> Reference: 
@@ -2564,9 +2603,6 @@ source(MF.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-#### Close Log -----------------------------------------------------------------
-log_close()
-
 ##### Perform the Matrix Factorization & Final Test ----------------------------
 # library(recosystem)
 
@@ -2582,19 +2618,21 @@ if (file.exists(file_path_tmp)) {
   put_log2("Overall mean rating data has been loaded from file: %1",
            file_path_tmp)
 } else {
-  final.residual <- mf.residual.dataframe(final_holdout_test) |>
-    pull(rsdl)
+  mf.edx.residual <- mf.residual.dataframe(edx) #|>
+    #pull(rsdl)
   
-  str(final.residual)
-  sum(is.na(final.residual))
+  str(mf.edx.residual)
+  sum(is.na(mf.edx.residual))
+  #> [1] 0
   
   set.seed(5430)
-  edx.reco <- with(edx, data_memory(user_index = userId, 
-                                    item_index = movieId,
-                                    rating = rating))
-  # index1 = TRUE))
+  mf.edx.residual.reco <- with(mf.edx.residual, 
+                               data_memory(user_index = userId, 
+                                           item_index = movieId,
+                                           rating = rsdl))
+                                           # index1 = TRUE))
   
-  final_test.reco <- with(final_holdout_test, 
+  final_holdout_test.reco <- with(final_holdout_test, 
                           data_memory(user_index = userId, 
                                       item_index = movieId, 
                                       rating = rating))
@@ -2602,7 +2640,7 @@ if (file.exists(file_path_tmp)) {
   
   reco <- Reco()
   
-  reco.tuned <- reco$tune(edx.reco, opts = list(dim = c(10, 20, 30),
+  reco.tuned <- reco$tune(mf.edx.residual.reco, opts = list(dim = c(10, 20, 30),
                                                 # costp_l2 = c(0.01, 0.1),
                                                 # costq_l2 = c(0.01, 0.1),
                                                 # costp_l1 = 0,
@@ -2612,28 +2650,46 @@ if (file.exists(file_path_tmp)) {
                                                 niter    = 10,
                                                 verbose  = TRUE))
   
-  reco$train(final_test.reco, opts = c(reco.tuned$min,
+  reco$train(mf.edx.residual.reco, opts = c(reco.tuned$min,
                                        niter = 20, 
                                        nthread = 4)) 
   
-  reco.predicted <- reco$predict(final_test.reco, out_memory())
-  str(reco.predicted)
+  mf.reco.residual <- reco$predict(final_holdout_test.reco, out_memory())
+  str(mf.reco.residual)
+  sum(is.na(mf.reco.residual))
   
-  mf.predicted <- reco.predicted + final.residual
-  str(mf.predicted)
+  mf.predicted_ratings <- final.UMGYDE.predicted$predicted + mf.reco.residual
+  str(mf.predicted_ratings)
+  sum(is.na(mf.predicted_ratings))
+  
+  
   
   put_log1("Saving User+Movie+Genre+Year+(Smoothed)Day Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
-  save(final.residual,
-       reco.predicted,
+  save(mf.predicted_ratings,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("Matrix Factorization Method data has been saved to file: %1", 
            file_path_tmp)
 
 }
+#### Compute Final Holdout Test RMSE ---------------------------
+final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
+                                     mf.predicted_ratings)
+final_holdout_test.RMSE
+#> [1] 0.8804351
 
+#### Add a row to the RMSE Result Tibble for the Final Holdout Test ---- 
+RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Final Holdout Test for Matrix Factorization", 
+               final_holdout_test.RMSE)
+
+RMSE_kable(RMSEs.ResultTibble)
+put_log("A row has been added to the RMSE Result Tibble 
+for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
+#### Close Log -----------------------------------------------------------------
+log_close()
 
 # ------------------------------------------------------------------------------
 set.seed(1)
@@ -2664,25 +2720,25 @@ reco$train(train.reco, opts = c(reco.tuned$min,
                                 niter = 20, 
                                 nthread = 4)) 
 
-reco.predicted <- reco$predict(test.reco, out_memory())
-str(reco.predicted)
+mf.reco.residual <- reco$predict(test.reco, out_memory())
+str(mf.reco.residual)
 
-rmse(tune.test_set$rating - reco.predicted)
+rmse(tune.test_set$rating - mf.reco.residual)
 #> [1] 0.868204
 #> [1] 0.8676399
 
-rmse(tune.test_set$rating - clamp(reco.predicted))
+rmse(tune.test_set$rating - clamp(mf.reco.residual))
 #> [1] 0.8680579
 #> [1] 0.8674511
 
-# final_test.reco <- with(final_holdout_test, 
+# final_holdout_test.reco <- with(final_holdout_test, 
 #                         data_memory(user_index = userId, 
 #                                     item_index = movieId, 
 #                                     rating = rating))
 #                                     #index1 = TRUE))
 # 
-# final_reco.predicted <- reco$predict(final_test.reco, out_memory())
-# str(reco.predicted)
+# final_reco.predicted <- reco$predict(final_holdout_test.reco, out_memory())
+# str(mf.reco.residual)
 # 
 # rmse(final_holdout_test$rating - final_reco.predicted)
 # #> [1] 0.8667141
