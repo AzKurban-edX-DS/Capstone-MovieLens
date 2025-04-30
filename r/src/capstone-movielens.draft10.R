@@ -2564,6 +2564,9 @@ source(MF.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
+#### Close Log -----------------------------------------------------------------
+log_close()
+
 ##### Perform the Matrix Factorization & Final Test ----------------------------
 # library(recosystem)
 
