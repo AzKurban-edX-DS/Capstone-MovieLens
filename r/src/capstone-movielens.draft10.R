@@ -2615,7 +2615,7 @@ if (file.exists(file_path_tmp)) {
   start <- put_start_date()
   load(file_path_tmp)
   put_end_date(start)
-  put_log2("Overall mean rating data has been loaded from file: %1",
+  put_log1("Overall mean rating data has been loaded from file: %1",
            file_path_tmp)
 } else {
   mf.edx.residual <- mf.residual.dataframe(edx) #|>
@@ -2658,16 +2658,18 @@ if (file.exists(file_path_tmp)) {
   str(mf.reco.residual)
   sum(is.na(mf.reco.residual))
   
-  mf.predicted_ratings <- final.UMGYDE.predicted$predicted + mf.reco.residual
+  mf.predicted_ratings <- 
+    clamp(final.UMGYDE.predicted$predicted + mf.reco.residual)
+  
   str(mf.predicted_ratings)
   sum(is.na(mf.predicted_ratings))
-  
-  
-  
+
   put_log1("Saving User+Movie+Genre+Year+(Smoothed)Day Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
-  save(mf.predicted_ratings,
+  save(mf.reco.residual,
+       final.UMGYDE.predicted,
+       mf.predicted_ratings,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("Matrix Factorization Method data has been saved to file: %1", 
@@ -2678,11 +2680,11 @@ if (file.exists(file_path_tmp)) {
 final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
                                      mf.predicted_ratings)
 final_holdout_test.RMSE
-#> [1] 0.8804351
+#> [1] 0.7875645
 
 #### Add a row to the RMSE Result Tibble for the Final Holdout Test ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Final Holdout Test for Matrix Factorization", 
+  RMSEs.AddRow("Matrix Factorization, Final Holdout Test", 
                final_holdout_test.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble)
@@ -2690,61 +2692,4 @@ put_log("A row has been added to the RMSE Result Tibble
 for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
-
-# ------------------------------------------------------------------------------
-set.seed(1)
-train.reco <- with(tune.train_set, data_memory(user_index = userId, 
-                                               item_index = movieId,
-                                               rating = rating))
-                                               # index1 = TRUE))
-
-test.reco <- with(tune.test_set, data_memory(user_index = userId, 
-                                             item_index = movieId, 
-                                             rating = rating))
-                                             ## index1 = TRUE))
-
-
-reco <- Reco()
-
-reco.tuned <- reco$tune(train.reco, opts = list(dim = c(10, 20, 30),
-                                                # costp_l2 = c(0.01, 0.1),
-                                                # costq_l2 = c(0.01, 0.1),
-                                                # costp_l1 = 0,
-                                                # costq_l1 = 0,
-                                                lrate    = c(0.1, 0.2),
-                                                nthread  = 4,
-                                                niter    = 10,
-                                                verbose  = TRUE))
-
-reco$train(train.reco, opts = c(reco.tuned$min,
-                                niter = 20, 
-                                nthread = 4)) 
-
-mf.reco.residual <- reco$predict(test.reco, out_memory())
-str(mf.reco.residual)
-
-rmse(tune.test_set$rating - mf.reco.residual)
-#> [1] 0.868204
-#> [1] 0.8676399
-
-rmse(tune.test_set$rating - clamp(mf.reco.residual))
-#> [1] 0.8680579
-#> [1] 0.8674511
-
-# final_holdout_test.reco <- with(final_holdout_test, 
-#                         data_memory(user_index = userId, 
-#                                     item_index = movieId, 
-#                                     rating = rating))
-#                                     #index1 = TRUE))
-# 
-# final_reco.predicted <- reco$predict(final_holdout_test.reco, out_memory())
-# str(mf.reco.residual)
-# 
-# rmse(final_holdout_test$rating - final_reco.predicted)
-# #> [1] 0.8667141
-# #> [1] 0.8662733
-# 
-# rmse(final_holdout_test$rating - clamp(final_reco.predicted))
-# #> [1] 0.866581
-# #> [1] 0.8660731
 
