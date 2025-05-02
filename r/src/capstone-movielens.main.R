@@ -2,7 +2,6 @@
 #> Reference: Some ideas and code snippers were used from the following GitHub repository:
 #> https://github.com/AzKurban-edX-DS/harvardx-movielens
 
-
 if(!require(tidyverse))
   install.packages("tidyverse", repos = "http://cran.us.r-project.org")
 
