@@ -98,20 +98,6 @@
 \usepackage{hyperref}
 \usepackage[natbib=true, style=numeric, backref=true, sorting=none]{biblatex}
 \hypersetup{backref, pdfpagemode=Normal, colorlinks=true, implicit=false}
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{multirow}
-\usepackage{wrapfig}
-\usepackage{float}
-\usepackage{colortbl}
-\usepackage{pdflscape}
-\usepackage{tabu}
-\usepackage{threeparttable}
-\usepackage{threeparttablex}
-\usepackage[normalem]{ulem}
-\usepackage{makecell}
-\usepackage{xcolor}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -142,247 +128,24 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-\begin{verbatim}
-## Loading required package: tidyverse
-\end{verbatim}
+\subsection{Plot dependency of RMSEs vs Overal Mean Rating
+Deviation}\label{plot-dependency-of-rmses-vs-overal-mean-rating-deviation}
 
-\begin{verbatim}
-## Warning: package 'lubridate' was built under R version 4.4.2
-\end{verbatim}
+\hfill\break
 
-\begin{verbatim}
-## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
-## v dplyr     1.1.4     v readr     2.1.5
-## v forcats   1.0.0     v stringr   1.5.1
-## v ggplot2   3.5.1     v tibble    3.2.1
-## v lubridate 1.9.4     v tidyr     1.3.1
-## v purrr     1.0.2
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{delta =}\NormalTok{ deviation, }
+           \AttributeTok{delta.RMSE =}\NormalTok{ deviation.RMSE) }\SpecialCharTok{|\textgreater{}} 
+\FunctionTok{tuning.plot}\NormalTok{(}\AttributeTok{title =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[RMSE as a function of deviation ($\textbackslash{}delta$) from the Overall Mean Rating ($\textbackslash{}hat\{mu\}$)]\textquotesingle{}}\NormalTok{),}
+              \AttributeTok{xname =} \StringTok{"delta"}\NormalTok{, }
+              \AttributeTok{yname =} \StringTok{"delta.RMSE"}\NormalTok{, }
+              \AttributeTok{xlabel =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[$\textbackslash{}delta$]\textquotesingle{}}\NormalTok{), }
+              \AttributeTok{ylabel =} \StringTok{"RMSE"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\begin{verbatim}
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-## Loading required package: caret
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'caret' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## Loading required package: lattice
-## 
-## Attaching package: 'caret'
-## 
-## The following object is masked from 'package:purrr':
-## 
-##     lift
-## 
-## Loading required package: data.table
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'data.table' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'data.table'
-## 
-## The following objects are masked from 'package:lubridate':
-## 
-##     hour, isoweek, mday, minute, month, quarter, second, wday, week,
-##     yday, year
-## 
-## The following objects are masked from 'package:dplyr':
-## 
-##     between, first, last
-## 
-## The following object is masked from 'package:purrr':
-## 
-##     transpose
-## 
-## Loading required package: gridExtra
-## 
-## Attaching package: 'gridExtra'
-## 
-## The following object is masked from 'package:dplyr':
-## 
-##     combine
-## 
-## Loading required package: logr
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'logr' was built under R version 4.4.3
-\end{verbatim}
-
-\begin{verbatim}
-## Loading required package: common
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'common' was built under R version 4.4.3
-\end{verbatim}
-
-\begin{verbatim}
-## Loading required package: gtools
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'gtools' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## Loading required package: pak
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'pak' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## Loading required package: pacman
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'pacman' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## Loading required package: recommenderlab
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'recommenderlab' was built under R version 4.4.3
-\end{verbatim}
-
-\begin{verbatim}
-## Loading required package: Matrix
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'Matrix' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'Matrix'
-## 
-## The following objects are masked from 'package:tidyr':
-## 
-##     expand, pack, unpack
-## 
-## Loading required package: arules
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'arules' was built under R version 4.4.3
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'arules'
-## 
-## The following object is masked from 'package:dplyr':
-## 
-##     recode
-## 
-## The following objects are masked from 'package:base':
-## 
-##     abbreviate, write
-## 
-## Loading required package: proxy
-## 
-## Attaching package: 'proxy'
-## 
-## The following object is masked from 'package:Matrix':
-## 
-##     as.matrix
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     as.dist, dist
-## 
-## The following object is masked from 'package:base':
-## 
-##     as.matrix
-## 
-## Registered S3 methods overwritten by 'registry':
-##   method               from 
-##   print.registry_field proxy
-##   print.registry_entry proxy
-## 
-## Attaching package: 'recommenderlab'
-## 
-## The following objects are masked from 'package:caret':
-## 
-##     MAE, RMSE
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'dslabs' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'cowplot' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'cowplot'
-## 
-## The following object is masked from 'package:lubridate':
-## 
-##     stamp
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'ggthemes' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'ggthemes'
-## 
-## The following object is masked from 'package:cowplot':
-## 
-##     theme_map
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'Metrics' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'Metrics'
-## 
-## The following objects are masked from 'package:caret':
-## 
-##     precision, recall
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'recosystem' was built under R version 4.4.2
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'scales'
-## 
-## The following object is masked from 'package:purrr':
-## 
-##     discard
-## 
-## The following object is masked from 'package:readr':
-## 
-##     col_factor
-## 
-## [conflicted] Will prefer base::as.matrix over any other package.
-\end{verbatim}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-1-1.pdf}
 
 \subsection{Introduction / Overview / Executive
 Summary}\label{introduction-overview-executive-summary}
@@ -434,15 +197,7 @@ environment:
 \begin{Shaded}
 \begin{Highlighting}[]
 \ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(edx.capstone.movielens.data)) pak}\SpecialCharTok{::}\FunctionTok{pak}\NormalTok{(}\StringTok{"AzKurban{-}edX{-}DS/edx.capstone.movielens.data"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## Loading required package: edx.capstone.movielens.data
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(edx.capstone.movielens.data)}
 \NormalTok{edx }\OtherTok{\textless{}{-}}\NormalTok{ edx.capstone.movielens.data}\SpecialCharTok{::}\NormalTok{edx}
 \NormalTok{final\_holdout\_test }\OtherTok{\textless{}{-}}\NormalTok{ edx.capstone.movielens.data}\SpecialCharTok{::}\NormalTok{final\_holdout\_test}
@@ -452,20 +207,13 @@ environment:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp        
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08  
-##  1st Qu.:18124   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08  
-##  Median :35738   Median : 1834   Median :4.000   Median :1.035e+09  
-##  Mean   :35870   Mean   : 4122   Mean   :3.512   Mean   :1.033e+09  
-##  3rd Qu.:53607   3rd Qu.: 3626   3rd Qu.:4.000   3rd Qu.:1.127e+09  
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09  
-##     title              genres         
-##  Length:9000055     Length:9000055    
-##  Class :character   Class :character  
-##  Mode  :character   Mode  :character  
-##                                       
-##                                       
-## 
+##      userId         movieId          rating        timestamp            title              genres         
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:9000055     Length:9000055    
+##  1st Qu.:18124   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08   Class :character   Class :character  
+##  Median :35738   Median : 1834   Median :4.000   Median :1.035e+09   Mode  :character   Mode  :character  
+##  Mean   :35870   Mean   : 4122   Mean   :3.512   Mean   :1.033e+09                                        
+##  3rd Qu.:53607   3rd Qu.: 3626   3rd Qu.:4.000   3rd Qu.:1.127e+09                                        
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
 \end{verbatim}
 
 \begin{Shaded}
@@ -475,20 +223,13 @@ environment:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp        
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08  
-##  1st Qu.:18096   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.467e+08  
-##  Median :35768   Median : 1827   Median :4.000   Median :1.035e+09  
-##  Mean   :35870   Mean   : 4108   Mean   :3.512   Mean   :1.033e+09  
-##  3rd Qu.:53621   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09  
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09  
-##     title              genres         
-##  Length:999999      Length:999999     
-##  Class :character   Class :character  
-##  Mode  :character   Mode  :character  
-##                                       
-##                                       
-## 
+##      userId         movieId          rating        timestamp            title              genres         
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:999999      Length:999999     
+##  1st Qu.:18096   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.467e+08   Class :character   Class :character  
+##  Median :35768   Median : 1827   Median :4.000   Median :1.035e+09   Mode  :character   Mode  :character  
+##  Mean   :35870   Mean   : 4108   Mean   :3.512   Mean   :1.033e+09                                        
+##  3rd Qu.:53621   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09                                        
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
 \end{verbatim}
 
 \paragraph{\texorpdfstring{\texttt{edx}
@@ -587,8 +328,7 @@ ratings using the following code:
 \end{Shaded}
 
 \begin{verbatim}
-## `summarise()` has grouped output by 'movieId'. You can override using the
-## `.groups` argument.
+## `summarise()` has grouped output by 'movieId'. You can override using the `.groups` argument.
 \end{verbatim}
 
 \begin{Shaded}
@@ -675,7 +415,7 @@ We can visually see that from the following plot:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-10-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
 
 Further analysis of the \texttt{edx} dataset have been also inspired by
 the article mentioned above\autocite{MRS-R-BEST}, from which the code
@@ -707,7 +447,7 @@ distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-12-1.pdf}
 
 This graph is another confirmation of what we found out above: rounded
 ratings occur more often than half-stared ones. The upward trend
@@ -795,7 +535,7 @@ Ratings per movie plot\autocite{MRS-R-BEST}
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-14-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
 
 Movies' rating histogram\autocite{MRS-R-BEST}
 
@@ -824,7 +564,7 @@ Movies' rating histogram\autocite{MRS-R-BEST}
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-16-1.pdf}
 
 \subparagraph{\texorpdfstring{Ratings per
 user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -909,7 +649,7 @@ Ratings per user plot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 Users' rating histogram
 
@@ -938,13 +678,9 @@ Users' rating histogram
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-20-1.pdf}
 
 \subparagraph{}\label{section}
-
-\hfill\break
-
-\subparagraph{}\label{section-1}
 
 \hfill\break
 
@@ -1075,15 +811,13 @@ illustrates this idea\autocite{IDS2_23-1-1}:
 
 \begin{verbatim}
 ## # A tibble: 5 x 5
-##   userId `Pulp Fiction (1994)` `Jurassic Park (1993)` Silence of the Lambs (19~1
-##    <int>                 <dbl>                  <dbl>                      <dbl>
-## 1     13                     4                     NA                         NA
-## 2     16                    NA                      3                         NA
-## 3     17                    NA                     NA                          5
-## 4     18                     5                      3                          5
-## 5     19                    NA                      1                         NA
-## # i abbreviated name: 1: `Silence of the Lambs (1991)`
-## # i 1 more variable: `Forrest Gump (1994)` <dbl>
+##   userId `Pulp Fiction (1994)` `Jurassic Park (1993)` `Silence of the Lambs (1991)` `Forrest Gump (1994)`
+##    <int>                 <dbl>                  <dbl>                         <dbl>                 <dbl>
+## 1     13                     4                     NA                            NA                    NA
+## 2     16                    NA                      3                            NA                    NA
+## 3     17                    NA                     NA                             5                    NA
+## 4     18                     5                      3                             5                    NA
+## 5     19                    NA                      1                            NA                     4
 \end{verbatim}
 
 The following plot of the matrix for a random sample of 100 movies and
@@ -1187,20 +921,13 @@ above\autocite{IDS2_23-1-1}:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp        
-##  Min.   :    8   Min.   :    1   Min.   :0.500   Min.   :8.248e+08  
-##  1st Qu.:18161   1st Qu.: 1022   1st Qu.:3.000   1st Qu.:9.655e+08  
-##  Median :35666   Median : 2109   Median :3.500   Median :1.058e+09  
-##  Mean   :35902   Mean   : 4616   Mean   :3.473   Mean   :1.051e+09  
-##  3rd Qu.:53645   3rd Qu.: 3993   3rd Qu.:4.000   3rd Qu.:1.135e+09  
-##  Max.   :71565   Max.   :65133   Max.   :5.000   Max.   :1.231e+09  
-##     title              genres         
-##  Length:1397040     Length:1397040    
-##  Class :character   Class :character  
-##  Mode  :character   Mode  :character  
-##                                       
-##                                       
-## 
+##      userId         movieId          rating        timestamp            title              genres         
+##  Min.   :    8   Min.   :    1   Min.   :0.500   Min.   :8.248e+08   Length:1397040     Length:1397040    
+##  1st Qu.:18161   1st Qu.: 1022   1st Qu.:3.000   1st Qu.:9.655e+08   Class :character   Class :character  
+##  Median :35666   Median : 2109   Median :3.500   Median :1.058e+09   Mode  :character   Mode  :character  
+##  Mean   :35902   Mean   : 4616   Mean   :3.473   Mean   :1.051e+09                                        
+##  3rd Qu.:53645   3rd Qu.: 3993   3rd Qu.:4.000   3rd Qu.:1.135e+09                                        
+##  Max.   :71565   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
 \end{verbatim}
 
 \begin{Shaded}
@@ -1211,22 +938,14 @@ above\autocite{IDS2_23-1-1}:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId           movieId            rating        timestamp        
-##  59269  :   5292   356    :  12769   Min.   :0.500   Min.   :8.248e+08  
-##  67385  :   5088   296    :  12439   1st Qu.:3.000   1st Qu.:9.657e+08  
-##  14463  :   3718   480    :  12390   Median :3.500   Median :1.059e+09  
-##  68259  :   3228   593    :  12333   Mean   :3.472   Mean   :1.051e+09  
-##  27468  :   3218   260    :  12142   3rd Qu.:4.000   3rd Qu.:1.135e+09  
-##  19635  :   3016   1196   :  11586   Max.   :5.000   Max.   :1.231e+09  
-##  (Other):5516391   (Other):5466292                                      
-##     title              genres         
-##  Length:5539951     Length:5539951    
-##  Class :character   Class :character  
-##  Mode  :character   Mode  :character  
-##                                       
-##                                       
-##                                       
-## 
+##      userId           movieId            rating        timestamp            title              genres         
+##  59269  :   5292   356    :  12769   Min.   :0.500   Min.   :8.248e+08   Length:5539951     Length:5539951    
+##  67385  :   5088   296    :  12439   1st Qu.:3.000   1st Qu.:9.657e+08   Class :character   Class :character  
+##  14463  :   3718   480    :  12390   Median :3.500   Median :1.059e+09   Mode  :character   Mode  :character  
+##  68259  :   3228   593    :  12333   Mean   :3.472   Mean   :1.051e+09                                        
+##  27468  :   3218   260    :  12142   3rd Qu.:4.000   3rd Qu.:1.135e+09                                        
+##  19635  :   3016   1196   :  11586   Max.   :5.000   Max.   :1.231e+09                                        
+##  (Other):5516391   (Other):5466292
 \end{verbatim}
 
 We will use the array representation described in
@@ -1332,11 +1051,8 @@ that by the following small investigation:
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] -3.0 -2.9 -2.8 -2.7 -2.6 -2.5 -2.4 -2.3 -2.2 -2.1 -2.0 -1.9 -1.8 -1.7 -1.6
-## [16] -1.5 -1.4 -1.3 -1.2 -1.1 -1.0 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1
-## [31]  0.0  0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.0  1.1  1.2  1.3  1.4
-## [46]  1.5  1.6  1.7  1.8  1.9  2.0  2.1  2.2  2.3  2.4  2.5  2.6  2.7  2.8  2.9
-## [61]  3.0
+##  [1] -3.0 -2.9 -2.8 -2.7 -2.6 -2.5 -2.4 -2.3 -2.2 -2.1 -2.0 -1.9 -1.8 -1.7 -1.6 -1.5 -1.4 -1.3 -1.2 -1.1 -1.0 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1  0.0  0.1  0.2  0.3  0.4  0.5
+## [37]  0.6  0.7  0.8  0.9  1.0  1.1  1.2  1.3  1.4  1.5  1.6  1.7  1.8  1.9  2.0  2.1  2.2  2.3  2.4  2.5  2.6  2.7  2.8  2.9  3.0
 \end{verbatim}
 
 \begin{Shaded}

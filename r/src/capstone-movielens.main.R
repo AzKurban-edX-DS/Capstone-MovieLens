@@ -1,90 +1,3 @@
-## Setup -----------------------------------------------------------------------
-#> Reference: Some ideas and code snippers were used from the following GitHub repository:
-#> https://github.com/AzKurban-edX-DS/harvardx-movielens
-
-if(!require(tidyverse))
-  install.packages("tidyverse", repos = "http://cran.us.r-project.org")
-
-#> `stringr` library is already included to the `tidyverse` package,
-#> there's no need to install `stringr`
-# if(!require(stringr))
-#   install.packages("stringr")
-
-if(!require(caret))
-  install.packages("caret", repos = "http://cran.us.r-project.org")
-if(!require(data.table))
-  install.packages("data.table", repos = "http://cran.us.r-project.org")
-if(!require(gridExtra))
-  install.packages("gridExtra")
-if(!require("logr")) 
-  install.packages("logr")
-
-if(!require(gtools)) 
-  install.packages("gtools")
-if(!require(pak)) 
-  install.packages("pak")
-if(!require("pacman")) 
-  install.packages("pacman")
-
-if(!require("recommenderlab")) 
-  install.packages("recommenderlab")
-
-# Loading the required libraries
-library(dslabs)
-library(tidyverse)
-
-library(caret)
-library(cowplot)
-library(data.table)
-library(dplyr)
-library(ggplot2)
-library(ggthemes)
-library(lubridate)
-library(Metrics)
-library(recosystem)
-library(recommenderlab)
-
-library(scales)
-library(stringr)
-library(tibble)
-library(tidyr)
-library(gridExtra)
-library(logr)
-
-library(rafalib)
-library(gtools)
-library(pak)
-library(pacman)
-
-p_load(conflicted, latex2exp, kableExtra)
-
-### Resolve conflicts ----------------------------------------------------------
-
-# For functions with identical names in different packages, ensure the
-# right one is chosen:
-conflict_prefer("first", "dplyr", quiet = TRUE)
-conflict_prefer("count", "dplyr", quiet = TRUE)
-conflict_prefer("select", "dplyr", quiet = TRUE)
-conflict_prefer("group_by", "dplyr", quiet = TRUE)
-conflict_prefer("ungroup", "dplyr", quiet = TRUE)
-conflict_prefer("summarise", "dplyr", quiet = TRUE)
-conflict_prefer("summarize", "dplyr", quiet = TRUE)
-conflict_prefer("distinct", "dplyr", quiet = TRUE)
-conflict_prefer("top_n", "dplyr", quiet = TRUE)
-conflict_prefer("arrange", "dplyr", quiet = TRUE)
-conflict_prefer("mutate", "dplyr", quiet = TRUE)
-conflict_prefer("semi_join", "dplyr", quiet = TRUE)
-conflict_prefer("left_join", "dplyr", quiet = TRUE)
-conflict_prefer("filter", "dplyr", quiet = TRUE)
-conflict_prefer("slice", "dplyr", quiet = TRUE)
-conflict_prefer("glimpse", "dplyr", quiet = TRUE)
-conflict_prefer("union", "dplyr", quiet = TRUE)
-
-conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
-conflict_prefer("kable", "kableExtra", quiet = TRUE)
-conflict_prefer("year", "lubridate", quiet = TRUE)
-conflicts_prefer(base::as.matrix)
-
 ## Logging Helper functions -----------------------------------------------------
 open_logfile <- function(file_name){
   log_file_name <- as.character(Sys.time()) |> 
@@ -158,24 +71,26 @@ put_log3 <- function(msg_template, arg1, arg2, arg3, arg4){
 open_logfile(".src.file-paths")
 ## Source File Paths -----------------------------------------------------------
 r.path <- "r"
-dir.create(r.path)
-put_log1("Directory path has been created: %1", r.path)
-
 src.folder <- "src"
+support_scripts.folder <- "support-scripts"
 support_functions.folder <- "support-functions"
 
 r.src.path <- file.path(r.path, src.folder)
-dir.create(r.src.path)
-put_log1("Directory path has been created: %1", r.src.path)
-
+support_scripts.path <- file.path(r.src.path, support_scripts.folder)
 support_functions.path <- file.path(r.src.path, support_functions.folder)
-dir.create(support_functions.path)
-put_log1("Directory path has been created: %1", support_functions.path)
+## Setup -----------------------------------------------------------------------
+setup_script.file_path <- file.path(support_scripts.path,
+                                               "setup.R")
+source(setup_script.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
+
 ## External Common Helper functions -------------------------------------
 common_helper_functions.file_path <- file.path(support_functions.path,
                                             "common-helper.functions.R")
-# common_helper_functions.file_path <- file.path(support_functions.path,
-#                                             "common-helper.functions.azb001.R")
 source(common_helper_functions.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,

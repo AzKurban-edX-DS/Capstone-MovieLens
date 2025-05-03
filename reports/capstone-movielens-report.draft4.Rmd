@@ -4,6 +4,8 @@ author: "Azamat Kurbanaev"
 date: "`r Sys.Date()`"
 bibliography: references.bib
 #csl: bit-numerical-mathematics.csl 
+envir:
+  parent.frame()
 output:
   pdf_document: 
     df_print: paged
@@ -30,98 +32,54 @@ vignette: >
   %\VignetteEngine{knitr::knitr}
 ---
 
-```{r setup, include=TRUE, echo = FALSE}
+```{r setup, include=FALSE, echo = FALSE}
+r.path <- "../r"
+src.folder <- "src"
+support_scripts.folder <- "support-scripts"
+support_functions.folder <- "support-functions"
+
+r.src.path <- file.path(r.path, src.folder)
+support_scripts.path <- file.path(r.src.path, support_scripts.folder)
+support_functions.path <- file.path(r.src.path, support_functions.folder)
 ## Setup -----------------------------------------------------------------------
-#> Reference: Some ideas and code snippers were used from the following GitHub repository:
-#> https://github.com/AzKurban-edX-DS/harvardx-movielens
+setup_script.file_path <- file.path(support_scripts.path,
+                                               "setup.R")
 
-if(!require(tidyverse))
-  install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+# main_script.file_path <- file.path(r.src.path,
+#                                    "capstone-movielens.main.R")
+# stop(main_script.file_path)
+stopifnot(file.exists(setup_script.file_path))
 
-#> `stringr` library is already included to the `tidyverse` package,
-#> there's no need to install `stringr`
-# if(!require(stringr))
-#   install.packages("stringr")
+source(setup_script.file_path, 
+       local = knitr::knit_global())
+# or sys.source("your-script.R", envir = knitr::knit_global())
 
-if(!require(caret))
-  install.packages("caret", repos = "http://cran.us.r-project.org")
-if(!require(data.table))
-  install.packages("data.table", repos = "http://cran.us.r-project.org")
-if(!require(gridExtra))
-  install.packages("gridExtra")
-if(!require("logr")) 
-  install.packages("logr")
+## External Common Helper functions -------------------------------------
+# common_helper_functions.file_path <- file.path(support_functions.path,
+#                                             "common-helper.functions.R")
+# source(common_helper_functions.file_path, 
+#        local = knitr::knit_global())
 
-if(!require(gtools)) 
-  install.packages("gtools")
-if(!require(pak)) 
-  install.packages("pak")
-if(!require("pacman")) 
-  install.packages("pacman")
-
-if(!require("recommenderlab")) 
-  install.packages("recommenderlab")
-
-# Loading the required libraries
-library(dslabs)
-library(tidyverse)
-
-library(caret)
-library(cowplot)
-library(data.table)
-library(dplyr)
-library(ggplot2)
-library(ggthemes)
-library(lubridate)
-library(Metrics)
-library(recosystem)
-library(recommenderlab)
-
-library(scales)
-library(stringr)
-library(tibble)
-library(tidyr)
-library(gridExtra)
-library(logr)
-
-library(rafalib)
-library(gtools)
-library(pak)
-library(pacman)
-
-p_load(conflicted, latex2exp, kableExtra)
-
-#p_load(latex2exp)
-
-### Resolve conflicts ----------------------------------------------------------
-
-# For functions with identical names in different packages, ensure the
-# right one is chosen:
-conflict_prefer("first", "dplyr", quiet = TRUE)
-conflict_prefer("count", "dplyr", quiet = TRUE)
-conflict_prefer("select", "dplyr", quiet = TRUE)
-conflict_prefer("group_by", "dplyr", quiet = TRUE)
-conflict_prefer("ungroup", "dplyr", quiet = TRUE)
-conflict_prefer("summarise", "dplyr", quiet = TRUE)
-conflict_prefer("summarize", "dplyr", quiet = TRUE)
-conflict_prefer("distinct", "dplyr", quiet = TRUE)
-conflict_prefer("top_n", "dplyr", quiet = TRUE)
-conflict_prefer("arrange", "dplyr", quiet = TRUE)
-conflict_prefer("mutate", "dplyr", quiet = TRUE)
-conflict_prefer("semi_join", "dplyr", quiet = TRUE)
-conflict_prefer("left_join", "dplyr", quiet = TRUE)
-conflict_prefer("filter", "dplyr", quiet = TRUE)
-conflict_prefer("slice", "dplyr", quiet = TRUE)
-conflict_prefer("glimpse", "dplyr", quiet = TRUE)
-conflict_prefer("union", "dplyr", quiet = TRUE)
-
-conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
-conflict_prefer("kable", "kableExtra", quiet = TRUE)
-conflict_prefer("year", "lubridate", quiet = TRUE)
-conflicts_prefer(base::as.matrix)
-
-knitr::opts_chunk$set(echo = TRUE)
+# knitr::knit_global()
+#knitr::opts_chunk$set(echo = FALSE)
 ```
+
+
+## Plot dependency of RMSEs vs Overal Mean Rating Deviation
+\
+```{r}
+
+data.frame(delta = deviation, 
+           delta.RMSE = deviation.RMSE) |> 
+tuning.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Overall Mean Rating ($\hat{mu}$)]'),
+              xname = "delta", 
+              yname = "delta.RMSE", 
+              xlabel = TeX(r'[$\delta$]'), 
+              ylabel = "RMSE")
+
+```
+
+
 
 ## Introduction / Overview / Executive Summary
 
@@ -363,12 +321,6 @@ edx |>
   theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
-```
-
-##### 
-\
-```{r}
-
 ```
 
 ##### 
