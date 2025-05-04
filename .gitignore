@@ -1,21 +1,17 @@
 r/init/ml-10M100K.zip
 r/init/ml-10M100K/
 r/overview/arch/
-docs/Recommender_systems_handbook.pdf
-docs/datasciencebook.pdf
-docs/books/
-.Rproj.user
 r/init/data/
-*.Rhistory
-reports/capstone-movielens-report.html
-reports/capstone-movielens-report_files/
-reports/capstone-movielens-report.pdf
-reports/capstone-movielens-report.tex
-
+docs/books/
 docs/others-solutions/
+
+reports/capstone-movielens-report_files/
 reports/capstone-movielens-report.draft3_files/
+reports/capstone-movielens-report.draft4_files/
+
 docs/work/MF.Recommender-Systems-\[Netflix\] (work).pdf
 data/movielens-datasets.zip
+
 .vs/
 r/log/
 docs/r-help/
@@ -24,4 +20,7 @@ log/
 data/movielens-datasets.RData
 data/
 r/bak/
-reports/capstone-movielens-report.draft4_files/
+
+.Rproj.user
+*.Rhistory
+
