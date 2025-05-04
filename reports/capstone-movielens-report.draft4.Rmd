@@ -337,31 +337,65 @@ edx |>
 ```
 
 ## Methods / Analysis
-### Defining helper functions
+:::{.callout-note}
+All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src). 
+:::
+
+### Defining Logging and Mesuring helper functions
 \
 
-Let's define some helper functions that we will use in our subsequent analysis:
+Let's define some helper functions for logging and time-measuring features that we will use in our R scripts. Some of them are listed below:
+
 ```{r}
-start_date <- function(){
+open_logfile <- function(file_name){
+  log_file_name <- as.character(Sys.time()) |> 
+    str_replace_all(':', '_') |> 
+    str_replace(' ', 'T') |>
+    str_c(file_name)
+  
+  log_open(file_name = log_file_name)
+}
+print_start_date <- function(){
   print(date())
   Sys.time()
 }
-end_date <- function(start){
-  print(date())
-  Sys.time() - start
+put_start_date <- function(){
+  put(date())
+  Sys.time()
 }
-rmse <- function(r) sqrt(mean(r^2))
-RMSE <- function(true_ratings, predicted_ratings){
-  sqrt(mean((true_ratings - predicted_ratings)^2))
+print_end_date <- function(start){
+  print(date())
+  print(Sys.time() - start)
+}
+put_end_date <- function(start){
+  put(date())
+  put(Sys.time() - start)
 }
 
-# Because we know ratings can’t be below 0.5 or above 5, 
-# we define the function clamp:
-clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
+print_log <- function(msg){
+  print(str_glue(msg))
+}
+put_log <- function(msg){
+  put(str_glue(msg))
+}
+put_log1 <- function(msg_template, arg1){
+  msg <- str_replace_all(msg_template, "%1", as.character(arg1))
+  put(str_glue(msg))
+}
+put_log2 <- function(msg_template, arg1, arg2){
+  msg <- msg_template |> 
+    str_replace_all("%1", as.character(arg1)) |>
+    str_replace_all("%2", as.character(arg2)) |>
+    str_glue()
+  
+  put(msg)
+}
 
 ```
 
-
+:::{.callout-note}
+The full source code of these functions is available in the [Logging Helper function section of the Capstone MovieLens Main R Script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/capstone-movielens.main.R#L1).
+:::
 
 ### Preparing train and set datasets
 \

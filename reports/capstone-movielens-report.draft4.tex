@@ -118,7 +118,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-03}
+\date{2025-05-04}
 
 \begin{document}
 \maketitle
@@ -688,34 +688,70 @@ Users' rating histogram
 
 \subsection{Methods / Analysis}\label{methods-analysis}
 
-\subsubsection{Defining helper
-functions}\label{defining-helper-functions}
+All the source code of the R-scripts is available on the project's
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src}{GitHub
+repository}.
+
+\subsubsection{Defining Logging and Mesuring helper
+functions}\label{defining-logging-and-mesuring-helper-functions}
 
 \hfill\break
 
-Let's define some helper functions that we will use in our subsequent
-analysis:
+Let's define some helper functions for logging and time-measuring
+features that we will use in our R scripts. Some of them are listed
+below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{start\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{}
+\NormalTok{open\_logfile }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(file\_name)\{}
+\NormalTok{  log\_file\_name }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{\textquotesingle{}:\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{str\_replace}\NormalTok{(}\StringTok{\textquotesingle{} \textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{str\_c}\NormalTok{(file\_name)}
+  
+  \FunctionTok{log\_open}\NormalTok{(}\AttributeTok{file\_name =}\NormalTok{ log\_file\_name)}
+\NormalTok{\}}
+\NormalTok{print\_start\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{}
   \FunctionTok{print}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
   \FunctionTok{Sys.time}\NormalTok{()}
 \NormalTok{\}}
-\NormalTok{end\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(start)\{}
-  \FunctionTok{print}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
-  \FunctionTok{Sys.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ start}
+\NormalTok{put\_start\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
+  \FunctionTok{Sys.time}\NormalTok{()}
 \NormalTok{\}}
-\NormalTok{rmse }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(r) }\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(r}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
-\NormalTok{RMSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(true\_ratings, predicted\_ratings)\{}
-  \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((true\_ratings }\SpecialCharTok{{-}}\NormalTok{ predicted\_ratings)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{print\_end\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(start)\{}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ start)}
+\NormalTok{\}}
+\NormalTok{put\_end\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(start)\{}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ start)}
 \NormalTok{\}}
 
-\CommentTok{\# Because we know ratings can’t be below 0.5 or above 5, }
-\CommentTok{\# we define the function clamp:}
-\NormalTok{clamp }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, }\AttributeTok{min =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{max =} \DecValTok{5}\NormalTok{) }\FunctionTok{pmax}\NormalTok{(}\FunctionTok{pmin}\NormalTok{(x, max), min)}
+\NormalTok{print\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg)\{}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
+\NormalTok{\}}
+\NormalTok{put\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg)\{}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
+\NormalTok{\}}
+\NormalTok{put\_log1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1)\{}
+\NormalTok{  msg }\OtherTok{\textless{}{-}} \FunctionTok{str\_replace\_all}\NormalTok{(msg\_template, }\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1))}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
+\NormalTok{\}}
+\NormalTok{put\_log2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1, arg2)\{}
+\NormalTok{  msg }\OtherTok{\textless{}{-}}\NormalTok{ msg\_template }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{"\%2"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg2)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{str\_glue}\NormalTok{()}
+  
+  \FunctionTok{put}\NormalTok{(msg)}
+\NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
+
+The full source code of these functions is available in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/capstone-movielens.main.R\#L1}{Logging
+Helper function section of the Capstone MovieLens Main R Script}.
 
 \subsubsection{Preparing train and set
 datasets}\label{preparing-train-and-set-datasets}
