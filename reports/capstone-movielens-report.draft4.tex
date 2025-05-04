@@ -95,6 +95,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{awesomebox}
 \usepackage{hyperref}
 \usepackage[natbib=true, style=numeric, backref=true, sorting=none]{biblatex}
 \hypersetup{backref, pdfpagemode=Normal, colorlinks=true, implicit=false}
@@ -118,7 +119,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-04}
+\date{2025-05-05}
 
 \begin{document}
 \maketitle
@@ -128,24 +129,23 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-\subsection{Plot dependency of RMSEs vs Overal Mean Rating
-Deviation}\label{plot-dependency-of-rmses-vs-overal-mean-rating-deviation}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{delta =}\NormalTok{ deviation, }
-           \AttributeTok{delta.RMSE =}\NormalTok{ deviation.RMSE) }\SpecialCharTok{|\textgreater{}} 
-\FunctionTok{tuning.plot}\NormalTok{(}\AttributeTok{title =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[RMSE as a function of deviation ($\textbackslash{}delta$) from the Overall Mean Rating ($\textbackslash{}hat\{mu\}$)]\textquotesingle{}}\NormalTok{),}
-              \AttributeTok{xname =} \StringTok{"delta"}\NormalTok{, }
-              \AttributeTok{yname =} \StringTok{"delta.RMSE"}\NormalTok{, }
-              \AttributeTok{xlabel =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[$\textbackslash{}delta$]\textquotesingle{}}\NormalTok{), }
-              \AttributeTok{ylabel =} \StringTok{"RMSE"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-1-1.pdf}
+\newenvironment{infobox}[1]
+  {
+  \begin{itemize}
+  \renewcommand{\labelitemi}{
+    \raisebox{-.7\height}[0pt][0pt]{
+      {\setkeys{Gin}{width=3em,keepaspectratio}
+        \includegraphics{images/#1}}
+    }
+  }
+  \setlength{\fboxsep}{1em}
+  \begin{blackbox}
+  \item
+  }
+  {
+  \end{blackbox}
+  \end{itemize}
+  }
 
 \subsection{Introduction / Overview / Executive
 Summary}\label{introduction-overview-executive-summary}
@@ -169,7 +169,7 @@ Our goal is to achieve a value of less than 0.86490 (compare with the
 \emph{Netflix Grand Prize} requirement: of at least
 0.8563\autocite{BigChaosSln}).
 
-\subsubsection{Datasets}\label{datasets}
+\subsubsection{Datasets Overview}\label{datasets-overview}
 
 To start with we have to generate two datasets derived from the
 \emph{MovieLens} one mentioned above:
@@ -201,7 +201,13 @@ environment:
 \FunctionTok{library}\NormalTok{(edx.capstone.movielens.data)}
 \NormalTok{edx }\OtherTok{\textless{}{-}}\NormalTok{ edx.capstone.movielens.data}\SpecialCharTok{::}\NormalTok{edx}
 \NormalTok{final\_holdout\_test }\OtherTok{\textless{}{-}}\NormalTok{ edx.capstone.movielens.data}\SpecialCharTok{::}\NormalTok{final\_holdout\_test}
+\end{Highlighting}
+\end{Shaded}
 
+Now, we have the datasets listed above:
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{summary}\NormalTok{(edx)}
 \end{Highlighting}
 \end{Shaded}
@@ -267,496 +273,6 @@ Note that we have 9000055 rows and six columns in there:
 ## [1] 9000055       6
 \end{verbatim}
 
-Also, we can see that no movies have a rating of 0. Movies are rated
-from 0.5 to 5.0 in 0.5 increments:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#library(dplyr)}
-\NormalTok{s }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n =} \FunctionTok{n}\NormalTok{())}
-\FunctionTok{print}\NormalTok{(s)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    rating       n
-##     <dbl>   <int>
-##  1    0.5   85374
-##  2    1    345679
-##  3    1.5  106426
-##  4    2    711422
-##  5    2.5  333010
-##  6    3   2121240
-##  7    3.5  791624
-##  8    4   2588430
-##  9    4.5  526736
-## 10    5   1390114
-\end{verbatim}
-
-\subparagraph{Movie Genres Data}\label{movie-genres-data}
-
-\hfill\break
-The following code computes movie rating summaries by popular genres
-like Drama, Comedy, Thriller, and Romance:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#library(stringr)}
-\NormalTok{genres }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"Drama"}\NormalTok{, }\StringTok{"Comedy"}\NormalTok{, }\StringTok{"Thriller"}\NormalTok{, }\StringTok{"Romance"}\NormalTok{)}
-\FunctionTok{sapply}\NormalTok{(genres, }\ControlFlowTok{function}\NormalTok{(g) \{}
-  \FunctionTok{sum}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(edx}\SpecialCharTok{$}\NormalTok{genres, g))}
-\NormalTok{\})}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    Drama   Comedy Thriller  Romance 
-##  3910127  3540930  2325899  1712100
-\end{verbatim}
-
-Further, we can find out the movies that have the greatest number of
-ratings using the following code:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ordered\_movie\_ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId, title) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{number\_of\_ratings =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(number\_of\_ratings))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `summarise()` has grouped output by 'movieId'. You can override using the `.groups` argument.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(ordered\_movie\_ratings))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 6 x 3
-## # Groups:   movieId [6]
-##   movieId title                            number_of_ratings
-##     <int> <chr>                                        <int>
-## 1     296 Pulp Fiction (1994)                          31362
-## 2     356 Forrest Gump (1994)                          31079
-## 3     593 Silence of the Lambs, The (1991)             30382
-## 4     480 Jurassic Park (1993)                         29360
-## 5     318 Shawshank Redemption, The (1994)             28015
-## 6     110 Braveheart (1995)                            26212
-\end{verbatim}
-
-and figure out the most given ratings in order from most to least:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-     \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-     \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(count))}
-\FunctionTok{print}\NormalTok{(ratings)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    rating   count
-##     <dbl>   <int>
-##  1    4   2588430
-##  2    3   2121240
-##  3    5   1390114
-##  4    3.5  791624
-##  5    2    711422
-##  6    4.5  526736
-##  7    1    345679
-##  8    2.5  333010
-##  9    1.5  106426
-## 10    0.5   85374
-\end{verbatim}
-
-The following code allows us to summarize that in general, half-star
-ratings are less common than whole-star ratings (e.g., there are fewer
-ratings of 3.5 than there are ratings of 3 or 4, etc.):
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    rating   count
-##     <dbl>   <int>
-##  1    0.5   85374
-##  2    1    345679
-##  3    1.5  106426
-##  4    2    711422
-##  5    2.5  333010
-##  6    3   2121240
-##  7    3.5  791624
-##  8    4   2588430
-##  9    4.5  526736
-## 10    5   1390114
-\end{verbatim}
-
-We can visually see that from the following plot:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{() }
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
-
-Further analysis of the \texttt{edx} dataset have been also inspired by
-the article mentioned above\autocite{MRS-R-BEST}, from which the code
-and explanatory notes below were cited.
-
-\subparagraph{\texorpdfstring{Rating distribution
-plot\autocite{MRS-R-BEST}}{Rating distribution plot{[}@MRS-R-BEST{]}}}\label{rating-distribution-plotmrs-r-best}
-
-\hfill\break
-The code below demonstrates another way of visualizing the rating
-distribution:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Rating Distribution"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Occurrences Count"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-12-1.pdf}
-
-This graph is another confirmation of what we found out above: rounded
-ratings occur more often than half-stared ones. The upward trend
-previously discussed is now perfectly clear, although it seems to top
-right between the 3 and 4-star ratings lowering the occurrences count
-afterward. That might be due to users being more hesitant to rate with
-the highest mark for whichever reasons they might
-hold\autocite{MRS-R-BEST}.
-
-\subparagraph{Ratings per movie}\label{ratings-per-movie}
-
-\hfill\break
-
-Movie popularity count\autocite{MRS-R-BEST}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    movieId count
-##      <int> <int>
-##  1       1 23790
-##  2       2 10779
-##  3       3  7028
-##  4       4  1577
-##  5       5  6400
-##  6       6 12346
-##  7       7  7259
-##  8       8   821
-##  9       9  2278
-## 10      10 15187
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(count))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##      count        
-##  Min.   :    1.0  
-##  1st Qu.:   30.0  
-##  Median :  122.0  
-##  Mean   :  842.9  
-##  3rd Qu.:  565.0  
-##  Max.   :31362.0
-\end{verbatim}
-
-Ratings per movie plot\autocite{MRS-R-BEST}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ movieId, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ratings per movie"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Movies"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of ratings"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
-\end{verbatim}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
-
-Movies' rating histogram\autocite{MRS-R-BEST}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Movies\textquotesingle{} rating histogram"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating count"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of movies"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_log10}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-\end{verbatim}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-16-1.pdf}
-
-\subparagraph{\texorpdfstring{Ratings per
-user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
-
-\hfill\break
-
-User rating count (activity measure)
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    userId count
-##     <int> <int>
-##  1      1    19
-##  2      2    17
-##  3      3    31
-##  4      4    35
-##  5      5    74
-##  6      6    39
-##  7      7    96
-##  8      8   727
-##  9      9    21
-## 10     10   112
-\end{verbatim}
-
-User rating summary
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(count))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##      count       
-##  Min.   :  10.0  
-##  1st Qu.:  32.0  
-##  Median :  62.0  
-##  Mean   : 128.8  
-##  3rd Qu.: 141.0  
-##  Max.   :6616.0
-\end{verbatim}
-
-Ratings per user plot
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ userId, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ratings per user"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Users"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of ratings"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
-\end{verbatim}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
-
-Users' rating histogram
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Users\textquotesingle{} rating histogram"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating count"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of users"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_log10}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-\end{verbatim}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-20-1.pdf}
-
-\subparagraph{}\label{section}
-
-\hfill\break
-
-\hfill\break
-
-\subsection{Methods / Analysis}\label{methods-analysis}
-
-All the source code of the R-scripts is available on the project's
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src}{GitHub
-repository}.
-
-\subsubsection{Defining Logging and Mesuring helper
-functions}\label{defining-logging-and-mesuring-helper-functions}
-
-\hfill\break
-
-Let's define some helper functions for logging and time-measuring
-features that we will use in our R scripts. Some of them are listed
-below:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{open\_logfile }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(file\_name)\{}
-\NormalTok{  log\_file\_name }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{\textquotesingle{}:\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{str\_replace}\NormalTok{(}\StringTok{\textquotesingle{} \textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{str\_c}\NormalTok{(file\_name)}
-  
-  \FunctionTok{log\_open}\NormalTok{(}\AttributeTok{file\_name =}\NormalTok{ log\_file\_name)}
-\NormalTok{\}}
-\NormalTok{print\_start\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{}
-  \FunctionTok{print}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
-  \FunctionTok{Sys.time}\NormalTok{()}
-\NormalTok{\}}
-\NormalTok{put\_start\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{}
-  \FunctionTok{put}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
-  \FunctionTok{Sys.time}\NormalTok{()}
-\NormalTok{\}}
-\NormalTok{print\_end\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(start)\{}
-  \FunctionTok{print}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
-  \FunctionTok{print}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ start)}
-\NormalTok{\}}
-\NormalTok{put\_end\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(start)\{}
-  \FunctionTok{put}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
-  \FunctionTok{put}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ start)}
-\NormalTok{\}}
-
-\NormalTok{print\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg)\{}
-  \FunctionTok{print}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
-\NormalTok{\}}
-\NormalTok{put\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg)\{}
-  \FunctionTok{put}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
-\NormalTok{\}}
-\NormalTok{put\_log1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1)\{}
-\NormalTok{  msg }\OtherTok{\textless{}{-}} \FunctionTok{str\_replace\_all}\NormalTok{(msg\_template, }\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1))}
-  \FunctionTok{put}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
-\NormalTok{\}}
-\NormalTok{put\_log2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1, arg2)\{}
-\NormalTok{  msg }\OtherTok{\textless{}{-}}\NormalTok{ msg\_template }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1)) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{"\%2"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg2)) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{str\_glue}\NormalTok{()}
-  
-  \FunctionTok{put}\NormalTok{(msg)}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-The full source code of these functions is available in the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/capstone-movielens.main.R\#L1}{Logging
-Helper function section of the Capstone MovieLens Main R Script}.
-
-\subsubsection{Preparing train and set
-datasets}\label{preparing-train-and-set-datasets}
-
-\hfill\break
 First, let's note that we have 10677 different movies:
 
 \begin{Shaded}
@@ -905,16 +421,529 @@ others, and some users are more active than others in rating movies:
 
 \includegraphics{capstone-movielens-report.draft4_files/figure-latex/movie-id-and-user-hists-1.pdf}
 
-Taking into consideration these observations, we came up with a decision
-to use the data from the dataset only for users who have provided at
-least 100 ratings.
+Finally, we can see that no movies have a rating of 0. Movies are rated
+from 0.5 to 5.0 in 0.5 increments:
 
-Now let's split the \texttt{edx} dataset into a training set, which we
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#library(dplyr)}
+\NormalTok{s }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n =} \FunctionTok{n}\NormalTok{())}
+\FunctionTok{print}\NormalTok{(s)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    rating       n
+##     <dbl>   <int>
+##  1    0.5   85374
+##  2    1    345679
+##  3    1.5  106426
+##  4    2    711422
+##  5    2.5  333010
+##  6    3   2121240
+##  7    3.5  791624
+##  8    4   2588430
+##  9    4.5  526736
+## 10    5   1390114
+\end{verbatim}
+
+\subparagraph{Movie Genres Data}\label{movie-genres-data}
+
+\hfill\break
+The following code computes movie rating summaries by popular genres
+like Drama, Comedy, Thriller, and Romance:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#library(stringr)}
+\NormalTok{genres }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"Drama"}\NormalTok{, }\StringTok{"Comedy"}\NormalTok{, }\StringTok{"Thriller"}\NormalTok{, }\StringTok{"Romance"}\NormalTok{)}
+\FunctionTok{sapply}\NormalTok{(genres, }\ControlFlowTok{function}\NormalTok{(g) \{}
+  \FunctionTok{sum}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(edx}\SpecialCharTok{$}\NormalTok{genres, g))}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Drama   Comedy Thriller  Romance 
+##  3910127  3540930  2325899  1712100
+\end{verbatim}
+
+Further, we can find out the movies that have the greatest number of
+ratings using the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordered\_movie\_ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId, title) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{number\_of\_ratings =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(number\_of\_ratings))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'movieId'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(ordered\_movie\_ratings))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   movieId [6]
+##   movieId title                            number_of_ratings
+##     <int> <chr>                                        <int>
+## 1     296 Pulp Fiction (1994)                          31362
+## 2     356 Forrest Gump (1994)                          31079
+## 3     593 Silence of the Lambs, The (1991)             30382
+## 4     480 Jurassic Park (1993)                         29360
+## 5     318 Shawshank Redemption, The (1994)             28015
+## 6     110 Braveheart (1995)                            26212
+\end{verbatim}
+
+and figure out the most given ratings in order from most to least:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
+     \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+     \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(count))}
+\FunctionTok{print}\NormalTok{(ratings)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    rating   count
+##     <dbl>   <int>
+##  1    4   2588430
+##  2    3   2121240
+##  3    5   1390114
+##  4    3.5  791624
+##  5    2    711422
+##  6    4.5  526736
+##  7    1    345679
+##  8    2.5  333010
+##  9    1.5  106426
+## 10    0.5   85374
+\end{verbatim}
+
+The following code allows us to summarize that in general, half-star
+ratings are less common than whole-star ratings (e.g., there are fewer
+ratings of 3.5 than there are ratings of 3 or 4, etc.):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    rating   count
+##     <dbl>   <int>
+##  1    0.5   85374
+##  2    1    345679
+##  3    1.5  106426
+##  4    2    711422
+##  5    2.5  333010
+##  6    3   2121240
+##  7    3.5  791624
+##  8    4   2588430
+##  9    4.5  526736
+## 10    5   1390114
+\end{verbatim}
+
+We can visually see that from the following plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+Further analysis of the \texttt{edx} dataset have been also inspired by
+the article mentioned above\autocite{MRS-R-BEST}, from which the code
+and explanatory notes below were cited.
+
+\subparagraph{\texorpdfstring{Rating distribution
+plot\autocite{MRS-R-BEST}}{Rating distribution plot{[}@MRS-R-BEST{]}}}\label{rating-distribution-plotmrs-r-best}
+
+\hfill\break
+The code below demonstrates another way of visualizing the rating
+distribution:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Rating Distribution"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Occurrences Count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+This graph is another confirmation of what we found out above: rounded
+ratings occur more often than half-stared ones. The upward trend
+previously discussed is now perfectly clear, although it seems to top
+right between the 3 and 4-star ratings lowering the occurrences count
+afterward. That might be due to users being more hesitant to rate with
+the highest mark for whichever reasons they might
+hold\autocite{MRS-R-BEST}.
+
+\subparagraph{Ratings per movie}\label{ratings-per-movie}
+
+\hfill\break
+
+Movie popularity count\autocite{MRS-R-BEST}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    movieId count
+##      <int> <int>
+##  1       1 23790
+##  2       2 10779
+##  3       3  7028
+##  4       4  1577
+##  5       5  6400
+##  6       6 12346
+##  7       7  7259
+##  8       8   821
+##  9       9  2278
+## 10      10 15187
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      count        
+##  Min.   :    1.0  
+##  1st Qu.:   30.0  
+##  Median :  122.0  
+##  Mean   :  842.9  
+##  3rd Qu.:  565.0  
+##  Max.   :31362.0
+\end{verbatim}
+
+Ratings per movie plot\autocite{MRS-R-BEST}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ movieId, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ratings per movie"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Movies"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of ratings"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
+\end{verbatim}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+Movies' rating histogram\autocite{MRS-R-BEST}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Movies\textquotesingle{} rating histogram"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of movies"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_log10}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\subparagraph{\texorpdfstring{Ratings per
+user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
+
+\hfill\break
+
+User rating count (activity measure)
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    userId count
+##     <int> <int>
+##  1      1    19
+##  2      2    17
+##  3      3    31
+##  4      4    35
+##  5      5    74
+##  6      6    39
+##  7      7    96
+##  8      8   727
+##  9      9    21
+## 10     10   112
+\end{verbatim}
+
+User rating summary
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      count       
+##  Min.   :  10.0  
+##  1st Qu.:  32.0  
+##  Median :  62.0  
+##  Mean   : 128.8  
+##  3rd Qu.: 141.0  
+##  Max.   :6616.0
+\end{verbatim}
+
+Ratings per user plot
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ userId, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ratings per user"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Users"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of ratings"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
+\end{verbatim}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-23-1.pdf}
+
+Users' rating histogram
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Users\textquotesingle{} rating histogram"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of users"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_log10}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\subparagraph{}\label{section}
+
+\hfill\break
+
+\hfill\break
+
+\subsection{Methods / Analysis}\label{methods-analysis}
+
+\begin{noteblock}
+All the source code of the R-scripts is available on the project's
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src}{GitHub
+repository}.
+
+\end{noteblock}
+
+\subsubsection{Defining Logging and Mesuring helper
+functions}\label{defining-logging-and-mesuring-helper-functions}
+
+\hfill\break
+
+First, let's define some helper functions for logging and time-measuring
+features that we will use in our R scripts. Some of them are listed
+below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{open\_logfile }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(file\_name)\{}
+\NormalTok{  log\_file\_name }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{\textquotesingle{}:\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{str\_replace}\NormalTok{(}\StringTok{\textquotesingle{} \textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{str\_c}\NormalTok{(file\_name)}
+  
+  \FunctionTok{log\_open}\NormalTok{(}\AttributeTok{file\_name =}\NormalTok{ log\_file\_name)}
+\NormalTok{\}}
+\NormalTok{print\_start\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
+  \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{\}}
+\NormalTok{put\_start\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
+  \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{\}}
+\NormalTok{print\_end\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(start)\{}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ start)}
+\NormalTok{\}}
+\NormalTok{put\_end\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(start)\{}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{date}\NormalTok{())}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ start)}
+\NormalTok{\}}
+
+\NormalTok{print\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg)\{}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
+\NormalTok{\}}
+\NormalTok{put\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg)\{}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
+\NormalTok{\}}
+\NormalTok{put\_log1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1)\{}
+\NormalTok{  msg }\OtherTok{\textless{}{-}} \FunctionTok{str\_replace\_all}\NormalTok{(msg\_template, }\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1))}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
+\NormalTok{\}}
+\NormalTok{put\_log2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1, arg2)\{}
+\NormalTok{  msg }\OtherTok{\textless{}{-}}\NormalTok{ msg\_template }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{"\%2"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg2)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{str\_glue}\NormalTok{()}
+  
+  \FunctionTok{put}\NormalTok{(msg)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The full source code of these functions is available in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/capstone-movielens.main.R\#L1}{Logging
+Helper function section of the Capstone MovieLens Main R Script}.
+
+\end{noteblock}
+
+\subsubsection{Preparing train and set
+datasets}\label{preparing-train-and-set-datasets}
+
+\hfill\break
+
+We will split the \texttt{edx} dataset into a training set, which we
 will use to build and train our models, and a test set in which we will
-compute the accuracy of our predictions, the way described in the
+compute the accuracy of our predictions, the way described in
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#movielens-data}{Section
 23.1.1 Movielens data} of the \emph{Course Textbook} mentioned
-above\autocite{IDS2_23-1-1}:
+above\autocite{IDS2_23-1-1}.We will also use the \emph{5-Fold Cross
+Validation} method the way described in
+\href{https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html\#cross-validation}{Section
+29.6 Cross validation} of the \emph{Course Textbook}. To prepare
+datasets for processing, we will use the following functions,
+specifically designed for these operations:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{make\_source\_datasets};
+\item
+  \texttt{init\_source\_datasets}.
+\end{itemize}
+
+\begin{noteblock}
+The full source code of the function listed above is available in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L86}{\texttt{Initialize\ input\ datasets}
+section of the \texttt{data.helper.functions.R} script on \emph{GitHub}}
+
+\end{noteblock}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -925,18 +954,7 @@ above\autocite{IDS2_23-1-1}:
   \FunctionTok{ungroup}\NormalTok{()}
 
 \FunctionTok{print}\NormalTok{(edx100 }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{n\_distinct}\NormalTok{(userId), }\FunctionTok{n\_distinct}\NormalTok{(movieId)))}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## # A tibble: 1 x 2
-##   `n_distinct(userId)` `n_distinct(movieId)`
-##                  <int>                 <int>
-## 1                24115                 10665
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{\# For each one of these users, we will split their ratings into 80\% for training }
 \CommentTok{\# and 20\% for testing:}
 
@@ -953,36 +971,11 @@ above\autocite{IDS2_23-1-1}:
 \CommentTok{\# there, we remove entries using the semi\_join function:}
 \NormalTok{test\_set }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{semi\_join}\NormalTok{(train\_set, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{as.data.frame}\NormalTok{()}
 \FunctionTok{summary}\NormalTok{(test\_set)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-##      userId         movieId          rating        timestamp            title              genres         
-##  Min.   :    8   Min.   :    1   Min.   :0.500   Min.   :8.248e+08   Length:1397040     Length:1397040    
-##  1st Qu.:18161   1st Qu.: 1022   1st Qu.:3.000   1st Qu.:9.655e+08   Class :character   Class :character  
-##  Median :35666   Median : 2109   Median :3.500   Median :1.058e+09   Mode  :character   Mode  :character  
-##  Mean   :35902   Mean   : 4616   Mean   :3.473   Mean   :1.051e+09                                        
-##  3rd Qu.:53645   3rd Qu.: 3993   3rd Qu.:4.000   3rd Qu.:1.135e+09                                        
-##  Max.   :71565   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{train\_set }\OtherTok{\textless{}{-}} \FunctionTok{mutate}\NormalTok{(train\_set, }\AttributeTok{userId =} \FunctionTok{factor}\NormalTok{(userId), }\AttributeTok{movieId =} \FunctionTok{factor}\NormalTok{(movieId))}
 \FunctionTok{summary}\NormalTok{(train\_set)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-##      userId           movieId            rating        timestamp            title              genres         
-##  59269  :   5292   356    :  12769   Min.   :0.500   Min.   :8.248e+08   Length:5539951     Length:5539951    
-##  67385  :   5088   296    :  12439   1st Qu.:3.000   1st Qu.:9.657e+08   Class :character   Class :character  
-##  14463  :   3718   480    :  12390   Median :3.500   Median :1.059e+09   Mode  :character   Mode  :character  
-##  68259  :   3228   593    :  12333   Mean   :3.472   Mean   :1.051e+09                                        
-##  27468  :   3218   260    :  12142   3rd Qu.:4.000   3rd Qu.:1.135e+09                                        
-##  19635  :   3016   1196   :  11586   Max.   :5.000   Max.   :1.231e+09                                        
-##  (Other):5516391   (Other):5466292
-\end{verbatim}
 
 We will use the array representation described in
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html\#sec-anova}{Section

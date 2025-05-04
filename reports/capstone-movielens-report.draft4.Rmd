@@ -17,6 +17,7 @@ colorlinks: true
 linkcolor: red
 citecolor: blue
 header-includes:
+    - \usepackage{awesomebox}
     - \usepackage{hyperref}
     - \usepackage[natbib=true, 
                   style=numeric, 
@@ -31,6 +32,24 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::knitr}
 ---
+
+\newenvironment{infobox}[1]
+  {
+  \begin{itemize}
+  \renewcommand{\labelitemi}{
+    \raisebox{-.7\height}[0pt][0pt]{
+      {\setkeys{Gin}{width=3em,keepaspectratio}
+        \includegraphics{images/#1}}
+    }
+  }
+  \setlength{\fboxsep}{1em}
+  \begin{blackbox}
+  \item
+  }
+  {
+  \end{blackbox}
+  \end{itemize}
+  }
 
 ```{r setup, include=FALSE, echo = FALSE}
 r.path <- "../r"
@@ -65,22 +84,6 @@ source(setup_script.file_path,
 ```
 
 
-## Plot dependency of RMSEs vs Overal Mean Rating Deviation
-\
-```{r}
-
-data.frame(delta = deviation, 
-           delta.RMSE = deviation.RMSE) |> 
-tuning.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Overall Mean Rating ($\hat{mu}$)]'),
-              xname = "delta", 
-              yname = "delta.RMSE", 
-              xlabel = TeX(r'[$\delta$]'), 
-              ylabel = "RMSE")
-
-```
-
-
-
 ## Introduction / Overview / Executive Summary
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
@@ -94,10 +97,7 @@ with $N$ being the number of user/movie combinations for which we make predictio
 Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563[@BigChaosSln]). 
 
 
-### Datasets
-
-``` {r , echo = FALSE}
-```
+### Datasets Overview
 
 To start with we have to generate two datasets derived from the _MovieLens_ one mentioned above:
 
@@ -107,16 +107,23 @@ To start with we have to generate two datasets derived from the _MovieLens_ one 
 For this purpose the following package has been developed by the author of this report: `edx.capstone.movielens.data`. The source code of the package is available [on GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data)[@edx_capstone_movielens_data].
 
 Let's install the development version of this package from the GitHub repository and attach the correspondent library to the global environment:
-```{r }
+```{r eval=FALSE }
 if(!require(edx.capstone.movielens.data)) pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
 
 library(edx.capstone.movielens.data)
 edx <- edx.capstone.movielens.data::edx
 final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
+```
 
+Now, we have the datasets listed above:
+```{r }
 summary(edx)
+```
+
+```{r }
 summary(final_holdout_test)
 ```
+
 #### `edx` Dataset
 \
 Let's look into the details of the `edx` dataset:
@@ -129,7 +136,80 @@ dim_edx <- dim(edx)
 print(dim_edx)
 ```
 
-Also, we can see that no movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments:
+First, let's note that we have 10677 different movies: 
+```{r}
+n_movies <- n_distinct(edx$movieId)
+print(n_movies)
+```
+and 69878 different users in the dataset:
+```{r}
+n_users <- n_distinct(edx$userId)
+print(n_users)
+```
+
+Now, note the expressions below which confirm the fact explained in [Section _23.1.1 Movielens data_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_[@IDS2] that not every user rated every movie:
+```{r}
+max_possible_ratings <- n_movies*n_users
+sprintf("Maximum possible ratings: %s", max_possible_ratings)
+sprintf("Rows in `edx` dataset: %s", dim_edx[1])
+sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1])
+
+```
+
+As also explained in that section, we can think of these data as a very large matrix, with users on the rows and movies on the columns, with many empty cells. Therefore, we can think of a recommendation system as filling in the `NA`s in the dataset for the movies that some or all the users do not rate. A sample from the `edx` data below illustrates this idea[@IDS2_23-1-1]: 
+```{r}
+keep <- edx |> 
+  dplyr::count(movieId) |> 
+  top_n(4, n) |> 
+  pull(movieId)
+
+tab <- edx |> 
+  filter(movieId %in% keep) |> 
+  filter(userId %in% c(13:20)) |> 
+  select(userId, title, rating) |> 
+  mutate(title = str_remove(title, ", The"),
+         title = str_remove(title, ":.*")) |>
+  pivot_wider(names_from = "title", values_from = "rating")
+
+print(tab)
+```
+
+The following plot of the matrix for a random sample of 100 movies and 100 users with yellow indicating a user/movie combination for which we have a rating shows how _sparse_ the matrix is:
+```{r sparsity-of-movie-recs, echo=TRUE, fig.width=3, fig.height=3, out.width="40%"}
+users <- sample(unique(edx$userId), 100)
+
+rafalib::mypar()
+edx|> 
+  filter(userId %in% users) |> 
+  select(userId, movieId, rating) |>
+  mutate(rating = 1) |>
+  pivot_wider(names_from = movieId, values_from = rating) |> 
+  (\(mat) mat[, sample(ncol(mat), 100)])() |>
+  as.matrix() |> 
+  t() |>
+  image(1:100, 1:100, z = _ , xlab = "Movies", ylab = "Users")
+```
+
+Further observations highlighted there that, as we can see from the distributions the author presented, some movies get rated more than others, and some users are more active than others in rating movies:
+```{r movie-id-and-user-hists, echo=TRUE, fig.width=6, fig.height=3}
+p1 <- edx |> 
+  count(movieId) |> 
+  ggplot(aes(n)) + 
+  geom_histogram(bins = 30, color = "black") + 
+  scale_x_log10() + 
+  ggtitle("Movies")
+
+p2 <- edx |> 
+  count(userId) |> 
+  ggplot(aes(n)) + 
+  geom_histogram(bins = 30, color = "black") + 
+  scale_x_log10() + 
+  ggtitle("Users")
+
+gridExtra::grid.arrange(p2, p1, ncol = 2)
+```
+
+Finally, we can see that no movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments:
 ```{r }
 #library(dplyr)
 s <- edx |> group_by(rating) |>
@@ -337,16 +417,16 @@ edx |>
 ```
 
 ## Methods / Analysis
-:::{.callout-note}
+::: {.noteblock data-latex=""}
 All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src). 
 :::
 
 ### Defining Logging and Mesuring helper functions
 \
 
-Let's define some helper functions for logging and time-measuring features that we will use in our R scripts. Some of them are listed below:
+First, let's define some helper functions for logging and time-measuring features that we will use in our R scripts. Some of them are listed below:
 
-```{r}
+```{r eval=FALSE }
 open_logfile <- function(file_name){
   log_file_name <- as.character(Sys.time()) |> 
     str_replace_all(':', '_') |> 
@@ -393,89 +473,25 @@ put_log2 <- function(msg_template, arg1, arg2){
 
 ```
 
-:::{.callout-note}
+::: {.noteblock data-latex=""}
 The full source code of these functions is available in the [Logging Helper function section of the Capstone MovieLens Main R Script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/capstone-movielens.main.R#L1).
 :::
 
 ### Preparing train and set datasets
 \
-First, let's note that we have 10677 different movies: 
-```{r}
-n_movies <- n_distinct(edx$movieId)
-print(n_movies)
-```
-and 69878 different users in the dataset:
-```{r}
-n_users <- n_distinct(edx$userId)
-print(n_users)
-```
 
-Now, note the expressions below which confirm the fact explained in [Section _23.1.1 Movielens data_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_[@IDS2] that not every user rated every movie:
-```{r}
-max_possible_ratings <- n_movies*n_users
-sprintf("Maximum possible ratings: %s", max_possible_ratings)
-sprintf("Rows in `edx` dataset: %s", dim_edx[1])
-sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1])
+We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1].We will also use the _5-Fold Cross Validation_ method the way described in [Section 29.6 Cross validation](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook_. 
+To prepare datasets for processing, we will use the following functions, specifically designed for these operations:
 
-```
+- `make_source_datasets`;
+- `init_source_datasets`.
 
-As also explained in that section, we can think of these data as a very large matrix, with users on the rows and movies on the columns, with many empty cells. Therefore, we can think of a recommendation system as filling in the `NA`s in the dataset for the movies that some or all the users do not rate. A sample from the `edx` data below illustrates this idea[@IDS2_23-1-1]: 
-```{r}
-keep <- edx |> 
-  dplyr::count(movieId) |> 
-  top_n(4, n) |> 
-  pull(movieId)
+::: {.noteblock data-latex=""}
+The full source code of the function listed above is available in the [`Initialize input datasets` section of the `data.helper.functions.R` script on _GitHub_](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R#L86)
+:::
 
-tab <- edx |> 
-  filter(movieId %in% keep) |> 
-  filter(userId %in% c(13:20)) |> 
-  select(userId, title, rating) |> 
-  mutate(title = str_remove(title, ", The"),
-         title = str_remove(title, ":.*")) |>
-  pivot_wider(names_from = "title", values_from = "rating")
 
-print(tab)
-```
-
-The following plot of the matrix for a random sample of 100 movies and 100 users with yellow indicating a user/movie combination for which we have a rating shows how _sparse_ the matrix is:
-```{r sparsity-of-movie-recs, echo=TRUE, fig.width=3, fig.height=3, out.width="40%"}
-users <- sample(unique(edx$userId), 100)
-
-rafalib::mypar()
-edx|> 
-  filter(userId %in% users) |> 
-  select(userId, movieId, rating) |>
-  mutate(rating = 1) |>
-  pivot_wider(names_from = movieId, values_from = rating) |> 
-  (\(mat) mat[, sample(ncol(mat), 100)])() |>
-  as.matrix() |> 
-  t() |>
-  image(1:100, 1:100, z = _ , xlab = "Movies", ylab = "Users")
-```
-
-Further observations highlighted there that, as we can see from the distributions the author presented, some movies get rated more than others, and some users are more active than others in rating movies:
-```{r movie-id-and-user-hists, echo=TRUE, fig.width=6, fig.height=3}
-p1 <- edx |> 
-  count(movieId) |> 
-  ggplot(aes(n)) + 
-  geom_histogram(bins = 30, color = "black") + 
-  scale_x_log10() + 
-  ggtitle("Movies")
-
-p2 <- edx |> 
-  count(userId) |> 
-  ggplot(aes(n)) + 
-  geom_histogram(bins = 30, color = "black") + 
-  scale_x_log10() + 
-  ggtitle("Users")
-
-gridExtra::grid.arrange(p2, p1, ncol = 2)
-```
-
-Taking into consideration these observations, we came up with a decision to use the data from the dataset only for users who have provided at least 100 ratings. 
-
-Now let's split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in the [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1]:
-```{r}
+```{r eval=FALSE, echo=TRUE, include=TRUE}
 # Let's ignore the data for users who have not provided at least 100 ratings:
 edx100 <- edx |> 
   group_by(userId) |>
