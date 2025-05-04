@@ -4,9 +4,23 @@ r/overview/arch/
 r/init/data/
 docs/books/
 docs/others-solutions/
-reports/capstone-movielens-report.html
+
 reports/capstone-movielens-report_files/
-reports/capstone-movielens-report.pdf
-reports/capstone-movielens-report.tex
+reports/capstone-movielens-report.draft3_files/
+reports/capstone-movielens-report.draft4_files/
+
+docs/work/MF.Recommender-Systems-\[Netflix\] (work).pdf
+data/movielens-datasets.zip
+
+.vs/
+r/log/
+docs/r-help/
+log/
+.RDataTmp
+data/movielens-datasets.RData
+data/
+r/bak/
+
 .Rproj.user
 *.Rhistory
+
