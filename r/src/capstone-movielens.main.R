@@ -210,6 +210,10 @@ edx.mx <- movielens_datasets$edx.mx
 put_log("`edx` data initialized as matrix")
 put(str(edx.mx))
 
+edx.sgr <- movielens_datasets$edx.sgr
+put_log("`edx` data initialized as matrix")
+put(str(edx.sgr))
+
 edx_CV <- movielens_datasets$edx_CV
 put("Set of K-Fold Cross Validation datasets summary: edx_CV")
 put(summary(edx_CV))
@@ -1298,7 +1302,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
            UMGE.rglr.best_lambda)
   
-  rglr.UMG_effect <- edx |> train_user_movie_genre_effect(UMGE.rglr.best_lambda)
+  rglr.UMG_effect <- edx.sgr |> train_user_movie_genre_effect(UMGE.rglr.best_lambda)
   rglr.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rglr.UMG_effect)
   
   put_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",

@@ -201,6 +201,7 @@ Set of K-Fold Cross Validation datasets created: edx_CV")
   
   list(edx_CV = edx_CV,
        edx.mx = edx.mx,
+       edx.sgr = edx.sgr,
        tuning_sets = tuning_sets,
        movie_map = movie_map,
        date_days_map = date_days_map)
