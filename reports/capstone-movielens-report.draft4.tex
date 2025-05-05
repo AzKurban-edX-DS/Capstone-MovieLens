@@ -834,18 +834,12 @@ Users' rating histogram
 
 \includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-24-1.pdf}
 
-\subparagraph{}\label{section}
-
-\hfill\break
-
-\hfill\break
-
 \subsection{Methods / Analysis}\label{methods-analysis}
 
 \begin{noteblock}
 All the source code of the R-scripts is available on the project's
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src}{GitHub
-repository}.
+repository}\autocite{edx_capstone_movielens}.
 
 \end{noteblock}
 
@@ -930,6 +924,13 @@ Validation} method the way described in
 datasets for processing, we will use the following functions,
 specifically designed for these operations:
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{make\_source\_datasets}\NormalTok{()}
+\FunctionTok{init\_source\_datasets}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{itemize}
 \tightlist
 \item
@@ -944,38 +945,6 @@ The full source code of the function listed above is available in the
 section of the \texttt{data.helper.functions.R} script on \emph{GitHub}}
 
 \end{noteblock}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Let\textquotesingle{}s ignore the data for users who have not provided at least 100 ratings:}
-\NormalTok{edx100 }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{filter}\NormalTok{(}\FunctionTok{n}\NormalTok{() }\SpecialCharTok{\textgreater{}=} \DecValTok{100}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ungroup}\NormalTok{()}
-
-\FunctionTok{print}\NormalTok{(edx100 }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{n\_distinct}\NormalTok{(userId), }\FunctionTok{n\_distinct}\NormalTok{(movieId)))}
-
-\CommentTok{\# For each one of these users, we will split their ratings into 80\% for training }
-\CommentTok{\# and 20\% for testing:}
-
-\FunctionTok{set.seed}\NormalTok{(}\DecValTok{2006}\NormalTok{)}
-\NormalTok{indexes }\OtherTok{\textless{}{-}} \FunctionTok{split}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(edx100), edx100}\SpecialCharTok{$}\NormalTok{userId)}
-\NormalTok{test\_ind }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(indexes, }\ControlFlowTok{function}\NormalTok{(i) }\FunctionTok{sample}\NormalTok{(i, }\FunctionTok{ceiling}\NormalTok{(}\FunctionTok{length}\NormalTok{(i)}\SpecialCharTok{*}\NormalTok{.}\DecValTok{2}\NormalTok{))) }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{unlist}\NormalTok{() }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{sort}\NormalTok{()}
-
-\NormalTok{test\_set }\OtherTok{\textless{}{-}}\NormalTok{ edx100[test\_ind,] }
-\NormalTok{train\_set }\OtherTok{\textless{}{-}}\NormalTok{ edx100[}\SpecialCharTok{{-}}\NormalTok{test\_ind,]}
-
-\CommentTok{\# To make sure we don’t include movies in the training set that should not be }
-\CommentTok{\# there, we remove entries using the semi\_join function:}
-\NormalTok{test\_set }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{semi\_join}\NormalTok{(train\_set, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{as.data.frame}\NormalTok{()}
-\FunctionTok{summary}\NormalTok{(test\_set)}
-
-\NormalTok{train\_set }\OtherTok{\textless{}{-}} \FunctionTok{mutate}\NormalTok{(train\_set, }\AttributeTok{userId =} \FunctionTok{factor}\NormalTok{(userId), }\AttributeTok{movieId =} \FunctionTok{factor}\NormalTok{(movieId))}
-\FunctionTok{summary}\NormalTok{(train\_set)}
-\end{Highlighting}
-\end{Shaded}
 
 We will use the array representation described in
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html\#sec-anova}{Section
@@ -1094,7 +1063,7 @@ that by the following small investigation:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-32-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-30-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1129,7 +1098,7 @@ substantial variability in the average ratings across users:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-33-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-31-1.pdf}
 
 Following the author's further explanation, to account for this
 variability, we will use a linear model with a \emph{treatment effect}
@@ -1294,7 +1263,7 @@ Let's now figure out the \(\lambda\) that minimizes the \emph{RMSE}:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-39-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-37-1.pdf}
 Now we can determine the minimal \emph{RMSE}:
 
 \begin{Shaded}
@@ -1412,7 +1381,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-45-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-43-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 
@@ -1491,7 +1460,7 @@ ratings).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-46-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-44-1.pdf}
 Below are worst and best ratings categories:
 
 \begin{Shaded}
@@ -1547,7 +1516,7 @@ Moterfaker}\autocite{MRS-R-BEST}:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-48-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-46-1.pdf}
 
 If we define \(g_{i,j}\) as the genre for user's \(i\) rating of movie
 \(j\), we can use the following models to account for the \texttt{genre}

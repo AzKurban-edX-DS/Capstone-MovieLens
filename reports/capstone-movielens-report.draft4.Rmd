@@ -403,22 +403,9 @@ edx |>
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
 
-##### 
-\
-```{r}
-
-```
-
-
-
-\
-```{r echo=FALSE}
-# #### [@MRS-R-BEST]
-```
-
 ## Methods / Analysis
 ::: {.noteblock data-latex=""}
-All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src). 
+All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src)[@edx_capstone_movielens]. 
 :::
 
 ### Defining Logging and Mesuring helper functions
@@ -482,44 +469,16 @@ The full source code of these functions is available in the [Logging Helper func
 
 We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1].We will also use the _5-Fold Cross Validation_ method the way described in [Section 29.6 Cross validation](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook_. 
 To prepare datasets for processing, we will use the following functions, specifically designed for these operations:
-
+```{r eval=FALSE }
+make_source_datasets()
+init_source_datasets()
+```
 - `make_source_datasets`;
 - `init_source_datasets`.
 
 ::: {.noteblock data-latex=""}
 The full source code of the function listed above is available in the [`Initialize input datasets` section of the `data.helper.functions.R` script on _GitHub_](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R#L86)
 :::
-
-
-```{r eval=FALSE, echo=TRUE, include=TRUE}
-# Let's ignore the data for users who have not provided at least 100 ratings:
-edx100 <- edx |> 
-  group_by(userId) |>
-  filter(n() >= 100) |>
-  ungroup()
-
-print(edx100 |> summarize(n_distinct(userId), n_distinct(movieId)))
-
-# For each one of these users, we will split their ratings into 80% for training 
-# and 20% for testing:
-
-set.seed(2006)
-indexes <- split(1:nrow(edx100), edx100$userId)
-test_ind <- sapply(indexes, function(i) sample(i, ceiling(length(i)*.2))) |> 
-  unlist() |>
-  sort()
-
-test_set <- edx100[test_ind,] 
-train_set <- edx100[-test_ind,]
-
-# To make sure we don’t include movies in the training set that should not be 
-# there, we remove entries using the semi_join function:
-test_set <- test_set |> semi_join(train_set, by = "movieId") |> as.data.frame()
-summary(test_set)
-
-train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
-summary(train_set)
-```
 
 We will use the array representation described in [Section 17.5 of the Textbook](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), for the training data: we denote ranking for movie $j$ by user $i$ as $y_{i,j}$. To create this matrix, we use `tidyr::pivot_wider` function:
 
