@@ -449,128 +449,6 @@ from 0.5 to 5.0 in 0.5 increments:
 ## 10    5   1390114
 \end{verbatim}
 
-\subparagraph{Movie Genres Data}\label{movie-genres-data}
-
-\hfill\break
-The following code computes movie rating summaries by popular genres
-like Drama, Comedy, Thriller, and Romance:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#library(stringr)}
-\NormalTok{genres }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"Drama"}\NormalTok{, }\StringTok{"Comedy"}\NormalTok{, }\StringTok{"Thriller"}\NormalTok{, }\StringTok{"Romance"}\NormalTok{)}
-\FunctionTok{sapply}\NormalTok{(genres, }\ControlFlowTok{function}\NormalTok{(g) \{}
-  \FunctionTok{sum}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(edx}\SpecialCharTok{$}\NormalTok{genres, g))}
-\NormalTok{\})}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    Drama   Comedy Thriller  Romance 
-##  3910127  3540930  2325899  1712100
-\end{verbatim}
-
-Further, we can find out the movies that have the greatest number of
-ratings using the following code:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ordered\_movie\_ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId, title) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{number\_of\_ratings =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(number\_of\_ratings))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `summarise()` has grouped output by 'movieId'. You can override using the `.groups` argument.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(ordered\_movie\_ratings))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 6 x 3
-## # Groups:   movieId [6]
-##   movieId title                            number_of_ratings
-##     <int> <chr>                                        <int>
-## 1     296 Pulp Fiction (1994)                          31362
-## 2     356 Forrest Gump (1994)                          31079
-## 3     593 Silence of the Lambs, The (1991)             30382
-## 4     480 Jurassic Park (1993)                         29360
-## 5     318 Shawshank Redemption, The (1994)             28015
-## 6     110 Braveheart (1995)                            26212
-\end{verbatim}
-
-and figure out the most given ratings in order from most to least:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-     \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-     \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(count))}
-\FunctionTok{print}\NormalTok{(ratings)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    rating   count
-##     <dbl>   <int>
-##  1    4   2588430
-##  2    3   2121240
-##  3    5   1390114
-##  4    3.5  791624
-##  5    2    711422
-##  6    4.5  526736
-##  7    1    345679
-##  8    2.5  333010
-##  9    1.5  106426
-## 10    0.5   85374
-\end{verbatim}
-
-The following code allows us to summarize that in general, half-star
-ratings are less common than whole-star ratings (e.g., there are fewer
-ratings of 3.5 than there are ratings of 3 or 4, etc.):
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    rating   count
-##     <dbl>   <int>
-##  1    0.5   85374
-##  2    1    345679
-##  3    1.5  106426
-##  4    2    711422
-##  5    2.5  333010
-##  6    3   2121240
-##  7    3.5  791624
-##  8    4   2588430
-##  9    4.5  526736
-## 10    5   1390114
-\end{verbatim}
-
-We can visually see that from the following plot:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{() }
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
-
 Further analysis of the \texttt{edx} dataset have been also inspired by
 the article mentioned above\autocite{MRS-R-BEST}, from which the code
 and explanatory notes below were cited.
@@ -601,7 +479,7 @@ distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-16-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
 
 This graph is another confirmation of what we found out above: rounded
 ratings occur more often than half-stared ones. The upward trend
@@ -689,7 +567,7 @@ Ratings per movie plot\autocite{MRS-R-BEST}
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
 
 Movies' rating histogram\autocite{MRS-R-BEST}
 
@@ -718,7 +596,7 @@ Movies' rating histogram\autocite{MRS-R-BEST}
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 \subparagraph{\texorpdfstring{Ratings per
 user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -803,7 +681,7 @@ Ratings per user plot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-23-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-22-1.pdf}
 
 Users' rating histogram
 
@@ -832,7 +710,7 @@ Users' rating histogram
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-24-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-23-1.pdf}
 
 \subsection{Methods / Analysis}\label{methods-analysis}
 
@@ -1063,7 +941,7 @@ that by the following small investigation:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-30-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-29-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1098,7 +976,7 @@ substantial variability in the average ratings across users:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-31-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-30-1.pdf}
 
 Following the author's further explanation, to account for this
 variability, we will use a linear model with a \emph{treatment effect}
@@ -1263,7 +1141,7 @@ Let's now figure out the \(\lambda\) that minimizes the \emph{RMSE}:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-37-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-36-1.pdf}
 Now we can determine the minimal \emph{RMSE}:
 
 \begin{Shaded}
@@ -1381,7 +1259,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-43-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-42-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 
@@ -1399,6 +1277,133 @@ As mentioned in
 Course Textbook} the \texttt{Movielens} dataset also has a genres
 column. This column includes every genre that applies to the movie (some
 movies fall under several genres)\autocite{IDS2_23-7}.
+
+\paragraph{Genre Data Analysis}\label{genre-data-analysis}
+
+\hfill\break
+\#\#\#\#\# Movie Genres Data\\
+The following code computes movie rating summaries by popular genres
+like Drama, Comedy, Thriller, and Romance:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#library(stringr)}
+\NormalTok{genres }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"Drama"}\NormalTok{, }\StringTok{"Comedy"}\NormalTok{, }\StringTok{"Thriller"}\NormalTok{, }\StringTok{"Romance"}\NormalTok{)}
+\FunctionTok{sapply}\NormalTok{(genres, }\ControlFlowTok{function}\NormalTok{(g) \{}
+  \FunctionTok{sum}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(edx}\SpecialCharTok{$}\NormalTok{genres, g))}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Drama   Comedy Thriller  Romance 
+##  3910127  3540930  2325899  1712100
+\end{verbatim}
+
+Further, we can find out the movies that have the greatest number of
+ratings using the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordered\_movie\_ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId, title) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{number\_of\_ratings =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(number\_of\_ratings))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'movieId'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(ordered\_movie\_ratings))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   movieId [6]
+##   movieId title                            number_of_ratings
+##     <int> <chr>                                        <int>
+## 1     296 Pulp Fiction (1994)                          31362
+## 2     356 Forrest Gump (1994)                          31079
+## 3     593 Silence of the Lambs, The (1991)             30382
+## 4     480 Jurassic Park (1993)                         29360
+## 5     318 Shawshank Redemption, The (1994)             28015
+## 6     110 Braveheart (1995)                            26212
+\end{verbatim}
+
+and figure out the most given ratings in order from most to least:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
+     \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+     \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(count))}
+\FunctionTok{print}\NormalTok{(ratings)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    rating   count
+##     <dbl>   <int>
+##  1    4   2588430
+##  2    3   2121240
+##  3    5   1390114
+##  4    3.5  791624
+##  5    2    711422
+##  6    4.5  526736
+##  7    1    345679
+##  8    2.5  333010
+##  9    1.5  106426
+## 10    0.5   85374
+\end{verbatim}
+
+The following code allows us to summarize that in general, half-star
+ratings are less common than whole-star ratings (e.g., there are fewer
+ratings of 3.5 than there are ratings of 3 or 4, etc.):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    rating   count
+##     <dbl>   <int>
+##  1    0.5   85374
+##  2    1    345679
+##  3    1.5  106426
+##  4    2    711422
+##  5    2.5  333010
+##  6    3   2121240
+##  7    3.5  791624
+##  8    4   2588430
+##  9    4.5  526736
+## 10    5   1390114
+\end{verbatim}
+
+We can visually see that from the following plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-47-1.pdf}
+
+\subparagraph{Movie Genres Effect}\label{movie-genres-effect}
+
+\hfill\break
 
 The plot below shows strong evidence of a genre effect (for illustrative
 purposes, the plot shows only categories with more than 20, 000
@@ -1460,7 +1465,7 @@ ratings).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-44-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-48-1.pdf}
 Below are worst and best ratings categories:
 
 \begin{Shaded}
@@ -1516,7 +1521,7 @@ Moterfaker}\autocite{MRS-R-BEST}:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-46-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-50-1.pdf}
 
 If we define \(g_{i,j}\) as the genre for user's \(i\) rating of movie
 \(j\), we can use the following models to account for the \texttt{genre}
