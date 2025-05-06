@@ -481,9 +481,9 @@ Currently reached best RMSE for `parameter value = %1`: %2",
                                  RMSE = result.RMSE))
 }
 
-### Model Tuning Results Visualization -----------------------------------------
+### Model Data Visualization -----------------------------------------
 
-tuning.plot.left_detailed <- function(data, 
+data.plot.left_detailed <- function(data, 
                                       left.n = 0,
                                       title = NULL,
                                       title.left = NULL,
@@ -510,7 +510,7 @@ tuning.plot.left_detailed <- function(data,
   }
 
   p1 <- data |>
-    tuning.plot(title = title,
+    data.plot(title = title,
                 xname = xname, 
                 yname = yname, 
                 xlabel = xlabel1, 
@@ -518,7 +518,7 @@ tuning.plot.left_detailed <- function(data,
                 line_col = line_col1)
 
   p2 <- data |>
-    tuning.plot.left.n(left.n = left.n,
+    data.plot.left.n(left.n = left.n,
                        title = title.left,
                        xname = xname, 
                        yname = yname, 
@@ -528,7 +528,7 @@ tuning.plot.left_detailed <- function(data,
                        normalize = normalize)
   grid.arrange(p1, p2)
 }
-tuning.plot.left.n <- function(data, 
+data.plot.left.n <- function(data, 
                                left.n = 0,
                                title, 
                                xname, 
@@ -549,7 +549,7 @@ tuning.plot.left.n <- function(data,
   }
 
   data.left |>
-    tuning.plot(title = title,
+    data.plot(title = title,
                 xname = xname,
                 yname = yname,
                 xlabel = xlabel,
@@ -558,7 +558,7 @@ tuning.plot.left.n <- function(data,
                 normalize = normalize)
 }
 
-tuning.plot.right_detailed <- function(data, 
+data.plot.right_detailed <- function(data, 
                                       shift = 1,
                                       title = NULL,
                                       title.right = NULL,
@@ -585,7 +585,7 @@ tuning.plot.right_detailed <- function(data,
   }
 
   p1 <- data |>
-    tuning.plot(title = title,
+    data.plot(title = title,
                 xname = xname, 
                 yname = yname, 
                 xlabel = xlabel1, 
@@ -593,7 +593,7 @@ tuning.plot.right_detailed <- function(data,
                 line_col = line_col1)
 
   p2 <- data |>
-    tuning.plot.shifted.right(shift = shift,
+    data.plot.shifted.right(shift = shift,
                               title = title.right,
                               xname = xname, 
                               yname = yname, 
@@ -603,7 +603,7 @@ tuning.plot.right_detailed <- function(data,
                               normalize = normalize)
   grid.arrange(p1, p2)
 }
-tuning.plot.shifted.right <- function(data, 
+data.plot.shifted.right <- function(data, 
                                       shift = 1,
                                       title, 
                                       xname, 
@@ -619,7 +619,7 @@ tuning.plot.shifted.right <- function(data,
     mutate(x_right = lead(x_col, shift),
            y_right = lead(y_col, shift)) |>
     # filter(!is.na(x_right)) |>
-    tuning.plot(title = title,
+    data.plot(title = title,
                 xname = "x_right",
                 yname = "y_right",
                 xlabel = xlabel,
@@ -627,12 +627,12 @@ tuning.plot.shifted.right <- function(data,
                 line_col = line_col,
                 normalize = normalize)
 }
-tuning.plot <- function(data, 
+data.plot <- function(data, 
                         title, 
                         xname, 
                         yname, 
-                        xlabel, 
-                        ylabel,
+                        xlabel = NA, 
+                        ylabel = NA,
                         line_col = "blue",
                         # scale = 1,
                         normalize = FALSE) {
@@ -640,6 +640,13 @@ tuning.plot <- function(data,
   
   if (normalize) {
     y <- y - min(y)
+  }
+  
+  if (is.na(xlabel)) {
+    xlabel = xname
+  }
+  if (is.na(ylabel)) {
+    ylabel = yname
   }
   
   aes_mapping <- aes(x = data[, xname], y = y)
