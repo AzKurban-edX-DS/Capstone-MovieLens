@@ -119,7 +119,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-05}
+\date{2025-05-06}
 
 \begin{document}
 \maketitle
@@ -479,7 +479,7 @@ distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
 
 This graph is another confirmation of what we found out above: rounded
 ratings occur more often than half-stared ones. The upward trend
@@ -567,7 +567,7 @@ Ratings per movie plot\autocite{MRS-R-BEST}
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-14-1.pdf}
 
 Movies' rating histogram\autocite{MRS-R-BEST}
 
@@ -596,7 +596,7 @@ Movies' rating histogram\autocite{MRS-R-BEST}
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
 
 \subparagraph{\texorpdfstring{Ratings per
 user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -681,7 +681,7 @@ Ratings per user plot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-22-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
 
 Users' rating histogram
 
@@ -710,7 +710,7 @@ Users' rating histogram
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-23-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 \subsection{Methods / Analysis}\label{methods-analysis}
 
@@ -796,7 +796,7 @@ compute the accuracy of our predictions, the way described in
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#movielens-data}{Section
 23.1.1 Movielens data} of the \emph{Course Textbook} mentioned
 above\autocite{IDS2_23-1-1}.We will also use the \emph{5-Fold Cross
-Validation} method the way described in
+Validation} method as described in
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html\#cross-validation}{Section
 29.6 Cross validation} of the \emph{Course Textbook}. To prepare
 datasets for processing, we will use the following functions,
@@ -809,20 +809,39 @@ specifically designed for these operations:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{itemize}
-\tightlist
-\item
-  \texttt{make\_source\_datasets};
-\item
-  \texttt{init\_source\_datasets}.
-\end{itemize}
-
 \begin{noteblock}
 The full source code of the function listed above is available in the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L86}{\texttt{Initialize\ input\ datasets}
 section of the \texttt{data.helper.functions.R} script on \emph{GitHub}}
 
 \end{noteblock}
+
+\paragraph{\texorpdfstring{The \texttt{make\_source\_datasets}
+function}{The make\_source\_datasets function}}\label{the-make_source_datasets-function}
+
+\hfill\break
+
+Let's take a closer look at the objects we will receive as a result of
+executing this function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{make\_source\_datasets }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{}
+  \CommentTok{\# ...}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{edx\_CV =}\NormalTok{ edx\_CV,}
+       \AttributeTok{edx.mx =}\NormalTok{ edx.mx,}
+       \AttributeTok{edx.sgr =}\NormalTok{ edx.sgr,}
+       \AttributeTok{tuning\_sets =}\NormalTok{ tuning\_sets,}
+       \AttributeTok{movie\_map =}\NormalTok{ movie\_map,}
+       \AttributeTok{date\_days\_map =}\NormalTok{ date\_days\_map)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{\texorpdfstring{\texttt{edx.mx} Matrix
+Object}{edx.mx Matrix Object}}\label{edx.mx-matrix-object}
+
+\hfill\break
 
 We will use the array representation described in
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html\#sec-anova}{Section
@@ -832,48 +851,550 @@ movie \(j\) by user \(i\) as \(y_{i,j}\). To create this matrix, we use
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{y }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(train\_set, movieId, userId, rating) }\SpecialCharTok{|\textgreater{}}
-\FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ movieId, }\AttributeTok{values\_from =}\NormalTok{ rating) }\SpecialCharTok{|\textgreater{}}
-\FunctionTok{column\_to\_rownames}\NormalTok{(}\StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-\FunctionTok{as.matrix}\NormalTok{()}
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: Creating Rating Matrix from \textasciigrave{}edx\textasciigrave{} dataset..."}\NormalTok{)}
+\NormalTok{  edx.mx }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{userId =} \FunctionTok{factor}\NormalTok{(userId),}
+           \AttributeTok{movieId =} \FunctionTok{factor}\NormalTok{(movieId)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{select}\NormalTok{(movieId, userId, rating) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ movieId, }\AttributeTok{values\_from =}\NormalTok{ rating) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{column\_to\_rownames}\NormalTok{(}\StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{as.matrix}\NormalTok{()}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}:}
+\StringTok{Matrix created: \textasciigrave{}edx.mx\textasciigrave{} of the following dimentions:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\FunctionTok{dim}\NormalTok{(y)}
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{str}\NormalTok{(edx.mx)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 24115 10630
+##  num [1:69878, 1:10677] 5 NA NA NA NA NA NA NA NA NA ...
+##  - attr(*, "dimnames")=List of 2
+##   ..$ : chr [1:69878] "1" "2" "3" "4" ...
+##   ..$ : chr [1:10677] "122" "185" "292" "316" ...
 \end{verbatim}
+
+\subparagraph{\texorpdfstring{\texttt{edx.sgr}
+Object}{edx.sgr Object}}\label{edx.sgr-object}
+
+\hfill\break
+
+To account for the Movie Genre Effect more accurately, we need a dataset
+with split rows for movies belonging to multiple genres:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: }
+\StringTok{To account for the Movie Genre Effect, we need a dataset with split rows }
+\StringTok{for movies belonging to multiple genres."}\NormalTok{)}
+\NormalTok{  edx.sgr }\OtherTok{\textless{}{-}} \FunctionTok{splitGenreRows}\NormalTok{(edx)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(edx.sgr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [23,371,423 x 6] (S3: tbl_df/tbl/data.frame)
+##  $ userId   : int [1:23371423] 1 1 1 1 1 1 1 1 1 1 ...
+##  $ movieId  : int [1:23371423] 122 122 185 185 185 292 292 292 292 316 ...
+##  $ rating   : num [1:23371423] 5 5 5 5 5 5 5 5 5 5 ...
+##  $ timestamp: int [1:23371423] 838985046 838985046 838983525 838983525 838983525 838983421 838983421 838983421 838983421 838983392 ...
+##  $ title    : chr [1:23371423] "Boomerang (1992)" "Boomerang (1992)" "Net, The (1995)" "Net, The (1995)" ...
+##  $ genres   : chr [1:23371423] "Comedy" "Romance" "Action" "Crime" ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(edx.sgr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      userId         movieId          rating        timestamp            title              genres         
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:23371423    Length:23371423   
+##  1st Qu.:18140   1st Qu.:  616   1st Qu.:3.000   1st Qu.:9.472e+08   Class :character   Class :character  
+##  Median :35784   Median : 1748   Median :4.000   Median :1.042e+09   Mode  :character   Mode  :character  
+##  Mean   :35886   Mean   : 4277   Mean   :3.527   Mean   :1.035e+09                                        
+##  3rd Qu.:53638   3rd Qu.: 3635   3rd Qu.:4.000   3rd Qu.:1.131e+09                                        
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
+\end{verbatim}
+
+Note that we use the \texttt{splitGenreRows} function to split rows of
+the original dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{splitGenreRows }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data)\{}
+  \FunctionTok{put}\NormalTok{(}\StringTok{"Splitting dataset rows related to multiple genres..."}\NormalTok{)}
+\NormalTok{  start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
+\NormalTok{  gs\_splitted }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{separate\_rows}\NormalTok{(genres, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{|"}\NormalTok{)}
+  \FunctionTok{put}\NormalTok{(}\StringTok{"Dataset rows related to multiple genres have been splitted to have single genre per row."}\NormalTok{)}
+  \FunctionTok{put\_end\_date}\NormalTok{(start)}
+\NormalTok{  gs\_splitted}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the function mentioned above is also available in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L86}{\texttt{Initialize\ input\ datasets}
+section of the \texttt{data.helper.functions.R} script on \emph{GitHub}}
+
+\end{noteblock}
+
+\subparagraph{\texorpdfstring{\texttt{movie\_map}
+Object}{movie\_map Object}}\label{movie_map-object}
+
+\hfill\break
 
 To be able to map movie IDs to titles we create the following lookup
 table:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{movie\_map }\OtherTok{\textless{}{-}}\NormalTok{ train\_set }\SpecialCharTok{|\textgreater{}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(movieId, title, genres) }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{distinct}\NormalTok{(movieId, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{movie\_map }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(movieId, title, genres) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{distinct}\NormalTok{(movieId, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{)}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: Dataset created: movie\_map"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(movie\_map)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    10677 obs. of  3 variables:
+##  $ movieId: int  122 185 292 316 329 355 356 362 364 370 ...
+##  $ title  : chr  "Boomerang (1992)" "Net, The (1995)" "Outbreak (1995)" "Stargate (1994)" ...
+##  $ genres : chr  "Comedy|Romance" "Action|Crime|Thriller" "Action|Drama|Sci-Fi|Thriller" "Action|Adventure|Sci-Fi" ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{summary}\NormalTok{(movie\_map)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##     movieId         title              genres         
-##  1      :    1   Length:10630       Length:10630      
-##  2      :    1   Class :character   Class :character  
-##  3      :    1   Mode  :character   Mode  :character  
-##  4      :    1                                        
-##  5      :    1                                        
-##  6      :    1                                        
-##  (Other):10624
+##  Min.   :    1   Length:10677       Length:10677      
+##  1st Qu.: 2754   Class :character   Class :character  
+##  Median : 5434   Mode  :character   Mode  :character  
+##  Mean   :13105                                        
+##  3rd Qu.: 8710                                        
+##  Max.   :65133
 \end{verbatim}
 
 Note that titles cannot be considered unique, so we can't use them as
 IDs\autocite{IDS2_23-1-1}.
 
-\subsubsection{Naive Model}\label{naive-model}
+\subparagraph{\texorpdfstring{\texttt{date\_days\_map}
+Object}{date\_days\_map Object}}\label{date_days_map-object}
 
 \hfill\break
+
+We have a \texttt{timestamp} field in the \texttt{edx} dataset. To be
+able to map the date, year, and number of days since the earliest record
+in the \texttt{edx} dataset with the corresponding value in this field,
+we create the following lookup table:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: Creating Date{-}Days Map dataset..."}\NormalTok{)}
+\NormalTok{  date\_days\_map }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{date\_time =} \FunctionTok{as\_datetime}\NormalTok{(timestamp)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{date =} \FunctionTok{as\_date}\NormalTok{(date\_time)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{year =} \FunctionTok{year}\NormalTok{(date\_time)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{days =} \FunctionTok{as.integer}\NormalTok{(date }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(date))) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{select}\NormalTok{(timestamp, date\_time, date, year, days) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{distinct}\NormalTok{(timestamp, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{)}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: Dataset created: date\_days\_map"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{str}\NormalTok{(date\_days\_map)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    6519590 obs. of  5 variables:
+##  $ timestamp: int  838985046 838983525 838983421 838983392 838984474 838983653 838984885 838983707 838984596 838983834 ...
+##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" "1996-08-02 10:56:32" ...
+##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" "1996-08-02" ...
+##  $ year     : num  1996 1996 1996 1996 1996 ...
+##  $ days     : int  571 571 571 571 571 571 571 571 571 571 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{summary}\NormalTok{(date\_days\_map)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    timestamp           date_time                           date                 year           days     
+##  Min.   :7.897e+08   Min.   :1995-01-09 11:46:49.00   Min.   :1995-01-09   Min.   :1995   Min.   :   0  
+##  1st Qu.:9.783e+08   1st Qu.:2001-01-01 05:05:01.75   1st Qu.:2001-01-01   1st Qu.:2001   1st Qu.:2184  
+##  Median :1.091e+09   Median :2004-08-03 01:08:18.50   Median :2004-08-03   Median :2004   Median :3494  
+##  Mean   :1.066e+09   Mean   :2003-10-10 23:15:02.07   Mean   :2003-10-10   Mean   :2003   Mean   :3196  
+##  3rd Qu.:1.152e+09   3rd Qu.:2006-07-04 20:41:57.50   3rd Qu.:2006-07-04   3rd Qu.:2006   3rd Qu.:4194  
+##  Max.   :1.231e+09   Max.   :2009-01-05 05:02:16.00   Max.   :2009-01-05   Max.   :2009   Max.   :5110
+\end{verbatim}
+
+\subparagraph{\texorpdfstring{\texttt{edx\_CV}
+Object}{edx\_CV Object}}\label{edx_cv-object}
+
+\hfill\break
+
+Here we have a list of sample objects we need to perform the
+\emph{5-Fold Cross Validation} as explained in
+\href{https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html\#k-fold-cross-validation}{Section
+29.6.1 K-fold cross validation} of the \emph{Course Textbook}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
+\NormalTok{  edx\_CV }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(kfold\_index,  }\ControlFlowTok{function}\NormalTok{(fold\_i)\{}
+    
+    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Method \textasciigrave{}make\_source\_datasets\textasciigrave{}: }
+\StringTok{Creating K{-}Fold Cross Validation Datasets, Fold \%1"}\NormalTok{, fold\_i)}
+    
+    \CommentTok{\#\textgreater{} We split the initial datasets into training sets, which we will use to build }
+    \CommentTok{\#\textgreater{} and train our models, and validation sets in which we will compute the accuracy }
+    \CommentTok{\#\textgreater{} of our predictions, the way described in the \textasciigrave{}Section 23.1.1 Movielens data\textasciigrave{}}
+    \CommentTok{\#\textgreater{} (https://rafalab.dfci.harvard.edu/dsbook{-}part{-}2/highdim/regularization.html\#movielens{-}data) }
+    \CommentTok{\#\textgreater{} of the Course Textbook.}
+    
+\NormalTok{    split\_sets }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{sample\_train\_validation\_sets}\NormalTok{(fold\_i}\SpecialCharTok{*}\DecValTok{1000}\NormalTok{)}
+    
+\NormalTok{    train\_set }\OtherTok{\textless{}{-}}\NormalTok{ split\_sets}\SpecialCharTok{$}\NormalTok{train\_set}
+\NormalTok{    validation\_set }\OtherTok{\textless{}{-}}\NormalTok{ split\_sets}\SpecialCharTok{$}\NormalTok{validation\_set}
+    
+    \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: }
+\StringTok{Sampling 20\% from the split{-}row version of the \textasciigrave{}edx\textasciigrave{} dataset..."}\NormalTok{)}
+\NormalTok{    split\_sets.gs }\OtherTok{\textless{}{-}}\NormalTok{ edx.sgr }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{sample\_train\_validation\_sets}\NormalTok{(fold\_i}\SpecialCharTok{*}\DecValTok{2000}\NormalTok{)}
+
+\NormalTok{    train.sgr }\OtherTok{\textless{}{-}}\NormalTok{ split\_sets.gs}\SpecialCharTok{$}\NormalTok{train\_set}
+\NormalTok{    validation.sgr }\OtherTok{\textless{}{-}}\NormalTok{ split\_sets.gs}\SpecialCharTok{$}\NormalTok{validation\_set}
+    
+    \CommentTok{\# put\_log("Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: Dataset created: validation.sgr")}
+    \CommentTok{\# put(summary(validation.sgr))}
+    
+    \CommentTok{\#\textgreater{} We will use the array representation described in \textasciigrave{}Section 17.5 of the Textbook\textasciigrave{}}
+    \CommentTok{\#\textgreater{} (https://rafalab.dfci.harvard.edu/dsbook{-}part{-}2/linear{-}models/treatment{-}effect{-}models.html\#sec{-}anova), }
+    \CommentTok{\#\textgreater{} for the training data. }
+    \CommentTok{\#\textgreater{} To create this matrix, we use \textasciigrave{}tidyr::pivot\_wider\textasciigrave{} function:}
+    
+    \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: Creating Rating Matrix from Train Set..."}\NormalTok{)}
+\NormalTok{    train\_mx }\OtherTok{\textless{}{-}}\NormalTok{ train\_set }\SpecialCharTok{|\textgreater{}} 
+      \FunctionTok{mutate}\NormalTok{(}\AttributeTok{userId =} \FunctionTok{factor}\NormalTok{(userId),}
+             \AttributeTok{movieId =} \FunctionTok{factor}\NormalTok{(movieId)) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{select}\NormalTok{(movieId, userId, rating) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ movieId, }\AttributeTok{values\_from =}\NormalTok{ rating) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{column\_to\_rownames}\NormalTok{(}\StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{as.matrix}\NormalTok{()}
+    
+    \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}:}
+\StringTok{Matrix created: \textasciigrave{}train\_mx\textasciigrave{} of the following dimentions:"}\NormalTok{)}
+    \FunctionTok{put}\NormalTok{(}\FunctionTok{dim}\NormalTok{(train\_mx))}
+
+    \FunctionTok{list}\NormalTok{(}\AttributeTok{train\_set =}\NormalTok{ train\_set,}
+         \AttributeTok{train\_mx =}\NormalTok{ train\_mx,}
+         \AttributeTok{train.sgr =}\NormalTok{ train.sgr,}
+         \AttributeTok{validation\_set =}\NormalTok{ validation\_set)}
+\NormalTok{  \})}
+  \FunctionTok{put\_end\_date}\NormalTok{(start)}
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}make\_source\_datasets\textasciigrave{}: }
+\StringTok{Set of K{-}Fold Cross Validation datasets created: edx\_CV"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(edx\_CV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 5
+##  $ :List of 4
+##   ..$ train_set     :'data.frame':   7172311 obs. of  6 variables:
+##   .. ..$ userId   : int [1:7172311] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:7172311] 122 185 292 329 356 362 364 370 420 466 ...
+##   .. ..$ rating   : num [1:7172311] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:7172311] 838985046 838983525 838983421 838983392 838983653 838984885 838983707 838984596 838983834 838984679 ...
+##   .. ..$ title    : chr [1:7172311] "Boomerang (1992)" "Net, The (1995)" "Outbreak (1995)" "Star Trek: Generations (1994)" ...
+##   .. ..$ genres   : chr [1:7172311] "Comedy|Romance" "Action|Crime|Thriller" "Action|Drama|Sci-Fi|Thriller" "Action|Adventure|Drama|Sci-Fi" ...
+##   ..$ train_mx      : num [1:69878, 1:10677] 5 NA NA NA NA NA NA NA NA NA ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:69878] "1" "2" "3" "4" ...
+##   .. .. ..$ : chr [1:10677] "122" "185" "292" "329" ...
+##   ..$ train.sgr     : tibble [18,669,190 x 6] (S3: tbl_df/tbl/data.frame)
+##   .. ..$ userId   : int [1:18669190] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:18669190] 122 122 185 185 292 292 292 292 316 316 ...
+##   .. ..$ rating   : num [1:18669190] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:18669190] 838985046 838985046 838983525 838983525 838983421 838983421 838983421 838983421 838983392 838983392 ...
+##   .. ..$ title    : chr [1:18669190] "Boomerang (1992)" "Boomerang (1992)" "Net, The (1995)" "Net, The (1995)" ...
+##   .. ..$ genres   : chr [1:18669190] "Comedy" "Romance" "Action" "Crime" ...
+##   ..$ validation_set:'data.frame':   1827744 obs. of  6 variables:
+##   .. ..$ userId   : int [1:1827744] 1 1 1 1 2 2 2 2 3 3 ...
+##   .. ..$ movieId  : int [1:1827744] 316 355 377 588 260 376 648 1049 110 1252 ...
+##   .. ..$ rating   : num [1:1827744] 5 5 5 5 5 3 2 3 4.5 4 ...
+##   .. ..$ timestamp: int [1:1827744] 838983392 838984474 838983834 838983339 868244562 868245920 868244699 868245920 1136075500 1133571071 ...
+##   .. ..$ title    : chr [1:1827744] "Stargate (1994)" "Flintstones, The (1994)" "Speed (1994)" "Aladdin (1992)" ...
+##   .. ..$ genres   : chr [1:1827744] "Action|Adventure|Sci-Fi" "Children|Comedy|Fantasy" "Action|Romance|Thriller" "Adventure|Animation|Children|Comedy|Musical" ...
+##  $ :List of 4
+##   ..$ train_set     :'data.frame':   7172306 obs. of  6 variables:
+##   .. ..$ userId   : int [1:7172306] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:7172306] 122 185 292 316 329 355 356 364 370 377 ...
+##   .. ..$ rating   : num [1:7172306] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:7172306] 838985046 838983525 838983421 838983392 838983392 838984474 838983653 838983707 838984596 838983834 ...
+##   .. ..$ title    : chr [1:7172306] "Boomerang (1992)" "Net, The (1995)" "Outbreak (1995)" "Stargate (1994)" ...
+##   .. ..$ genres   : chr [1:7172306] "Comedy|Romance" "Action|Crime|Thriller" "Action|Drama|Sci-Fi|Thriller" "Action|Adventure|Sci-Fi" ...
+##   ..$ train_mx      : num [1:69878, 1:10677] 5 NA NA NA NA NA NA NA NA NA ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:69878] "1" "2" "3" "4" ...
+##   .. .. ..$ : chr [1:10677] "122" "185" "292" "316" ...
+##   ..$ train.sgr     : tibble [18,669,201 x 6] (S3: tbl_df/tbl/data.frame)
+##   .. ..$ userId   : int [1:18669201] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:18669201] 122 122 185 185 185 292 292 316 316 329 ...
+##   .. ..$ rating   : num [1:18669201] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:18669201] 838985046 838985046 838983525 838983525 838983525 838983421 838983421 838983392 838983392 838983392 ...
+##   .. ..$ title    : chr [1:18669201] "Boomerang (1992)" "Boomerang (1992)" "Net, The (1995)" "Net, The (1995)" ...
+##   .. ..$ genres   : chr [1:18669201] "Comedy" "Romance" "Action" "Crime" ...
+##   ..$ validation_set:'data.frame':   1827749 obs. of  6 variables:
+##   .. ..$ userId   : int [1:1827749] 1 1 1 1 2 2 2 2 3 3 ...
+##   .. ..$ movieId  : int [1:1827749] 362 520 539 594 539 590 733 1210 1252 1408 ...
+##   .. ..$ rating   : num [1:1827749] 5 5 5 5 3 5 3 4 4 3.5 ...
+##   .. ..$ timestamp: int [1:1827749] 838984885 838984679 838984068 838984679 868246262 868245608 868244562 868245644 1133571071 1133571145 ...
+##   .. ..$ title    : chr [1:1827749] "Jungle Book, The (1994)" "Robin Hood: Men in Tights (1993)" "Sleepless in Seattle (1993)" "Snow White and the Seven Dwarfs (1937)" ...
+##   .. ..$ genres   : chr [1:1827749] "Adventure|Children|Romance" "Comedy" "Comedy|Drama|Romance" "Animation|Children|Drama|Fantasy|Musical" ...
+##  $ :List of 4
+##   ..$ train_set     :'data.frame':   7172307 obs. of  6 variables:
+##   .. ..$ userId   : int [1:7172307] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:7172307] 122 185 292 316 329 355 362 370 377 420 ...
+##   .. ..$ rating   : num [1:7172307] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:7172307] 838985046 838983525 838983421 838983392 838983392 838984474 838984885 838984596 838983834 838983834 ...
+##   .. ..$ title    : chr [1:7172307] "Boomerang (1992)" "Net, The (1995)" "Outbreak (1995)" "Stargate (1994)" ...
+##   .. ..$ genres   : chr [1:7172307] "Comedy|Romance" "Action|Crime|Thriller" "Action|Drama|Sci-Fi|Thriller" "Action|Adventure|Sci-Fi" ...
+##   ..$ train_mx      : num [1:69878, 1:10677] 5 NA NA NA NA NA NA NA NA NA ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:69878] "1" "2" "3" "4" ...
+##   .. .. ..$ : chr [1:10677] "122" "185" "292" "316" ...
+##   ..$ train.sgr     : tibble [18,669,195 x 6] (S3: tbl_df/tbl/data.frame)
+##   .. ..$ userId   : int [1:18669195] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:18669195] 122 122 185 185 185 292 292 292 316 329 ...
+##   .. ..$ rating   : num [1:18669195] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:18669195] 838985046 838985046 838983525 838983525 838983525 838983421 838983421 838983421 838983392 838983392 ...
+##   .. ..$ title    : chr [1:18669195] "Boomerang (1992)" "Boomerang (1992)" "Net, The (1995)" "Net, The (1995)" ...
+##   .. ..$ genres   : chr [1:18669195] "Comedy" "Romance" "Action" "Crime" ...
+##   ..$ validation_set:'data.frame':   1827748 obs. of  6 variables:
+##   .. ..$ userId   : int [1:1827748] 1 1 1 1 2 2 2 2 3 3 ...
+##   .. ..$ movieId  : int [1:1827748] 356 364 539 616 590 719 780 786 151 213 ...
+##   .. ..$ rating   : num [1:1827748] 5 5 5 5 5 3 3 3 4.5 5 ...
+##   .. ..$ timestamp: int [1:1827748] 838983653 838983707 838984068 838984941 868245608 868246191 868244698 868244562 1133571026 1136075789 ...
+##   .. ..$ title    : chr [1:1827748] "Forrest Gump (1994)" "Lion King, The (1994)" "Sleepless in Seattle (1993)" "Aristocats, The (1970)" ...
+##   .. ..$ genres   : chr [1:1827748] "Comedy|Drama|Romance|War" "Adventure|Animation|Children|Drama|Musical" "Comedy|Drama|Romance" "Animation|Children" ...
+##  $ :List of 4
+##   ..$ train_set     :'data.frame':   7172311 obs. of  6 variables:
+##   .. ..$ userId   : int [1:7172311] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:7172311] 122 185 292 316 329 355 356 362 364 370 ...
+##   .. ..$ rating   : num [1:7172311] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:7172311] 838985046 838983525 838983421 838983392 838983392 838984474 838983653 838984885 838983707 838984596 ...
+##   .. ..$ title    : chr [1:7172311] "Boomerang (1992)" "Net, The (1995)" "Outbreak (1995)" "Stargate (1994)" ...
+##   .. ..$ genres   : chr [1:7172311] "Comedy|Romance" "Action|Crime|Thriller" "Action|Drama|Sci-Fi|Thriller" "Action|Adventure|Sci-Fi" ...
+##   ..$ train_mx      : num [1:69878, 1:10677] 5 NA NA NA NA NA NA NA NA NA ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:69878] "1" "2" "3" "4" ...
+##   .. .. ..$ : chr [1:10677] "122" "185" "292" "316" ...
+##   ..$ train.sgr     : tibble [18,669,192 x 6] (S3: tbl_df/tbl/data.frame)
+##   .. ..$ userId   : int [1:18669192] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:18669192] 122 122 185 185 292 292 316 316 329 329 ...
+##   .. ..$ rating   : num [1:18669192] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:18669192] 838985046 838985046 838983525 838983525 838983421 838983421 838983392 838983392 838983392 838983392 ...
+##   .. ..$ title    : chr [1:18669192] "Boomerang (1992)" "Boomerang (1992)" "Net, The (1995)" "Net, The (1995)" ...
+##   .. ..$ genres   : chr [1:18669192] "Comedy" "Romance" "Action" "Thriller" ...
+##   ..$ validation_set:'data.frame':   1827744 obs. of  6 variables:
+##   .. ..$ userId   : int [1:1827744] 1 1 1 1 2 2 2 2 3 3 ...
+##   .. ..$ movieId  : int [1:1827744] 377 520 588 616 110 648 1049 1356 1148 1276 ...
+##   .. ..$ rating   : num [1:1827744] 5 5 5 5 5 2 3 3 4 3.5 ...
+##   .. ..$ timestamp: int [1:1827744] 838983834 838984679 838983339 838984941 868245777 868244699 868245920 868244603 1133571121 1133571205 ...
+##   .. ..$ title    : chr [1:1827744] "Speed (1994)" "Robin Hood: Men in Tights (1993)" "Aladdin (1992)" "Aristocats, The (1970)" ...
+##   .. ..$ genres   : chr [1:1827744] "Action|Romance|Thriller" "Comedy" "Adventure|Animation|Children|Comedy|Musical" "Animation|Children" ...
+##  $ :List of 4
+##   ..$ train_set     :'data.frame':   7172301 obs. of  6 variables:
+##   .. ..$ userId   : int [1:7172301] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:7172301] 122 185 292 316 355 356 364 370 420 466 ...
+##   .. ..$ rating   : num [1:7172301] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:7172301] 838985046 838983525 838983421 838983392 838984474 838983653 838983707 838984596 838983834 838984679 ...
+##   .. ..$ title    : chr [1:7172301] "Boomerang (1992)" "Net, The (1995)" "Outbreak (1995)" "Stargate (1994)" ...
+##   .. ..$ genres   : chr [1:7172301] "Comedy|Romance" "Action|Crime|Thriller" "Action|Drama|Sci-Fi|Thriller" "Action|Adventure|Sci-Fi" ...
+##   ..$ train_mx      : num [1:69878, 1:10677] 5 NA NA NA NA NA NA NA NA NA ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:69878] "1" "2" "3" "4" ...
+##   .. .. ..$ : chr [1:10677] "122" "185" "292" "316" ...
+##   ..$ train.sgr     : tibble [18,669,194 x 6] (S3: tbl_df/tbl/data.frame)
+##   .. ..$ userId   : int [1:18669194] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. ..$ movieId  : int [1:18669194] 122 122 185 185 292 292 316 329 329 355 ...
+##   .. ..$ rating   : num [1:18669194] 5 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ timestamp: int [1:18669194] 838985046 838985046 838983525 838983525 838983421 838983421 838983392 838983392 838983392 838984474 ...
+##   .. ..$ title    : chr [1:18669194] "Boomerang (1992)" "Boomerang (1992)" "Net, The (1995)" "Net, The (1995)" ...
+##   .. ..$ genres   : chr [1:18669194] "Comedy" "Romance" "Crime" "Thriller" ...
+##   ..$ validation_set:'data.frame':   1827754 obs. of  6 variables:
+##   .. ..$ userId   : int [1:1827754] 1 1 1 1 2 2 2 2 3 3 ...
+##   .. ..$ movieId  : int [1:1827754] 329 362 377 594 110 376 539 736 1252 1408 ...
+##   .. ..$ rating   : num [1:1827754] 5 5 5 5 5 3 3 3 4 3.5 ...
+##   .. ..$ timestamp: int [1:1827754] 838983392 838984885 838983834 838984679 868245777 868245920 868246262 868244698 1133571071 1133571145 ...
+##   .. ..$ title    : chr [1:1827754] "Star Trek: Generations (1994)" "Jungle Book, The (1994)" "Speed (1994)" "Snow White and the Seven Dwarfs (1937)" ...
+##   .. ..$ genres   : chr [1:1827754] "Action|Adventure|Drama|Sci-Fi" "Adventure|Children|Romance" "Action|Romance|Thriller" "Animation|Children|Drama|Fantasy|Musical" ...
+\end{verbatim}
+
+\begin{noteblock}
+This code snippet is a part of the \texttt{make\_source\_datasets}
+\emph{function} code described above.
+
+\end{noteblock}
+
+Note that we used the \texttt{sample\_train\_validation\_sets} function
+call to split the original dataset (\texttt{edx} in this case):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    split\_sets }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{sample\_train\_validation\_sets}\NormalTok{(fold\_i}\SpecialCharTok{*}\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The \texttt{sample\_train\_validation\_sets} function is defined in the
+same script as the \texttt{make\_source\_datasets} one, from where it is
+called.
+
+\end{noteblock}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sample\_train\_validation\_sets }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, seed)\{}
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}sample\_train\_validation\_sets\textasciigrave{}: Sampling 20\% of the \textasciigrave{}data\textasciigrave{} data..."}\NormalTok{)}
+  \FunctionTok{set.seed}\NormalTok{(seed)}
+\NormalTok{  validation\_ind }\OtherTok{\textless{}{-}} 
+    \FunctionTok{sapply}\NormalTok{(}\FunctionTok{splitByUser}\NormalTok{(data),}
+           \ControlFlowTok{function}\NormalTok{(i) }\FunctionTok{sample}\NormalTok{(i, }\FunctionTok{ceiling}\NormalTok{(}\FunctionTok{length}\NormalTok{(i)}\SpecialCharTok{*}\NormalTok{.}\DecValTok{2}\NormalTok{))) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{unlist}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{sort}\NormalTok{()}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}sample\_train\_validation\_sets\textasciigrave{}: }
+\StringTok{Extracting 80\% of the original \textasciigrave{}data\textasciigrave{} not used for the Validation Set, }
+\StringTok{excluding data for users who provided no more than a specified number of ratings: \{min\_nratings\}."}\NormalTok{)}
+  
+\NormalTok{  train\_set }\OtherTok{\textless{}{-}}\NormalTok{ data[}\SpecialCharTok{{-}}\NormalTok{validation\_ind,]}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}sample\_train\_validation\_sets\textasciigrave{}: Dataset created: train\_set"}\NormalTok{)}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{summary}\NormalTok{(train\_set))}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}sample\_train\_validation\_sets\textasciigrave{}: }
+\StringTok{To make sure we don’t include movies in the Training Set that should not be there, }
+\StringTok{we exclude entries using the semi\_join function from the Validation Set."}\NormalTok{)}
+\NormalTok{  tmp.data }\OtherTok{\textless{}{-}}\NormalTok{ data[validation\_ind,]}
+  
+\NormalTok{  validation\_set }\OtherTok{\textless{}{-}}\NormalTok{ tmp.data }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{semi\_join}\NormalTok{(train\_set, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{semi\_join}\NormalTok{(train\_set, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{as.data.frame}\NormalTok{()}
+  
+  \CommentTok{\# Add rows excluded from \textasciigrave{}validation\_set\textasciigrave{} into \textasciigrave{}train\_set\textasciigrave{}}
+\NormalTok{  tmp.excluded }\OtherTok{\textless{}{-}} \FunctionTok{anti\_join}\NormalTok{(tmp.data, validation\_set)}
+\NormalTok{  train\_set }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(train\_set, tmp.excluded)}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}sample\_train\_validation\_sets\textasciigrave{}: Dataset created: validation\_set"}\NormalTok{)}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{summary}\NormalTok{(validation\_set))}
+
+  \CommentTok{\# CV train \& test sets Consistency Test}
+\NormalTok{  validation.left\_join.Nas }\OtherTok{\textless{}{-}}\NormalTok{ train\_set }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{tst.col =}\NormalTok{ rating) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{select}\NormalTok{(userId, movieId, tst.col) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{data.consistency.test}\NormalTok{(validation\_set)}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}sample\_train\_validation\_sets\textasciigrave{}:}
+\StringTok{Below are the data consistency verification results"}\NormalTok{)}
+  \FunctionTok{put}\NormalTok{(validation.left\_join.Nas)}
+  
+  \CommentTok{\# Return result datassets {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}    }
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{train\_set =}\NormalTok{ train\_set, }
+       \AttributeTok{validation\_set =}\NormalTok{ validation\_set)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{Common Helper Functions}\label{common-helper-functions}
+
+\hfill\break
+
+For our further analysis, we are going to use the following \_common
+helper functions:
+
+\subparagraph{\texorpdfstring{\texttt{clamp}
+function}{clamp function}}\label{clamp-function}
+
+\hfill\break
+
+As explained in
+\href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#user-effects}{Section
+24.4 User effects} of the \emph{Course Textbook} we know ratings can't
+be below 0.5 or above 5. For this reason, we will use the \texttt{clamp}
+function described in that section:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{clamp }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, }\AttributeTok{min =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{max =} \DecValTok{5}\NormalTok{) }\FunctionTok{pmax}\NormalTok{(}\FunctionTok{pmin}\NormalTok{(x, max), min)}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{Functions to calculate \_(Root) Mean Squared
+Error}\label{functions-to-calculate-_root-mean-squared-error}
+
+We will need the following functions to calculate \_(R)MSEs:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mse }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(r) }\FunctionTok{mean}\NormalTok{(r}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+
+\NormalTok{mse\_cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(r\_list) \{}
+\NormalTok{  mses }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(r\_list, }\FunctionTok{mse}\NormalTok{(r))}
+  \FunctionTok{mean}\NormalTok{(mses)}
+\NormalTok{\}}
+
+\NormalTok{rmse }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(r) }\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mse}\NormalTok{(r))}
+\CommentTok{\# rmse\_cv \textless{}{-} function(r\_list) sqrt(mse\_cv(r\_list))}
+
+\NormalTok{rmse2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(true\_ratings, predicted\_ratings) \{}
+  \FunctionTok{rmse}\NormalTok{(true\_ratings }\SpecialCharTok{{-}}\NormalTok{ predicted\_ratings)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Overall Mean Rating (Naive)
+Model}\label{overall-mean-rating-naive-model}
+
+\hfill\break
+
 Let's begin our analysis by evaluating the simplest model described in
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#a-first-model}{Section
 \emph{23.3 The First Model} of the \emph{Course Textbook}}, and then
@@ -894,7 +1415,12 @@ estimate of \(\mu\) and, in this case, is the average of all ratings:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mu }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(y, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  mu }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(edx}\SpecialCharTok{$}\NormalTok{rating)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{print}\NormalTok{(mu)}
 \end{Highlighting}
 \end{Shaded}
@@ -908,12 +1434,18 @@ following RMSE:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{rmse}\NormalTok{(test\_set}\SpecialCharTok{$}\NormalTok{rating }\SpecialCharTok{{-}}\NormalTok{ mu)}
+\NormalTok{  mu.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(MSEs))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu.RMSE}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.054739
+## [1] 1.060346
 \end{verbatim}
 
 If we plug in any other number, we will get a higher RMSE. Let's prove
@@ -923,36 +1455,17 @@ that by the following small investigation:
 \begin{Highlighting}[]
 \NormalTok{deviation }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{6}\NormalTok{, }\FloatTok{0.1}\NormalTok{) }\SpecialCharTok{{-}} \DecValTok{3}
 \FunctionTok{print}\NormalTok{(deviation)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-##  [1] -3.0 -2.9 -2.8 -2.7 -2.6 -2.5 -2.4 -2.3 -2.2 -2.1 -2.0 -1.9 -1.8 -1.7 -1.6 -1.5 -1.4 -1.3 -1.2 -1.1 -1.0 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1  0.0  0.1  0.2  0.3  0.4  0.5
-## [37]  0.6  0.7  0.8  0.9  1.0  1.1  1.2  1.3  1.4  1.5  1.6  1.7  1.8  1.9  2.0  2.1  2.2  2.3  2.4  2.5  2.6  2.7  2.8  2.9  3.0
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{rmse\_value }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(deviation, }\ControlFlowTok{function}\NormalTok{(diff)\{}
   \FunctionTok{rmse}\NormalTok{(test\_set}\SpecialCharTok{$}\NormalTok{rating }\SpecialCharTok{{-}}\NormalTok{ mu }\SpecialCharTok{+}\NormalTok{ diff)}
 \NormalTok{\})}
 
 \FunctionTok{plot}\NormalTok{(deviation, rmse\_value, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-29-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{sprintf}\NormalTok{(}\StringTok{"Minimum RMSE is achieved when the deviation from the mean is: \%s"}\NormalTok{, }
 \NormalTok{        deviation[}\FunctionTok{which.min}\NormalTok{(rmse\_value)])}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## [1] "Minimum RMSE is achieved when the deviation from the mean is: 0"
-\end{verbatim}
 
 To win the grand prize of \$1,000,000, a participating team had to get
 an RMSE of at least 0.8563\autocite{BigChaosSln}. So we can definitely
@@ -972,11 +1485,21 @@ substantial variability in the average ratings across users:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(}\FunctionTok{rowMeans}\NormalTok{(y, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{), }\AttributeTok{nclass =} \DecValTok{30}\NormalTok{)}
+\FunctionTok{hist}\NormalTok{(edx.user\_mean\_ratings}\SpecialCharTok{$}\NormalTok{mean\_rating, }\AttributeTok{nclass =} \DecValTok{30}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-30-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-42-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"A histogram of the User Mean Rating distribution has been plotted."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "A histogram of the User Mean Rating distribution has been plotted."
+\end{verbatim}
 
 Following the author's further explanation, to account for this
 variability, we will use a linear model with a \emph{treatment effect}
@@ -1020,10 +1543,6 @@ in the proper range):
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## [1] 0.9707208
-\end{verbatim}
-
 \subsubsection{Taking into account Movie
 effects}\label{taking-into-account-movie-effects}
 
@@ -1065,10 +1584,6 @@ improves\autocite{IDS2_23-5}:
 \FunctionTok{print}\NormalTok{(user\_and\_movie\_effects\_rmse)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## [1] 0.8662207
-\end{verbatim}
 
 \subsubsection{Utilizing Penalized least
 squares}\label{utilizing-penalized-least-squares}
@@ -1141,18 +1656,13 @@ Let's now figure out the \(\lambda\) that minimizes the \emph{RMSE}:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-36-1.pdf}
 Now we can determine the minimal \emph{RMSE}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(}\FunctionTok{min}\NormalTok{(rmses))}
+\CommentTok{\# print(min(rmses))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## [1] 0.8661143
-\end{verbatim}
 
 which is achieved for the following \(\lambda\):
 
@@ -1162,10 +1672,6 @@ which is achieved for the following \(\lambda\):
 \FunctionTok{print}\NormalTok{(lambda)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## [1] 3.2
-\end{verbatim}
 
 Using this \(\lambda\) we can compute the regularized estimates:
 
@@ -1177,11 +1683,6 @@ Using this \(\lambda\) we can compute the regularized estimates:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-##  Named num [1:10630] -0.516 0.327 -0.903 -0.154 -0.29 ...
-##  - attr(*, "names")= chr [1:10630] "5" "6" "19" "22" ...
-\end{verbatim}
-
 Finally, let's verify that the penalized estimates
 \(\hat{b}_i(\lambda)\) we have just computed actually result in the
 minimal \emph{RMSE} figured out above:
@@ -1191,10 +1692,6 @@ minimal \emph{RMSE} figured out above:
 \FunctionTok{reg\_rmse}\NormalTok{(b\_reg)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## [1] 0.8661143
-\end{verbatim}
 
 \subsubsection{Accounting for Date
 effects}\label{accounting-for-date-effects}
@@ -1259,7 +1756,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-42-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-54-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 
@@ -1295,11 +1792,6 @@ like Drama, Comedy, Thriller, and Romance:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-##    Drama   Comedy Thriller  Romance 
-##  3910127  3540930  2325899  1712100
-\end{verbatim}
-
 Further, we can find out the movies that have the greatest number of
 ratings using the following code:
 
@@ -1308,31 +1800,9 @@ ratings using the following code:
 \NormalTok{ordered\_movie\_ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId, title) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarize}\NormalTok{(}\AttributeTok{number\_of\_ratings =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(number\_of\_ratings))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `summarise()` has grouped output by 'movieId'. You can override using the `.groups` argument.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(ordered\_movie\_ratings))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 6 x 3
-## # Groups:   movieId [6]
-##   movieId title                            number_of_ratings
-##     <int> <chr>                                        <int>
-## 1     296 Pulp Fiction (1994)                          31362
-## 2     356 Forrest Gump (1994)                          31079
-## 3     593 Silence of the Lambs, The (1991)             30382
-## 4     480 Jurassic Park (1993)                         29360
-## 5     318 Shawshank Redemption, The (1994)             28015
-## 6     110 Braveheart (1995)                            26212
-\end{verbatim}
 
 and figure out the most given ratings in order from most to least:
 
@@ -1345,22 +1815,6 @@ and figure out the most given ratings in order from most to least:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    rating   count
-##     <dbl>   <int>
-##  1    4   2588430
-##  2    3   2121240
-##  3    5   1390114
-##  4    3.5  791624
-##  5    2    711422
-##  6    4.5  526736
-##  7    1    345679
-##  8    2.5  333010
-##  9    1.5  106426
-## 10    0.5   85374
-\end{verbatim}
-
 The following code allows us to summarize that in general, half-star
 ratings are less common than whole-star ratings (e.g., there are fewer
 ratings of 3.5 than there are ratings of 3 or 4, etc.):
@@ -1370,22 +1824,6 @@ ratings of 3.5 than there are ratings of 3 or 4, etc.):
 \FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    rating   count
-##     <dbl>   <int>
-##  1    0.5   85374
-##  2    1    345679
-##  3    1.5  106426
-##  4    2    711422
-##  5    2.5  333010
-##  6    3   2121240
-##  7    3.5  791624
-##  8    4   2588430
-##  9    4.5  526736
-## 10    5   1390114
-\end{verbatim}
 
 We can visually see that from the following plot:
 
@@ -1398,8 +1836,6 @@ We can visually see that from the following plot:
   \FunctionTok{geom\_line}\NormalTok{() }
 \end{Highlighting}
 \end{Shaded}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-47-1.pdf}
 
 \subparagraph{Movie Genres Effect}\label{movie-genres-effect}
 
@@ -1421,39 +1857,9 @@ ratings).
   \FunctionTok{select}\NormalTok{(genres, rating\_avg, se, n)}
 
 \FunctionTok{dim}\NormalTok{(genre\_ratins\_grp)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 53  4
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{genre\_ratins\_grp\_sorted }\OtherTok{\textless{}{-}}\NormalTok{ genre\_ratins\_grp }\SpecialCharTok{|\textgreater{}} \FunctionTok{sort\_by.data.frame}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ rating\_avg)}
 \FunctionTok{print}\NormalTok{(genre\_ratins\_grp\_sorted)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## # A tibble: 53 x 4
-##    genres                  rating_avg      se      n
-##    <fct>                        <dbl>   <dbl>  <int>
-##  1 Comedy|Horror                 2.83 0.00701  24892
-##  2 Horror                        2.85 0.00556  48671
-##  3 Children|Comedy               2.86 0.00575  40435
-##  4 Horror|Sci-Fi                 2.88 0.00787  20524
-##  5 Action|Comedy                 2.96 0.00581  34118
-##  6 Comedy|Sci-Fi                 3.06 0.00668  27888
-##  7 Action|Sci-Fi                 3.08 0.00749  27971
-##  8 Horror|Thriller               3.09 0.00543  49751
-##  9 Action|Adventure|Comedy       3.17 0.00616  28256
-## 10 Comedy                        3.21 0.00167 439352
-## # i 43 more rows
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{\# Creating plot:}
 \NormalTok{genre\_ratins\_grp }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ genres, }\AttributeTok{y =}\NormalTok{ rating\_avg, }\AttributeTok{ymin =}\NormalTok{ rating\_avg }\SpecialCharTok{{-}} \DecValTok{2}\SpecialCharTok{*}\NormalTok{se, }\AttributeTok{ymax =}\NormalTok{ rating\_avg }\SpecialCharTok{+} \DecValTok{2}\SpecialCharTok{*}\NormalTok{se)) }\SpecialCharTok{+} 
@@ -1465,30 +1871,17 @@ ratings).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-48-1.pdf}
 Below are worst and best ratings categories:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{sprintf}\NormalTok{(}\StringTok{"The worst ratings are for the genre category: \%s"}\NormalTok{,}
 \NormalTok{        genre\_ratins\_grp}\SpecialCharTok{$}\NormalTok{genres[}\FunctionTok{which.min}\NormalTok{(genre\_ratins\_grp}\SpecialCharTok{$}\NormalTok{genres)])}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## [1] "The worst ratings are for the genre category: Comedy|Horror"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{sprintf}\NormalTok{(}\StringTok{"The best ratings are for the genre category: \%s"}\NormalTok{,}
 \NormalTok{        genre\_ratins\_grp}\SpecialCharTok{$}\NormalTok{genres[}\FunctionTok{which.max}\NormalTok{(genre\_ratins\_grp}\SpecialCharTok{$}\NormalTok{genres)])}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## [1] "The best ratings are for the genre category: Comedy|Crime|Drama"
-\end{verbatim}
 
 Another way of visualizing a genre effect is shown in the section
 \href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook\#Average-rating-for-each-genre}{Average
@@ -1520,8 +1913,6 @@ Moterfaker}\autocite{MRS-R-BEST}:
         \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-50-1.pdf}
 
 If we define \(g_{i,j}\) as the genre for user's \(i\) rating of movie
 \(j\), we can use the following models to account for the \texttt{genre}
