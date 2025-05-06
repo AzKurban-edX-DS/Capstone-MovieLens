@@ -37,13 +37,13 @@ calc_genre_mean_ratings.cv <- function(min_nratings = 0) {
     mutate(genres = reorder(genres, ratings)) |>
     sort_by.data.frame(~ratings)
 }
-train_user_movie_genre_effect <- function(train_set, lambda = 0){
+train_user_movie_genre_effect <- function(train.sgr, lambda = 0){
   if (is.na(lambda)) {
     stop("Function: train_user_movie_genre_effect
 `lambda` is `NA`")
   }
 
-  genre_bias <- train_set |>
+  genre_bias <- train.sgr |>
       left_join(edx.user_effect, by = "userId") |>
       left_join(rglr.UM_effect, by = "movieId") |>
       mutate(resid = rating - (mu + a + b)) |>
@@ -54,7 +54,7 @@ train_user_movie_genre_effect <- function(train_set, lambda = 0){
     
     # print(c(g_NAs = sum(is.na(genre_bias$g))))
     
-    train_set |>
+    train.sgr |>
       left_join(genre_bias, by = "genres") |>
       left_join(rglr.UM_effect, by = "movieId") |>
       # filter(!is.na(g)) |>

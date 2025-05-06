@@ -24,3 +24,5 @@ r/bak/
 .Rproj.user
 *.Rhistory
 
+docs/packages/
+r/src/support-functions/bak/
