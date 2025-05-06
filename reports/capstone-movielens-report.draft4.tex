@@ -1267,8 +1267,9 @@ Here we have a list of sample objects we need to perform the
 \end{verbatim}
 
 \begin{noteblock}
-This code snippet is a part of the \texttt{make\_source\_datasets}
-\emph{function} code described above.
+This code snippet is a part of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L87}{\texttt{make\_source\_datasets}
+\emph{function} code} described above.
 
 \end{noteblock}
 
@@ -1282,12 +1283,7 @@ call to split the original dataset (\texttt{edx} in this case):
 \end{Highlighting}
 \end{Shaded}
 
-\begin{noteblock}
-The \texttt{sample\_train\_validation\_sets} function is defined in the
-same script as the \texttt{make\_source\_datasets} one, from where it is
-called.
-
-\end{noteblock}
+which returns a pair of train/validation sets:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1343,6 +1339,14 @@ called.
 \end{Highlighting}
 \end{Shaded}
 
+\begin{noteblock}
+The
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L15}{\texttt{sample\_train\_validation\_sets}
+function} is defined in the same script as the
+\texttt{make\_source\_datasets} one, from where it is called.
+
+\end{noteblock}
+
 \paragraph{Common Helper Functions}\label{common-helper-functions}
 
 \hfill\break
@@ -1367,10 +1371,13 @@ function described in that section:
 \end{Highlighting}
 \end{Shaded}
 
-\subparagraph{Functions to calculate \_(Root) Mean Squared
-Error}\label{functions-to-calculate-_root-mean-squared-error}
+\subparagraph{\texorpdfstring{Functions to calculate \emph{(Root) Mean
+Squared
+Error}}{Functions to calculate (Root) Mean Squared Error}}\label{functions-to-calculate-root-mean-squared-error}
 
-We will need the following functions to calculate \_(R)MSEs:
+\hfill\break
+
+We will need the following functions to calculate \emph{(R)MSEs}:
 
 \begin{Shaded}
 \begin{Highlighting}[]

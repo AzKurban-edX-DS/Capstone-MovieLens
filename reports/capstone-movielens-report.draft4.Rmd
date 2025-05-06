@@ -620,7 +620,7 @@ str(edx_CV)
 ```
 
 ::: {.noteblock data-latex=""}
-This code snippet is a part of the `make_source_datasets` _function_ code described above.
+This code snippet is a part of the [`make_source_datasets` _function_ code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R#L87) described above.
 :::
 
 Note that we used the `sample_train_validation_sets` function call to split the original dataset (`edx` in this case): 
@@ -629,9 +629,7 @@ Note that we used the `sample_train_validation_sets` function call to split the 
       sample_train_validation_sets(fold_i*1000)
 ```
 
-::: {.noteblock data-latex=""}
-The `sample_train_validation_sets` function is defined in the same script as the `make_source_datasets` one, from where it is called.  
-:::
+which returns a pair of train/validation sets:
 ```{r eval=FALSE}
 sample_train_validation_sets <- function(data, seed){
   put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `data` data...")
@@ -685,6 +683,9 @@ Below are the data consistency verification results")
 
 ```
 
+::: {.noteblock data-latex=""}
+The [`sample_train_validation_sets` function](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R#L15) is defined in the same script as the `make_source_datasets` one, from where it is called.  
+:::
 
 #### Common Helper Functions
 \
@@ -699,9 +700,10 @@ As explained in [Section  24.4 User effects](https://rafalab.dfci.harvard.edu/ds
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 ```
 
-##### Functions to calculate _(Root) Mean Squared Error
+##### Functions to calculate _(Root) Mean Squared Error_
+\
 
-We will need the following functions to calculate _(R)MSEs:
+We will need the following functions to calculate _(R)MSEs_:
 ```{r eval=FALSE}
 mse <- function(r) mean(r^2)
 
