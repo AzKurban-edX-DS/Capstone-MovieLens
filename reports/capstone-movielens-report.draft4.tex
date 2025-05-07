@@ -119,7 +119,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-07}
+\date{2025-05-08}
 
 \begin{document}
 \maketitle
@@ -479,7 +479,7 @@ distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-22-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
 
 This graph is another confirmation of what we found out above: rounded
 ratings occur more often than half-stared ones. The upward trend
@@ -567,7 +567,7 @@ Ratings per movie plot\autocite{MRS-R-BEST}
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-25-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-14-1.pdf}
 
 Movies' rating histogram\autocite{MRS-R-BEST}
 
@@ -596,7 +596,7 @@ Movies' rating histogram\autocite{MRS-R-BEST}
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-26-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
 
 \subparagraph{\texorpdfstring{Ratings per
 user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -681,7 +681,7 @@ Ratings per user plot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-29-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
 
 Users' rating histogram
 
@@ -710,7 +710,7 @@ Users' rating histogram
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-30-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 \subsection{Methods / Analysis}\label{methods-analysis}
 
@@ -804,8 +804,10 @@ below:
 
 \begin{noteblock}
 The full source code of these functions is available in the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/capstone-movielens.main.R\#L1}{Logging
-Helper function section of the Capstone MovieLens Main R Script}.
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L20}{Logging
+Helper function section} of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{Capstone
+MovieLens Main R Script}.
 
 \end{noteblock}
 
@@ -835,8 +837,10 @@ specifically designed for these operations:
 
 \begin{noteblock}
 The full source code of the function listed above is available in the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L86}{\texttt{Initialize\ input\ datasets}
-section of the \texttt{data.helper.functions.R} script on \emph{GitHub}}
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L86}{Initialize
+input datasets} section of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{data.helper.functions.R}
+script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -970,8 +974,10 @@ the original dataset:
 
 \begin{noteblock}
 The source code of the function mentioned above is also available in the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L86}{\texttt{Initialize\ input\ datasets}
-section of the \texttt{data.helper.functions.R} script on \emph{GitHub}}
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L86}{Initialize
+input datasets} section of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{data.helper.functions.R}
+script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -1292,8 +1298,8 @@ Here we have a list of sample objects we need to perform the
 
 \begin{noteblock}
 This code snippet is a part of the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L87}{\texttt{make\_source\_datasets}
-\emph{function} code} described above.
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L87}{make\_source\_datasets}
+\emph{function} code described above.
 
 \end{noteblock}
 
@@ -1365,9 +1371,10 @@ which returns a pair of train/validation sets:
 
 \begin{noteblock}
 The
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R\#L15}{\texttt{sample\_train\_validation\_sets}
-function} is defined in the same script as the
-\texttt{make\_source\_datasets} one, from where it is called.
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L15}{sample\_train\_validation\_sets}
+function is defined in the same script as the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L87}{make\_source\_datasets}`
+one, from where it is called.
 
 \end{noteblock}
 
@@ -1375,8 +1382,8 @@ function} is defined in the same script as the
 
 \hfill\break
 
-For our further analysis, we are going to use the following \_common
-helper functions:
+For our further analysis, we are going to use the following \emph{common
+helper functions}:
 
 \subparagraph{\texorpdfstring{\texttt{clamp}
 function}{clamp function}}\label{clamp-function}
@@ -1420,6 +1427,14 @@ We will need the following functions to calculate \emph{(R)MSEs}:
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{noteblock}
+All the \emph{common helper functions}, including those described above,
+are defined in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R}
+script on \emph{GitHub}.
+
+\end{noteblock}
 
 \subsubsection{Overall Mean Rating (Naive)
 Model}\label{overall-mean-rating-naive-model}
@@ -1468,7 +1483,7 @@ following RMSE:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-49-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-38-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1483,21 +1498,58 @@ following RMSE:
 
 \begin{noteblock}
 For the \emph{Mean Squared Error} data visualization we used
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R\#L630}{\texttt{data.plot}
-function} defined in
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R\#L484}{\emph{Model
-Data Visualization} section} of the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R}
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.plot}
+function{]} defined in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data
+Visualization} section of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{data.helper.function.R}
 script.
 
 \end{noteblock}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data.plot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }
+\NormalTok{                      title, }
+\NormalTok{                      xname, }
+\NormalTok{                      yname, }
+                      \AttributeTok{xlabel =} \ConstantTok{NULL}\NormalTok{, }
+                      \AttributeTok{ylabel =} \ConstantTok{NULL}\NormalTok{,}
+                      \AttributeTok{line\_col =} \StringTok{"blue"}\NormalTok{,}
+                      \CommentTok{\# scale = 1,}
+                      \AttributeTok{normalize =} \ConstantTok{FALSE}\NormalTok{) \{}
+\NormalTok{  y }\OtherTok{\textless{}{-}}\NormalTok{ data[, yname]}
+  
+  \ControlFlowTok{if}\NormalTok{ (normalize) \{}
+\NormalTok{    y }\OtherTok{\textless{}{-}}\NormalTok{ y }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(y)}
+\NormalTok{  \}}
+  
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.null}\NormalTok{(xlabel)) \{}
+\NormalTok{    xlabel }\OtherTok{=}\NormalTok{ xname}
+\NormalTok{  \}}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.null}\NormalTok{(ylabel)) \{}
+\NormalTok{    ylabel }\OtherTok{=}\NormalTok{ yname}
+\NormalTok{  \}}
+  
+\NormalTok{  aes\_mapping }\OtherTok{\textless{}{-}} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ data[, xname], }\AttributeTok{y =}\NormalTok{ y)}
+  
+\NormalTok{  data }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{mapping =}\NormalTok{ aes\_mapping) }\SpecialCharTok{+}
+    \FunctionTok{ggtitle}\NormalTok{(title) }\SpecialCharTok{+}
+    \FunctionTok{xlab}\NormalTok{(xlabel) }\SpecialCharTok{+}
+    \FunctionTok{ylab}\NormalTok{(ylabel) }\SpecialCharTok{+}
+    \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} 
+    \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color=}\NormalTok{line\_col)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
 Here we also used
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R\#L54}{\texttt{naive\_model\_MSEs}
-function} defined in the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{same
-script} to compute \emph{Mean Squared Errors} using \emph{5-Fold Cross
-Validation} method:
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L54}{naive\_model\_MSEs}
+function defined in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R}
+script (already mentioned above) to compute \emph{Mean Squared Errors}
+using \emph{5-Fold Cross Validation} method:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1509,12 +1561,12 @@ Validation} method:
 \end{Highlighting}
 \end{Shaded}
 
-One more function we will need for further analysis of the current model
-is the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R\#L59}{\texttt{naive\_model\_RMSE}
-one} defined in the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R}
-script already mentioned above:
+One more function, defined in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{same
+script}, that we will need for further analysis of the current model, is
+the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L59}{naive\_model\_RMSE}
+one:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1558,7 +1610,7 @@ we have just got:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-53-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-43-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1590,7 +1642,7 @@ an RMSE of at least 0.8563\autocite{BigChaosSln}. So we can definitely
 do better!\autocite{IDS2_23-3}
 
 \subsubsection{Taking into account User
-effects}\label{taking-into-account-user-effects}
+Effect}\label{taking-into-account-user-effect}
 
 \hfill\break
 To improve our model let's now take into consideration user effects as
@@ -1607,7 +1659,7 @@ substantial variability in the average ratings across users:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-54-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-44-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1874,7 +1926,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-66-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-56-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 

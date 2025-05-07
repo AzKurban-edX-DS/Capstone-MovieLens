@@ -442,7 +442,7 @@ put_log2 <- function(msg_template, arg1, arg2){
 ```
 
 ::: {.noteblock data-latex=""}
-The full source code of these functions is available in the [Logging Helper function section of the Capstone MovieLens Main R Script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/capstone-movielens.main.R#L1).
+The full source code of these functions is available in the [Logging Helper function section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) of the [Capstone MovieLens Main R Script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R).
 :::
 
 ### Preparing train and set datasets
@@ -456,7 +456,7 @@ init_source_datasets()
 ```
 
 ::: {.noteblock data-latex=""}
-The full source code of the function listed above is available in the [`Initialize input datasets` section of the `data.helper.functions.R` script on _GitHub_](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R#L86)
+The full source code of the function listed above is available in the [Initialize input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L86) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
 :::
 
 #### The `make_source_datasets` function
@@ -531,7 +531,7 @@ splitGenreRows <- function(data){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the function mentioned above is also available in the [`Initialize input datasets` section of the `data.helper.functions.R` script on _GitHub_](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R#L86)
+The source code of the function mentioned above is also available in the [Initialize input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L86) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
 :::
 
 ##### `movie_map` Object
@@ -643,7 +643,7 @@ str(edx_CV)
 ```
 
 ::: {.noteblock data-latex=""}
-This code snippet is a part of the [`make_source_datasets` _function_ code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R#L87) described above.
+This code snippet is a part of the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87) _function_ code described above.
 :::
 
 Note that we used the `sample_train_validation_sets` function call to split the original dataset (`edx` in this case): 
@@ -707,13 +707,13 @@ Below are the data consistency verification results")
 ```
 
 ::: {.noteblock data-latex=""}
-The [`sample_train_validation_sets` function](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/2c5d96ac98a8b8fa4151aa8295f91ac29d9472b3/r/src/support-functions/data.helper.functions.R#L15) is defined in the same script as the `make_source_datasets` one, from where it is called.  
+The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L15) function is defined in the same script as the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87)` one, from where it is called.
 :::
 
 #### Common Helper Functions
 \
 
-For our further analysis, we are going to use the following _common helper functions:
+For our further analysis, we are going to use the following _common helper functions_:
 
 ##### `clamp` function
 \
@@ -743,6 +743,9 @@ rmse2 <- function(true_ratings, predicted_ratings) {
 }
 ```
 
+::: {.noteblock data-latex=""}
+All the _common helper functions_, including those described above, are defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_. 
+:::
 
 ### Overall Mean Rating (Naive) Model
 \
@@ -775,10 +778,45 @@ mu.RMSE <- sqrt(mean(mu.MSEs))
 mu.RMSE
 ```
 ::: {.noteblock data-latex=""}
-For the _Mean Squared Error_ data visualization we used [`data.plot` function](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R#L630) defined in [_Model Data Visualization_ section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R#L484) of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script.
+For the _Mean Squared Error_ data visualization we used [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) function] defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.function.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script.
 :::
 
-Here we also used [`naive_model_MSEs` function](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R#L54) defined in the [same script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method: 
+```{r eval=FALSE}
+data.plot <- function(data, 
+                      title, 
+                      xname, 
+                      yname, 
+                      xlabel = NULL, 
+                      ylabel = NULL,
+                      line_col = "blue",
+                      # scale = 1,
+                      normalize = FALSE) {
+  y <- data[, yname]
+  
+  if (normalize) {
+    y <- y - min(y)
+  }
+  
+  if (is.null(xlabel)) {
+    xlabel = xname
+  }
+  if (is.null(ylabel)) {
+    ylabel = yname
+  }
+  
+  aes_mapping <- aes(x = data[, xname], y = y)
+  
+  data |> 
+    ggplot(mapping = aes_mapping) +
+    ggtitle(title) +
+    xlab(xlabel) +
+    ylab(ylabel) +
+    geom_point() + 
+    geom_line(color=line_col)
+}
+```
+
+Here we also used [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L54) function defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script (already mentioned above) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method: 
 
 ```{r eval=FALSE }
 naive_model_MSEs <- function(val) {
@@ -788,7 +826,7 @@ naive_model_MSEs <- function(val) {
 }
 ```
 
-One more function we will need for further analysis of the current model is the [`naive_model_RMSE` one](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R#L59) defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script already mentioned above:
+One more function, defined in the [same script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R), that we will need for further analysis of the current model, is the [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L59) one:
 ```{r eval=FALSE }
 naive_model_RMSE <- function(val){
   sqrt(mean(naive_model_MSEs(val)))
@@ -832,7 +870,7 @@ print_log1("Is the previously computed RMSE the best for the current model: %1",
 
 To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]
 
-### Taking into account User effects
+### Taking into account User Effect
 \
 To improve our model let's now take into consideration user effects as explained in [Section _23.4 User effects_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects). 
 If we visualize the average rating for each user the way the [the author](https://x.com/rafalab) shows, we can see that there is substantial variability in the average ratings across users: 
