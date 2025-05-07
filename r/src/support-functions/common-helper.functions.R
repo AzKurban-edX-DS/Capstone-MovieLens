@@ -481,7 +481,7 @@ Currently reached best RMSE for `parameter value = %1`: %2",
                                  RMSE = result.RMSE))
 }
 
-### Model Data Visualization -----------------------------------------
+## Model Data Visualization -----------------------------------------
 
 data.plot.left_detailed <- function(data, 
                                       left.n = 0,
