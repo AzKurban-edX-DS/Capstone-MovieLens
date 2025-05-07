@@ -479,7 +479,7 @@ distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-22-1.pdf}
 
 This graph is another confirmation of what we found out above: rounded
 ratings occur more often than half-stared ones. The upward trend
@@ -567,7 +567,7 @@ Ratings per movie plot\autocite{MRS-R-BEST}
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-14-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-25-1.pdf}
 
 Movies' rating histogram\autocite{MRS-R-BEST}
 
@@ -596,7 +596,7 @@ Movies' rating histogram\autocite{MRS-R-BEST}
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-26-1.pdf}
 
 \subparagraph{\texorpdfstring{Ratings per
 user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -681,7 +681,7 @@ Ratings per user plot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-29-1.pdf}
 
 Users' rating histogram
 
@@ -710,7 +710,7 @@ Users' rating histogram
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-30-1.pdf}
 
 \subsection{Methods / Analysis}\label{methods-analysis}
 
@@ -721,8 +721,8 @@ repository}\autocite{edx_capstone_movielens}.
 
 \end{noteblock}
 
-\subsubsection{Defining Logging and Mesuring helper
-functions}\label{defining-logging-and-mesuring-helper-functions}
+\subsubsection{Defining Logging and Time Measuring Helper
+Functions}\label{defining-logging-and-time-measuring-helper-functions}
 
 \hfill\break
 
@@ -732,6 +732,7 @@ below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\DocumentationTok{\#\# Logging Helper functions {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
 \NormalTok{open\_logfile }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(file\_name)\{}
 \NormalTok{  log\_file\_name }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} 
     \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{\textquotesingle{}:\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
@@ -757,24 +758,47 @@ below:
   \FunctionTok{put}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ start)}
 \NormalTok{\}}
 
+\NormalTok{msg.set\_arg }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg, }\AttributeTok{arg.name =} \StringTok{"\%1"}\NormalTok{) \{}
+\NormalTok{  msg\_template }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{str\_replace\_all}\NormalTok{(arg.name, }\FunctionTok{as.character}\NormalTok{(arg))}
+\NormalTok{\}}
+\NormalTok{msg.glue }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg, }\AttributeTok{arg.name =} \StringTok{"\%1"}\NormalTok{)\{}
+\NormalTok{  msg\_template }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{msg.set\_arg}\NormalTok{(arg, arg.name) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{str\_glue}\NormalTok{()}
+\NormalTok{\}}
+
 \NormalTok{print\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg)\{}
   \FunctionTok{print}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
 \NormalTok{\}}
 \NormalTok{put\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg)\{}
   \FunctionTok{put}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
 \NormalTok{\}}
-\NormalTok{put\_log1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1)\{}
-\NormalTok{  msg }\OtherTok{\textless{}{-}} \FunctionTok{str\_replace\_all}\NormalTok{(msg\_template, }\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1))}
-  \FunctionTok{put}\NormalTok{(}\FunctionTok{str\_glue}\NormalTok{(msg))}
+
+\NormalTok{get\_log1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1) \{}
+  \FunctionTok{str\_glue}\NormalTok{(}\FunctionTok{str\_replace\_all}\NormalTok{(msg\_template, }\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1)))}
 \NormalTok{\}}
-\NormalTok{put\_log2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1, arg2)\{}
-\NormalTok{  msg }\OtherTok{\textless{}{-}}\NormalTok{ msg\_template }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{print\_log1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1)\{}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{get\_log1}\NormalTok{(msg\_template, arg1))}
+\NormalTok{\}}
+\NormalTok{put\_log1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1)\{}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{get\_log1}\NormalTok{(msg\_template, arg1))}
+\NormalTok{\}}
+
+\NormalTok{get\_log2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1, arg2) \{}
+\NormalTok{  msg\_template }\SpecialCharTok{|\textgreater{}} 
     \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{"\%1"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg1)) }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{str\_replace\_all}\NormalTok{(}\StringTok{"\%2"}\NormalTok{, }\FunctionTok{as.character}\NormalTok{(arg2)) }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{str\_glue}\NormalTok{()}
-  
-  \FunctionTok{put}\NormalTok{(msg)}
 \NormalTok{\}}
+\NormalTok{print\_log2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1, arg2)\{}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{get\_log1}\NormalTok{(msg\_template, arg1, arg2))}
+\NormalTok{\}}
+\NormalTok{put\_log2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(msg\_template, arg1, arg2)\{}
+  \FunctionTok{put}\NormalTok{(}\FunctionTok{get\_log1}\NormalTok{(msg\_template, arg1, arg2))}
+\NormalTok{\}}
+
+\CommentTok{\# ...}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1422,18 +1446,13 @@ estimate of \(\mu\) and, in this case, is the average of all ratings:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{  mu }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(edx}\SpecialCharTok{$}\NormalTok{rating)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
+\NormalTok{mu }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(edx}\SpecialCharTok{$}\NormalTok{rating)}
 \FunctionTok{print}\NormalTok{(mu)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3.47184
+## [1] 3.512465
 \end{verbatim}
 
 If we predict all unknown ratings with \(\hat{\mu}\), we obtain the
@@ -1442,19 +1461,14 @@ following RMSE:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{mu.MSEs }\OtherTok{\textless{}{-}} \FunctionTok{naive\_model\_MSEs}\NormalTok{(mu)}
+\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{fold\_No =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\AttributeTok{MSE =}\NormalTok{ mu.MSEs) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{data.plot}\NormalTok{(}\AttributeTok{title =} \StringTok{"MSE resuls of the 5{-}fold CV method applied to the Overall Mean Rating Model"}\NormalTok{,}
+              \AttributeTok{xname =} \StringTok{"fold\_No"}\NormalTok{, }
+              \AttributeTok{yname =} \StringTok{"MSE"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-  \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{fold\_No =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\AttributeTok{MSE =}\NormalTok{ mu.MSEs) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{data.plot}\NormalTok{(}\AttributeTok{title =} \StringTok{"MSE resuls of the 5{-}fold CV method applied to the Overall Mean Rating Model"}\NormalTok{,}
-                \AttributeTok{xname =} \StringTok{"fold\_No"}\NormalTok{, }
-                \AttributeTok{yname =} \StringTok{"MSE"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-40-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-49-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1464,7 +1478,7 @@ following RMSE:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.061191
+## [1] 1.060346
 \end{verbatim}
 
 \begin{noteblock}
@@ -1526,8 +1540,6 @@ that by the following small investigation:
 \NormalTok{  deviation.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(deviation, }\ControlFlowTok{function}\NormalTok{(delta)\{}
     \FunctionTok{naive\_model\_RMSE}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ delta)}
 \NormalTok{  \})}
-  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"RMSE values have been computed for \%1 deviations from the Overall Mean Rating."}\NormalTok{,}
-           \FunctionTok{length}\NormalTok{(deviation))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1546,18 +1558,14 @@ we have just got:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## Warning in is.na(xlabel): is.na() applied to non-(list or vector) of type 'expression'
-\end{verbatim}
-
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-44-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-53-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{which\_min\_deviation }\OtherTok{\textless{}{-}}\NormalTok{ deviation[}\FunctionTok{which.min}\NormalTok{(deviation.RMSE)]}
 \NormalTok{min\_rmse }\OtherTok{=} \FunctionTok{min}\NormalTok{(deviation.RMSE)}
 
-\FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Minimum RMSE is achieved when the deviation from the mean is: \%1"}\NormalTok{,}
+\FunctionTok{print\_log1}\NormalTok{(}\StringTok{"Minimum RMSE is achieved when the deviation from the mean is: \%1"}\NormalTok{,}
 \NormalTok{         which\_min\_deviation)}
 \end{Highlighting}
 \end{Shaded}
@@ -1566,23 +1574,15 @@ we have just got:
 ## Minimum RMSE is achieved when the deviation from the mean is: 0
 \end{verbatim}
 
-\begin{verbatim}
-## Log is not open.
-\end{verbatim}
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Is the previously computed RMSE the best for the current model: \%1"}\NormalTok{,}
+\FunctionTok{print\_log1}\NormalTok{(}\StringTok{"Is the previously computed RMSE the best for the current model: \%1"}\NormalTok{,}
 \NormalTok{         mu.RMSE }\SpecialCharTok{==}\NormalTok{ min\_rmse)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Is the previously computed RMSE the best for the current model: FALSE
-\end{verbatim}
-
-\begin{verbatim}
-## Log is not open.
+## Is the previously computed RMSE the best for the current model: TRUE
 \end{verbatim}
 
 To win the grand prize of \$1,000,000, a participating team had to get
@@ -1607,7 +1607,7 @@ substantial variability in the average ratings across users:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-45-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-54-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1874,7 +1874,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-57-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-66-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 

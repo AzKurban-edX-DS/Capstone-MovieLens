@@ -366,7 +366,7 @@ edx |>
 All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src)[@edx_capstone_movielens]. 
 :::
 
-### Defining Logging and Mesuring helper functions
+### Defining Logging and Time Measuring Helper Functions
 \
 
 First, let's define some helper functions for logging and time-measuring features that we will use in our R scripts. Some of them are listed below:
