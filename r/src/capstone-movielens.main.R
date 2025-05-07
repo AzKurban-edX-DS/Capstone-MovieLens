@@ -445,7 +445,6 @@ if (file.exists(file_path_tmp)) {
 } else {
   deviation <- seq(0, 6, 0.1) - 3
 
-  start = put_start_date()
   deviation.RMSE <- sapply(deviation, function(delta){
     naive_model_RMSE(mu + delta)
   })

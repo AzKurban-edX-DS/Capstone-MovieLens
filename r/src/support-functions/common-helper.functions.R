@@ -631,8 +631,8 @@ data.plot <- function(data,
                         title, 
                         xname, 
                         yname, 
-                        xlabel = NA, 
-                        ylabel = NA,
+                        xlabel = NULL, 
+                        ylabel = NULL,
                         line_col = "blue",
                         # scale = 1,
                         normalize = FALSE) {
@@ -642,10 +642,10 @@ data.plot <- function(data,
     y <- y - min(y)
   }
   
-  if (is.na(xlabel)) {
+  if (is.null(xlabel)) {
     xlabel = xname
   }
-  if (is.na(ylabel)) {
+  if (is.null(ylabel)) {
     ylabel = yname
   }
   
