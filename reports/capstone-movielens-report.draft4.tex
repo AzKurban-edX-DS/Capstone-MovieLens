@@ -119,7 +119,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-06}
+\date{2025-05-07}
 
 \begin{document}
 \maketitle
@@ -1441,38 +1441,149 @@ following RMSE:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{  mu.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(MSEs))}
+\NormalTok{mu.MSEs }\OtherTok{\textless{}{-}} \FunctionTok{naive\_model\_MSEs}\NormalTok{(mu)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
+  \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{fold\_No =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\AttributeTok{MSE =}\NormalTok{ mu.MSEs) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{data.plot}\NormalTok{(}\AttributeTok{title =} \StringTok{"MSE resuls of the 5{-}fold CV method applied to the Overall Mean Rating Model"}\NormalTok{,}
+                \AttributeTok{xname =} \StringTok{"fold\_No"}\NormalTok{, }
+                \AttributeTok{yname =} \StringTok{"MSE"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-40-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(mu.MSEs))}
 \NormalTok{mu.RMSE}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.060346
+## [1] 1.061191
 \end{verbatim}
+
+\begin{noteblock}
+For the \emph{Mean Squared Error} data visualization we used
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R\#L630}{\texttt{data.plot}
+function} defined in
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R\#L484}{\emph{Model
+Data Visualization} section} of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R}
+script.
+
+\end{noteblock}
+
+Here we also used
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R\#L54}{\texttt{naive\_model\_MSEs}
+function} defined in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{same
+script} to compute \emph{Mean Squared Errors} using \emph{5-Fold Cross
+Validation} method:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{naive\_model\_MSEs }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(val) \{}
+  \FunctionTok{sapply}\NormalTok{(edx\_CV, }\ControlFlowTok{function}\NormalTok{(cv\_item)\{}
+    \FunctionTok{mse}\NormalTok{(cv\_item}\SpecialCharTok{$}\NormalTok{validation\_set}\SpecialCharTok{$}\NormalTok{rating }\SpecialCharTok{{-}}\NormalTok{ val)}
+\NormalTok{  \})}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+One more function we will need for further analysis of the current model
+is the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/914dd47023dc21b6b06a0ca412b7f7281602275a/r/src/support-functions/common-helper.functions.R\#L59}{\texttt{naive\_model\_RMSE}
+one} defined in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R}
+script already mentioned above:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{naive\_model\_RMSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(val)\{}
+  \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(}\FunctionTok{naive\_model\_MSEs}\NormalTok{(val)))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{\texorpdfstring{Ensure that \texttt{mu.RMSE} value is the
+best for the current
+model}{Ensure that mu.RMSE value is the best for the current model}}\label{ensure-that-mu.rmse-value-is-the-best-for-the-current-model}
+
+\hfill\break
 
 If we plug in any other number, we will get a higher RMSE. Let's prove
 that by the following small investigation:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{deviation }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{6}\NormalTok{, }\FloatTok{0.1}\NormalTok{) }\SpecialCharTok{{-}} \DecValTok{3}
-\FunctionTok{print}\NormalTok{(deviation)}
+\NormalTok{  deviation }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{6}\NormalTok{, }\FloatTok{0.1}\NormalTok{) }\SpecialCharTok{{-}} \DecValTok{3}
 
-\NormalTok{rmse\_value }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(deviation, }\ControlFlowTok{function}\NormalTok{(diff)\{}
-  \FunctionTok{rmse}\NormalTok{(test\_set}\SpecialCharTok{$}\NormalTok{rating }\SpecialCharTok{{-}}\NormalTok{ mu }\SpecialCharTok{+}\NormalTok{ diff)}
-\NormalTok{\})}
-
-\FunctionTok{plot}\NormalTok{(deviation, rmse\_value, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{)}
-
-\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Minimum RMSE is achieved when the deviation from the mean is: \%s"}\NormalTok{, }
-\NormalTok{        deviation[}\FunctionTok{which.min}\NormalTok{(rmse\_value)])}
+\NormalTok{  deviation.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(deviation, }\ControlFlowTok{function}\NormalTok{(delta)\{}
+    \FunctionTok{naive\_model\_RMSE}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ delta)}
+\NormalTok{  \})}
+  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"RMSE values have been computed for \%1 deviations from the Overall Mean Rating."}\NormalTok{,}
+           \FunctionTok{length}\NormalTok{(deviation))}
 \end{Highlighting}
 \end{Shaded}
+
+Let's make a quick investigation of the \texttt{deviation.RMSE} result
+we have just got:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{delta =}\NormalTok{ deviation, }
+           \AttributeTok{delta.RMSE =}\NormalTok{ deviation.RMSE) }\SpecialCharTok{|\textgreater{}} 
+\FunctionTok{data.plot}\NormalTok{(}\AttributeTok{title =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[RMSE as a function of deviation ($\textbackslash{}delta$) from the Overall Mean Rating ($\textbackslash{}hat\{mu\}$)]\textquotesingle{}}\NormalTok{),}
+              \AttributeTok{xname =} \StringTok{"delta"}\NormalTok{, }
+              \AttributeTok{yname =} \StringTok{"delta.RMSE"}\NormalTok{, }
+              \AttributeTok{xlabel =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[$\textbackslash{}delta$]\textquotesingle{}}\NormalTok{), }
+              \AttributeTok{ylabel =} \StringTok{"RMSE"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in is.na(xlabel): is.na() applied to non-(list or vector) of type 'expression'
+\end{verbatim}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-44-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{which\_min\_deviation }\OtherTok{\textless{}{-}}\NormalTok{ deviation[}\FunctionTok{which.min}\NormalTok{(deviation.RMSE)]}
+\NormalTok{min\_rmse }\OtherTok{=} \FunctionTok{min}\NormalTok{(deviation.RMSE)}
+
+\FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Minimum RMSE is achieved when the deviation from the mean is: \%1"}\NormalTok{,}
+\NormalTok{         which\_min\_deviation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Minimum RMSE is achieved when the deviation from the mean is: 0
+\end{verbatim}
+
+\begin{verbatim}
+## Log is not open.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Is the previously computed RMSE the best for the current model: \%1"}\NormalTok{,}
+\NormalTok{         mu.RMSE }\SpecialCharTok{==}\NormalTok{ min\_rmse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Is the previously computed RMSE the best for the current model: FALSE
+\end{verbatim}
+
+\begin{verbatim}
+## Log is not open.
+\end{verbatim}
 
 To win the grand prize of \$1,000,000, a participating team had to get
 an RMSE of at least 0.8563\autocite{BigChaosSln}. So we can definitely
@@ -1496,7 +1607,7 @@ substantial variability in the average ratings across users:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-42-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-45-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1763,7 +1874,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-54-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-57-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 

@@ -59,32 +59,57 @@ print_log <- function(msg){
 put_log <- function(msg){
   put(str_glue(msg))
 }
-put_log1 <- function(msg_template, arg1){
-  msg <- str_replace_all(msg_template, "%1", as.character(arg1))
-  put(str_glue(msg))
+
+get_log1 <- function(msg_template, arg1) {
+  str_glue(str_replace_all(msg_template, "%1", as.character(arg1)))
 }
-put_log2 <- function(msg_template, arg1, arg2){
-  msg <- msg_template |> 
+print_log1 <- function(msg_template, arg1){
+  print(get_log1(msg_template, arg1))
+}
+put_log1 <- function(msg_template, arg1){
+  put(get_log1(msg_template, arg1))
+}
+
+get_log2 <- function(msg_template, arg1, arg2) {
+  msg_template |> 
     str_replace_all("%1", as.character(arg1)) |>
     str_replace_all("%2", as.character(arg2)) |>
     str_glue()
-  
-  put(msg)
 }
-put_log3 <- function(msg_template, arg1, arg2, arg3){
-  msg <- msg_template |> 
-    str_replace_all("%1", as.character(arg1)) |>
-    str_replace_all("%2", as.character(arg2)) |>
-    str_replace_all("%3", as.character(arg2))
-  put(str_glue(msg))
+print_log2 <- function(msg_template, arg1, arg2){
+  print(get_log1(msg_template, arg1, arg2))
 }
-put_log3 <- function(msg_template, arg1, arg2, arg3, arg4){
-  msg <- msg_template |> 
+put_log2 <- function(msg_template, arg1, arg2){
+  put(get_log1(msg_template, arg1, arg2))
+}
+
+get_log3 <- function(msg_template, arg1, arg2, arg3) {
+  msg_template |> 
     str_replace_all("%1", as.character(arg1)) |>
     str_replace_all("%2", as.character(arg2)) |>
     str_replace_all("%3", as.character(arg2)) |>
-    str_replace_all("%4", as.character(arg2))
-  put(str_glue(msg))
+    str_glue()
+}
+print_log3 <- function(msg_template, arg1, arg2, arg3){
+  print(get_log1(msg_template, arg1, arg2, arg3))
+}
+put_log3 <- function(msg_template, arg1, arg2, arg3){
+  put(get_log1(msg_template, arg1, arg2, arg3))
+}
+
+get_log4 <- function() {
+  msg_template |> 
+    str_replace_all("%1", as.character(arg1)) |>
+    str_replace_all("%2", as.character(arg2)) |>
+    str_replace_all("%3", as.character(arg2)) |>
+    str_replace_all("%4", as.character(arg2)) |>
+    str_glue()
+}
+print_log4 <- function(msg_template, arg1, arg2, arg3, arg4){
+  print(get_log1(msg_template, arg1, arg2, arg3, arg4))
+}
+put_log4 <- function(msg_template, arg1, arg2, arg3, arg4){
+  put(get_log1(msg_template, arg1, arg2, arg3, arg4))
 }
 ### Open log file for `Initialize Source File Paths` Feature -------------------
 open_logfile(".src.file-paths")
@@ -445,7 +470,6 @@ if (file.exists(file_path_tmp)) {
 } else {
   deviation <- seq(0, 6, 0.1) - 3
 
-  start = put_start_date()
   deviation.RMSE <- sapply(deviation, function(delta){
     naive_model_RMSE(mu + delta)
   })
