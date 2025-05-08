@@ -442,7 +442,7 @@ put_log2 <- function(msg_template, arg1, arg2){
 ```
 
 ::: {.noteblock data-latex=""}
-The full source code of these functions is available in the [Logging Helper function section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) of the [Capstone MovieLens Main R Script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R).
+The full source code of these functions is available in the [Logging Helper functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
 :::
 
 ### Preparing train and set datasets
@@ -643,7 +643,7 @@ str(edx_CV)
 ```
 
 ::: {.noteblock data-latex=""}
-This code snippet is a part of the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87) _function_ code described above.
+This code snippet is a [part](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L140) of the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87) _function_ code described above.
 :::
 
 Note that we used the `sample_train_validation_sets` function call to split the original dataset (`edx` in this case): 
@@ -863,20 +863,23 @@ print_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
 
 print_log1("Is the previously computed RMSE the best for the current model: %1",
          mu.RMSE == min_rmse)
-
 ```
-
-
+```{r eval=FALSE}
+RMSEs.ResultTibble.OMR <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("Overall Mean Rating Model", mu.RMSE)
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.OMR)
+```
 
 To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]
 
 ### Taking into account User Effect
 \
-To improve our model let's now take into consideration user effects as explained in [Section _23.4 User effects_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects). 
+To improve our model let's now take into consideration user effects as explained in [Section _23.4 User effects_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the *Course Textbook*. 
 If we visualize the average rating for each user the way the [the author](https://x.com/rafalab) shows, we can see that there is substantial variability in the average ratings across users: 
 ```{r}
 hist(edx.user_mean_ratings$mean_rating, nclass = 30)
-print("A histogram of the User Mean Rating distribution has been plotted.")
 ```
 
 Following the author's further explanation, to account for this variability, we will use a linear model with a _treatment effect_  $\alpha_i$ for each user. The sum $\mu+\alpha_i$ can be interpreted as the typical rating user $i$ gives to movies. So we write the model as follows:
@@ -887,24 +890,88 @@ $$
 
 Statistics textbooks refer to the $\alpha$s as treatment effects. In the Netflix challenge papers, they refer to them as _bias_[@IDS2_23-4; @MFT_RS].
 
-As it is stated here[@IDS2_23-4], it can be shown that the least squares estimate $\hat{\alpha}_i$ is just the average of $y_{i,j} - \hat{\mu}$ for each user $i$. So we compute them this way:
+As it is stated here[@IDS2_23-4], it can be shown that the least squares estimate $\hat{\alpha}_i$ is just the average of $y_{i,j} - \hat{\mu}$ for each user $i$. So we can compute them this way:
 ```{r eval=FALSE}
 a <- rowMeans(y - mu, na.rm = TRUE)
 ```
 
-Finally, we are ready to compute the `RMSE` (additionally using the helper function `clamp` we defined above to keep predictions in the proper range):
+These considerations alows us to compute a _User Mean Ratings_ the following way:
 ```{r eval=FALSE}
-# Compute the RMSE taking into account user effects:
-user_effects_rmse <- test_set |> 
-    left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
-    mutate(resid = rating - clamp(mu + a)) |> 
-    filter(!is.na(resid)) |>
-    pull(resid) |> rmse()
-
-print(user_effects_rmse)
+put_log("Computing Average Ratings per User (User Mean Ratings)...")
+user.mean_ratings <- rowMeans(edx.mx, na.rm = TRUE)
+user_ratings.n <- rowSums(!is.na(edx.mx))
+  
+edx.user_mean_ratings <- 
+  data.frame(userId = names(user.mean_ratings), 
+             mean_rating = user.mean_ratings,
+             n = user_ratings.n)
+  
+put_log("User Mean Ratings have been computed.")
 ```
+```{r}
+str(edx.user_mean_ratings)
+```
+
+And then we compute a _User Effect_ this way:
+```{r eval=FALSE}
+put_log("Computing User Effect per users ...")
+edx.user_effect <- edx.user_mean_ratings |>
+  mutate(userId = as.integer(userId),
+         a = mean_rating - mu)
+
+put_log("A User Effect Model has been builded")
+```
+```{r}
+par(cex = 0.7)
+hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
+     main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
+
+str(edx.user_effect)
+```
+
+::: {.noteblock data-latex=""}
+The full source code of the _User Effect_ computation is available in the [Model building: User Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L531) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+:::
+
+Finally, we are ready to compute the `RMSE` (additionally using the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L4) helper function we defined above to keep predictions in the proper range):
+```{r eval=FALSE}
+put_log("Computing the RMSE taking into account user effects...")
+start <- put_start_date()
+edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
+  cv_fold_dat$validation_set |>
+    left_join(edx.user_effect, by = "userId") |>
+    mutate(resid = rating - clamp(mu + a)) |> 
+    pull(resid) |> mse()
+})
+put_end_date(start)
+
+edx.user_effect.RMSE <- sqrt(mean(edx.user_effect.MSEs))
+
+RMSEs.ResultTibble.UE <- RMSEs.ResultTibble.OMR |> 
+  RMSEs.AddRow("User Effect Model", edx.user_effect.RMSE)
+```
+```{r}
+data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
+  data.plot(title = "MSE resuls of the 5-fold CV method applied to the User Effect Model",
+            xname = "fold_No", 
+            yname = "MSE")
+
+RMSE_kable(RMSEs.ResultTibble.UE)
+```
+
+
+
+::: {.noteblock data-latex=""}
+The full source code of the _User Effect Model RMSE_ computation is available in the [Computing the RMSE taking into account User Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L655) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+:::
+
+
+
+
+
 ### Taking into account Movie effects
 \
+
 In [Section _23.5 Movie effects_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) the author draws our attention to the fact that some movies are generally rated higher than others. He also explains that a linear model with a _treatment effect_ $\beta_j$ for each movie can be used in this case, which can be interpreted as movie effect or the difference between the average ranking for movie $j$ and the overall average $\mu$: 
 
 $$

@@ -99,6 +99,20 @@
 \usepackage{hyperref}
 \usepackage[natbib=true, style=numeric, backref=true, sorting=none]{biblatex}
 \hypersetup{backref, pdfpagemode=Normal, colorlinks=true, implicit=false}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -479,7 +493,7 @@ distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-20-1.pdf}
 
 This graph is another confirmation of what we found out above: rounded
 ratings occur more often than half-stared ones. The upward trend
@@ -567,7 +581,7 @@ Ratings per movie plot\autocite{MRS-R-BEST}
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-14-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-23-1.pdf}
 
 Movies' rating histogram\autocite{MRS-R-BEST}
 
@@ -596,7 +610,7 @@ Movies' rating histogram\autocite{MRS-R-BEST}
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-24-1.pdf}
 
 \subparagraph{\texorpdfstring{Ratings per
 user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -681,7 +695,7 @@ Ratings per user plot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-27-1.pdf}
 
 Users' rating histogram
 
@@ -710,7 +724,7 @@ Users' rating histogram
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-28-1.pdf}
 
 \subsection{Methods / Analysis}\label{methods-analysis}
 
@@ -805,9 +819,9 @@ below:
 \begin{noteblock}
 The full source code of these functions is available in the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L20}{Logging
-Helper function section} of the
-\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{Capstone
-MovieLens Main R Script}.
+Helper functions} section of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R}
+script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -1297,7 +1311,9 @@ Here we have a list of sample objects we need to perform the
 \end{verbatim}
 
 \begin{noteblock}
-This code snippet is a part of the
+This code snippet is a
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L140}{part}
+of the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L87}{make\_source\_datasets}
 \emph{function} code described above.
 
@@ -1483,7 +1499,7 @@ following RMSE:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-38-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-47-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1610,7 +1626,7 @@ we have just got:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-43-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-52-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1637,6 +1653,28 @@ we have just got:
 ## Is the previously computed RMSE the best for the current model: TRUE
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSEs.ResultTibble.OMR }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"Overall Mean Rating Model"}\NormalTok{, mu.RMSE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSE\_kable}\NormalTok{(RMSEs.ResultTibble.OMR)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\toprule
+\textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
+\midrule
+Project Objective & 0.864900 & \\
+Overall Mean Rating Model & 1.060346 & \\
+\bottomrule
+\end{longtable}
+
 To win the grand prize of \$1,000,000, a participating team had to get
 an RMSE of at least 0.8563\autocite{BigChaosSln}. So we can definitely
 do better!\autocite{IDS2_23-3}
@@ -1648,7 +1686,7 @@ Effect}\label{taking-into-account-user-effect}
 To improve our model let's now take into consideration user effects as
 explained in
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#user-effects}{Section
-\emph{23.4 User effects} of the \emph{Course Textbook}}. If we visualize
+\emph{23.4 User effects}} of the \emph{Course Textbook}. If we visualize
 the average rating for each user the way the
 \href{https://x.com/rafalab}{the author} shows, we can see that there is
 substantial variability in the average ratings across users:
@@ -1659,17 +1697,7 @@ substantial variability in the average ratings across users:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-44-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(}\StringTok{"A histogram of the User Mean Rating distribution has been plotted."}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "A histogram of the User Mean Rating distribution has been plotted."
-\end{verbatim}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-55-1.pdf}
 
 Following the author's further explanation, to account for this
 variability, we will use a linear model with a \emph{treatment effect}
@@ -1687,7 +1715,7 @@ the Netflix challenge papers, they refer to them as
 
 As it is stated here\autocite{IDS2_23-4}, it can be shown that the least
 squares estimate \(\hat{\alpha}_i\) is just the average of
-\(y_{i,j} - \hat{\mu}\) for each user \(i\). So we compute them this
+\(y_{i,j} - \hat{\mu}\) for each user \(i\). So we can compute them this
 way:
 
 \begin{Shaded}
@@ -1696,27 +1724,151 @@ way:
 \end{Highlighting}
 \end{Shaded}
 
-Finally, we are ready to compute the \texttt{RMSE} (additionally using
-the helper function \texttt{clamp} we defined above to keep predictions
-in the proper range):
+These considerations alows us to compute a \emph{User Mean Ratings} the
+following way:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Compute the RMSE taking into account user effects:}
-\NormalTok{user\_effects\_rmse }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{left\_join}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{userId =} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{names}\NormalTok{(a)), }\AttributeTok{a =}\NormalTok{ a), }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}} \FunctionTok{clamp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ a)) }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(resid)) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{pull}\NormalTok{(resid) }\SpecialCharTok{|\textgreater{}} \FunctionTok{rmse}\NormalTok{()}
-
-\FunctionTok{print}\NormalTok{(user\_effects\_rmse)}
+\FunctionTok{put\_log}\NormalTok{(}\StringTok{"Computing Average Ratings per User (User Mean Ratings)..."}\NormalTok{)}
+\NormalTok{user.mean\_ratings }\OtherTok{\textless{}{-}} \FunctionTok{rowMeans}\NormalTok{(edx.mx, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{user\_ratings.n }\OtherTok{\textless{}{-}} \FunctionTok{rowSums}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(edx.mx))}
+  
+\NormalTok{edx.user\_mean\_ratings }\OtherTok{\textless{}{-}} 
+  \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{userId =} \FunctionTok{names}\NormalTok{(user.mean\_ratings), }
+             \AttributeTok{mean\_rating =}\NormalTok{ user.mean\_ratings,}
+             \AttributeTok{n =}\NormalTok{ user\_ratings.n)}
+  
+\FunctionTok{put\_log}\NormalTok{(}\StringTok{"User Mean Ratings have been computed."}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(edx.user\_mean\_ratings)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    69878 obs. of  3 variables:
+##  $ userId     : chr  "1" "2" "3" "4" ...
+##  $ mean_rating: num  5 3.29 3.94 4.06 3.92 ...
+##  $ n          : num  19 17 31 35 74 39 96 727 21 112 ...
+\end{verbatim}
+
+And then we compute a \emph{User Effect} this way:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{put\_log}\NormalTok{(}\StringTok{"Computing User Effect per users ..."}\NormalTok{)}
+\NormalTok{edx.user\_effect }\OtherTok{\textless{}{-}}\NormalTok{ edx.user\_mean\_ratings }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{userId =} \FunctionTok{as.integer}\NormalTok{(userId),}
+         \AttributeTok{a =}\NormalTok{ mean\_rating }\SpecialCharTok{{-}}\NormalTok{ mu)}
+
+\FunctionTok{put\_log}\NormalTok{(}\StringTok{"A User Effect Model has been builded"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.7}\NormalTok{)}
+\FunctionTok{hist}\NormalTok{(edx.user\_effect}\SpecialCharTok{$}\NormalTok{a, }\DecValTok{30}\NormalTok{, }\AttributeTok{xlab =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[$\textbackslash{}hat\{alpha\}\_\{i\}$]\textquotesingle{}}\NormalTok{),}
+     \AttributeTok{main =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[Histogram of $\textbackslash{}hat\{alpha\}\_\{i\}$]\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-60-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(edx.user\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    69878 obs. of  4 variables:
+##  $ userId     : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ mean_rating: num  5 3.29 3.94 4.06 3.92 ...
+##  $ n          : num  19 17 31 35 74 39 96 727 21 112 ...
+##  $ a          : num  1.488 -0.218 0.423 0.545 0.406 ...
+\end{verbatim}
+
+\begin{noteblock}
+The full source code of the \emph{User Effect} computation is available
+in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L531}{Model
+building: User Effect} section of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R}
+script on \emph{GitHub}.
+
+\end{noteblock}
+
+Finally, we are ready to compute the \texttt{RMSE} (additionally using
+the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L4}{clamp}
+helper function we defined above to keep predictions in the proper
+range):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{put\_log}\NormalTok{(}\StringTok{"Computing the RMSE taking into account user effects..."}\NormalTok{)}
+\NormalTok{start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
+\NormalTok{edx.user\_effect.MSEs }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(edx\_CV, }\ControlFlowTok{function}\NormalTok{(cv\_fold\_dat)\{}
+\NormalTok{  cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{validation\_set }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(edx.user\_effect, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}} \FunctionTok{clamp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ a)) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{pull}\NormalTok{(resid) }\SpecialCharTok{|\textgreater{}} \FunctionTok{mse}\NormalTok{()}
+\NormalTok{\})}
+\FunctionTok{put\_end\_date}\NormalTok{(start)}
+
+\NormalTok{edx.user\_effect.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(edx.user\_effect.MSEs))}
+
+\NormalTok{RMSEs.ResultTibble.UE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.OMR }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"User Effect Model"}\NormalTok{, edx.user\_effect.RMSE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{fold\_No =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\AttributeTok{MSE =}\NormalTok{ edx.user\_effect.MSEs) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{data.plot}\NormalTok{(}\AttributeTok{title =} \StringTok{"MSE resuls of the 5{-}fold CV method applied to the User Effect Model"}\NormalTok{,}
+            \AttributeTok{xname =} \StringTok{"fold\_No"}\NormalTok{, }
+            \AttributeTok{yname =} \StringTok{"MSE"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-62-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSE\_kable}\NormalTok{(RMSEs.ResultTibble.UE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\toprule
+\textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
+\midrule
+Project Objective & 0.8649000 & \\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+\bottomrule
+\end{longtable}
+
+\begin{noteblock}
+The full source code of the \emph{User Effect Model RMSE} computation is
+available in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L655}{Computing
+the RMSE taking into account User Effect} section of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R}
+script on \emph{GitHub}.
+
+\end{noteblock}
 
 \subsubsection{Taking into account Movie
 effects}\label{taking-into-account-movie-effects}
 
 \hfill\break
+
 In
 \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#movie-effects}{Section
 \emph{23.5 Movie effects} of the \emph{Course Textbook}} the author
@@ -1926,7 +2078,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-56-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-72-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 

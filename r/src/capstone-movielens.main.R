@@ -513,10 +513,10 @@ data.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Ove
 put_log("A plot was constructed for the deviations from the Overall Mean Rating.")
 
 #### Add a row to the RMSE Result Tibble for the Overall Mean Rating Model ------ 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+RMSEs.ResultTibble.OMR <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Overall Mean Rating Model", mu.RMSE)
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.OMR)
 put_log("A row has been added to the RMSE Result Tibble for the `Overall Mean Rating Model`.")
 #### Close Log ---------------------------------------------------------------
 log_close()
@@ -652,7 +652,7 @@ hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 put_log("A histogram of the User Effect distribution has been plotted.")
 
-###### Computing the RMSE taking into account user effects ---------------------
+###### Computing the RMSE taking into account User Effect ---------------------
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
 #> function `clamp` we defined above to keep predictions in the proper range):
 
@@ -666,7 +666,12 @@ edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
 })
 put_end_date(start)
 
-plot(edx.user_effect.MSEs)
+data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
+  data.plot(title = "MSE resuls of the 5-fold CV method applied to the User Effect Model",
+            xname = "fold_No", 
+            yname = "MSE")
+
+
 put_log1("RMSE values have been plotted for the %1-Fold Cross Validation samples.", 
          CVFolds_N)
 
@@ -678,10 +683,10 @@ edx.user_effect.RMSE
 #> [1] 0.9716054
 
 ###### Add a row to the RMSE Result Tibble for the User Effect Model -----------
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+RMSEs.ResultTibble.UE <- RMSEs.ResultTibble.OMR |> 
   RMSEs.AddRow("User Effect Model", edx.user_effect.RMSE)
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UE)
 put_log("A row has been added to the RMSE Result Tibble for the `User Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
