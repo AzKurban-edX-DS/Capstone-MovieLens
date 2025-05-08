@@ -31,21 +31,15 @@ Computing User+Movie Effect for lambda: %1...",
     cv_fold_dat$train_set |> train_user_movie_effect(lambda)
   })
   put_end_date(start)
-  str(user_movie_effects_ls)
   put_log("Function: train_user_movie_effect.cv:
 User+Movie Effect list have been computed")
   
   user_movie_effects_united <- union_cv_results(user_movie_effects_ls)
-  str(user_movie_effects_united)
-  # sum(is.na(user_movie_effects_united$cv_dat)) # 0 (there are no NAs in there)
-  
+
   user_movie_effect <- user_movie_effects_united |>
     group_by(movieId) |>
     summarise(b = mean(b), n = mean(n))
-  
-  # sum(is.na(user_movie_effect$b)) # 0 (there are no NAs in there)
-  
-  #user_movie_effect <- data.frame(movieId = as.integer(names(b)), b = b)
+
   if(lambda == 0) put_log("Function: train_user_movie_effect.cv:
 Training completed: User+Movie Effects model.")
   else put_log1("Function: train_user_movie_effect.cv:
@@ -63,7 +57,6 @@ calc_user_movie_effect_MSE <- function(test_set, um_effect){
     left_join(edx.user_effect, by = "userId") |>
     left_join(um_effect, by = "movieId") |>
     mutate(resid = rating - clamp(mu + a + b)) |> 
-    # filter(!is.na(resid)) |>
     pull(resid) |> mse()
   
   stopifnot(!is.na(mse.result))

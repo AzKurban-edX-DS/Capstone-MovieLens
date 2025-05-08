@@ -652,7 +652,7 @@ hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 put_log("A histogram of the User Effect distribution has been plotted.")
 
-###### Computing the RMSE taking into account User Effect ---------------------
+###### Compute RMSE for User Effect Model ------------------------------------
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
 #> function `clamp` we defined above to keep predictions in the proper range):
 
@@ -775,10 +775,10 @@ put_log("A histogram of the Mean User+Movie Effects distribution has been plotte
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 #> [1] 0.8732081
 ##### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |> 
   RMSEs.AddRow("User+Movie Effect Model", cv.UM_effect.RMSE)
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UME)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
