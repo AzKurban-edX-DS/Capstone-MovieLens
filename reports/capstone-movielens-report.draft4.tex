@@ -493,7 +493,7 @@ distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-12-1.pdf}
 
 This graph is another confirmation of what we found out above: rounded
 ratings occur more often than half-stared ones. The upward trend
@@ -581,7 +581,7 @@ Ratings per movie plot\autocite{MRS-R-BEST}
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-14-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
 
 Movies' rating histogram\autocite{MRS-R-BEST}
 
@@ -610,7 +610,7 @@ Movies' rating histogram\autocite{MRS-R-BEST}
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-16-1.pdf}
 
 \subparagraph{\texorpdfstring{Ratings per
 user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -695,7 +695,7 @@ Ratings per user plot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 Users' rating histogram
 
@@ -724,7 +724,7 @@ Users' rating histogram
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-20-1.pdf}
 
 \subsection{Methods / Analysis}\label{methods-analysis}
 
@@ -1499,7 +1499,7 @@ following RMSE:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-38-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-39-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1626,7 +1626,7 @@ we have just got:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-43-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-44-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1696,7 +1696,7 @@ substantial variability in the average ratings across users:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-46-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-47-1.pdf}
 
 Following the author's further explanation, to account for this
 variability, we will use a linear model with a \emph{treatment effect}
@@ -1775,7 +1775,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-51-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-52-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1835,7 +1835,7 @@ range):
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-53-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-54-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2005,7 +2005,7 @@ Here we use the function call
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results},
 which is defined in the script
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{common-helper.functions.R},
-to aggregate the ``cross-validation'' results.
+to aggregate the \texttt{Cross\ Validation} results.
 
 \end{noteblock}
 
@@ -2033,8 +2033,8 @@ The code of the function
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L55}{calc\_user\_movie\_effect\_MSE}
 defined in the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R}
-script to calculate the \texttt{MSE} of the \texttt{UME\ Model} for the
-given \texttt{Test\ Set} is provided below:
+script to calculate the \texttt{Mean\ Squared\ Error\ (MSE)} of the
+\texttt{UME\ Model} for the given \texttt{Test\ Set} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2092,8 +2092,9 @@ The code of the function
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L51}{calc\_user\_movie\_effect\_RMSE}
 defined in the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R}
-script to calculate the \texttt{RMSE} of the \texttt{UME\ Model} for the
-given \texttt{Test\ Set} is provided below:
+script to calculate the \texttt{Root\ Mean\ Squared\ Error\ (RMSE)} of
+the \texttt{UME\ Model} for the given \texttt{Test\ Set} is provided
+below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2153,13 +2154,26 @@ using the \texttt{5-Fold\ Cross\ Validation} method:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(cv.UM\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [10,677 x 3] (S3: tbl_df/tbl/data.frame)
+##  $ movieId: int [1:10677] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ b      : num [1:10677] 0.335 -0.306 -0.365 -0.598 -0.444 ...
+##  $ n      : num [1:10677] 18907 8593 5574 1253 5065 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.7}\NormalTok{)}
 \FunctionTok{hist}\NormalTok{(cv.UM\_effect}\SpecialCharTok{$}\NormalTok{b, }\DecValTok{30}\NormalTok{, }\AttributeTok{xlab =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[$\textbackslash{}hat\{beta\}\_\{j\}$)]\textquotesingle{}}\NormalTok{),}
      \AttributeTok{main =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[Histogram of $\textbackslash{}hat\{beta\}\_\{j\}$]\textquotesingle{}}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-64-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-65-1.pdf}
 
 We can now construct predictors and see how much the \texttt{RMSE}
 improves\autocite{IDS2_23-5}:
@@ -2190,7 +2204,10 @@ User+Movie Effect Model & 0.8732081 & \\
 \bottomrule
 \end{longtable}
 
-\subsubsection{Utilizing Penalized least
+\subsubsection{Regularizing User+Movie Effect
+Model}\label{regularizing-usermovie-effect-model}
+
+\paragraph{Utilizing Penalized least
 squares}\label{utilizing-penalized-least-squares}
 
 \hfill\break
@@ -2222,24 +2239,115 @@ is effectively ignored since \(n_j+\lambda \approx n_j\). Yet when the
 shrunken towards 0. The larger the \(\lambda\), the more we
 shrink\autocite{IDS2_23-6}.
 
-\paragraph{Support function}\label{support-function}
+We will implement the \emph{Regularization} method on our models
+(starting from the current model) in two steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Preconfiguration:} Preliminary determination of the optimal
+  range of \texttt{lambda} values for the
+  \texttt{5-Fold\ Cross\ Validation} samples;
+\item
+  \textbf{Fine-tuning:} figuring out the value of \texttt{lambda} that
+  minimizes the model's RMSE.
+\end{enumerate}
+
+\paragraph{Regularization: Common Helper
+Functions}\label{regularization-common-helper-functions}
 
 \hfill\break
-We will use the following function to calculate \emph{RMSE} in this
-section:
+
+\begin{noteblock}
+The functions described below are defined in the \href{}{Model Tuning}
+section of the \href{}{common-helper.functions.R} script.
+
+\end{noteblock}
+
+\subparagraph{\texorpdfstring{\texttt{tune.model\_param}
+Function}{tune.model\_param Function}}\label{tune.model_param-function}
+
+\hfill\break
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{reg\_rmse }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(b)\{}
-\NormalTok{  test\_set }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{left\_join}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{userId =} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{names}\NormalTok{(a)), }\AttributeTok{a =}\NormalTok{ a), }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{left\_join}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{movieId =} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{names}\NormalTok{(b)), }\AttributeTok{b =}\NormalTok{ b), }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}} \FunctionTok{clamp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b)) }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(resid)) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{pull}\NormalTok{(resid) }\SpecialCharTok{|\textgreater{}} \FunctionTok{rmse}\NormalTok{()}
+\ErrorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{`` Function}\label{function}
+
+\hfill\break
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\subparagraph{`` Function}\label{function-1}
+
+\hfill\break
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\subparagraph{`` Function}\label{function-2}
+
+\hfill\break
+
+\paragraph{UME Model Regularization: Support
+Function}\label{ume-model-regularization-support-function}
+
+\hfill\break
+
+\begin{noteblock}
+The \href{}{regularize.test\_lambda.UM\_effect.cv} function described
+below are defined in the \href{}{Regularization} section of the
+\href{}{UM-effect.functions.R} script.
+
+\end{noteblock}
+
+\subparagraph{\texorpdfstring{\texttt{regularize.test\_lambda.UM\_effect.cv}
+Function}{regularize.test\_lambda.UM\_effect.cv Function}}\label{regularize.test_lambda.um_effect.cv-function}
+
+\hfill\break
+
+This function calculates the \emph{RMSE} for the given \(\lambda\)
+parameter value:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{regularize.test\_lambda.UM\_effect.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(lambda)\{}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(lambda)) \{}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Function: regularize.test\_lambda.UM\_effect.cv}
+\StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{  um\_effect }\OtherTok{\textless{}{-}} \FunctionTok{train\_user\_movie\_effect.cv}\NormalTok{(lambda)}
+  \FunctionTok{calc\_user\_movie\_effect\_RMSE.cv}\NormalTok{(um\_effect)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{noteblock}
+Note that we reuse the function \href{}{train\_user\_movie\_effect.cv}
+calling it from the \href{}{regularize.test\_lambda.UM\_effect.cv}, but
+now with the \(\lambda\) parameter different from the default (zero)
+value.
+
+\end{noteblock}
 
 Let's now figure out the \(\lambda\) that minimizes the \emph{RMSE}:
 
@@ -2297,18 +2405,6 @@ minimal \emph{RMSE} figured out above:
 \FunctionTok{reg\_rmse}\NormalTok{(b\_reg)}
 \end{Highlighting}
 \end{Shaded}
-
-\subparagraph{`` Function}\label{function}
-
-\hfill\break
-
-\subparagraph{`` Function}\label{function-1}
-
-\hfill\break
-
-\subparagraph{`` Function}\label{function-2}
-
-\hfill\break
 
 \subsubsection{Accounting for Date
 effects}\label{accounting-for-date-effects}
@@ -2373,7 +2469,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-83-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-85-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 

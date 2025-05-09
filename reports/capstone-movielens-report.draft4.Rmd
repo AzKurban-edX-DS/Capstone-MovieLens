@@ -1058,7 +1058,7 @@ User+Movie Effect list have been computed")
 ```
 
 ::: {.noteblock data-latex=""}
-Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the "cross-validation" results.
+Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the `Cross Validation` results.
 :::
 ```{r eval=FALSE}
 union_cv_results <- function(data_list) {
@@ -1076,7 +1076,7 @@ union_cv_results <- function(data_list) {
 ##### `calc_user_movie_effect_MSE` Function
 \
 
-The code of the function [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L55) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `MSE` of the `UME Model` for the given `Test Set` is provided below:
+The code of the function [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L55) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `Mean Squared Error (MSE)` of the `UME Model` for the given `Test Set` is provided below:
 ```{r eval=FALSE}
 calc_user_movie_effect_MSE <- function(test_set, um_effect){
   mse.result <- test_set |>
@@ -1118,7 +1118,7 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
 \
 
 
-The code of the function [calc_user_movie_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L51) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `RMSE` of the `UME Model` for the given `Test Set` is provided below:
+The code of the function [calc_user_movie_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L51) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `Root Mean Squared Error (RMSE)` of the `UME Model` for the given `Test Set` is provided below:
 
 ```{r eval=FALSE}
 calc_user_movie_effect_RMSE <- function(test_set, um_effect){
@@ -1157,6 +1157,8 @@ Below, we provide the most important code of the training our model using the `5
   cv.UM_effect <- train_user_movie_effect.cv()
 ```
 ```{r}
+str(cv.UM_effect)
+
 par(cex = 0.7)
 hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
@@ -1175,9 +1177,10 @@ RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |>
 RMSE_kable(RMSEs.ResultTibble.UME)
 ```
 
+### Regularizing User+Movie Effect Model
 
 
-### Utilizing Penalized least squares
+#### Utilizing Penalized least squares
 \
 [Section _23.6 Penalized least squares_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects: $\sum_{j=1}^n \beta_j^2$. Specifically, instead of minimizing the least squares equation, we minimize an equation that adds a penalty:
 
@@ -1194,20 +1197,122 @@ where $n_j$ is the number of ratings made for movie $j$.
 
 This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_23-6].
 
-#### Support function
+We will implement the _Regularization_ method on our  models (starting from the current model) in two steps:
+
+  1. **Preconfiguration:** Preliminary determination of the optimal range of `lambda` values for the `5-Fold Cross Validation` samples;
+  2. **Fine-tuning:** figuring out the value of `lambda` that minimizes the model's RMSE.
+
+
+#### Regularization: Common Helper Functions
 \
-We will use the following function to calculate _RMSE_ in this section:
+
+::: {.noteblock data-latex=""}
+The functions described below are defined in the [Model Tuning]() section of the [common-helper.functions.R]() script.
+:::
+
+##### `tune.model_param` Function
+\
+
+
 ```{r eval=FALSE}
-reg_rmse <- function(b){
-  test_set |> 
-    left_join(data.frame(userId = as.integer(names(a)), a = a), by = "userId") |>
-    left_join(data.frame(movieId = as.integer(names(b)), b = b), by = "movieId") |>
-    mutate(resid = rating - clamp(mu + a + b)) |> 
-    filter(!is.na(resid)) |>
-    pull(resid) |> rmse()
 }
 
 ```
+
+##### `` Function
+\
+
+
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+!!! Note!
+:::
+
+
+```{r eval=FALSE}
+
+```
+
+```{r eval=FALSE}
+
+```
+
+##### `` Function
+\
+
+
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+!!! Note!
+:::
+
+::: {.noteblock data-latex=""}
+!!! Note!
+:::
+
+::: {.noteblock data-latex=""}
+!!! Note!
+:::
+
+
+
+```{r eval=FALSE}
+
+```
+
+```{r eval=FALSE}
+
+```
+
+##### `` Function
+\
+
+
+```{r eval=FALSE}
+
+```
+
+
+```{r eval=FALSE}
+
+```
+
+```{r eval=FALSE}
+
+```
+
+
+#### UME Model Regularization: Support Function
+\
+
+::: {.noteblock data-latex=""}
+The [regularize.test_lambda.UM_effect.cv]() function described below are defined in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+
+##### `regularize.test_lambda.UM_effect.cv` Function
+\
+
+This function calculates the _RMSE_ for the given $\lambda$ parameter value:
+```{r eval=FALSE}
+regularize.test_lambda.UM_effect.cv <- function(lambda){
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.UM_effect.cv
+`lambda` is `NA`")
+  }
+  um_effect <- train_user_movie_effect.cv(lambda)
+  calc_user_movie_effect_RMSE.cv(um_effect)
+}
+```
+
+::: {.noteblock data-latex=""}
+Note that we reuse the function [train_user_movie_effect.cv]() calling it from the [regularize.test_lambda.UM_effect.cv](), but now with the $\lambda$ parameter different from the default (zero) value.
+:::
 
 Let's now figure out the $\lambda$ that minimizes the _RMSE_:
 ```{r eval=FALSE}
@@ -1246,60 +1351,6 @@ Finally, let's verify that the penalized estimates $\hat{b}_i(\lambda)$ we have 
 ```{r eval=FALSE}
 reg_rmse(b_reg)
 ```
-
-##### `` Function
-\
-
-
-```{r eval=FALSE}
-
-```
-
-
-
-```{r eval=FALSE}
-
-```
-
-```{r eval=FALSE}
-
-```
-
-##### `` Function
-\
-
-
-```{r eval=FALSE}
-
-```
-
-
-
-```{r eval=FALSE}
-
-```
-
-```{r eval=FALSE}
-
-```
-
-##### `` Function
-\
-
-
-```{r eval=FALSE}
-
-```
-
-
-```{r eval=FALSE}
-
-```
-
-```{r eval=FALSE}
-
-```
-
 
 
 
