@@ -493,7 +493,7 @@ distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-12-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-11-1.pdf}
 
 This graph is another confirmation of what we found out above: rounded
 ratings occur more often than half-stared ones. The upward trend
@@ -581,7 +581,7 @@ Ratings per movie plot\autocite{MRS-R-BEST}
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-14-1.pdf}
 
 Movies' rating histogram\autocite{MRS-R-BEST}
 
@@ -610,7 +610,7 @@ Movies' rating histogram\autocite{MRS-R-BEST}
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-16-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-15-1.pdf}
 
 \subparagraph{\texorpdfstring{Ratings per
 user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -695,7 +695,7 @@ Ratings per user plot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-18-1.pdf}
 
 Users' rating histogram
 
@@ -724,7 +724,7 @@ Users' rating histogram
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 \subsection{Methods / Analysis}\label{methods-analysis}
 
@@ -1499,7 +1499,7 @@ following RMSE:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-39-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-38-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1626,7 +1626,7 @@ we have just got:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-44-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-43-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1696,7 +1696,7 @@ substantial variability in the average ratings across users:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-47-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-46-1.pdf}
 
 Following the author's further explanation, to account for this
 variability, we will use a linear model with a \emph{treatment effect}
@@ -1775,7 +1775,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-52-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-51-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1835,7 +1835,7 @@ range):
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-54-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-53-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2173,7 +2173,7 @@ using the \texttt{5-Fold\ Cross\ Validation} method:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-65-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-64-1.pdf}
 
 We can now construct predictors and see how much the \texttt{RMSE}
 improves\autocite{IDS2_23-5}:
@@ -2247,10 +2247,10 @@ We will implement the \emph{Regularization} method on our models
 \tightlist
 \item
   \textbf{Preconfiguration:} Preliminary determination of the optimal
-  range of \texttt{lambda} values for the
-  \texttt{5-Fold\ Cross\ Validation} samples;
+  range of \(\lambda\) values for the \texttt{5-Fold\ Cross\ Validation}
+  samples;
 \item
-  \textbf{Fine-tuning:} figuring out the value of \texttt{lambda} that
+  \textbf{Fine-tuning:} figuring out the value of \(\lambda\) that
   minimizes the model's RMSE.
 \end{enumerate}
 
@@ -2272,7 +2272,88 @@ Function}{tune.model\_param Function}}\label{tune.model_param-function}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ErrorTok{\}}
+\NormalTok{tune.model\_param }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(param\_values, }
+\NormalTok{                             fn\_tune.test.param\_value, }
+                             \AttributeTok{break.if\_min =} \ConstantTok{TRUE}\NormalTok{,}
+                             \AttributeTok{steps.beyond\_min =} \DecValTok{2}\NormalTok{)\{}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(param\_values)}
+\NormalTok{  param\_vals\_tmp }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{()}
+\NormalTok{  RMSEs\_tmp }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{()}
+\NormalTok{  RMSE\_min }\OtherTok{\textless{}{-}} \ConstantTok{Inf}
+\NormalTok{  i\_max.beyond\_RMSE\_min }\OtherTok{\textless{}{-}} \ConstantTok{Inf}
+\NormalTok{  prm\_val.best }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+  
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{param\_values:"}\NormalTok{)}
+  \FunctionTok{put}\NormalTok{(param\_values)}
+  
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{}
+    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{Iteration \%1"}\NormalTok{, i)}
+\NormalTok{    prm\_val }\OtherTok{\textless{}{-}}\NormalTok{ param\_values[i]}
+    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{prm\_val: \%1"}\NormalTok{, prm\_val)}
+\NormalTok{    param\_vals\_tmp[i] }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val}
+    
+    \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{param\_vals\_tmp[\%1]: \%2"}\NormalTok{, i, param\_vals\_tmp[i])}
+    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{param\_vals\_tmp length: \%1"}\NormalTok{, }\FunctionTok{length}\NormalTok{(param\_vals\_tmp))}
+    \FunctionTok{put}\NormalTok{(param\_vals\_tmp)}
+
+\NormalTok{    RMSE\_tmp }\OtherTok{\textless{}{-}} \FunctionTok{fn\_tune.test.param\_value}\NormalTok{(prm\_val)}
+
+    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{RMSE\_tmp: \%1"}\NormalTok{, RMSE\_tmp)}
+\NormalTok{    RMSEs\_tmp[i] }\OtherTok{\textless{}{-}}\NormalTok{ RMSE\_tmp}
+    
+    \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{RMSEs\_tmp[\%1]: \%2"}\NormalTok{, i, RMSEs\_tmp[i])}
+    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{RMSEs\_tmp length: \%1"}\NormalTok{, }\FunctionTok{length}\NormalTok{(RMSEs\_tmp))}
+    \FunctionTok{put}\NormalTok{(RMSEs\_tmp)}
+    
+    \FunctionTok{plot}\NormalTok{(param\_vals\_tmp[RMSEs\_tmp }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{], RMSEs\_tmp[RMSEs\_tmp }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{])}
+    \CommentTok{\# browser()}
+    
+    \ControlFlowTok{if}\NormalTok{(RMSE\_tmp }\SpecialCharTok{\textgreater{}}\NormalTok{ RMSE\_min)\{}
+      \FunctionTok{warning}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{\textasciigrave{}RSME\textasciigrave{} reached its minimum: "}\NormalTok{, RMSE\_min, }\StringTok{"}
+\StringTok{for parameter value: "}\NormalTok{, prm\_val)}
+      \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{Current \textasciigrave{}RMSE\textasciigrave{} value is \%1 related to parameter value: \%2"}\NormalTok{,}
+\NormalTok{               RMSE\_tmp,}
+\NormalTok{               prm\_val)}
+      
+      \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{\textgreater{}}\NormalTok{ i\_max.beyond\_RMSE\_min) \{}
+        \FunctionTok{warning}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{Operation is breaked (after \textasciigrave{}RSME\textasciigrave{} reached its minimum) on the following step: "}\NormalTok{, i)}
+        \CommentTok{\# browser()}
+        \ControlFlowTok{break}
+\NormalTok{      \}}
+      \CommentTok{\# browser()}
+      \ControlFlowTok{next}
+\NormalTok{    \}}
+
+\NormalTok{    RMSE\_min }\OtherTok{\textless{}{-}}\NormalTok{ RMSE\_tmp}
+\NormalTok{    prm\_val.best }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val}
+    
+    \ControlFlowTok{if}\NormalTok{ (break.if\_min) \{}
+\NormalTok{      i\_max.beyond\_RMSE\_min }\OtherTok{\textless{}{-}}\NormalTok{ i }\SpecialCharTok{+}\NormalTok{ steps.beyond\_min}
+\NormalTok{    \}}
+    \CommentTok{\# browser()}
+\NormalTok{  \}}
+  
+\NormalTok{  param\_values.best\_result }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{param.best\_value =}\NormalTok{ prm\_val.best, }
+                                \AttributeTok{best\_RMSE =}\NormalTok{ RMSE\_min)}
+  
+  
+  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
+\StringTok{Completed with RMSEs\_tmp length: \%1"}\NormalTok{, }\FunctionTok{length}\NormalTok{(RMSEs\_tmp))}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{tuned.result =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{RMSE =}\NormalTok{ RMSEs\_tmp,}
+                                \AttributeTok{parameter.value =}\NormalTok{ param\_vals\_tmp),}
+       \AttributeTok{best\_result =}\NormalTok{ param\_values.best\_result)}
+\NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2325,8 +2406,8 @@ Function}{regularize.test\_lambda.UM\_effect.cv Function}}\label{regularize.test
 
 \hfill\break
 
-This function calculates the \emph{RMSE} for the given \(\lambda\)
-parameter value:
+This function calculates \emph{RMSE} of the \emph{UME Model} using
+\emph{5-Fold CV} method for the given \(\lambda\) parameter value:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2469,7 +2550,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-85-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-84-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 
