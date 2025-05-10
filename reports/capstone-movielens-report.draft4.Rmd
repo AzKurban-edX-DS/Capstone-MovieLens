@@ -1152,7 +1152,7 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
 The full source code of builing and training the current model is available in the [Model building: User+Movie Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L721) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
 :::
 
-Below, we provide the most important code of the training our model using the `5-Fold Cross Validation` method:
+Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
 ```{r eval=FALSE}
   cv.UM_effect <- train_user_movie_effect.cv()
 ```
@@ -1200,6 +1200,7 @@ This approach will have our desired effect: when our sample size $n_j$ is very l
 We will implement the _Regularization_ method on our  models (starting from the current model) in two steps:
 
   1. **Preconfiguration:** Preliminary determination of the optimal range of $\lambda$ values for the `5-Fold Cross Validation` samples;
+  
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
 
 
@@ -1207,13 +1208,13 @@ We will implement the _Regularization_ method on our  models (starting from the 
 \
 
 ::: {.noteblock data-latex=""}
-The functions described below are defined in the [Model Tuning]() section of the [common-helper.functions.R]() script.
+The full source code of the functions described below are are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
 
-##### `tune.model_param` Function
+##### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function
 \
 
-
+Below is the most significant part of the code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function:
 ```{r eval=FALSE}
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
@@ -1225,40 +1226,20 @@ tune.model_param <- function(param_values,
   RMSE_min <- Inf
   i_max.beyond_RMSE_min <- Inf
   prm_val.best <- NA
-  
-  put_log("Function: `tune.model_param`:
-param_values:")
-  put(param_values)
+
+  # ...
   
   for (i in 1:n) {
     put_log1("Function: `tune.model_param`:
 Iteration %1", i)
     prm_val <- param_values[i]
-    put_log1("Function: `tune.model_param`:
-prm_val: %1", prm_val)
     param_vals_tmp[i] <- prm_val
     
-    put_log2("Function: `tune.model_param`:
-param_vals_tmp[%1]: %2", i, param_vals_tmp[i])
-    put_log1("Function: `tune.model_param`:
-param_vals_tmp length: %1", length(param_vals_tmp))
-    put(param_vals_tmp)
-
     RMSE_tmp <- fn_tune.test.param_value(prm_val)
-
-    put_log1("Function: `tune.model_param`:
-RMSE_tmp: %1", RMSE_tmp)
     RMSEs_tmp[i] <- RMSE_tmp
-    
-    put_log2("Function: `tune.model_param`:
-RMSEs_tmp[%1]: %2", i, RMSEs_tmp[i])
-    put_log1("Function: `tune.model_param`:
-RMSEs_tmp length: %1", length(RMSEs_tmp))
-    put(RMSEs_tmp)
-    
-    plot(param_vals_tmp[RMSEs_tmp > 0], RMSEs_tmp[RMSEs_tmp > 0])
-    # browser()
-    
+
+    plot(param_vals_tmp[RMSEs_tmp], RMSEs_tmp[RMSEs_tmp])
+
     if(RMSE_tmp > RMSE_min){
       warning("Function: `tune.model_param`:
 `RSME` reached its minimum: ", RMSE_min, "
@@ -1271,10 +1252,8 @@ Current `RMSE` value is %1 related to parameter value: %2",
       if (i > i_max.beyond_RMSE_min) {
         warning("Function: `tune.model_param`:
 Operation is breaked (after `RSME` reached its minimum) on the following step: ", i)
-        # browser()
         break
       }
-      # browser()
       next
     }
 
@@ -1284,15 +1263,12 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
     if (break.if_min) {
       i_max.beyond_RMSE_min <- i + steps.beyond_min
     }
-    # browser()
   }
   
   param_values.best_result <- c(param.best_value = prm_val.best, 
                                 best_RMSE = RMSE_min)
   
   
-  put_log1("Function: `tune.model_param`:
-Completed with RMSEs_tmp length: %1", length(RMSEs_tmp))
   list(tuned.result = data.frame(RMSE = RMSEs_tmp,
                                 parameter.value = param_vals_tmp),
        best_result = param_values.best_result)
@@ -1300,14 +1276,55 @@ Completed with RMSEs_tmp length: %1", length(RMSEs_tmp))
 
 ```
 
+###### Parameters
+\
+
+**param_values:**; 
+**fn_tune.test.param_value:**; 
+**break.if_min = TRUE:**;
+**steps.beyond_min = 2:**:.
+
+  - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
+  - **fn_tune.test.param_value:** A function that calculates the value of the `RMSE` for a given parameter value.; 
+  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+
+###### Details
+\
+
+The function searches for the parameter value corresponding to the minimum value of the `RMSE` from the list of values specified by the `param_values` parameter.
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
+
+::: {.noteblock data-latex=""}
+Note that the function assumes that the dependence of the mean square error on the input parameter is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed to have a unique minimum in the domain of definition.
+:::
+
+###### Value
+\
+
+The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values.
+
 ##### `` Function
 \
+
+##### `` Function
+\
+
+##### `` Function
+\
+
+```{r eval=FALSE}
+
+```
 
 
 ```{r eval=FALSE}
 
 ```
 
+```{r eval=FALSE}
+
+```
 ::: {.noteblock data-latex=""}
 !!! Note!
 :::
