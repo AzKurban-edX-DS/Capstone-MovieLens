@@ -133,7 +133,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-09}
+\date{2025-05-10}
 
 \begin{document}
 \maketitle
@@ -2143,8 +2143,8 @@ script on \emph{GitHub}.
 
 \end{noteblock}
 
-Below, we provide the most important code of the training our model
-using the \texttt{5-Fold\ Cross\ Validation} method:
+Below, we provide the most significant part of the code for training our
+model using the \texttt{5-Fold\ Cross\ Validation} method:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2244,7 +2244,6 @@ We will implement the \emph{Regularization} method on our models
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
   \textbf{Preconfiguration:} Preliminary determination of the optimal
   range of \(\lambda\) values for the \texttt{5-Fold\ Cross\ Validation}
@@ -2260,15 +2259,23 @@ Functions}\label{regularization-common-helper-functions}
 \hfill\break
 
 \begin{noteblock}
-The functions described below are defined in the \href{}{Model Tuning}
-section of the \href{}{common-helper.functions.R} script.
+The full source code of the functions described below are are available
+in the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model
+Tuning} section of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R}
+script on \emph{GitHub}.
 
 \end{noteblock}
 
-\subparagraph{\texorpdfstring{\texttt{tune.model\_param}
+\subparagraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param}
 Function}{tune.model\_param Function}}\label{tune.model_param-function}
 
 \hfill\break
+
+Below is the most significant part of the code of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param}
+function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2282,40 +2289,20 @@ Function}{tune.model\_param Function}}\label{tune.model_param-function}
 \NormalTok{  RMSE\_min }\OtherTok{\textless{}{-}} \ConstantTok{Inf}
 \NormalTok{  i\_max.beyond\_RMSE\_min }\OtherTok{\textless{}{-}} \ConstantTok{Inf}
 \NormalTok{  prm\_val.best }\OtherTok{\textless{}{-}} \ConstantTok{NA}
-  
-  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
-\StringTok{param\_values:"}\NormalTok{)}
-  \FunctionTok{put}\NormalTok{(param\_values)}
+
+  \CommentTok{\# ...}
   
   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{}
     \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
 \StringTok{Iteration \%1"}\NormalTok{, i)}
 \NormalTok{    prm\_val }\OtherTok{\textless{}{-}}\NormalTok{ param\_values[i]}
-    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
-\StringTok{prm\_val: \%1"}\NormalTok{, prm\_val)}
 \NormalTok{    param\_vals\_tmp[i] }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val}
     
-    \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
-\StringTok{param\_vals\_tmp[\%1]: \%2"}\NormalTok{, i, param\_vals\_tmp[i])}
-    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
-\StringTok{param\_vals\_tmp length: \%1"}\NormalTok{, }\FunctionTok{length}\NormalTok{(param\_vals\_tmp))}
-    \FunctionTok{put}\NormalTok{(param\_vals\_tmp)}
-
 \NormalTok{    RMSE\_tmp }\OtherTok{\textless{}{-}} \FunctionTok{fn\_tune.test.param\_value}\NormalTok{(prm\_val)}
-
-    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
-\StringTok{RMSE\_tmp: \%1"}\NormalTok{, RMSE\_tmp)}
 \NormalTok{    RMSEs\_tmp[i] }\OtherTok{\textless{}{-}}\NormalTok{ RMSE\_tmp}
-    
-    \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
-\StringTok{RMSEs\_tmp[\%1]: \%2"}\NormalTok{, i, RMSEs\_tmp[i])}
-    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
-\StringTok{RMSEs\_tmp length: \%1"}\NormalTok{, }\FunctionTok{length}\NormalTok{(RMSEs\_tmp))}
-    \FunctionTok{put}\NormalTok{(RMSEs\_tmp)}
-    
-    \FunctionTok{plot}\NormalTok{(param\_vals\_tmp[RMSEs\_tmp }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{], RMSEs\_tmp[RMSEs\_tmp }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{])}
-    \CommentTok{\# browser()}
-    
+
+    \FunctionTok{plot}\NormalTok{(param\_vals\_tmp[RMSEs\_tmp], RMSEs\_tmp[RMSEs\_tmp])}
+
     \ControlFlowTok{if}\NormalTok{(RMSE\_tmp }\SpecialCharTok{\textgreater{}}\NormalTok{ RMSE\_min)\{}
       \FunctionTok{warning}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
 \StringTok{\textasciigrave{}RSME\textasciigrave{} reached its minimum: "}\NormalTok{, RMSE\_min, }\StringTok{"}
@@ -2328,10 +2315,8 @@ Function}{tune.model\_param Function}}\label{tune.model_param-function}
       \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{\textgreater{}}\NormalTok{ i\_max.beyond\_RMSE\_min) \{}
         \FunctionTok{warning}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
 \StringTok{Operation is breaked (after \textasciigrave{}RSME\textasciigrave{} reached its minimum) on the following step: "}\NormalTok{, i)}
-        \CommentTok{\# browser()}
         \ControlFlowTok{break}
 \NormalTok{      \}}
-      \CommentTok{\# browser()}
       \ControlFlowTok{next}
 \NormalTok{    \}}
 
@@ -2341,15 +2326,12 @@ Function}{tune.model\_param Function}}\label{tune.model_param-function}
     \ControlFlowTok{if}\NormalTok{ (break.if\_min) \{}
 \NormalTok{      i\_max.beyond\_RMSE\_min }\OtherTok{\textless{}{-}}\NormalTok{ i }\SpecialCharTok{+}\NormalTok{ steps.beyond\_min}
 \NormalTok{    \}}
-    \CommentTok{\# browser()}
 \NormalTok{  \}}
   
 \NormalTok{  param\_values.best\_result }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{param.best\_value =}\NormalTok{ prm\_val.best, }
                                 \AttributeTok{best\_RMSE =}\NormalTok{ RMSE\_min)}
   
   
-  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: \textasciigrave{}tune.model\_param\textasciigrave{}:}
-\StringTok{Completed with RMSEs\_tmp length: \%1"}\NormalTok{, }\FunctionTok{length}\NormalTok{(RMSEs\_tmp))}
   \FunctionTok{list}\NormalTok{(}\AttributeTok{tuned.result =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{RMSE =}\NormalTok{ RMSEs\_tmp,}
                                 \AttributeTok{parameter.value =}\NormalTok{ param\_vals\_tmp),}
        \AttributeTok{best\_result =}\NormalTok{ param\_values.best\_result)}
@@ -2357,35 +2339,99 @@ Function}{tune.model\_param Function}}\label{tune.model_param-function}
 \end{Highlighting}
 \end{Shaded}
 
-\subparagraph{`` Function}\label{function}
+Parameters
 
 \hfill\break
 
+\textbf{param\_values:}; \textbf{fn\_tune.test.param\_value:};
+\textbf{break.if\_min = TRUE:}; \textbf{steps.beyond\_min = 2:}:.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{param\_values:} A list of values to search for the value
+  corresponding to the minimum value of the \texttt{RMSE} ;
+\item
+  \textbf{fn\_tune.test.param\_value:} A function that calculates the
+  value of the \texttt{RMSE} for a given parameter value.;
+\item
+  \textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+  whether the function should terminate after completing the number of
+  steps specified by the parameter \texttt{steps.beyond\_min}, after the
+  minimum value of the \texttt{RMSE} has been found;
+\item
+  \textbf{steps.beyond\_min = 2:} (takes effect only if
+  \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the
+  number of steps after finding the minimum value of the \texttt{RMSE},
+  upon completion of which the function should terminate.
+\end{itemize}
+
+Details
+
+\hfill\break
+
+The function searches for the parameter value corresponding to the
+minimum value of the \texttt{RMSE} from the list of values specified by
+the \texttt{param\_values} parameter. During execution, the function
+uses a helper function specified by the
+\texttt{fn\_tune.test.param\_value} parameter, which calculates the
+\texttt{RMSE} value for the given parameter from the list determined by
+the \texttt{param\_values} parameter.
+
 \begin{noteblock}
-!!! Note!
+Note that the function assumes that the dependence of the mean square
+error on the input parameter is a monotonically decreasing function
+until a minimum is reached and monotonically increasing thereafter. That
+is, it is assumed to have a unique minimum in the domain of definition.
 
 \end{noteblock}
+
+Value
+
+\hfill\break
+
+The function returns a data structure containing the found value of the
+input parameter \texttt{param\_values} for which the \texttt{RMSE} value
+is minimal, as well as the minimum \texttt{RMSE} value itself, along
+with a sequence of all calculated \texttt{RMSE} values.
+
+\subparagraph{`` Function}\label{function}
+
+\hfill\break
 
 \subparagraph{`` Function}\label{function-1}
 
 \hfill\break
 
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
 \subparagraph{`` Function}\label{function-2}
+
+\hfill\break
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\subparagraph{`` Function}\label{function-3}
+
+\hfill\break
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\subparagraph{`` Function}\label{function-4}
 
 \hfill\break
 
@@ -2550,7 +2596,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-84-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-86-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 
