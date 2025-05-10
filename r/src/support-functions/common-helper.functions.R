@@ -228,7 +228,7 @@ model.tune.param_range <- function(loop_starter,
   
   param_values.best_result <- c(param.best_value = param.best_value, 
                                 best_RMSE = best_RMSE)
-  
+  # Start repeat loop
   repeat{
     seq_increment <- (seq_end - seq_start)/range_divider 
     
@@ -457,6 +457,8 @@ Currently reached best RMSE for `parameter value = %1`: %2",
 #     }
     
   }
+  # End repeat loop
+  
   n <- length(tuned.result$parameter.value)
   
   # browser()

@@ -2299,18 +2299,26 @@ Sugnature
 Parameters
 
 \hfill\break
-- \textbf{param\_values:} A list of values to search for the value
-corresponding to the minimum value of the \texttt{RMSE} ; -
-\textbf{fn\_tune.test.param\_value:} A helper function that calculates
-the value of the \texttt{RMSE} for a given parameter value.; -
-\textbf{break.if\_min = TRUE:} A Boolean parameter that determines
-whether the function should terminate after completing the number of
-steps specified by the parameter \texttt{steps.beyond\_min}, after the
-minimum value of the \texttt{RMSE} has been found; -
-\textbf{steps.beyond\_min = 2:} (takes effect only if
-\texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number
-of steps after finding the minimum value of the \texttt{RMSE}, upon
-completion of which the function should terminate.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{param\_values:} A list of values to search for the value
+  corresponding to the minimum value of the \texttt{RMSE} ;
+\item
+  \textbf{fn\_tune.test.param\_value:} A helper function that calculates
+  the value of the \texttt{RMSE} for a given parameter value.;
+\item
+  \textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+  whether the function should terminate after completing the number of
+  steps specified by the parameter \texttt{steps.beyond\_min}, after the
+  minimum value of the \texttt{RMSE} has been found;
+\item
+  \textbf{steps.beyond\_min = 2:} (takes effect only if
+  \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the
+  number of steps after finding the minimum value of the \texttt{RMSE},
+  upon completion of which the function should terminate.
+\end{itemize}
 
 Details
 
@@ -2441,16 +2449,23 @@ Sugnature
 Parameters
 
 \hfill\break
-- \textbf{fn\_tune.test.param\_value:} A helper function that calculates
-the value of the \texttt{RMSE} for a given parameter value.; -
-\textbf{break.if\_min = TRUE:} A Boolean parameter that determines
-whether the function should terminate after completing the number of
-steps specified by the parameter \texttt{steps.beyond\_min}, after the
-minimum value of the \texttt{RMSE} has been found; -
-\textbf{steps.beyond\_min = 2:} (takes effect only if
-\texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number
-of steps after finding the minimum value of the \texttt{RMSE}, upon
-completion of which the function should terminate.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{fn\_tune.test.param\_value:} A helper function that calculates
+  the value of the \texttt{RMSE} for a given parameter value.;
+\item
+  \textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+  whether the function should terminate after completing the number of
+  steps specified by the parameter \texttt{steps.beyond\_min}, after the
+  minimum value of the \texttt{RMSE} has been found;
+\item
+  \textbf{steps.beyond\_min = 2:} (takes effect only if
+  \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the
+  number of steps after finding the minimum value of the \texttt{RMSE},
+  upon completion of which the function should terminate.
+\end{itemize}
 
 Details
 
@@ -2508,73 +2523,24 @@ function:
   
 \NormalTok{  param\_values.best\_result }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{param.best\_value =}\NormalTok{ param.best\_value, }
                                 \AttributeTok{best\_RMSE =}\NormalTok{ best\_RMSE)}
-  
+  \CommentTok{\# Start repeat loop}
   \ControlFlowTok{repeat}\NormalTok{\{}
 \NormalTok{    seq\_increment }\OtherTok{\textless{}{-}}\NormalTok{ (seq\_end }\SpecialCharTok{{-}}\NormalTok{ seq\_start)}\SpecialCharTok{/}\NormalTok{range\_divider }
     
     \ControlFlowTok{if}\NormalTok{ (seq\_increment }\SpecialCharTok{\textless{}} \FloatTok{0.0000000000001}\NormalTok{) \{}
       \FunctionTok{warning}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
 \StringTok{parameter value increment is too small."}\NormalTok{)}
-      
-      \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
-\StringTok{Final best RMSE for \textasciigrave{}parameter value = \%1\textasciigrave{}: \%2"}\NormalTok{,}
-\NormalTok{               param\_values.best\_result[}\StringTok{"param.best\_value"}\NormalTok{],}
-\NormalTok{               param\_values.best\_result[}\StringTok{"best\_RMSE"}\NormalTok{])}
       \ControlFlowTok{break}
 \NormalTok{    \}}
     
 \NormalTok{    test\_param\_vals }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(seq\_start, seq\_end, seq\_increment)}
     
-\NormalTok{    file\_name\_tmp }\OtherTok{\textless{}{-}}\NormalTok{ cache\_file\_base\_name }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"\_"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(loop\_starter[}\DecValTok{1}\NormalTok{])) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"\_"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(loop\_starter[}\DecValTok{3}\NormalTok{])) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"\_"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(range\_divider)) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"."}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(seq\_start)) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"{-}"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(seq\_end)) }\SpecialCharTok{|\textgreater{}}
-      \FunctionTok{str\_c}\NormalTok{(}\StringTok{".RData"}\NormalTok{)}
+\NormalTok{    tuned\_result }\OtherTok{\textless{}{-}} \FunctionTok{tune.model\_param}\NormalTok{(test\_param\_vals, }
+\NormalTok{                                  fn\_tune.test.param\_value,}
+\NormalTok{                                  break.if\_min,}
+\NormalTok{                                  steps.beyond\_min)}
     
-\NormalTok{    file\_path\_tmp }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(tune\_dir\_path, file\_name\_tmp)}
-    
-    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
-\StringTok{File path generated: \%1"}\NormalTok{, file\_path\_tmp)}
-    
-    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{file.exists}\NormalTok{(file\_path\_tmp)) \{}
-      \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
-\StringTok{Loading tuning data from file: \%1..."}\NormalTok{, file\_path\_tmp)}
-      
-\NormalTok{      start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
-      \FunctionTok{load}\NormalTok{(file\_path\_tmp)}
-      \FunctionTok{put\_end\_date}\NormalTok{(start)}
-      \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
-\StringTok{Tuning data has been loaded from file: \%1"}\NormalTok{, file\_path\_tmp)}
-      
-\NormalTok{      tuned.result }\OtherTok{\textless{}{-}}\NormalTok{ tuned\_result}\SpecialCharTok{$}\NormalTok{tuned.result}
-      
-      \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(file\_path\_tmp) }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
-\NormalTok{      \}}
-\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
-\NormalTok{      tuned\_result }\OtherTok{\textless{}{-}} \FunctionTok{tune.model\_param}\NormalTok{(test\_param\_vals, }
-\NormalTok{                                        fn\_tune.test.param\_value,}
-\NormalTok{                                        break.if\_min,}
-\NormalTok{                                        steps.beyond\_min)}
-      
-\NormalTok{      tuned.result }\OtherTok{\textless{}{-}}\NormalTok{ tuned\_result}\SpecialCharTok{$}\NormalTok{tuned.result}
-
-      \FunctionTok{save}\NormalTok{(tuned\_result,}
-\NormalTok{           param.best\_value,}
-\NormalTok{           seq\_increment,}
-\NormalTok{           range\_divider,}
-           \AttributeTok{file =}\NormalTok{ file\_path\_tmp)}
-
-      \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
-\StringTok{File saved: \%1"}\NormalTok{, file\_path\_tmp)}
-\NormalTok{    \}}
-    
+\NormalTok{    tuned.result }\OtherTok{\textless{}{-}}\NormalTok{ tuned\_result}\SpecialCharTok{$}\NormalTok{tuned.result}
     \FunctionTok{plot}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value, tuned.result}\SpecialCharTok{$}\NormalTok{RMSE)}
     
 \NormalTok{    bound.idx }\OtherTok{\textless{}{-}} \FunctionTok{get\_fine\_tune.param.endpoints.idx}\NormalTok{(tuned.result)}
@@ -2632,11 +2598,6 @@ function:
 \NormalTok{        param\_values.best\_result }\OtherTok{\textless{}{-}}
           \FunctionTok{get\_best\_param.result}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value,}
 \NormalTok{                                tuned.result}\SpecialCharTok{$}\NormalTok{RMSE)}
-
-        \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
-\StringTok{      Reached the best RMSE for \textasciigrave{}parameter value = \%1\textasciigrave{}: \%2"}\NormalTok{,}
-\NormalTok{                 param\_values.best\_result[}\StringTok{"param.best\_value"}\NormalTok{],}
-\NormalTok{                 param\_values.best\_result[}\StringTok{"best\_RMSE"}\NormalTok{])}
         \ControlFlowTok{break}
 \NormalTok{      \}}
 
@@ -2652,12 +2613,8 @@ function:
 \NormalTok{    param\_values.best\_result }\OtherTok{\textless{}{-}} 
       \FunctionTok{get\_best\_param.result}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value, }
 \NormalTok{                          tuned.result}\SpecialCharTok{$}\NormalTok{RMSE)}
-    
-    \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
-\StringTok{Currently reached best RMSE for \textasciigrave{}parameter value = \%1\textasciigrave{}: \%2"}\NormalTok{,}
-\NormalTok{             param\_values.best\_result[}\StringTok{"param.best\_value"}\NormalTok{],}
-\NormalTok{             param\_values.best\_result[}\StringTok{"best\_RMSE"}\NormalTok{])}
 \NormalTok{  \}}
+  \CommentTok{\# End repeat loop}
   
 \NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value)}
 \NormalTok{  parameter.value }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value}
