@@ -2259,8 +2259,8 @@ Functions}\label{regularization-common-helper-functions}
 \hfill\break
 
 \begin{noteblock}
-The full source code of the functions described below are are available
-in the
+The full source code of the functions described below are available in
+the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model
 Tuning} section of the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R}
@@ -2273,6 +2273,72 @@ Function}{tune.model\_param Function}}\label{tune.model_param-function}
 
 \hfill\break
 
+The function searches for the parameter value corresponding to the
+minimum value of the \texttt{RMSE} from the list of values specified by
+the \texttt{param\_values} parameter.
+
+Sugnature
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tune.model\_param }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(param\_values, }
+\NormalTok{                             fn\_tune.test.param\_value, }
+                             \AttributeTok{break.if\_min =} \ConstantTok{TRUE}\NormalTok{,}
+                             \AttributeTok{steps.beyond\_min =} \DecValTok{2}\NormalTok{)\{}
+
+\CommentTok{\# ...}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{tuned.result =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{RMSE =}\NormalTok{ RMSEs\_tmp,}
+                                \AttributeTok{parameter.value =}\NormalTok{ param\_vals\_tmp),}
+       \AttributeTok{best\_result =}\NormalTok{ param\_values.best\_result)}
+\NormalTok{\}  }
+\end{Highlighting}
+\end{Shaded}
+
+Parameters
+
+\hfill\break
+- \textbf{param\_values:} A list of values to search for the value
+corresponding to the minimum value of the \texttt{RMSE} ; -
+\textbf{fn\_tune.test.param\_value:} A helper function that calculates
+the value of the \texttt{RMSE} for a given parameter value.; -
+\textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+whether the function should terminate after completing the number of
+steps specified by the parameter \texttt{steps.beyond\_min}, after the
+minimum value of the \texttt{RMSE} has been found; -
+\textbf{steps.beyond\_min = 2:} (takes effect only if
+\texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number
+of steps after finding the minimum value of the \texttt{RMSE}, upon
+completion of which the function should terminate.
+
+Details
+
+\hfill\break
+During execution, the function uses a helper function specified by the
+\texttt{fn\_tune.test.param\_value} parameter, which calculates the
+\texttt{RMSE} value for the given parameter from the list determined by
+the \texttt{param\_values} parameter.
+
+\begin{noteblock}
+Note that the function assumes that the dependence of the \texttt{RMSE}
+on the input parameter is a monotonically decreasing function until a
+minimum is reached and monotonically increasing thereafter. That is, it
+is assumed to have a single minimum in the domain of definition.
+
+\end{noteblock}
+
+Value
+
+\hfill\break
+The function returns a data structure containing the found value of the
+input parameter \texttt{param\_values} for which the \texttt{RMSE} value
+is minimal, as well as the minimum \texttt{RMSE} value itself, along
+with a sequence of all calculated \texttt{RMSE} values.
+
+Source Code
+
+\hfill\break
 Below is the most significant part of the code of the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param}
 function:
@@ -2339,50 +2405,63 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-Parameters
+\subparagraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range}
+Function}{model.tune.param\_range Function}}\label{model.tune.param_range-function}
 
 \hfill\break
 
-\textbf{param\_values:}; \textbf{fn\_tune.test.param\_value:};
-\textbf{break.if\_min = TRUE:}; \textbf{steps.beyond\_min = 2:}:.
+The function fine-tunes the model by searching for the best possible
+value of the input parameter over a given interval for which the
+corresponding \texttt{RMSE} value is minimal.
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{param\_values:} A list of values to search for the value
-  corresponding to the minimum value of the \texttt{RMSE} ;
-\item
-  \textbf{fn\_tune.test.param\_value:} A function that calculates the
-  value of the \texttt{RMSE} for a given parameter value.;
-\item
-  \textbf{break.if\_min = TRUE:} A Boolean parameter that determines
-  whether the function should terminate after completing the number of
-  steps specified by the parameter \texttt{steps.beyond\_min}, after the
-  minimum value of the \texttt{RMSE} has been found;
-\item
-  \textbf{steps.beyond\_min = 2:} (takes effect only if
-  \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the
-  number of steps after finding the minimum value of the \texttt{RMSE},
-  upon completion of which the function should terminate.
-\end{itemize}
+Sugnature
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model.tune.param\_range }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(loop\_starter,}
+\NormalTok{                             tune\_dir\_path,}
+\NormalTok{                             cache\_file\_base\_name,}
+\NormalTok{                             fn\_tune.test.param\_value,}
+                             \AttributeTok{max.identical.min\_RMSE.count =} \DecValTok{4}\NormalTok{,}
+                             \AttributeTok{is.cv =} \ConstantTok{TRUE}\NormalTok{,}
+                             \AttributeTok{endpoint.min\_diff =} \DecValTok{0}\NormalTok{, }\CommentTok{\#1e{-}07,}
+                             \AttributeTok{break.if\_min =} \ConstantTok{TRUE}\NormalTok{,}
+                             \AttributeTok{steps.beyond\_min =} \DecValTok{2}\NormalTok{)\{}
+  \CommentTok{\# ...}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{best\_result =}\NormalTok{ param\_values.best\_result,}
+       \AttributeTok{param\_values.endpoints =} \FunctionTok{c}\NormalTok{(prm\_val.leftmost, prm\_val.rightmost, seq\_increment),}
+       \AttributeTok{tuned.result =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{parameter.value =}\NormalTok{ parameter.value,}
+                                 \AttributeTok{RMSE =}\NormalTok{ result.RMSE))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Parameters
+
+\hfill\break
+- \textbf{fn\_tune.test.param\_value:} A helper function that calculates
+the value of the \texttt{RMSE} for a given parameter value.; -
+\textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+whether the function should terminate after completing the number of
+steps specified by the parameter \texttt{steps.beyond\_min}, after the
+minimum value of the \texttt{RMSE} has been found; -
+\textbf{steps.beyond\_min = 2:} (takes effect only if
+\texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number
+of steps after finding the minimum value of the \texttt{RMSE}, upon
+completion of which the function should terminate.
 
 Details
 
 \hfill\break
-
-The function searches for the parameter value corresponding to the
-minimum value of the \texttt{RMSE} from the list of values specified by
-the \texttt{param\_values} parameter. During execution, the function
-uses a helper function specified by the
+During execution, the function uses a helper function specified by the
 \texttt{fn\_tune.test.param\_value} parameter, which calculates the
 \texttt{RMSE} value for the given parameter from the list determined by
-the \texttt{param\_values} parameter.
+the inner \texttt{param\_values} sequence.
 
 \begin{noteblock}
-Note that the function assumes that the dependence of the mean square
-error on the input parameter is a monotonically decreasing function
-until a minimum is reached and monotonically increasing thereafter. That
-is, it is assumed to have a unique minimum in the domain of definition.
+Note
 
 \end{noteblock}
 
@@ -2390,22 +2469,367 @@ Value
 
 \hfill\break
 
-The function returns a data structure containing the found value of the
-input parameter \texttt{param\_values} for which the \texttt{RMSE} value
-is minimal, as well as the minimum \texttt{RMSE} value itself, along
-with a sequence of all calculated \texttt{RMSE} values.
+Source Code
+
+\hfill\break
+Below is the most significant part of the code of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model.tune.param\_range }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(loop\_starter,}
+\NormalTok{                             tune\_dir\_path,}
+\NormalTok{                             cache\_file\_base\_name,}
+\NormalTok{                             fn\_tune.test.param\_value,}
+                             \AttributeTok{max.identical.min\_RMSE.count =} \DecValTok{4}\NormalTok{,}
+                             \AttributeTok{is.cv =} \ConstantTok{TRUE}\NormalTok{,}
+                             \AttributeTok{endpoint.min\_diff =} \DecValTok{0}\NormalTok{, }\CommentTok{\#1e{-}07,}
+                             \AttributeTok{break.if\_min =} \ConstantTok{TRUE}\NormalTok{,}
+                             \AttributeTok{steps.beyond\_min =} \DecValTok{2}\NormalTok{)\{}
+
+\NormalTok{  seq\_start }\OtherTok{\textless{}{-}}\NormalTok{ loop\_starter[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  seq\_end }\OtherTok{\textless{}{-}}\NormalTok{ loop\_starter[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  range\_divider }\OtherTok{\textless{}{-}}\NormalTok{ loop\_starter[}\DecValTok{3}\NormalTok{]}
+  
+  \ControlFlowTok{if}\NormalTok{ (range\_divider }\SpecialCharTok{\textless{}} \DecValTok{4}\NormalTok{) \{}
+\NormalTok{    range\_divider }\OtherTok{\textless{}{-}} \DecValTok{4}
+\NormalTok{  \}}
+  
+\NormalTok{  prm\_val.leftmost }\OtherTok{\textless{}{-}}\NormalTok{ seq\_start}
+\NormalTok{  prm\_val.rightmost }\OtherTok{\textless{}{-}}\NormalTok{ seq\_end}
+  
+\NormalTok{  RMSE.leftmost }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{  RMSE.rightmost }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+
+\NormalTok{  best\_RMSE }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{  param.best\_value }\OtherTok{\textless{}{-}} \DecValTok{0}
+  
+  
+\NormalTok{  param\_values.best\_result }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{param.best\_value =}\NormalTok{ param.best\_value, }
+                                \AttributeTok{best\_RMSE =}\NormalTok{ best\_RMSE)}
+  
+  \ControlFlowTok{repeat}\NormalTok{\{}
+\NormalTok{    seq\_increment }\OtherTok{\textless{}{-}}\NormalTok{ (seq\_end }\SpecialCharTok{{-}}\NormalTok{ seq\_start)}\SpecialCharTok{/}\NormalTok{range\_divider }
+    
+    \ControlFlowTok{if}\NormalTok{ (seq\_increment }\SpecialCharTok{\textless{}} \FloatTok{0.0000000000001}\NormalTok{) \{}
+      \FunctionTok{warning}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
+\StringTok{parameter value increment is too small."}\NormalTok{)}
+      
+      \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
+\StringTok{Final best RMSE for \textasciigrave{}parameter value = \%1\textasciigrave{}: \%2"}\NormalTok{,}
+\NormalTok{               param\_values.best\_result[}\StringTok{"param.best\_value"}\NormalTok{],}
+\NormalTok{               param\_values.best\_result[}\StringTok{"best\_RMSE"}\NormalTok{])}
+      \ControlFlowTok{break}
+\NormalTok{    \}}
+    
+\NormalTok{    test\_param\_vals }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(seq\_start, seq\_end, seq\_increment)}
+    
+\NormalTok{    file\_name\_tmp }\OtherTok{\textless{}{-}}\NormalTok{ cache\_file\_base\_name }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"\_"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(loop\_starter[}\DecValTok{1}\NormalTok{])) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"\_"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(loop\_starter[}\DecValTok{3}\NormalTok{])) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"\_"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(range\_divider)) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"."}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(seq\_start)) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\StringTok{"{-}"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(seq\_end)) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{str\_c}\NormalTok{(}\StringTok{".RData"}\NormalTok{)}
+    
+\NormalTok{    file\_path\_tmp }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(tune\_dir\_path, file\_name\_tmp)}
+    
+    \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
+\StringTok{File path generated: \%1"}\NormalTok{, file\_path\_tmp)}
+    
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{file.exists}\NormalTok{(file\_path\_tmp)) \{}
+      \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
+\StringTok{Loading tuning data from file: \%1..."}\NormalTok{, file\_path\_tmp)}
+      
+\NormalTok{      start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
+      \FunctionTok{load}\NormalTok{(file\_path\_tmp)}
+      \FunctionTok{put\_end\_date}\NormalTok{(start)}
+      \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
+\StringTok{Tuning data has been loaded from file: \%1"}\NormalTok{, file\_path\_tmp)}
+      
+\NormalTok{      tuned.result }\OtherTok{\textless{}{-}}\NormalTok{ tuned\_result}\SpecialCharTok{$}\NormalTok{tuned.result}
+      
+      \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(file\_path\_tmp) }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{      \}}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{      tuned\_result }\OtherTok{\textless{}{-}} \FunctionTok{tune.model\_param}\NormalTok{(test\_param\_vals, }
+\NormalTok{                                        fn\_tune.test.param\_value,}
+\NormalTok{                                        break.if\_min,}
+\NormalTok{                                        steps.beyond\_min)}
+      
+\NormalTok{      tuned.result }\OtherTok{\textless{}{-}}\NormalTok{ tuned\_result}\SpecialCharTok{$}\NormalTok{tuned.result}
+
+      \FunctionTok{save}\NormalTok{(tuned\_result,}
+\NormalTok{           param.best\_value,}
+\NormalTok{           seq\_increment,}
+\NormalTok{           range\_divider,}
+           \AttributeTok{file =}\NormalTok{ file\_path\_tmp)}
+
+      \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
+\StringTok{File saved: \%1"}\NormalTok{, file\_path\_tmp)}
+\NormalTok{    \}}
+    
+    \FunctionTok{plot}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value, tuned.result}\SpecialCharTok{$}\NormalTok{RMSE)}
+    
+\NormalTok{    bound.idx }\OtherTok{\textless{}{-}} \FunctionTok{get\_fine\_tune.param.endpoints.idx}\NormalTok{(tuned.result)}
+\NormalTok{    start.idx }\OtherTok{\textless{}{-}}\NormalTok{ bound.idx[}\StringTok{"start"}\NormalTok{]}
+\NormalTok{    end.idx }\OtherTok{\textless{}{-}}\NormalTok{ bound.idx[}\StringTok{"end"}\NormalTok{]}
+\NormalTok{    best\_RMSE.idx }\OtherTok{\textless{}{-}}\NormalTok{ bound.idx[}\StringTok{"best"}\NormalTok{]}
+    
+\NormalTok{    prm\_val.leftmost.tmp }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value[start.idx]}
+\NormalTok{    RMSE.leftmost.tmp }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{RMSE[start.idx]}
+
+\NormalTok{    prm\_val.rightmost.tmp }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value[end.idx]}
+\NormalTok{    RMSE.rightmost.tmp }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{RMSE[end.idx]}
+    
+\NormalTok{    min\_RMSE }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{RMSE[best\_RMSE.idx]}
+\NormalTok{    min\_RMSE.prm\_val }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value[best\_RMSE.idx]}
+
+\NormalTok{    seq\_start }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val.leftmost.tmp}
+\NormalTok{    seq\_end }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val.rightmost.tmp}
+    
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(best\_RMSE)) \{}
+\NormalTok{      prm\_val.leftmost }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val.leftmost.tmp}
+\NormalTok{      RMSE.leftmost }\OtherTok{\textless{}{-}}\NormalTok{ RMSE.leftmost.tmp}
+      
+\NormalTok{      prm\_val.rightmost }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val.rightmost.tmp}
+\NormalTok{      RMSE.rightmost }\OtherTok{\textless{}{-}}\NormalTok{ RMSE.rightmost.tmp}
+      
+\NormalTok{      param.best\_value }\OtherTok{\textless{}{-}}\NormalTok{ min\_RMSE.prm\_val}
+\NormalTok{      best\_RMSE }\OtherTok{\textless{}{-}}\NormalTok{ min\_RMSE}
+\NormalTok{    \}}
+    
+    \ControlFlowTok{if}\NormalTok{ (RMSE.leftmost.tmp }\SpecialCharTok{{-}}\NormalTok{ min\_RMSE }\SpecialCharTok{\textgreater{}=}\NormalTok{ endpoint.min\_diff) \{}
+\NormalTok{      prm\_val.leftmost }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val.leftmost.tmp}
+\NormalTok{      RMSE.leftmost }\OtherTok{\textless{}{-}}\NormalTok{ RMSE.leftmost.tmp}
+\NormalTok{    \} }
+    
+    \ControlFlowTok{if}\NormalTok{ (RMSE.rightmost.tmp }\SpecialCharTok{{-}}\NormalTok{ min\_RMSE }\SpecialCharTok{\textgreater{}=}\NormalTok{ endpoint.min\_diff) \{}
+\NormalTok{      prm\_val.rightmost }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val.rightmost.tmp}
+\NormalTok{      RMSE.rightmost }\OtherTok{\textless{}{-}}\NormalTok{ RMSE.rightmost.tmp}
+\NormalTok{    \} }
+    
+    \ControlFlowTok{if}\NormalTok{ (end.idx }\SpecialCharTok{{-}}\NormalTok{ start.idx }\SpecialCharTok{\textless{}=} \DecValTok{0}\NormalTok{) \{}
+      \FunctionTok{warning}\NormalTok{(}\StringTok{"\textasciigrave{}tuned.result$parameter.value\textasciigrave{} sequential start index are the same or greater than end one."}\NormalTok{)}
+      \ControlFlowTok{break}
+\NormalTok{    \}}
+    
+    \ControlFlowTok{if}\NormalTok{ (best\_RMSE }\SpecialCharTok{==}\NormalTok{ min\_RMSE) \{}
+      \FunctionTok{warning}\NormalTok{(}\StringTok{"Currently computed minimal RMSE equals the previously reached best one: "}\NormalTok{,}
+\NormalTok{              best\_RMSE, }\StringTok{"}
+\StringTok{Currently computed minial value is: "}\NormalTok{, min\_RMSE)}
+
+      \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{RMSE[tuned.result}\SpecialCharTok{$}\NormalTok{RMSE }\SpecialCharTok{==}\NormalTok{ min\_RMSE]) }\SpecialCharTok{\textgreater{}=}\NormalTok{ max.identical.min\_RMSE.count) \{}
+        \FunctionTok{warning}\NormalTok{(}\StringTok{"Minimal \textasciigrave{}RMSE\textasciigrave{}identical values count reached it maximum allowed value: "}\NormalTok{,}
+\NormalTok{                max.identical.min\_RMSE.count)}
+
+\NormalTok{        param\_values.best\_result }\OtherTok{\textless{}{-}}
+          \FunctionTok{get\_best\_param.result}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value,}
+\NormalTok{                                tuned.result}\SpecialCharTok{$}\NormalTok{RMSE)}
+
+        \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
+\StringTok{      Reached the best RMSE for \textasciigrave{}parameter value = \%1\textasciigrave{}: \%2"}\NormalTok{,}
+\NormalTok{                 param\_values.best\_result[}\StringTok{"param.best\_value"}\NormalTok{],}
+\NormalTok{                 param\_values.best\_result[}\StringTok{"best\_RMSE"}\NormalTok{])}
+        \ControlFlowTok{break}
+\NormalTok{      \}}
+
+\NormalTok{    \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (best\_RMSE }\SpecialCharTok{\textless{}}\NormalTok{ min\_RMSE) \{}
+      \FunctionTok{stop}\NormalTok{(}\StringTok{"Current minimal RMSE is greater than previously computed best value: "}\NormalTok{,}
+\NormalTok{           best\_RMSE, }\StringTok{"}
+\StringTok{Currently computed minial value is: "}\NormalTok{, min\_RMSE)}
+\NormalTok{    \}}
+
+\NormalTok{    best\_RMSE }\OtherTok{\textless{}{-}}\NormalTok{ min\_RMSE}
+\NormalTok{    param.best\_value }\OtherTok{\textless{}{-}}\NormalTok{ min\_RMSE.prm\_val}
+
+\NormalTok{    param\_values.best\_result }\OtherTok{\textless{}{-}} 
+      \FunctionTok{get\_best\_param.result}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value, }
+\NormalTok{                          tuned.result}\SpecialCharTok{$}\NormalTok{RMSE)}
+    
+    \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function \textasciigrave{}model.tune.param\_range\textasciigrave{}:}
+\StringTok{Currently reached best RMSE for \textasciigrave{}parameter value = \%1\textasciigrave{}: \%2"}\NormalTok{,}
+\NormalTok{             param\_values.best\_result[}\StringTok{"param.best\_value"}\NormalTok{],}
+\NormalTok{             param\_values.best\_result[}\StringTok{"best\_RMSE"}\NormalTok{])}
+\NormalTok{  \}}
+  
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value)}
+\NormalTok{  parameter.value }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{parameter.value}
+\NormalTok{  result.RMSE }\OtherTok{\textless{}{-}}\NormalTok{ tuned.result}\SpecialCharTok{$}\NormalTok{RMSE}
+  
+  \ControlFlowTok{if}\NormalTok{ (result.RMSE[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{==}\NormalTok{ best\_RMSE) \{}
+\NormalTok{    parameter.value[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val.leftmost}
+\NormalTok{    result.RMSE[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ RMSE.leftmost}
+\NormalTok{  \}}
+  \ControlFlowTok{if}\NormalTok{ (result.RMSE[n] }\SpecialCharTok{==}\NormalTok{ best\_RMSE) \{}
+\NormalTok{    parameter.value[n}\SpecialCharTok{+}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ prm\_val.rightmost}
+\NormalTok{    result.RMSE[n}\SpecialCharTok{+}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ RMSE.rightmost}
+    \CommentTok{\# browser()}
+\NormalTok{  \}}
+  
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{best\_result =}\NormalTok{ param\_values.best\_result,}
+       \AttributeTok{param\_values.endpoints =} \FunctionTok{c}\NormalTok{(prm\_val.leftmost, prm\_val.rightmost, seq\_increment),}
+       \AttributeTok{tuned.result =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{parameter.value =}\NormalTok{ parameter.value,}
+                                 \AttributeTok{RMSE =}\NormalTok{ result.RMSE))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
 
 \subparagraph{`` Function}\label{function}
 
 \hfill\break
 
+Sugnature
+
+\hfill\break
+
+Parameters
+
+\hfill\break
+- \textbf{fn\_tune.test.param\_value:} A helper function that calculates
+the value of the \texttt{RMSE} for a given parameter value.; -
+\textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+whether the function should terminate after completing the number of
+steps specified by the parameter \texttt{steps.beyond\_min}, after the
+minimum value of the \texttt{RMSE} has been found; -
+\textbf{steps.beyond\_min = 2:} (takes effect only if
+\texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number
+of steps after finding the minimum value of the \texttt{RMSE}, upon
+completion of which the function should terminate.
+
+Details
+
+\hfill\break
+During execution, the function uses a helper function specified by the
+\texttt{fn\_tune.test.param\_value} parameter, which calculates the
+\texttt{RMSE} value for the given parameter from the list determined by
+the \texttt{param\_values} parameter.
+
+\begin{noteblock}
+Note
+
+\end{noteblock}
+
+Value
+
+\hfill\break
+
+Source Code
+
+\hfill\break
+Below is the most significant part of the code of the \href{}{function}
+function:
+
 \subparagraph{`` Function}\label{function-1}
 
 \hfill\break
 
+Sugnature
+
+\hfill\break
+
+Parameters
+
+\hfill\break
+- \textbf{fn\_tune.test.param\_value:} A helper function that calculates
+the value of the \texttt{RMSE} for a given parameter value.; -
+\textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+whether the function should terminate after completing the number of
+steps specified by the parameter \texttt{steps.beyond\_min}, after the
+minimum value of the \texttt{RMSE} has been found; -
+\textbf{steps.beyond\_min = 2:} (takes effect only if
+\texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number
+of steps after finding the minimum value of the \texttt{RMSE}, upon
+completion of which the function should terminate.
+
+Details
+
+\hfill\break
+During execution, the function uses a helper function specified by the
+\texttt{fn\_tune.test.param\_value} parameter, which calculates the
+\texttt{RMSE} value for the given parameter from the list determined by
+the \texttt{param\_values} parameter.
+
+\begin{noteblock}
+Note
+
+\end{noteblock}
+
+Value
+
+\hfill\break
+
+Source Code
+
+\hfill\break
+Below is the most significant part of the code of the \href{}{function}
+function:
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
 \subparagraph{`` Function}\label{function-2}
 
 \hfill\break
+
+Sugnature
+
+\hfill\break
+
+Parameters
+
+\hfill\break
+- \textbf{fn\_tune.test.param\_value:} A helper function that calculates
+the value of the \texttt{RMSE} for a given parameter value.; -
+\textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+whether the function should terminate after completing the number of
+steps specified by the parameter \texttt{steps.beyond\_min}, after the
+minimum value of the \texttt{RMSE} has been found; -
+\textbf{steps.beyond\_min = 2:} (takes effect only if
+\texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number
+of steps after finding the minimum value of the \texttt{RMSE}, upon
+completion of which the function should terminate.
+
+Details
+
+\hfill\break
+During execution, the function uses a helper function specified by the
+\texttt{fn\_tune.test.param\_value} parameter, which calculates the
+\texttt{RMSE} value for the given parameter from the list determined by
+the \texttt{param\_values} parameter.
+
+\begin{noteblock}
+Note
+
+\end{noteblock}
+
+Value
+
+\hfill\break
+
+Source Code
+
+\hfill\break
+Below is the most significant part of the code of the \href{}{function}
+function:
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
+
+\begin{noteblock}
+!!! Note!
+
+\end{noteblock}
 
 \begin{noteblock}
 !!! Note!
@@ -2416,24 +2840,46 @@ with a sequence of all calculated \texttt{RMSE} values.
 
 \hfill\break
 
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
-\subparagraph{`` Function}\label{function-4}
+Sugnature
 
 \hfill\break
+
+Parameters
+
+\hfill\break
+- \textbf{fn\_tune.test.param\_value:} A helper function that calculates
+the value of the \texttt{RMSE} for a given parameter value.; -
+\textbf{break.if\_min = TRUE:} A Boolean parameter that determines
+whether the function should terminate after completing the number of
+steps specified by the parameter \texttt{steps.beyond\_min}, after the
+minimum value of the \texttt{RMSE} has been found; -
+\textbf{steps.beyond\_min = 2:} (takes effect only if
+\texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number
+of steps after finding the minimum value of the \texttt{RMSE}, upon
+completion of which the function should terminate.
+
+Details
+
+\hfill\break
+During execution, the function uses a helper function specified by the
+\texttt{fn\_tune.test.param\_value} parameter, which calculates the
+\texttt{RMSE} value for the given parameter from the list determined by
+the \texttt{param\_values} parameter.
+
+\begin{noteblock}
+Note
+
+\end{noteblock}
+
+Value
+
+\hfill\break
+
+Source Code
+
+\hfill\break
+Below is the most significant part of the code of the \href{}{function}
+function:
 
 \paragraph{UME Model Regularization: Support
 Function}\label{ume-model-regularization-support-function}
@@ -2596,7 +3042,7 @@ plot\autocite{MRS-R-BEST}}{Average rating per year plot{[}@MRS-R-BEST{]}}}\label
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-86-1.pdf}
+\includegraphics{capstone-movielens-report.draft4_files/figure-latex/unnamed-chunk-95-1.pdf}
 
 We use the following models to account for the \texttt{date} effect:
 

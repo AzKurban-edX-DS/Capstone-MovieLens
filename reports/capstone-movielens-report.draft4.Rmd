@@ -1208,12 +1208,50 @@ We will implement the _Regularization_ method on our  models (starting from the 
 \
 
 ::: {.noteblock data-latex=""}
-The full source code of the functions described below are are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
+The full source code of the functions described below are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
 
 ##### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function
 \
 
+The function searches for the parameter value corresponding to the minimum value of the `RMSE` from the list of values specified by the `param_values` parameter.
+
+###### Sugnature
+\
+```{r eval=FALSE}
+tune.model_param <- function(param_values, 
+                             fn_tune.test.param_value, 
+                             break.if_min = TRUE,
+                             steps.beyond_min = 2){
+
+# ...
+  list(tuned.result = data.frame(RMSE = RMSEs_tmp,
+                                parameter.value = param_vals_tmp),
+       best_result = param_values.best_result)
+}  
+```
+
+###### Parameters
+\
+  - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
+  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+
+###### Details
+\
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
+
+::: {.noteblock data-latex=""}
+Note that the function assumes that the dependence of the `RMSE` on the input parameter is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed to have a single minimum in the domain of definition.
+:::
+
+###### Value
+\
+The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values.
+
+###### Source Code
+\
 Below is the most significant part of the code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function:
 ```{r eval=FALSE}
 tune.model_param <- function(param_values, 
@@ -1276,51 +1314,333 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
 
 ```
 
-###### Parameters
+
+##### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function
 \
 
-**param_values:**; 
-**fn_tune.test.param_value:**; 
-**break.if_min = TRUE:**;
-**steps.beyond_min = 2:**:.
+The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding `RMSE` value is minimal.
 
-  - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
-  - **fn_tune.test.param_value:** A function that calculates the value of the `RMSE` for a given parameter value.; 
+###### Sugnature
+\
+```{r eval=FALSE}
+model.tune.param_range <- function(loop_starter,
+                             tune_dir_path,
+                             cache_file_base_name,
+                             fn_tune.test.param_value,
+                             max.identical.min_RMSE.count = 4,
+                             is.cv = TRUE,
+                             endpoint.min_diff = 0, #1e-07,
+                             break.if_min = TRUE,
+                             steps.beyond_min = 2){
+  # ...
+  list(best_result = param_values.best_result,
+       param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
+       tuned.result = data.frame(parameter.value = parameter.value,
+                                 RMSE = result.RMSE))
+}
+```
+
+###### Parameters
+\
+  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
 ###### Details
 \
-
-The function searches for the parameter value corresponding to the minimum value of the `RMSE` from the list of values specified by the `param_values` parameter.
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
 
 ::: {.noteblock data-latex=""}
-Note that the function assumes that the dependence of the mean square error on the input parameter is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed to have a unique minimum in the domain of definition.
+Note 
 :::
 
 ###### Value
 \
 
-The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values.
+
+###### Source Code
+\
+Below is the most significant part of the code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) function:
+```{r eval=FALSE}
+model.tune.param_range <- function(loop_starter,
+                             tune_dir_path,
+                             cache_file_base_name,
+                             fn_tune.test.param_value,
+                             max.identical.min_RMSE.count = 4,
+                             is.cv = TRUE,
+                             endpoint.min_diff = 0, #1e-07,
+                             break.if_min = TRUE,
+                             steps.beyond_min = 2){
+
+  seq_start <- loop_starter[1]
+  seq_end <- loop_starter[2]
+  range_divider <- loop_starter[3]
+  
+  if (range_divider < 4) {
+    range_divider <- 4
+  }
+  
+  prm_val.leftmost <- seq_start
+  prm_val.rightmost <- seq_end
+  
+  RMSE.leftmost <- NA
+  RMSE.rightmost <- NA
+
+  best_RMSE <- NA
+  param.best_value <- 0
+  
+  
+  param_values.best_result <- c(param.best_value = param.best_value, 
+                                best_RMSE = best_RMSE)
+  
+  repeat{
+    seq_increment <- (seq_end - seq_start)/range_divider 
+    
+    if (seq_increment < 0.0000000000001) {
+      warning("Function `model.tune.param_range`:
+parameter value increment is too small.")
+      
+      put_log2("Function `model.tune.param_range`:
+Final best RMSE for `parameter value = %1`: %2",
+               param_values.best_result["param.best_value"],
+               param_values.best_result["best_RMSE"])
+      break
+    }
+    
+    test_param_vals <- seq(seq_start, seq_end, seq_increment)
+    
+    file_name_tmp <- cache_file_base_name |>
+      str_c("_") |>
+      str_c(as.character(loop_starter[1])) |>
+      str_c("_") |>
+      str_c(as.character(loop_starter[3])) |>
+      str_c("_") |>
+      str_c(as.character(range_divider)) |>
+      str_c(".") |>
+      str_c(as.character(seq_start)) |>
+      str_c("-") |>
+      str_c(as.character(seq_end)) |>
+      str_c(".RData")
+    
+    file_path_tmp <- file.path(tune_dir_path, file_name_tmp)
+    
+    put_log1("Function `model.tune.param_range`:
+File path generated: %1", file_path_tmp)
+    
+    if (file.exists(file_path_tmp)) {
+      put_log1("Function `model.tune.param_range`:
+Loading tuning data from file: %1...", file_path_tmp)
+      
+      start <- put_start_date()
+      load(file_path_tmp)
+      put_end_date(start)
+      put_log1("Function `model.tune.param_range`:
+Tuning data has been loaded from file: %1", file_path_tmp)
+      
+      tuned.result <- tuned_result$tuned.result
+      
+      if(length(file_path_tmp) > 0) {
+      }
+    } else {
+      tuned_result <- tune.model_param(test_param_vals, 
+                                        fn_tune.test.param_value,
+                                        break.if_min,
+                                        steps.beyond_min)
+      
+      tuned.result <- tuned_result$tuned.result
+
+      save(tuned_result,
+           param.best_value,
+           seq_increment,
+           range_divider,
+           file = file_path_tmp)
+
+      put_log1("Function `model.tune.param_range`:
+File saved: %1", file_path_tmp)
+    }
+    
+    plot(tuned.result$parameter.value, tuned.result$RMSE)
+    
+    bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
+    start.idx <- bound.idx["start"]
+    end.idx <- bound.idx["end"]
+    best_RMSE.idx <- bound.idx["best"]
+    
+    prm_val.leftmost.tmp <- tuned.result$parameter.value[start.idx]
+    RMSE.leftmost.tmp <- tuned.result$RMSE[start.idx]
+
+    prm_val.rightmost.tmp <- tuned.result$parameter.value[end.idx]
+    RMSE.rightmost.tmp <- tuned.result$RMSE[end.idx]
+    
+    min_RMSE <- tuned.result$RMSE[best_RMSE.idx]
+    min_RMSE.prm_val <- tuned.result$parameter.value[best_RMSE.idx]
+
+    seq_start <- prm_val.leftmost.tmp
+    seq_end <- prm_val.rightmost.tmp
+    
+    if (is.na(best_RMSE)) {
+      prm_val.leftmost <- prm_val.leftmost.tmp
+      RMSE.leftmost <- RMSE.leftmost.tmp
+      
+      prm_val.rightmost <- prm_val.rightmost.tmp
+      RMSE.rightmost <- RMSE.rightmost.tmp
+      
+      param.best_value <- min_RMSE.prm_val
+      best_RMSE <- min_RMSE
+    }
+    
+    if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
+      prm_val.leftmost <- prm_val.leftmost.tmp
+      RMSE.leftmost <- RMSE.leftmost.tmp
+    } 
+    
+    if (RMSE.rightmost.tmp - min_RMSE >= endpoint.min_diff) {
+      prm_val.rightmost <- prm_val.rightmost.tmp
+      RMSE.rightmost <- RMSE.rightmost.tmp
+    } 
+    
+    if (end.idx - start.idx <= 0) {
+      warning("`tuned.result$parameter.value` sequential start index are the same or greater than end one.")
+      break
+    }
+    
+    if (best_RMSE == min_RMSE) {
+      warning("Currently computed minimal RMSE equals the previously reached best one: ",
+              best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
+
+      if (sum(tuned.result$RMSE[tuned.result$RMSE == min_RMSE]) >= max.identical.min_RMSE.count) {
+        warning("Minimal `RMSE`identical values count reached it maximum allowed value: ",
+                max.identical.min_RMSE.count)
+
+        param_values.best_result <-
+          get_best_param.result(tuned.result$parameter.value,
+                                tuned.result$RMSE)
+
+        put_log2("Function `model.tune.param_range`:
+      Reached the best RMSE for `parameter value = %1`: %2",
+                 param_values.best_result["param.best_value"],
+                 param_values.best_result["best_RMSE"])
+        break
+      }
+
+    } else if (best_RMSE < min_RMSE) {
+      stop("Current minimal RMSE is greater than previously computed best value: ",
+           best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
+    }
+
+    best_RMSE <- min_RMSE
+    param.best_value <- min_RMSE.prm_val
+
+    param_values.best_result <- 
+      get_best_param.result(tuned.result$parameter.value, 
+                          tuned.result$RMSE)
+    
+    put_log2("Function `model.tune.param_range`:
+Currently reached best RMSE for `parameter value = %1`: %2",
+             param_values.best_result["param.best_value"],
+             param_values.best_result["best_RMSE"])
+  }
+  
+  n <- length(tuned.result$parameter.value)
+  parameter.value <- tuned.result$parameter.value
+  result.RMSE <- tuned.result$RMSE
+  
+  if (result.RMSE[1] == best_RMSE) {
+    parameter.value[1] <- prm_val.leftmost
+    result.RMSE[1] <- RMSE.leftmost
+  }
+  if (result.RMSE[n] == best_RMSE) {
+    parameter.value[n+1] <- prm_val.rightmost
+    result.RMSE[n+1] <- RMSE.rightmost
+    # browser()
+  }
+  
+  list(best_result = param_values.best_result,
+       param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
+       tuned.result = data.frame(parameter.value = parameter.value,
+                                 RMSE = result.RMSE))
+}
+```
+
+
+
 
 ##### `` Function
 \
 
-##### `` Function
+
+###### Sugnature
+\
+```{r eval=FALSE}
+
+```
+
+###### Parameters
+\
+  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+
+###### Details
+\
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+
+###### Value
 \
 
-##### `` Function
-\
 
+###### Source Code
+\
+Below is the most significant part of the code of the [function]() function:
 ```{r eval=FALSE}
 
 ```
 
 
+##### `` Function
+\
+
+
+###### Sugnature
+\
 ```{r eval=FALSE}
 
 ```
+
+###### Parameters
+\
+  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+
+###### Details
+\
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+
+###### Value
+\
+
+
+###### Source Code
+\
+Below is the most significant part of the code of the [function]() function:
+```{r eval=FALSE}
+
+```
+
+
+
+
 
 ```{r eval=FALSE}
 
@@ -1342,6 +1662,40 @@ The function returns a data structure containing the found value of the input pa
 \
 
 
+
+###### Sugnature
+\
+```{r eval=FALSE}
+
+```
+
+###### Parameters
+\
+  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+
+###### Details
+\
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+
+###### Value
+\
+
+
+###### Source Code
+\
+Below is the most significant part of the code of the [function]() function:
+```{r eval=FALSE}
+
+```
+
+
+
 ```{r eval=FALSE}
 
 ```
@@ -1370,6 +1724,40 @@ The function returns a data structure containing the found value of the input pa
 
 ##### `` Function
 \
+
+
+
+###### Sugnature
+\
+```{r eval=FALSE}
+
+```
+
+###### Parameters
+\
+  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+
+###### Details
+\
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+
+###### Value
+\
+
+
+###### Source Code
+\
+Below is the most significant part of the code of the [function]() function:
+```{r eval=FALSE}
+
+```
+
 
 
 ```{r eval=FALSE}
