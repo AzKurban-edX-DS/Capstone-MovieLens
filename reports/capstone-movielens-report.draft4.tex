@@ -2414,7 +2414,7 @@ function:
 \end{Shaded}
 
 \subparagraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range}
-Function}{model.tune.param\_range Function}}\label{model.tune.param_range-function}
+Function}{model.tune.param\_range Function}}\label{func.model.tune.param_range}
 
 \hfill\break
 
@@ -2433,7 +2433,6 @@ Sugnature
 \NormalTok{                             cache\_file\_base\_name,}
 \NormalTok{                             fn\_tune.test.param\_value,}
                              \AttributeTok{max.identical.min\_RMSE.count =} \DecValTok{4}\NormalTok{,}
-                             \AttributeTok{is.cv =} \ConstantTok{TRUE}\NormalTok{,}
                              \AttributeTok{endpoint.min\_diff =} \DecValTok{0}\NormalTok{,}
                              \AttributeTok{break.if\_min =} \ConstantTok{TRUE}\NormalTok{,}
                              \AttributeTok{steps.beyond\_min =} \DecValTok{2}\NormalTok{)\{}
@@ -2500,7 +2499,7 @@ function that is called internally during the execution (see the
 description of the \texttt{tune.model\_param} function
 \hyperref[func.tune.model_param]{above}).
 
-max.identical.min\_RMSE.count
+max.identical.min\_RMSE.count = 4
 
 \hfill\break
 If more than one identical minimum \texttt{RMSE} value is calculated
@@ -2508,47 +2507,30 @@ during execution, the number of identical minimums is limited by the
 value of this parameter. When it is reached, the algorithm considers the
 task execution to be complete.
 
-\hfill\break
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{is.cv:} ;
-\end{itemize}
+endpoint.min\_diff = 0
 
 \hfill\break
+Defines the sensitivity threshold for determining the neighborhood
+boundaries of the minimum \texttt{RMSE} value (for details, see the
+\hyperref[func.model.tune.param_range.details]{Details} section below).
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{endpoint.min\_diff:} ;
-\end{itemize}
-
-\hfill\break
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{break.if\_min = TRUE:} A Boolean parameter that determines
-  whether the function should terminate after completing the number of
-  steps
-\end{itemize}
+break.if\_min = TRUE
 
 \hfill\break
+This is a parameter that is required for the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param}
+function that is called internally during execution (see the description
+of the \texttt{tune.model\_param} function
+\hyperref[func.tune.model_param]{above}).
 
-specified by the parameter \texttt{steps.beyond\_min}, after the minimum
-value of the \texttt{RMSE} has been found;
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{steps.beyond\_min = 2:} (takes effect only if
-  \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the
-  number of steps after finding the minimum value of the \texttt{RMSE},
-  upon completion of which the function should terminate.
-\end{itemize}
+steps.beyond\_min = 2
 
 \hfill\break
+This is a parameter that is required for the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param}
+function that is called internally during execution (see the description
+of the \texttt{tune.model\_param} function
+\hyperref[func.tune.model_param]{above}).
 
 Details
 

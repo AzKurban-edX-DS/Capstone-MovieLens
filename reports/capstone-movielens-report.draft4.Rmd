@@ -1316,7 +1316,7 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
 ```
 
 
-##### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function
+##### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
 \
 
 The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding `RMSE` value is minimal.
@@ -1329,7 +1329,6 @@ model.tune.param_range <- function(loop_starter,
                              cache_file_base_name,
                              fn_tune.test.param_value,
                              max.identical.min_RMSE.count = 4,
-                             is.cv = TRUE,
                              endpoint.min_diff = 0,
                              break.if_min = TRUE,
                              steps.beyond_min = 2){
@@ -1371,38 +1370,23 @@ The algorithm generates unique names for cache files based on this and the `loop
 \
 This is a helper function name that is passed to the same-named parameter of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during the execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
-####### max.identical.min_RMSE.count
+####### max.identical.min_RMSE.count = 4
 \
 If more than one identical minimum `RMSE` value is calculated during execution, the number of identical minimums is limited by the value of this parameter. When it is reached, the algorithm considers the task execution to be complete.
 
-#######  
+####### endpoint.min_diff = 0
 \
+Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the [Details](#func.model.tune.param_range.details) section below).
 
-  - **is.cv:** ;
-
-#######  
+####### break.if_min = TRUE 
 \
+This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
-  - **endpoint.min_diff:** ;
-
-#######  
+####### steps.beyond_min = 2 
 \
+This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
-  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps 
-
-#######  
-\
-
-specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
-
-  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
-
-
-#######  
-\
-
-
-###### Details
+###### Details {#func.model.tune.param_range.details}
 \
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
 

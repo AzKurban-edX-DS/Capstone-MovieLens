@@ -201,7 +201,6 @@ model.tune.param_range <- function(loop_starter,
                              fn_tune.test.param_value,
                              # range_divider.multiplier = 4,
                              max.identical.min_RMSE.count = 4,
-                             is.cv = TRUE,
                              endpoint.min_diff = 0, #1e-07,
                              break.if_min = TRUE,
                              steps.beyond_min = 2){
