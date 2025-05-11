@@ -2453,7 +2453,6 @@ Parameters
 loop\_starter
 
 \hfill\break
-
 A numeric vector of the form \texttt{c(start,\ end,\ dvs)}, where
 \texttt{start} and \texttt{end} are the endpoints of the interval on
 which the parameter value that minimizes \texttt{RMSE} is sought.
@@ -2487,7 +2486,6 @@ the files are cached.
 cache\_file\_base\_name
 
 \hfill\break
-
 The algorithm generates unique names for cache files based on this and
 the \texttt{loop\_starter} parameter, as well as some other intermediate
 values calculated during the execution.
@@ -2495,7 +2493,6 @@ values calculated during the execution.
 fn\_tune.test.param\_value
 
 \hfill\break
-
 This is a helper function name that is passed to the same-named
 parameter of the
 \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param}
@@ -2506,6 +2503,10 @@ description of the \texttt{tune.model\_param} function
 max.identical.min\_RMSE.count
 
 \hfill\break
+If more than one identical minimum \texttt{RMSE} value is calculated
+during execution, the number of identical minimums is limited by the
+value of this parameter. When it is reached, the algorithm considers the
+task execution to be complete.
 
 \hfill\break
 
