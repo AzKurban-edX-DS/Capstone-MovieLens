@@ -2512,7 +2512,7 @@ endpoint.min\_diff = 0
 \hfill\break
 Defines the sensitivity threshold for determining the neighborhood
 boundaries of the minimum \texttt{RMSE} value (for details, see the
-\hyperref[func.model.tune.param_range.details]{Details} section below).
+\texttt{Details} section below).
 
 break.if\_min = TRUE
 
@@ -2532,22 +2532,35 @@ function that is called internally during execution (see the description
 of the \texttt{tune.model\_param} function
 \hyperref[func.tune.model_param]{above}).
 
-Details
+::: Details \{\#func.model.tune.param\_range.details \}
 
-\hfill\break
 During execution, the function uses a helper function specified by the
 \texttt{fn\_tune.test.param\_value} parameter, which calculates the
 \texttt{RMSE} value for the given parameter from the list determined by
-the inner \texttt{param\_values} sequence.
+the inner \texttt{param\_values} sequence. :::
+
+Details
+
+\hfill\break
+
+(ref:foo) During execution, the function uses a helper function
+specified by the \texttt{fn\_tune.test.param\_value} parameter, which
+calculates the \texttt{RMSE} value for the given parameter from the list
+determined by the inner \texttt{param\_values} sequence.
+
+Value
+
+\hfill\break
+See the \texttt{Details}section
+\hyperref[func.model.tune.param_range.details]{above}. See the
+\texttt{Details}section \href{ref:foo}{above}. See the
+\texttt{func.model.tune.param\_range} Function description
+\hyperref[func.model.tune.param_range]{above}. pdf\_document2
 
 \begin{noteblock}
 Note
 
 \end{noteblock}
-
-Value
-
-\hfill\break
 
 Source Code
 

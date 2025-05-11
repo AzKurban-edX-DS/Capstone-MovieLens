@@ -1376,7 +1376,7 @@ If more than one identical minimum `RMSE` value is calculated during execution, 
 
 ####### endpoint.min_diff = 0
 \
-Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the [Details](#func.model.tune.param_range.details) section below).
+Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the `Details` section below).
 
 ####### break.if_min = TRUE 
 \
@@ -1386,16 +1386,29 @@ This is a parameter that is required for the [tune.model_param](https://github.c
 \
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
-###### Details {#func.model.tune.param_range.details}
-\
+
+::: Details {#func.model.tune.param_range.details }
+
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
+:::
+
+###### Details
+\
+
+(ref:foo) During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
+
+
+###### Value
+\
+See the `Details`section [above](#func.model.tune.param_range.details). 
+See the `Details`section [above](ref:foo). 
+See the `func.model.tune.param_range` Function description [above](#func.model.tune.param_range). 
+pdf_document2
+
 
 ::: {.noteblock data-latex=""}
 Note 
 :::
-
-###### Value
-\
 
 
 ###### Source Code
