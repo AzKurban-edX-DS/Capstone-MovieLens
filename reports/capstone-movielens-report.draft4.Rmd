@@ -1393,17 +1393,6 @@ This is a parameter that is required for the [tune.model_param](https://github.c
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
 :::
 
-::: { #func.model.tune.param_range.details2 .sidebar }
-**DETAILS**
-
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
-:::
-
-###### **Details3**
-\
-
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
-
 
 ###### **Value**
 \
