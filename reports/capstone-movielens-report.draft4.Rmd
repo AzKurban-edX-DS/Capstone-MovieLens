@@ -1343,6 +1343,7 @@ model.tune.param_range <- function(loop_starter,
 
 ###### Parameters
 \
+
 ####### loop_starter 
 \
 
@@ -1361,7 +1362,6 @@ In fact, the `seq` function is called internally to generate the sequence during
 
 ####### tune_dir_path 
 \
-  
 To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the files are cached.
 
 ####### cache_file_base_name 
@@ -1374,10 +1374,9 @@ The algorithm generates unique names for cache files based on this and the `loop
 
 This is a helper function name that is passed to the same-named parameter of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during the execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
-#######  
+####### max.identical.min_RMSE.count
 \
 
-  - **max.identical.min_RMSE.count:** ;
 
 #######  
 \

@@ -2449,7 +2449,10 @@ Sugnature
 Parameters
 
 \hfill\break
-\#\#\#\#\#\#\# loop\_starter\\
+
+loop\_starter
+
+\hfill\break
 
 A numeric vector of the form \texttt{c(start,\ end,\ dvs)}, where
 \texttt{start} and \texttt{end} are the endpoints of the interval on
@@ -2477,7 +2480,6 @@ function.
 tune\_dir\_path
 
 \hfill\break
-
 To improve performance, the algorithm caches intermediate results in the
 file system. This parameter specifies the path to the directory where
 the files are cached.
@@ -2501,13 +2503,9 @@ function that is called internally during the execution (see the
 description of the \texttt{tune.model\_param} function
 \hyperref[func.tune.model_param]{above}).
 
-\hfill\break
+max.identical.min\_RMSE.count
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{max.identical.min\_RMSE.count:} ;
-\end{itemize}
+\hfill\break
 
 \hfill\break
 
