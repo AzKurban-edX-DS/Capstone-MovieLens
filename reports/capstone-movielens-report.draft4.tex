@@ -2450,6 +2450,7 @@ Parameters
 
 \hfill\break
 \#\#\#\#\#\#\# loop\_starter\\
+
 A numeric vector of the form \texttt{c(start,\ end,\ dvs)}, where
 \texttt{start} and \texttt{end} are the endpoints of the interval on
 which the parameter value that minimizes \texttt{RMSE} is sought.
@@ -2479,7 +2480,7 @@ tune\_dir\_path
 
 To improve performance, the algorithm caches intermediate results in the
 file system. This parameter specifies the path to the directory where
-the cache files are saved.
+the files are cached.
 
 cache\_file\_base\_name
 
@@ -2494,10 +2495,11 @@ fn\_tune.test.param\_value
 \hfill\break
 
 This is a helper function name that is passed to the same-named
-parameter of the {[}tune.model\_param{]} function that is called
-internally during the execution (see the
-\hyperref[func.tune.model_param]{description of the
-\texttt{tune.model\_param} function} above).
+parameter of the
+\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param}
+function that is called internally during the execution (see the
+description of the \texttt{tune.model\_param} function
+\hyperref[func.tune.model_param]{above}).
 
 \hfill\break
 

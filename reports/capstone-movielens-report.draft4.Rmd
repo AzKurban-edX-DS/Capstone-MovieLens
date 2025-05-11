@@ -1345,6 +1345,7 @@ model.tune.param_range <- function(loop_starter,
 \
 ####### loop_starter 
 \
+
 A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval on which the parameter value that minimizes `RMSE` is sought.
 `dvs` is a divisor for splitting the interval to transform it into a sequence of values among which the value that minimizes `RMSE` is sought.
 For this purpose, the sequence step is calculated as follows:
@@ -1361,7 +1362,7 @@ In fact, the `seq` function is called internally to generate the sequence during
 ####### tune_dir_path 
 \
   
-To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the cache files are saved.
+To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the files are cached.
 
 ####### cache_file_base_name 
 \
@@ -1371,7 +1372,7 @@ The algorithm generates unique names for cache files based on this and the `loop
 #######  fn_tune.test.param_value
 \
 
-This is a helper function name that is passed to the same-named parameter of the [tune.model_param] function that is called internally during the execution (see the [description of the `tune.model_param` function](#func.tune.model_param) above).  
+This is a helper function name that is passed to the same-named parameter of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during the execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
 #######  
 \
