@@ -29,6 +29,9 @@ if(!require("pacman"))
 if(!require("recommenderlab")) 
   install.packages("recommenderlab")
 
+if(!require("bookdown")) 
+  install.packages("bookdown")
+
 # Loading the required libraries
 library(dslabs)
 library(tidyverse)
@@ -55,6 +58,7 @@ library(rafalib)
 library(gtools)
 library(pak)
 library(pacman)
+library(bookdown)
 
 p_load(conflicted, latex2exp, kableExtra)
 

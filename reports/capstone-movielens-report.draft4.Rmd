@@ -1,3 +1,36 @@
+```{r setup, include=FALSE, echo = FALSE}
+r.path <- "../r"
+src.folder <- "src"
+support_scripts.folder <- "support-scripts"
+support_functions.folder <- "support-functions"
+
+r.src.path <- file.path(r.path, src.folder)
+support_scripts.path <- file.path(r.src.path, support_scripts.folder)
+support_functions.path <- file.path(r.src.path, support_functions.folder)
+## Setup -----------------------------------------------------------------------
+setup_script.file_path <- file.path(support_scripts.path,
+                                               "setup.R")
+
+# main_script.file_path <- file.path(r.src.path,
+#                                    "capstone-movielens.main.R")
+# stop(main_script.file_path)
+stopifnot(file.exists(setup_script.file_path))
+
+source(setup_script.file_path, 
+       local = knitr::knit_global())
+# or sys.source("your-script.R", envir = knitr::knit_global())
+
+## External Common Helper functions -------------------------------------
+# common_helper_functions.file_path <- file.path(support_functions.path,
+#                                             "common-helper.functions.R")
+# source(common_helper_functions.file_path, 
+#        local = knitr::knit_global())
+
+# knitr::knit_global()
+#knitr::opts_chunk$set(echo = FALSE)
+```
+
+
 ---
 title: "Capstone Movielens Report"
 author: "Azamat Kurbanaev"
@@ -6,8 +39,8 @@ bibliography: references.bib
 #csl: bit-numerical-mathematics.csl 
 envir:
   parent.frame()
-output:
-  pdf_document: 
+output: 
+  bookdown::pdf_document2: 
     df_print: paged
     toc: true
     fig_caption: true
@@ -50,38 +83,6 @@ vignette: >
   \end{blackbox}
   \end{itemize}
   }
-
-```{r setup, include=FALSE, echo = FALSE}
-r.path <- "../r"
-src.folder <- "src"
-support_scripts.folder <- "support-scripts"
-support_functions.folder <- "support-functions"
-
-r.src.path <- file.path(r.path, src.folder)
-support_scripts.path <- file.path(r.src.path, support_scripts.folder)
-support_functions.path <- file.path(r.src.path, support_functions.folder)
-## Setup -----------------------------------------------------------------------
-setup_script.file_path <- file.path(support_scripts.path,
-                                               "setup.R")
-
-# main_script.file_path <- file.path(r.src.path,
-#                                    "capstone-movielens.main.R")
-# stop(main_script.file_path)
-stopifnot(file.exists(setup_script.file_path))
-
-source(setup_script.file_path, 
-       local = knitr::knit_global())
-# or sys.source("your-script.R", envir = knitr::knit_global())
-
-## External Common Helper functions -------------------------------------
-# common_helper_functions.file_path <- file.path(support_functions.path,
-#                                             "common-helper.functions.R")
-# source(common_helper_functions.file_path, 
-#        local = knitr::knit_global())
-
-# knitr::knit_global()
-#knitr::opts_chunk$set(echo = FALSE)
-```
 
 
 ## Introduction / Overview / Executive Summary
@@ -1376,7 +1377,7 @@ If more than one identical minimum `RMSE` value is calculated during execution, 
 
 ####### endpoint.min_diff = 0
 \
-Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the `Details` section below).
+Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the `Details` section [below](#func.model.tune.param_range.details)).
 
 ####### break.if_min = TRUE 
 \
@@ -1386,24 +1387,29 @@ This is a parameter that is required for the [tune.model_param](https://github.c
 \
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
-
-::: Details {#func.model.tune.param_range.details }
+::: { #func.model.tune.param_range.details .sidebar }
+***Details***
 
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
 :::
 
-###### Details
+::: { #func.model.tune.param_range.details2 .sidebar }
+**DETAILS**
+
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
+:::
+
+###### **Details3**
 \
 
-(ref:foo) During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the inner `param_values` sequence.
 
 
-###### Value
+###### **Value**
 \
-See the `Details`section [above](#func.model.tune.param_range.details). 
-See the `Details`section [above](ref:foo). 
+
+
 See the `func.model.tune.param_range` Function description [above](#func.model.tune.param_range). 
-pdf_document2
 
 
 ::: {.noteblock data-latex=""}
@@ -1566,6 +1572,10 @@ The full version of the code of the [model.tune.param_range](https://github.com/
 
 ##### `` Function
 \
+
+See the `Details`section [above](#func.model.tune.param_range.details).
+
+See the `Details`section above \@ref(sec:func.model.tune.param_range.details)
 
 
 ###### Sugnature
