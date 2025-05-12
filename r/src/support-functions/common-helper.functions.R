@@ -199,7 +199,7 @@ model.tune.param_range <- function(loop_starter,
                              tune_dir_path,
                              cache_file_base_name,
                              fn_tune.test.param_value,
-                             # range_divider.multiplier = 4,
+                             # interval_divisor.multiplier = 4,
                              max.identical.min_RMSE.count = 4,
                              endpoint.min_diff = 0, #1e-07,
                              break.if_min = TRUE,
@@ -214,11 +214,11 @@ model.tune.param_range <- function(loop_starter,
   RMSE.leftmost <- NA
   RMSE.rightmost <- NA
   
-  range_divider <- loop_starter[3]
-  if (range_divider < 4) {
-    range_divider <- 4
+  interval_divisor <- loop_starter[3]
+  if (interval_divisor < 4) {
+    interval_divisor <- 4
   }
-  # max_range_divider <- loop_starter[4]
+  # max_interval_divisor <- loop_starter[4]
   
   
   best_RMSE <- NA
@@ -229,7 +229,7 @@ model.tune.param_range <- function(loop_starter,
                                 best_RMSE = best_RMSE)
   # Start repeat loop
   repeat{
-    seq_increment <- (seq_end - seq_start)/range_divider 
+    seq_increment <- (seq_end - seq_start)/interval_divisor 
     
     if (seq_increment < 0.0000000000001) {
       warning("Function `model.tune.param_range`:
@@ -255,7 +255,7 @@ Final best RMSE for `parameter value = %1`: %2",
       str_c("_") |>
       str_c(as.character(loop_starter[3])) |>
       str_c("_") |>
-      str_c(as.character(range_divider)) |>
+      str_c(as.character(interval_divisor)) |>
       str_c(".") |>
       str_c(as.character(seq_start)) |>
       str_c("-") |>
@@ -297,7 +297,7 @@ Tuning data has been loaded from file: %1", file_path_tmp)
            param.best_value,
            # best_RMSE,
            seq_increment,
-           range_divider,
+           interval_divisor,
            file = file_path_tmp)
 
       put_log1("Function `model.tune.param_range`:
@@ -401,14 +401,14 @@ So far reached best RMSE for `parameter value = %1`: %2",
         break
       }
 
-      # if (range_divider < max_range_divider) {
-      #   range_divider <- range_divider*range_divider.multiplier
+      # if (interval_divisor < max_interval_divisor) {
+      #   interval_divisor <- interval_divisor*interval_divisor.multiplier
       #   # browser()
       # } else {
-      #   warning("`range_divider` reached its maximum allowed value: ",
-      #           max_range_divider)
-      #   put_log1("The actual value of the `range_divider` is %1",
-      #            range_divider)
+      #   warning("`interval_divisor` reached its maximum allowed value: ",
+      #           max_interval_divisor)
+      #   put_log1("The actual value of the `interval_divisor` is %1",
+      #            interval_divisor)
       #   # browser()
       #   #break
       # }
