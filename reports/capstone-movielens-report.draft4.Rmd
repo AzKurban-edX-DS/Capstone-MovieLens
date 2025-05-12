@@ -1592,6 +1592,7 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 
 ###### Parameters
 \
+
   - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
@@ -1610,7 +1611,7 @@ Note
 
 ###### Source Code
 \
-The source code of the [get_fine_tune.param.endpoints.idx] (https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) function is shown below:
+The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) function is shown below:
 ```{r eval=FALSE}
 get_fine_tune.param.endpoints.idx <- function(preset.result) {
   best_RMSE <- min(preset.result$RMSE)
@@ -1648,7 +1649,6 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 ##### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
 \
 
-
 ###### Sugnature
 \
 ```{r eval=FALSE}
@@ -1662,6 +1662,7 @@ get_best_param.result <- function(param_values, rmses){
 
 ###### Parameters
 \
+
   - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
@@ -1677,10 +1678,9 @@ Note
 ###### Value
 \
 
-
 ###### Source Code
 \
-Below is the most significant part of the code of the [function]() function:
+The source code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) function is shown below:
 ```{r eval=FALSE}
 get_best_param.result <- function(param_values, rmses){
   best_pvalue_idx <- which.min(rmses)
