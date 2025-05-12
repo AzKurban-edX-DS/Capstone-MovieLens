@@ -1248,9 +1248,11 @@ During execution, the function uses a helper function specified by the `fn_tune.
 Note that the algorithm assumes that the dependence of the `RMSE` on the input parameter is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed that the function has a single minimum on the given interval.
 :::
 
-###### Value  {#func.tune.model_param.value}
+::: { #func.tune.model_param.value  .sidebar }
+###### Value
 \
 The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values.
+:::
 
 ###### Source Code
 \
@@ -1402,10 +1404,9 @@ This is a parameter that is required for the [tune.model_param](https://github.c
 
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
-###### **Details** { #func.model.tune.param_range.details } 
+::: { #func.model.tune.param_range.details .sidebar }
+###### **Details** 
 \
-
-
 First, the function generates a sequence of the `input parameter values` based on the `loop_starter` parameter values, as described above (see the [loop_starter](#func.model.tune.param_range.params.loop_starter) parameter description for the details), which is used as one of the input parameters for the helper function [tune.model_param](#func.tune.model_param), which is repeatedly called during the execution, performing fine-tuning of the model.
 
 The `tune.model_param` function returns a range of input parameter values associated with the set of corresponding _Root Mean Squared Errors_ that is also guaranteed to include their minimum value, as described in the [Value](#func.tune.model_param.value) subsection of the [tune.model_param](#func.tune.model_param) function description.
@@ -1417,6 +1418,7 @@ The found values of the boundary indices are then used as the endpoints of a new
 Thus, with each subsequent iteration, the minimum `RMSE` value is calculated more accurately, over an ever-decreasing interval, with the boundary values tending to the minimum `RMSE` value, and the sequence generated with an ever-decreasing step.
 
 The calculation is completed when subsequent calculated values of the minimum `RMSE` stop improving and reach the most accurate possible value.
+:::
 
 ###### **Value**
 \
@@ -1708,7 +1710,7 @@ get_best_param.result <- function(param_values, rmses){
 
 ```
 
-##### []() Function {#func.}
+##### []() Function {#func.1}
 \
 
 
@@ -1781,7 +1783,7 @@ Below is the most significant part of the code of the [function]() function:
 
 ```
 
-##### []() Function {#func.}
+##### []() Function {#func.2}
 \
 
 
