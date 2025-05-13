@@ -1204,10 +1204,265 @@ We will implement the _Regularization_ method on our  models (starting from the 
   
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
 
+### UME Model Regularization: Support Functions
+\
+
+::: {.noteblock data-latex=""}
+The [regularize.test_lambda.UM_effect.cv]() function described below are defined in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+
+#### [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) Function
+\
+
+This function calculates _RMSE_ of the _UME Model_ using _5-Fold Cross Validation_ method for the given $\lambda$ parameter value:
+```{r eval=FALSE}
+regularize.test_lambda.UM_effect.cv <- function(lambda){
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.UM_effect.cv
+`lambda` is `NA`")
+  }
+  um_effect <- train_user_movie_effect.cv(lambda)
+  calc_user_movie_effect_RMSE.cv(um_effect)
+}
+```
+
+::: {.noteblock data-latex=""}
+Note that we reuse the function [train_user_movie_effect.cv]() calling it from the [regularize.test_lambda.UM_effect.cv](), but now with the $\lambda$ parameter different from the default (zero) value.
+:::
+
+Let's now figure out the $\lambda$ that minimizes the _RMSE_:
+```{r eval=FALSE}
+# Here we will simply compute the RMSE for different values of `lambda` 
+n <- colSums(!is.na(y))
+
+sums <- colSums(y - mu - a, na.rm = TRUE)
+lambdas <- seq(0, 10, 0.1)
+
+rmses <- sapply(lambdas, function(lambda){
+  b <-  sums / (n + lambda)
+  reg_rmse(b)
+})
+
+# Here is a plot of the RMSE versus `lambda`:
+plot(lambdas, rmses, type = "l")
+```
+Now we can determine the minimal _RMSE_:
+```{r}
+# print(min(rmses))
+```
+
+which is achieved for the following $\lambda$:
+```{r eval=FALSE}
+lambda <- lambdas[which.min(rmses)] 
+print(lambda)
+```
+
+Using this $\lambda$ we can compute the regularized estimates:
+```{r eval=FALSE}
+b_reg <- sums / (n + lambda)
+
+str(b_reg)
+```
+Finally, let's verify that the penalized estimates $\hat{b}_i(\lambda)$ we have just computed actually result in the minimal _RMSE_ figured out above: 
+```{r eval=FALSE}
+reg_rmse(b_reg)
+```
+
+
+
+
+
+
+
+
+## Accounting for Date effects
+
+
+#### Yearly rating count[@MRS-R-BEST]
+\
+```{r}
+print(edx |> 
+  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
+  group_by(year) |>
+  summarize(count = n())
+)
+```
+
+#### Average rating per year plot[@MRS-R-BEST]
+\
+```{r}
+edx |> 
+  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
+  group_by(year) |>
+  summarize(rating_avg = mean(rating)) |>
+  ggplot(aes(x = year, y = rating_avg)) +
+  geom_bar(stat = "identity", fill = "#8888ff") + 
+  ggtitle("Average rating per year") +
+  xlab("Year") +
+  ylab("Average rating") +
+  scale_y_continuous(labels = comma) + 
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+We use the following models to account for the `date` effect:
+
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \varepsilon_{i,j}
+$$
+
+## Accounting for Genre effect
+\
+As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_ the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
+
+### Genre Data Analysis
+\
+#### Movie Genres Data 
+\
+The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
+```{r eval=FALSE}
+#library(stringr)
+genres = c("Drama", "Comedy", "Thriller", "Romance")
+sapply(genres, function(g) {
+  sum(str_detect(edx$genres, g))
+})
+```
+
+Further, we can find out the movies that have the greatest number of ratings using the following code:
+```{r eval=FALSE}
+ordered_movie_ratings <- edx |> group_by(movieId, title) |>
+  summarize(number_of_ratings = n()) |>
+  arrange(desc(number_of_ratings))
+print(head(ordered_movie_ratings))
+```
+
+and figure out the most given ratings in order from most to least:
+```{r eval=FALSE}
+ratings <- edx |>  group_by(rating) |>
+     summarise(count = n()) |>
+     arrange(desc(count))
+print(ratings)
+```
+
+The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
+```{r eval=FALSE}
+print(edx |> group_by(rating) |> summarize(count = n()))
+```
+
+We can visually see that from the following plot:
+```{r eval=FALSE}
+edx |>
+  group_by(rating) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_line() 
+
+```
+
+#### Movie Genres Effect 
+\
+
+
+The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 20, 000 ratings).
+
+```{r eval=FALSE}
+# Preparing data for plotting:
+genre_ratins_grp <- train_set |> 
+  mutate(genre_categories = as.factor(genres)) |>
+  group_by(genre_categories) |>
+  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
+  filter(n > 20000) |> 
+  mutate(genres = reorder(genre_categories, rating_avg)) |>
+  select(genres, rating_avg, se, n)
+
+dim(genre_ratins_grp)
+genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
+print(genre_ratins_grp_sorted)
+
+# Creating plot:
+genre_ratins_grp |> 
+  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
+  geom_point() +
+  geom_errorbar() + 
+  ggtitle("Average rating per Genre") +
+  ylab("Average rating") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+Below are worst and best ratings categories:
+```{r eval=FALSE}
+sprintf("The worst ratings are for the genre category: %s",
+        genre_ratins_grp$genres[which.min(genre_ratins_grp$genres)])
+
+sprintf("The best ratings are for the genre category: %s",
+        genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
+```
+
+Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article "Movie Recommendation System using R - BEST" written by [Amir Moterfaker](https://www.kaggle.com/amirmotefaker)[@MRS-R-BEST]:
+```{r eval=FALSE}
+# For better visibility, we reduce the data for plotting 
+# while keeping the worst and best rating rows:
+plot_ind <- odd(1:nrow(genre_ratins_grp))
+plot_dat <- genre_ratins_grp_sorted[plot_ind,] 
+
+plot_dat |>
+  ggplot(aes(x = rating_avg, y = genres)) +
+  ggtitle("Genre Average Rating") +
+  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
+  xlab("Average ratings") +
+  ylab("Genres") +
+  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
+  theme_economist() +
+  theme(plot.title = element_text(vjust = 3.5),
+        axis.title.x = element_text(vjust = -5, face = "bold"),
+        axis.title.y = element_text(vjust = 10, face = "bold"),
+        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
+        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 8),
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
+
+To account for _genre effects_ we will use the model suggested in the [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_[@IDS2_23-7]:
+
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}
+$$
+
+where $g_{i,j}$ is an _aggregation function_ which is explained in detail in _Section 22.3: "Review of Aggregation Functions" of "Recommender Systems Handbook"_ (_Chapter 22: "Aggregation of Preferences in Recommender Systems"_, p. 712) book[@RRSK_RS_HB].
+
+In the formula above $g_{i,j}$ denotes a _genre effect_ for user's $i$ rating of movie $j$, so that:
+
+$$
+g_{i,j} = \sum_{k=1}^K x_{i,j}^k \gamma_k
+$$
+
+with $x^k_{i,j} = 1$ if $g_{i,j}$ includes genre $k$, and $x^k_{i,j} = 0$ otherwise.
+
+
+
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
+$$
+
+
+$$
+ \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+$$
+
+
+# Conclusion
+
+Hello Conclusion!
+
+This is a great conclusion, isn't it?!!
+
+# Appendix
+
 
 ### Regularization: Common Helper Functions
 \
-
 ::: {.noteblock data-latex=""}
 The full source code of the functions described below are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
@@ -1584,7 +1839,7 @@ Currently computed minial value is: ", min_RMSE)
 ```
 
 ::: {.noteblock data-latex=""}
-The full version of the code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script.
+The full version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script.
 :::
 :::
 
@@ -1620,6 +1875,7 @@ A data structure compatible with the `tuned.result` item of the data structure r
     # tuned.result = data.frame(RMSE, parameter.value)
     # ...
     bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
+    # bounnd.idx =  c(start.index, end.index, min_RMSE.index)
 ```
 ::: 
 
@@ -1631,9 +1887,9 @@ The algorithm finds the indices of the nearest neighboring elements of the eleme
 \
 A vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
 ```{r eval=FALSE}
-  c(start = i, 
-    end = j,
-    best = best_RMSE.idx)
+  c(start, # interval start index
+    end,   # interval end index
+    best)  # index of the best `RMSE`
 ```
 
 ##### Source Code
@@ -1688,15 +1944,21 @@ get_best_param.result <- function(param_values, rmses){
 
 ##### Parameters
 \
-
-  - **:** ; 
-  - **:** .
+A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the `RMSE`.
+  
+  - **param_values:** A vector containing the values of the input parameters for tuning;; 
+  - **rmses:** A vector containing values of the corresponding `Root Mean Squared Errors`..
 
 ##### Details
 \
+Extracts the best values from the input data and returns them as a vector containing a pair of the best _input parameter_ value and the corresponding _minimum `RMSE`_.
 
 ##### Value
 \
+A vector containing a pair of the best _input parameter_ value and the corresponding _minimum `RMSE`_:
+```{r eval=FALSE}
+c(param.best_value, best_RMSE)
+```
 
 ##### Source Code
 \
@@ -1708,11 +1970,696 @@ get_best_param.result <- function(param_values, rmses){
     best_RMSE = rmses[best_pvalue_idx])
 ```
 
+### Support Functions
+
+
+#### [func.00]() Function {#func.00}
+\
+
+::: { #func.00.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.00.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.00.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.00.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.00.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L95) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func]() Function {#func.01}
+\
+
+::: { #func.01.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.01.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.01.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.01.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.01.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L95) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func]() Function {#func.02}
+\
+
+::: { #func.02.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.02.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.02.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.02.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.02.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L95) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func.0]() Function {#func.0}
+\
+
+::: { #func.0.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.0.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.0.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.0.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.0.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L95) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+#### [func1]() Function {#func.03}
+\
+
+::: { #func.03.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.03.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.03.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.03.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.03.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+#### [func1]() Function {#func.1}
+\
+
+::: { #func.1.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.1.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.1.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.1.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.1.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func.2]() Function {#func.2}
+\
+
+::: { #func.2.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.2.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.2.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.2.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.2.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+
+#### [func.3]() Function {#func.3}
+\
+
+::: { #func.3.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.3.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.3.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.3.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.3.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func.4]() Function {#func.4}
+\
+
+::: { #func.4.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.4.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.4.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.4.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.4.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func.5]() Function {#func.5}
+\
+
+::: { #func.5.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.5.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.5.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.5.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.5.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func.6]() Function {#func.6}
+\
+
+::: { #func.6.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.6.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.6.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.6.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.6.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func.7]() Function {#func.7}
+\
+
+::: { #func.7.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.7.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.7.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.7.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.7.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+#### [func.8]() Function {#func.8}
+\
+
+::: { #func.8.signature .sidebar }
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.8.params .sidebar }
+##### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.8.details .sidebar }
+##### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.8.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.8.code .sidebar }
+##### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+:::
+
+--------------------------------------------------------------------------------
+
+
+#### []() Function {#func.3-1}
+\
+
+
+
+##### Sugnature
+\
+```{r eval=FALSE}
+
+```
+
+##### Parameters
+\
+  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+
+##### Details
+\
+During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
 
 ::: {.noteblock data-latex=""}
 Note 
 :::
 
+##### Value
+\
+
+
+##### Source Code
+\
+Below is the most significant part of the code of the [function]() function:
+```{r eval=FALSE}
+
+```
+
+
+
+
+
+
+
+
+================================================================================
 
 
 
@@ -1731,10 +2678,6 @@ Note
 ```{r eval=FALSE}
 
 ```
-
-#### []() Function {#func.1}
-\
-
 
 
 See the `func.model.tune.param_range` Function description [above](#func.model.tune.param_range). 
@@ -1750,39 +2693,6 @@ Note
 
 
 
-##### Sugnature
-\
-```{r eval=FALSE}
-
-```
-
-##### Parameters
-\
-  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
-  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
-  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
-
-##### Details
-\
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
-
-::: {.noteblock data-latex=""}
-Note 
-:::
-
-##### Value
-\
-
-
-##### Source Code
-\
-Below is the most significant part of the code of the [function]() function:
-```{r eval=FALSE}
-
-```
-
-
-
 ```{r eval=FALSE}
 
 ```
@@ -1809,43 +2719,6 @@ Below is the most significant part of the code of the [function]() function:
 
 ```
 
-#### []() Function {#func.2}
-\
-
-
-
-##### Sugnature
-\
-```{r eval=FALSE}
-
-```
-
-##### Parameters
-\
-  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
-  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
-  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
-
-##### Details
-\
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
-
-::: {.noteblock data-latex=""}
-Note 
-:::
-
-##### Value
-\
-
-
-##### Source Code
-\
-Below is the most significant part of the code of the [function]() function:
-```{r eval=FALSE}
-
-```
-
-
 
 ```{r eval=FALSE}
 
@@ -1861,256 +2734,3 @@ Below is the most significant part of the code of the [function]() function:
 ```
 
 
-### UME Model Regularization: Support Function
-\
-
-::: {.noteblock data-latex=""}
-The [regularize.test_lambda.UM_effect.cv]() function described below are defined in the [Regularization]() section of the [UM-effect.functions.R]() script.
-:::
-
-#### `regularize.test_lambda.UM_effect.cv` Function
-\
-
-This function calculates _RMSE_ of the _UME Model_ using _5-Fold CV_ method for the given $\lambda$ parameter value:
-```{r eval=FALSE}
-regularize.test_lambda.UM_effect.cv <- function(lambda){
-  if (is.na(lambda)) {
-    stop("Function: regularize.test_lambda.UM_effect.cv
-`lambda` is `NA`")
-  }
-  um_effect <- train_user_movie_effect.cv(lambda)
-  calc_user_movie_effect_RMSE.cv(um_effect)
-}
-```
-
-::: {.noteblock data-latex=""}
-Note that we reuse the function [train_user_movie_effect.cv]() calling it from the [regularize.test_lambda.UM_effect.cv](), but now with the $\lambda$ parameter different from the default (zero) value.
-:::
-
-Let's now figure out the $\lambda$ that minimizes the _RMSE_:
-```{r eval=FALSE}
-# Here we will simply compute the RMSE for different values of `lambda` 
-n <- colSums(!is.na(y))
-
-sums <- colSums(y - mu - a, na.rm = TRUE)
-lambdas <- seq(0, 10, 0.1)
-
-rmses <- sapply(lambdas, function(lambda){
-  b <-  sums / (n + lambda)
-  reg_rmse(b)
-})
-
-# Here is a plot of the RMSE versus `lambda`:
-plot(lambdas, rmses, type = "l")
-```
-Now we can determine the minimal _RMSE_:
-```{r}
-# print(min(rmses))
-```
-
-which is achieved for the following $\lambda$:
-```{r eval=FALSE}
-lambda <- lambdas[which.min(rmses)] 
-print(lambda)
-```
-
-Using this $\lambda$ we can compute the regularized estimates:
-```{r eval=FALSE}
-b_reg <- sums / (n + lambda)
-
-str(b_reg)
-```
-Finally, let's verify that the penalized estimates $\hat{b}_i(\lambda)$ we have just computed actually result in the minimal _RMSE_ figured out above: 
-```{r eval=FALSE}
-reg_rmse(b_reg)
-```
-
-
-
-
-
-
-
-
-## Accounting for Date effects
-
-
-#### Yearly rating count[@MRS-R-BEST]
-\
-```{r}
-print(edx |> 
-  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
-  group_by(year) |>
-  summarize(count = n())
-)
-```
-
-#### Average rating per year plot[@MRS-R-BEST]
-\
-```{r}
-edx |> 
-  mutate(year = year(as_datetime(timestamp, origin = "1970-01-01"))) |>
-  group_by(year) |>
-  summarize(rating_avg = mean(rating)) |>
-  ggplot(aes(x = year, y = rating_avg)) +
-  geom_bar(stat = "identity", fill = "#8888ff") + 
-  ggtitle("Average rating per year") +
-  xlab("Year") +
-  ylab("Average rating") +
-  scale_y_continuous(labels = comma) + 
-  theme_economist() +
-  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
-        axis.title.y = element_text(vjust = 10, face = "bold"), 
-        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
-```
-
-We use the following models to account for the `date` effect:
-
-$$
-Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \varepsilon_{i,j}
-$$
-
-## Accounting for Genre effect
-\
-As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_ the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
-
-### Genre Data Analysis
-\
-#### Movie Genres Data 
-\
-The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
-```{r eval=FALSE}
-#library(stringr)
-genres = c("Drama", "Comedy", "Thriller", "Romance")
-sapply(genres, function(g) {
-  sum(str_detect(edx$genres, g))
-})
-```
-
-Further, we can find out the movies that have the greatest number of ratings using the following code:
-```{r eval=FALSE}
-ordered_movie_ratings <- edx |> group_by(movieId, title) |>
-  summarize(number_of_ratings = n()) |>
-  arrange(desc(number_of_ratings))
-print(head(ordered_movie_ratings))
-```
-
-and figure out the most given ratings in order from most to least:
-```{r eval=FALSE}
-ratings <- edx |>  group_by(rating) |>
-     summarise(count = n()) |>
-     arrange(desc(count))
-print(ratings)
-```
-
-The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
-```{r eval=FALSE}
-print(edx |> group_by(rating) |> summarize(count = n()))
-```
-
-We can visually see that from the following plot:
-```{r eval=FALSE}
-edx |>
-  group_by(rating) |>
-  summarize(count = n()) |>
-  ggplot(aes(x = rating, y = count)) +
-  geom_line() 
-
-```
-
-#### Movie Genres Effect 
-\
-
-
-The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 20, 000 ratings).
-
-```{r eval=FALSE}
-# Preparing data for plotting:
-genre_ratins_grp <- train_set |> 
-  mutate(genre_categories = as.factor(genres)) |>
-  group_by(genre_categories) |>
-  summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
-  filter(n > 20000) |> 
-  mutate(genres = reorder(genre_categories, rating_avg)) |>
-  select(genres, rating_avg, se, n)
-
-dim(genre_ratins_grp)
-genre_ratins_grp_sorted <- genre_ratins_grp |> sort_by.data.frame(~ rating_avg)
-print(genre_ratins_grp_sorted)
-
-# Creating plot:
-genre_ratins_grp |> 
-  ggplot(aes(x = genres, y = rating_avg, ymin = rating_avg - 2*se, ymax = rating_avg + 2*se)) + 
-  geom_point() +
-  geom_errorbar() + 
-  ggtitle("Average rating per Genre") +
-  ylab("Average rating") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-```
-Below are worst and best ratings categories:
-```{r eval=FALSE}
-sprintf("The worst ratings are for the genre category: %s",
-        genre_ratins_grp$genres[which.min(genre_ratins_grp$genres)])
-
-sprintf("The best ratings are for the genre category: %s",
-        genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
-```
-
-Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article "Movie Recommendation System using R - BEST" written by [Amir Moterfaker](https://www.kaggle.com/amirmotefaker)[@MRS-R-BEST]:
-```{r eval=FALSE}
-# For better visibility, we reduce the data for plotting 
-# while keeping the worst and best rating rows:
-plot_ind <- odd(1:nrow(genre_ratins_grp))
-plot_dat <- genre_ratins_grp_sorted[plot_ind,] 
-
-plot_dat |>
-  ggplot(aes(x = rating_avg, y = genres)) +
-  ggtitle("Genre Average Rating") +
-  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
-  xlab("Average ratings") +
-  ylab("Genres") +
-  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
-  theme_economist() +
-  theme(plot.title = element_text(vjust = 3.5),
-        axis.title.x = element_text(vjust = -5, face = "bold"),
-        axis.title.y = element_text(vjust = 10, face = "bold"),
-        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
-        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 8),
-        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
-```
-
-If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
-
-To account for _genre effects_ we will use the model suggested in the [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_[@IDS2_23-7]:
-
-$$
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}
-$$
-
-where $g_{i,j}$ is an _aggregation function_ which is explained in detail in _Section 22.3: "Review of Aggregation Functions" of "Recommender Systems Handbook"_ (_Chapter 22: "Aggregation of Preferences in Recommender Systems"_, p. 712) book[@RRSK_RS_HB].
-
-In the formula above $g_{i,j}$ denotes a _genre effect_ for user's $i$ rating of movie $j$, so that:
-
-$$
-g_{i,j} = \sum_{k=1}^K x_{i,j}^k \gamma_k
-$$
-
-with $x^k_{i,j} = 1$ if $g_{i,j}$ includes genre $k$, and $x^k_{i,j} = 0$ otherwise.
-
-
-
-$$
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
-$$
-
-
-$$
- \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
-$$
-
-
-# Conclusion
-
-Hello Conclusion!
-
-This is a great conclusion, isn't it?!!
