@@ -7,7 +7,7 @@ support_functions.folder <- "support-functions"
 r.src.path <- file.path(r.path, src.folder)
 support_scripts.path <- file.path(r.src.path, support_scripts.folder)
 support_functions.path <- file.path(r.src.path, support_functions.folder)
-## Setup -----------------------------------------------------------------------
+# Setup -----------------------------------------------------------------------
 setup_script.file_path <- file.path(support_scripts.path,
                                                "setup.R")
 
@@ -20,7 +20,7 @@ source(setup_script.file_path,
        local = knitr::knit_global())
 # or sys.source("your-script.R", envir = knitr::knit_global())
 
-## External Common Helper functions -------------------------------------
+# External Common Helper functions -------------------------------------
 # common_helper_functions.file_path <- file.path(support_functions.path,
 #                                             "common-helper.functions.R")
 # source(common_helper_functions.file_path, 
@@ -85,7 +85,7 @@ vignette: >
   }
 
 
-## Introduction / Overview / Executive Summary
+# Introduction / Overview / Executive Summary
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
 Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the _Root Mean Square Error_ (_RMSE_) score, which, as shown in [Section 23.2 Loss function](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook_, is defined as:
@@ -98,7 +98,7 @@ with $N$ being the number of user/movie combinations for which we make predictio
 Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563[@BigChaosSln]). 
 
 
-### Datasets Overview
+## Datasets Overview
 
 To start with we have to generate two datasets derived from the _MovieLens_ one mentioned above:
 
@@ -125,7 +125,7 @@ summary(edx)
 summary(final_holdout_test)
 ```
 
-#### `edx` Dataset
+### `edx` Dataset
 \
 Let's look into the details of the `edx` dataset:
 ``` {r echo = TRUE}
@@ -220,7 +220,7 @@ print(s)
 
 Further analysis of the `edx` dataset have been also inspired by the article mentioned above[@MRS-R-BEST], from which the code and explanatory notes below were cited.
 
-##### Rating distribution plot[@MRS-R-BEST]
+#### Rating distribution plot[@MRS-R-BEST]
 \
 The code below demonstrates another way of visualizing the rating distribution:
 ```{r}
@@ -244,10 +244,10 @@ edx |>
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold[@MRS-R-BEST].
 
 
-##### Ratings per movie
+#### Ratings per movie
 \
 
-###### Movie popularity count[@MRS-R-BEST]
+##### Movie popularity count[@MRS-R-BEST]
 \
 ```{r}
 print(edx |> 
@@ -262,7 +262,7 @@ summary(edx |> group_by(movieId) |> summarize(count = n()) |> select(count))
 ```
 
 
-###### Ratings per movie plot[@MRS-R-BEST]
+##### Ratings per movie plot[@MRS-R-BEST]
 \
 ```{r}
 edx |>
@@ -283,7 +283,7 @@ edx |>
 ```
 
 
-###### Movies' rating histogram[@MRS-R-BEST]
+##### Movies' rating histogram[@MRS-R-BEST]
 \
 ```{r}
 edx |>
@@ -303,10 +303,10 @@ edx |>
 ```
 
 
-##### Ratings per user[@MRS-R-BEST]
+#### Ratings per user[@MRS-R-BEST]
 \
 
-###### User rating count (activity measure)
+##### User rating count (activity measure)
 \
 ```{r}
 print(edx |> 
@@ -317,13 +317,13 @@ print(edx |>
 ```
 
 
-###### User rating summary
+##### User rating summary
 \
 ```{r}
 summary(edx |> group_by(userId) |> summarize(count = n()) |> select(count))
 ```
 
-###### Ratings per user plot
+##### Ratings per user plot
 \
 ```{r}
 edx |>
@@ -343,7 +343,7 @@ edx |>
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
 
-###### Users' rating histogram
+##### Users' rating histogram
 \
 ```{r}
 edx |>
@@ -362,18 +362,18 @@ edx |>
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
 
-## Methods / Analysis
+# Methods / Analysis
 ::: {.noteblock data-latex=""}
 All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src)[@edx_capstone_movielens]. 
 :::
 
-### Defining Logging and Time Measuring Helper Functions
+## Defining Logging and Time Measuring Helper Functions
 \
 
 First, let's define some helper functions for logging and time-measuring features that we will use in our R scripts. Some of them are listed below:
 
 ```{r eval=FALSE }
-## Logging Helper functions -----------------------------------------------------
+# Logging Helper functions -----------------------------------------------------
 open_logfile <- function(file_name){
   log_file_name <- as.character(Sys.time()) |> 
     str_replace_all(':', '_') |> 
@@ -446,7 +446,7 @@ put_log2 <- function(msg_template, arg1, arg2){
 The full source code of these functions is available in the [Logging Helper functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
 :::
 
-### Preparing train and set datasets
+## Preparing train and set datasets
 \
 
 We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1].We will also use the _5-Fold Cross Validation_ method as described in [Section 29.6 Cross validation](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook_. 
@@ -460,7 +460,7 @@ init_source_datasets()
 The full source code of the function listed above is available in the [Initialize input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L86) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
 :::
 
-#### The `make_source_datasets` function
+### The `make_source_datasets` function
 \
 
 Let's take a closer look at the objects we will receive as a result of executing this function.
@@ -478,7 +478,7 @@ make_source_datasets <- function(){
 }
 ```
 
-##### `edx.mx` Matrix Object
+#### `edx.mx` Matrix Object
 \
 
 We will use the array representation described in [Section 17.5 of the Textbook](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), for the training data: we denote ranking for movie $j$ by user $i$ as $y_{i,j}$. To create this matrix, we use `tidyr::pivot_wider` function:
@@ -503,7 +503,7 @@ Matrix created: `edx.mx` of the following dimentions:")
   str(edx.mx)
 ```
 
-##### `edx.sgr` Object
+#### `edx.sgr` Object
 \
 
 To account for the Movie Genre Effect more accurately, we need a dataset with split rows for movies belonging to multiple genres:
@@ -535,7 +535,7 @@ splitGenreRows <- function(data){
 The source code of the function mentioned above is also available in the [Initialize input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L86) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
 :::
 
-##### `movie_map` Object
+#### `movie_map` Object
 \
 
 To be able to map movie IDs to titles we create the following lookup table:
@@ -554,7 +554,7 @@ summary(movie_map)
 Note that titles cannot be considered unique, so we can't use them as IDs[@IDS2_23-1-1].
 
 
-##### `date_days_map` Object
+#### `date_days_map` Object
 \
 
 We have a `timestamp` field in the `edx` dataset.
@@ -576,7 +576,7 @@ To be able to map the date, year, and number of days since the earliest record i
   summary(date_days_map)
 ```
 
-##### `edx_CV` Object
+#### `edx_CV` Object
 \
 
 Here we have a list of sample objects we need to perform the _5-Fold Cross Validation_ 
@@ -711,12 +711,12 @@ Below are the data consistency verification results")
 The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L15) function is defined in the same script as the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87)` one, from where it is called.
 :::
 
-#### Common Helper Functions
+### Common Helper Functions
 \
 
 For our further analysis, we are going to use the following _common helper functions_:
 
-##### `clamp` function
+#### `clamp` function
 \
 
 As explained in [Section  24.4 User effects](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings can’t be below 0.5 or above 5. For this reason, we will use the `clamp` function described in that section:
@@ -724,7 +724,7 @@ As explained in [Section  24.4 User effects](https://rafalab.dfci.harvard.edu/ds
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 ```
 
-##### Functions to calculate _(Root) Mean Squared Error_
+#### Functions to calculate _(Root) Mean Squared Error_
 \
 
 We will need the following functions to calculate _(R)MSEs_:
@@ -748,7 +748,7 @@ rmse2 <- function(true_ratings, predicted_ratings) {
 All the _common helper functions_, including those described above, are defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_. 
 :::
 
-### Overall Mean Rating (Naive) Model
+## Overall Mean Rating (Naive) Model
 \
 
 Let's begin our analysis by evaluating the simplest model described in [Section _23.3 The First Model_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model), and then gradually refine it through further research.
@@ -834,7 +834,7 @@ naive_model_RMSE <- function(val){
 }
 ```
 
-#### Ensure that `mu.RMSE` value is the best for the current model
+### Ensure that `mu.RMSE` value is the best for the current model
 \
 
 If we plug in any other number, we will get a higher RMSE. Let's prove that by the following small investigation:
@@ -875,7 +875,7 @@ RMSE_kable(RMSEs.ResultTibble.OMR)
 
 To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]
 
-### User Effect Model
+## User Effect Model
 \
 To improve our model let's now take into consideration user effects as explained in [Section _23.4 User effects_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the *Course Textbook*. 
 If we visualize the average rating for each user the way the [the author](https://x.com/rafalab) shows, we can see that there is substantial variability in the average ratings across users: 
@@ -966,7 +966,7 @@ RMSE_kable(RMSEs.ResultTibble.UE)
 The full source code of the _User Effect Model RMSE_ computation is available in the [Compute RMSE for User Effect Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L655) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
 :::
 
-### User+Movie Effect (UME) Model
+## User+Movie Effect (UME) Model
 \
 
 In [23.5 Movie effects](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) section of the *Course Textbook* the author draws our attention to the fact that some movies are generally rated higher than others. He also explains that a linear model with a _treatment effect_ $\beta_j$ for each movie can be used in this case, which can be interpreted as movie effect or the difference between the average ranking for movie $j$ and the overall average $\mu$: 
@@ -982,14 +982,14 @@ b <- colMeans(y - mu - a, na.rm = TRUE)
 
 Inspired by this idea, a few support functions were developed by the author of this report, which we will use for our further analysis.
 
-#### UME Model: Support Functions
+### UME Model: Support Functions
 \
 
 ::: {.noteblock data-latex=""}
 The full source code of the functions described in this section is available in the [User+Movie Effect Model Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L1) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script on _GitHub_.
 :::
  
-##### `train_user_movie_effect` Function
+#### `train_user_movie_effect` Function
 \
 
 We use this function to build and train our model using the `train_set` dataset:
@@ -1018,7 +1018,7 @@ For now, we omit the `lambda` parameter, accepting its default value `lambda = 0
 :::
 
 ```{r eval=FALSE}
-## Regularization --------------------------------------------------------------
+# Regularization --------------------------------------------------------------
 mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   if (is.na(lambda)) {
     stop("Function: mean_reg
@@ -1032,7 +1032,7 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
 }
 ```
 
-##### `train_user_movie_effect.cv` Function
+#### `train_user_movie_effect.cv` Function
 \
 
 We use the [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L17) function to build and train our model using the `5-Fold Cross Validation` method. Below, we provide the most important part of the code of that function:
@@ -1074,7 +1074,7 @@ union_cv_results <- function(data_list) {
 }
 ```
 
-##### `calc_user_movie_effect_MSE` Function
+#### `calc_user_movie_effect_MSE` Function
 \
 
 The code of the function [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L55) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `Mean Squared Error (MSE)` of the `UME Model` for the given `Test Set` is provided below:
@@ -1091,7 +1091,7 @@ calc_user_movie_effect_MSE <- function(test_set, um_effect){
 }
 ```
 
-##### `calc_user_movie_effect_MSE.cv` Function
+#### `calc_user_movie_effect_MSE.cv` Function
 \
 
 The code of the function [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L72) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `5-Fold Cross Validation` MSE result of the `UME Model` is provided below:
@@ -1115,7 +1115,7 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
 ```
 
 
-##### `calc_user_movie_effect_RMSE` Function
+#### `calc_user_movie_effect_RMSE` Function
 \
 
 
@@ -1128,7 +1128,7 @@ calc_user_movie_effect_RMSE <- function(test_set, um_effect){
 }
 ```
 
-##### `calc_user_movie_effect_RMSE.cv` Function
+#### `calc_user_movie_effect_RMSE.cv` Function
 \
 
 The code of the function [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L65) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `5-Fold Cross Validation` RMSE result of the `UME Model` is provided below:
@@ -1146,7 +1146,7 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
 
 
 
-#### Model Building
+### Model Building
 \
 
 ::: {.noteblock data-latex=""}
@@ -1178,10 +1178,10 @@ RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |>
 RMSE_kable(RMSEs.ResultTibble.UME)
 ```
 
-### Regularizing User+Movie Effect Model
+## Regularizing User+Movie Effect Model
 
 
-#### Utilizing Penalized least squares
+### Utilizing Penalized least squares
 \
 [Section _23.6 Penalized least squares_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects: $\sum_{j=1}^n \beta_j^2$. Specifically, instead of minimizing the least squares equation, we minimize an equation that adds a penalty:
 
@@ -1205,19 +1205,19 @@ We will implement the _Regularization_ method on our  models (starting from the 
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
 
 
-#### Regularization: Common Helper Functions
+### Regularization: Common Helper Functions
 \
 
 ::: {.noteblock data-latex=""}
 The full source code of the functions described below are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
 
-##### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
+#### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
 \
 
 The function searches for the parameter value corresponding to the minimum value of the `RMSE` from the list of values specified by the `param_values` parameter.
 
-###### Sugnature
+##### Sugnature
 \
 ```{r eval=FALSE}
 tune.model_param <- function(param_values, 
@@ -1232,7 +1232,7 @@ tune.model_param <- function(param_values,
 }  
 ```
 
-###### Parameters
+##### Parameters
 \
 
   - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
@@ -1240,7 +1240,7 @@ tune.model_param <- function(param_values,
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
-###### Details
+##### Details
 \
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
 
@@ -1249,7 +1249,7 @@ Note that the algorithm assumes that the dependence of the `RMSE` on the input p
 :::
 
 ::: { #func.tune.model_param.value .sidebar }
-###### Value
+##### Value
 \
 The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values:
 ```{r eval=FALSE}
@@ -1259,7 +1259,7 @@ The function returns a data structure containing the found value of the input pa
 ```
 :::
 
-###### Source Code
+##### Source Code
 \
 Below is the most significant part of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function:
 ```{r eval=FALSE}
@@ -1323,12 +1323,12 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
 ```
 
 
-##### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
+#### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
 \
 
 The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding `RMSE` value is minimal.
 
-###### Sugnature
+##### Sugnature
 \
 ```{r eval=FALSE}
 model.tune.param_range <- function(loop_starter,
@@ -1347,12 +1347,12 @@ model.tune.param_range <- function(loop_starter,
 }
 ```
 
-###### **Parameters**
+##### **Parameters**
 \
 
 ::: { #func.model.tune.param_range.params.loop_starter .sidebar }
-***loop_starter***
-
+###### ***loop_starter***
+\
 A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval on which the parameter value that minimizes `RMSE` is sought.
 `dvs` is a divisor for splitting the interval to transform it into a sequence of values among which the value that minimizes `RMSE` is sought.
 For this purpose, the sequence step is calculated as follows:
@@ -1368,48 +1368,48 @@ In fact, the `seq` function is called internally to generate the sequence during
 :::
 
 ::: { #func.model.tune.param_range.params.tune_dir_path .sidebar }
-***tune_dir_path***
-
+###### ***tune_dir_path***
+\
 To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the files are cached.
 :::
 
 ::: { #func.model.tune.param_range.params.cache_file_base_name .sidebar }
-***cache_file_base_name***
-
+###### ***cache_file_base_name***
+\
 The algorithm generates unique names for cache files based on this and the `loop_starter` parameter, as well as some other intermediate values calculated during the execution.
 :::
 
 ::: { #func.model.tune.param_range.params.fn_tune.test.param_value .sidebar }
-***fn_tune.test.param_value***
-
+###### ***fn_tune.test.param_value***
+\
 This is a helper function name that is passed to the same-named parameter of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during the execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 :::
 
 ::: { #func.model.tune.param_range.params.max.identical.min_RMSE.count .sidebar }
-***max.identical.min_RMSE.count = 4***
-
+###### ***max.identical.min_RMSE.count = 4***
+\
 If more than one identical minimum `RMSE` value is calculated during execution, the number of identical minimums is limited by the value of this parameter. When it is reached, the algorithm considers the task execution to be complete.
 :::
 
 ::: { #func.model.tune.param_range.params.endpoint.min_diff .sidebar }
-***endpoint.min_diff = 0***
-
+###### ***endpoint.min_diff = 0***
+\
 Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the `Details` section [below](#func.model.tune.param_range.details)).
 :::
 
 ::: { #func.model.tune.param_range.params.break.if_min .sidebar }
-***break.if_min = TRUE***
-
+###### ***break.if_min = TRUE***
+\
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 :::
 
 ::: { #func.model.tune.param_range.params.steps.beyond_min .sidebar }
-***steps.beyond_min = 2***
-
+###### ***steps.beyond_min = 2***
+\
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
 ::: { #func.model.tune.param_range.details .sidebar }
-###### **Details** 
+##### **Details** 
 \
 First, the function generates a sequence of the `input parameter values` based on the `loop_starter` parameter values, as described above (see the [loop_starter](#func.model.tune.param_range.params.loop_starter) parameter description for the details), which is used as one of the input parameters for the helper function [tune.model_param](#func.tune.model_param), which is repeatedly called during the execution, performing fine-tuning of the model.
 
@@ -1424,7 +1424,7 @@ Thus, with each subsequent iteration, the minimum `RMSE` value is calculated mor
 The calculation is completed when subsequent calculated values of the minimum `RMSE` stop improving and reach the most accurate possible value.
 :::
 
-###### **Value**
+##### **Value**
 \
 
 A data structure containing the minimum `RMSE` value reached during the fine-tuning process, the corresponding input parameter value, and information about the final sequence, on which the best output values were found:
@@ -1436,7 +1436,7 @@ A data structure containing the minimum `RMSE` value reached during the fine-tun
 ```
 
 ::: {#func.model.tune.param_range.code .sidebar }
-###### Source Code
+##### Source Code
 \
 Below is the simplified version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) function:
 ```{r eval=FALSE}
@@ -1588,10 +1588,10 @@ The full version of the code of the [model.tune.param_range](https://github.com/
 :::
 :::
 
-##### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
+#### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
 \
 
-###### Sugnature
+##### Sugnature
 \
 ```{r eval=FALSE}
 get_fine_tune.param.endpoints.idx <- function(preset.result) {
@@ -1603,12 +1603,12 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 }
 ```
 
-###### Parameters
+##### Parameters
 \
 
 ::: {#func.get_fine_tune.param.endpoints.idx.params.preset.result .sidebar }
-***preset.result***
-
+###### ***preset.result***
+\
 A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
 ```{r eval=FALSE}
     tuned_result <- tune.model_param(test_param_vals, 
@@ -1623,13 +1623,12 @@ A data structure compatible with the `tuned.result` item of the data structure r
 ```
 ::: 
 
-###### Details
+##### Details
 \
 The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
-###### Value
+##### Value
 \
-
 A vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
 ```{r eval=FALSE}
   c(start = i, 
@@ -1637,7 +1636,7 @@ A vector containing the index of the element corresponding to the minimum `RMSE`
     best = best_RMSE.idx)
 ```
 
-###### Source Code
+##### Source Code
 \
 The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) function is shown below:
 ```{r eval=FALSE}
@@ -1673,10 +1672,10 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 
 ```
 
-##### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
+#### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
 \
 
-###### Sugnature
+##### Sugnature
 \
 ```{r eval=FALSE}
 get_best_param.result <- function(param_values, rmses){
@@ -1687,25 +1686,19 @@ get_best_param.result <- function(param_values, rmses){
 
 ```
 
-###### Parameters
+##### Parameters
 \
 
-  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
-  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
-  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+  - **:** ; 
+  - **:** .
 
-###### Details
-\
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
-
-::: {.noteblock data-latex=""}
-Note 
-:::
-
-###### Value
+##### Details
 \
 
-###### Source Code
+##### Value
+\
+
+##### Source Code
 \
 The source code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) function is shown below:
 ```{r eval=FALSE}
@@ -1715,6 +1708,10 @@ get_best_param.result <- function(param_values, rmses){
     best_RMSE = rmses[best_pvalue_idx])
 ```
 
+
+::: {.noteblock data-latex=""}
+Note 
+:::
 
 
 
@@ -1735,7 +1732,7 @@ get_best_param.result <- function(param_values, rmses){
 
 ```
 
-##### []() Function {#func.1}
+#### []() Function {#func.1}
 \
 
 
@@ -1753,19 +1750,19 @@ Note
 
 
 
-###### Sugnature
+##### Sugnature
 \
 ```{r eval=FALSE}
 
 ```
 
-###### Parameters
+##### Parameters
 \
   - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
-###### Details
+##### Details
 \
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
 
@@ -1773,11 +1770,11 @@ During execution, the function uses a helper function specified by the `fn_tune.
 Note 
 :::
 
-###### Value
+##### Value
 \
 
 
-###### Source Code
+##### Source Code
 \
 Below is the most significant part of the code of the [function]() function:
 ```{r eval=FALSE}
@@ -1812,24 +1809,24 @@ Below is the most significant part of the code of the [function]() function:
 
 ```
 
-##### []() Function {#func.2}
+#### []() Function {#func.2}
 \
 
 
 
-###### Sugnature
+##### Sugnature
 \
 ```{r eval=FALSE}
 
 ```
 
-###### Parameters
+##### Parameters
 \
   - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
-###### Details
+##### Details
 \
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
 
@@ -1837,11 +1834,11 @@ During execution, the function uses a helper function specified by the `fn_tune.
 Note 
 :::
 
-###### Value
+##### Value
 \
 
 
-###### Source Code
+##### Source Code
 \
 Below is the most significant part of the code of the [function]() function:
 ```{r eval=FALSE}
@@ -1864,14 +1861,14 @@ Below is the most significant part of the code of the [function]() function:
 ```
 
 
-#### UME Model Regularization: Support Function
+### UME Model Regularization: Support Function
 \
 
 ::: {.noteblock data-latex=""}
 The [regularize.test_lambda.UM_effect.cv]() function described below are defined in the [Regularization]() section of the [UM-effect.functions.R]() script.
 :::
 
-##### `regularize.test_lambda.UM_effect.cv` Function
+#### `regularize.test_lambda.UM_effect.cv` Function
 \
 
 This function calculates _RMSE_ of the _UME Model_ using _5-Fold CV_ method for the given $\lambda$ parameter value:
@@ -1935,10 +1932,10 @@ reg_rmse(b_reg)
 
 
 
-### Accounting for Date effects
+## Accounting for Date effects
 
 
-##### Yearly rating count[@MRS-R-BEST]
+#### Yearly rating count[@MRS-R-BEST]
 \
 ```{r}
 print(edx |> 
@@ -1948,7 +1945,7 @@ print(edx |>
 )
 ```
 
-##### Average rating per year plot[@MRS-R-BEST]
+#### Average rating per year plot[@MRS-R-BEST]
 \
 ```{r}
 edx |> 
@@ -1973,13 +1970,13 @@ $$
 Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \varepsilon_{i,j}
 $$
 
-### Accounting for Genre effect
+## Accounting for Genre effect
 \
 As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_ the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
 
-#### Genre Data Analysis
+### Genre Data Analysis
 \
-##### Movie Genres Data 
+#### Movie Genres Data 
 \
 The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
 ```{r eval=FALSE}
@@ -2021,7 +2018,7 @@ edx |>
 
 ```
 
-##### Movie Genres Effect 
+#### Movie Genres Effect 
 \
 
 
@@ -2112,7 +2109,7 @@ $$
 $$
 
 
-## Conclusion
+# Conclusion
 
 Hello Conclusion!
 
