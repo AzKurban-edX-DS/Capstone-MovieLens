@@ -1248,10 +1248,15 @@ During execution, the function uses a helper function specified by the `fn_tune.
 Note that the algorithm assumes that the dependence of the `RMSE` on the input parameter is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed that the function has a single minimum on the given interval.
 :::
 
-::: { #func.tune.model_param.value  .sidebar }
+::: { #func.tune.model_param.value .sidebar }
 ###### Value
 \
-The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values.
+The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values:
+```{r eval=FALSE}
+  list(tuned.result = data.frame(RMSE = RMSEs_tmp,
+                                parameter.value = param_vals_tmp),
+       best_result = param_values.best_result)
+```
 :::
 
 ###### Source Code
@@ -1315,7 +1320,6 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
                                 parameter.value = param_vals_tmp),
        best_result = param_values.best_result)
 }
-
 ```
 
 
@@ -1423,8 +1427,15 @@ The calculation is completed when subsequent calculated values of the minimum `R
 ###### **Value**
 \
 
-A data structure containing the minimum `RMSE` value reached during the fine-tuning process, the corresponding input parameter value, and information about the final sequence, on which the best output values were found.   
+A data structure containing the minimum `RMSE` value reached during the fine-tuning process, the corresponding input parameter value, and information about the final sequence, on which the best output values were found:
+```{r eval=FALSE}
+  list(best_result = param_values.best_result,
+       param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
+       tuned.result = data.frame(parameter.value = parameter.value,
+                                 RMSE = result.RMSE))
+```
 
+::: {#func.model.tune.param_range.code .sidebar }
 ###### Source Code
 \
 Below is the simplified version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) function:
@@ -1575,7 +1586,7 @@ Currently computed minial value is: ", min_RMSE)
 ::: {.noteblock data-latex=""}
 The full version of the code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script.
 :::
-
+:::
 
 ##### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
 \
@@ -1595,21 +1606,36 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 ###### Parameters
 \
 
-  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
-  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
-  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+::: {#func.get_fine_tune.param.endpoints.idx.params.preset.result .sidebar }
+***preset.result***
+
+A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
+```{r eval=FALSE}
+    tuned_result <- tune.model_param(test_param_vals, 
+                                  fn_tune.test.param_value,
+                                  break.if_min,
+                                  steps.beyond_min)
+    
+    tuned.result <- tuned_result$tuned.result
+    # tuned.result = data.frame(RMSE, parameter.value)
+    # ...
+    bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
+```
+::: 
 
 ###### Details
 \
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
-
-::: {.noteblock data-latex=""}
-Note 
-:::
+The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
 ###### Value
 \
 
+A vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
+```{r eval=FALSE}
+  c(start = i, 
+    end = j,
+    best = best_RMSE.idx)
+```
 
 ###### Source Code
 \
@@ -1646,7 +1672,6 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 }
 
 ```
-
 
 ##### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
 \
@@ -1717,6 +1742,10 @@ get_best_param.result <- function(param_values, rmses){
 
 See the `func.model.tune.param_range` Function description [above](#func.model.tune.param_range). 
 
+
+::: {.noteblock data-latex=""}
+Note 
+:::
 
 ::: {.noteblock data-latex=""}
 Note 
