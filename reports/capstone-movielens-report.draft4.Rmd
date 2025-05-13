@@ -1460,20 +1460,19 @@ This is a great conclusion, isn't it?!!
 
 # Appendix
 
-
-### Regularization: Common Helper Functions
+## Regularization: Common Helper Functions
 \
 
 ::: {.noteblock data-latex=""}
 The full source code of the functions described below are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
 
-#### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
+### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
 \
 
 The function searches for the parameter value corresponding to the minimum value of the `RMSE` from the list of values specified by the `param_values` parameter.
 
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 tune.model_param <- function(param_values, 
@@ -1488,7 +1487,7 @@ tune.model_param <- function(param_values,
 }  
 ```
 
-##### Parameters
+#### Parameters
 \
 
   - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
@@ -1496,7 +1495,7 @@ tune.model_param <- function(param_values,
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
-##### Details
+#### Details
 \
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
 
@@ -1505,7 +1504,7 @@ Note that the algorithm assumes that the dependence of the `RMSE` on the input p
 :::
 
 ::: { #func.tune.model_param.value .sidebar }
-##### Value
+#### Value
 \
 The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values:
 ```{r eval=FALSE}
@@ -1515,7 +1514,7 @@ The function returns a data structure containing the found value of the input pa
 ```
 :::
 
-##### Source Code
+#### Source Code
 \
 Below is the most significant part of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function:
 ```{r eval=FALSE}
@@ -1579,12 +1578,12 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
 ```
 
 
-#### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
+### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
 \
 
 The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding `RMSE` value is minimal.
 
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 model.tune.param_range <- function(loop_starter,
@@ -1603,11 +1602,11 @@ model.tune.param_range <- function(loop_starter,
 }
 ```
 
-##### **Parameters**
+#### **Parameters**
 \
 
 ::: { #func.model.tune.param_range.params.loop_starter .sidebar }
-###### ***loop_starter***
+##### ***loop_starter***
 \
 A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval on which the parameter value that minimizes `RMSE` is sought.
 `dvs` is a divisor for splitting the interval to transform it into a sequence of values among which the value that minimizes `RMSE` is sought.
@@ -1624,48 +1623,48 @@ In fact, the `seq` function is called internally to generate the sequence during
 :::
 
 ::: { #func.model.tune.param_range.params.tune_dir_path .sidebar }
-###### ***tune_dir_path***
+##### ***tune_dir_path***
 \
 To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the files are cached.
 :::
 
 ::: { #func.model.tune.param_range.params.cache_file_base_name .sidebar }
-###### ***cache_file_base_name***
+##### ***cache_file_base_name***
 \
 The algorithm generates unique names for cache files based on this and the `loop_starter` parameter, as well as some other intermediate values calculated during the execution.
 :::
 
 ::: { #func.model.tune.param_range.params.fn_tune.test.param_value .sidebar }
-###### ***fn_tune.test.param_value***
+##### ***fn_tune.test.param_value***
 \
 This is a helper function name that is passed to the same-named parameter of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during the execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 :::
 
 ::: { #func.model.tune.param_range.params.max.identical.min_RMSE.count .sidebar }
-###### ***max.identical.min_RMSE.count = 4***
+##### ***max.identical.min_RMSE.count = 4***
 \
 If more than one identical minimum `RMSE` value is calculated during execution, the number of identical minimums is limited by the value of this parameter. When it is reached, the algorithm considers the task execution to be complete.
 :::
 
 ::: { #func.model.tune.param_range.params.endpoint.min_diff .sidebar }
-###### ***endpoint.min_diff = 0***
+##### ***endpoint.min_diff = 0***
 \
 Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the `Details` section [below](#func.model.tune.param_range.details)).
 :::
 
 ::: { #func.model.tune.param_range.params.break.if_min .sidebar }
-###### ***break.if_min = TRUE***
+##### ***break.if_min = TRUE***
 \
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 :::
 
 ::: { #func.model.tune.param_range.params.steps.beyond_min .sidebar }
-###### ***steps.beyond_min = 2***
+##### ***steps.beyond_min = 2***
 \
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
 ::: { #func.model.tune.param_range.details .sidebar }
-##### **Details** 
+#### **Details** 
 \
 First, the function generates a sequence of the `input parameter values` based on the `loop_starter` parameter values, as described above (see the [loop_starter](#func.model.tune.param_range.params.loop_starter) parameter description for the details), which is used as one of the input parameters for the helper function [tune.model_param](#func.tune.model_param), which is repeatedly called during the execution, performing fine-tuning of the model.
 
@@ -1680,7 +1679,7 @@ Thus, with each subsequent iteration, the minimum `RMSE` value is calculated mor
 The calculation is completed when subsequent calculated values of the minimum `RMSE` stop improving and reach the most accurate possible value.
 :::
 
-##### **Value**
+#### **Value**
 \
 
 A data structure containing the minimum `RMSE` value reached during the fine-tuning process, the corresponding input parameter value, and information about the final sequence, on which the best output values were found:
@@ -1692,7 +1691,7 @@ A data structure containing the minimum `RMSE` value reached during the fine-tun
 ```
 
 ::: {#func.model.tune.param_range.code .sidebar }
-##### Source Code
+#### Source Code
 \
 Below is the simplified version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) function:
 ```{r eval=FALSE}
@@ -1844,10 +1843,10 @@ The full version of the source code of the [model.tune.param_range](https://gith
 :::
 :::
 
-#### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
+### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
 \
 
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 get_fine_tune.param.endpoints.idx <- function(preset.result) {
@@ -1859,11 +1858,11 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 }
 ```
 
-##### Parameters
+#### Parameters
 \
 
 ::: {#func.get_fine_tune.param.endpoints.idx.params.preset.result .sidebar }
-###### ***preset.result***
+##### ***preset.result***
 \
 A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
 ```{r eval=FALSE}
@@ -1880,11 +1879,11 @@ A data structure compatible with the `tuned.result` item of the data structure r
 ```
 ::: 
 
-##### Details
+#### Details
 \
 The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
-##### Value
+#### Value
 \
 A vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
 ```{r eval=FALSE}
@@ -1893,7 +1892,7 @@ A vector containing the index of the element corresponding to the minimum `RMSE`
     best)  # index of the best `RMSE`
 ```
 
-##### Source Code
+#### Source Code
 \
 The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) function is shown below:
 ```{r eval=FALSE}
@@ -1929,10 +1928,10 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 
 ```
 
-#### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
+### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
 \
 
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 get_best_param.result <- function(param_values, rmses){
@@ -1943,25 +1942,25 @@ get_best_param.result <- function(param_values, rmses){
 
 ```
 
-##### Parameters
+#### Parameters
 \
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the `RMSE`.
   
   - **param_values:** A vector containing the values of the input parameters for tuning;; 
   - **rmses:** A vector containing values of the corresponding `Root Mean Squared Errors`..
 
-##### Details
+#### Details
 \
 Extracts the best values from the input data and returns them as a vector containing a pair of the best _input parameter_ value and the corresponding _minimum `RMSE`_.
 
-##### Value
+#### Value
 \
 A vector containing a pair of the best _input parameter_ value and the corresponding _minimum `RMSE`_:
 ```{r eval=FALSE}
 c(param.best_value, best_RMSE)
 ```
 
-##### Source Code
+#### Source Code
 \
 The source code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) function is shown below:
 ```{r eval=FALSE}
@@ -1971,14 +1970,14 @@ get_best_param.result <- function(param_values, rmses){
     best_RMSE = rmses[best_pvalue_idx])
 ```
 
-### Support Functions
+## Support Functions
 
 
-#### [func.00]() Function {#func.00}
+### [func.00]() Function {#func.00}
 \
 
 ::: { #func.00.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -1986,7 +1985,7 @@ get_best_param.result <- function(param_values, rmses){
 :::
 
 ::: { #func.00.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -1994,7 +1993,7 @@ get_best_param.result <- function(param_values, rmses){
 :::
 
 ::: { #func.00.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2003,13 +2002,13 @@ Note
 :::
 
 ::: { #func.00.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.00.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2023,11 +2022,11 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 
 --------------------------------------------------------------------------------
 
-#### [func]() Function {#func.01}
+### [func]() Function {#func.01}
 \
 
 ::: { #func.01.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2035,7 +2034,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 
 ::: { #func.01.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2043,7 +2042,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 
 ::: { #func.01.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2052,13 +2051,13 @@ Note
 :::
 
 ::: { #func.01.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.01.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2072,11 +2071,11 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 
 --------------------------------------------------------------------------------
 
-#### [func]() Function {#func.02}
+### [func]() Function {#func.02}
 \
 
 ::: { #func.02.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2084,7 +2083,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 
 ::: { #func.02.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2092,7 +2091,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 
 ::: { #func.02.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2101,13 +2100,13 @@ Note
 :::
 
 ::: { #func.02.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.02.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2121,11 +2120,11 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 
 --------------------------------------------------------------------------------
 
-#### [func.0]() Function {#func.0}
+### [func.0]() Function {#func.0}
 \
 
 ::: { #func.0.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2133,7 +2132,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 
 ::: { #func.0.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2141,7 +2140,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 
 ::: { #func.0.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2150,13 +2149,13 @@ Note
 :::
 
 ::: { #func.0.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.0.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2175,11 +2174,11 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 
 
 
-#### [func1]() Function {#func.03}
+### [func1]() Function {#func.03}
 \
 
 ::: { #func.03.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2187,7 +2186,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 
 ::: { #func.03.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2195,7 +2194,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 
 ::: { #func.03.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2204,13 +2203,13 @@ Note
 :::
 
 ::: { #func.03.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.03.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2222,11 +2221,11 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
-#### [func1]() Function {#func.1}
+### [func1]() Function {#func.1}
 \
 
 ::: { #func.1.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2234,7 +2233,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.1.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2242,7 +2241,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.1.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2251,13 +2250,13 @@ Note
 :::
 
 ::: { #func.1.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.1.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2271,11 +2270,11 @@ The source code of the []() is also available in the [Regularization]() section 
 
 --------------------------------------------------------------------------------
 
-#### [func.2]() Function {#func.2}
+### [func.2]() Function {#func.2}
 \
 
 ::: { #func.2.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2283,7 +2282,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.2.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2291,7 +2290,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.2.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2300,13 +2299,13 @@ Note
 :::
 
 ::: { #func.2.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.2.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2322,11 +2321,11 @@ The source code of the []() is also available in the [Regularization]() section 
 
 --------------------------------------------------------------------------------
 
-#### [func.3]() Function {#func.3}
+### [func.3]() Function {#func.3}
 \
 
 ::: { #func.3.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2334,7 +2333,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.3.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2342,7 +2341,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.3.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2351,13 +2350,13 @@ Note
 :::
 
 ::: { #func.3.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.3.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2371,11 +2370,11 @@ The source code of the []() is also available in the [Regularization]() section 
 
 --------------------------------------------------------------------------------
 
-#### [func.4]() Function {#func.4}
+### [func.4]() Function {#func.4}
 \
 
 ::: { #func.4.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2383,7 +2382,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.4.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2391,7 +2390,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.4.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2400,13 +2399,13 @@ Note
 :::
 
 ::: { #func.4.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.4.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2420,11 +2419,11 @@ The source code of the []() is also available in the [Regularization]() section 
 
 --------------------------------------------------------------------------------
 
-#### [func.5]() Function {#func.5}
+### [func.5]() Function {#func.5}
 \
 
 ::: { #func.5.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2432,7 +2431,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.5.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2440,7 +2439,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.5.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2449,13 +2448,13 @@ Note
 :::
 
 ::: { #func.5.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.5.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2469,11 +2468,11 @@ The source code of the []() is also available in the [Regularization]() section 
 
 --------------------------------------------------------------------------------
 
-#### [func.6]() Function {#func.6}
+### [func.6]() Function {#func.6}
 \
 
 ::: { #func.6.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2481,7 +2480,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.6.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2489,7 +2488,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.6.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2498,13 +2497,13 @@ Note
 :::
 
 ::: { #func.6.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.6.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2518,11 +2517,11 @@ The source code of the []() is also available in the [Regularization]() section 
 
 --------------------------------------------------------------------------------
 
-#### [func.7]() Function {#func.7}
+### [func.7]() Function {#func.7}
 \
 
 ::: { #func.7.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2530,7 +2529,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.7.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2538,7 +2537,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.7.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2547,13 +2546,13 @@ Note
 :::
 
 ::: { #func.7.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.7.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2567,11 +2566,11 @@ The source code of the []() is also available in the [Regularization]() section 
 
 --------------------------------------------------------------------------------
 
-#### [func.8]() Function {#func.8}
+### [func.8]() Function {#func.8}
 \
 
 ::: { #func.8.signature .sidebar }
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
@@ -2579,7 +2578,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.8.params .sidebar }
-##### Parameters
+#### Parameters
 \
   - **param1:** description; 
   - **param2:** description. 
@@ -2587,7 +2586,7 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 
 ::: { #func.8.details .sidebar }
-##### Details
+#### Details
 \
 
 ::: {.noteblock data-latex=""}
@@ -2596,13 +2595,13 @@ Note
 :::
 
 ::: { #func.8.value .sidebar }
-##### Value
+#### Value
 \
 
 :::
 
 ::: { #func.8.code .sidebar }
-##### Source Code
+#### Source Code
 \
 The soure code of the [function]() function is shown below:
 ```{r eval=FALSE}
@@ -2617,24 +2616,24 @@ The source code of the []() is also available in the [Regularization]() section 
 --------------------------------------------------------------------------------
 
 
-#### []() Function {#func.3-1}
+### []() Function {#func.3-1}
 \
 
 
 
-##### Sugnature
+#### Sugnature
 \
 ```{r eval=FALSE}
 
 ```
 
-##### Parameters
+#### Parameters
 \
   - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
-##### Details
+#### Details
 \
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
 
@@ -2642,11 +2641,11 @@ During execution, the function uses a helper function specified by the `fn_tune.
 Note 
 :::
 
-##### Value
+#### Value
 \
 
 
-##### Source Code
+#### Source Code
 \
 Below is the most significant part of the code of the [function]() function:
 ```{r eval=FALSE}
