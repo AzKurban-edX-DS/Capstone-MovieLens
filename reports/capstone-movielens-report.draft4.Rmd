@@ -1463,6 +1463,7 @@ This is a great conclusion, isn't it?!!
 
 ### Regularization: Common Helper Functions
 \
+
 ::: {.noteblock data-latex=""}
 The full source code of the functions described below are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
