@@ -30,7 +30,6 @@ source(setup_script.file_path,
 #knitr::opts_chunk$set(echo = FALSE)
 ```
 
-
 ---
 title: "Capstone Movielens Report"
 author: "Azamat Kurbanaev"
@@ -96,7 +95,7 @@ $$
 with $N$ being the number of user/movie combinations for which we make predictions and the sum occurring over all these combinations[@IDS2_23-2].
 
 Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563[@BigChaosSln]). 
-
+\newpage
 
 ## Datasets Overview
 
@@ -124,6 +123,7 @@ summary(edx)
 ```{r }
 summary(final_holdout_test)
 ```
+\newpage
 
 ### `edx` Dataset
 \
@@ -219,6 +219,7 @@ print(s)
 ```
 
 Further analysis of the `edx` dataset have been also inspired by the article mentioned above[@MRS-R-BEST], from which the code and explanatory notes below were cited.
+\newpage
 
 #### Rating distribution plot[@MRS-R-BEST]
 \
@@ -242,11 +243,10 @@ edx |>
 ```
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold[@MRS-R-BEST].
-
+\newpage
 
 #### Ratings per movie
 \
-
 ##### Movie popularity count[@MRS-R-BEST]
 \
 ```{r}
@@ -260,7 +260,7 @@ print(edx |>
 ```{r}
 summary(edx |> group_by(movieId) |> summarize(count = n()) |> select(count))
 ```
-
+\newpage
 
 ##### Ratings per movie plot[@MRS-R-BEST]
 \
@@ -301,11 +301,10 @@ edx |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
-
+\newpage
 
 #### Ratings per user[@MRS-R-BEST]
 \
-
 ##### User rating count (activity measure)
 \
 ```{r}
@@ -342,6 +341,7 @@ edx |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
+\newpage
 
 ##### Users' rating histogram
 \
@@ -361,6 +361,7 @@ edx |>
         axis.title.y = element_text(vjust = 10, face = "bold"), 
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
+\newpage
 
 # Methods / Analysis
 ::: {.noteblock data-latex=""}
@@ -445,6 +446,7 @@ put_log2 <- function(msg_template, arg1, arg2){
 ::: {.noteblock data-latex=""}
 The full source code of these functions is available in the [Logging Helper functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
 :::
+\newpage
 
 ## Preparing train and set datasets
 \
@@ -711,6 +713,8 @@ Below are the data consistency verification results")
 The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L15) function is defined in the same script as the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87)` one, from where it is called.
 :::
 
+\newpage
+
 ### Common Helper Functions
 \
 
@@ -747,6 +751,8 @@ rmse2 <- function(true_ratings, predicted_ratings) {
 ::: {.noteblock data-latex=""}
 All the _common helper functions_, including those described above, are defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_. 
 :::
+
+\newpage
 
 ## Overall Mean Rating (Naive) Model
 \
@@ -833,6 +839,7 @@ naive_model_RMSE <- function(val){
   sqrt(mean(naive_model_MSEs(val)))
 }
 ```
+\newpage
 
 ### Ensure that `mu.RMSE` value is the best for the current model
 \
@@ -874,9 +881,11 @@ RMSE_kable(RMSEs.ResultTibble.OMR)
 ```
 
 To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]
+\newpage
 
 ## User Effect Model
 \
+
 To improve our model let's now take into consideration user effects as explained in [Section _23.4 User effects_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the *Course Textbook*. 
 If we visualize the average rating for each user the way the [the author](https://x.com/rafalab) shows, we can see that there is substantial variability in the average ratings across users: 
 ```{r}
@@ -959,8 +968,6 @@ data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
 
 RMSE_kable(RMSEs.ResultTibble.UE)
 ```
-
-
 
 ::: {.noteblock data-latex=""}
 The full source code of the _User Effect Model RMSE_ computation is available in the [Compute RMSE for User Effect Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L655) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
@@ -1215,7 +1222,7 @@ The [regularize.test_lambda.UM_effect.cv]() function described below are defined
 \
 
 This function calculates _RMSE_ of the _UME Model_ using _5-Fold Cross Validation_ method for the given $\lambda$ parameter value:
-```{r eval=FALSE}
+```{r, eval=FALSE}
 regularize.test_lambda.UM_effect.cv <- function(lambda){
   if (is.na(lambda)) {
     stop("Function: regularize.test_lambda.UM_effect.cv
@@ -1269,6 +1276,17 @@ reg_rmse(b_reg)
 ```
 
 
+### User+Movie Effect Model Tuning: Preconfiguratioin
+
+We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Appendix](#appendix.a) of this report.
+
+Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
+
+
+
+::: {.noteblock data-latex=""}
+The complete version of the code provided in this section can be found in the [Process Preliminary setting-up of lambda range for UM Effect regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L814) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script.
+:::
 
 
 
@@ -1458,7 +1476,7 @@ Hello Conclusion!
 
 This is a great conclusion, isn't it?!!
 
-# Appendix
+# Appendix {#appendix.a}
 
 ## Regularization: Common Helper Functions
 \

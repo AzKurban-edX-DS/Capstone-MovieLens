@@ -1,0 +1,117 @@
+```{r setup, include=FALSE, echo = FALSE}
+r.path <- "../../r"
+src.folder <- "src"
+support_scripts.folder <- "support-scripts"
+support_functions.folder <- "support-functions"
+
+r.src.path <- file.path(r.path, src.folder)
+support_scripts.path <- file.path(r.src.path, support_scripts.folder)
+support_functions.path <- file.path(r.src.path, support_functions.folder)
+# Setup -----------------------------------------------------------------------
+setup_script.file_path <- file.path(support_scripts.path,
+                                               "setup.R")
+
+# main_script.file_path <- file.path(r.src.path,
+#                                    "capstone-movielens.main.R")
+# stop(main_script.file_path)
+stopifnot(file.exists(setup_script.file_path))
+
+source(setup_script.file_path, 
+       local = knitr::knit_global())
+# or sys.source("your-script.R", envir = knitr::knit_global())
+
+# External Common Helper functions -------------------------------------
+# common_helper_functions.file_path <- file.path(support_functions.path,
+#                                             "common-helper.functions.R")
+# source(common_helper_functions.file_path, 
+#        local = knitr::knit_global())
+
+# knitr::knit_global()
+#knitr::opts_chunk$set(echo = FALSE)
+```
+
+---
+title: "Capstone Movielens Report"
+site: bookdown::bookdown_site
+author: "Azamat Kurbanaev"
+date: "`r Sys.Date()`"
+bibliography: references.bib
+#csl: bit-numerical-mathematics.csl 
+envir:
+  parent.frame()
+output: 
+  bookdown::pdf_document2: 
+    df_print: paged
+    toc: true
+    fig_caption: true
+    keep_tex: true
+    citation_package: biblatex
+colorlinks: true
+linkcolor: red
+citecolor: blue
+header-includes:
+    - \usepackage{awesomebox}
+    - \usepackage{hyperref}
+    - \usepackage[natbib=true, 
+                  style=numeric, 
+                  backref=true, 
+                  sorting=none]{biblatex}
+    - \hypersetup{backref,
+          pdfpagemode=Normal,
+          colorlinks=true,
+          implicit=false}
+vignette: >
+  %\VignetteIndexEntry{RMarkdown Citations - Numeric Style}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::knitr}
+---
+
+\newenvironment{infobox}[1]
+  {
+  \begin{itemize}
+  \renewcommand{\labelitemi}{
+    \raisebox{-.7\height}[0pt][0pt]{
+      {\setkeys{Gin}{width=3em,keepaspectratio}
+        \includegraphics{images/#1}}
+    }
+  }
+  \setlength{\fboxsep}{1em}
+  \begin{blackbox}
+  \item
+  }
+  {
+  \end{blackbox}
+  \end{itemize}
+  }
+
+```{r child = '01.intro.Rmd'}
+```
+
+```{r child = '02-0.methods.Rmd'}
+```
+
+```{r child = '02-3.OMR-model.Rmd'}
+```
+
+```{r child = '02.4.UE-model.Rmd'}
+```
+
+```{r child = '02.5.UME-model.Rmd'}
+```
+
+```{r child = '02.6.UMGE-model.Rmd'}
+```
+
+```{r child = '02.7.UMGYE-model.Rmd'}
+```
+
+```{r child = '02.8.UMGYDE-model.Rmd'}
+```
+
+```{r child = '03.conclusion.Rmd'}
+```
+
+```{r child = '04.appendix.Rmd'}
+```
+
+
