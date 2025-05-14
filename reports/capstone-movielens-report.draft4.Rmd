@@ -30,7 +30,6 @@ source(setup_script.file_path,
 #knitr::opts_chunk$set(echo = FALSE)
 ```
 
-
 ---
 title: "Capstone Movielens Report"
 author: "Azamat Kurbanaev"

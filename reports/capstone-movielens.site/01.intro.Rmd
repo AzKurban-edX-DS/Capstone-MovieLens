@@ -1,0 +1,282 @@
+# Introduction / Overview / Executive Summary
+
+The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
+Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the _Root Mean Square Error_ (_RMSE_) score, which, as shown in [Section 23.2 Loss function](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook_, is defined as:
+$$
+\mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
+$$
+
+with $N$ being the number of user/movie combinations for which we make predictions and the sum occurring over all these combinations[@IDS2_23-2].
+
+Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563[@BigChaosSln]). 
+\newpage
+
+## Datasets Overview
+
+To start with we have to generate two datasets derived from the _MovieLens_ one mentioned above:
+
+* **edx:** we use it to develop and train our algorithms;
+* **final_holdout_test:**  according to the course requirements, we use it exclusively to evaluate the _**RMSE**_ of our final algorithm.
+
+For this purpose the following package has been developed by the author of this report: `edx.capstone.movielens.data`. The source code of the package is available [on GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data)[@edx_capstone_movielens_data].
+
+Let's install the development version of this package from the GitHub repository and attach the correspondent library to the global environment:
+```{r eval=FALSE }
+if(!require(edx.capstone.movielens.data)) pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
+
+library(edx.capstone.movielens.data)
+edx <- edx.capstone.movielens.data::edx
+final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
+```
+
+Now, we have the datasets listed above:
+```{r }
+summary(edx)
+```
+
+```{r }
+summary(final_holdout_test)
+```
+\newpage
+
+### `edx` Dataset
+\
+Let's look into the details of the `edx` dataset:
+``` {r echo = TRUE}
+str(edx)
+```
+Note that we have 9000055 rows and six columns in there:  
+```{r }
+dim_edx <- dim(edx)
+print(dim_edx)
+```
+
+First, let's note that we have 10677 different movies: 
+```{r}
+n_movies <- n_distinct(edx$movieId)
+print(n_movies)
+```
+and 69878 different users in the dataset:
+```{r}
+n_users <- n_distinct(edx$userId)
+print(n_users)
+```
+
+Now, note the expressions below which confirm the fact explained in [Section _23.1.1 Movielens data_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_[@IDS2] that not every user rated every movie:
+```{r}
+max_possible_ratings <- n_movies*n_users
+sprintf("Maximum possible ratings: %s", max_possible_ratings)
+sprintf("Rows in `edx` dataset: %s", dim_edx[1])
+sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1])
+
+```
+
+As also explained in that section, we can think of these data as a very large matrix, with users on the rows and movies on the columns, with many empty cells. Therefore, we can think of a recommendation system as filling in the `NA`s in the dataset for the movies that some or all the users do not rate. A sample from the `edx` data below illustrates this idea[@IDS2_23-1-1]: 
+```{r}
+keep <- edx |> 
+  dplyr::count(movieId) |> 
+  top_n(4, n) |> 
+  pull(movieId)
+
+tab <- edx |> 
+  filter(movieId %in% keep) |> 
+  filter(userId %in% c(13:20)) |> 
+  select(userId, title, rating) |> 
+  mutate(title = str_remove(title, ", The"),
+         title = str_remove(title, ":.*")) |>
+  pivot_wider(names_from = "title", values_from = "rating")
+
+print(tab)
+```
+
+The following plot of the matrix for a random sample of 100 movies and 100 users with yellow indicating a user/movie combination for which we have a rating shows how _sparse_ the matrix is:
+```{r sparsity-of-movie-recs, echo=TRUE, fig.width=3, fig.height=3, out.width="40%"}
+users <- sample(unique(edx$userId), 100)
+
+rafalib::mypar()
+edx|> 
+  filter(userId %in% users) |> 
+  select(userId, movieId, rating) |>
+  mutate(rating = 1) |>
+  pivot_wider(names_from = movieId, values_from = rating) |> 
+  (\(mat) mat[, sample(ncol(mat), 100)])() |>
+  as.matrix() |> 
+  t() |>
+  image(1:100, 1:100, z = _ , xlab = "Movies", ylab = "Users")
+```
+
+Further observations highlighted there that, as we can see from the distributions the author presented, some movies get rated more than others, and some users are more active than others in rating movies:
+```{r movie-id-and-user-hists, echo=TRUE, fig.width=6, fig.height=3}
+p1 <- edx |> 
+  count(movieId) |> 
+  ggplot(aes(n)) + 
+  geom_histogram(bins = 30, color = "black") + 
+  scale_x_log10() + 
+  ggtitle("Movies")
+
+p2 <- edx |> 
+  count(userId) |> 
+  ggplot(aes(n)) + 
+  geom_histogram(bins = 30, color = "black") + 
+  scale_x_log10() + 
+  ggtitle("Users")
+
+gridExtra::grid.arrange(p2, p1, ncol = 2)
+```
+
+Finally, we can see that no movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments:
+```{r }
+#library(dplyr)
+s <- edx |> group_by(rating) |>
+  summarise(n = n())
+print(s)
+```
+
+Further analysis of the `edx` dataset have been also inspired by the article mentioned above[@MRS-R-BEST], from which the code and explanatory notes below were cited.
+\newpage
+
+#### Rating distribution plot[@MRS-R-BEST]
+\
+The code below demonstrates another way of visualizing the rating distribution:
+```{r}
+edx |>
+  group_by(rating) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_bar(stat = "identity", fill = "#8888ff") +
+  ggtitle("Rating Distribution") +
+  xlab("Rating") +
+  ylab("Occurrences Count") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+
+```
+
+This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold[@MRS-R-BEST].
+\newpage
+
+#### Ratings per movie
+\
+##### Movie popularity count[@MRS-R-BEST]
+\
+```{r}
+print(edx |> 
+  group_by(movieId) |> 
+  summarize(count = n()) |>
+  slice_head(n = 10)
+)
+```
+
+```{r}
+summary(edx |> group_by(movieId) |> summarize(count = n()) |> select(count))
+```
+\newpage
+
+##### Ratings per movie plot[@MRS-R-BEST]
+\
+```{r}
+edx |>
+  group_by(movieId) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = movieId, y = count)) +
+  geom_point(alpha = 0.2, color = "#4020dd") +
+  geom_smooth(color = "red") +
+  ggtitle("Ratings per movie") +
+  xlab("Movies") +
+  ylab("Number of ratings") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+\newpage
+
+##### Movies' rating histogram[@MRS-R-BEST]
+\
+```{r}
+edx |>
+  group_by(movieId) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = count)) +
+  geom_histogram(fill = "#8888ff", color = "#4020dd") +
+  ggtitle("Movies' rating histogram") +
+  xlab("Rating count") +
+  ylab("Number of movies") +
+  scale_y_continuous(labels = comma) +
+  scale_x_log10(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+\newpage
+
+#### Ratings per user[@MRS-R-BEST]
+\
+
+##### User rating count (activity measure)
+\
+```{r}
+print(edx |> 
+  group_by(userId) |> 
+  summarize(count = n()) |>
+  slice_head(n = 10)
+)
+```
+
+
+##### User rating summary
+\
+```{r}
+summary(edx |> group_by(userId) |> summarize(count = n()) |> select(count))
+```
+\newpage
+
+##### Ratings per user plot
+\
+```{r}
+edx |>
+  group_by(userId) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = userId, y = count)) +
+  geom_point(alpha = 0.2, color = "#4020dd") +
+  geom_smooth(color = "red") +
+  ggtitle("Ratings per user") +
+  xlab("Users") +
+  ylab("Number of ratings") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+\newpage
+
+##### Users' rating histogram
+\
+```{r}
+edx |>
+  group_by(userId) |>
+  summarize(count = n()) |>
+  ggplot(aes(x = count)) +
+  geom_histogram(fill = "#8888ff", color = "#4020dd") +
+  ggtitle("Users' rating histogram") +
+  xlab("Rating count") +
+  ylab("Number of users") +
+  scale_y_continuous(labels = comma) +
+  scale_x_log10(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+\newpage
+
+
