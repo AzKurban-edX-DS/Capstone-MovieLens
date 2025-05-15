@@ -23,11 +23,6 @@ sum(is.na(final_holdout_test$rating))
 put(summary(final_holdout_test))
 
 # Render RMD Report
-rmarkdown::render("reports/capstone-movielens.site/index.Rmd",
-                  #output_format = "pdf_document2",
-                  output_file = "capstone-movielens.report.pdf",
-                  run_pandoc = TRUE)
-
 # rmarkdown::render("reports/capstone-movielens.site/index.Rmd",
 #                   output_file = "capstone-movielens.report.pdf",
 #                   # output_format = "pdf_document2",
@@ -35,5 +30,14 @@ rmarkdown::render("reports/capstone-movielens.site/index.Rmd",
 #                     pandoc_args = c("--metadata-file", "main.yaml")
 #                   ),
 #                   envir = .GlobalEnv)
+
+# rmarkdown::render("reports/capstone-movielens.site/index.Rmd",
+#                   #output_format = "pdf_document2",
+#                   output_file = "capstone-movielens.report.pdf",
+#                   run_pandoc = TRUE)
+
+rmarkdown::render("reports/capstone-movielens.site/index.Rmd",
+                  output_file = "capstone-movielens.report.pdf",
+                  run_pandoc = TRUE)
 
 

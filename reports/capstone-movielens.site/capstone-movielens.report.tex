@@ -128,7 +128,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-15}
+\date{2025-05-16}
 
 \begin{document}
 \maketitle
@@ -2382,6 +2382,77 @@ This is a great conclusion, isn't it?!!
 
 \section{Appendix}\label{appendix.a}
 
+\subsection{Data Helper Functions}\label{data-helper-functions}
+
+\hfill\break
+
+\subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} Function}{union\_cv\_results Function}}\label{func.union_cv_results}
+
+\hfill\break
+
+Aggregates the input data frames into a single data frame.
+
+\phantomsection\label{func.union_cv_results.Usage}
+\paragraph{Usage}\label{usage}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{union\_cv\_results}\NormalTok{(}\AttributeTok{data\_list =}\NormalTok{ data)}
+\end{Highlighting}
+\end{Shaded}
+
+\phantomsection\label{func.union_cv_results.params}
+\paragraph{Parameters}\label{parameters}
+
+\hfill\break
+::: \{ \#func.mean\_reg.params.data\_list .sidebar \}
+- \textbf{data\_list:} List of data frames representing the results of the \emph{N-Fold Cross Validation} method execution.;
+
+:::
+
+\phantomsection\label{func.union_cv_results.details}
+\paragraph{Details}\label{details}
+
+\hfill\break
+
+The function is used to aggregate the \emph{N-Fold Cross Validation} method result data into a single data frame for further processing.
+
+\phantomsection\label{func.union_cv_results.value}
+\paragraph{Value}\label{value}
+
+\hfill\break
+
+A data frame that is a union of the input data frames.
+
+\phantomsection\label{func.union_cv_results.code}
+\paragraph{Source Code}\label{source-code}
+
+\hfill\break
+
+The soure code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} function is shown below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{union\_cv\_results }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data\_list) \{}
+\NormalTok{  out\_dat }\OtherTok{\textless{}{-}}\NormalTok{ data\_list[[}\DecValTok{1}\NormalTok{]]}
+  
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{CVFolds\_N)\{}
+\NormalTok{    out\_dat }\OtherTok{\textless{}{-}} \FunctionTok{union}\NormalTok{(out\_dat, }
+\NormalTok{                     data\_list[[i]])}
+\NormalTok{  \}}
+  
+\NormalTok{  out\_dat}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L431}{Model training} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{data.helper.functions.R} script.
+
+\end{noteblock}
+
 \subsection{Regularization: Common Helper Functions}\label{regularization-common-helper-functions}
 
 \hfill\break
@@ -2398,7 +2469,7 @@ The full source code of the functions described below are available in the \href
 A general function for computing the arithmetic mean given a \emph{regularization parameter} \(\lambda\). We will call it the \emph{penaized mean}.
 
 \phantomsection\label{func.mean_reg.usage}
-\paragraph{Usage}\label{usage}
+\paragraph{Usage}\label{usage-1}
 
 \hfill\break
 
@@ -2409,7 +2480,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{Shaded}
 
 \phantomsection\label{func.mean_reg.params}
-\paragraph{Parameters}\label{parameters}
+\paragraph{Parameters}\label{parameters-1}
 
 \hfill\break
 
@@ -2434,7 +2505,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{itemize}
 
 \phantomsection\label{func.mean_reg.details}
-\paragraph{Details}\label{details}
+\paragraph{Details}\label{details-1}
 
 \hfill\break
 We call this function internally from the functions that compute the \emph{penalized estimates} as described in section \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#penalized-least-squares}{23.6 Penalized Least Squares} of the \emph{Course Textbook}\autocite{IDS2_23-6}.
@@ -2445,7 +2516,7 @@ If the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} (t
 \end{noteblock}
 
 \phantomsection\label{func.mean_reg.value}
-\paragraph{Value}\label{value}
+\paragraph{Value}\label{value-1}
 
 \hfill\break
 
@@ -2460,7 +2531,7 @@ When the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} 
 \]
 
 \phantomsection\label{func.mean_reg.code}
-\paragraph{Source Code}\label{source-code}
+\paragraph{Source Code}\label{source-code-1}
 
 \hfill\break
 
@@ -2493,7 +2564,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 The function searches for the parameter value corresponding to the minimum value of the \texttt{RMSE} from the list of values specified by the \texttt{param\_values} parameter.
 
-\paragraph{Sugnature}\label{sugnature}
+\paragraph{Signature}\label{signature}
 
 \hfill\break
 
@@ -2512,7 +2583,7 @@ The function searches for the parameter value corresponding to the minimum value
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-1}
+\paragraph{Parameters}\label{parameters-2}
 
 \hfill\break
 
@@ -2528,7 +2599,7 @@ The function searches for the parameter value corresponding to the minimum value
   \textbf{steps.beyond\_min = 2:} (takes effect only if \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number of steps after finding the minimum value of the \texttt{RMSE}, upon completion of which the function should terminate.
 \end{itemize}
 
-\paragraph{Details}\label{details-1}
+\paragraph{Details}\label{details-2}
 
 \hfill\break
 During execution, the function uses a helper function specified by the \texttt{fn\_tune.test.param\_value} parameter, which calculates the \texttt{RMSE} value for the given parameter from the list determined by the \texttt{param\_values} parameter.
@@ -2539,7 +2610,7 @@ Note that the algorithm assumes that the dependence of the \texttt{RMSE} on the 
 \end{noteblock}
 
 \phantomsection\label{func.tune.model_param.value}
-\paragraph{Value}\label{value-1}
+\paragraph{Value}\label{value-2}
 
 \hfill\break
 The function returns a data structure containing the found value of the input parameter \texttt{param\_values} for which the \texttt{RMSE} value is minimal, as well as the minimum \texttt{RMSE} value itself, along with a sequence of all calculated \texttt{RMSE} values:
@@ -2552,7 +2623,7 @@ The function returns a data structure containing the found value of the input pa
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-1}
+\paragraph{Source Code}\label{source-code-2}
 
 \hfill\break
 Below is the most significant part of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function:
@@ -2627,7 +2698,7 @@ Below is the most significant part of the source code of the \href{https://githu
 
 The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding \texttt{RMSE} value is minimal.
 
-\paragraph{Sugnature}\label{sugnature-1}
+\paragraph{Signature}\label{signature-1}
 
 \hfill\break
 
@@ -2650,7 +2721,7 @@ The function fine-tunes the model by searching for the best possible value of th
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-2}
+\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-3}
 
 \hfill\break
 
@@ -2718,7 +2789,7 @@ This is a parameter that is required for the \href{https://github.com/AzKurban-e
 This is a parameter that is required for the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function that is called internally during execution (see the description of the \texttt{tune.model\_param} function \hyperref[func.tune.model_param]{above}).
 
 \phantomsection\label{func.model.tune.param_range.details}
-\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-2}
+\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-3}
 
 \hfill\break
 First, the function generates a sequence of the \texttt{input\ parameter\ values} based on the \texttt{loop\_starter} parameter values, as described above (see the \hyperref[func.model.tune.param_range.params.loop_starter]{loop\_starter} parameter description for the details), which is used as one of the input parameters for the helper function \hyperref[func.tune.model_param]{tune.model\_param}, which is repeatedly called during the execution, performing fine-tuning of the model.
@@ -2733,7 +2804,7 @@ Thus, with each subsequent iteration, the minimum \texttt{RMSE} value is calcula
 
 The calculation is completed when subsequent calculated values of the minimum \texttt{RMSE} stop improving and reach the most accurate possible value.
 
-\paragraph{\texorpdfstring{\textbf{Value}}{Value}}\label{value-2}
+\paragraph{\texorpdfstring{\textbf{Value}}{Value}}\label{value-3}
 
 \hfill\break
 
@@ -2749,7 +2820,7 @@ A data structure containing the minimum \texttt{RMSE} value reached during the f
 \end{Shaded}
 
 \phantomsection\label{func.model.tune.param_range.code}
-\paragraph{Source Code}\label{source-code-2}
+\paragraph{Source Code}\label{source-code-3}
 
 \hfill\break
 Below is the simplified version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} function:
@@ -2911,7 +2982,7 @@ The full version of the source code of the \href{https://github.com/AzKurban-edX
 
 \hfill\break
 
-\paragraph{Sugnature}\label{sugnature-2}
+\paragraph{Signature}\label{signature-2}
 
 \hfill\break
 
@@ -2927,7 +2998,7 @@ The full version of the source code of the \href{https://github.com/AzKurban-edX
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-3}
+\paragraph{Parameters}\label{parameters-4}
 
 \hfill\break
 
@@ -2952,12 +3023,12 @@ A data structure compatible with the \texttt{tuned.result} item of the data stru
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Details}\label{details-3}
+\paragraph{Details}\label{details-4}
 
 \hfill\break
 The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
-\paragraph{Value}\label{value-3}
+\paragraph{Value}\label{value-4}
 
 \hfill\break
 A vector containing the index of the element corresponding to the minimum \texttt{RMSE} value in a given sequence, along with the indices of its nearest neighboring elements:
@@ -2970,7 +3041,7 @@ A vector containing the index of the element corresponding to the minimum \textt
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-3}
+\paragraph{Source Code}\label{source-code-4}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L87}{get\_fine\_tune.param.endpoints.idx} function is shown below:
@@ -3015,7 +3086,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \hfill\break
 
-\paragraph{Sugnature}\label{sugnature-3}
+\paragraph{Signature}\label{signature-3}
 
 \hfill\break
 
@@ -3029,7 +3100,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-4}
+\paragraph{Parameters}\label{parameters-5}
 
 \hfill\break
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the \texttt{RMSE}.
@@ -3042,12 +3113,12 @@ A pair of matched vectors, the first of which contains the values of the input p
   \textbf{rmses:} A vector containing values of the corresponding \texttt{Root\ Mean\ Squared\ Errors}..
 \end{itemize}
 
-\paragraph{Details}\label{details-4}
+\paragraph{Details}\label{details-5}
 
 \hfill\break
 Extracts the best values from the input data and returns them as a vector containing a pair of the best \emph{input parameter} value and the corresponding \emph{minimum \texttt{RMSE}}.
 
-\paragraph{Value}\label{value-4}
+\paragraph{Value}\label{value-5}
 
 \hfill\break
 A vector containing a pair of the best \emph{input parameter} value and the corresponding \emph{minimum \texttt{RMSE}}:
@@ -3058,7 +3129,7 @@ A vector containing a pair of the best \emph{input parameter} value and the corr
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-4}
+\paragraph{Source Code}\label{source-code-5}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} function is shown below:
@@ -3078,66 +3149,30 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \hfill\break
 
-\subsubsection{\texorpdfstring{\href{}{func.00} Function}{func.00 Function}}\label{func.00}
+\subsubsection{\texorpdfstring{\href{}{fname00} Function}{fname00 Function}}\label{func.fname00}
 
 \hfill\break
 
-\phantomsection\label{func.00.signature}
-\paragraph{Sugnature}\label{sugnature-4}
+\phantomsection\label{func.fname00.Usage}
+\paragraph{Usage}\label{usage-2}
 
 \hfill\break
 
-\phantomsection\label{func.00.params}
-\paragraph{Parameters}\label{parameters-5}
-
-\hfill\break
-- \textbf{param1:} description;
-- \textbf{param2:} description.
-
-\phantomsection\label{func.00.details}
-\paragraph{Details}\label{details-5}
-
-\hfill\break
-
-\begin{noteblock}
-Note
-
-\end{noteblock}
-
-\phantomsection\label{func.00.value}
-\paragraph{Value}\label{value-5}
-
-\hfill\break
-
-\phantomsection\label{func.00.code}
-\paragraph{Source Code}\label{source-code-5}
-
-\hfill\break
-
-The soure code of the \href{}{function} function is shown below:
-
-\begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L95}{Regularization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{UM-effect.functions.R} script.
-
-\end{noteblock}
-
-\subsubsection{\texorpdfstring{\href{}{func} Function}{func Function}}\label{func.01}
-
-\hfill\break
-
-\phantomsection\label{func.01.signature}
-\paragraph{Sugnature}\label{sugnature-5}
-
-\hfill\break
-
-\phantomsection\label{func.01.params}
+\phantomsection\label{func.fname00.params}
 \paragraph{Parameters}\label{parameters-6}
 
 \hfill\break
+::: \{ \#func.mean\_reg.params.param1s .sidebar \}
 - \textbf{param1:} description;
-- \textbf{param2:} description.
 
-\phantomsection\label{func.01.details}
+\phantomsection\label{func.mean_reg.params.param2}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{param2:} description.
+\end{itemize}
+
+\phantomsection\label{func.fname00.details}
 \paragraph{Details}\label{details-6}
 
 \hfill\break
@@ -3147,39 +3182,40 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.01.value}
+\phantomsection\label{func.fname00.value}
 \paragraph{Value}\label{value-6}
 
 \hfill\break
 
-\phantomsection\label{func.01.code}
+\phantomsection\label{func.fname00.code}
 \paragraph{Source Code}\label{source-code-6}
 
 \hfill\break
-The soure code of the \href{}{function} function is shown below:
+
+The soure code of the \href{}{fname00} function is shown below:
 
 \begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L95}{Regularization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{UM-effect.functions.R} script.
+The source code of the \href{}{fname00} is also available in the \href{}{Some.Section} section of the \href{}{Somefunctions.R} script.
 
 \end{noteblock}
 
-\subsubsection{\texorpdfstring{\href{}{func} Function}{func Function}}\label{func.02}
+\subsubsection{\texorpdfstring{\href{}{fname01} Function}{fname01 Function}}\label{func.fname01}
 
 \hfill\break
 
-\phantomsection\label{func.02.signature}
-\paragraph{Sugnature}\label{sugnature-6}
+\phantomsection\label{func.fname01.signature}
+\paragraph{Signature}\label{signature-4}
 
 \hfill\break
 
-\phantomsection\label{func.02.params}
+\phantomsection\label{func.fname01.params}
 \paragraph{Parameters}\label{parameters-7}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.02.details}
+\phantomsection\label{func.fname01.details}
 \paragraph{Details}\label{details-7}
 
 \hfill\break
@@ -3189,12 +3225,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.02.value}
+\phantomsection\label{func.fname01.value}
 \paragraph{Value}\label{value-7}
 
 \hfill\break
 
-\phantomsection\label{func.02.code}
+\phantomsection\label{func.fname01.code}
 \paragraph{Source Code}\label{source-code-7}
 
 \hfill\break
@@ -3205,25 +3241,23 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \end{noteblock}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\href{}{func.0} Function}{func.0 Function}}\label{func.0}
+\subsubsection{\texorpdfstring{\href{}{fname02} Function}{fname02 Function}}\label{func.fname02}
 
 \hfill\break
 
-\phantomsection\label{func.0.signature}
-\paragraph{Sugnature}\label{sugnature-7}
+\phantomsection\label{func.fname02.signature}
+\paragraph{Signature}\label{signature-5}
 
 \hfill\break
 
-\phantomsection\label{func.0.params}
+\phantomsection\label{func.fname02.params}
 \paragraph{Parameters}\label{parameters-8}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.0.details}
+\phantomsection\label{func.fname02.details}
 \paragraph{Details}\label{details-8}
 
 \hfill\break
@@ -3233,12 +3267,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.0.value}
+\phantomsection\label{func.fname02.value}
 \paragraph{Value}\label{value-8}
 
 \hfill\break
 
-\phantomsection\label{func.0.code}
+\phantomsection\label{func.fname02.code}
 \paragraph{Source Code}\label{source-code-8}
 
 \hfill\break
@@ -3249,25 +3283,23 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \end{noteblock}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\href{}{func1} Function}{func1 Function}}\label{func.03}
+\subsubsection{\texorpdfstring{\href{}{fname0} Function}{fname0 Function}}\label{func.fname0}
 
 \hfill\break
 
-\phantomsection\label{func.03.signature}
-\paragraph{Sugnature}\label{sugnature-8}
+\phantomsection\label{func.fname0.signature}
+\paragraph{Signature}\label{signature-6}
 
 \hfill\break
 
-\phantomsection\label{func.03.params}
+\phantomsection\label{func.fname0.params}
 \paragraph{Parameters}\label{parameters-9}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.03.details}
+\phantomsection\label{func.fname0.details}
 \paragraph{Details}\label{details-9}
 
 \hfill\break
@@ -3277,39 +3309,39 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.03.value}
+\phantomsection\label{func.fname0.value}
 \paragraph{Value}\label{value-9}
 
 \hfill\break
 
-\phantomsection\label{func.03.code}
+\phantomsection\label{func.fname0.code}
 \paragraph{Source Code}\label{source-code-9}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
 
 \begin{noteblock}
-The source code of the \href{}{} is also available in the \href{}{Regularization} section of the \href{}{UM-effect.functions.R} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L95}{Regularization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{UM-effect.functions.R} script.
 
 \end{noteblock}
 
-\subsubsection{\texorpdfstring{\href{}{func1} Function}{func1 Function}}\label{func.1}
+\subsubsection{\texorpdfstring{\href{}{fname03} Function}{fname03 Function}}\label{func.fname03}
 
 \hfill\break
 
-\phantomsection\label{func.1.signature}
-\paragraph{Sugnature}\label{sugnature-9}
+\phantomsection\label{func.fname03.signature}
+\paragraph{Signature}\label{signature-7}
 
 \hfill\break
 
-\phantomsection\label{func.1.params}
+\phantomsection\label{func.fname03.params}
 \paragraph{Parameters}\label{parameters-10}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.1.details}
+\phantomsection\label{func.fname03.details}
 \paragraph{Details}\label{details-10}
 
 \hfill\break
@@ -3319,12 +3351,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.1.value}
+\phantomsection\label{func.fname03.value}
 \paragraph{Value}\label{value-10}
 
 \hfill\break
 
-\phantomsection\label{func.1.code}
+\phantomsection\label{func.fname03.code}
 \paragraph{Source Code}\label{source-code-10}
 
 \hfill\break
@@ -3335,25 +3367,23 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 
 \end{noteblock}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\href{}{func.2} Function}{func.2 Function}}\label{func.2}
+\subsubsection{\texorpdfstring{\href{}{fname1} Function}{fname1 Function}}\label{func.fname1}
 
 \hfill\break
 
-\phantomsection\label{func.2.signature}
-\paragraph{Sugnature}\label{sugnature-10}
+\phantomsection\label{func.fname1.signature}
+\paragraph{Signature}\label{signature-8}
 
 \hfill\break
 
-\phantomsection\label{func.2.params}
+\phantomsection\label{func.fname1.params}
 \paragraph{Parameters}\label{parameters-11}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.2.details}
+\phantomsection\label{func.fname1.details}
 \paragraph{Details}\label{details-11}
 
 \hfill\break
@@ -3363,12 +3393,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.2.value}
+\phantomsection\label{func.fname1.value}
 \paragraph{Value}\label{value-11}
 
 \hfill\break
 
-\phantomsection\label{func.2.code}
+\phantomsection\label{func.fname1.code}
 \paragraph{Source Code}\label{source-code-11}
 
 \hfill\break
@@ -3381,25 +3411,23 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\href{}{func.3} Function}{func.3 Function}}\label{func.3}
+\subsubsection{\texorpdfstring{\href{}{fname2} Function}{fname2 Function}}\label{func.fname2}
 
 \hfill\break
 
-\phantomsection\label{func.3.signature}
-\paragraph{Sugnature}\label{sugnature-11}
+\phantomsection\label{func.fname2.signature}
+\paragraph{Signature}\label{signature-9}
 
 \hfill\break
 
-\phantomsection\label{func.3.params}
+\phantomsection\label{func.fname2.params}
 \paragraph{Parameters}\label{parameters-12}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.3.details}
+\phantomsection\label{func.fname2.details}
 \paragraph{Details}\label{details-12}
 
 \hfill\break
@@ -3409,12 +3437,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.3.value}
+\phantomsection\label{func.fname2.value}
 \paragraph{Value}\label{value-12}
 
 \hfill\break
 
-\phantomsection\label{func.3.code}
+\phantomsection\label{func.fname2.code}
 \paragraph{Source Code}\label{source-code-12}
 
 \hfill\break
@@ -3427,23 +3455,25 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{\href{}{func.4} Function}{func.4 Function}}\label{func.4}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\href{}{fname3} Function}{fname3 Function}}\label{func.fname3}
 
 \hfill\break
 
-\phantomsection\label{func.4.signature}
-\paragraph{Sugnature}\label{sugnature-12}
+\phantomsection\label{func.fname3.signature}
+\paragraph{Signature}\label{signature-10}
 
 \hfill\break
 
-\phantomsection\label{func.4.params}
+\phantomsection\label{func.fname3.params}
 \paragraph{Parameters}\label{parameters-13}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.4.details}
+\phantomsection\label{func.fname3.details}
 \paragraph{Details}\label{details-13}
 
 \hfill\break
@@ -3453,12 +3483,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.4.value}
+\phantomsection\label{func.fname3.value}
 \paragraph{Value}\label{value-13}
 
 \hfill\break
 
-\phantomsection\label{func.4.code}
+\phantomsection\label{func.fname3.code}
 \paragraph{Source Code}\label{source-code-13}
 
 \hfill\break
@@ -3471,23 +3501,23 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{\href{}{func.5} Function}{func.5 Function}}\label{func.5}
+\subsubsection{\texorpdfstring{\href{}{fname4} Function}{fname4 Function}}\label{func.fname4}
 
 \hfill\break
 
-\phantomsection\label{func.5.signature}
-\paragraph{Sugnature}\label{sugnature-13}
+\phantomsection\label{func.fname4.signature}
+\paragraph{Signature}\label{signature-11}
 
 \hfill\break
 
-\phantomsection\label{func.5.params}
+\phantomsection\label{func.fname4.params}
 \paragraph{Parameters}\label{parameters-14}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.5.details}
+\phantomsection\label{func.fname4.details}
 \paragraph{Details}\label{details-14}
 
 \hfill\break
@@ -3497,12 +3527,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.5.value}
+\phantomsection\label{func.fname4.value}
 \paragraph{Value}\label{value-14}
 
 \hfill\break
 
-\phantomsection\label{func.5.code}
+\phantomsection\label{func.fname4.code}
 \paragraph{Source Code}\label{source-code-14}
 
 \hfill\break
@@ -3515,23 +3545,23 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{\href{}{func.6} Function}{func.6 Function}}\label{func.6}
+\subsubsection{\texorpdfstring{\href{}{fname5} Function}{fname5 Function}}\label{func.fname5}
 
 \hfill\break
 
-\phantomsection\label{func.6.signature}
-\paragraph{Sugnature}\label{sugnature-14}
+\phantomsection\label{func.fname5.signature}
+\paragraph{Signature}\label{signature-12}
 
 \hfill\break
 
-\phantomsection\label{func.6.params}
+\phantomsection\label{func.fname5.params}
 \paragraph{Parameters}\label{parameters-15}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.6.details}
+\phantomsection\label{func.fname5.details}
 \paragraph{Details}\label{details-15}
 
 \hfill\break
@@ -3541,12 +3571,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.6.value}
+\phantomsection\label{func.fname5.value}
 \paragraph{Value}\label{value-15}
 
 \hfill\break
 
-\phantomsection\label{func.6.code}
+\phantomsection\label{func.fname5.code}
 \paragraph{Source Code}\label{source-code-15}
 
 \hfill\break
@@ -3559,23 +3589,23 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{\href{}{func.7} Function}{func.7 Function}}\label{func.7}
+\subsubsection{\texorpdfstring{\href{}{fname6} Function}{fname6 Function}}\label{func.fname6}
 
 \hfill\break
 
-\phantomsection\label{func.7.signature}
-\paragraph{Sugnature}\label{sugnature-15}
+\phantomsection\label{func.fname6.signature}
+\paragraph{Signature}\label{signature-13}
 
 \hfill\break
 
-\phantomsection\label{func.7.params}
+\phantomsection\label{func.fname6.params}
 \paragraph{Parameters}\label{parameters-16}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.7.details}
+\phantomsection\label{func.fname6.details}
 \paragraph{Details}\label{details-16}
 
 \hfill\break
@@ -3585,12 +3615,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.7.value}
+\phantomsection\label{func.fname6.value}
 \paragraph{Value}\label{value-16}
 
 \hfill\break
 
-\phantomsection\label{func.7.code}
+\phantomsection\label{func.fname6.code}
 \paragraph{Source Code}\label{source-code-16}
 
 \hfill\break
@@ -3603,23 +3633,23 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{\href{}{func.8} Function}{func.8 Function}}\label{func.8}
+\subsubsection{\texorpdfstring{\href{}{fname7} Function}{fname7 Function}}\label{func.fname7}
 
 \hfill\break
 
-\phantomsection\label{func.8.signature}
-\paragraph{Sugnature}\label{sugnature-16}
+\phantomsection\label{func.fname7.signature}
+\paragraph{Signature}\label{signature-14}
 
 \hfill\break
 
-\phantomsection\label{func.8.params}
+\phantomsection\label{func.fname7.params}
 \paragraph{Parameters}\label{parameters-17}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
-\phantomsection\label{func.8.details}
+\phantomsection\label{func.fname7.details}
 \paragraph{Details}\label{details-17}
 
 \hfill\break
@@ -3629,12 +3659,12 @@ Note
 
 \end{noteblock}
 
-\phantomsection\label{func.8.value}
+\phantomsection\label{func.fname7.value}
 \paragraph{Value}\label{value-17}
 
 \hfill\break
 
-\phantomsection\label{func.8.code}
+\phantomsection\label{func.fname7.code}
 \paragraph{Source Code}\label{source-code-17}
 
 \hfill\break
@@ -3647,75 +3677,49 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{\href{}{} Function}{ Function}}\label{func.3-1}
+\subsubsection{\texorpdfstring{\href{}{fname8} Function}{fname8 Function}}\label{func.fname8}
 
 \hfill\break
 
-\paragraph{Sugnature}\label{sugnature-17}
+\phantomsection\label{func.fname8.signature}
+\paragraph{Signature}\label{signature-15}
 
 \hfill\break
 
+\phantomsection\label{func.fname8.params}
 \paragraph{Parameters}\label{parameters-18}
 
 \hfill\break
-- \textbf{fn\_tune.test.param\_value:} A helper function that calculates the value of the \texttt{RMSE} for a given parameter value.;
-- \textbf{break.if\_min = TRUE:} A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter \texttt{steps.beyond\_min}, after the minimum value of the \texttt{RMSE} has been found;
-- \textbf{steps.beyond\_min = 2:} (takes effect only if \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number of steps after finding the minimum value of the \texttt{RMSE}, upon completion of which the function should terminate.
+- \textbf{param1:} description;
+- \textbf{param2:} description.
 
+\phantomsection\label{func.fname8.details}
 \paragraph{Details}\label{details-18}
 
 \hfill\break
-During execution, the function uses a helper function specified by the \texttt{fn\_tune.test.param\_value} parameter, which calculates the \texttt{RMSE} value for the given parameter from the list determined by the \texttt{param\_values} parameter.
 
 \begin{noteblock}
 Note
 
 \end{noteblock}
 
+\phantomsection\label{func.fname8.value}
 \paragraph{Value}\label{value-18}
 
 \hfill\break
 
+\phantomsection\label{func.fname8.code}
 \paragraph{Source Code}\label{source-code-18}
 
 \hfill\break
-Below is the most significant part of the code of the \href{}{function} function:
-
-================================================================================
+The soure code of the \href{}{function} function is shown below:
 
 \begin{noteblock}
-!!! Note!
+The source code of the \href{}{} is also available in the \href{}{Regularization} section of the \href{}{UM-effect.functions.R} script.
 
 \end{noteblock}
 
-See the \texttt{func.model.tune.param\_range} Function description \hyperref[func.model.tune.param_range]{above}.
-
-\begin{noteblock}
-Note
-
-\end{noteblock}
-
-\begin{noteblock}
-Note
-
-\end{noteblock}
-
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
-\begin{noteblock}
-!!! Note!
-
-\end{noteblock}
-
-s
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \printbibliography
 
