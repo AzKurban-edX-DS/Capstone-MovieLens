@@ -7,6 +7,88 @@
 The full source code of the functions described below are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
 
+### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) Function {#func.mean_reg}
+\
+
+A general function for computing the arithmetic mean given a _regularization parameter_ $\lambda$. We will call it the _penaized mean_.
+
+::: { #func.mean_reg.usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+mean_reg(vals, lambda = 0, na.rm = TRUE)
+
+```
+:::
+
+::: { #func.mean_reg.params .sidebar }
+#### Parameters
+\
+
+::: { #func.mean_reg.params.vals .sidebar }
+  - **vals:** values (usually a numeric vector) to calculate the _penalized mean_;
+
+:::
+::: { #func.mean_reg.params.lambda .sidebar }
+  - **lambda:** a _regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
+
+:::
+  - **na.rm:** a logical evaluating to TRUE or FALSE indicating whether NA values should be stripped before the computation proceeds.
+
+:::
+
+
+::: { #func.mean_reg.details .sidebar }
+#### Details
+\
+We call this function internally from the functions that compute the _penalized estimates_  as described in section [23.6 Penalized Least Squares](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook_[@IDS2_23-6].
+
+::: {.noteblock data-latex=""}
+If the [lambda](#func.mean_reg.params.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
+:::
+:::
+
+::: { #func.mean_reg.value .sidebar }
+#### Value
+\
+
+The function calculates the _penalized mean_ of the [vals](#func.mean_reg.params.vals) parameter as follows:
+$$
+\mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
+$$
+
+When the [lambda](#func.mean_reg.params.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean as follows:
+$$
+\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
+$$
+
+:::
+
+::: { #func.mean_reg.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function is shown below:
+```{r eval=FALSE}
+mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
+  if (is.na(lambda)) {
+    stop("Function: mean_reg
+`lambda` is `NA`")
+  }
+  
+  names(lambda) <- NULL
+  sums <- sum(vals, na.rm = na.rm)
+  N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
+  sums/(N + lambda)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L62) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) script.
+:::
+:::
+
 ### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
 \
 

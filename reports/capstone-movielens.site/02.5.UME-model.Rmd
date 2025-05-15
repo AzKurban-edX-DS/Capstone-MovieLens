@@ -23,7 +23,7 @@ Inspired by this idea, a few support functions were developed by the author of t
 The full source code of the functions described in this section is available in the [User+Movie Effect Model Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L1) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script on _GitHub_.
 :::
  
-#### `train_user_movie_effect` Function
+#### [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) Function {#func.train_user_movie_effect}
 \
 
 We use this function to build and train our model using the `train_set` dataset:
@@ -46,27 +46,14 @@ train_user_movie_effect <- function(train_set, lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-The function described above accepts the `lambda` parameter, which we will need later for the _Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will also need for the *Regularization*.
+The function described above accepts the `lambda` parameter, which we will need later for the _Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will also need later for the *Regularization* techniques (For details, see the [mean_reg](#func.mean_reg) function description in the [Appendix](#appendix.a) of this report).
 We will explain that later in the [Regularization Method] section. 
-For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. In this case, the `mean_reg` function is equivalent to the simple `mean` one.
+For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. In this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
 
-```{r eval=FALSE}
-# Regularization --------------------------------------------------------------
-mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
-  if (is.na(lambda)) {
-    stop("Function: mean_reg
-`lambda` is `NA`")
-  }
-  
-  names(lambda) <- NULL
-  sums <- sum(vals, na.rm = na.rm)
-  N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
-  sums/(N + lambda)
-}
-```
+\newpage
 
-#### `train_user_movie_effect.cv` Function
+#### `train_user_movie_effect.cv` Function {#func.train_user_movie_effect.cv}
 \
 
 We use the [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L17) function to build and train our model using the `5-Fold Cross Validation` method. Below, we provide the most important part of the code of that function:

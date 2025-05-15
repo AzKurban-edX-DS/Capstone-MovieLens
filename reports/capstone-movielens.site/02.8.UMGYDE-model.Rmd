@@ -1,5 +1,0 @@
-## User+Movie+Genre+Year+Day Effect (UMGYDE) Model
-\
-
-
-\newpage
