@@ -1,33 +1,4 @@
 ```{r setup, include=FALSE, echo = FALSE}
-r.path <- "../../r"
-src.folder <- "src"
-support_scripts.folder <- "support-scripts"
-support_functions.folder <- "support-functions"
-
-r.src.path <- file.path(r.path, src.folder)
-support_scripts.path <- file.path(r.src.path, support_scripts.folder)
-support_functions.path <- file.path(r.src.path, support_functions.folder)
-# Setup -----------------------------------------------------------------------
-setup_script.file_path <- file.path(support_scripts.path,
-                                               "setup.R")
-
-# main_script.file_path <- file.path(r.src.path,
-#                                    "capstone-movielens.main.R")
-# stop(main_script.file_path)
-stopifnot(file.exists(setup_script.file_path))
-
-source(setup_script.file_path, 
-       local = knitr::knit_global())
-# or sys.source("your-script.R", envir = knitr::knit_global())
-
-# External Common Helper functions -------------------------------------
-# common_helper_functions.file_path <- file.path(support_functions.path,
-#                                             "common-helper.functions.R")
-# source(common_helper_functions.file_path, 
-#        local = knitr::knit_global())
-
-# knitr::knit_global()
-#knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ---
@@ -105,9 +76,11 @@ vignette: >
 ```{r child = '02.7.UMGYE-model.Rmd'}
 ```
 
-```{r child = '02.8.UMGYDE-model.Rmd'}
+```{r child = '02.8-0.UMGYDE-model.Rmd'}
 ```
 
+```{r child = '02.8-1.MF.UMGYDE-model.Rmd'}
+```
 ```{r child = '03.conclusion.Rmd'}
 ```
 
