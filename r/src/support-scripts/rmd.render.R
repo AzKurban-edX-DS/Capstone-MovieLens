@@ -1,24 +1,4 @@
 # Setup & Render ---------------------------------------------------------------
-## Setup
-r.path <- "r"
-src.folder <- "src"
-support_scripts.folder <- "support-scripts"
-support_functions.folder <- "support-functions"
-
-r.src.path <- file.path(r.path, src.folder)
-support_scripts.path <- file.path(r.src.path, support_scripts.folder)
-support_functions.path <- file.path(r.src.path, support_functions.folder)
-setup_script.file_path <- file.path(support_scripts.path,
-                                    "setup.R")
-# main_script.file_path <- file.path(r.src.path,
-#                                    "capstone-movielens.main.R")
-
-stopifnot(file.exists(setup_script.file_path))
-
-source(setup_script.file_path, 
-       local = knitr::knit_global())
-# or sys.source("your-script.R", envir = knitr::knit_global())
-
 
 # rmarkdown::render("reports/capstone-movielens-report.draft4.Rmd",
 #                   output_format = "pdf_document2")
@@ -44,5 +24,16 @@ put(summary(final_holdout_test))
 
 # Render RMD Report
 rmarkdown::render("reports/capstone-movielens.site/index.Rmd",
-                  output_format = "pdf_document2",
-                  output_file = "capstone-movielens.report.pdf")
+                  #output_format = "pdf_document2",
+                  output_file = "capstone-movielens.report.pdf",
+                  run_pandoc = TRUE)
+
+# rmarkdown::render("reports/capstone-movielens.site/index.Rmd",
+#                   output_file = "capstone-movielens.report.pdf",
+#                   # output_format = "pdf_document2",
+#                   output_format = rmarkdown::pdf_document(
+#                     pandoc_args = c("--metadata-file", "main.yaml")
+#                   ),
+#                   envir = .GlobalEnv)
+
+

@@ -1,15 +1,12 @@
-```{r setup, include=FALSE, echo = FALSE}
-```
-
 ---
 title: "Capstone Movielens Report"
 site: bookdown::bookdown_site
 author: "Azamat Kurbanaev"
 date: "`r Sys.Date()`"
 bibliography: references.bib
-#csl: bit-numerical-mathematics.csl 
+csl: bit-numerical-mathematics.csl 
 envir:
-  parent.frame()
+  .GlobalEnv
 output: 
   bookdown::pdf_document2: 
     df_print: paged
@@ -17,6 +14,7 @@ output:
     fig_caption: true
     keep_tex: true
     citation_package: biblatex
+    delete_merged_file: true
 colorlinks: true
 linkcolor: red
 citecolor: blue
@@ -54,6 +52,40 @@ vignette: >
   \end{blackbox}
   \end{itemize}
   }
+  
+```{r, setup0, eval=FALSE, include=FALSE }
+## Setup
+r.path <- "../../r"
+stopifnot(dir.exists(r.path))
+
+src.folder <- "src"
+support_scripts.folder <- "support-scripts"
+support_functions.folder <- "support-functions"
+
+r.src.path <- file.path(r.path, src.folder)
+support_scripts.path <- file.path(r.src.path, support_scripts.folder)
+support_functions.path <- file.path(r.src.path, support_functions.folder)
+setup_script.file_path <- file.path(support_scripts.path,
+                                    "setup.R")
+# main_script.file_path <- file.path(r.src.path,
+#                                    "capstone-movielens.main.R")
+
+stopifnot(file.exists(setup_script.file_path))
+
+source(setup_script.file_path, 
+       local = knitr::knit_global())
+# or sys.source("your-script.R", envir = knitr::knit_global())
+```
+
+```{r setup, include=FALSE}
+# knitr::knit_global(envir = "R_GlobalEnv")
+# knitr::knit_global(envir = "R_GlobalEnv")
+# knitr::knit_global(envir = .GlobalEnv)
+# knitr::knit_global(envir = NULL)
+# str(edx)
+dim(edx.mx)
+```
+
 
 ```{r child = '01.intro.Rmd'}
 ```
