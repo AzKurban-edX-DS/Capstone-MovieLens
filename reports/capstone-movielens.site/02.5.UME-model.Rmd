@@ -251,7 +251,7 @@ Note that we reuse the function [train_user_movie_effect.cv](#func.train_user_mo
 
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
-We are going to use the [tune.model_param](#func.tune.model_param) function described in [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) the section of the [Appendix] to this report, passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter:
+We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter:
 
 ```{r, eval=FALSE}
 lambdas <- seq(0, 1, 0.1)
