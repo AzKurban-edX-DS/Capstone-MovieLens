@@ -80,8 +80,7 @@ User+Movie Effect list have been computed")
 ```
 
 ::: {.noteblock data-latex=""}
-Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the _5-Fold Cross Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the
-[Appendix](#appndx_a) of this report).
+Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the _5-Fold Cross Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report).
 :::
 
 #### `calc_user_movie_effect_MSE` Function
@@ -251,7 +250,7 @@ Note that we reuse the function [train_user_movie_effect.cv](#func.train_user_mo
 
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
-We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Appendix](#appndx_a) of this report, passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter:
+We are going to use the [tune.model_param](#func.tune.model_param) function described in [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) the section of the [Appendix] to this report, passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter:
 
 ```{r, eval=FALSE}
 lambdas <- seq(0, 1, 0.1)
@@ -283,7 +282,7 @@ cv.UME.preset.result$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-We use the custom data visualization function [data.plot](#func.data.plot) described in the [Appendix](#appndx_a.data_helper.functions) of this report, which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script.
+We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report, which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script.
 :::
 
 

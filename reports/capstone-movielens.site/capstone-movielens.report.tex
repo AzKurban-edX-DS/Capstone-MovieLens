@@ -1813,8 +1813,7 @@ We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main
 \end{Shaded}
 
 \begin{noteblock}
-Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results}, which is defined in the script \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{common-helper.functions.R}, to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the
-\hyperref[appndx_a]{Appendix} of this report).
+Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results}, which is defined in the script \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{common-helper.functions.R}, to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
 
 \end{noteblock}
 
@@ -2044,7 +2043,7 @@ Note that we reuse the function \hyperref[func.train_user_movie_effect.cv]{train
 
 Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
 
-We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a]{Appendix} of this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
+We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} the section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2095,7 +2094,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-136-1.pdf}}
 
 \begin{noteblock}
-We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Appendix} of this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script.
+We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script.
 
 \end{noteblock}
 
