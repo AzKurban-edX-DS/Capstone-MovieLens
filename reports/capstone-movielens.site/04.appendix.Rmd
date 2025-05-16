@@ -20,6 +20,7 @@ union_cv_results(data_list = data)
 ::: { #func.union_cv_results.params .sidebar }
 #### Parameters
 \
+
 ::: { #func.mean_reg.params.data_list .sidebar }
   - **data_list:** List of data frames representing the results of the _N-Fold Cross Validation_ method execution.; 
 
