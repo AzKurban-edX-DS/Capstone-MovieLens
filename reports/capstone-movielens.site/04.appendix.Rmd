@@ -80,7 +80,6 @@ data.plot(data,
           xlabel = NULL, 
           ylabel = NULL,
           line_col = "blue",
-          # scale = 1,
           normalize = FALSE)
 ```
 :::
@@ -88,6 +87,7 @@ data.plot(data,
 ::: { #func.data.plot.params .sidebar }
 #### Parameters
 \
+
 ::: { #func.mean_reg.params.param1 .sidebar }
   - **param1:** description; 
 
@@ -126,7 +126,6 @@ data.plot <- function(data,
                       xlabel = NULL, 
                       ylabel = NULL,
                       line_col = "blue",
-                      # scale = 1,
                       normalize = FALSE) {
   y <- data[, yname]
   
@@ -785,6 +784,7 @@ get_best_param.result <- function(param_values, rmses){
 ::: { #func.fname00.params .sidebar }
 #### Parameters
 \
+
 ::: { #func.fname00.params.param1 .sidebar }
   - **param1:** description; 
 

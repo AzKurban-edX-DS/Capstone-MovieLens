@@ -2044,7 +2044,7 @@ Note that we reuse the function \hyperref[func.train_user_movie_effect.cv]{train
 
 Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
 
-We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} the section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
+We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2455,7 +2455,6 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
           \AttributeTok{xlabel =} \ConstantTok{NULL}\NormalTok{, }
           \AttributeTok{ylabel =} \ConstantTok{NULL}\NormalTok{,}
           \AttributeTok{line\_col =} \StringTok{"blue"}\NormalTok{,}
-          \CommentTok{\# scale = 1,}
           \AttributeTok{normalize =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2464,8 +2463,13 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \paragraph{Parameters}\label{parameters-1}
 
 \hfill\break
-::: \{ \#func.mean\_reg.params.param1 .sidebar \}
-- \textbf{param1:} description;
+
+\phantomsection\label{func.mean_reg.params.param1}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{param1:} description;
+\end{itemize}
 
 \phantomsection\label{func.mean_reg.params.param2}
 \begin{itemize}
@@ -2473,8 +2477,6 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \item
   \textbf{param2:} description.
 \end{itemize}
-
-:::
 
 \phantomsection\label{func.data.plot.details}
 \paragraph{Details}\label{details-1}
@@ -2507,7 +2509,6 @@ The soure code of the \href{}{data.plot} function is shown below:
                       \AttributeTok{xlabel =} \ConstantTok{NULL}\NormalTok{, }
                       \AttributeTok{ylabel =} \ConstantTok{NULL}\NormalTok{,}
                       \AttributeTok{line\_col =} \StringTok{"blue"}\NormalTok{,}
-                      \CommentTok{\# scale = 1,}
                       \AttributeTok{normalize =} \ConstantTok{FALSE}\NormalTok{) \{}
 \NormalTok{  y }\OtherTok{\textless{}{-}}\NormalTok{ data[, yname]}
   
@@ -3259,8 +3260,13 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \paragraph{Parameters}\label{parameters-7}
 
 \hfill\break
-::: \{ \#func.fname00.params.param1 .sidebar \}
-- \textbf{param1:} description;
+
+\phantomsection\label{func.fname00.params.param1}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{param1:} description;
+\end{itemize}
 
 \phantomsection\label{func.fname00.params.param2}
 \begin{itemize}
