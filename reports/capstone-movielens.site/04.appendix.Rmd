@@ -1,5 +1,5 @@
-# Appendix {#appendix.a}
-## Data Helper Functions {#appendix.a.data_helper.functions}
+# Appendix {#appndx_a}
+## Data Helper Functions {#appndx_a.data_helper.functions}
 \
 
 ### [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) Function {#func.union_cv_results}
@@ -87,7 +87,7 @@ data.plot(data,
 ::: { #func.data.plot.params .sidebar }
 #### Parameters
 \
-::: { #func.mean_reg.params.param1s .sidebar }
+::: { #func.mean_reg.params.param1 .sidebar }
   - **param1:** description; 
 
 :::
@@ -161,7 +161,7 @@ The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-M
 
 ---------------------------------------------------------
 
-## Regularization: Common Helper Functions
+## Regularization: Common Helper Functions {#appndx_a.rglr.common_helper.functions}
 \
 
 ::: {.noteblock data-latex=""}
@@ -784,11 +784,11 @@ get_best_param.result <- function(param_values, rmses){
 ::: { #func.fname00.params .sidebar }
 #### Parameters
 \
-::: { #func.mean_reg.params.param1s .sidebar }
+::: { #func.fname00.params.param1 .sidebar }
   - **param1:** description; 
 
 :::
-::: { #func.mean_reg.params.param2 .sidebar }
+::: { #func.fname00.params.param2 .sidebar }
   - **param2:** description. 
 
 :::

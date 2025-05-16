@@ -455,7 +455,7 @@ The code below demonstrates another way of visualizing the rating distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-30-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-25-1.pdf}}
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
 \newpage
@@ -537,7 +537,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-28-1.pdf}}
 \newpage
 
 \subparagraph{\texorpdfstring{Movies' rating histogram\autocite{MRS-R-BEST}}{Movies' rating histogram{[}@MRS-R-BEST{]}}}\label{movies-rating-histogrammrs-r-best}
@@ -567,7 +567,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-34-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{Ratings per user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -654,7 +654,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-37-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-32-1.pdf}}
 \newpage
 
 \subparagraph{Users' rating histogram}\label{users-rating-histogram}
@@ -684,7 +684,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-38-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
 \newpage
 
 \section{Methods / Analysis}\label{methods-analysis}
@@ -1398,7 +1398,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-90-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1507,7 +1507,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-100-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1573,7 +1573,7 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-107-1.pdf}}
 
 Following the author's further explanation, to account for this variability, we will use a linear model with a \emph{treatment effect} \(\alpha_i\) for each user. The sum \(\mu+\alpha_i\) can be interpreted as the typical rating user \(i\) gives to movies. So we write the model as follows:
 
@@ -1642,7 +1642,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-117-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1693,7 +1693,7 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-119-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-114-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1775,7 +1775,7 @@ We use this function to build and train our model using the \texttt{train\_set} 
 \end{Shaded}
 
 \begin{noteblock}
-The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will also need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the \hyperref[appendix.a]{Appendix} of this report).
+The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will also need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} section).
 We will explain that later in the {[}Regularization Method{]} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. In this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
@@ -1814,7 +1814,7 @@ We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main
 
 \begin{noteblock}
 Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results}, which is defined in the script \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{common-helper.functions.R}, to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the
-\hyperref[appendix.a]{Appendix} of this report).
+\hyperref[appndx_a]{Appendix} of this report).
 
 \end{noteblock}
 
@@ -1938,7 +1938,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-135-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-130-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -1968,7 +1968,7 @@ User+Movie Effect Model & 0.8732081 & \\
 \bottomrule
 \end{tabular}
 
-\subsubsection{Regularizing User+Movie Effect Model}\label{regularizing-usermovie-effect-model}
+\subsubsection{User+Movie Effect Model Regularization}\label{usermovie-effect-model-regularization}
 
 \hfill\break
 
@@ -2044,7 +2044,7 @@ Note that we reuse the function \hyperref[func.train_user_movie_effect.cv]{train
 
 Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
 
-We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appendix.a]{Appendix} of this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
+We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a]{Appendix} of this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2092,10 +2092,10 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-141-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-136-1.pdf}}
 
 \begin{noteblock}
-We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appendix.a.data_helper.functions]{Appendix} of this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script.
+We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Appendix} of this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script.
 
 \end{noteblock}
 
@@ -2329,7 +2329,7 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-175-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-170-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 
@@ -2361,9 +2361,9 @@ This is a great conclusion, isn't it?!!
 
 \newpage
 
-\section{Appendix}\label{appendix.a}
+\section{Appendix}\label{appndx_a}
 
-\subsection{Data Helper Functions}\label{appendix.a.data_helper.functions}
+\subsection{Data Helper Functions}\label{appndx_a.data_helper.functions}
 
 \hfill\break
 
@@ -2461,7 +2461,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \paragraph{Parameters}\label{parameters-1}
 
 \hfill\break
-::: \{ \#func.mean\_reg.params.param1s .sidebar \}
+::: \{ \#func.mean\_reg.params.param1 .sidebar \}
 - \textbf{param1:} description;
 
 \phantomsection\label{func.mean_reg.params.param2}
@@ -2539,7 +2539,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsection{Regularization: Common Helper Functions}\label{regularization-common-helper-functions}
+\subsection{Regularization: Common Helper Functions}\label{appndx_a.rglr.common_helper.functions}
 
 \hfill\break
 
@@ -3256,10 +3256,10 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \paragraph{Parameters}\label{parameters-7}
 
 \hfill\break
-::: \{ \#func.mean\_reg.params.param1s .sidebar \}
+::: \{ \#func.fname00.params.param1 .sidebar \}
 - \textbf{param1:} description;
 
-\phantomsection\label{func.mean_reg.params.param2}
+\phantomsection\label{func.fname00.params.param2}
 \begin{itemize}
 \tightlist
 \item
