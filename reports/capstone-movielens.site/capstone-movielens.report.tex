@@ -1975,17 +1975,18 @@ User+Movie Effect Model & 0.8732081 & \\
 
 \hfill\break
 
-\href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#penalized-least-squares}{Section \emph{23.6 Penalized least squares} of the \emph{Course Textbook}} explains why and how we should use \emph{Penalized least squares} to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects: \(\sum_{j=1}^n \beta_j^2\). Specifically, instead of minimizing the least squares equation, we minimize an equation that adds a penalty:
-
+\href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#penalized-least-squares}{Section \emph{23.6 Penalized least squares} of the \emph{Course Textbook}} explains why and how we should use \emph{Penalized least squares} to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects:
+\[
+\sum_{j=1}^{n} \beta_j^2
+\]
+Specifically, instead of minimizing the least squares equation, we minimize an equation that adds a penalty:
 \[ 
 \sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j \right)^2 + \lambda \sum_{j} \beta_j^2
 \]
 The first term is just the sum of squares and the second is a penalty that gets larger when many \(\beta_i\)s are large. Using calculus, we can actually show that the values of \(\beta_i\) that minimize this equation are:
-
 \[
 \hat{\beta}_j(\lambda) = \frac{1}{\lambda + n_j} \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
 \]
-
 where \(n_j\) is the number of ratings made for movie \(j\).
 
 This approach will have our desired effect: when our sample size \(n_j\) is very large, we obtain a stable estimate and the penalty \(\lambda\) is effectively ignored since \(n_j+\lambda \approx n_j\). Yet when the \(n_j\) is small, then the estimate \(\hat{\beta}_i(\lambda)\) is shrunken towards 0. The larger the \(\lambda\), the more we shrink\autocite{IDS2_23-6}.
@@ -1995,7 +1996,7 @@ We will implement the \emph{Regularization} method on our models (starting from 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{Preconfiguration:} Preliminary determination of the optimal range of \(\lambda\) values for the \texttt{5-Fold\ Cross\ Validation} samples;
+  \textbf{Pre-configuration:} Preliminary determination of the optimal range of \(\lambda\) values for the \texttt{5-Fold\ Cross\ Validation} samples;
 \item
   \textbf{Fine-tuning:} figuring out the value of \(\lambda\) that minimizes the model's RMSE.
 \end{enumerate}
@@ -2037,7 +2038,7 @@ Note that we reuse the function \hyperref[func.train_user_movie_effect.cv]{train
 
 \newpage
 
-\paragraph{User+Movie Effect Model Tuning: Preconfiguratioin}\label{usermovie-effect-model-tuning-preconfiguratioin}
+\paragraph{User+Movie Effect Model Tuning: Pre-configuratioin}\label{usermovie-effect-model-tuning-pre-configuratioin}
 
 \hfill\break
 
@@ -2387,10 +2388,13 @@ Aggregates the input data frames into a single data frame.
 \paragraph{Parameters}\label{parameters}
 
 \hfill\break
-::: \{ \#func.mean\_reg.params.data\_list .sidebar \}
-- \textbf{data\_list:} List of data frames representing the results of the \emph{N-Fold Cross Validation} method execution.;
 
-:::
+\phantomsection\label{func.mean_reg.params.data_list}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{data\_list:} List of data frames representing the results of the \emph{N-Fold Cross Validation} method execution.;
+\end{itemize}
 
 \phantomsection\label{func.union_cv_results.details}
 \paragraph{Details}\label{details}
