@@ -455,7 +455,7 @@ The code below demonstrates another way of visualizing the rating distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-25-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-30-1.pdf}}
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
 \newpage
@@ -537,7 +537,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-28-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
 \newpage
 
 \subparagraph{\texorpdfstring{Movies' rating histogram\autocite{MRS-R-BEST}}{Movies' rating histogram{[}@MRS-R-BEST{]}}}\label{movies-rating-histogrammrs-r-best}
@@ -567,7 +567,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-34-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{Ratings per user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -654,7 +654,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-32-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-37-1.pdf}}
 \newpage
 
 \subparagraph{Users' rating histogram}\label{users-rating-histogram}
@@ -684,7 +684,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-38-1.pdf}}
 \newpage
 
 \section{Methods / Analysis}\label{methods-analysis}
@@ -1398,7 +1398,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-90-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1507,7 +1507,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-100-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1573,7 +1573,7 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-107-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
 
 Following the author's further explanation, to account for this variability, we will use a linear model with a \emph{treatment effect} \(\alpha_i\) for each user. The sum \(\mu+\alpha_i\) can be interpreted as the typical rating user \(i\) gives to movies. So we write the model as follows:
 
@@ -1642,7 +1642,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-117-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1693,7 +1693,7 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-114-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-119-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1775,7 +1775,7 @@ We use this function to build and train our model using the \texttt{train\_set} 
 \end{Shaded}
 
 \begin{noteblock}
-The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will also need later for the \emph{Regularization} techniques (For details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the \hyperref[appendix.a]{Appendix} of this report).
+The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will also need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the \hyperref[appendix.a]{Appendix} of this report).
 We will explain that later in the {[}Regularization Method{]} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. In this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
@@ -1813,24 +1813,10 @@ We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main
 \end{Shaded}
 
 \begin{noteblock}
-Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results}, which is defined in the script \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{common-helper.functions.R}, to aggregate the \texttt{Cross\ Validation} results.
+Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results}, which is defined in the script \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{common-helper.functions.R}, to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the
+\hyperref[appendix.a]{Appendix} of this report).
 
 \end{noteblock}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{union\_cv\_results }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data\_list) \{}
-\NormalTok{  out\_dat }\OtherTok{\textless{}{-}}\NormalTok{ data\_list[[}\DecValTok{1}\NormalTok{]]}
-  
-  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{CVFolds\_N)\{}
-\NormalTok{    out\_dat }\OtherTok{\textless{}{-}} \FunctionTok{union}\NormalTok{(out\_dat, }
-\NormalTok{                     data\_list[[i]])}
-\NormalTok{  \}}
-  
-\NormalTok{  out\_dat}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
 
 \paragraph{\texorpdfstring{\texttt{calc\_user\_movie\_effect\_MSE} Function}{calc\_user\_movie\_effect\_MSE Function}}\label{calc_user_movie_effect_mse-function}
 
@@ -1952,7 +1938,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-131-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-135-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -2026,7 +2012,7 @@ The \href{}{regularize.test\_lambda.UM\_effect.cv} function described below are 
 
 \end{noteblock}
 
-\subparagraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{regularize.test\_lambda.UM\_effect.cv} Function}{regularize.test\_lambda.UM\_effect.cv Function}}\label{regularize.test_lambda.um_effect.cv-function}
+\subparagraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{regularize.test\_lambda.UM\_effect.cv} Function}{regularize.test\_lambda.UM\_effect.cv Function}}\label{func.regularize.test_lambda.UM_effect.cv}
 
 \hfill\break
 
@@ -2046,75 +2032,70 @@ This function calculates \emph{RMSE} of the \emph{UME Model} using \emph{5-Fold 
 \end{Shaded}
 
 \begin{noteblock}
-Note that we reuse the function \href{}{train\_user\_movie\_effect.cv} calling it from the \href{}{regularize.test\_lambda.UM\_effect.cv}, but now with the \(\lambda\) parameter different from the default (zero) value.
+Note that we reuse the function \hyperref[func.train_user_movie_effect.cv]{train\_user\_movie\_effect.cv} calling it from the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv}, but now with the \(\lambda\) parameter different from the default (`lambda = 0') value.
 
 \end{noteblock}
-
-Let's now figure out the \(\lambda\) that minimizes the \emph{RMSE}:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Here we will simply compute the RMSE for different values of \textasciigrave{}lambda\textasciigrave{} }
-\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(y))}
-
-\NormalTok{sums }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(y }\SpecialCharTok{{-}}\NormalTok{ mu }\SpecialCharTok{{-}}\NormalTok{ a, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
-\NormalTok{lambdas }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{10}\NormalTok{, }\FloatTok{0.1}\NormalTok{)}
-
-\NormalTok{rmses }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(lambdas, }\ControlFlowTok{function}\NormalTok{(lambda)\{}
-\NormalTok{  b }\OtherTok{\textless{}{-}}\NormalTok{  sums }\SpecialCharTok{/}\NormalTok{ (n }\SpecialCharTok{+}\NormalTok{ lambda)}
-  \FunctionTok{reg\_rmse}\NormalTok{(b)}
-\NormalTok{\})}
-
-\CommentTok{\# Here is a plot of the RMSE versus \textasciigrave{}lambda\textasciigrave{}:}
-\FunctionTok{plot}\NormalTok{(lambdas, rmses, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-Now we can determine the minimal \emph{RMSE}:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# print(min(rmses))}
-\end{Highlighting}
-\end{Shaded}
-
-which is achieved for the following \(\lambda\):
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{lambda }\OtherTok{\textless{}{-}}\NormalTok{ lambdas[}\FunctionTok{which.min}\NormalTok{(rmses)] }
-\FunctionTok{print}\NormalTok{(lambda)}
-\end{Highlighting}
-\end{Shaded}
-
-Using this \(\lambda\) we can compute the regularized estimates:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{b\_reg }\OtherTok{\textless{}{-}}\NormalTok{ sums }\SpecialCharTok{/}\NormalTok{ (n }\SpecialCharTok{+}\NormalTok{ lambda)}
-
-\FunctionTok{str}\NormalTok{(b\_reg)}
-\end{Highlighting}
-\end{Shaded}
-
-Finally, let's verify that the penalized estimates \(\hat{b}_i(\lambda)\) we have just computed actually result in the minimal \emph{RMSE} figured out above:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{reg\_rmse}\NormalTok{(b\_reg)}
-\end{Highlighting}
-\end{Shaded}
 
 \newpage
 
 \paragraph{User+Movie Effect Model Tuning: Preconfiguratioin}\label{usermovie-effect-model-tuning-preconfiguratioin}
 
-We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appendix.a]{Appendix} of this report.
+\hfill\break
 
 Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
 
+We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appendix.a]{Appendix} of this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lambdas }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{0.1}\NormalTok{)}
+
+\NormalTok{cv.UME.preset.result }\OtherTok{\textless{}{-}} 
+  \FunctionTok{tune.model\_param}\NormalTok{(lambdas, regularize.test\_lambda.UM\_effect.cv)}
+
+\FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Preliminary regularization set{-}up of \textasciigrave{}lambda\textasciigrave{}s range for the UME Model has been completed}
+\StringTok{for the \%1{-}Fold Cross Validation samples."}\NormalTok{,}
+\NormalTok{CVFolds\_N)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(cv.UME.preset.result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 2
+##  $ tuned.result:'data.frame':    8 obs. of  2 variables:
+##   ..$ RMSE           : num [1:8] 0.873 0.873 0.873 0.873 0.873 ...
+##   ..$ parameter.value: num [1:8] 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7
+##  $ best_result : Named num [1:2] 0.4 0.873
+##   ..- attr(*, "names")= chr [1:2] "param.best_value" "best_RMSE"
+\end{verbatim}
+
 \begin{noteblock}
-The complete version of the code provided in this section can be found in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L814}{Process Preliminary setting-up of lambda range for UM Effect regularization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script.
+The complete version of the source code provided in this section can be found in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L814}{Process Preliminary setting-up of lambda range for UM Effect regularization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script.
+
+\end{noteblock}
+
+Now, let's visualize the results of the \(\lambda\) range preconfiguration:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cv.UME.preset.result}\SpecialCharTok{$}\NormalTok{tuned.result }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{data.plot}\NormalTok{(}\AttributeTok{title =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[Preliminary set{-}up of $\textbackslash{}lambda$ for Regularazation of the User+Movie Effect Model.]\textquotesingle{}}\NormalTok{),}
+              \AttributeTok{xname =} \StringTok{"parameter.value"}\NormalTok{, }
+              \AttributeTok{yname =} \StringTok{"RMSE"}\NormalTok{, }
+              \AttributeTok{xlabel =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[$\textbackslash{}lambda$]\textquotesingle{}}\NormalTok{), }
+              \AttributeTok{ylabel =} \StringTok{"RMSE"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-141-1.pdf}}
+
+\begin{noteblock}
+We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appendix.a.data_helper.functions]{Appendix} of this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script.
 
 \end{noteblock}
 
@@ -2348,7 +2329,7 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-177-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-175-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 
@@ -2382,7 +2363,7 @@ This is a great conclusion, isn't it?!!
 
 \section{Appendix}\label{appendix.a}
 
-\subsection{Data Helper Functions}\label{data-helper-functions}
+\subsection{Data Helper Functions}\label{appendix.a.data_helper.functions}
 
 \hfill\break
 
@@ -2453,6 +2434,111 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \end{noteblock}
 
+\subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.plot} Function}{data.plot Function}}\label{func.data.plot}
+
+\hfill\break
+
+\phantomsection\label{func.data.plot.Usage}
+\paragraph{Usage}\label{usage-1}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data.plot}\NormalTok{(data, }
+\NormalTok{          title, }
+\NormalTok{          xname, }
+\NormalTok{          yname, }
+          \AttributeTok{xlabel =} \ConstantTok{NULL}\NormalTok{, }
+          \AttributeTok{ylabel =} \ConstantTok{NULL}\NormalTok{,}
+          \AttributeTok{line\_col =} \StringTok{"blue"}\NormalTok{,}
+          \CommentTok{\# scale = 1,}
+          \AttributeTok{normalize =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\phantomsection\label{func.data.plot.params}
+\paragraph{Parameters}\label{parameters-1}
+
+\hfill\break
+::: \{ \#func.mean\_reg.params.param1s .sidebar \}
+- \textbf{param1:} description;
+
+\phantomsection\label{func.mean_reg.params.param2}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{param2:} description.
+\end{itemize}
+
+:::
+
+\phantomsection\label{func.data.plot.details}
+\paragraph{Details}\label{details-1}
+
+\hfill\break
+
+\begin{noteblock}
+Note
+
+\end{noteblock}
+
+\phantomsection\label{func.data.plot.value}
+\paragraph{Value}\label{value-1}
+
+\hfill\break
+
+\phantomsection\label{func.data.plot.code}
+\paragraph{Source Code}\label{source-code-1}
+
+\hfill\break
+
+The soure code of the \href{}{data.plot} function is shown below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data.plot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }
+\NormalTok{                      title, }
+\NormalTok{                      xname, }
+\NormalTok{                      yname, }
+                      \AttributeTok{xlabel =} \ConstantTok{NULL}\NormalTok{, }
+                      \AttributeTok{ylabel =} \ConstantTok{NULL}\NormalTok{,}
+                      \AttributeTok{line\_col =} \StringTok{"blue"}\NormalTok{,}
+                      \CommentTok{\# scale = 1,}
+                      \AttributeTok{normalize =} \ConstantTok{FALSE}\NormalTok{) \{}
+\NormalTok{  y }\OtherTok{\textless{}{-}}\NormalTok{ data[, yname]}
+  
+  \ControlFlowTok{if}\NormalTok{ (normalize) \{}
+\NormalTok{    y }\OtherTok{\textless{}{-}}\NormalTok{ y }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(y)}
+\NormalTok{  \}}
+  
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.null}\NormalTok{(xlabel)) \{}
+\NormalTok{    xlabel }\OtherTok{=}\NormalTok{ xname}
+\NormalTok{  \}}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.null}\NormalTok{(ylabel)) \{}
+\NormalTok{    ylabel }\OtherTok{=}\NormalTok{ yname}
+\NormalTok{  \}}
+  
+\NormalTok{  aes\_mapping }\OtherTok{\textless{}{-}} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ data[, xname], }\AttributeTok{y =}\NormalTok{ y)}
+  
+\NormalTok{  data }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{mapping =}\NormalTok{ aes\_mapping) }\SpecialCharTok{+}
+    \FunctionTok{ggtitle}\NormalTok{(title) }\SpecialCharTok{+}
+    \FunctionTok{xlab}\NormalTok{(xlabel) }\SpecialCharTok{+}
+    \FunctionTok{ylab}\NormalTok{(ylabel) }\SpecialCharTok{+}
+    \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} 
+    \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color=}\NormalTok{line\_col)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.plot} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script.
+
+\end{noteblock}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
 \subsection{Regularization: Common Helper Functions}\label{regularization-common-helper-functions}
 
 \hfill\break
@@ -2469,7 +2555,7 @@ The full source code of the functions described below are available in the \href
 A general function for computing the arithmetic mean given a \emph{regularization parameter} \(\lambda\). We will call it the \emph{penaized mean}.
 
 \phantomsection\label{func.mean_reg.usage}
-\paragraph{Usage}\label{usage-1}
+\paragraph{Usage}\label{usage-2}
 
 \hfill\break
 
@@ -2480,7 +2566,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{Shaded}
 
 \phantomsection\label{func.mean_reg.params}
-\paragraph{Parameters}\label{parameters-1}
+\paragraph{Parameters}\label{parameters-2}
 
 \hfill\break
 
@@ -2505,7 +2591,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{itemize}
 
 \phantomsection\label{func.mean_reg.details}
-\paragraph{Details}\label{details-1}
+\paragraph{Details}\label{details-2}
 
 \hfill\break
 We call this function internally from the functions that compute the \emph{penalized estimates} as described in section \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#penalized-least-squares}{23.6 Penalized Least Squares} of the \emph{Course Textbook}\autocite{IDS2_23-6}.
@@ -2516,7 +2602,7 @@ If the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} (t
 \end{noteblock}
 
 \phantomsection\label{func.mean_reg.value}
-\paragraph{Value}\label{value-1}
+\paragraph{Value}\label{value-2}
 
 \hfill\break
 
@@ -2531,7 +2617,7 @@ When the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} 
 \]
 
 \phantomsection\label{func.mean_reg.code}
-\paragraph{Source Code}\label{source-code-1}
+\paragraph{Source Code}\label{source-code-2}
 
 \hfill\break
 
@@ -2583,7 +2669,7 @@ The function searches for the parameter value corresponding to the minimum value
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-2}
+\paragraph{Parameters}\label{parameters-3}
 
 \hfill\break
 
@@ -2591,15 +2677,23 @@ The function searches for the parameter value corresponding to the minimum value
 \tightlist
 \item
   \textbf{param\_values:} A list of values to search for the value corresponding to the minimum value of the \texttt{RMSE} ;
+\end{itemize}
+
+\phantomsection\label{func.tune.model_param.params.fn_tune.test.param_value}
+\begin{itemize}
+\tightlist
 \item
   \textbf{fn\_tune.test.param\_value:} A helper function that calculates the value of the \texttt{RMSE} for a given parameter value.;
+\end{itemize}
+
+\begin{itemize}
 \item
   \textbf{break.if\_min = TRUE:} A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter \texttt{steps.beyond\_min}, after the minimum value of the \texttt{RMSE} has been found;
 \item
   \textbf{steps.beyond\_min = 2:} (takes effect only if \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number of steps after finding the minimum value of the \texttt{RMSE}, upon completion of which the function should terminate.
 \end{itemize}
 
-\paragraph{Details}\label{details-2}
+\paragraph{Details}\label{details-3}
 
 \hfill\break
 During execution, the function uses a helper function specified by the \texttt{fn\_tune.test.param\_value} parameter, which calculates the \texttt{RMSE} value for the given parameter from the list determined by the \texttt{param\_values} parameter.
@@ -2610,7 +2704,7 @@ Note that the algorithm assumes that the dependence of the \texttt{RMSE} on the 
 \end{noteblock}
 
 \phantomsection\label{func.tune.model_param.value}
-\paragraph{Value}\label{value-2}
+\paragraph{Value}\label{value-3}
 
 \hfill\break
 The function returns a data structure containing the found value of the input parameter \texttt{param\_values} for which the \texttt{RMSE} value is minimal, as well as the minimum \texttt{RMSE} value itself, along with a sequence of all calculated \texttt{RMSE} values:
@@ -2623,7 +2717,7 @@ The function returns a data structure containing the found value of the input pa
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-2}
+\paragraph{Source Code}\label{source-code-3}
 
 \hfill\break
 Below is the most significant part of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function:
@@ -2721,7 +2815,7 @@ The function fine-tunes the model by searching for the best possible value of th
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-3}
+\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-4}
 
 \hfill\break
 
@@ -2789,7 +2883,7 @@ This is a parameter that is required for the \href{https://github.com/AzKurban-e
 This is a parameter that is required for the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function that is called internally during execution (see the description of the \texttt{tune.model\_param} function \hyperref[func.tune.model_param]{above}).
 
 \phantomsection\label{func.model.tune.param_range.details}
-\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-3}
+\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-4}
 
 \hfill\break
 First, the function generates a sequence of the \texttt{input\ parameter\ values} based on the \texttt{loop\_starter} parameter values, as described above (see the \hyperref[func.model.tune.param_range.params.loop_starter]{loop\_starter} parameter description for the details), which is used as one of the input parameters for the helper function \hyperref[func.tune.model_param]{tune.model\_param}, which is repeatedly called during the execution, performing fine-tuning of the model.
@@ -2804,7 +2898,7 @@ Thus, with each subsequent iteration, the minimum \texttt{RMSE} value is calcula
 
 The calculation is completed when subsequent calculated values of the minimum \texttt{RMSE} stop improving and reach the most accurate possible value.
 
-\paragraph{\texorpdfstring{\textbf{Value}}{Value}}\label{value-3}
+\paragraph{\texorpdfstring{\textbf{Value}}{Value}}\label{value-4}
 
 \hfill\break
 
@@ -2820,7 +2914,7 @@ A data structure containing the minimum \texttt{RMSE} value reached during the f
 \end{Shaded}
 
 \phantomsection\label{func.model.tune.param_range.code}
-\paragraph{Source Code}\label{source-code-3}
+\paragraph{Source Code}\label{source-code-4}
 
 \hfill\break
 Below is the simplified version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} function:
@@ -2998,7 +3092,7 @@ The full version of the source code of the \href{https://github.com/AzKurban-edX
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-4}
+\paragraph{Parameters}\label{parameters-5}
 
 \hfill\break
 
@@ -3023,12 +3117,12 @@ A data structure compatible with the \texttt{tuned.result} item of the data stru
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Details}\label{details-4}
+\paragraph{Details}\label{details-5}
 
 \hfill\break
 The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
-\paragraph{Value}\label{value-4}
+\paragraph{Value}\label{value-5}
 
 \hfill\break
 A vector containing the index of the element corresponding to the minimum \texttt{RMSE} value in a given sequence, along with the indices of its nearest neighboring elements:
@@ -3041,7 +3135,7 @@ A vector containing the index of the element corresponding to the minimum \textt
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-4}
+\paragraph{Source Code}\label{source-code-5}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L87}{get\_fine\_tune.param.endpoints.idx} function is shown below:
@@ -3100,7 +3194,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-5}
+\paragraph{Parameters}\label{parameters-6}
 
 \hfill\break
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the \texttt{RMSE}.
@@ -3113,12 +3207,12 @@ A pair of matched vectors, the first of which contains the values of the input p
   \textbf{rmses:} A vector containing values of the corresponding \texttt{Root\ Mean\ Squared\ Errors}..
 \end{itemize}
 
-\paragraph{Details}\label{details-5}
+\paragraph{Details}\label{details-6}
 
 \hfill\break
 Extracts the best values from the input data and returns them as a vector containing a pair of the best \emph{input parameter} value and the corresponding \emph{minimum \texttt{RMSE}}.
 
-\paragraph{Value}\label{value-5}
+\paragraph{Value}\label{value-6}
 
 \hfill\break
 A vector containing a pair of the best \emph{input parameter} value and the corresponding \emph{minimum \texttt{RMSE}}:
@@ -3129,7 +3223,7 @@ A vector containing a pair of the best \emph{input parameter} value and the corr
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-5}
+\paragraph{Source Code}\label{source-code-6}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} function is shown below:
@@ -3154,12 +3248,12 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname00.Usage}
-\paragraph{Usage}\label{usage-2}
+\paragraph{Usage}\label{usage-3}
 
 \hfill\break
 
 \phantomsection\label{func.fname00.params}
-\paragraph{Parameters}\label{parameters-6}
+\paragraph{Parameters}\label{parameters-7}
 
 \hfill\break
 ::: \{ \#func.mean\_reg.params.param1s .sidebar \}
@@ -3173,7 +3267,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{itemize}
 
 \phantomsection\label{func.fname00.details}
-\paragraph{Details}\label{details-6}
+\paragraph{Details}\label{details-7}
 
 \hfill\break
 
@@ -3183,12 +3277,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname00.value}
-\paragraph{Value}\label{value-6}
+\paragraph{Value}\label{value-7}
 
 \hfill\break
 
 \phantomsection\label{func.fname00.code}
-\paragraph{Source Code}\label{source-code-6}
+\paragraph{Source Code}\label{source-code-7}
 
 \hfill\break
 
@@ -3209,14 +3303,14 @@ The source code of the \href{}{fname00} is also available in the \href{}{Some.Se
 \hfill\break
 
 \phantomsection\label{func.fname01.params}
-\paragraph{Parameters}\label{parameters-7}
+\paragraph{Parameters}\label{parameters-8}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname01.details}
-\paragraph{Details}\label{details-7}
+\paragraph{Details}\label{details-8}
 
 \hfill\break
 
@@ -3226,12 +3320,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname01.value}
-\paragraph{Value}\label{value-7}
+\paragraph{Value}\label{value-8}
 
 \hfill\break
 
 \phantomsection\label{func.fname01.code}
-\paragraph{Source Code}\label{source-code-7}
+\paragraph{Source Code}\label{source-code-8}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3251,14 +3345,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname02.params}
-\paragraph{Parameters}\label{parameters-8}
+\paragraph{Parameters}\label{parameters-9}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname02.details}
-\paragraph{Details}\label{details-8}
+\paragraph{Details}\label{details-9}
 
 \hfill\break
 
@@ -3268,12 +3362,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname02.value}
-\paragraph{Value}\label{value-8}
+\paragraph{Value}\label{value-9}
 
 \hfill\break
 
 \phantomsection\label{func.fname02.code}
-\paragraph{Source Code}\label{source-code-8}
+\paragraph{Source Code}\label{source-code-9}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3293,14 +3387,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname0.params}
-\paragraph{Parameters}\label{parameters-9}
+\paragraph{Parameters}\label{parameters-10}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname0.details}
-\paragraph{Details}\label{details-9}
+\paragraph{Details}\label{details-10}
 
 \hfill\break
 
@@ -3310,12 +3404,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname0.value}
-\paragraph{Value}\label{value-9}
+\paragraph{Value}\label{value-10}
 
 \hfill\break
 
 \phantomsection\label{func.fname0.code}
-\paragraph{Source Code}\label{source-code-9}
+\paragraph{Source Code}\label{source-code-10}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3335,14 +3429,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname03.params}
-\paragraph{Parameters}\label{parameters-10}
+\paragraph{Parameters}\label{parameters-11}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname03.details}
-\paragraph{Details}\label{details-10}
+\paragraph{Details}\label{details-11}
 
 \hfill\break
 
@@ -3352,12 +3446,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname03.value}
-\paragraph{Value}\label{value-10}
+\paragraph{Value}\label{value-11}
 
 \hfill\break
 
 \phantomsection\label{func.fname03.code}
-\paragraph{Source Code}\label{source-code-10}
+\paragraph{Source Code}\label{source-code-11}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3377,14 +3471,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname1.params}
-\paragraph{Parameters}\label{parameters-11}
+\paragraph{Parameters}\label{parameters-12}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname1.details}
-\paragraph{Details}\label{details-11}
+\paragraph{Details}\label{details-12}
 
 \hfill\break
 
@@ -3394,12 +3488,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname1.value}
-\paragraph{Value}\label{value-11}
+\paragraph{Value}\label{value-12}
 
 \hfill\break
 
 \phantomsection\label{func.fname1.code}
-\paragraph{Source Code}\label{source-code-11}
+\paragraph{Source Code}\label{source-code-12}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3421,14 +3515,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname2.params}
-\paragraph{Parameters}\label{parameters-12}
+\paragraph{Parameters}\label{parameters-13}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname2.details}
-\paragraph{Details}\label{details-12}
+\paragraph{Details}\label{details-13}
 
 \hfill\break
 
@@ -3438,12 +3532,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname2.value}
-\paragraph{Value}\label{value-12}
+\paragraph{Value}\label{value-13}
 
 \hfill\break
 
 \phantomsection\label{func.fname2.code}
-\paragraph{Source Code}\label{source-code-12}
+\paragraph{Source Code}\label{source-code-13}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3467,14 +3561,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname3.params}
-\paragraph{Parameters}\label{parameters-13}
+\paragraph{Parameters}\label{parameters-14}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname3.details}
-\paragraph{Details}\label{details-13}
+\paragraph{Details}\label{details-14}
 
 \hfill\break
 
@@ -3484,12 +3578,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname3.value}
-\paragraph{Value}\label{value-13}
+\paragraph{Value}\label{value-14}
 
 \hfill\break
 
 \phantomsection\label{func.fname3.code}
-\paragraph{Source Code}\label{source-code-13}
+\paragraph{Source Code}\label{source-code-14}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3511,14 +3605,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname4.params}
-\paragraph{Parameters}\label{parameters-14}
+\paragraph{Parameters}\label{parameters-15}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname4.details}
-\paragraph{Details}\label{details-14}
+\paragraph{Details}\label{details-15}
 
 \hfill\break
 
@@ -3528,12 +3622,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname4.value}
-\paragraph{Value}\label{value-14}
+\paragraph{Value}\label{value-15}
 
 \hfill\break
 
 \phantomsection\label{func.fname4.code}
-\paragraph{Source Code}\label{source-code-14}
+\paragraph{Source Code}\label{source-code-15}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3555,14 +3649,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname5.params}
-\paragraph{Parameters}\label{parameters-15}
+\paragraph{Parameters}\label{parameters-16}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname5.details}
-\paragraph{Details}\label{details-15}
+\paragraph{Details}\label{details-16}
 
 \hfill\break
 
@@ -3572,12 +3666,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname5.value}
-\paragraph{Value}\label{value-15}
+\paragraph{Value}\label{value-16}
 
 \hfill\break
 
 \phantomsection\label{func.fname5.code}
-\paragraph{Source Code}\label{source-code-15}
+\paragraph{Source Code}\label{source-code-16}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3599,14 +3693,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname6.params}
-\paragraph{Parameters}\label{parameters-16}
+\paragraph{Parameters}\label{parameters-17}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname6.details}
-\paragraph{Details}\label{details-16}
+\paragraph{Details}\label{details-17}
 
 \hfill\break
 
@@ -3616,12 +3710,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname6.value}
-\paragraph{Value}\label{value-16}
+\paragraph{Value}\label{value-17}
 
 \hfill\break
 
 \phantomsection\label{func.fname6.code}
-\paragraph{Source Code}\label{source-code-16}
+\paragraph{Source Code}\label{source-code-17}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3643,14 +3737,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname7.params}
-\paragraph{Parameters}\label{parameters-17}
+\paragraph{Parameters}\label{parameters-18}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname7.details}
-\paragraph{Details}\label{details-17}
+\paragraph{Details}\label{details-18}
 
 \hfill\break
 
@@ -3660,12 +3754,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname7.value}
-\paragraph{Value}\label{value-17}
+\paragraph{Value}\label{value-18}
 
 \hfill\break
 
 \phantomsection\label{func.fname7.code}
-\paragraph{Source Code}\label{source-code-17}
+\paragraph{Source Code}\label{source-code-18}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -3687,14 +3781,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname8.params}
-\paragraph{Parameters}\label{parameters-18}
+\paragraph{Parameters}\label{parameters-19}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname8.details}
-\paragraph{Details}\label{details-18}
+\paragraph{Details}\label{details-19}
 
 \hfill\break
 
@@ -3704,12 +3798,12 @@ Note
 \end{noteblock}
 
 \phantomsection\label{func.fname8.value}
-\paragraph{Value}\label{value-18}
+\paragraph{Value}\label{value-19}
 
 \hfill\break
 
 \phantomsection\label{func.fname8.code}
-\paragraph{Source Code}\label{source-code-18}
+\paragraph{Source Code}\label{source-code-19}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:

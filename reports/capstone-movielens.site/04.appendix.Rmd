@@ -1,5 +1,5 @@
 # Appendix {#appendix.a}
-## Data Helper Functions
+## Data Helper Functions {#appendix.a.data_helper.functions}
 \
 
 ### [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) Function {#func.union_cv_results}
@@ -63,6 +63,103 @@ union_cv_results <- function(data_list) {
 The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) is also available in the [Model training](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L431) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) script.
 :::
 :::
+
+### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) Function {#func.data.plot}
+\
+
+::: { #func.data.plot.Usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+data.plot(data, 
+          title, 
+          xname, 
+          yname, 
+          xlabel = NULL, 
+          ylabel = NULL,
+          line_col = "blue",
+          # scale = 1,
+          normalize = FALSE)
+```
+:::
+
+::: { #func.data.plot.params .sidebar }
+#### Parameters
+\
+::: { #func.mean_reg.params.param1s .sidebar }
+  - **param1:** description; 
+
+:::
+::: { #func.mean_reg.params.param2 .sidebar }
+  - **param2:** description. 
+
+:::
+:::
+
+::: { #func.data.plot.details .sidebar }
+#### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.data.plot.value .sidebar }
+#### Value
+\
+
+:::
+
+::: { #func.data.plot.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [data.plot]() function is shown below:
+```{r eval=FALSE}
+data.plot <- function(data, 
+                      title, 
+                      xname, 
+                      yname, 
+                      xlabel = NULL, 
+                      ylabel = NULL,
+                      line_col = "blue",
+                      # scale = 1,
+                      normalize = FALSE) {
+  y <- data[, yname]
+  
+  if (normalize) {
+    y <- y - min(y)
+  }
+  
+  if (is.null(xlabel)) {
+    xlabel = xname
+  }
+  if (is.null(ylabel)) {
+    ylabel = yname
+  }
+  
+  aes_mapping <- aes(x = data[, xname], y = y)
+  
+  data |> 
+    ggplot(mapping = aes_mapping) +
+    ggtitle(title) +
+    xlab(xlabel) +
+    ylab(ylabel) +
+    geom_point() + 
+    geom_line(color=line_col)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script.
+:::
+:::
+
+
+
+---------------------------------------------------------
 
 ## Regularization: Common Helper Functions
 \
@@ -177,8 +274,13 @@ tune.model_param <- function(param_values,
 \
 
   - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
+
+::: { #func.tune.model_param.params.fn_tune.test.param_value .sidebar }
   - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+
+:::  
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
 #### Details

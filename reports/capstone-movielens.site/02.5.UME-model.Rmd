@@ -46,7 +46,7 @@ train_user_movie_effect <- function(train_set, lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-The function described above accepts the `lambda` parameter, which we will need later for the _Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will also need later for the *Regularization* techniques (For details, see the [mean_reg](#func.mean_reg) function description in the [Appendix](#appendix.a) of this report).
+The function described above accepts the `lambda` parameter, which we will need later for the _Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will also need later for the *Regularization* techniques (for details, see the [mean_reg](#func.mean_reg) function description in the [Appendix](#appendix.a) of this report).
 We will explain that later in the [Regularization Method] section. 
 For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. In this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
@@ -80,20 +80,9 @@ User+Movie Effect list have been computed")
 ```
 
 ::: {.noteblock data-latex=""}
-Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the `Cross Validation` results.
+Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the _5-Fold Cross Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the
+[Appendix](#appendix.a) of this report).
 :::
-```{r eval=FALSE}
-union_cv_results <- function(data_list) {
-  out_dat <- data_list[[1]]
-  
-  for (i in 2:CVFolds_N){
-    out_dat <- union(out_dat, 
-                     data_list[[i]])
-  }
-  
-  out_dat
-}
-```
 
 #### `calc_user_movie_effect_MSE` Function
 \
@@ -236,7 +225,7 @@ We will implement the _Regularization_ method on our  models (starting from the 
 The [regularize.test_lambda.UM_effect.cv]() function described below are defined in the [Regularization]() section of the [UM-effect.functions.R]() script.
 :::
 
-##### [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) Function
+##### [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) Function {#func.regularize.test_lambda.UM_effect.cv}
 \
 
 This function calculates _RMSE_ of the _UME Model_ using _5-Fold Cross Validation_ method for the given $\lambda$ parameter value:
@@ -252,60 +241,51 @@ regularize.test_lambda.UM_effect.cv <- function(lambda){
 ```
 
 ::: {.noteblock data-latex=""}
-Note that we reuse the function [train_user_movie_effect.cv]() calling it from the [regularize.test_lambda.UM_effect.cv](), but now with the $\lambda$ parameter different from the default (zero) value.
+Note that we reuse the function [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) calling it from the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv), but now with the $\lambda$ parameter different from the default ('lambda = 0') value.
 :::
-
-Let's now figure out the $\lambda$ that minimizes the _RMSE_:
-```{r eval=FALSE}
-# Here we will simply compute the RMSE for different values of `lambda` 
-n <- colSums(!is.na(y))
-
-sums <- colSums(y - mu - a, na.rm = TRUE)
-lambdas <- seq(0, 10, 0.1)
-
-rmses <- sapply(lambdas, function(lambda){
-  b <-  sums / (n + lambda)
-  reg_rmse(b)
-})
-
-# Here is a plot of the RMSE versus `lambda`:
-plot(lambdas, rmses, type = "l")
-```
-Now we can determine the minimal _RMSE_:
-```{r}
-# print(min(rmses))
-```
-
-which is achieved for the following $\lambda$:
-```{r eval=FALSE}
-lambda <- lambdas[which.min(rmses)] 
-print(lambda)
-```
-
-Using this $\lambda$ we can compute the regularized estimates:
-```{r eval=FALSE}
-b_reg <- sums / (n + lambda)
-
-str(b_reg)
-```
-Finally, let's verify that the penalized estimates $\hat{b}_i(\lambda)$ we have just computed actually result in the minimal _RMSE_ figured out above: 
-```{r eval=FALSE}
-reg_rmse(b_reg)
-```
 
 \newpage
 
 #### User+Movie Effect Model Tuning: Preconfiguratioin
-
-We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Appendix](#appendix.a) of this report.
+\
 
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
+We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Appendix](#appendix.a) of this report, passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter:
 
+```{r, eval=FALSE}
+lambdas <- seq(0, 1, 0.1)
+
+cv.UME.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+
+put_log1("Preliminary regularization set-up of `lambda`s range for the UME Model has been completed
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+
+```
+```{r}
+str(cv.UME.preset.result)
+```
 
 ::: {.noteblock data-latex=""}
-The complete version of the code provided in this section can be found in the [Process Preliminary setting-up of lambda range for UM Effect regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L814) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script.
+The complete version of the source code provided in this section can be found in the [Process Preliminary setting-up of lambda range for UM Effect regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L814) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script.
 :::
+
+Now, let's visualize the results of the $\lambda$ range preconfiguration:
+``` {r}
+cv.UME.preset.result$tuned.result |>
+  data.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie Effect Model.]'),
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = TeX(r'[$\lambda$]'), 
+              ylabel = "RMSE")
+```
+
+::: {.noteblock data-latex=""}
+We use the custom data visualization function [data.plot](#func.data.plot) described in the [Appendix](#appendix.a.data_helper.functions) of this report, which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script.
+:::
+
 
 
 \newpage
