@@ -68,6 +68,8 @@ The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Cap
 ### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) Function {#func.data.plot}
 \
 
+Plots a graph based on the dataset passed in the [data](#func.mean_reg.params.data) parameter, using both points and a line.
+
 ::: { #func.data.plot.Usage .sidebar }
 #### Usage
 \
@@ -88,12 +90,36 @@ data.plot(data,
 #### Parameters
 \
 
-::: { #func.mean_reg.params.param1 .sidebar }
-  - **param1:** description; 
+::: { #func.mean_reg.params.data .sidebar }
+  - **data:** Dataset to use for the plot; 
 
 :::
-::: { #func.mean_reg.params.param2 .sidebar }
-  - **param2:** description. 
+::: { #func.mean_reg.params.title .sidebar }
+  - **title:** Title of the plot; 
+
+:::
+::: { #func.mean_reg.params.xname .sidebar }
+  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
+
+:::
+::: { #func.mean_reg.params.yname .sidebar }
+  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
+
+:::
+::: { #func.mean_reg.params.xlabel .sidebar }
+  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+
+:::
+::: { #func.mean_reg.params.ylabel .sidebar }
+  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+
+:::
+::: { #func.mean_reg.params. .sidebar }
+  - **line_col = blue:** The line color; 
+
+:::
+::: { #func.mean_reg.params. .sidebar }
+  - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
 
 :::
 :::
@@ -102,14 +128,7 @@ data.plot(data,
 #### Details
 \
 
-::: {.noteblock data-latex=""}
-Note 
-:::
-:::
-
-::: { #func.data.plot.value .sidebar }
-#### Value
-\
+The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function and is a simple and convenient tool for visualizing the data of this project.
 
 :::
 
@@ -157,9 +176,62 @@ The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-M
 :::
 :::
 
+### [data.helper.func0]() Function {#func.data.helper.func0}
+\
+
+::: { #func.data.helper.func0.Usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.data.helper.func0.params .sidebar }
+#### Parameters
+\
+
+::: { #func.data.helper.func0.params.p1 .sidebar }
+  - **p1:** description; 
+
+:::
+::: { #func.data.helper.func0.params.2 .sidebar }
+  - **p2:** description. 
+
+:::
+:::
+
+::: { #func.data.helper.func0.details .sidebar }
+#### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.data.helper.func0.value .sidebar }
+#### Value
+\
+
+:::
+
+::: { #func.data.helper.func0.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [data.helper.func0]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [data.helper.func0]() is also available in the [Some.Section]() section of the [Somefunctions.R]() script.
+:::
+:::
 
 
----------------------------------------------------------
 
 ## Regularization: Common Helper Functions {#appndx_a.rglr.common_helper.functions}
 \
@@ -785,12 +857,12 @@ get_best_param.result <- function(param_values, rmses){
 #### Parameters
 \
 
-::: { #func.fname00.params.param1 .sidebar }
-  - **param1:** description; 
+::: { #func.fname00.params.p1 .sidebar }
+  - **p1:** description; 
 
 :::
-::: { #func.fname00.params.param2 .sidebar }
-  - **param2:** description. 
+::: { #func.fname00.params.2 .sidebar }
+  - **p2:** description. 
 
 :::
 :::
@@ -1059,7 +1131,8 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
+## Other Function Templates
+\
 
 ### [fname2]() Function {#func.fname2}
 \
@@ -1108,10 +1181,6 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
-
 ### [fname3]() Function {#func.fname3}
 \
 
@@ -1158,8 +1227,6 @@ The soure code of the [function]() function is shown below:
 The source code of the []() is also available in the [Regularization]() section of the [UM-effect.functions.R]() script.
 :::
 :::
-
---------------------------------------------------------------------------------
 
 ### [fname4]() Function {#func.fname4}
 \
@@ -1208,7 +1275,6 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
 
 ### [fname5]() Function {#func.fname5}
 \
@@ -1257,8 +1323,6 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
-
 ### [fname6]() Function {#func.fname6}
 \
 
@@ -1306,7 +1370,6 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
 
 ### [fname7]() Function {#func.fname7}
 \
@@ -1355,7 +1418,6 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
 
 ### [fname8]() Function {#func.fname8}
 \
@@ -1404,6 +1466,5 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
 
 
