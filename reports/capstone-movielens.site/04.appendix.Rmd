@@ -21,7 +21,7 @@ union_cv_results(data_list = data)
 #### Parameters
 \
 
-::: { #func.mean_reg.params.data_list .sidebar }
+::: { #func.union_cv_results.params.data_list .sidebar }
   - **data_list:** List of data frames representing the results of the _N-Fold Cross Validation_ method execution.; 
 
 :::
@@ -68,7 +68,7 @@ The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Cap
 ### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) Function {#func.data.plot}
 \
 
-Plots a graph based on the dataset passed in the [data](#func.mean_reg.params.data) parameter, using both points and a line.
+Plots a graph based on the dataset passed in the [data](#func.data.plot.params.data) parameter, using both points and a line.
 
 ::: { #func.data.plot.Usage .sidebar }
 #### Usage
@@ -90,35 +90,35 @@ data.plot(data,
 #### Parameters
 \
 
-::: { #func.mean_reg.params.data .sidebar }
+::: { #func.data.plot.params.data .sidebar }
   - **data:** Dataset to use for the plot; 
 
 :::
-::: { #func.mean_reg.params.title .sidebar }
+::: { #func.data.plot.params.title .sidebar }
   - **title:** Title of the plot; 
 
 :::
-::: { #func.mean_reg.params.xname .sidebar }
+::: { #func.data.plot.params.xname .sidebar }
   - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
 
 :::
-::: { #func.mean_reg.params.yname .sidebar }
+::: { #func.data.plot.params.yname .sidebar }
   - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
 
 :::
-::: { #func.mean_reg.params.xlabel .sidebar }
+::: { #func.data.plot.params.xlabel .sidebar }
   - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
 
 :::
-::: { #func.mean_reg.params.ylabel .sidebar }
+::: { #func.data.plot.params.ylabel .sidebar }
   - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
 
 :::
-::: { #func.mean_reg.params. .sidebar }
+::: { #func.data.plot.params.line_col .sidebar }
   - **line_col = blue:** The line color; 
 
 :::
-::: { #func.mean_reg.params. .sidebar }
+::: { #func.data.plot.params.normalize .sidebar }
   - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
 
 :::

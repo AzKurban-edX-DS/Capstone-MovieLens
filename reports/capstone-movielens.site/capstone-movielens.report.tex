@@ -1779,8 +1779,6 @@ For now, we omit the \texttt{lambda} parameter, accepting its default value \tex
 
 \end{noteblock}
 
-\newpage
-
 \paragraph{\texorpdfstring{\texttt{train\_user\_movie\_effect.cv} Function}{train\_user\_movie\_effect.cv Function}}\label{func.train_user_movie_effect.cv}
 
 \hfill\break
@@ -1835,6 +1833,8 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
+
+\newpage
 
 \paragraph{\texorpdfstring{\texttt{calc\_user\_movie\_effect\_MSE.cv} Function}{calc\_user\_movie\_effect\_MSE.cv Function}}\label{calc_user_movie_effect_mse.cv-function}
 
@@ -1997,6 +1997,8 @@ We will implement the \emph{Regularization} method on our models (starting from 
   \textbf{Pre-configuration:} Preliminary determination of the optimal range of \(\lambda\) values for the \texttt{5-Fold\ Cross\ Validation} samples;
 \item
   \textbf{Fine-tuning:} figuring out the value of \(\lambda\) that minimizes the model's RMSE.
+\item
+  \textbf{Retraining:} retraining the model with the best value of the parameter \(\lambda\) obtained in the previous step.
 \end{enumerate}
 
 \newpage
@@ -2093,13 +2095,346 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-136-1.pdf}}
 
 \begin{noteblock}
-We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script.
+We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
 \newpage
 
 \paragraph{User+Movie Effect Model: Fine-Tuning}\label{usermovie-effect-model-fine-tuning}
+
+\hfill\break
+
+We are now ready to perform the fine-tuning step of our model \emph{regularization} process to determine the best value for the \(\lambda\) parameter.
+
+Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{endpoints }\OtherTok{\textless{}{-}} 
+  \FunctionTok{get\_fine\_tune.param.endpoints}\NormalTok{(cv.UME.preset.result}\SpecialCharTok{$}\NormalTok{tuned.result)}
+
+\NormalTok{UM\_effect.loop\_starter }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(endpoints[}\StringTok{"start"}\NormalTok{], }
+\NormalTok{                            endpoints[}\StringTok{"end"}\NormalTok{], }
+                            \DecValTok{8}\NormalTok{)}
+\NormalTok{UM\_effect.loop\_starter}
+\CommentTok{\#\textgreater{} [1] 0.3 0.5 8.0}
+
+\NormalTok{UME.rglr.fine\_tune.cache.base\_name }\OtherTok{\textless{}{-}} \StringTok{"UME.rglr.fine{-}tune"}
+
+\NormalTok{UME.rglr.fine\_tune.results }\OtherTok{\textless{}{-}} 
+  \FunctionTok{model.tune.param\_range}\NormalTok{(UM\_effect.loop\_starter,}
+\NormalTok{                         UME.rglr.fine\_tune.cache.path,}
+\NormalTok{                         UME.rglr.fine\_tune.cache.base\_name,}
+\NormalTok{                         regularize.test\_lambda.UM\_effect.cv)}
+                         \CommentTok{\#endpoint.min\_diff = 1e{-}07/4)}
+
+\NormalTok{UME.rglr.fine\_tune.RMSE.best }\OtherTok{\textless{}{-}}\NormalTok{ UME.rglr.fine\_tune.results}\SpecialCharTok{$}\NormalTok{best\_result[}\StringTok{"best\_RMSE"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** Fine{-}tuning results object data structure ***"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## *** Fine-tuning results object data structure ***
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(UME.rglr.fine\_tune.results)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 3
+##  $ best_result           : Named num [1:2] 0.387 0.873
+##   ..- attr(*, "names")= chr [1:2] "param.best_value" "best_RMSE"
+##  $ param_values.endpoints: Named num [1:3] 3.87e-01 3.87e-01 9.54e-07
+##   ..- attr(*, "names")= chr [1:3] "" "" ""
+##  $ tuned.result          :'data.frame':  9 obs. of  2 variables:
+##   ..$ parameter.value: num [1:9] 0.387 0.387 0.387 0.387 0.387 ...
+##   ..$ RMSE           : num [1:9] 0.873 0.873 0.873 0.873 0.873 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## --------
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** Fine{-}tuning: best results ***"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## *** Fine-tuning: best results ***
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{UME.rglr.fine\_tune.results}\SpecialCharTok{$}\NormalTok{best\_result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## param.best_value        best_RMSE 
+##        0.3874500        0.8732057
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ------
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** Fine{-}tuning: best parameter value ***"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## *** Fine-tuning: best parameter value ***
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{UME.rglr.fine\_tune.RMSE.best}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## best_RMSE 
+## 0.8732057
+\end{verbatim}
+
+\begin{noteblock}
+The complete version of the source code provided in this section can be also found in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L867}{Fine-tuning Step of the Regularization Method for the User+Movie Model} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Let's visualize the fine-tuning results:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{UME.rglr.fine\_tune.results}\SpecialCharTok{$}\NormalTok{tuned.result }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{data.plot}\NormalTok{(}\AttributeTok{title =} \StringTok{"Fine{-}tune Stage results of the Regularization Process for the User+Movie Model"}\NormalTok{,}
+              \AttributeTok{xname =} \StringTok{"parameter.value"}\NormalTok{,}
+              \AttributeTok{yname =} \StringTok{"RMSE"}\NormalTok{,}
+              \AttributeTok{xlabel =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[$\textbackslash{}lambda$]\textquotesingle{}}\NormalTok{),}
+              \AttributeTok{ylabel =} \FunctionTok{str\_glue}\NormalTok{(}\StringTok{"Deviation from the best RMSE value ("}\NormalTok{,}
+                                \FunctionTok{as.character}\NormalTok{(}\FunctionTok{round}\NormalTok{(UME.rglr.fine\_tune.RMSE.best, }\AttributeTok{digits =} \DecValTok{7}\NormalTok{)), }
+                                \StringTok{")"}\NormalTok{),}
+              \AttributeTok{normalize =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-139-1.pdf}}
+\newpage
+
+\paragraph{\texorpdfstring{Retraining User+Movie Effect Model with the best \(\lambda\)}{Retraining User+Movie Effect Model with the best \textbackslash lambda}}\label{retraining-usermovie-effect-model-with-the-best-lambda}
+
+\hfill\break
+
+Finally, we retrain our model with the best \(\lambda\) parameter value we have just figured out:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  UME.rglr.best\_lambda }\OtherTok{\textless{}{-}}\NormalTok{ best\_result[}\StringTok{"param.best\_value"}\NormalTok{]}
+\NormalTok{  UME.rglr.best\_lambda}
+
+\NormalTok{  rglr.UM\_effect }\OtherTok{\textless{}{-}} \FunctionTok{train\_user\_movie\_effect}\NormalTok{(edx, UME.rglr.best\_lambda)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** The Best Fine{-}tuning Results ***"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## *** The Best Fine-tuning Results ***
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{UME.rglr.fine\_tune.results}\SpecialCharTok{$}\NormalTok{best\_result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## param.best_value        best_RMSE 
+##        0.3874500        0.8732057
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ------
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{print\_log1}\NormalTok{(}\StringTok{"Re{-}training Regularized User+Movie Effect Model for the best \textasciigrave{}lambda\textasciigrave{}: \%1..."}\NormalTok{,}
+\NormalTok{           UME.rglr.best\_lambda)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Re-training Regularized User+Movie Effect Model for the best `lambda`: 0.38745002746582...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ------
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** Regularized User+Movie Effect Structure ***"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## *** Regularized User+Movie Effect Structure ***
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(rglr.UM\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [10,677 x 3] (S3: tbl_df/tbl/data.frame)
+##  $ movieId: int [1:10677] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ b      : Named num [1:10677] 0.331 -0.305 -0.364 -0.599 -0.443 ...
+##   ..- attr(*, "names")= chr [1:10677] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  $ n      : int [1:10677] 23790 10779 7028 1577 6400 12346 7259 821 2278 15187 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ------
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The complete version of the source code provided in this section are available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L910}{Re-training Regularized User+Movie Effect Model for the best \(\lambda\)} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L910}{capstone-movielens.main.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Finally, after \emph{Regularization}, we obtained the following result:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{UME.rglr.retrain.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{calc\_user\_movie\_effect\_RMSE.cv}\NormalTok{(rglr.UM\_effect)}
+
+\NormalTok{RMSEs.ResultTibble.rglr.UME }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.UME }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"Regularized User+Movie Effect Model"}\NormalTok{, }
+\NormalTok{               UME.rglr.retrain.RMSE,}
+               \AttributeTok{comment =} \StringTok{"Computed for \textasciigrave{}lambda\textasciigrave{} = \%1"} \SpecialCharTok{|\textgreater{}}
+                 \FunctionTok{msg.glue}\NormalTok{(UME.rglr.best\_lambda))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print\_log1}\NormalTok{(}\StringTok{"Regularized User+Movie Effect Model has been re{-}trained for the best \textasciigrave{}lambda\textasciigrave{}: \%1."}\NormalTok{,}
+\NormalTok{         UME.rglr.best\_lambda)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Regularized User+Movie Effect Model has been re-trained for the best `lambda`: 0.38745002746582.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print\_log1}\NormalTok{(}\StringTok{"The best RMSE after being regularized: \%1"}\NormalTok{,}
+\NormalTok{         UME.rglr.retrain.RMSE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The best RMSE after being regularized: 0.872972999076497
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSE\_kable}\NormalTok{(RMSEs.ResultTibble.rglr.UME)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\toprule
+\textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
+\midrule
+Project Objective & 0.8649000 & \\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
+Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+\bottomrule
+\end{tabular}
 
 \newpage
 
@@ -2327,7 +2662,7 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-170-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-181-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 
@@ -2387,7 +2722,7 @@ Aggregates the input data frames into a single data frame.
 
 \hfill\break
 
-\phantomsection\label{func.mean_reg.params.data_list}
+\phantomsection\label{func.union_cv_results.params.data_list}
 \begin{itemize}
 \tightlist
 \item
@@ -2439,7 +2774,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \hfill\break
 
-Plots a graph based on the dataset passed in the \hyperref[func.mean_reg.params.data]{data} parameter, using both points and a line.
+Plots a graph based on the dataset passed in the \hyperref[func.data.plot.params.data]{data} parameter, using both points and a line.
 
 \phantomsection\label{func.data.plot.Usage}
 \paragraph{Usage}\label{usage-1}
@@ -2464,56 +2799,56 @@ Plots a graph based on the dataset passed in the \hyperref[func.mean_reg.params.
 
 \hfill\break
 
-\phantomsection\label{func.mean_reg.params.data}
+\phantomsection\label{func.data.plot.params.data}
 \begin{itemize}
 \tightlist
 \item
   \textbf{data:} Dataset to use for the plot;
 \end{itemize}
 
-\phantomsection\label{func.mean_reg.params.title}
+\phantomsection\label{func.data.plot.params.title}
 \begin{itemize}
 \tightlist
 \item
   \textbf{title:} Title of the plot;
 \end{itemize}
 
-\phantomsection\label{func.mean_reg.params.xname}
+\phantomsection\label{func.data.plot.params.xname}
 \begin{itemize}
 \tightlist
 \item
   \textbf{xname:} The name of the dataset column used as the source of the \(x\) variable for the plot;
 \end{itemize}
 
-\phantomsection\label{func.mean_reg.params.yname}
+\phantomsection\label{func.data.plot.params.yname}
 \begin{itemize}
 \tightlist
 \item
   \textbf{yname:} The name of the dataset column used as the source of the \(y\) variable for the plot;
 \end{itemize}
 
-\phantomsection\label{func.mean_reg.params.xlabel}
+\phantomsection\label{func.data.plot.params.xlabel}
 \begin{itemize}
 \tightlist
 \item
   \emph{xlabel = NULL}:** The \(x\) axis label. If \texttt{NULL}, the value of the \texttt{xname} parameter is used for the label;
 \end{itemize}
 
-\phantomsection\label{func.mean_reg.params.ylabel}
+\phantomsection\label{func.data.plot.params.ylabel}
 \begin{itemize}
 \tightlist
 \item
   \textbf{ylabel = NULL:} The \(y\) axis label. If \texttt{NULL}, the value of the \texttt{yname} parameter is used for the label.;
 \end{itemize}
 
-\phantomsection\label{func.mean_reg.params.}
+\phantomsection\label{func.data.plot.params.line_col}
 \begin{itemize}
 \tightlist
 \item
   \textbf{line\_col = blue:} The line color;
 \end{itemize}
 
-\phantomsection\label{func.mean_reg.params.}
+\phantomsection\label{func.data.plot.params.normalize}
 \begin{itemize}
 \tightlist
 \item
