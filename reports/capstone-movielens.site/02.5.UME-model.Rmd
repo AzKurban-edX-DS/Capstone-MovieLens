@@ -359,21 +359,12 @@ Finally, we retrain our model with the best $\lambda$ parameter value we have ju
   rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
 
 ```
-```{r}
+```{r, echo=FALSE}
 writeLines("*** The Best Fine-tuning Results ***")
 UME.rglr.fine_tune.results$best_result
-writeLines("------")
-writeLines('')
-
-  print_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
-           UME.rglr.best_lambda)
-writeLines("------")
-writeLines('')
 
 writeLines("*** Regularized User+Movie Effect Structure ***")
 str(rglr.UM_effect)
-writeLines("------")
-writeLines('')
 ```
 
 ::: {.noteblock data-latex=""}
@@ -390,12 +381,13 @@ RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |>
                comment = "Computed for `lambda` = %1" |>
                  msg.glue(UME.rglr.best_lambda))
 ```
-```{r}
+```{r, echo=FALSE}
 print_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
          UME.rglr.best_lambda)
 print_log1("The best RMSE after being regularized: %1",
          UME.rglr.retrain.RMSE)
-
+```
+```{r}
 RMSE_kable(RMSEs.ResultTibble.rglr.UME)
 ```
 

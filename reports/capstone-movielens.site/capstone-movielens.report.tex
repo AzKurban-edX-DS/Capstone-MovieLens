@@ -128,7 +128,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-17}
+\date{2025-05-18}
 
 \begin{document}
 \maketitle
@@ -1547,7 +1547,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -1701,7 +1701,7 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -1954,7 +1954,7 @@ We can now construct predictors and see how much the \texttt{RMSE} improves\auto
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -2273,85 +2273,18 @@ Finally, we retrain our model with the best \(\lambda\) parameter value we have 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** The Best Fine{-}tuning Results ***"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## *** The Best Fine-tuning Results ***
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{UME.rglr.fine\_tune.results}\SpecialCharTok{$}\NormalTok{best\_result}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## param.best_value        best_RMSE 
 ##        0.3874500        0.8732057
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## ------
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-  \FunctionTok{print\_log1}\NormalTok{(}\StringTok{"Re{-}training Regularized User+Movie Effect Model for the best \textasciigrave{}lambda\textasciigrave{}: \%1..."}\NormalTok{,}
-\NormalTok{           UME.rglr.best\_lambda)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Re-training Regularized User+Movie Effect Model for the best `lambda`: 0.38745002746582...
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## ------
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** Regularized User+Movie Effect Structure ***"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## *** Regularized User+Movie Effect Structure ***
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{str}\NormalTok{(rglr.UM\_effect)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## tibble [10,677 x 3] (S3: tbl_df/tbl/data.frame)
@@ -2360,22 +2293,6 @@ Finally, we retrain our model with the best \(\lambda\) parameter value we have 
 ##   ..- attr(*, "names")= chr [1:10677] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
 ##  $ n      : int [1:10677] 23790 10779 7028 1577 6400 12346 7259 821 2278 15187 ...
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## ------
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{noteblock}
 The complete version of the source code provided in this section are available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L910}{Re-training Regularized User+Movie Effect Model for the best \(\lambda\)} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L910}{capstone-movielens.main.R} script on \emph{GitHub}.
@@ -2396,23 +2313,9 @@ Finally, after \emph{Regularization}, we obtained the following result:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print\_log1}\NormalTok{(}\StringTok{"Regularized User+Movie Effect Model has been re{-}trained for the best \textasciigrave{}lambda\textasciigrave{}: \%1."}\NormalTok{,}
-\NormalTok{         UME.rglr.best\_lambda)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## Regularized User+Movie Effect Model has been re-trained for the best `lambda`: 0.38745002746582.
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print\_log1}\NormalTok{(}\StringTok{"The best RMSE after being regularized: \%1"}\NormalTok{,}
-\NormalTok{         UME.rglr.retrain.RMSE)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## The best RMSE after being regularized: 0.872972999076497
@@ -2424,7 +2327,7 @@ Finally, after \emph{Regularization}, we obtained the following result:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -2662,7 +2565,7 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-181-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-182-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 

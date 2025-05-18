@@ -41,15 +41,20 @@ RMSEs.AddRow <- function(RMSEs, method, value, comment = ""){
             RMSE = value,
             Comment = comment)
 }
-RMSE_kable <- function(RMSEs){
+RMSE_kable <- function(RMSEs,
+                       col1width = 20,
+                       col2width = 5,
+                       col3width = 20){
   RMSEs |>
     kable(align='lcl', booktabs = T, padding = 5) |> 
     row_spec(0, bold = T) |>
-    column_spec(column = 1, width = "35em") |>
-    column_spec(column = 2, width = "10em") |>
-    column_spec(column = 3, width = "50em") 
+    column_spec(column = 1, width = RSME.tibble.col_width(col1width)) |>
+    column_spec(column = 2, width = RSME.tibble.col_width(col2width)) |>
+    column_spec(column = 3, width = RSME.tibble.col_width(col3width)) 
 }
-
+RSME.tibble.col_width <- function(x){
+  "%1em" |> msg.glue(x)
+}
 ## Overall Mean Rating Model ---------------------------------------------------
 naive_model_MSEs <- function(val) {
   sapply(edx_CV, function(cv_item){
