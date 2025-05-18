@@ -1,0 +1,34 @@
+title: "Capstone Movielens Report"
+site: bookdown::bookdown_site
+author: "Azamat Kurbanaev"
+date: "`r Sys.Date()`"
+bibliography: references.bib
+#csl: bit-numerical-mathematics.csl 
+envir:
+  .GlobalEnv
+output: 
+  bookdown::pdf_document2: 
+    df_print: paged
+    toc: true
+    fig_caption: true
+    keep_tex: true
+    citation_package: biblatex
+    delete_merged_file: true
+colorlinks: true
+linkcolor: red
+citecolor: blue
+header-includes:
+    - \usepackage{awesomebox}
+    - \usepackage{hyperref}
+    - \usepackage[natbib=true, 
+                  style=numeric, 
+                  backref=true, 
+                  sorting=none]{biblatex}
+    - \hypersetup{backref,
+          pdfpagemode=Normal,
+          colorlinks=true,
+          implicit=false}
+vignette: >
+  %\VignetteIndexEntry{RMarkdown Citations - Numeric Style}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::knitr}

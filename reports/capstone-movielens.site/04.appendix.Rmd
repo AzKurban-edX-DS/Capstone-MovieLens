@@ -1,6 +1,239 @@
-# Appendix {#appendix.a}
+# Appendix {#appndx_a}
+## Data Helper Functions {#appndx_a.data_helper.functions}
+\
 
-## Regularization: Common Helper Functions
+### [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) Function {#func.union_cv_results}
+\
+
+Aggregates the input data frames into a single data frame.
+
+::: { #func.union_cv_results.Usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+union_cv_results(data_list = data)
+
+```
+:::
+
+::: { #func.union_cv_results.params .sidebar }
+#### Parameters
+\
+
+::: { #func.union_cv_results.params.data_list .sidebar }
+  - **data_list:** List of data frames representing the results of the _N-Fold Cross Validation_ method execution.; 
+
+:::
+:::
+
+::: { #func.union_cv_results.details .sidebar }
+#### Details
+\
+
+The function is used to aggregate the _N-Fold Cross Validation_ method result data into a single data frame for further processing.
+
+:::
+
+::: { #func.union_cv_results.value .sidebar }
+#### Value
+\
+
+A data frame that is a union of the input data frames.
+:::
+
+::: { #func.union_cv_results.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) function is shown below:
+```{r eval=FALSE}
+union_cv_results <- function(data_list) {
+  out_dat <- data_list[[1]]
+  
+  for (i in 2:CVFolds_N){
+    out_dat <- union(out_dat, 
+                     data_list[[i]])
+  }
+  
+  out_dat
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) is also available in the [Model training](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L431) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) script.
+:::
+:::
+
+### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) Function {#func.data.plot}
+\
+
+Plots a graph based on the dataset passed in the [data](#func.data.plot.params.data) parameter, using both points and a line.
+
+::: { #func.data.plot.Usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+data.plot(data, 
+          title, 
+          xname, 
+          yname, 
+          xlabel = NULL, 
+          ylabel = NULL,
+          line_col = "blue",
+          normalize = FALSE)
+```
+:::
+
+::: { #func.data.plot.params .sidebar }
+#### Parameters
+\
+
+::: { #func.data.plot.params.data .sidebar }
+  - **data:** Dataset to use for the plot; 
+
+:::
+::: { #func.data.plot.params.title .sidebar }
+  - **title:** Title of the plot; 
+
+:::
+::: { #func.data.plot.params.xname .sidebar }
+  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
+
+:::
+::: { #func.data.plot.params.yname .sidebar }
+  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
+
+:::
+::: { #func.data.plot.params.xlabel .sidebar }
+  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+
+:::
+::: { #func.data.plot.params.ylabel .sidebar }
+  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+
+:::
+::: { #func.data.plot.params.line_col .sidebar }
+  - **line_col = blue:** The line color; 
+
+:::
+::: { #func.data.plot.params.normalize .sidebar }
+  - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
+
+:::
+:::
+
+::: { #func.data.plot.details .sidebar }
+#### Details
+\
+
+The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function and is a simple and convenient tool for visualizing the data of this project.
+
+:::
+
+::: { #func.data.plot.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [data.plot]() function is shown below:
+```{r eval=FALSE}
+data.plot <- function(data, 
+                      title, 
+                      xname, 
+                      yname, 
+                      xlabel = NULL, 
+                      ylabel = NULL,
+                      line_col = "blue",
+                      normalize = FALSE) {
+  y <- data[, yname]
+  
+  if (normalize) {
+    y <- y - min(y)
+  }
+  
+  if (is.null(xlabel)) {
+    xlabel = xname
+  }
+  if (is.null(ylabel)) {
+    ylabel = yname
+  }
+  
+  aes_mapping <- aes(x = data[, xname], y = y)
+  
+  data |> 
+    ggplot(mapping = aes_mapping) +
+    ggtitle(title) +
+    xlab(xlabel) +
+    ylab(ylabel) +
+    geom_point() + 
+    geom_line(color=line_col)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script.
+:::
+:::
+
+### [data.helper.func0]() Function {#func.data.helper.func0}
+\
+
+::: { #func.data.helper.func0.Usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.data.helper.func0.params .sidebar }
+#### Parameters
+\
+
+::: { #func.data.helper.func0.params.p1 .sidebar }
+  - **p1:** description; 
+
+:::
+::: { #func.data.helper.func0.params.2 .sidebar }
+  - **p2:** description. 
+
+:::
+:::
+
+::: { #func.data.helper.func0.details .sidebar }
+#### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.data.helper.func0.value .sidebar }
+#### Value
+\
+
+:::
+
+::: { #func.data.helper.func0.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [data.helper.func0]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [data.helper.func0]() is also available in the [Some.Section]() section of the [Somefunctions.R]() script.
+:::
+:::
+
+
+
+## Regularization: Common Helper Functions {#appndx_a.rglr.common_helper.functions}
 \
 
 ::: {.noteblock data-latex=""}
@@ -94,7 +327,7 @@ The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 The function searches for the parameter value corresponding to the minimum value of the `RMSE` from the list of values specified by the `param_values` parameter.
 
-#### Sugnature
+#### Signature
 \
 ```{r eval=FALSE}
 tune.model_param <- function(param_values, 
@@ -113,8 +346,13 @@ tune.model_param <- function(param_values,
 \
 
   - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
+
+::: { #func.tune.model_param.params.fn_tune.test.param_value .sidebar }
   - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+
+:::  
   - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
+  
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
 #### Details
@@ -206,7 +444,7 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
 
 The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding `RMSE` value is minimal.
 
-#### Sugnature
+#### Signature
 \
 ```{r eval=FALSE}
 model.tune.param_range <- function(loop_starter,
@@ -471,7 +709,7 @@ The full version of the source code of the [model.tune.param_range](https://gith
 ### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
 \
 
-#### Sugnature
+#### Signature
 \
 ```{r eval=FALSE}
 get_fine_tune.param.endpoints.idx <- function(preset.result) {
@@ -558,7 +796,7 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 ### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
 \
 
-#### Sugnature
+#### Signature
 \
 ```{r eval=FALSE}
 get_best_param.result <- function(param_values, rmses){
@@ -603,11 +841,11 @@ get_best_param.result <- function(param_values, rmses){
 ## Support Functions
 \
 
-### [func.00]() Function {#func.00}
+### [fname00]() Function {#func.fname00}
 \
 
-::: { #func.00.signature .sidebar }
-#### Sugnature
+::: { #func.fname00.Usage .sidebar }
+#### Usage
 \
 
 ```{r eval=FALSE}
@@ -615,15 +853,21 @@ get_best_param.result <- function(param_values, rmses){
 ```
 :::
 
-::: { #func.00.params .sidebar }
+::: { #func.fname00.params .sidebar }
 #### Parameters
 \
-  - **param1:** description; 
-  - **param2:** description. 
+
+::: { #func.fname00.params.p1 .sidebar }
+  - **p1:** description; 
 
 :::
+::: { #func.fname00.params.2 .sidebar }
+  - **p2:** description. 
 
-::: { #func.00.details .sidebar }
+:::
+:::
+
+::: { #func.fname00.details .sidebar }
 #### Details
 \
 
@@ -632,38 +876,38 @@ Note
 :::
 :::
 
-::: { #func.00.value .sidebar }
+::: { #func.fname00.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.00.code .sidebar }
+::: { #func.fname00.code .sidebar }
 #### Source Code
 \
 
-The soure code of the [function]() function is shown below:
+The soure code of the [fname00]() function is shown below:
 ```{r eval=FALSE}
 
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L95) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) script.
+The source code of the [fname00]() is also available in the [Some.Section]() section of the [Somefunctions.R]() script.
 :::
 :::
 
-### [func]() Function {#func.01}
+### [fname01]() Function {#func.fname01}
 \
 
-::: { #func.01.signature .sidebar }
-#### Sugnature
+::: { #func.fname01.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.01.params .sidebar }
+::: { #func.fname01.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -671,7 +915,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 
 :::
 
-::: { #func.01.details .sidebar }
+::: { #func.fname01.details .sidebar }
 #### Details
 \
 
@@ -680,60 +924,13 @@ Note
 :::
 :::
 
-::: { #func.01.value .sidebar }
+::: { #func.fname01.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.01.code .sidebar }
-#### Source Code
-\
-The soure code of the [function]() function is shown below:
-```{r eval=FALSE}
-
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L95) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) script.
-:::
-:::
-
-### [func]() Function {#func.02}
-\
-
-::: { #func.02.signature .sidebar }
-#### Sugnature
-\
-```{r eval=FALSE}
-
-```
-:::
-
-::: { #func.02.params .sidebar }
-#### Parameters
-\
-  - **param1:** description; 
-  - **param2:** description. 
-
-:::
-
-::: { #func.02.details .sidebar }
-#### Details
-\
-
-::: {.noteblock data-latex=""}
-Note 
-:::
-:::
-
-::: { #func.02.value .sidebar }
-#### Value
-\
-
-:::
-
-::: { #func.02.code .sidebar }
+::: { #func.fname01.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -746,20 +943,18 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 :::
 
---------------------------------------------------------------------------------
-
-### [func.0]() Function {#func.0}
+### [fname02]() Function {#func.fname02}
 \
 
-::: { #func.0.signature .sidebar }
-#### Sugnature
+::: { #func.fname02.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.0.params .sidebar }
+::: { #func.fname02.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -767,7 +962,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 
 :::
 
-::: { #func.0.details .sidebar }
+::: { #func.fname02.details .sidebar }
 #### Details
 \
 
@@ -776,13 +971,13 @@ Note
 :::
 :::
 
-::: { #func.0.value .sidebar }
+::: { #func.fname02.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.0.code .sidebar }
+::: { #func.fname02.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -795,25 +990,18 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 :::
 :::
 
---------------------------------------------------------------------------------
-
-
-
-
-
-
-### [func1]() Function {#func.03}
+### [fname0]() Function {#func.fname0}
 \
 
-::: { #func.03.signature .sidebar }
-#### Sugnature
+::: { #func.fname0.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.03.params .sidebar }
+::: { #func.fname0.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -821,7 +1009,7 @@ The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/
 
 :::
 
-::: { #func.03.details .sidebar }
+::: { #func.fname0.details .sidebar }
 #### Details
 \
 
@@ -830,13 +1018,60 @@ Note
 :::
 :::
 
-::: { #func.03.value .sidebar }
+::: { #func.fname0.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.03.code .sidebar }
+::: { #func.fname0.code .sidebar }
+#### Source Code
+\
+The soure code of the [function]() function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L95) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) script.
+:::
+:::
+
+### [fname03]() Function {#func.fname03}
+\
+
+::: { #func.fname03.signature .sidebar }
+#### Signature
+\
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.fname03.params .sidebar }
+#### Parameters
+\
+  - **param1:** description; 
+  - **param2:** description. 
+
+:::
+
+::: { #func.fname03.details .sidebar }
+#### Details
+\
+
+::: {.noteblock data-latex=""}
+Note 
+:::
+:::
+
+::: { #func.fname03.value .sidebar }
+#### Value
+\
+
+:::
+
+::: { #func.fname03.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -849,18 +1084,18 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
-### [func1]() Function {#func.1}
+### [fname1]() Function {#func.fname1}
 \
 
-::: { #func.1.signature .sidebar }
-#### Sugnature
+::: { #func.fname1.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.1.params .sidebar }
+::: { #func.fname1.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -868,7 +1103,7 @@ The source code of the []() is also available in the [Regularization]() section 
 
 :::
 
-::: { #func.1.details .sidebar }
+::: { #func.fname1.details .sidebar }
 #### Details
 \
 
@@ -877,13 +1112,13 @@ Note
 :::
 :::
 
-::: { #func.1.value .sidebar }
+::: { #func.fname1.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.1.code .sidebar }
+::: { #func.fname1.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -896,20 +1131,21 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
-
-### [func.2]() Function {#func.2}
+## Other Function Templates
 \
 
-::: { #func.2.signature .sidebar }
-#### Sugnature
+### [fname2]() Function {#func.fname2}
+\
+
+::: { #func.fname2.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.2.params .sidebar }
+::: { #func.fname2.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -917,7 +1153,7 @@ The source code of the []() is also available in the [Regularization]() section 
 
 :::
 
-::: { #func.2.details .sidebar }
+::: { #func.fname2.details .sidebar }
 #### Details
 \
 
@@ -926,13 +1162,13 @@ Note
 :::
 :::
 
-::: { #func.2.value .sidebar }
+::: { #func.fname2.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.2.code .sidebar }
+::: { #func.fname2.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -945,22 +1181,18 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
-
-### [func.3]() Function {#func.3}
+### [fname3]() Function {#func.fname3}
 \
 
-::: { #func.3.signature .sidebar }
-#### Sugnature
+::: { #func.fname3.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.3.params .sidebar }
+::: { #func.fname3.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -968,7 +1200,7 @@ The source code of the []() is also available in the [Regularization]() section 
 
 :::
 
-::: { #func.3.details .sidebar }
+::: { #func.fname3.details .sidebar }
 #### Details
 \
 
@@ -977,13 +1209,13 @@ Note
 :::
 :::
 
-::: { #func.3.value .sidebar }
+::: { #func.fname3.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.3.code .sidebar }
+::: { #func.fname3.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -996,20 +1228,18 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
-
-### [func.4]() Function {#func.4}
+### [fname4]() Function {#func.fname4}
 \
 
-::: { #func.4.signature .sidebar }
-#### Sugnature
+::: { #func.fname4.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.4.params .sidebar }
+::: { #func.fname4.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -1017,7 +1247,7 @@ The source code of the []() is also available in the [Regularization]() section 
 
 :::
 
-::: { #func.4.details .sidebar }
+::: { #func.fname4.details .sidebar }
 #### Details
 \
 
@@ -1026,13 +1256,13 @@ Note
 :::
 :::
 
-::: { #func.4.value .sidebar }
+::: { #func.fname4.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.4.code .sidebar }
+::: { #func.fname4.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -1045,20 +1275,19 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
 
-### [func.5]() Function {#func.5}
+### [fname5]() Function {#func.fname5}
 \
 
-::: { #func.5.signature .sidebar }
-#### Sugnature
+::: { #func.fname5.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.5.params .sidebar }
+::: { #func.fname5.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -1066,7 +1295,7 @@ The source code of the []() is also available in the [Regularization]() section 
 
 :::
 
-::: { #func.5.details .sidebar }
+::: { #func.fname5.details .sidebar }
 #### Details
 \
 
@@ -1075,13 +1304,13 @@ Note
 :::
 :::
 
-::: { #func.5.value .sidebar }
+::: { #func.fname5.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.5.code .sidebar }
+::: { #func.fname5.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -1094,20 +1323,18 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
-
-### [func.6]() Function {#func.6}
+### [fname6]() Function {#func.fname6}
 \
 
-::: { #func.6.signature .sidebar }
-#### Sugnature
+::: { #func.fname6.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.6.params .sidebar }
+::: { #func.fname6.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -1115,7 +1342,7 @@ The source code of the []() is also available in the [Regularization]() section 
 
 :::
 
-::: { #func.6.details .sidebar }
+::: { #func.fname6.details .sidebar }
 #### Details
 \
 
@@ -1124,13 +1351,13 @@ Note
 :::
 :::
 
-::: { #func.6.value .sidebar }
+::: { #func.fname6.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.6.code .sidebar }
+::: { #func.fname6.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -1143,20 +1370,19 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
 
-### [func.7]() Function {#func.7}
+### [fname7]() Function {#func.fname7}
 \
 
-::: { #func.7.signature .sidebar }
-#### Sugnature
+::: { #func.fname7.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.7.params .sidebar }
+::: { #func.fname7.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -1164,7 +1390,7 @@ The source code of the []() is also available in the [Regularization]() section 
 
 :::
 
-::: { #func.7.details .sidebar }
+::: { #func.fname7.details .sidebar }
 #### Details
 \
 
@@ -1173,13 +1399,13 @@ Note
 :::
 :::
 
-::: { #func.7.value .sidebar }
+::: { #func.fname7.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.7.code .sidebar }
+::: { #func.fname7.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -1192,20 +1418,19 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
 
-### [func.8]() Function {#func.8}
+### [fname8]() Function {#func.fname8}
 \
 
-::: { #func.8.signature .sidebar }
-#### Sugnature
+::: { #func.fname8.signature .sidebar }
+#### Signature
 \
 ```{r eval=FALSE}
 
 ```
 :::
 
-::: { #func.8.params .sidebar }
+::: { #func.fname8.params .sidebar }
 #### Parameters
 \
   - **param1:** description; 
@@ -1213,7 +1438,7 @@ The source code of the []() is also available in the [Regularization]() section 
 
 :::
 
-::: { #func.8.details .sidebar }
+::: { #func.fname8.details .sidebar }
 #### Details
 \
 
@@ -1222,13 +1447,13 @@ Note
 :::
 :::
 
-::: { #func.8.value .sidebar }
+::: { #func.fname8.value .sidebar }
 #### Value
 \
 
 :::
 
-::: { #func.8.code .sidebar }
+::: { #func.fname8.code .sidebar }
 #### Source Code
 \
 The soure code of the [function]() function is shown below:
@@ -1241,125 +1466,5 @@ The source code of the []() is also available in the [Regularization]() section 
 :::
 :::
 
---------------------------------------------------------------------------------
 
 
-### []() Function {#func.3-1}
-\
-
-
-
-#### Sugnature
-\
-```{r eval=FALSE}
-
-```
-
-#### Parameters
-\
-  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
-  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
-  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
-
-#### Details
-\
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
-
-::: {.noteblock data-latex=""}
-Note 
-:::
-
-#### Value
-\
-
-
-#### Source Code
-\
-Below is the most significant part of the code of the [function]() function:
-```{r eval=FALSE}
-
-```
-
-
-
-
-
-
-
-
-================================================================================
-
-
-
-```{r eval=FALSE}
-
-```
-::: {.noteblock data-latex=""}
-!!! Note!
-:::
-
-
-```{r eval=FALSE}
-
-```
-
-```{r eval=FALSE}
-
-```
-
-
-See the `func.model.tune.param_range` Function description [above](#func.model.tune.param_range). 
-
-
-::: {.noteblock data-latex=""}
-Note 
-:::
-
-::: {.noteblock data-latex=""}
-Note 
-:::
-
-
-
-```{r eval=FALSE}
-
-```
-
-::: {.noteblock data-latex=""}
-!!! Note!
-:::
-
-::: {.noteblock data-latex=""}
-!!! Note!
-:::
-
-::: {.noteblock data-latex=""}
-!!! Note!
-:::
-
-
-
-```{r eval=FALSE}
-
-```
-
-```{r eval=FALSE}
-
-```
-
-
-```{r eval=FALSE}
-
-```
-
-
-```{r eval=FALSE}
-
-```
-
-```{r eval=FALSE}
-
-```
-
-
-s

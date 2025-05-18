@@ -21,7 +21,7 @@ To start with we have to generate two datasets derived from the _MovieLens_ one 
 For this purpose the following package has been developed by the author of this report: `edx.capstone.movielens.data`. The source code of the package is available [on GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data)[@edx_capstone_movielens_data].
 
 Let's install the development version of this package from the GitHub repository and attach the correspondent library to the global environment:
-```{r eval=FALSE }
+```{r}
 if(!require(edx.capstone.movielens.data)) pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
 
 library(edx.capstone.movielens.data)

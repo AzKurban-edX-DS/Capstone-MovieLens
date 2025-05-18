@@ -864,7 +864,7 @@ cv.UME.preset.result$tuned.result |>
 log_close()
 ##### Open log file for Fine-tune Stage of the User+Movie Effect regularization ----
 open_logfile(".UME.rg.fine-tuning")
-##### Fine-tune Stage of the Regularization Process for the User+Movie Model ---- 
+##### Fine-tuning Step of the Regularization Method for the User+Movie Model ---- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
 
@@ -907,7 +907,7 @@ UME.rglr.fine_tune.results$tuned.result |>
 log_close()
 ##### Open log file for re-train Regularized User+Movie Effect Model -----------
 open_logfile(".UME.rg.re-train.best-lambda")
-##### Re-train Regularized User+Movie Effect Model for the best `lambda` -------
+##### Re-training Regularized User+Movie Effect Model for the best `lambda` -------
 file_name_tmp <- "2.UME.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UME.regularization.path, file_name_tmp)
 
@@ -977,10 +977,12 @@ put_log1("Regularized User+Movie Effect Model has been re-trained for the best `
 put_log1("The best RMSE after being regularized: %1",
          UME.rglr.retrain.RMSE)
 ##### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
-               UME.rglr.retrain.RMSE)
-RMSE_kable(RMSEs.ResultTibble)
+               UME.rglr.retrain.RMSE,
+               comment = "Computed for `lambda` = %1" |>
+                 msg.glue(UME.rglr.best_lambda))
+RMSE_kable(RMSEs.ResultTibble.rglr.UME)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie Effect Model`.")
 ##### Close Log -----------------------------------------------------------------
@@ -1192,9 +1194,9 @@ cv.UMG_effect.RMSE
 #> [1] 0.859473
 
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre Effect Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+RMSEs.ResultTibble.UMGE <- RMSEs.ResultTibble.rglr.UME |> 
   RMSEs.AddRow("User+Movie+Genre Effect Model", cv.UMG_effect.RMSE)
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UMGE)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
