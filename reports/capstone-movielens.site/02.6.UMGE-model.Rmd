@@ -5,10 +5,12 @@ As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsboo
 
 ### Genre Data Analysis
 \
+
 #### Movie Genres Data 
 \
+
 The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
-```{r eval=FALSE}
+```{r }
 #library(stringr)
 genres = c("Drama", "Comedy", "Thriller", "Romance")
 sapply(genres, function(g) {
@@ -17,7 +19,7 @@ sapply(genres, function(g) {
 ```
 
 Further, we can find out the movies that have the greatest number of ratings using the following code:
-```{r eval=FALSE}
+```{r }
 ordered_movie_ratings <- edx |> group_by(movieId, title) |>
   summarize(number_of_ratings = n()) |>
   arrange(desc(number_of_ratings))
@@ -25,7 +27,7 @@ print(head(ordered_movie_ratings))
 ```
 
 and figure out the most given ratings in order from most to least:
-```{r eval=FALSE}
+```{r}
 ratings <- edx |>  group_by(rating) |>
      summarise(count = n()) |>
      arrange(desc(count))
@@ -33,12 +35,12 @@ print(ratings)
 ```
 
 The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
-```{r eval=FALSE}
-print(edx |> group_by(rating) |> summarize(count = n()))
+```{r}
+edx |> group_by(rating) |> summarize(count = n())
 ```
 
 We can visually see that from the following plot:
-```{r eval=FALSE}
+```{r}
 edx |>
   group_by(rating) |>
   summarize(count = n()) |>
@@ -53,13 +55,13 @@ edx |>
 
 The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 20, 000 ratings).
 
-```{r eval=FALSE}
+```{r }
 # Preparing data for plotting:
-genre_ratins_grp <- train_set |> 
+genre_ratins_grp <- edx |> 
   mutate(genre_categories = as.factor(genres)) |>
   group_by(genre_categories) |>
   summarize(n = n(), rating_avg = mean(rating), se = sd(rating)/sqrt(n())) |>
-  filter(n > 20000) |> 
+  filter(n > 40000) |> 
   mutate(genres = reorder(genre_categories, rating_avg)) |>
   select(genres, rating_avg, se, n)
 
@@ -77,7 +79,7 @@ genre_ratins_grp |>
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 Below are worst and best ratings categories:
-```{r eval=FALSE}
+```{r, echo=FALSE}
 sprintf("The worst ratings are for the genre category: %s",
         genre_ratins_grp$genres[which.min(genre_ratins_grp$genres)])
 
@@ -86,7 +88,7 @@ sprintf("The best ratings are for the genre category: %s",
 ```
 
 Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article "Movie Recommendation System using R - BEST" written by [Amir Moterfaker](https://www.kaggle.com/amirmotefaker)[@MRS-R-BEST]:
-```{r eval=FALSE}
+```{r }
 # For better visibility, we reduce the data for plotting 
 # while keeping the worst and best rating rows:
 plot_ind <- odd(1:nrow(genre_ratins_grp))

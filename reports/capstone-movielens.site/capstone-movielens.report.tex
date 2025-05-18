@@ -455,7 +455,7 @@ The code below demonstrates another way of visualizing the rating distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-26-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
 \newpage
@@ -537,7 +537,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-32-1.pdf}}
 \newpage
 
 \subparagraph{\texorpdfstring{Movies' rating histogram\autocite{MRS-R-BEST}}{Movies' rating histogram{[}@MRS-R-BEST{]}}}\label{movies-rating-histogrammrs-r-best}
@@ -567,7 +567,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-30-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{Ratings per user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -654,7 +654,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-36-1.pdf}}
 \newpage
 
 \subparagraph{Users' rating histogram}\label{users-rating-histogram}
@@ -684,7 +684,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-34-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-37-1.pdf}}
 \newpage
 
 \section{Methods / Analysis}\label{methods-analysis}
@@ -1398,7 +1398,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-91-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-94-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1507,7 +1507,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-96-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-99-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1573,7 +1573,7 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-108-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-111-1.pdf}}
 
 Following the author's further explanation, to account for this variability, we will use a linear model with a \emph{treatment effect} \(\alpha_i\) for each user. The sum \(\mu+\alpha_i\) can be interpreted as the typical rating user \(i\) gives to movies. So we write the model as follows:
 
@@ -1642,7 +1642,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-113-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-116-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1693,7 +1693,7 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-115-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-118-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1935,7 +1935,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-131-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-134-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -2092,7 +2092,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-137-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-140-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -2178,7 +2178,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-140-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-143-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{Retraining User+Movie Effect Model with the best \(\lambda\)}{Retraining User+Movie Effect Model with the best \textbackslash lambda}}\label{retraining-usermovie-effect-model-with-the-best-lambda}
@@ -2286,7 +2286,11 @@ As mentioned in \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/reg
 \subsubsection{Genre Data Analysis}\label{genre-data-analysis}
 
 \hfill\break
-\#\#\#\# Movie Genres Data\\
+
+\paragraph{Movie Genres Data}\label{movie-genres-data}
+
+\hfill\break
+
 The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
 
 \begin{Shaded}
@@ -2299,6 +2303,11 @@ The following code computes movie rating summaries by popular genres like Drama,
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+##    Drama   Comedy Thriller  Romance 
+##  3910127  3540930  2325899  1712100
+\end{verbatim}
+
 Further, we can find out the movies that have the greatest number of ratings using the following code:
 
 \begin{Shaded}
@@ -2306,9 +2315,31 @@ Further, we can find out the movies that have the greatest number of ratings usi
 \NormalTok{ordered\_movie\_ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId, title) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarize}\NormalTok{(}\AttributeTok{number\_of\_ratings =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(number\_of\_ratings))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'movieId'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(ordered\_movie\_ratings))}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   movieId [6]
+##   movieId title                            number_of_ratings
+##     <int> <chr>                                        <int>
+## 1     296 Pulp Fiction (1994)                          31362
+## 2     356 Forrest Gump (1994)                          31079
+## 3     593 Silence of the Lambs, The (1991)             30382
+## 4     480 Jurassic Park (1993)                         29360
+## 5     318 Shawshank Redemption, The (1994)             28015
+## 6     110 Braveheart (1995)                            26212
+\end{verbatim}
 
 and figure out the most given ratings in order from most to least:
 
@@ -2321,11 +2352,27 @@ and figure out the most given ratings in order from most to least:
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    rating   count
+##     <dbl>   <int>
+##  1    4   2588430
+##  2    3   2121240
+##  3    5   1390114
+##  4    3.5  791624
+##  5    2    711422
+##  6    4.5  526736
+##  7    1    345679
+##  8    2.5  333010
+##  9    1.5  106426
+## 10    0.5   85374
+\end{verbatim}
+
 The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()))}
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{())}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2341,6 +2388,8 @@ We can visually see that from the following plot:
 \end{Highlighting}
 \end{Shaded}
 
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-173-1.pdf}}
+
 \paragraph{Movie Genres Effect}\label{movie-genres-effect}
 
 \hfill\break
@@ -2350,18 +2399,48 @@ The plot below shows strong evidence of a genre effect (for illustrative purpose
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Preparing data for plotting:}
-\NormalTok{genre\_ratins\_grp }\OtherTok{\textless{}{-}}\NormalTok{ train\_set }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{genre\_ratins\_grp }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{genre\_categories =} \FunctionTok{as.factor}\NormalTok{(genres)) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{group\_by}\NormalTok{(genre\_categories) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarize}\NormalTok{(}\AttributeTok{n =} \FunctionTok{n}\NormalTok{(), }\AttributeTok{rating\_avg =} \FunctionTok{mean}\NormalTok{(rating), }\AttributeTok{se =} \FunctionTok{sd}\NormalTok{(rating)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{n}\NormalTok{())) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{filter}\NormalTok{(n }\SpecialCharTok{\textgreater{}} \DecValTok{20000}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(n }\SpecialCharTok{\textgreater{}} \DecValTok{40000}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{genres =} \FunctionTok{reorder}\NormalTok{(genre\_categories, rating\_avg)) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{select}\NormalTok{(genres, rating\_avg, se, n)}
 
 \FunctionTok{dim}\NormalTok{(genre\_ratins\_grp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 42  4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{genre\_ratins\_grp\_sorted }\OtherTok{\textless{}{-}}\NormalTok{ genre\_ratins\_grp }\SpecialCharTok{|\textgreater{}} \FunctionTok{sort\_by.data.frame}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ rating\_avg)}
 \FunctionTok{print}\NormalTok{(genre\_ratins\_grp\_sorted)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## # A tibble: 42 x 4
+##    genres                  rating_avg      se      n
+##    <fct>                        <dbl>   <dbl>  <int>
+##  1 Horror                        2.88 0.00472  68738
+##  2 Children|Comedy               2.92 0.00460  63483
+##  3 Action|Comedy                 3.00 0.00480  51289
+##  4 Comedy|Sci-Fi                 3.08 0.00526  44599
+##  5 Horror|Thriller               3.12 0.00447  75000
+##  6 Action|Adventure|Comedy       3.20 0.00498  45118
+##  7 Comedy                        3.24 0.00133 700889
+##  8 Action|Sci-Fi                 3.25 0.00561  49733
+##  9 Action|Drama|Thriller         3.27 0.00492  45246
+## 10 Action|Thriller               3.27 0.00319  96535
+## # i 32 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# Creating plot:}
 \NormalTok{genre\_ratins\_grp }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ genres, }\AttributeTok{y =}\NormalTok{ rating\_avg, }\AttributeTok{ymin =}\NormalTok{ rating\_avg }\SpecialCharTok{{-}} \DecValTok{2}\SpecialCharTok{*}\NormalTok{se, }\AttributeTok{ymax =}\NormalTok{ rating\_avg }\SpecialCharTok{+} \DecValTok{2}\SpecialCharTok{*}\NormalTok{se)) }\SpecialCharTok{+} 
@@ -2373,17 +2452,16 @@ The plot below shows strong evidence of a genre effect (for illustrative purpose
 \end{Highlighting}
 \end{Shaded}
 
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-174-1.pdf}}
 Below are worst and best ratings categories:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The worst ratings are for the genre category: \%s"}\NormalTok{,}
-\NormalTok{        genre\_ratins\_grp}\SpecialCharTok{$}\NormalTok{genres[}\FunctionTok{which.min}\NormalTok{(genre\_ratins\_grp}\SpecialCharTok{$}\NormalTok{genres)])}
+\begin{verbatim}
+## [1] "The worst ratings are for the genre category: Horror"
+\end{verbatim}
 
-\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The best ratings are for the genre category: \%s"}\NormalTok{,}
-\NormalTok{        genre\_ratins\_grp}\SpecialCharTok{$}\NormalTok{genres[}\FunctionTok{which.max}\NormalTok{(genre\_ratins\_grp}\SpecialCharTok{$}\NormalTok{genres)])}
-\end{Highlighting}
-\end{Shaded}
+\begin{verbatim}
+## [1] "The best ratings are for the genre category: Comedy|Drama|Romance|War"
+\end{verbatim}
 
 Another way of visualizing a genre effect is shown in the section \href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook\#Average-rating-for-each-genre}{Average rating for each genre} of the article ``Movie Recommendation System using R - BEST'' written by \href{https://www.kaggle.com/amirmotefaker}{Amir Moterfaker}\autocite{MRS-R-BEST}:
 
@@ -2410,6 +2488,8 @@ Another way of visualizing a genre effect is shown in the section \href{https://
         \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-176-1.pdf}}
 
 If we define \(g_{i,j}\) as the genre for user's \(i\) rating of movie \(j\), we can use the following models to account for the \texttt{genre} effect:
 
@@ -2501,7 +2581,7 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-185-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-188-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 
