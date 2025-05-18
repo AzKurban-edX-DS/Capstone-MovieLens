@@ -455,7 +455,7 @@ The code below demonstrates another way of visualizing the rating distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-25-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-26-1.pdf}}
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
 \newpage
@@ -537,7 +537,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-28-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
 \newpage
 
 \subparagraph{\texorpdfstring{Movies' rating histogram\autocite{MRS-R-BEST}}{Movies' rating histogram{[}@MRS-R-BEST{]}}}\label{movies-rating-histogrammrs-r-best}
@@ -567,7 +567,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-30-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{Ratings per user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -654,7 +654,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-32-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
 \newpage
 
 \subparagraph{Users' rating histogram}\label{users-rating-histogram}
@@ -684,7 +684,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-34-1.pdf}}
 \newpage
 
 \section{Methods / Analysis}\label{methods-analysis}
@@ -1398,7 +1398,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-90-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-91-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1507,7 +1507,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-96-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1573,7 +1573,7 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-107-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-108-1.pdf}}
 
 Following the author's further explanation, to account for this variability, we will use a linear model with a \emph{treatment effect} \(\alpha_i\) for each user. The sum \(\mu+\alpha_i\) can be interpreted as the typical rating user \(i\) gives to movies. So we write the model as follows:
 
@@ -1642,7 +1642,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-113-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1693,7 +1693,7 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-114-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-115-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1877,7 +1877,7 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{\texorpdfstring{\texttt{calc\_user\_movie\_effect\_RMSE.cv} Function}{calc\_user\_movie\_effect\_RMSE.cv Function}}\label{calc_user_movie_effect_rmse.cv-function}
+\paragraph{\texorpdfstring{\texttt{calc\_user\_movie\_effect\_RMSE.cv} Function}{calc\_user\_movie\_effect\_RMSE.cv Function}}\label{func.calc_user_movie_effect_RMSE.cv}
 
 \hfill\break
 
@@ -1935,7 +1935,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-130-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-131-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -2092,7 +2092,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-136-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-137-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -2133,21 +2133,9 @@ Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.p
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** Fine{-}tuning results object data structure ***"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## *** Fine-tuning results object data structure ***
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{str}\NormalTok{(UME.rglr.fine\_tune.results)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## List of 3
@@ -2160,78 +2148,13 @@ Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.p
 ##   ..$ RMSE           : num [1:9] 0.873 0.873 0.873 0.873 0.873 ...
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## --------
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** Fine{-}tuning: best results ***"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## *** Fine-tuning: best results ***
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{UME.rglr.fine\_tune.results}\SpecialCharTok{$}\NormalTok{best\_result}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## param.best_value        best_RMSE 
 ##        0.3874500        0.8732057
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## ------
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{"*** Fine{-}tuning: best parameter value ***"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## *** Fine-tuning: best parameter value ***
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{UME.rglr.fine\_tune.RMSE.best}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## best_RMSE 
-## 0.8732057
 \end{verbatim}
 
 \begin{noteblock}
@@ -2255,14 +2178,14 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-139-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-140-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{Retraining User+Movie Effect Model with the best \(\lambda\)}{Retraining User+Movie Effect Model with the best \textbackslash lambda}}\label{retraining-usermovie-effect-model-with-the-best-lambda}
 
 \hfill\break
 
-Finally, we retrain our model with the best \(\lambda\) parameter value we have just figured out:
+Now, we can calculate the \emph{Regularized User+Movie Effect} by retraining our model on the entire \texttt{edx} dataset with the best value of the \(\lambda\) parameter we just calculated, for the definitive \emph{Root Mean Squared Error} calculation and use in subsequent models.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2294,17 +2217,38 @@ Finally, we retrain our model with the best \(\lambda\) parameter value we have 
 ##  $ n      : int [1:10677] 23790 10779 7028 1577 6400 12346 7259 821 2278 15187 ...
 \end{verbatim}
 
+\begin{verbatim}
+## Regularized User+Movie Effect Model has been re-trained for the best `lambda`: 0.38745002746582.
+\end{verbatim}
+
 \begin{noteblock}
 The complete version of the source code provided in this section are available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L910}{Re-training Regularized User+Movie Effect Model for the best \(\lambda\)} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L910}{capstone-movielens.main.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-Finally, after \emph{Regularization}, we obtained the following result:
+We calculate the \emph{Root Mean Squared Error} for the ultimately computed \emph{User+Movie Effect} using \hyperref[func.calc_user_movie_effect_RMSE.cv]{calc\_user\_movie\_effect\_RMSE.cv} function described above as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{UME.rglr.retrain.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{calc\_user\_movie\_effect\_RMSE.cv}\NormalTok{(rglr.UM\_effect)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print\_log1}\NormalTok{(}\StringTok{"The best RMSE after being regularized: \%1"}\NormalTok{,}
+\NormalTok{         UME.rglr.retrain.RMSE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The best RMSE after being regularized: 0.872972999076497
+\end{verbatim}
+
+Finally, we add the definitive result for the current model to our \emph{Result Table}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{RMSEs.ResultTibble.rglr.UME }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.UME }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"Regularized User+Movie Effect Model"}\NormalTok{, }
 \NormalTok{               UME.rglr.retrain.RMSE,}
@@ -2312,14 +2256,6 @@ Finally, after \emph{Regularization}, we obtained the following result:
                  \FunctionTok{msg.glue}\NormalTok{(UME.rglr.best\_lambda))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Regularized User+Movie Effect Model has been re-trained for the best `lambda`: 0.38745002746582.
-\end{verbatim}
-
-\begin{verbatim}
-## The best RMSE after being regularized: 0.872972999076497
-\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2565,7 +2501,7 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-182-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-185-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 

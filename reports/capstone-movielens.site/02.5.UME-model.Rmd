@@ -135,7 +135,7 @@ calc_user_movie_effect_RMSE <- function(test_set, um_effect){
 }
 ```
 
-#### `calc_user_movie_effect_RMSE.cv` Function
+#### `calc_user_movie_effect_RMSE.cv` Function { #func.calc_user_movie_effect_RMSE.cv }
 \
 
 The code of the function [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L65) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `5-Fold Cross Validation` RMSE result of the `UME Model` is provided below:
@@ -315,19 +315,12 @@ UME.rglr.fine_tune.results <-
 
 UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMSE"]
 ```
-```{r}
+```{r, echo=FALSE}
 writeLines("*** Fine-tuning results object data structure ***")
 str(UME.rglr.fine_tune.results)
-writeLines("--------")
-writeLines('')
 
 writeLines("*** Fine-tuning: best results ***")
 UME.rglr.fine_tune.results$best_result
-writeLines("------")
-writeLines('')
-
-writeLines("*** Fine-tuning: best parameter value ***")
-UME.rglr.fine_tune.RMSE.best
 ```
 
 ::: {.noteblock data-latex=""}
@@ -351,13 +344,12 @@ UME.rglr.fine_tune.results$tuned.result |>
 #### Retraining User+Movie Effect Model with the best $\lambda$
 \
 
-Finally, we retrain our model with the best $\lambda$ parameter value we have just figured out:
+Now, we can calculate the _Regularized User+Movie Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
 ```{r, eval=FALSE}
   UME.rglr.best_lambda <- best_result["param.best_value"]
   UME.rglr.best_lambda
 
   rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
-
 ```
 ```{r, echo=FALSE}
 writeLines("*** The Best Fine-tuning Results ***")
@@ -365,27 +357,31 @@ UME.rglr.fine_tune.results$best_result
 
 writeLines("*** Regularized User+Movie Effect Structure ***")
 str(rglr.UM_effect)
+
+print_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
+         UME.rglr.best_lambda)
 ```
 
 ::: {.noteblock data-latex=""}
 The complete version of the source code provided in this section are available in the [Re-training Regularized User+Movie Effect Model for the best $\lambda$](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) script on _GitHub_.
 :::
 
-Finally, after _Regularization_, we obtained the following result:
+We calculate the _Root Mean Squared Error_ for the ultimately computed _User+Movie Effect_ using [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described above as follows:
 ```{r, eval=FALSE}
 UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
+```
+```{r}
+print_log1("The best RMSE after being regularized: %1",
+         UME.rglr.retrain.RMSE)
+```
 
+Finally, we add the definitive result for the current model to our _Result Table_:
+```{r, eval=FALSE}
 RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
                UME.rglr.retrain.RMSE,
                comment = "Computed for `lambda` = %1" |>
                  msg.glue(UME.rglr.best_lambda))
-```
-```{r, echo=FALSE}
-print_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
-         UME.rglr.best_lambda)
-print_log1("The best RMSE after being regularized: %1",
-         UME.rglr.retrain.RMSE)
 ```
 ```{r}
 RMSE_kable(RMSEs.ResultTibble.rglr.UME)
