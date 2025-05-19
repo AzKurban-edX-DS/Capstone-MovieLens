@@ -1195,7 +1195,7 @@ cv.UMG_effect.RMSE
 
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre Effect Model ---- 
 RMSEs.ResultTibble.UMGE <- RMSEs.ResultTibble.rglr.UME |> 
-  RMSEs.AddRow("User+Movie+Genre Effect Model", cv.UMG_effect.RMSE)
+  RMSEs.AddRow("User+Movie+Genre Effect (UMGE) Model", cv.UMG_effect.RMSE)
 RMSE_kable(RMSEs.ResultTibble.UMGE)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre Effect Model`.")
 
