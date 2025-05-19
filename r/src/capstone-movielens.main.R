@@ -77,10 +77,10 @@ get_log2 <- function(msg_template, arg1, arg2) {
     str_glue()
 }
 print_log2 <- function(msg_template, arg1, arg2){
-  print(get_log1(msg_template, arg1, arg2))
+  print(get_log2(msg_template, arg1, arg2))
 }
 put_log2 <- function(msg_template, arg1, arg2){
-  put(get_log1(msg_template, arg1, arg2))
+  put(get_log2(msg_template, arg1, arg2))
 }
 
 get_log3 <- function(msg_template, arg1, arg2, arg3) {
@@ -91,13 +91,13 @@ get_log3 <- function(msg_template, arg1, arg2, arg3) {
     str_glue()
 }
 print_log3 <- function(msg_template, arg1, arg2, arg3){
-  print(get_log1(msg_template, arg1, arg2, arg3))
+  print(get_log3(msg_template, arg1, arg2, arg3))
 }
 put_log3 <- function(msg_template, arg1, arg2, arg3){
-  put(get_log1(msg_template, arg1, arg2, arg3))
+  put(get_log3(msg_template, arg1, arg2, arg3))
 }
 
-get_log4 <- function() {
+get_log4 <- function(msg_template, arg1, arg2, arg3, arg4) {
   msg_template |> 
     str_replace_all("%1", as.character(arg1)) |>
     str_replace_all("%2", as.character(arg2)) |>
@@ -106,10 +106,10 @@ get_log4 <- function() {
     str_glue()
 }
 print_log4 <- function(msg_template, arg1, arg2, arg3, arg4){
-  print(get_log1(msg_template, arg1, arg2, arg3, arg4))
+  print(get_log4(msg_template, arg1, arg2, arg3, arg4))
 }
 put_log4 <- function(msg_template, arg1, arg2, arg3, arg4){
-  put(get_log1(msg_template, arg1, arg2, arg3, arg4))
+  put(get_log4(msg_template, arg1, arg2, arg3, arg4))
 }
 ### Open log file for `Initialize Source File Paths` Feature -------------------
 open_logfile(".src.file-paths")
@@ -1146,7 +1146,7 @@ log_close()
 #### Open log file for the feature: Building User+Movie+Genre Effect Model------
 open_logfile(".UMGE-model.train")
 
-#### Train User+Movie+Genre Effect Model ---------------------------------------
+#### Model building: User+Movie+Genre Effect -----------------------------------
 file_name_tmp <- "7.cv.UMG-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
