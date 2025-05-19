@@ -161,6 +161,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 
 #### Ratings per movie
 \
+
 ##### Movie popularity count[@MRS-R-BEST]
 \
 ```{r}
