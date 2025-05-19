@@ -44,7 +44,7 @@ train_user_movie_effect <- function(train_set, lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-The function described above accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will also need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
+The function described above accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
 We will explain that later in the [User+Movie Effect Model Regularization] section. 
 For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. In this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
