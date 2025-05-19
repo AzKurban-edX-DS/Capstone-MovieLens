@@ -1776,7 +1776,7 @@ We use this function to build and train our model using the \texttt{train\_set} 
 \end{Shaded}
 
 \begin{noteblock}
-The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will also need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
 We will explain that later in the \hyperref[usermovie-effect-model-regularization]{User+Movie Effect Model Regularization} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. In this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
@@ -2535,7 +2535,7 @@ The complete source code of the functions described in this section is available
 
 \hfill\break
 
-We use this function to build and train our model using a \emph{Train Set} (passing it to the \texttt{train.sgr} parameter), which can be any sample of the \texttt{edx.sgr} dataset (or the entire dataset itself) described above in the \hyperref[edx.sgr-object]{\texttt{edx.sgr} Object} section. Here I only remind that it is the dataset created from the \texttt{edx} one by splitting its rows to ensure that each one belongs to a single \emph{genre}. Here is the source code of the function:
+We use this function to build and train our model using a \emph{Train Set} (passing it to the \texttt{train.sgr} parameter), which can be any sample of the \texttt{edx.sgr} dataset (or the entire dataset itself) described above in the \hyperref[edx.sgr-object]{\texttt{edx.sgr} Object} section. Here, I only remind that it is the dataset created from the \texttt{edx} one by splitting its rows to ensure each belongs to a single \emph{genre}. Here is the source code of the function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2562,7 +2562,7 @@ We use this function to build and train our model using a \emph{Train Set} (pass
 \end{Shaded}
 
 \begin{noteblock}
-The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will also need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
 We have already explained that in the \hyperref[usermovie-effect-model-regularization]{User+Movie Effect Model Regularization} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
@@ -2721,7 +2721,7 @@ Below, we provide the most significant part of the code for training our model u
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{  cv.UMG\_effect }\OtherTok{\textless{}{-}} \FunctionTok{train\_user\_movie\_genre\_effect.cv}\NormalTok{()}
+\NormalTok{cv.UMG\_effect }\OtherTok{\textless{}{-}} \FunctionTok{train\_user\_movie\_genre\_effect.cv}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2747,6 +2747,8 @@ Below, we provide the most significant part of the code for training our model u
 
 \pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-180-1.pdf}}
 
+\newpage
+
 We can now construct predictors and calculate the \emph{RMSE} of the current model using the \hyperref[func.calc_user_movie_genre_effect_RMSE.cv]{calc\_user\_movie\_genre\_effect\_RMSE.cv} function described above:
 
 \begin{Shaded}
@@ -2754,7 +2756,7 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \NormalTok{cv.UMG\_effect.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{calc\_user\_movie\_genre\_effect\_RMSE.cv}\NormalTok{(cv.UMG\_effect)}
 
 \NormalTok{RMSEs.ResultTibble.UMGE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.rglr.UME }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"User+Movie+Genre Effect Model"}\NormalTok{, cv.UMG\_effect.RMSE)}
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"User+Movie+Genre Effect (UMGE) Model"}\NormalTok{, cv.UMG\_effect.RMSE)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2774,12 +2776,12 @@ User Effect Model & 0.9697962 & \\
 User+Movie Effect Model & 0.8732081 & \\
 Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
-User+Movie+Genre Effect Model & 0.8729730 & \\
+User+Movie+Genre Effect (UMGE) Model & 0.8729730 & \\
 \bottomrule
 \end{tabular}
 
 \begin{noteblock}
-Unfortunately, we do not see any improvement here yet.
+Unfortunately, for some reason, we do not see any improvement here yet.
 
 \end{noteblock}
 
@@ -2792,6 +2794,8 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \[
  \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
 \]
+
+\newpage
 
 \subsection{User+Movie+Genre+Year Effect (UMGYE) Model}\label{usermoviegenreyear-effect-umgye-model}
 

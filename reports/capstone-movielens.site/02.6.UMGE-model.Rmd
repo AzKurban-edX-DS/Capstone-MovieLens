@@ -149,7 +149,7 @@ The complete source code of the functions described in this section is available
 #### [train_user_movie_genre_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L40) Function {#func.train_user_movie_genre_effect}
 \
 
-We use this function to build and train our model using a _Train Set_ (passing it to the `train.sgr` parameter), which can be any sample of the `edx.sgr` dataset (or the entire dataset itself) described above in the [`edx.sgr` Object] section. Here I only remind that it is the dataset created from the `edx` one by splitting its rows to ensure that each one belongs to a single _genre_. Here is the source code of the function:
+We use this function to build and train our model using a _Train Set_ (passing it to the `train.sgr` parameter), which can be any sample of the `edx.sgr` dataset (or the entire dataset itself) described above in the [`edx.sgr` Object] section. Here, I only remind that it is the dataset created from the `edx` one by splitting its rows to ensure each belongs to a single _genre_. Here is the source code of the function:
 ```{r eval=FALSE}
 train_user_movie_genre_effect <- function(train.sgr, lambda = 0){
   if (is.na(lambda)) {
@@ -173,7 +173,7 @@ train_user_movie_genre_effect <- function(train.sgr, lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-The function described above accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will also need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
+The function described above accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
 We have already explained that in the [User+Movie Effect Model Regularization] section. 
 For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
@@ -309,7 +309,7 @@ The complete source code of builing and training the current model is available 
 
 Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
 ```{r, eval=FALSE}
-  cv.UMG_effect <- train_user_movie_genre_effect.cv()
+cv.UMG_effect <- train_user_movie_genre_effect.cv()
 ```
 ```{r}
 str(cv.UMG_effect)
@@ -319,13 +319,15 @@ hist(cv.UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
      main = TeX(r'[Histogram of $\hat{g}_{i,j}$]'))
 ```
 
+\newpage
+
 We can now construct predictors and calculate the _RMSE_ of the current model using the [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) function described above:
 
 ```{r, eval=FALSE}
 cv.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(cv.UMG_effect)
 
 RMSEs.ResultTibble.UMGE <- RMSEs.ResultTibble.rglr.UME |> 
-  RMSEs.AddRow("User+Movie+Genre Effect Model", cv.UMG_effect.RMSE)
+  RMSEs.AddRow("User+Movie+Genre Effect (UMGE) Model", cv.UMG_effect.RMSE)
 ```
 ```{r}
 RMSE_kable(RMSEs.ResultTibble.UMGE)
@@ -333,12 +335,10 @@ RMSE_kable(RMSEs.ResultTibble.UMGE)
 
 
 ::: {.noteblock data-latex=""}
-Unfortunately, we do not see any improvement here yet.
+Unfortunately, for some reason, we do not see any improvement here yet.
 :::
 
 \newpage
-
-
 
 $$
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
@@ -350,5 +350,4 @@ $$
 $$
 
 
-
-
+\newpage
