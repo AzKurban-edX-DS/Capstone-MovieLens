@@ -1,4 +1,4 @@
-# User+Movie Effect Model Functions --------------------------------------------
+# UME Model Support Functions --------------------------------------------------
 train_user_movie_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
     stop("Function: train_user_movie_effect

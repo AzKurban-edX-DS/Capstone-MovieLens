@@ -18,7 +18,7 @@ Inspired by this idea, a few support functions were developed by the author of t
 \
 
 ::: {.noteblock data-latex=""}
-The full source code of the functions described in this section is available in the [User+Movie Effect Model Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L1) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script on _GitHub_.
+The complete source code of the functions described in this section is available in the [UME Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L1) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script on _GitHub_.
 :::
  
 #### [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) Function {#func.train_user_movie_effect}
@@ -82,7 +82,7 @@ Here we use the function call [union_cv_results](https://github.com/AzKurban-edX
 #### `calc_user_movie_effect_MSE` Function
 \
 
-The code of the function [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L55) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `Mean Squared Error (MSE)` of the `UME Model` for the given `Test Set` is provided below:
+The source code of the function [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L55) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the _Mean Squared Error (MSE)_ of the _UME Model_ for the given `Test Set` is provided below:
 ```{r eval=FALSE}
 calc_user_movie_effect_MSE <- function(test_set, um_effect){
   mse.result <- test_set |>
@@ -96,12 +96,10 @@ calc_user_movie_effect_MSE <- function(test_set, um_effect){
 }
 ```
 
-\newpage
-
 #### `calc_user_movie_effect_MSE.cv` Function
 \
 
-The code of the function [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L72) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `5-Fold Cross Validation` MSE result of the `UME Model` is provided below:
+The source code of the function [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L72) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the _5-Fold Cross Validation_ **MSE**_ result of the _UME Model_ is provided below:
 ```{r eval=FALSE}
 calc_user_movie_effect_MSE.cv <- function(um_effect){
   put_log("Function: user_movie_effects_MSE.cv:
@@ -126,7 +124,7 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
 \
 
 
-The code of the function [calc_user_movie_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L51) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `Root Mean Squared Error (RMSE)` of the `UME Model` for the given `Test Set` is provided below:
+The source code of the function [calc_user_movie_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L51) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `Root Mean Squared Error (RMSE)` of the `UME Model` for the given `Test Set` is provided below:
 
 ```{r eval=FALSE}
 calc_user_movie_effect_RMSE <- function(test_set, um_effect){
@@ -138,7 +136,7 @@ calc_user_movie_effect_RMSE <- function(test_set, um_effect){
 #### `calc_user_movie_effect_RMSE.cv` Function { #func.calc_user_movie_effect_RMSE.cv }
 \
 
-The code of the function [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L65) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `5-Fold Cross Validation` RMSE result of the `UME Model` is provided below:
+The source code of the function [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L65) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `5-Fold Cross Validation` RMSE result of the `UME Model` is provided below:
 
 ```{r eval=FALSE}
 calc_user_movie_effect_RMSE.cv <- function(um_effect){
@@ -153,11 +151,11 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
 
 \newpage
 
-### Model Building
+### UME Model Building
 \
 
 ::: {.noteblock data-latex=""}
-The full source code of builing and training the current model is available in the [Model building: User+Movie Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L721) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+The complete source code of builing and training the current model is available in the [Model building: User+Movie Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L721) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
 :::
 
 Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
@@ -246,7 +244,7 @@ Note that we reuse the function [train_user_movie_effect.cv](#func.train_user_mo
 
 \newpage
 
-#### User+Movie Effect Model Tuning: Pre-configuratioin
+#### UME Model Regularization: Pre-configuratioin
 \
 
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
@@ -288,7 +286,7 @@ We use the custom data visualization function [data.plot](#func.data.plot) descr
 
 \newpage
 
-#### User+Movie Effect Model: Fine-Tuning
+#### UME Model Regularization: Fine-tuning
 \
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
@@ -341,7 +339,7 @@ UME.rglr.fine_tune.results$tuned.result |>
 ```
 \newpage
 
-#### Retraining User+Movie Effect Model with the best $\lambda$
+#### UME Model Regularization: Retraining Model with the best $\lambda$
 \
 
 Now, we can calculate the _Regularized User+Movie Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.

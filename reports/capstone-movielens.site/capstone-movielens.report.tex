@@ -455,7 +455,7 @@ The code below demonstrates another way of visualizing the rating distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-25-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-30-1.pdf}}
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
 \newpage
@@ -463,7 +463,10 @@ This graph is another confirmation of what we found out above: rounded ratings o
 \paragraph{Ratings per movie}\label{ratings-per-movie}
 
 \hfill\break
-\#\#\#\#\# Movie popularity count\autocite{MRS-R-BEST}\\
+
+\subparagraph{\texorpdfstring{Movie popularity count\autocite{MRS-R-BEST}}{Movie popularity count{[}@MRS-R-BEST{]}}}\label{movie-popularity-countmrs-r-best}
+
+\hfill\break
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -537,7 +540,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-28-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
 \newpage
 
 \subparagraph{\texorpdfstring{Movies' rating histogram\autocite{MRS-R-BEST}}{Movies' rating histogram{[}@MRS-R-BEST{]}}}\label{movies-rating-histogrammrs-r-best}
@@ -567,7 +570,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-34-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{Ratings per user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -654,7 +657,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-32-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-37-1.pdf}}
 \newpage
 
 \subparagraph{Users' rating histogram}\label{users-rating-histogram}
@@ -684,7 +687,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-38-1.pdf}}
 \newpage
 
 \section{Methods / Analysis}\label{methods-analysis}
@@ -1398,7 +1401,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-90-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1507,7 +1510,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-100-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1573,7 +1576,7 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-107-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
 
 Following the author's further explanation, to account for this variability, we will use a linear model with a \emph{treatment effect} \(\alpha_i\) for each user. The sum \(\mu+\alpha_i\) can be interpreted as the typical rating user \(i\) gives to movies. So we write the model as follows:
 
@@ -1642,7 +1645,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-117-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1693,7 +1696,7 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-114-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-119-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1742,7 +1745,7 @@ Inspired by this idea, a few support functions were developed by the author of t
 \hfill\break
 
 \begin{noteblock}
-The full source code of the functions described in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L1}{User+Movie Effect Model Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script on \emph{GitHub}.
+The complete source code of the functions described in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L1}{UME Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -1817,7 +1820,7 @@ Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-
 
 \hfill\break
 
-The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L55}{calc\_user\_movie\_effect\_MSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{Mean\ Squared\ Error\ (MSE)} of the \texttt{UME\ Model} for the given \texttt{Test\ Set} is provided below:
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L55}{calc\_user\_movie\_effect\_MSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \emph{Mean Squared Error (MSE)} of the \emph{UME Model} for the given \texttt{Test\ Set} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1834,13 +1837,11 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 \end{Highlighting}
 \end{Shaded}
 
-\newpage
-
 \paragraph{\texorpdfstring{\texttt{calc\_user\_movie\_effect\_MSE.cv} Function}{calc\_user\_movie\_effect\_MSE.cv Function}}\label{calc_user_movie_effect_mse.cv-function}
 
 \hfill\break
 
-The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L72}{calc\_user\_movie\_effect\_MSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{5-Fold\ Cross\ Validation} MSE result of the \texttt{UME\ Model} is provided below:
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L72}{calc\_user\_movie\_effect\_MSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \emph{5-Fold Cross Validation} \textbf{MSE}\_ result of the \emph{UME Model} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1866,7 +1867,7 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 
 \hfill\break
 
-The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L51}{calc\_user\_movie\_effect\_RMSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{Root\ Mean\ Squared\ Error\ (RMSE)} of the \texttt{UME\ Model} for the given \texttt{Test\ Set} is provided below:
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L51}{calc\_user\_movie\_effect\_RMSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{Root\ Mean\ Squared\ Error\ (RMSE)} of the \texttt{UME\ Model} for the given \texttt{Test\ Set} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1881,7 +1882,7 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 
 \hfill\break
 
-The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L65}{calc\_user\_movie\_effect\_RMSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{5-Fold\ Cross\ Validation} RMSE result of the \texttt{UME\ Model} is provided below:
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L65}{calc\_user\_movie\_effect\_RMSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{5-Fold\ Cross\ Validation} RMSE result of the \texttt{UME\ Model} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1897,12 +1898,12 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 
 \newpage
 
-\subsubsection{Model Building}\label{model-building}
+\subsubsection{UME Model Building}\label{ume-model-building}
 
 \hfill\break
 
 \begin{noteblock}
-The full source code of builing and training the current model is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L721}{Model building: User+Movie Effect} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script on \emph{GitHub}.
+The complete source code of builing and training the current model is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L721}{Model building: User+Movie Effect} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -1935,7 +1936,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-130-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-135-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -2038,7 +2039,7 @@ Note that we reuse the function \hyperref[func.train_user_movie_effect.cv]{train
 
 \newpage
 
-\paragraph{User+Movie Effect Model Tuning: Pre-configuratioin}\label{usermovie-effect-model-tuning-pre-configuratioin}
+\paragraph{UME Model Regularization: Pre-configuratioin}\label{ume-model-regularization-pre-configuratioin}
 
 \hfill\break
 
@@ -2092,7 +2093,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-136-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-141-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -2101,7 +2102,7 @@ We use the custom data visualization function \hyperref[func.data.plot]{data.plo
 
 \newpage
 
-\paragraph{User+Movie Effect Model: Fine-Tuning}\label{usermovie-effect-model-fine-tuning}
+\paragraph{UME Model Regularization: Fine-tuning}\label{ume-model-regularization-fine-tuning}
 
 \hfill\break
 
@@ -2178,10 +2179,10 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-139-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-144-1.pdf}}
 \newpage
 
-\paragraph{\texorpdfstring{Retraining User+Movie Effect Model with the best \(\lambda\)}{Retraining User+Movie Effect Model with the best \textbackslash lambda}}\label{retraining-usermovie-effect-model-with-the-best-lambda}
+\paragraph{\texorpdfstring{UME Model Regularization: Retraining Model with the best \(\lambda\)}{UME Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{ume-model-regularization-retraining-model-with-the-best-lambda}
 
 \hfill\break
 
@@ -2282,6 +2283,8 @@ Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.3874
 \hfill\break
 
 As mentioned in \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#exercises}{Section 23.7: Exercises} of the \emph{Chapter ``23 Regularization'' of the Course Textbook} the \texttt{Movielens} dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)\autocite{IDS2_23-7}.
+
+To account for \emph{genre effects} we will use the model suggested in the \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#exercises}{Section 23.7: Exercises} of the \emph{Chapter ``23 Regularization'' of the Course Textbook}\autocite{IDS2_23-7}:
 
 \subsubsection{Genre Data Analysis}\label{genre-data-analysis}
 
@@ -2388,7 +2391,7 @@ We can visually see that from the following plot:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-169-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-174-1.pdf}}
 
 \paragraph{Movie Genres Effect}\label{movie-genres-effect}
 
@@ -2452,7 +2455,7 @@ The plot below shows strong evidence of a genre effect (for illustrative purpose
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-170-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-175-1.pdf}}
 Below are worst and best ratings categories:
 
 \begin{verbatim}
@@ -2489,12 +2492,13 @@ Another way of visualizing a genre effect is shown in the section \href{https://
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-172-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-177-1.pdf}}
+
+\subsubsection{Mathematical Description of the UMGE Model}\label{mathematical-description-of-the-umge-model}
+
+\hfill\break
 
 If we define \(g_{i,j}\) as the genre for user's \(i\) rating of movie \(j\), we can use the following models to account for the \texttt{genre} effect:
-
-To account for \emph{genre effects} we will use the model suggested in the \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#exercises}{Section 23.7: Exercises} of the \emph{Chapter ``23 Regularization'' of the Course Textbook}\autocite{IDS2_23-7}:
-
 \[
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}
 \]
@@ -2509,53 +2513,58 @@ g_{i,j} = \sum_{k=1}^K x_{i,j}^k \gamma_k
 
 with \(x^k_{i,j} = 1\) if \(g_{i,j}\) includes genre \(k\), and \(x^k_{i,j} = 0\) otherwise.
 
+Therefore, for our current model, we can compute the expected value
 \[
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
+\hat{g}_{i,j} = g_{i,j} + \varepsilon_{i,j}
+\]
+as a residual:
+\[
+\hat{g}_{i,j} = Y_{i,j} - (\mu + \alpha_i + \beta_j)
 \]
 
-\[
- \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
-\]
-
-\subsubsection{UME Model: Support Functions}\label{ume-model-support-functions-1}
+\subsubsection{UMGE Model: Support Functions}\label{umge-model-support-functions}
 
 \hfill\break
 
 \begin{noteblock}
-The full source code of the functions described in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L1}{User+Movie Effect Model Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script on \emph{GitHub}.
+The complete source code of the functions described in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L1}{UMGE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R}{UMG-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L2}{train\_user\_movie\_genre\_effect} Function}{train\_user\_movie\_genre\_effect Function}}\label{func.train_user_movie_genre_effect}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L40}{train\_user\_movie\_genre\_effect} Function}{train\_user\_movie\_genre\_effect Function}}\label{func.train_user_movie_genre_effect}
 
 \hfill\break
 
-We use this function to build and train our model using the \texttt{train\_set} dataset:
+We use this function to build and train our model using a \emph{Train Set} (passing it to the \texttt{train.sgr} parameter), which can be any sample of the \texttt{edx.sgr} dataset (or the entire dataset itself) described above in the \hyperref[edx.sgr-object]{\texttt{edx.sgr} Object} section. Here I only remind that it is the dataset created from the \texttt{edx} one by splitting its rows to ensure that each one belongs to a single \emph{genre}. Here is the source code of the function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{train\_user\_movie\_genre\_effect }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(train\_set, }\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
+\NormalTok{train\_user\_movie\_genre\_effect }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(train.sgr, }\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
   \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(lambda)) \{}
     \FunctionTok{stop}\NormalTok{(}\StringTok{"Function: train\_user\_movie\_genre\_effect}
 \StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
 \NormalTok{  \}}
 
-\NormalTok{  UM.effect }\OtherTok{\textless{}{-}}\NormalTok{ train\_set }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{left\_join}\NormalTok{(edx.user\_effect, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}}\NormalTok{ (mu }\SpecialCharTok{+}\NormalTok{ a)) }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{summarise}\NormalTok{(}\AttributeTok{b =} \FunctionTok{mean\_reg}\NormalTok{(resid, lambda), }\AttributeTok{n =} \FunctionTok{n}\NormalTok{())}
-  
-  \FunctionTok{stopifnot}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(}\FunctionTok{mean}\NormalTok{(UM.effect}\SpecialCharTok{$}\NormalTok{b)))}
-\NormalTok{  UM.effect}
+\NormalTok{  genre\_bias }\OtherTok{\textless{}{-}}\NormalTok{ train.sgr }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{left\_join}\NormalTok{(edx.user\_effect, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{left\_join}\NormalTok{(rglr.UM\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}}\NormalTok{ (mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b)) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{group\_by}\NormalTok{(genres) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{summarise}\NormalTok{(}\AttributeTok{g =} \FunctionTok{mean\_reg}\NormalTok{(resid, lambda), }\AttributeTok{n =} \FunctionTok{n}\NormalTok{())}
+
+\NormalTok{    train.sgr }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{left\_join}\NormalTok{(genre\_bias, }\AttributeTok{by =} \StringTok{"genres"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{left\_join}\NormalTok{(rglr.UM\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
+      \FunctionTok{summarise}\NormalTok{(}\AttributeTok{g =} \FunctionTok{mean}\NormalTok{(g))}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{noteblock}
 The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will also need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
-We will explain that later in the \hyperref[usermovie-effect-model-regularization]{User+Movie Effect Model Regularization} section.
-For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. In this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
+We have already explained that in the \hyperref[usermovie-effect-model-regularization]{User+Movie Effect Model Regularization} section.
+For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
 \end{noteblock}
 
@@ -2563,33 +2572,57 @@ For now, we omit the \texttt{lambda} parameter, accepting its default value \tex
 
 \hfill\break
 
-We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L17}{train\_user\_movie\_genre\_effect.cv} function to build and train our model using the \texttt{5-Fold\ Cross\ Validation} method. Below, we provide the most important part of the code of that function:
+We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L59}{train\_user\_movie\_genre\_effect.cv} function to build and train our model using the \texttt{5-Fold\ Cross\ Validation} method. Below, we provide a slightly simplified version of the source code of that function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{train\_user\_movie\_genre\_effect.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
-\CommentTok{\# ...}
+  \CommentTok{\# ...}
+
+\FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}train\_user\_movie\_genre\_effect.cv\textasciigrave{}:}
+\StringTok{Computing User+Movie+Genre Effects list for \%1{-}Fold Cross Validation samples..."}\NormalTok{, }
+\NormalTok{           CVFolds\_N)}
+  
 \NormalTok{  start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
-\NormalTok{  user\_movie\_genre\_effects\_ls }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(edx\_CV, }\ControlFlowTok{function}\NormalTok{(cv\_fold\_dat)\{}
-\NormalTok{    cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{train\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{train\_user\_movie\_genre\_effect}\NormalTok{(lambda)}
+\NormalTok{  user\_movie\_genre\_effects\_ls }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(kfold\_index, }\ControlFlowTok{function}\NormalTok{(fold\_i)\{}
+\NormalTok{    cv\_fold\_dat }\OtherTok{\textless{}{-}}\NormalTok{ edx\_CV[[fold\_i]]}
+    
+    \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Processing User+Movie+Genre Effects for \%1{-}Fold Cross Validation samples (Fold \%2)..."}\NormalTok{,}
+\NormalTok{             CVFolds\_N,}
+\NormalTok{             fold\_i)}
+\NormalTok{    umg\_effect }\OtherTok{\textless{}{-}}\NormalTok{ cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{train.sgr }\SpecialCharTok{|\textgreater{}} \FunctionTok{train\_user\_movie\_genre\_effect}\NormalTok{(lambda)}
+    
+    
+    \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"User+Movie+Genre Effects have been computed for the Fold \%1 }
+\StringTok{of the \%2{-}Fold Cross Validation samples."}\NormalTok{,}
+\NormalTok{             fold\_i,}
+\NormalTok{             CVFolds\_N)}
+\NormalTok{    umg\_effect}
 \NormalTok{  \})}
   \FunctionTok{put\_end\_date}\NormalTok{(start)}
-  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: train\_user\_movie\_genre\_effect.cv:}
-\StringTok{User+Movie Effect list have been computed"}\NormalTok{)}
-  
+  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}train\_user\_movie\_genre\_effect.cv\textasciigrave{}:}
+\StringTok{User+Movie+Genre Effects list has been computed for \%1{-}Fold Cross Validation samples."}\NormalTok{, }
+\NormalTok{           CVFolds\_N)}
+
 \NormalTok{  user\_movie\_genre\_effects\_united }\OtherTok{\textless{}{-}} \FunctionTok{union\_cv\_results}\NormalTok{(user\_movie\_genre\_effects\_ls)}
 
 \NormalTok{  user\_movie\_genre\_effect }\OtherTok{\textless{}{-}}\NormalTok{ user\_movie\_genre\_effects\_united }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{summarise}\NormalTok{(}\AttributeTok{b =} \FunctionTok{mean}\NormalTok{(b), }\AttributeTok{n =} \FunctionTok{mean}\NormalTok{(n))}
-  \CommentTok{\# ...}
+    \FunctionTok{summarise}\NormalTok{(}\AttributeTok{g =} \FunctionTok{mean}\NormalTok{(g))}
+  
+  \ControlFlowTok{if}\NormalTok{(lambda }\SpecialCharTok{==} \DecValTok{0}\NormalTok{) }\FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function \textasciigrave{}train\_user\_movie\_genre\_effect.cv\textasciigrave{}:}
+\StringTok{Training completed: User+Movie+Genre Effects model."}\NormalTok{)}
+  \ControlFlowTok{else} \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function \textasciigrave{}train\_user\_movie\_genre\_effect.cv\textasciigrave{}:}
+\StringTok{Training completed: User+Movie+Genre Effects model for lambda: \%1..."}\NormalTok{,}
+\NormalTok{                lambda)}
+  
 \NormalTok{  user\_movie\_genre\_effect}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{noteblock}
-Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results}, which is defined in the script \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{common-helper.functions.R}, to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
 
 \end{noteblock}
 
@@ -2597,19 +2630,17 @@ Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-
 
 \hfill\break
 
-The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L55}{calc\_user\_movie\_genre\_effect\_MSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{Mean\ Squared\ Error\ (MSE)} of the \texttt{UME\ Model} for the given \texttt{Test\ Set} is provided below:
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L110}{calc\_user\_movie\_genre\_effect\_MSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R}{UMG-effect.functions.R} script to calculate the \emph{Mean Squared Error (MSE)} of the \emph{UMGE Model} for the given \emph{Test Set} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{calc\_user\_movie\_genre\_effect\_MSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, um\_effect)\{}
-\NormalTok{  mse.result }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}}
+\NormalTok{calc\_user\_movie\_genre\_effect\_MSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, umg\_effect)\{}
+\NormalTok{  test\_set }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{left\_join}\NormalTok{(edx.user\_effect, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{left\_join}\NormalTok{(um\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}} \FunctionTok{clamp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b)) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{left\_join}\NormalTok{(rglr.UM\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(umg\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}} \FunctionTok{clamp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b }\SpecialCharTok{+}\NormalTok{ g)) }\SpecialCharTok{|\textgreater{}} 
     \FunctionTok{pull}\NormalTok{(resid) }\SpecialCharTok{|\textgreater{}} \FunctionTok{mse}\NormalTok{()}
-  
-  \FunctionTok{stopifnot}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(mse.result))}
-\NormalTok{  mse.result}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2620,23 +2651,22 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 
 \hfill\break
 
-The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L72}{calc\_user\_movie\_genre\_effect\_MSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{5-Fold\ Cross\ Validation} MSE result of the \texttt{UME\ Model} is provided below:
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L122}{calc\_user\_movie\_genre\_effect\_MSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R}{UMG-effect.functions.R} script to calculate the \emph{5-Fold Cross Validation MSE} result of the \emph{UMGE Model} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{calc\_user\_movie\_genre\_effect\_MSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(um\_effect)\{}
-  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Function: user\_movie\_genre\_effects\_MSE.cv:}
-\StringTok{Computing the RMSE taking into account User+Movie Effects..."}\NormalTok{)}
+\NormalTok{calc\_user\_movie\_genre\_effect\_MSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(umg\_effect)\{}
+  \FunctionTok{put\_log}\NormalTok{(}\StringTok{"Computing RMSEs.ResultTibble on Validation Sets..."}\NormalTok{)}
 \NormalTok{  start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
-\NormalTok{  user\_movie\_genre\_effects\_MSEs }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(edx\_CV, }\ControlFlowTok{function}\NormalTok{(cv\_fold\_dat)\{}
-\NormalTok{    cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{validation\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_user\_movie\_genre\_effect\_MSE}\NormalTok{(um\_effect)}
+\NormalTok{  user\_movie\_genre\_effects\_MSEs }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(edx\_CV, }\ControlFlowTok{function}\NormalTok{(cv\_dat)\{}
+\NormalTok{    cv\_dat}\SpecialCharTok{$}\NormalTok{validation\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_user\_movie\_genre\_effect\_MSE}\NormalTok{(umg\_effect)}
 \NormalTok{  \})}
   \FunctionTok{put\_end\_date}\NormalTok{(start)}
   
-  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: user\_movie\_genre\_effects\_MSE.cv:}
-\StringTok{MSE values have been plotted for the \%1{-}Fold Cross Validation samples."}\NormalTok{, }
+  \FunctionTok{plot}\NormalTok{(user\_movie\_genre\_effects\_MSEs)}
+  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"MSE values have been plotted for the \%1{-}Fold Cross Validation samples."}\NormalTok{, }
 \NormalTok{           CVFolds\_N)}
-  
+ 
   \FunctionTok{mean}\NormalTok{(user\_movie\_genre\_effects\_MSEs)}
 \NormalTok{\}}
 \end{Highlighting}
@@ -2646,13 +2676,13 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 
 \hfill\break
 
-The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L51}{calc\_user\_movie\_genre\_effect\_RMSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{Root\ Mean\ Squared\ Error\ (RMSE)} of the \texttt{UME\ Model} for the given \texttt{Test\ Set} is provided below:
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L118}{calc\_user\_movie\_genre\_effect\_RMSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R}{UMG-effect.functions.R} script to calculate the \emph{Root Mean Squared Error (RMSE)} of the \emph{UMGE Model} for the given \emph{Test Set} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{calc\_user\_movie\_genre\_effect\_RMSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, um\_effect)\{}
-\NormalTok{  mse }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_user\_movie\_genre\_effect\_MSE}\NormalTok{(um\_effect)}
-  \FunctionTok{sqrt}\NormalTok{(mse)}
+\NormalTok{calc\_user\_movie\_genre\_effect\_RMSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, umg\_effect)\{}
+\NormalTok{  umg\_mse }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_user\_movie\_genre\_effect\_MSE}\NormalTok{(umg\_effect)}
+  \FunctionTok{sqrt}\NormalTok{(umg\_mse)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2661,23 +2691,107 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 
 \hfill\break
 
-The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L65}{calc\_user\_movie\_genre\_effect\_RMSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R}{UM-effect.functions.R} script to calculate the \texttt{5-Fold\ Cross\ Validation} RMSE result of the \texttt{UME\ Model} is provided below:
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L136}{calc\_user\_movie\_genre\_effect\_RMSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R}{UMG-effect.functions.R} script to calculate the \emph{5-Fold Cross Validation \textbf{RMSE}} result of the \emph{UMGE Model} is provided below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{calc\_user\_movie\_genre\_effect\_RMSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(um\_effect)\{}
-\NormalTok{  user\_movie\_genre\_effects\_MSE }\OtherTok{\textless{}{-}} \FunctionTok{calc\_user\_movie\_genre\_effect\_MSE.cv}\NormalTok{(um\_effect)}
-\NormalTok{  um\_effect\_RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(user\_movie\_genre\_effects\_MSE)}
-  \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function: user\_movie\_genre\_effects\_RMSE.cv:}
-\StringTok{\%1{-}Fold Cross Validation ultimate RMSE: \%2"}\NormalTok{, CVFolds\_N, um\_effect\_RMSE)}
-\NormalTok{  um\_effect\_RMSE}
+\NormalTok{calc\_user\_movie\_genre\_effect\_RMSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(umg\_effect)\{}
+\NormalTok{  umg\_effect\_RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{calc\_user\_movie\_genre\_effect\_MSE.cv}\NormalTok{(umg\_effect))}
+  \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"\%1{-}Fold Cross Validation ultimate RMSE: \%2"}\NormalTok{, }
+\NormalTok{           CVFolds\_N, }
+\NormalTok{           umg\_effect\_RMSE)}
+  
+\NormalTok{  umg\_effect\_RMSE}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
 \newpage
 
+\subsubsection{UMGE Model Building}\label{umge-model-building}
+
+\hfill\break
+
+\begin{noteblock}
+The complete source code of builing and training the current model is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1149}{Model building: User+Movie+Genre Effect} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Below, we provide the most significant part of the code for training our model using the \texttt{5-Fold\ Cross\ Validation} method:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  cv.UMG\_effect }\OtherTok{\textless{}{-}} \FunctionTok{train\_user\_movie\_genre\_effect.cv}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(cv.UMG\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [10,677 x 2] (S3: tbl_df/tbl/data.frame)
+##  $ movieId: int [1:10677] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ g      : num [1:10677] -9.28e-06 -7.23e-05 -1.07e-04 -6.46e-05 4.56e-05 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.7}\NormalTok{)}
+\FunctionTok{hist}\NormalTok{(cv.UMG\_effect}\SpecialCharTok{$}\NormalTok{g, }\DecValTok{30}\NormalTok{, }\AttributeTok{xlab =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[$\textbackslash{}hat\{g\}\_\{i,j\}$]\textquotesingle{}}\NormalTok{),}
+     \AttributeTok{main =} \FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}[Histogram of $\textbackslash{}hat\{g\}\_\{i,j\}$]\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-185-1.pdf}}
+
+We can now construct predictors and calculate the \emph{RMSE} of the current model using the \hyperref[func.calc_user_movie_genre_effect_RMSE.cv]{calc\_user\_movie\_genre\_effect\_RMSE.cv} function described above:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cv.UMG\_effect.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{calc\_user\_movie\_genre\_effect\_RMSE.cv}\NormalTok{(cv.UMG\_effect)}
+
+\NormalTok{RMSEs.ResultTibble.UMGE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.rglr.UME }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"User+Movie+Genre Effect Model"}\NormalTok{, cv.UMG\_effect.RMSE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSE\_kable}\NormalTok{(RMSEs.ResultTibble.UMGE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\toprule
+\textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
+\midrule
+Project Objective & 0.8649000 & \\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
+Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+\addlinespace
+User+Movie+Genre Effect Model & 0.8729730 & \\
+\bottomrule
+\end{tabular}
+
+\begin{noteblock}
+Unfortunately, we do not see any improvement here yet.
+
+\end{noteblock}
+
 \newpage
+
+\[
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
+\]
+
+\[
+ \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+\]
 
 \subsection{User+Movie+Genre+Year Effect (UMGYE) Model}\label{usermoviegenreyear-effect-umgye-model}
 
@@ -2741,7 +2855,7 @@ The code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-Movie
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-196-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-207-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 

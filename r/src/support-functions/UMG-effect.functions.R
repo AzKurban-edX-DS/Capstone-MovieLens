@@ -1,4 +1,4 @@
-# User+Movie+Genre Effect Support Functions ------------------------------------
+# UMGE Model Support Functions -------------------------------------------------
 calc_genre_mean_ratings <- function(train_set, min_nratings = 0) {
   genre.min_ratings <- train_set |> 
     mutate(genre_categories = as.factor(genres)) |>
@@ -127,7 +127,6 @@ calc_user_movie_genre_effect_MSE.cv <- function(umg_effect){
   })
   put_end_date(start)
   
-  # browser()
   plot(user_movie_genre_effects_MSEs)
   put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
            CVFolds_N)

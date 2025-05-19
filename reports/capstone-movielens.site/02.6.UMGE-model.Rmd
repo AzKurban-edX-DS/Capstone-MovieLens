@@ -3,6 +3,8 @@
 
 As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_ the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
 
+To account for _genre effects_ we will use the model suggested in the [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_[@IDS2_23-7]:
+
 ### Genre Data Analysis
 \
 
@@ -51,7 +53,6 @@ edx |>
 
 #### Movie Genres Effect 
 \
-
 
 The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 20, 000 ratings).
 
@@ -110,10 +111,10 @@ plot_dat |>
         plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
 ```
 
+### Mathematical Description of the UMGE Model
+\
+
 If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
-
-To account for _genre effects_ we will use the model suggested in the [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_[@IDS2_23-7]:
-
 $$
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}
 $$
@@ -128,22 +129,21 @@ $$
 
 with $x^k_{i,j} = 1$ if $g_{i,j}$ includes genre $k$, and $x^k_{i,j} = 0$ otherwise.
 
-
-
+Therefore, for our current model, we can compute the expected value 
 $$
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
+\hat{g}_{i,j} = g_{i,j} + \varepsilon_{i,j}
+$$
+as a residual: 
+$$
+\hat{g}_{i,j} = Y_{i,j} - (\mu + \alpha_i + \beta_j)
 $$
 
-
-$$
- \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
-$$
 
 ### UMGE Model: Support Functions
 \
 
 ::: {.noteblock data-latex=""}
-The full source code of the functions described in this section is available in the [User+Movie Effect Model Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L1) section of the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script on _GitHub_.
+The complete source code of the functions described in this section is available in the [UMGE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L1) section of the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script on _GitHub_.
 :::
  
 #### [train_user_movie_genre_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L40) Function {#func.train_user_movie_genre_effect}
@@ -234,7 +234,7 @@ Here we use the function call [union_cv_results](https://github.com/AzKurban-edX
 #### `calc_user_movie_genre_effect_MSE` Function
 \
 
-The code of the function [calc_user_movie_genre_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L110) defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script to calculate the `Mean Squared Error (MSE)` of the `UME Model` for the given `Test Set` is provided below:
+The source code of the function [calc_user_movie_genre_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L110) defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script to calculate the _Mean Squared Error (MSE)_ of the _UMGE Model_ for the given _Test Set_ is provided below:
 ```{r eval=FALSE}
 calc_user_movie_genre_effect_MSE <- function(test_set, umg_effect){
   test_set |>
@@ -251,36 +251,104 @@ calc_user_movie_genre_effect_MSE <- function(test_set, umg_effect){
 #### `calc_user_movie_genre_effect_MSE.cv` Function
 \
 
-The code of the function [calc_user_movie_genre_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L72) defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script to calculate the `5-Fold Cross Validation` MSE result of the `UME Model` is provided below:
+The source code of the function [calc_user_movie_genre_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L122) defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script to calculate the _5-Fold Cross Validation MSE_ result of the _UMGE Model_ is provided below:
 ```{r eval=FALSE}
+calc_user_movie_genre_effect_MSE.cv <- function(umg_effect){
+  put_log("Computing RMSEs.ResultTibble on Validation Sets...")
+  start <- put_start_date()
+  user_movie_genre_effects_MSEs <- sapply(edx_CV, function(cv_dat){
+    cv_dat$validation_set |> calc_user_movie_genre_effect_MSE(umg_effect)
+  })
+  put_end_date(start)
+  
+  plot(user_movie_genre_effects_MSEs)
+  put_log1("MSE values have been plotted for the %1-Fold Cross Validation samples.", 
+           CVFolds_N)
+ 
+  mean(user_movie_genre_effects_MSEs)
+}
 ```
 
 
 #### `calc_user_movie_genre_effect_RMSE` Function
 \
 
-
-The code of the function [calc_user_movie_genre_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L51) defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script to calculate the `Root Mean Squared Error (RMSE)` of the `UME Model` for the given `Test Set` is provided below:
+The source code of the function [calc_user_movie_genre_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L118) defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script to calculate the _Root Mean Squared Error (RMSE)_ of the _UMGE Model_ for the given _Test Set_ is provided below:
 
 ```{r eval=FALSE}
-
+calc_user_movie_genre_effect_RMSE <- function(test_set, umg_effect){
+  umg_mse <- test_set |> calc_user_movie_genre_effect_MSE(umg_effect)
+  sqrt(umg_mse)
+}
 ```
 
 #### `calc_user_movie_genre_effect_RMSE.cv` Function { #func.calc_user_movie_genre_effect_RMSE.cv }
 \
 
-The code of the function [calc_user_movie_genre_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L65) defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script to calculate the `5-Fold Cross Validation` RMSE result of the `UME Model` is provided below:
+The source code of the function [calc_user_movie_genre_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L136) defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script to calculate the _5-Fold Cross Validation **RMSE**_ result of the _UMGE Model_ is provided below:
 
 ```{r eval=FALSE}
-
+calc_user_movie_genre_effect_RMSE.cv <- function(umg_effect){
+  umg_effect_RMSE <- sqrt(calc_user_movie_genre_effect_MSE.cv(umg_effect))
+  put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
+           CVFolds_N, 
+           umg_effect_RMSE)
+  
+  umg_effect_RMSE
+}
 ```
 
 \newpage
 
-### UMGE Model: Genre Mean Rating
+### UMGE Model Building
 \
 
-We start with computing _Genre Mean Rating_ to build our next model based on the _UM Effect_ one described in the previous section. We will call the new model the _User+Movie+Genre Effect (UMGE)_  Model or _UMG Effect_ Model. 
+::: {.noteblock data-latex=""}
+The complete source code of builing and training the current model is available in the [Model building: User+Movie+Genre Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1149) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+:::
 
+Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
+```{r, eval=FALSE}
+  cv.UMG_effect <- train_user_movie_genre_effect.cv()
+```
+```{r}
+str(cv.UMG_effect)
+  
+par(cex = 0.7)
+hist(cv.UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
+     main = TeX(r'[Histogram of $\hat{g}_{i,j}$]'))
+```
+
+We can now construct predictors and calculate the _RMSE_ of the current model using the [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) function described above:
+
+```{r, eval=FALSE}
+cv.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(cv.UMG_effect)
+
+RMSEs.ResultTibble.UMGE <- RMSEs.ResultTibble.rglr.UME |> 
+  RMSEs.AddRow("User+Movie+Genre Effect Model", cv.UMG_effect.RMSE)
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.UMGE)
+```
+
+
+::: {.noteblock data-latex=""}
+Unfortunately, we do not see any improvement here yet.
+:::
 
 \newpage
+
+
+
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
+$$
+
+
+$$
+ \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+$$
+
+
+
+
