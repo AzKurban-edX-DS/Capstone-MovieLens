@@ -455,7 +455,7 @@ The code below demonstrates another way of visualizing the rating distribution:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-30-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-25-1.pdf}}
 
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
 \newpage
@@ -540,7 +540,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-28-1.pdf}}
 \newpage
 
 \subparagraph{\texorpdfstring{Movies' rating histogram\autocite{MRS-R-BEST}}{Movies' rating histogram{[}@MRS-R-BEST{]}}}\label{movies-rating-histogrammrs-r-best}
@@ -570,7 +570,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-34-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{Ratings per user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
@@ -657,7 +657,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-37-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-32-1.pdf}}
 \newpage
 
 \subparagraph{Users' rating histogram}\label{users-rating-histogram}
@@ -687,7 +687,7 @@ This graph is another confirmation of what we found out above: rounded ratings o
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-38-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-33-1.pdf}}
 \newpage
 
 \section{Methods / Analysis}\label{methods-analysis}
@@ -1401,7 +1401,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-90-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1510,7 +1510,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-100-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-95-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1576,7 +1576,7 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-107-1.pdf}}
 
 Following the author's further explanation, to account for this variability, we will use a linear model with a \emph{treatment effect} \(\alpha_i\) for each user. The sum \(\mu+\alpha_i\) can be interpreted as the typical rating user \(i\) gives to movies. So we write the model as follows:
 
@@ -1645,7 +1645,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-117-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-112-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1696,7 +1696,7 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-119-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-114-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1936,7 +1936,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-135-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-130-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -2093,7 +2093,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-141-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-136-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -2179,7 +2179,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-144-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-139-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{UME Model Regularization: Retraining Model with the best \(\lambda\)}{UME Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{ume-model-regularization-retraining-model-with-the-best-lambda}
@@ -2391,7 +2391,7 @@ We can visually see that from the following plot:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-174-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-169-1.pdf}}
 
 \paragraph{Movie Genres Effect}\label{movie-genres-effect}
 
@@ -2455,7 +2455,7 @@ The plot below shows strong evidence of a genre effect (for illustrative purpose
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-175-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-170-1.pdf}}
 Below are worst and best ratings categories:
 
 \begin{verbatim}
@@ -2492,7 +2492,7 @@ Another way of visualizing a genre effect is shown in the section \href{https://
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-177-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-172-1.pdf}}
 
 \subsubsection{Mathematical Description of the UMGE Model}\label{mathematical-description-of-the-umge-model}
 
@@ -2513,7 +2513,7 @@ g_{i,j} = \sum_{k=1}^K x_{i,j}^k \gamma_k
 
 with \(x^k_{i,j} = 1\) if \(g_{i,j}\) includes genre \(k\), and \(x^k_{i,j} = 0\) otherwise.
 
-Therefore, for our current model, we can compute the expected value
+Therefore, for our current model, we can compute a predicted value
 \[
 \hat{g}_{i,j} = g_{i,j} + \varepsilon_{i,j}
 \]
@@ -2745,7 +2745,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-185-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-180-1.pdf}}
 
 We can now construct predictors and calculate the \emph{RMSE} of the current model using the \hyperref[func.calc_user_movie_genre_effect_RMSE.cv]{calc\_user\_movie\_genre\_effect\_RMSE.cv} function described above:
 
@@ -2855,7 +2855,7 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-207-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-202-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 

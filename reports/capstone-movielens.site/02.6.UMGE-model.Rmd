@@ -129,7 +129,7 @@ $$
 
 with $x^k_{i,j} = 1$ if $g_{i,j}$ includes genre $k$, and $x^k_{i,j} = 0$ otherwise.
 
-Therefore, for our current model, we can compute the expected value 
+Therefore, for our current model, we can compute a predicted value 
 $$
 \hat{g}_{i,j} = g_{i,j} + \varepsilon_{i,j}
 $$
