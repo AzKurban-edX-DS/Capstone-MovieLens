@@ -138,10 +138,7 @@ Hello Note!!!
 
 We have already explained the idea of the _Linear Model Regularization_ in the [Regularizing the User+Movie Effect Model] section above. Let's extend the concept outlined there to our current model.
 
-$$
-\sum_{j=1}^{n} \beta_j^2
-$$ 
-Specifically, instead of minimizing the least squares equation, we minimize an equation that adds a penalty:
+For the current model we add the penalty to our equation as follows:
 $$ 
 \sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j \right)^2 + \lambda \sum_{j} \beta_j^2
 $$
