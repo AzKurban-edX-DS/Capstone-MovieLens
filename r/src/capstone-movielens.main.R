@@ -811,7 +811,7 @@ UME.rglr.fine_tune.cache.path <- file.path(UME.regularization.path,
 dir.create(UME.rglr.fine_tune.cache.path)
 put_log1("Directory path has been created: %1", UME.rglr.fine_tune.cache.path)
 
-##### Process Preliminary setting-up of lambda range for UM Effect regularization ----
+##### UME Model Regularization: Pre-configuration ------------------------------
 file_name_tmp <- "1.UME.rglr.pre-set.RData" # UME stands for `User+Movie Effect`
 file_path_tmp <- file.path(UME.regularization.path, file_name_tmp)
 
@@ -1215,7 +1215,7 @@ UMGE.rglr.fine_tune.cache.path <- file.path(UMGE.regularization.path,
                                            fine_tune.cache.folder)
 dir.create(UMGE.rglr.fine_tune.cache.path)
 put_log1("Directory path has been created: %1", UMGE.rglr.fine_tune.cache.path)
-##### Process Preliminary setting-up of lambda range ---------------------------
+##### UMGE Model Regularization: Pre-configuration ----------------------------
 file_name_tmp <- "1.UMGE.rglr.pre-set.RData" # UMGE stands for `User+Movie+Genre Effect`
 file_path_tmp <- file.path(UMGE.regularization.path, file_name_tmp)
 
@@ -1357,6 +1357,7 @@ if (file.exists(file_path_tmp)) {
        edx.user_effect,
        rglr.UM_effect,
        rglr.UMG_effect,
+       UMGE.rglr.best_lambda,
        rglr.UMG_effect.RMSE,
        file = file_path_tmp)
   put_end_date(start)
@@ -1367,11 +1368,13 @@ if (file.exists(file_path_tmp)) {
 } 
 
 ##### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model ----
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+RMSEs.ResultTibble.rglr.UMGE <- RMSEs.ResultTibble.UMGE |> 
   RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
-               rglr.UMG_effect.RMSE)
+               rglr.UMG_effect.RMSE,
+               comment = "Computed for `lambda` = %1" |>
+                 msg.glue(UMGE.rglr.best_lambda))
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.rglr.UMGE)
 put_log("A row has been added to the RMSE Result Tibble for the Regularized UMGE Model`.")
 
 ##### Close Log ----------------------------------------------------------------
@@ -1474,7 +1477,7 @@ UMGYE.rglr.fine_tune.cache.path <- file.path(UMGYE.regularization.path,
                                             fine_tune.cache.folder)
 dir.create(UMGYE.rglr.fine_tune.cache.path)
 put_log1("Directory path has been created: %1", UMGYE.rglr.fine_tune.cache.path)
-##### Process Preliminary setting-up of lambda range ---------------------------
+##### UMGYE Model Regularization: Pre-configuration ---------------------------
 file_name_tmp <- "1.UMGYE.rglr.pre-set.RData" # UMGE stands for `User+Movie+Genre+Year Effect`
 file_path_tmp <- file.path(UMGYE.regularization.path, file_name_tmp)
 
@@ -2310,7 +2313,7 @@ UMGYDE.rglr.fine_tune.cache.path <- file.path(UMGYDE.regularization.path,
                                              fine_tune.cache.folder)
 dir.create(UMGYDE.rglr.fine_tune.cache.path)
 put_log1("Directory path has been created: %1", UMGYDE.rglr.fine_tune.cache.path)
-##### Process Preliminary setting-up of lambda range ---------------------------
+##### UMGYDE Model Regularization: Pre-configuration --------------------------
 file_name_tmp <- "1.UMGYDE.rglr.pre-set.RData" # UMGE stands for `User+Movie+Genre+Year+(Smoothed)Day Effect`
 file_path_tmp <- file.path(UMGYDE.regularization.path, file_name_tmp)
 

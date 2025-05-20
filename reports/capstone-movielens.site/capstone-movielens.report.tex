@@ -128,7 +128,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-19}
+\date{2025-05-20}
 
 \begin{document}
 \maketitle
@@ -1777,7 +1777,7 @@ We use this function to build and train our model using the \texttt{train\_set} 
 
 \begin{noteblock}
 The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
-We will explain that later in the \hyperref[usermovie-effect-model-regularization]{User+Movie Effect Model Regularization} section.
+We will explain that later in the {[}User+Movie Effect Model Regularization{]} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. In this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
 \end{noteblock}
@@ -1966,11 +1966,7 @@ User+Movie Effect Model & 0.8732081 & \\
 \bottomrule
 \end{tabular}
 
-\subsubsection{User+Movie Effect Model Regularization}\label{usermovie-effect-model-regularization}
-
-\hfill\break
-
-\paragraph{Utilizing Penalized least squares}\label{utilizing-penalized-least-squares}
+\subsubsection{UME Model Regularization}\label{ume-model-regularization}
 
 \hfill\break
 
@@ -2563,7 +2559,7 @@ We use this function to build and train our model using a \emph{Train Set} (pass
 
 \begin{noteblock}
 The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
-We have already explained that in the \hyperref[usermovie-effect-model-regularization]{User+Movie Effect Model Regularization} section.
+We have already explained that in the {[}User+Movie Effect Model Regularization{]} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
 \end{noteblock}
@@ -2787,13 +2783,148 @@ Unfortunately, for some reason, we do not see any improvement here yet.
 
 \newpage
 
-\[
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
+\subsubsection{UMGE Model Regularization}\label{umge-model-regularization}
+
+\hfill\break
+
+We have already explained the idea of the \emph{Linear Model Regularization} in the \hyperref[ume-model-regularization]{UME Model Regularization} section above. Let's extend the concept outlined there to our current model.
+
+For the current model we add the penalty to our equation as follows:
+\[ 
+\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j}\right)^2 + \lambda \sum_{i,j} g_{i,j}^2
 \]
 
+Therefore, the values of \(g_{i,j}\) that minimize this equation are:
 \[
- \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+\hat{g}_{i,j}(\lambda) = \frac{1}{\lambda + n_{i,j}} \sum_{i=1}^{n_{g}} \left(Y_{i,j} - \mu - \alpha_i - \beta_j\right)
 \]
+where \(n_{g}\) is the number of ratings made per each genre.
+
+As stated in the \hyperref[ume-model-regularization]{UME Model Regularization} section, we will implement the \emph{Regularization} method on our current model in three steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Pre-configuration:} Preliminary determination of the optimal range of \(\lambda\) values for the \texttt{5-Fold\ Cross\ Validation} samples;
+\item
+  \textbf{Fine-tuning:} figuring out the value of \(\lambda\) that minimizes the model's RMSE.
+\item
+  \textbf{Retraining:} retraining the model with the best value of the parameter \(\lambda\) obtained in the previous step.
+\end{enumerate}
+
+\newpage
+
+\paragraph{UMGE Model Regularization: Support Functions}\label{umge-model-regularization-support-functions}
+
+\hfill\break
+
+\begin{noteblock}
+The \href{}{regularize.test\_lambda.UMG\_effect.cv} function described below are defined in the \href{}{Regularization} section of the \href{}{UM-effect.functions.R} script.
+
+\end{noteblock}
+
+\subparagraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L96}{regularize.test\_lambda.UMG\_effect.cv} Function}{regularize.test\_lambda.UMG\_effect.cv Function}}\label{func.regularize.test_lambda.UMG_effect.cv}
+
+\hfill\break
+
+This function calculates \emph{RMSE} of the \emph{UMGE Model} using \emph{5-Fold Cross Validation} method for the given \(\lambda\) parameter value:
+
+\begin{noteblock}
+Note that we reuse the function \hyperref[func.train_UMG_effect.cv]{train\_UMG\_effect.cv} calling it from the \hyperref[func.regularize.test_lambda.UMG_effect.cv]{regularize.test\_lambda.UMG\_effect.cv}, but now with the \(\lambda\) parameter different from the default (`lambda = 0') value.
+
+\end{noteblock}
+
+\newpage
+
+\paragraph{UMGE Model Regularization: Pre-configuratioin}\label{umge-model-regularization-pre-configuratioin}
+
+\hfill\break
+
+Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
+
+We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMG_effect.cv]{regularize.test\_lambda.UMG\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
+
+\begin{noteblock}
+The complete version of the source code provided in this section can be found in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L814}{Preliminary setting-up of lambda range for UMG Effect regularization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script.
+
+\end{noteblock}
+
+Now, let's visualize the results of the \(\lambda\) range preconfiguration:
+
+\begin{noteblock}
+We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\newpage
+
+\paragraph{UMGE Model Regularization: Fine-tuning}\label{umge-model-regularization-fine-tuning}
+
+\hfill\break
+
+We are now ready to perform the fine-tuning step of our model \emph{regularization} process to determine the best value for the \(\lambda\) parameter.
+
+Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMG_effect.cv]{regularize.test\_lambda.UMG\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter:
+
+\begin{noteblock}
+The complete version of the source code provided in this section can be also found in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L867}{Fine-tuning Step of the Regularization Method for the User+Movie Model} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Let's visualize the fine-tuning results:
+
+\newpage
+
+\paragraph{\texorpdfstring{UMGE Model Regularization: Retraining Model with the best \(\lambda\)}{UMGE Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{umge-model-regularization-retraining-model-with-the-best-lambda}
+
+\hfill\break
+
+Now, we can calculate the \emph{Regularized UMG Effect} by retraining our model on the entire \texttt{edx} dataset with the best value of the \(\lambda\) parameter we just calculated, for the definitive \emph{Root Mean Squared Error} calculation and use in subsequent models.
+
+\begin{noteblock}
+The complete version of the source code provided in this section are available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L910}{Re-training Regularized UMG Effect Model for the best \(\lambda\)} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L910}{capstone-movielens.main.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+We calculate the \emph{Root Mean Squared Error} for the ultimately computed \emph{UMG Effect} using \hyperref[func.calc_UMG_effect_RMSE.cv]{calc\_UMG\_effect\_RMSE.cv} function described above as follows:
+
+Finally, we add the definitive result for the current model to our \emph{Result Table}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSEs.ResultTibble.rglr.UMGE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.UMGE }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"Regularized User+Movie+Genre Effect Model"}\NormalTok{, }
+\NormalTok{               rglr.UMG\_effect.RMSE,}
+               \AttributeTok{comment =} \StringTok{"Computed for \textasciigrave{}lambda\textasciigrave{} = \%1"} \SpecialCharTok{|\textgreater{}}
+                 \FunctionTok{msg.glue}\NormalTok{(UMGE.rglr.best\_lambda))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSE\_kable}\NormalTok{(RMSEs.ResultTibble.rglr.UMGE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\toprule
+\textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
+\midrule
+Project Objective & 0.8649000 & \\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
+Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+\addlinespace
+User+Movie+Genre Effect (UMGE) Model & 0.8729730 & \\
+Regularized User+Movie+Genre Effect Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
+\bottomrule
+\end{tabular}
+
+As we can see, the current model still does not show much improvement after \emph{regularization}, even though the data analysis we made in the \hyperref[movie-genres-effect]{Movie Genres Effect} section showed strong evidence of a genre effect.
+It looks like we need a better model to account for a genre effect more efficiently.
+
+Or, maybe, we have implemented the current model not quite correctly (?)
 
 \newpage
 
@@ -2859,7 +2990,7 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-202-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-219-1.pdf}}
 
 We use the following models to account for the \texttt{date} effect:
 
@@ -2872,6 +3003,16 @@ Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \varepsilon_{i,j}
 \subsection{User+Movie+Genre+Year+Day Effect (UMGYDE) Model}\label{usermoviegenreyearday-effect-umgyde-model}
 
 \hfill\break
+
+\[
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
+\]
+
+\[
+ \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+\]
+
+\newpage
 
 \newpage
 
