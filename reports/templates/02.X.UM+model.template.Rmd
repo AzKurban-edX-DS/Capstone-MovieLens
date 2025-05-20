@@ -1,0 +1,257 @@
+## UM? Effect (UM?E) Model
+\
+
+### Mathematical Description of the UM?E Model
+\
+
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j +\varepsilon_{i,j}
+$$
+
+If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}
+$$
+
+where $g_{i,j}$ is an _aggregation function_ which is explained in detail in _Section 22.3: "Review of Aggregation Functions" of "Recommender Systems Handbook"_ (_Chapter 22: "Aggregation of Preferences in Recommender Systems"_, p. 712) book[@RRSK_RS_HB].
+
+In the formula above $g_{i,j}$ denotes a _genre effect_ for user's $i$ rating of movie $j$, so that:
+
+$$
+g_{i,j} = \sum_{k=1}^K x_{i,j}^k \gamma_k
+$$
+
+with $x^k_{i,j} = 1$ if $g_{i,j}$ includes genre $k$, and $x^k_{i,j} = 0$ otherwise.
+
+Therefore, for our current model, we can compute a predicted value 
+$$
+\hat{g}_{i,j} = g_{i,j} + \varepsilon_{i,j}
+$$
+as a residual: 
+$$
+\hat{g}_{i,j} = Y_{i,j} - (\mu + \alpha_i + \beta_j)
+$$
+
+
+### UM?E Model: Support Functions
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the [UM?E Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/) section of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/) script on _GitHub_.
+:::
+ 
+#### [train_UM?_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) Function {#func.train_UM?_effect}
+\
+
+We use this function to build and train our model using the `train_set` dataset:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The function described above accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
+We have already explained that in the [UM? Effect Model Regularization] section. 
+For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
+:::
+
+#### `train_UM?E_effect.cv` Function {#func.train_UM?E_effect.cv}
+\
+
+We use the [train_UM?E_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/#L59) function to build and train our model using the `5-Fold Cross Validation` method. Below, we provide a slightly simplified version of the source code of that function:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) to aggregate the _5-Fold Cross Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report).
+:::
+
+#### `calc_UM?E_effect_MSE` Function
+\
+
+The source code of the function [calc_UM?E_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/#L) defined in the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/) script to calculate the _Mean Squared Error (MSE)_ of the _UM?E Model_ for the given _Test Set_ is provided below:
+```{r eval=FALSE}
+```
+
+\newpage
+
+#### `calc_UM?E_effect_MSE.cv` Function
+\
+
+The source code of the function [calc_UM?E_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/#L) defined in the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/) script to calculate the _5-Fold Cross Validation MSE_ result of the _UM?E Model_ is provided below:
+```{r eval=FALSE}
+```
+
+
+#### `calc_UM?E_effect_RMSE` Function
+\
+
+The source code of the function [calc_UM?E_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/#L118) defined in the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/) script to calculate the _Root Mean Squared Error (RMSE)_ of the _UM?E Model_ for the given _Test Set_ is provided below:
+
+```{r eval=FALSE}
+```
+
+#### `calc_UM?E_effect_RMSE.cv` Function { #func.calc_UM?E_effect_RMSE.cv }
+\
+
+The source code of the function [calc_UM?E_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/#L) defined in the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/) script to calculate the _5-Fold Cross Validation **RMSE**_ result of the _UM?E Model_ is provided below:
+
+```{r eval=FALSE}
+```
+
+\newpage
+
+### UM?E Model Building
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of builing and training the current model is available in the [Model building: UM? Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+:::
+
+Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
+```{r, eval=FALSE}
+```
+
+\newpage
+
+We can now construct predictors and calculate the _RMSE_ of the current model using the [calc_UM?E_effect_RMSE.cv](#func.calc_UM?E_effect_RMSE.cv) function described above:
+
+```{r, eval=FALSE}
+cv.UMG_effect.RMSE <- calc_UM?E_effect_RMSE.cv(cv.UMG_effect)
+
+RMSEs.ResultTibble.UM?E <- RMSEs.ResultTibble.rglr.UM?E |> 
+  RMSEs.AddRow("UM? Effect (UM?E) Model", cv.UMG_effect.RMSE,
+               comment = "Comment")
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.UM?E)
+```
+
+
+::: {.noteblock data-latex=""}
+Hello Note!!!
+:::
+
+\newpage
+
+
+### UM? Effect Model Regularization
+\
+
+We have already explained the idea of the _Linear Model Regularization_ in the [Regularizing the User+Movie Effect Model] section above. Let's extend the concept outlined there to our current model.
+
+$$
+\sum_{j=1}^{n} \beta_j^2
+$$ 
+Specifically, instead of minimizing the least squares equation, we minimize an equation that adds a penalty:
+$$ 
+\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j \right)^2 + \lambda \sum_{j} \beta_j^2
+$$
+The first term is just the sum of squares and the second is a penalty that gets larger when many $\beta_i$s are large. Using calculus, we can actually show that the values of $\beta_i$ that minimize this equation are:
+$$
+\hat{\beta}_j(\lambda) = \frac{1}{\lambda + n_j} \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+$$
+where $n_j$ is the number of ratings made for movie $j$. 
+
+This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_23-6].
+
+We will implement the _Regularization_ method on our  models (starting from the current model) in two steps:
+
+  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the `5-Fold Cross Validation` samples;
+  
+  2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
+  
+  3. **Retraining:** retraining the model with the best value of the parameter $\lambda$ obtained in the previous step.
+
+
+\newpage
+
+#### UM?E Model Regularization: Support Functions
+\
+
+::: {.noteblock data-latex=""}
+The [regularize.test_lambda.UM?_effect.cv]() function described below are defined in the [Regularization]() section of the [UM-effect.functions.R]() script.
+:::
+
+##### [regularize.test_lambda.UM?_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) Function {#func.regularize.test_lambda.UM?_effect.cv}
+\
+
+This function calculates _RMSE_ of the _UM?E Model_ using _5-Fold Cross Validation_ method for the given $\lambda$ parameter value:
+```{r, eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+Note that we reuse the function [train_UM?_effect.cv](#func.train_UM?_effect.cv) calling it from the [regularize.test_lambda.UM?_effect.cv](#func.regularize.test_lambda.UM?_effect.cv), but now with the $\lambda$ parameter different from the default ('lambda = 0') value.
+:::
+
+\newpage
+
+#### UM?E Model Regularization: Pre-configuratioin
+\
+
+Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
+
+We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UM?_effect.cv](#func.regularize.test_lambda.UM?_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter:
+
+```{r, eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be found in the [Preliminary setting-up of lambda range for UM? Effect regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L814) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script.
+:::
+
+Now, let's visualize the results of the $\lambda$ range preconfiguration:
+``` {r}
+```
+
+::: {.noteblock data-latex=""}
+We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report, which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+:::
+
+\newpage
+
+#### UM?E Model Regularization: Fine-tuning
+\
+
+We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
+
+Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UM?_effect.cv](#func.regularize.test_lambda.UM?_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.params.fn_tune.test.param_value) parameter:
+```{r, eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be also found in the [Fine-tuning Step of the Regularization Method for the User+Movie Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L867) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+:::
+
+Let's visualize the fine-tuning results:
+```{r}
+```
+\newpage
+
+#### UM?E Model Regularization: Retraining Model with the best $\lambda$
+\
+
+Now, we can calculate the _Regularized UM? Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
+```{r, eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section are available in the [Re-training Regularized UM? Effect Model for the best $\lambda$](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) script on _GitHub_.
+:::
+
+We calculate the _Root Mean Squared Error_ for the ultimately computed _UM? Effect_ using [calc_UM?_effect_RMSE.cv](#func.calc_UM?_effect_RMSE.cv) function described above as follows:
+```{r, eval=FALSE}
+```
+
+Finally, we add the definitive result for the current model to our _Result Table_:
+```{r, eval=FALSE}
+RMSEs.ResultTibble.rglr.UM?E <- RMSEs.ResultTibble.UM?E |> 
+  RMSEs.AddRow("Regularized UM? Effect Model", 
+               UM?E.rglr.retrain.RMSE,
+               comment = "Computed for `lambda` = %1" |>
+                 msg.glue(UM?E.rglr.best_lambda))
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.rglr.UM?E)
+```
+
+\newpage
+
