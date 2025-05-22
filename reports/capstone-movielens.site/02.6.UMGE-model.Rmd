@@ -186,7 +186,7 @@ For now, we omit the `lambda` parameter, accepting its default value `lambda = 0
 #### `train_user_movie_genre_effect.cv` Function {#func.train_user_movie_genre_effect.cv}
 \
 
-We use the [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L59) function to build and train our model using the `5-Fold Cross Validation` method. Below, we provide a slightly simplified version of the source code of that function:
+We use the [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L59) function to train the current model using the _5-Fold Cross Validation_ method. Below, we provide a slightly simplified version of the source code of that function:
 ```{r eval=FALSE}
 train_user_movie_genre_effect.cv <- function(lambda = 0){
   # ...

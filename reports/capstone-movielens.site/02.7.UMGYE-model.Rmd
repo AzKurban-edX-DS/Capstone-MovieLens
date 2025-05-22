@@ -65,7 +65,9 @@ takes the following form:
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R) script on _GitHub_.
+Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
+We have already explained that in the [UMGYE Effect Model Regularization] section. 
+For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
 
 #### [](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L) Function {#func.}
@@ -121,7 +123,9 @@ Note
 #### [calc_date_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L2) Function {#func.calc_date_general_effect}
 \
 
-Below is slightly simplified version of the source code:
+This is a helper function that calculates the _date general effect_ of the user ratings and is intended to be used in other functions and scripts (for instance in [train_UMGY_effect](#func.train_UMGY_effect)) described below.
+
+The following is a slightly simplified version of the function's source code:
 ```{r eval=FALSE}
 calc_date_general_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
@@ -149,12 +153,23 @@ Computing Date Global Effect for lambda: %1...",
 ```
 
 ::: {.noteblock data-latex=""}
-Note
+The complete version of the source code of the [calc_date_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L2) function is available in the [UMGYE Model Support Functions](#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L2) script on _GitHub.
 :::
 
 #### [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L73) Function {#func.calc_UMGY_effect}
 \
 
+This is a helper function that calculates the _UMGY effect_ of the user ratings and is intended to be used in other functions and scripts (for instance in [train_UMGY_effect](#func.train_UMGY_effect)) described below.
+
+##### Parameters
+\
+
+The function accepts the only parameter `date_general_effect`, which is a data structure returned by the [calc_date_general_effect](#func.calc_date_general_effect) function described above.
+
+##### Source Code
+\
+
+The following is the source code of the function:
 ```{r eval=FALSE}
 calc_UMGY_effect <- function(date_general_effect){
   date_general_effect |>
@@ -163,16 +178,16 @@ calc_UMGY_effect <- function(date_general_effect){
 }
 ```
 
+
 ::: {.noteblock data-latex=""}
-Note
+The source code of the [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L73) function is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L73) script on _GitHub.
 :::
 
-
- 
 #### [train_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L78) Function {#func.train_UMGY_effect}
 \
 
-We use this function to build and train our model using the `train_set` dataset:
+This function is used to train the current model using the _Train Set_ dataset passed in the `train_set` parameter.
+The following is the source code of the function:
 ```{r eval=FALSE}
 train_UMGY_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
@@ -188,16 +203,23 @@ train_UMGY_effect <- function(train_set, lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-This function accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
-We have already explained that in the [UMGYE Effect Model Regularization] section. 
-For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
+The source code of the [train_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L78) function is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L78) script on _GitHub.
 :::
 
-#### `train_UMGY_effect.cv` Function {#func.train_UMGY_effect.cv}
+#### [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L88) Function {#func.train_UMGY_effect.cv}
 \
 
-We use the [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L59) function to build and train our model using the `5-Fold Cross Validation` method. Below, we provide a slightly simplified version of the source code of that function:
+This function is used to train the current model using the _5-Fold Cross Validation_ method.
+The following is the source code of the function:
 ```{r eval=FALSE}
+train_UMGY_effect.cv <- function(lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_UMGY_effect.cv
+`lambda` is `NA`")
+  }
+  
+  calc_date_general_effect.cv(lambda) |> calc_UMGY_effect()  
+}
 ```
 
 ::: {.noteblock data-latex=""}

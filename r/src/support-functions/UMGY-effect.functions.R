@@ -45,7 +45,6 @@ Computing Date Global Effect list for %1-Fold Cross Validation samples...",
            CVFolds_N)
   start <- put_start_date()
   date_general_effect_ls <- lapply(edx_CV,  function(cv_fold_dat){
-    # start <- put_start_date()
     cv_fold_dat$train_set |> calc_date_general_effect(lambda)
   })
   str(date_general_effect_ls)
@@ -58,7 +57,6 @@ Date Global Effect list has been computed for %1-Fold Cross Validation samples."
   str(date_general_effect_united)
   
   date_general_effect <- date_general_effect_united |>
-    #filter(!is.na(de)) |>
     group_by(days) |>
     summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
   
