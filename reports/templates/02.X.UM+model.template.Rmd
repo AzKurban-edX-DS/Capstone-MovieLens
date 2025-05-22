@@ -4,34 +4,26 @@
 ### Mathematical Description of the UM?E Model
 \
 
+If we define $\gamma(q)$ as the _year effect_ for the year (which is denotes by $q$ here) of rating a movie $j$ by a user $i$, the formula \@ref(eq:UMGE-model) describing the _UMGE Model_, for the current model, takes the following form:
+
+\begin{equation}
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(q) + \varepsilon_{i,j}
+(\#eq:UMGYE-model)
+\end{equation}
+
+
+Therefore, the formula \@ref(eq:genre-effect) for prediction a _genre effect_ as a residual, for a _year effect_ 
 $$
-Y_{i,j} = \mu + \alpha_i + \beta_j +\varepsilon_{i,j}
+\hat{\gamma}(q) = \gamma(q) + \varepsilon_{i,j}
 $$
 
-If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
-$$
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}
-$$
+takes the following form: 
 
-where $g_{i,j}$ is an _aggregation function_ which is explained in detail in _Section 22.3: "Review of Aggregation Functions" of "Recommender Systems Handbook"_ (_Chapter 22: "Aggregation of Preferences in Recommender Systems"_, p. 712) book[@RRSK_RS_HB].
 
-In the formula above $g_{i,j}$ denotes a _genre effect_ for user's $i$ rating of movie $j$, so that:
-
-$$
-g_{i,j} = \sum_{k=1}^K x_{i,j}^k \gamma_k
-$$
-
-with $x^k_{i,j} = 1$ if $g_{i,j}$ includes genre $k$, and $x^k_{i,j} = 0$ otherwise.
-
-Therefore, for our current model, we can compute a predicted value 
-$$
-\hat{g}_{i,j} = g_{i,j} + \varepsilon_{i,j}
-$$
-as a residual: 
-$$
-\hat{g}_{i,j} = Y_{i,j} - (\mu + \alpha_i + \beta_j)
-$$
-
+\begin{equation}
+\hat{\gamma}(q) = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j})
+(\#eq:year-effect)
+\end{equation}
 
 ### UM?E Model: Support Functions
 \
@@ -138,16 +130,22 @@ Hello Note!!!
 
 We have already explained the idea of the _Linear Model Regularization_ in the [UME Model Regularization] section above. Let's extend the concept outlined there to our current model.
 
-For the current model we add the penalty to our equation as follows:
-$$ 
-\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j \right)^2 + \lambda \sum_{j} \beta_j^2
-$$
+In this case, the formula \@ref(eq:ME-penalty) for adding a penalty takes the following form:
 
-Therefore, the values of $\beta_i$ that minimize this equation are:
-$$
+\begin{equation}
+\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - ...\right)^2 + \lambda \sum_{j} \beta_j^2 
+(\#eq:?E-penalty)
+\end{equation}
+
+And the formula \@ref(eq:ME-regularized) for calculating the values of the _treatment effect_ that minimize the equation takes the following form:
+
+\begin{equation}
 \hat{\beta}_j(\lambda) = \frac{1}{\lambda + n_j} \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
-$$
-where $n_j$ is the number of ratings made for movie $j$. 
+(\#eq:?E-regularized)
+\end{equation}
+
+
+where $n_$ is the number of ratings made for movie $j$. 
 
 As stated in the [UME Model Regularization] section, we will implement the _Regularization_ method on our  current model in three steps: 
 
@@ -189,6 +187,10 @@ We are going to use the [tune.model_param](#func.tune.model_param) function desc
 
 ```{r, eval=FALSE}
 ```
+```{r}
+str(cv.UM?E.preset.result)
+cv.UM?E.preset.result$best_result
+```
 
 ::: {.noteblock data-latex=""}
 The complete version of the source code provided in this section can be found in the [UM?E Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script.
@@ -196,6 +198,7 @@ The complete version of the source code provided in this section can be found in
 
 Now, let's visualize the results of the $\lambda$ range preconfiguration:
 ``` {r}
+# title = TeX(r'[UMGE Model Regularization: $\lambda$ Range Pre-configuration]')
 ```
 
 ::: {.noteblock data-latex=""}
@@ -211,6 +214,10 @@ We are now ready to perform the fine-tuning step of our model _regularization_ p
 
 Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UM?_effect.cv](#func.regularize.test_lambda.UM?_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.params.fn_tune.test.param_value) parameter:
 ```{r, eval=FALSE}
+```
+```{r}
+str(UM?E.rglr.fine_tune.results)
+UM?E.rglr.fine_tune.results$best_result
 ```
 
 ::: {.noteblock data-latex=""}

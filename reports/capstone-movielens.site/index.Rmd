@@ -21,6 +21,7 @@ citecolor: blue
 header-includes:
     - \usepackage{awesomebox}
     - \usepackage{hyperref}
+    - \usepackage{amsmath}
     - \usepackage[natbib=true, 
                   style=numeric, 
                   backref=true, 
@@ -106,14 +107,6 @@ dim(edx.mx)
 ```
 
 ```{r child = '02.7.UMGYE-model.Rmd'}
-```
-
-```{r child = '02.8-0.UMGYDE-model.Rmd'}
-```
-
-```{r child = '02.8-1.MF.UMGYDE-model.Rmd'}
-```
-```{r child = '03.conclusion.Rmd'}
 ```
 
 ```{r child = '04.appendix.Rmd'}

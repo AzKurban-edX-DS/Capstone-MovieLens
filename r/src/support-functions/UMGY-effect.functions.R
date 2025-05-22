@@ -1,4 +1,4 @@
-# User+Movie+Genre+Year Effect functions ---------------------------------------
+# UMGYE Model Support Functions ------------------------------------------------
 calc_date_general_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
     stop("Function: calc_date_general_effect

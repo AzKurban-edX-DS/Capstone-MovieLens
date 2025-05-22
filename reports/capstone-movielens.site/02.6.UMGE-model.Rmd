@@ -86,7 +86,7 @@ sprintf("The best ratings are for the genre category: %s",
         genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
 ```
 
-Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article "Movie Recommendation System using R - BEST" written by [Amir Moterfaker](https://www.kaggle.com/amirmotefaker)[@MRS-R-BEST]:
+Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article [Movie Recommendation System using R - BEST](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook) mentioned above[@MRS-R-BEST]:
 ```{r }
 # For better visibility, we reduce the data for plotting 
 # while keeping the worst and best rating rows:
@@ -114,10 +114,12 @@ plot_dat |>
 
 To account for a _genre effect_ we will use the model suggested in the [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_[@IDS2_23-7]:
 
-If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
-$$
+If we define a _genre treatment effect_ $g_{i,j}$ for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
+
+\begin{equation}
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}
-$$
+(\#eq:UMGE-model)
+\end{equation}
 
 where $g_{i,j}$ is an _aggregation function_ which is explained in detail in _Section 22.3: "Review of Aggregation Functions" of "Recommender Systems Handbook"_ (_Chapter 22: "Aggregation of Preferences in Recommender Systems"_, p. 712) book[@RRSK_RS_HB].
 
@@ -134,9 +136,12 @@ $$
 \hat{g}_{i,j} = g_{i,j} + \varepsilon_{i,j}
 $$
 as a residual: 
-$$
+
+
+\begin{equation}
 \hat{g}_{i,j} = Y_{i,j} - (\mu + \alpha_i + \beta_j)
-$$
+(\#eq:genre-effect)
+\end{equation}
 
 
 ### UMGE Model: Support Functions
@@ -321,7 +326,8 @@ hist(cv.UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
 
 \newpage
 
-We can now construct predictors and calculate the _RMSE_ of the current model using the [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) function described above:
+We can now construct predictors and calculate the _RMSE_ of the current model using the
+[calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) function described above:
 
 ```{r, eval=FALSE}
 cv.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(cv.UMG_effect)
@@ -346,16 +352,21 @@ Unfortunately, for some reason, we do not see any improvement here yet.
 
 We have already explained the idea of the _Linear Model Regularization_ in the [UME Model Regularization] section above. Let's extend the concept outlined there to our current model.
 
-For the current model we add the penalty to our equation as follows:
-$$ 
-\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j}\right)^2 + \lambda \sum_{i,j} g_{i,j}^2
-$$
+In this case, the formula \@ref(eq:ME-penalty) for adding a penalty takes the following form:
 
-Therefore, the values of $g_{i,j}$ that minimize this equation are:
-$$
+\begin{equation}
+\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j}\right)^2 + \lambda \sum_{i,j} g_{i,j}^2
+(\#eq:GE-penalty)
+\end{equation}
+
+And the formula \@ref(eq:ME-regularized) for calculating the values of the _genre effect_ that minimize the equation takes the following form:
+
+\begin{equation}
 \hat{g}_{i,j}(\lambda) = \frac{1}{\lambda + n_g} \sum_{i=1}^{n_{g}} \left(Y_{i,j} - \mu - \alpha_i - \beta_j\right)
-$$
-where $n_{g}$ is the number of ratings made per each genre. 
+(\#eq:GE-regularized)
+\end{equation}
+
+where $n_{g}$ is the number of ratings made for genre $g$. 
 
 As stated in the [UME Model Regularization] section, we will implement the _Regularization_ method on our  current model in three steps:
 
@@ -405,6 +416,21 @@ Let's perform the preconfiguration to determine the appropriate range of $\lambd
 We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter:
 
 ```{r, eval=FALSE}
+  put_log1("Preliminary setting-up of `lambda`s range for %1-Fold Cross Validation samples...",
+           CVFolds_N)
+  
+  start <- put_start_date()
+  lambdas <- seq(0, 0.2, 0.01)
+  cv.UMGE.preset.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
+  put_end_date(start)
+  put_log1("Preliminary regularization set-up of `lambda`s range for the UMGE Model has been completed
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+```
+```{r}
+str(cv.UMGE.preset.result)
+cv.UMGE.preset.result$best_result
 ```
 
 ::: {.noteblock data-latex=""}
@@ -413,6 +439,16 @@ The complete version of the source code provided in this section can be found in
 
 Now, let's visualize the results of the $\lambda$ range preconfiguration:
 ``` {r}
+cv.UMGE.preset.result$tuned.result |>
+  data.plot(title = TeX(r'[UMGE Model Regularization: $\lambda$ Range Pre-configuration]'),
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = TeX(r'[$\lambda$]'), 
+              ylabel = str_glue("Deviation from the best RMSE value (",
+                                as.character(round(cv.UMGE.preset.result$best_result["best_RMSE"], 
+                                                   digits = 7)),
+                                ")"),
+              normalize = TRUE)
 ```
 
 ::: {.noteblock data-latex=""}
@@ -428,6 +464,31 @@ We are now ready to perform the fine-tuning step of our model _regularization_ p
 
 Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.params.fn_tune.test.param_value) parameter:
 ```{r, eval=FALSE}
+endpoints <- 
+  get_fine_tune.param.endpoints(cv.UMGE.preset.result$tuned.result)
+
+UMG_effect.loop_starter <- c(endpoints["start"], 
+                            endpoints["end"], 
+                            8)
+UMG_effect.loop_starter
+#> [1] 0.0   0.1   8.0
+
+UMGE.rglr.fine_tune.cache.base_name <- "UMGE.rglr.fine-tuning"
+
+UMGE.rglr.fine_tune.results <- 
+  model.tune.param_range(UMG_effect.loop_starter,
+                         UMGE.rglr.fine_tune.cache.path,
+                         UMGE.rglr.fine_tune.cache.base_name,
+                         regularize.test_lambda.UMG_effect.cv)
+
+UMGE.rglr.fine_tune.RMSE.best <- UMGE.rglr.fine_tune.results$best_result["best_RMSE"]
+# best_RMSE 
+#  0.872973 
+ 
+```
+```{r}
+str(UMGE.rglr.fine_tune.results)
+UMGE.rglr.fine_tune.results$best_result
 ```
 
 ::: {.noteblock data-latex=""}
@@ -436,6 +497,15 @@ The complete version of the source code provided in this section can be also fou
 
 Let's visualize the fine-tuning results:
 ```{r}
+UMGE.rglr.fine_tune.results$tuned.result |>
+  data.plot(title = "UMGE Model Regularization: Fine-tuned result",
+              xname = "parameter.value",
+              yname = "RMSE",
+              xlabel = TeX(r'[$\lambda$]'),
+              ylabel = str_glue("Deviation from the best RMSE value (",
+                                as.character(round(UMGE.rglr.fine_tune.RMSE.best, digits = 7)),
+                                ")"),
+              normalize = TRUE)
 ```
 \newpage
 
@@ -444,6 +514,20 @@ Let's visualize the fine-tuning results:
 
 Now, we can calculate the _Regularized UMG Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
 ```{r, eval=FALSE}
+  best_result <- UMGE.rglr.fine_tune.results$best_result
+  # param.best_value        best_RMSE 
+  #     0.03554688       0.87297303 
+  
+  UMGE.rglr.best_lambda <- best_result["param.best_value"]
+  UMGE.rglr.best_RMSE <- best_result["best_RMSE"]
+  
+  put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
+           UMGE.rglr.best_lambda)
+  
+  rglr.UMG_effect <- edx.sgr |> train_user_movie_genre_effect(UMGE.rglr.best_lambda)
+```
+```{r}
+str(rglr.UMG_effect)
 ```
 
 ::: {.noteblock data-latex=""}
@@ -452,6 +536,12 @@ The complete version of the source code provided in this section are available i
 
 We calculate the _Root Mean Squared Error_ for the ultimately computed _UMG Effect_ using [calc_UMG_effect_RMSE.cv](#func.calc_UMG_effect_RMSE.cv) function described above as follows:
 ```{r, eval=FALSE}
+  rglr.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rglr.UMG_effect)
+```
+```{r, echo=FALSE}
+  print_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",
+           UMGE.rglr.best_lambda,
+           rglr.UMG_effect.RMSE)
 ```
 
 Finally, we add the definitive result for the current model to our _Result Table_:

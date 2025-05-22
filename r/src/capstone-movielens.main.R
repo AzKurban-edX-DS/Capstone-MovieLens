@@ -854,7 +854,7 @@ put(cv.UME.preset.result$best_result)
 
 ##### Plot (rough) dependency of RMSEs vs lambdas ------------------------------  
 cv.UME.preset.result$tuned.result |>
-  data.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie Effect Model.]'),
+  data.plot(title = TeX(r'[UME Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
               yname = "RMSE", 
               xlabel = TeX(r'[$\lambda$]'), 
@@ -894,7 +894,7 @@ put(UME.rglr.fine_tune.results$best_result)
 ###### Plot (fine-tuned) dependency of RMSEs vs lambdas -------------------------  
 
 UME.rglr.fine_tune.results$tuned.result |>
-  data.plot(title = "Fine-tune Stage results of the Regularization Process for the User+Movie Model",
+  data.plot(title = "UME Model Regularization: Fine-tuned result",
               xname = "parameter.value",
               yname = "RMSE",
               xlabel = TeX(r'[$\lambda$]'),
@@ -1259,7 +1259,7 @@ put(cv.UMGE.preset.result$best_result)
 
 ###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 cv.UMGE.preset.result$tuned.result |>
-  data.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie+Genre Effect Model.]'),
+  data.plot(title = TeX(r'[UMGE Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
               yname = "RMSE", 
               xlabel = TeX(r'[$\lambda$]'), 
@@ -1273,7 +1273,7 @@ cv.UMGE.preset.result$tuned.result |>
 log_close()
 ##### Open log file for UMG Effect Regularization (Fine-Tuning)` feature -------
 open_logfile(".UMGE.rglr.fine-tuning")
-##### Fine-tuning UMGE Model for `lambda` parameter values --------------------- 
+##### UMGE Model Regularization: Fine-tuning ----------------------------------- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGE.preset.result$tuned.result)
 
@@ -1303,7 +1303,7 @@ put(UMGE.rglr.fine_tune.results$best_result)
 
 ###### Plot (fine-tuned) dependency of RMSEs vs lambdas ------------------------  
 UMGE.rglr.fine_tune.results$tuned.result |>
-  data.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGE Model",
+  data.plot(title = "UMGE Model Regularization: Fine-tuned result",
               xname = "parameter.value",
               yname = "RMSE",
               xlabel = TeX(r'[$\lambda$]'),
@@ -1453,11 +1453,11 @@ cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 cv.UMGY_effect.RMSE
 #> [1] 0.8590795
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Year Effect Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
+RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |> 
   RMSEs.AddRow("User+Movie+Genre+Year Effect Model", 
                cv.UMGY_effect.RMSE)
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UMGYE)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre+Year Effect Model`.")
 
 #### Close Log -----------------------------------------------------------------
@@ -1524,7 +1524,7 @@ put(cv.UMGYE.preset.result$best_result)
 
 ###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 cv.UMGYE.preset.result$tuned.result |>
-  data.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie+Genre+Year Effect Model.]'),
+  data.plot(title = TeX(r'[UMGYE Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
               yname = "RMSE", 
               xlabel = TeX(r'[$\lambda$]'), 
@@ -1534,7 +1534,7 @@ cv.UMGYE.preset.result$tuned.result |>
 log_close()
 ##### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year Effect Regularization` feature ----
 open_logfile(".UMGYE.rglr.fine-tuning")
-##### Fine-tuning for the `lambda` parameter values range ----------------------- 
+##### UMGYE Model Regularization: Fine-tuning ----------------------- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGYE.preset.result$tuned.result)
 
@@ -1560,7 +1560,7 @@ put(UMGYE.rglr.fine_tune.results$best_result)
 
 ###### Plot (fine-tuned) dependency of RMSEs vs lambdas -----------------------------  
 UMGYE.rglr.fine_tune.results$tuned.result |>
-  data.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGYE Model",
+  data.plot(title = "UMGYE Model Regularization: Fine-tuned result",
               xname = "parameter.value",
               yname = "RMSE",
               xlabel = TeX(r'[$\lambda$]'),
@@ -1610,6 +1610,7 @@ if (file.exists(file_path_tmp)) {
        rglr.UM_effect,
        rglr.UMG_effect,
        rglr.UMGY_effect,
+       UMGYE.rglr.best_lambda,
        rglr.UMGY_effect.RMSE,
        file = file_path_tmp)
   put_end_date(start)
@@ -1618,11 +1619,13 @@ if (file.exists(file_path_tmp)) {
 } 
 
 #### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre+Year Effects Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Regularized User+Movie+Genre+Year Effect Model", 
-               rglr.UMGY_effect.RMSE)
+RMSEs.ResultTibble.rglr.UMGYE <- RMSEs.ResultTibble.UMGYE |> 
+  RMSEs.AddRow("Regularized UMGYE Model", 
+               rglr.UMGY_effect.RMSE,
+               comment = "Computed for `lambda` = %1" |>
+                 msg.glue(UMGYE.rglr.best_lambda))
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.rglr.UMGYE)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie+Genre+Year Effect Model`.")
 
@@ -1904,7 +1907,7 @@ lss.UMGYDE.fine_tune.degree0.result.best_RMSE <-
   lss.UMGYDE.fine_tune.degree0.result$best_result["best_RMSE"]
 
 ###### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 0) ----  
-plt.title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree` = 0"
+plt.title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree` = 0"
 
 lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
   data.plot(plt.title, 
@@ -2019,7 +2022,7 @@ lss.UMGYDE.fine_tune.degree1.result.best_RMSE <-
 
 ###### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 1) ----  
 lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
-  data.plot(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 1`", 
+  data.plot(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 1`", 
                              xname = "parameter.value", 
                              yname = "RMSE", 
                              xlabel = "spans", 
@@ -2130,7 +2133,7 @@ lss.UMGYDE.fine_tune.degree2.result.best_RMSE <-
 
 ###### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 2) ----  
 lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
-  data.plot.left_detailed(title = "Fine-tuned UMGY+(Smoothed)Day Model with `loess` parameter: `degree = 2`", 
+  data.plot.left_detailed(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 2`", 
                              title.left = "Left Part of the Chart Above (Zoomed in)",
                              left.n = 8,
                              xname = "parameter.value", 
@@ -2359,7 +2362,7 @@ put(cv.UMGYDE.preset.result$best_result)
 
 ###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 cv.UMGYDE.preset.result$tuned.result |>
-  data.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie+Genre+Year+(Smoothed)Day Effect Model.]'),
+  data.plot(title = TeX(r'[UMGYDE Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
               yname = "RMSE", 
               xlabel = TeX(r'[$\lambda$]'), 
@@ -2369,7 +2372,7 @@ cv.UMGYDE.preset.result$tuned.result |>
 log_close()
 ##### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year+(Smoothed)Day Effect Regularization` feature ----
 open_logfile(".UMGYDE.rglr.fine-tuning")
-##### Fine-tuning for the `lambda` parameter values range ----------------------- 
+##### UMGYDE Model Regularization: Fine-tuning ----------------------------------- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGYDE.preset.result$tuned.result)
 
@@ -2404,7 +2407,7 @@ UMGYDE.rglr.fine_tune.RMSE.best <- UMGYDE.rglr.fine_tune.results$best_result["be
 
 ###### Plot (fine-tuned) dependency of RMSEs vs lambdas ------------------------  
 UMGYDE.rglr.fine_tune.results$tuned.result |>
-  data.plot(title = "Fine-tune Stage results of the Regularization Process for the UMGYDE Model",
+  data.plot(title = "UMGYDE Model Regularization: Fine-tuned result",
               xname = "parameter.value",
               yname = "RMSE",
               xlabel = TeX(r'[$\lambda$]'),

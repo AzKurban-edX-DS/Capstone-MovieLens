@@ -183,6 +183,8 @@ RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |>
 RMSE_kable(RMSEs.ResultTibble.UME)
 ```
 
+\newpage
+
 ### UME Model Regularization
 \
 
@@ -191,13 +193,19 @@ $$
 \sum_{j=1}^{n} \beta_j^2
 $$ 
 Specifically, instead of minimizing the least squares equation, we minimize an equation that adds a penalty:
-$$ 
-\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j \right)^2 + \lambda \sum_{j} \beta_j^2
-$$
+
+\begin{equation}
+\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j \right)^2 + \lambda \sum_{j} \beta_j^2 
+(\#eq:ME-penalty)
+\end{equation}
+
 The first term is just the sum of squares and the second is a penalty that gets larger when many $\beta_i$s are large. Using calculus, we can actually show that the values of $\beta_i$ that minimize this equation are:
-$$
+
+\begin{equation}
 \hat{\beta}_j(\lambda) = \frac{1}{\lambda + n_j} \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
-$$
+(\#eq:ME-regularized)
+\end{equation}
+
 where $n_j$ is the number of ratings made for movie $j$. 
 
 This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_23-6].
@@ -270,7 +278,7 @@ The complete version of the source code provided in this section can be found in
 Now, let's visualize the results of the $\lambda$ range preconfiguration:
 ``` {r}
 cv.UME.preset.result$tuned.result |>
-  data.plot(title = TeX(r'[Preliminary set-up of $\lambda$ for Regularazation of the User+Movie Effect Model.]'),
+  data.plot(title = TeX(r'[UME Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
               yname = "RMSE", 
               xlabel = TeX(r'[$\lambda$]'), 
@@ -325,7 +333,7 @@ The complete version of the source code provided in this section can be also fou
 Let's visualize the fine-tuning results:
 ```{r}
 UME.rglr.fine_tune.results$tuned.result |>
-  data.plot(title = "Fine-tune Stage results of the Regularization Process for the User+Movie Model",
+  data.plot(title = "UME Model Regularization: Fine-tuned result",
               xname = "parameter.value",
               yname = "RMSE",
               xlabel = TeX(r'[$\lambda$]'),
