@@ -16,7 +16,6 @@ Computing Date Global Effect for lambda: %1...",
     left_join(rglr.UMG_effect, by = "movieId") |>
     left_join(date_days_map, by = "timestamp") |>
     mutate(resid = rating - (mu + a + b + g)) |>
-    # filter(!is.na(resid)) |>
   group_by(days) |>
     summarise(de = mean_reg(resid, lambda), 
               year = mean(year))
@@ -54,8 +53,7 @@ Date Global Effect list has been computed for %1-Fold Cross Validation samples."
            CVFolds_N)
   
   date_general_effect_united <- union_cv_results(date_general_effect_ls)
-  str(date_general_effect_united)
-  
+
   date_general_effect <- date_general_effect_united |>
     group_by(days) |>
     summarise(de = mean(de, na.rm = TRUE), year = mean(year, na.rm = TRUE))
@@ -99,7 +97,6 @@ calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
     left_join(date_days_map, by = "timestamp") |>
     left_join(UMGY_effect, by='year') |>
     mutate(resid = rating - clamp(mu + a + b + g + ye)) |> 
-    # filter(!is.na(resid)) |>
     pull(resid) |> mse()
 }
 calc_UMGY_effect_MSE.cv <- function(UMGY_effect){

@@ -129,7 +129,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-22}
+\date{2025-05-23}
 
 \begin{document}
 \maketitle
@@ -1013,8 +1013,8 @@ To be able to map the date, year, and number of days since the earliest record i
 \begin{verbatim}
 ## 'data.frame':    6519590 obs. of  5 variables:
 ##  $ timestamp: int  838985046 838983525 838983421 838983392 838984474 838983653 838984885 838983707 838984596 838983834 ...
-##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" "1996-08-02 10:56:32" ...
-##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" "1996-08-02" ...
+##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" ...
+##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" ...
 ##  $ year     : num  1996 1996 1996 1996 1996 ...
 ##  $ days     : int  571 571 571 571 571 571 571 571 571 571 ...
 \end{verbatim}
@@ -2540,7 +2540,9 @@ as a residual:
 \hfill\break
 
 \begin{noteblock}
-The complete source code of the functions described in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L1}{UMGE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R}{UMG-effect.functions.R} script on \emph{GitHub}.
+Some of the functions described in this section accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call as well, which we will also need for the \emph{Regularization} techniques to apply to our models (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+We have already explained that in the \hyperref[ume-model-regularization]{UME Model Regularization} section.
+For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
 \end{noteblock}
 
@@ -2574,18 +2576,11 @@ We use this function to build and train our model using a \emph{Train Set} (pass
 \end{Highlighting}
 \end{Shaded}
 
-\begin{noteblock}
-The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
-We have already explained that in the {[}User+Movie Effect Model Regularization{]} section.
-For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
-
-\end{noteblock}
-
-\paragraph{\texorpdfstring{\texttt{train\_user\_movie\_genre\_effect.cv} Function}{train\_user\_movie\_genre\_effect.cv Function}}\label{func.train_user_movie_genre_effect.cv}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L59}{train\_user\_movie\_genre\_effect.cv} Function}{train\_user\_movie\_genre\_effect.cv Function}}\label{func.train_user_movie_genre_effect.cv}
 
 \hfill\break
 
-We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L59}{train\_user\_movie\_genre\_effect.cv} function to build and train our model using the \texttt{5-Fold\ Cross\ Validation} method. Below, we provide a slightly simplified version of the source code of that function:
+We use this function, defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L59}{UMG-effect.functions.R} script, to train the current model using the \emph{5-Fold Cross Validation} method. Below, we provide a slightly simplified version of the source code of that function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2758,7 +2753,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-177-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/hist.cv.UMG_effect-1.pdf}}
 
 \newpage
 
@@ -2945,7 +2940,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-183-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-181-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -3036,7 +3031,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-186-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-184-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{UMGE Model Regularization: Retraining Model with the best \(\lambda\)}{UMGE Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{umge-model-regularization-retraining-model-with-the-best-lambda}
@@ -3202,7 +3197,7 @@ The \emph{Year Effect} visualization and analysis code in this section are cited
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-220-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-218-1.pdf}}
 
 \newpage
 
@@ -3210,76 +3205,35 @@ The \emph{Year Effect} visualization and analysis code in this section are cited
 
 \hfill\break
 
-If we define \(\gamma(q)\) as the \emph{year effect} for the year (which is denotes by \(q\) here) of rating a movie \(j\) by a user \(i\), the formula \eqref{eq:UMGE-model} describing the \emph{UMGE Model}, for the current model, takes the following form:
+If we define \(\gamma(r)\) as the \emph{year effect} for the year (here denotes by \(r\)) of rating a movie \(j\) by a user \(i\), the formula \eqref{eq:UMGE-model} describing the \emph{UMGE Model}, for the current model, takes the following form:
 
 \begin{equation}
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(q) + \varepsilon_{i,j}
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(r) + \varepsilon_{i,j}
 \label{eq:UMGYE-model}
 \end{equation}
 
 Therefore, the formula \eqref{eq:genre-effect} for calculation the prediction of a \emph{genre effect} as a residual, for a \emph{year effect}
 \[
-\hat{\gamma}(q) = \gamma(q) + \varepsilon_{i,j}
+\hat{\gamma}(r) = \gamma(r) + \varepsilon_{i,j}
 \]
 
 takes the following form:
 
 \begin{equation}
-\hat{\gamma}(q) = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j})
+\hat{\gamma}(r) = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j})
 \label{eq:year-effect}
 \end{equation}
+
+\newpage
 
 \subsubsection{UMGYE Model: Support Functions}\label{umgye-model-support-functions}
 
 \hfill\break
 
 \begin{noteblock}
-The complete source code of the functions described in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L1}{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R}{} script on \emph{GitHub}.
-
-\end{noteblock}
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L}{} Function}{ Function}}\label{func.}
-
-\hfill\break
-
-\begin{noteblock}
-Note
-
-\end{noteblock}
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L}{} Function}{ Function}}\label{func.}
-
-\hfill\break
-
-\begin{noteblock}
-Note
-
-\end{noteblock}
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L}{} Function}{ Function}}\label{func.}
-
-\hfill\break
-
-\begin{noteblock}
-Note
-
-\end{noteblock}
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L}{} Function}{ Function}}\label{func.}
-
-\hfill\break
-
-\begin{noteblock}
-Note
-
-\end{noteblock}
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L}{} Function}{ Function}}\label{func.}
-
-\hfill\break
-
-\begin{noteblock}
-Note
+Some of the functions described in this section accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call as well, which we will also need for the \emph{Regularization} techniques to apply to our models (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+We have already explained that in the \hyperref[ume-model-regularization]{UME Model Regularization} section.
+For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
 \end{noteblock}
 
@@ -3287,7 +3241,9 @@ Note
 
 \hfill\break
 
-Below is slightly simplified version of the source code:
+This is a helper function that calculates the \emph{date general effect} of the user ratings and is intended to be used in other functions and scripts (for instance in \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect}) described below.
+
+The following is a slightly simplified version of the function's source code:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3308,7 +3264,6 @@ Below is slightly simplified version of the source code:
     \FunctionTok{left\_join}\NormalTok{(rglr.UMG\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{left\_join}\NormalTok{(date\_days\_map, }\AttributeTok{by =} \StringTok{"timestamp"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}}\NormalTok{ (mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b }\SpecialCharTok{+}\NormalTok{ g)) }\SpecialCharTok{|\textgreater{}}
-    \CommentTok{\# filter(!is.na(resid)) |\textgreater{}}
   \FunctionTok{group\_by}\NormalTok{(days) }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{summarise}\NormalTok{(}\AttributeTok{de =} \FunctionTok{mean\_reg}\NormalTok{(resid, lambda), }
               \AttributeTok{year =} \FunctionTok{mean}\NormalTok{(year))}
@@ -3318,13 +3273,82 @@ Below is slightly simplified version of the source code:
 \end{Shaded}
 
 \begin{noteblock}
-Note
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L2}{calc\_date\_general\_effect} function is available in the \hyperref[L1]{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L2}{UMGY-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L73}{calc\_UMGY\_effect} Function}{calc\_UMGY\_effect Function}}\label{func.calc_UMGY_effect}
+\subparagraph{Return}\label{return}
+
+A data structure containg information about \emph{Date General Effect}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{calc\_date\_general\_effect.cv} Function}{calc\_date\_general\_effect.cv Function}}\label{func.calc_date_general_effect.cv}
 
 \hfill\break
+
+This is a helper function that calculates the \emph{date general effect} of the user ratings using the \emph{5-Fold Cross Validation} method and is intended to be used in other functions and scripts (for instance in \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv}) described below.
+The following is a simplified version of the function's source code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_date\_general\_effect.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(lambda)) \{}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Function: calc\_date\_general\_effect.cv}
+\StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
+\NormalTok{  \}}
+  
+\NormalTok{  date\_general\_effect\_ls }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(edx\_CV,  }\ControlFlowTok{function}\NormalTok{(cv\_fold\_dat)\{}
+\NormalTok{    cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{train\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_date\_general\_effect}\NormalTok{(lambda)}
+\NormalTok{  \})}
+  \FunctionTok{str}\NormalTok{(date\_general\_effect\_ls)}
+
+\NormalTok{  date\_general\_effect\_united }\OtherTok{\textless{}{-}} \FunctionTok{union\_cv\_results}\NormalTok{(date\_general\_effect\_ls)}
+
+\NormalTok{  date\_general\_effect\_united }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{group\_by}\NormalTok{(days) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{summarise}\NormalTok{(}\AttributeTok{de =} \FunctionTok{mean}\NormalTok{(de, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{), }\AttributeTok{year =} \FunctionTok{mean}\NormalTok{(year, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+
+\end{noteblock}
+
+\begin{noteblock}
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{calc\_date\_general\_effect.cv} function is available in the \hyperref[L1]{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{UMGY-effect.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-1}
+
+A data structure containg information about \emph{Date General Effect} as result of \emph{5-Fold Cross Validation}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L69}{calc\_UMGY\_effect} Function}{calc\_UMGY\_effect Function}}\label{func.calc_UMGY_effect}
+
+\hfill\break
+
+This is a helper function that calculates the \emph{UMGY effect} of the user ratings and is intended to be used in other functions and scripts (for instance in \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect}) described below.
+
+\subparagraph{Parameters}\label{parameters}
+
+\hfill\break
+
+The function accepts the only parameter \texttt{date\_general\_effect}, which is a data structure returned by any of the following functions described above:
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[func.calc_date_general_effect]{calc\_date\_general\_effect};
+\item
+  \hyperref[func.calc_date_general_effect.cv]{calc\_date\_general\_effect.cv}.
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code}
+
+\hfill\break
+
+The following is the source code of the function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3337,15 +3361,20 @@ Note
 \end{Shaded}
 
 \begin{noteblock}
-Note
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L69}{calc\_UMGY\_effect} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L1}{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L69}{UMGY-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L78}{train\_UMGY\_effect} Function}{train\_UMGY\_effect Function}}\label{func.train_UMGY_effect}
+\subparagraph{Return}\label{return-2}
+
+A data structure containg information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L74}{train\_UMGY\_effect} Function}{train\_UMGY\_effect Function}}\label{func.train_UMGY_effect}
 
 \hfill\break
 
-We use this function to build and train our model using the \texttt{train\_set} dataset:
+This function is used to train the current model using the \emph{Train Set} dataset passed in the \texttt{train\_set} parameter.
+The following is the source code of the function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3363,50 +3392,244 @@ We use this function to build and train our model using the \texttt{train\_set} 
 \end{Shaded}
 
 \begin{noteblock}
-This function accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
-We have already explained that in the \hyperref[umgye-effect-model-regularization]{UMGYE Effect Model Regularization} section.
-For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L74}{train\_UMGY\_effect} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L1}{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L74}{UMGY-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\texttt{train\_UMGY\_effect.cv} Function}{train\_UMGY\_effect.cv Function}}\label{func.train_UMGY_effect.cv}
+\subparagraph{Return}\label{return-3}
+
+A data structure containg information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L84}{train\_UMGY\_effect.cv} Function}{train\_UMGY\_effect.cv Function}}\label{func.train_UMGY_effect.cv}
 
 \hfill\break
 
-We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L59}{train\_UMGY\_effect.cv} function to build and train our model using the \texttt{5-Fold\ Cross\ Validation} method. Below, we provide a slightly simplified version of the source code of that function:
+This function is used to train the current model using the \emph{5-Fold Cross Validation} method.
+The following is the source code of the function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_UMGY\_effect.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(lambda)) \{}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Function: train\_UMGY\_effect.cv}
+\StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
+\NormalTok{  \}}
+  
+  \FunctionTok{calc\_date\_general\_effect.cv}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_UMGY\_effect}\NormalTok{()  }
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{noteblock}
-Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L84}{train\_UMGY\_effect.cv} function is also available in the \hyperref[L1]{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L84}{UMGY-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\texttt{calc\_UMGY\_effect\_MSE} Function}{calc\_UMGY\_effect\_MSE Function}}\label{calc_umgy_effect_mse-function}
+\subparagraph{Return}\label{return-4}
+
+A data structure containg information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L92}{calc\_UMGY\_effect\_MSE} Function}{calc\_UMGY\_effect\_MSE Function}}\label{calc_umgy_effect_mse-function}
 
 \hfill\break
 
-The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L}{calc\_UMGY\_effect\_MSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/}{} script to calculate the \emph{Mean Squared Error (MSE)} of the \emph{UMGYE Model} for the given \emph{Test Set} is provided below:
+The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYE Model} for the given \emph{Test Set} passed in the \texttt{test\_set} parameter.
+
+\subparagraph{Parameters}\label{parameters-1}
+
+\hfill\break
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{test\_set:} A \emph{Test Set} dataset used for \emph{UMGYE Model} validation;
+\item
+  \textbf{UMGY\_effect:} A data structure returned by any of the following functions described above:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[func.train_UMGY_effect]{calc\_UMGY\_effect};
+  \item
+    \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect};
+  \item
+    \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv}.
+  \end{itemize}
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code-1}
+
+\hfill\break
+
+The source code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_UMGY\_effect\_MSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, UMGY\_effect)\{}
+\NormalTok{  test\_set }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(edx.user\_effect, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(rglr.UM\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(rglr.UMG\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(date\_days\_map, }\AttributeTok{by =} \StringTok{"timestamp"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(UMGY\_effect, }\AttributeTok{by=}\StringTok{\textquotesingle{}year\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}} \FunctionTok{clamp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b }\SpecialCharTok{+}\NormalTok{ g }\SpecialCharTok{+}\NormalTok{ ye)) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{pull}\NormalTok{(resid) }\SpecialCharTok{|\textgreater{}} \FunctionTok{mse}\NormalTok{()}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L92}{calc\_UMGY\_effect\_MSE} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L92}{UMGYE Model Support Functions} script.
+
+\end{noteblock}
 
 \newpage
 
-\paragraph{\texorpdfstring{\texttt{calc\_UMGY\_effect\_MSE.cv} Function}{calc\_UMGY\_effect\_MSE.cv Function}}\label{calc_umgy_effect_mse.cv-function}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L102}{calc\_UMGY\_effect\_MSE.cv} Function}{calc\_UMGY\_effect\_MSE.cv Function}}\label{calc_umgy_effect_mse.cv-function}
 
 \hfill\break
 
-The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L}{calc\_UMGY\_effect\_MSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/}{} script to calculate the \emph{5-Fold Cross Validation MSE} result of the \emph{UMGYE Model} is provided below:
+The function calculates the \emph{5-Fold Cross Validation MSE} result for the \emph{UMGY Effect} data passed in the \texttt{UMGY\_effect} parameter.
 
-\paragraph{\texorpdfstring{\texttt{calc\_UMGY\_effect\_RMSE} Function}{calc\_UMGY\_effect\_RMSE Function}}\label{calc_umgy_effect_rmse-function}
-
-\hfill\break
-
-The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{calc\_UMGY\_effect\_RMSE} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/}{} script to calculate the \emph{Root Mean Squared Error (RMSE)} of the \emph{UMGYE Model} for the given \emph{Test Set} is provided below:
-
-\paragraph{\texorpdfstring{\texttt{calc\_UMGY\_effect\_RMSE.cv} Function}{calc\_UMGY\_effect\_RMSE.cv Function}}\label{func.calc_UMGY_effect_RMSE.cv}
+\subparagraph{Parameters}\label{parameters-2}
 
 \hfill\break
 
-The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L}{calc\_UMGY\_effect\_RMSE.cv} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/}{} script to calculate the \emph{5-Fold Cross Validation \textbf{RMSE}} result of the \emph{UMGYE Model} is provided below:
+The function accepts the only parameter: \texttt{UMGY\_effect}, which is a data structure returned by the one of the following functions described above:
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[func.train_UMGY_effect]{calc\_UMGY\_effect};
+\item
+  \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect};
+\item
+  \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv}.
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code-2}
+
+\hfill\break
+
+The source code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_UMGY\_effect\_MSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(UMGY\_effect)\{}
+\NormalTok{  start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
+\NormalTok{  UMGY\_effect\_MSEs }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(edx\_CV, }\ControlFlowTok{function}\NormalTok{(cv\_fold\_dat)\{}
+\NormalTok{    cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{validation\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_UMGY\_effect\_MSE}\NormalTok{(UMGY\_effect)}
+\NormalTok{  \})}
+  \FunctionTok{put\_end\_date}\NormalTok{(start)}
+  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: calc\_UMGY\_effect\_MSE.cv}
+\StringTok{Date (Year) Effect MSE values have been computed for the \%1{-}Fold Cross Validation samples."}\NormalTok{, }
+\NormalTok{           CVFolds\_N)}
+  
+  \FunctionTok{mean}\NormalTok{(UMGY\_effect\_MSEs)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L102}{calc\_UMGY\_effect\_MSE.cv} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L102}{UMGYE Model Support Functions} script.
+
+\end{noteblock}
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L114}{calc\_UMGY\_effect\_RMSE} Function}{calc\_UMGY\_effect\_RMSE Function}}\label{calc_umgy_effect_rmse-function}
+
+\hfill\break
+
+The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYE Model} for the given \emph{Test Set} passed in the \texttt{test\_set} parameter.
+
+\subparagraph{Parameters}\label{parameters-3}
+
+\hfill\break
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{test\_set:} A \emph{Test Set} dataset used for \emph{UMGYE Model} validation;
+\item
+  \textbf{UMGY\_effect:} A data structure returned by any of the following functions described above:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[func.train_UMGY_effect]{calc\_UMGY\_effect};
+  \item
+    \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect};
+  \item
+    \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv}.
+  \end{itemize}
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code-3}
+
+\hfill\break
+
+The source code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_UMGY\_effect\_RMSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, UMGY\_effect)\{}
+\NormalTok{  mse }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_UMGY\_effect\_MSE}\NormalTok{(UMGY\_effect)}
+  \FunctionTok{sqrt}\NormalTok{(mse)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L114}{calc\_UMGY\_effect\_RMSE} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L114}{UMGYE Model Support Functions} script.
+
+\end{noteblock}
 
 \newpage
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{calc\_UMGY\_effect\_RMSE.cv} Function}{calc\_UMGY\_effect\_RMSE.cv Function}}\label{calc_umgy_effect_rmse.cv-function}
+
+\hfill\break
+
+The function calculates the \emph{5-Fold Cross Validation MSE} result for the \emph{UMGY Effect} data passed in the \texttt{UMGY\_effect} parameter.
+
+\subparagraph{Parameters}\label{parameters-4}
+
+\hfill\break
+
+The function accepts the only parameter: \texttt{UMGY\_effect}, which is a data structure returned by the one of the following functions described above:
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[func.train_UMGY_effect]{calc\_UMGY\_effect};
+\item
+  \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect};
+\item
+  \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv}.
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code-4}
+
+\hfill\break
+
+The source code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_UMGY\_effect\_RMSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(UMGY\_effect)\{}
+\NormalTok{  UMGY\_effect\_RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{calc\_UMGY\_effect\_MSE.cv}\NormalTok{(UMGY\_effect))}
+  \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"\%1{-}Fold Cross Validation ultimate RMSE: \%2"}\NormalTok{, }
+\NormalTok{           CVFolds\_N, }
+\NormalTok{           UMGY\_effect\_RMSE)}
+  
+\NormalTok{  UMGY\_effect\_RMSE}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{calc\_UMGY\_effect\_RMSE.cv} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{UMGYE Model Support Functions} script.
+
+\end{noteblock}
 
 \subsubsection{UMGYE Model Building}\label{umgye-model-building}
 
@@ -3693,7 +3916,7 @@ Aggregates the input data frames into a single data frame.
 \end{Shaded}
 
 \phantomsection\label{func.union_cv_results.params}
-\paragraph{Parameters}\label{parameters}
+\paragraph{Parameters}\label{parameters-5}
 
 \hfill\break
 
@@ -3719,7 +3942,7 @@ The function is used to aggregate the \emph{N-Fold Cross Validation} method resu
 A data frame that is a union of the input data frames.
 
 \phantomsection\label{func.union_cv_results.code}
-\paragraph{Source Code}\label{source-code}
+\paragraph{Source Code}\label{source-code-5}
 
 \hfill\break
 
@@ -3770,7 +3993,7 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.params
 \end{Shaded}
 
 \phantomsection\label{func.data.plot.params}
-\paragraph{Parameters}\label{parameters-1}
+\paragraph{Parameters}\label{parameters-6}
 
 \hfill\break
 
@@ -3838,7 +4061,7 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.params
 The function is a wrapper for the \href{https://ggplot2.tidyverse.org/reference/ggplot.html}{ggplot2::ggplot} function and is a simple and convenient tool for visualizing the data of this project.
 
 \phantomsection\label{func.data.plot.code}
-\paragraph{Source Code}\label{source-code-1}
+\paragraph{Source Code}\label{source-code-6}
 
 \hfill\break
 
@@ -3895,7 +4118,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.data.helper.func0.params}
-\paragraph{Parameters}\label{parameters-2}
+\paragraph{Parameters}\label{parameters-7}
 
 \hfill\break
 
@@ -3929,7 +4152,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.data.helper.func0.code}
-\paragraph{Source Code}\label{source-code-2}
+\paragraph{Source Code}\label{source-code-7}
 
 \hfill\break
 
@@ -3967,7 +4190,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{Shaded}
 
 \phantomsection\label{func.mean_reg.params}
-\paragraph{Parameters}\label{parameters-3}
+\paragraph{Parameters}\label{parameters-8}
 
 \hfill\break
 
@@ -4018,7 +4241,7 @@ When the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} 
 \]
 
 \phantomsection\label{func.mean_reg.code}
-\paragraph{Source Code}\label{source-code-3}
+\paragraph{Source Code}\label{source-code-8}
 
 \hfill\break
 
@@ -4070,7 +4293,7 @@ The function searches for the parameter value corresponding to the minimum value
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-4}
+\paragraph{Parameters}\label{parameters-9}
 
 \hfill\break
 
@@ -4118,7 +4341,7 @@ The function returns a data structure containing the found value of the input pa
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-4}
+\paragraph{Source Code}\label{source-code-9}
 
 \hfill\break
 Below is the most significant part of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function:
@@ -4216,7 +4439,7 @@ The function fine-tunes the model by searching for the best possible value of th
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-5}
+\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-10}
 
 \hfill\break
 
@@ -4315,7 +4538,7 @@ A data structure containing the minimum \texttt{RMSE} value reached during the f
 \end{Shaded}
 
 \phantomsection\label{func.model.tune.param_range.code}
-\paragraph{Source Code}\label{source-code-5}
+\paragraph{Source Code}\label{source-code-10}
 
 \hfill\break
 Below is the simplified version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} function:
@@ -4467,7 +4690,7 @@ Below is the simplified version of the source code of the \href{https://github.c
 \end{Shaded}
 
 \begin{noteblock}
-The full version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model Tuning} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{common-helper.functions.R} script.
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model Tuning} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{common-helper.functions.R} script.
 
 \end{noteblock}
 
@@ -4493,7 +4716,7 @@ The full version of the source code of the \href{https://github.com/AzKurban-edX
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-6}
+\paragraph{Parameters}\label{parameters-11}
 
 \hfill\break
 
@@ -4536,7 +4759,7 @@ A vector containing the index of the element corresponding to the minimum \textt
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-6}
+\paragraph{Source Code}\label{source-code-11}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L87}{get\_fine\_tune.param.endpoints.idx} function is shown below:
@@ -4595,7 +4818,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-7}
+\paragraph{Parameters}\label{parameters-12}
 
 \hfill\break
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the \texttt{RMSE}.
@@ -4624,7 +4847,7 @@ A vector containing a pair of the best \emph{input parameter} value and the corr
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-7}
+\paragraph{Source Code}\label{source-code-12}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} function is shown below:
@@ -4654,7 +4877,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname00.params}
-\paragraph{Parameters}\label{parameters-8}
+\paragraph{Parameters}\label{parameters-13}
 
 \hfill\break
 
@@ -4688,7 +4911,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname00.code}
-\paragraph{Source Code}\label{source-code-8}
+\paragraph{Source Code}\label{source-code-13}
 
 \hfill\break
 
@@ -4709,7 +4932,7 @@ The source code of the \href{}{fname00} is also available in the \href{}{Some.Se
 \hfill\break
 
 \phantomsection\label{func.fname01.params}
-\paragraph{Parameters}\label{parameters-9}
+\paragraph{Parameters}\label{parameters-14}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -4731,7 +4954,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname01.code}
-\paragraph{Source Code}\label{source-code-9}
+\paragraph{Source Code}\label{source-code-14}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -4751,7 +4974,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname02.params}
-\paragraph{Parameters}\label{parameters-10}
+\paragraph{Parameters}\label{parameters-15}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -4773,7 +4996,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname02.code}
-\paragraph{Source Code}\label{source-code-10}
+\paragraph{Source Code}\label{source-code-15}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -4793,7 +5016,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname0.params}
-\paragraph{Parameters}\label{parameters-11}
+\paragraph{Parameters}\label{parameters-16}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -4815,7 +5038,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname0.code}
-\paragraph{Source Code}\label{source-code-11}
+\paragraph{Source Code}\label{source-code-16}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -4835,7 +5058,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname03.params}
-\paragraph{Parameters}\label{parameters-12}
+\paragraph{Parameters}\label{parameters-17}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -4857,7 +5080,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname03.code}
-\paragraph{Source Code}\label{source-code-12}
+\paragraph{Source Code}\label{source-code-17}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -4877,7 +5100,7 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname1.params}
-\paragraph{Parameters}\label{parameters-13}
+\paragraph{Parameters}\label{parameters-18}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -4899,7 +5122,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname1.code}
-\paragraph{Source Code}\label{source-code-13}
+\paragraph{Source Code}\label{source-code-18}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -4923,7 +5146,7 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname2.params}
-\paragraph{Parameters}\label{parameters-14}
+\paragraph{Parameters}\label{parameters-19}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -4945,7 +5168,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname2.code}
-\paragraph{Source Code}\label{source-code-14}
+\paragraph{Source Code}\label{source-code-19}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -4965,7 +5188,7 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname3.params}
-\paragraph{Parameters}\label{parameters-15}
+\paragraph{Parameters}\label{parameters-20}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -4987,7 +5210,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname3.code}
-\paragraph{Source Code}\label{source-code-15}
+\paragraph{Source Code}\label{source-code-20}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5007,7 +5230,7 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname4.params}
-\paragraph{Parameters}\label{parameters-16}
+\paragraph{Parameters}\label{parameters-21}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -5029,7 +5252,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname4.code}
-\paragraph{Source Code}\label{source-code-16}
+\paragraph{Source Code}\label{source-code-21}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5049,7 +5272,7 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname5.params}
-\paragraph{Parameters}\label{parameters-17}
+\paragraph{Parameters}\label{parameters-22}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -5071,7 +5294,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname5.code}
-\paragraph{Source Code}\label{source-code-17}
+\paragraph{Source Code}\label{source-code-22}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5091,7 +5314,7 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname6.params}
-\paragraph{Parameters}\label{parameters-18}
+\paragraph{Parameters}\label{parameters-23}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -5113,7 +5336,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname6.code}
-\paragraph{Source Code}\label{source-code-18}
+\paragraph{Source Code}\label{source-code-23}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5133,7 +5356,7 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname7.params}
-\paragraph{Parameters}\label{parameters-19}
+\paragraph{Parameters}\label{parameters-24}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -5155,7 +5378,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname7.code}
-\paragraph{Source Code}\label{source-code-19}
+\paragraph{Source Code}\label{source-code-24}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5175,7 +5398,7 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname8.params}
-\paragraph{Parameters}\label{parameters-20}
+\paragraph{Parameters}\label{parameters-25}
 
 \hfill\break
 - \textbf{param1:} description;
@@ -5197,7 +5420,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname8.code}
-\paragraph{Source Code}\label{source-code-20}
+\paragraph{Source Code}\label{source-code-25}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:

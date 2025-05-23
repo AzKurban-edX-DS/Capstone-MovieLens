@@ -148,9 +148,11 @@ as a residual:
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the [UMGE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L1) section of the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script on _GitHub_.
+Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call as well, which we will also need for the *Regularization* techniques to apply to our models (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
+We have already explained that in the [UME Model Regularization] section. 
+For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
- 
+
 #### [train_user_movie_genre_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L40) Function {#func.train_user_movie_genre_effect}
 \
 
@@ -177,16 +179,11 @@ train_user_movie_genre_effect <- function(train.sgr, lambda = 0){
 }
 ```
 
-::: {.noteblock data-latex=""}
-The function described above accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
-We have already explained that in the [User+Movie Effect Model Regularization] section. 
-For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
-:::
 
-#### `train_user_movie_genre_effect.cv` Function {#func.train_user_movie_genre_effect.cv}
+#### [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L59) Function {#func.train_user_movie_genre_effect.cv}
 \
 
-We use the [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L59) function to train the current model using the _5-Fold Cross Validation_ method. Below, we provide a slightly simplified version of the source code of that function:
+We use this function, defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L59) script, to train the current model using the _5-Fold Cross Validation_ method. Below, we provide a slightly simplified version of the source code of that function:
 ```{r eval=FALSE}
 train_user_movie_genre_effect.cv <- function(lambda = 0){
   # ...
@@ -313,10 +310,10 @@ The complete source code of builing and training the current model is available 
 :::
 
 Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
-```{r, eval=FALSE}
+```{r, fn.train_user_movie_genre_effect.cv,   eval=FALSE}
 cv.UMG_effect <- train_user_movie_genre_effect.cv()
 ```
-```{r}
+```{r, hist.cv.UMG_effect }
 str(cv.UMG_effect)
   
 par(cex = 0.7)
@@ -345,7 +342,6 @@ Unfortunately, for some reason, we do not see any improvement here yet.
 :::
 
 \newpage
-
 
 ### UMGE Model Regularization
 \
