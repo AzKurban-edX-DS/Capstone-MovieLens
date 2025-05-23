@@ -3,8 +3,6 @@
 
 As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_ the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
 
-To account for _genre effects_ we will use the model suggested in the [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_[@IDS2_23-7]:
-
 ### Genre Data Analysis
 \
 
@@ -88,7 +86,7 @@ sprintf("The best ratings are for the genre category: %s",
         genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
 ```
 
-Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article "Movie Recommendation System using R - BEST" written by [Amir Moterfaker](https://www.kaggle.com/amirmotefaker)[@MRS-R-BEST]:
+Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article [Movie Recommendation System using R - BEST](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook) mentioned above[@MRS-R-BEST]:
 ```{r }
 # For better visibility, we reduce the data for plotting 
 # while keeping the worst and best rating rows:
@@ -114,10 +112,14 @@ plot_dat |>
 ### Mathematical Description of the UMGE Model
 \
 
-If we define $g_{i,j}$ as the genre for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
-$$
+To account for a _genre effect_ we will use the model suggested in the [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_[@IDS2_23-7]:
+
+If we define a _genre treatment effect_ $g_{i,j}$ for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
+
+\begin{equation}
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}
-$$
+(\#eq:UMGE-model)
+\end{equation}
 
 where $g_{i,j}$ is an _aggregation function_ which is explained in detail in _Section 22.3: "Review of Aggregation Functions" of "Recommender Systems Handbook"_ (_Chapter 22: "Aggregation of Preferences in Recommender Systems"_, p. 712) book[@RRSK_RS_HB].
 
@@ -134,18 +136,23 @@ $$
 \hat{g}_{i,j} = g_{i,j} + \varepsilon_{i,j}
 $$
 as a residual: 
-$$
+
+
+\begin{equation}
 \hat{g}_{i,j} = Y_{i,j} - (\mu + \alpha_i + \beta_j)
-$$
+(\#eq:genre-effect)
+\end{equation}
 
 
 ### UMGE Model: Support Functions
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the [UMGE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L1) section of the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R) script on _GitHub_.
+Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call as well, which we will also need for the *Regularization* techniques to apply to our models (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
+We have already explained that in the [UME Model Regularization] section. 
+For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
- 
+
 #### [train_user_movie_genre_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L40) Function {#func.train_user_movie_genre_effect}
 \
 
@@ -172,16 +179,11 @@ train_user_movie_genre_effect <- function(train.sgr, lambda = 0){
 }
 ```
 
-::: {.noteblock data-latex=""}
-The function described above accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
-We have already explained that in the [User+Movie Effect Model Regularization] section. 
-For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
-:::
 
-#### `train_user_movie_genre_effect.cv` Function {#func.train_user_movie_genre_effect.cv}
+#### [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L59) Function {#func.train_user_movie_genre_effect.cv}
 \
 
-We use the [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L59) function to build and train our model using the `5-Fold Cross Validation` method. Below, we provide a slightly simplified version of the source code of that function:
+We use this function, defined in the [UMG-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L59) script, to train the current model using the _5-Fold Cross Validation_ method. Below, we provide a slightly simplified version of the source code of that function:
 ```{r eval=FALSE}
 train_user_movie_genre_effect.cv <- function(lambda = 0){
   # ...
@@ -308,10 +310,10 @@ The complete source code of builing and training the current model is available 
 :::
 
 Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
-```{r, eval=FALSE}
+```{r, fn.train_user_movie_genre_effect.cv,   eval=FALSE}
 cv.UMG_effect <- train_user_movie_genre_effect.cv()
 ```
-```{r}
+```{r, hist.cv.UMG_effect }
 str(cv.UMG_effect)
   
 par(cex = 0.7)
@@ -321,7 +323,8 @@ hist(cv.UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
 
 \newpage
 
-We can now construct predictors and calculate the _RMSE_ of the current model using the [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) function described above:
+We can now construct predictors and calculate the _RMSE_ of the current model using the
+[calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) function described above:
 
 ```{r, eval=FALSE}
 cv.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(cv.UMG_effect)
@@ -340,14 +343,221 @@ Unfortunately, for some reason, we do not see any improvement here yet.
 
 \newpage
 
-$$
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
-$$
+### UMGE Model Regularization
+\
 
+We have already explained the idea of the _Linear Model Regularization_ in the [UME Model Regularization] section above. Let's extend the concept outlined there to our current model.
 
-$$
- \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
-$$
+In this case, the formula \@ref(eq:ME-penalty) for adding a penalty takes the following form:
+
+\begin{equation}
+\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j}\right)^2 + \lambda \sum_{i,j} g_{i,j}^2
+(\#eq:GE-penalty)
+\end{equation}
+
+And the formula \@ref(eq:ME-regularized) for calculating the values of the _genre effect_ that minimize the equation takes the following form:
+
+\begin{equation}
+\hat{g}_{i,j}(\lambda) = \frac{1}{\lambda + n_g} \sum_{i=1}^{n_{g}} \left(Y_{i,j} - \mu - \alpha_i - \beta_j\right)
+(\#eq:GE-regularized)
+\end{equation}
+
+where $n_{g}$ is the number of ratings made for genre $g$. 
+
+As stated in the [UME Model Regularization] section, we will implement the _Regularization_ method on our  current model in three steps:
+
+  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the `5-Fold Cross Validation` samples;
+  
+  2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
+  
+  3. **Retraining:** retraining the model with the best value of the parameter $\lambda$ obtained in the previous step.
 
 
 \newpage
+
+#### UMGE Model Regularization: Support Functions
+\
+
+::: {.noteblock data-latex=""}
+The [regularize.test_lambda.UMG_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L146) function described below are defined in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L145) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L146) script.
+:::
+
+##### [regularize.test_lambda.UMG_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L146) Function {#func.regularize.test_lambda.UMG_effect.cv}
+\
+
+This function calculates _RMSE_ of the _UMGE Model_ using _5-Fold Cross Validation_ method for the given $\lambda$ parameter value:
+```{r, eval=FALSE}
+regularize.test_lambda.UMG_effect.cv <- function(lambda){
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.user_movie_genre_effect.cv
+`lambda` is `NA`")
+  }
+  
+  umg_effect <- train_user_movie_genre_effect.cv(lambda)
+  calc_user_movie_genre_effect_RMSE.cv(umg_effect)
+}
+```
+
+::: {.noteblock data-latex=""}
+Note that we reuse the function [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) calling it from the [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv), but now with the $\lambda$ parameter different from the default ('lambda = 0') value.
+:::
+
+\newpage
+
+#### UMGE Model Regularization: Pre-configuration
+\
+
+Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
+
+We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter:
+
+```{r, eval=FALSE}
+  put_log1("Preliminary setting-up of `lambda`s range for %1-Fold Cross Validation samples...",
+           CVFolds_N)
+  
+  start <- put_start_date()
+  lambdas <- seq(0, 0.2, 0.01)
+  cv.UMGE.preset.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
+  put_end_date(start)
+  put_log1("Preliminary regularization set-up of `lambda`s range for the UMGE Model has been completed
+for the %1-Fold Cross Validation samples.",
+CVFolds_N)
+```
+```{r}
+str(cv.UMGE.preset.result)
+cv.UMGE.preset.result$best_result
+```
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be found in the [UMGE Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L814) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script.
+:::
+
+Now, let's visualize the results of the $\lambda$ range preconfiguration:
+``` {r}
+cv.UMGE.preset.result$tuned.result |>
+  data.plot(title = TeX(r'[UMGE Model Regularization: $\lambda$ Range Pre-configuration]'),
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = TeX(r'[$\lambda$]'), 
+              ylabel = str_glue("Deviation from the best RMSE value (",
+                                as.character(round(cv.UMGE.preset.result$best_result["best_RMSE"], 
+                                                   digits = 7)),
+                                ")"),
+              normalize = TRUE)
+```
+
+::: {.noteblock data-latex=""}
+We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report, which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+:::
+
+\newpage
+
+#### UMGE Model Regularization: Fine-tuning
+\
+
+We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
+
+Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.params.fn_tune.test.param_value) parameter:
+```{r, eval=FALSE}
+endpoints <- 
+  get_fine_tune.param.endpoints(cv.UMGE.preset.result$tuned.result)
+
+UMG_effect.loop_starter <- c(endpoints["start"], 
+                            endpoints["end"], 
+                            8)
+UMG_effect.loop_starter
+#> [1] 0.0   0.1   8.0
+
+UMGE.rglr.fine_tune.cache.base_name <- "UMGE.rglr.fine-tuning"
+
+UMGE.rglr.fine_tune.results <- 
+  model.tune.param_range(UMG_effect.loop_starter,
+                         UMGE.rglr.fine_tune.cache.path,
+                         UMGE.rglr.fine_tune.cache.base_name,
+                         regularize.test_lambda.UMG_effect.cv)
+
+UMGE.rglr.fine_tune.RMSE.best <- UMGE.rglr.fine_tune.results$best_result["best_RMSE"]
+# best_RMSE 
+#  0.872973 
+ 
+```
+```{r}
+str(UMGE.rglr.fine_tune.results)
+UMGE.rglr.fine_tune.results$best_result
+```
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be also found in the [Fine-tuning Step of the Regularization Method for the User+Movie Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L867) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+:::
+
+Let's visualize the fine-tuning results:
+```{r}
+UMGE.rglr.fine_tune.results$tuned.result |>
+  data.plot(title = "UMGE Model Regularization: Fine-tuned result",
+              xname = "parameter.value",
+              yname = "RMSE",
+              xlabel = TeX(r'[$\lambda$]'),
+              ylabel = str_glue("Deviation from the best RMSE value (",
+                                as.character(round(UMGE.rglr.fine_tune.RMSE.best, digits = 7)),
+                                ")"),
+              normalize = TRUE)
+```
+\newpage
+
+#### UMGE Model Regularization: Retraining Model with the best $\lambda$
+\
+
+Now, we can calculate the _Regularized UMG Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
+```{r, eval=FALSE}
+  best_result <- UMGE.rglr.fine_tune.results$best_result
+  # param.best_value        best_RMSE 
+  #     0.03554688       0.87297303 
+  
+  UMGE.rglr.best_lambda <- best_result["param.best_value"]
+  UMGE.rglr.best_RMSE <- best_result["best_RMSE"]
+  
+  put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
+           UMGE.rglr.best_lambda)
+  
+  rglr.UMG_effect <- edx.sgr |> train_user_movie_genre_effect(UMGE.rglr.best_lambda)
+```
+```{r}
+str(rglr.UMG_effect)
+```
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section are available in the [Re-training Regularized UMG Effect Model for the best $\lambda$](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) script on _GitHub_.
+:::
+
+We calculate the _Root Mean Squared Error_ for the ultimately computed _UMG Effect_ using [calc_UMG_effect_RMSE.cv](#func.calc_UMG_effect_RMSE.cv) function described above as follows:
+```{r, eval=FALSE}
+  rglr.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rglr.UMG_effect)
+```
+```{r, echo=FALSE}
+  print_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",
+           UMGE.rglr.best_lambda,
+           rglr.UMG_effect.RMSE)
+```
+
+Finally, we add the definitive result for the current model to our _Result Table_:
+```{r, eval=FALSE}
+RMSEs.ResultTibble.rglr.UMGE <- RMSEs.ResultTibble.UMGE |> 
+  RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
+               rglr.UMG_effect.RMSE,
+               comment = "Computed for `lambda` = %1" |>
+                 msg.glue(UMGE.rglr.best_lambda))
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.rglr.UMGE)
+```
+
+::: {.noteblock data-latex=""}
+As we can see, the current model still does not show much improvement after _regularization_, even though the data analysis we made in the [Movie Genres Effect] section showed strong evidence of a genre effect.
+It looks like we need a better model to account for a genre effect more efficiently. 
+
+Or, maybe, we have implemented the current model not quite correctly (?)
+:::
+
+\newpage
+

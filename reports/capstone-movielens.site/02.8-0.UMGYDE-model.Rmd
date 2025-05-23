@@ -1,5 +1,18 @@
 ## User+Movie+Genre+Year+Day Effect (UMGYDE) Model
 \
 
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + f(d_{i,j})
+$$
+
+
+$$
+ \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+$$
+
+
+\newpage
+
+
 
 \newpage

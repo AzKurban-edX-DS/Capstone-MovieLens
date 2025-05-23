@@ -132,7 +132,10 @@ s <- edx |> group_by(rating) |>
 print(s)
 ```
 
-Further analysis of the `edx` dataset have been also inspired by the article mentioned above[@MRS-R-BEST], from which the code and explanatory notes below were cited.
+::: {.noteblock data-latex=""}
+Further analysis of the `edx` dataset was also inspired by the article [Movie Recommendation System using R - BEST](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook) written by [Amir Moterfaker](https://www.kaggle.com/amirmotefaker)[@MRS-R-BEST], from which the code and explanatory notes below were cited.
+:::
+
 \newpage
 
 #### Rating distribution plot[@MRS-R-BEST]

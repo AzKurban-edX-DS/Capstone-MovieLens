@@ -1,5 +1,11 @@
 ### UMGYDE Model: Matrix Factorization
 \
 
+We use the following models to account for the `date` effect:
+
+$$
+Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \varepsilon_{i,j}
+$$
+
 
 \newpage
