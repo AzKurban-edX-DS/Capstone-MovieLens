@@ -1,3 +1,4 @@
+# Init Project Environment -----------------------------------------------------
 ## Source File Paths -----------------------------------------------------------
 r.path <- "r"
 src.folder <- "src"
@@ -8,16 +9,15 @@ r.src.path <- file.path(r.path, src.folder)
 support_scripts.path <- file.path(r.src.path, support_scripts.folder)
 support_functions.path <- file.path(r.src.path, support_functions.folder)
 ## Setup -----------------------------------------------------------------------
-setup_script.file_path <- file.path(support_scripts.path,
-                                               "setup.R")
+setup_script.file_path <- file.path(support_scripts.path, "setup.R")
+
 source(setup_script.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
        spaced = TRUE,
        verbose = TRUE,
        keep.source = TRUE)
-
-## Logging Helper functions -----------------------------------------------------
+### Logging Helper functions -----------------------------------------------------
 open_logfile <- function(file_name){
   log_file_name <- as.character(Sys.time()) |> 
     str_replace_all(':', '_') |> 
@@ -113,7 +113,7 @@ put_log4 <- function(msg_template, arg1, arg2, arg3, arg4){
 }
 ### Open log file for `Initialize Source File Paths` Feature -------------------
 open_logfile(".src.file-paths")
-## External Common Helper functions -------------------------------------
+### External Common Helper functions -------------------------------------
 common_helper_functions.file_path <- file.path(support_functions.path,
                                             "common-helper.functions.R")
 source(common_helper_functions.file_path, 
@@ -122,7 +122,7 @@ source(common_helper_functions.file_path,
        spaced = TRUE,
        verbose = TRUE,
        keep.source = TRUE)
-## Init Project Global Variables ----------------------------------------------
+### Init Project Global Variables ----------------------------------------------
 put("Set Project Objective according to Capstone course requirements")
 project_objective <- 0.86490
 put(project_objective)
@@ -136,7 +136,7 @@ kfold_index <- seq(from = 1:CVFolds_N)
 
 #RMSEs.ResultTibble <- NULL
 
-### Data File Paths ------------------------------------------------------------
+#### Data File Paths ------------------------------------------------------------
 data.path <- "data"
 dir.create(data.path)
 put_log1("Directory path has been created: %1", data.path)
@@ -166,10 +166,8 @@ put_log1("Directory path has been created: %1", data.model_tune.path)
 # dir.create(src.regularization.path)
 # put_log1("Directory path has been created: %1", src.regularization.path)
 
-#### Close Log ---------------------------------------------------------------
+### Close Log ---------------------------------------------------------------
 log_close()
-## Open log -----------------------------------------------------------
-open_logfile(".init-project-data")
 ## Datasets ===================================================================
 
 # To start with we have to generate two datasets derived from the MovieLens one:
@@ -185,6 +183,8 @@ open_logfile(".init-project-data")
 # Let's install the development version of this package from the `GitHub` repository 
 # and attach the correspondent library to the global environment:
 
+### Open log: `Init Project Data Log`-------------------------------------------
+open_logfile(".init-project-data")
 ### Load Source Datasets from Specially Designed Package -----------------------
 if(!require(edx.capstone.movielens.data)) {
   start <- put_start_date()
@@ -276,7 +276,7 @@ put(summary(final_holdout_test))
 
 rm(movielens_datasets)
 
-#### Close Log ---------------------------------------------------------------
+### Close Log ---------------------------------------------------------------
 log_close()
 ## Data Analysis ===============================================================
 ### Open log -------------------------------------------------------------------
@@ -338,58 +338,10 @@ tab <- edx |>
 print(tab)
 put_log("Conclusion: Not every user rated every movie.")
 
-#### Movies' Popularity --------------------------------------------------------
-#> Further, we can find out the movies that have the greatest number of ratings 
-#> using the following code:
-
-ordered_movie_ratings <- edx |> group_by(movieId, title) |>
-  summarize(number_of_ratings = n()) |>
-  arrange(desc(number_of_ratings))
-print(head(ordered_movie_ratings))
-put_log("Movies popularity has been analysed.")
-
-#### Rating Distribution -------------------------------------------------------
-
-#> The following code figure out the most given ratings in order from most to least:
-ratings <- edx |>  group_by(rating) |>
-  summarise(count = n()) |>
-  arrange(desc(count))
-print(ratings)
-
-#> The following code allows us to summarize that in general, half-star ratings 
-#> are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 
-#> than there are ratings of 3 or 4, etc.):
-print(edx |> group_by(rating) |> summarize(count = n()))
-
-#> We can visually see that from the following plot:
-edx |>
-  group_by(rating) |>
-  summarize(count = n()) |>
-  ggplot(aes(x = rating, y = count)) +
-  geom_line() 
-
-#> The code below demonstrates another way of visualizing the rating distribution:
-edx |>
-  group_by(rating) |>
-  summarize(count = n()) |>
-  ggplot(aes(x = rating, y = count)) +
-  geom_bar(stat = "identity", fill = "#8888ff") +
-  ggtitle("Rating Distribution") +
-  xlab("Rating") +
-  ylab("Occurrences Count") +
-  scale_y_continuous(labels = comma) +
-  scale_x_continuous(n.breaks = 10) +
-  theme_economist() +
-  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
-        axis.title.y = element_text(vjust = 10, face = "bold"), 
-        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
-
-put_log("Completed: Rating statistics have been analyzed.")
-
-#### Close Log ---------------------------------------------------------------
+### Close Log ---------------------------------------------------------------
 log_close()
-## Methods =====================================================================
-### Overall Mean Rating (Naive) Model --------------------------------------------------
+# Methods =====================================================================
+## Overall Mean Rating (Naive) Model --------------------------------------------------
 # Reference: the Textbook section "23.3 A first model"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model
 
@@ -397,14 +349,15 @@ log_close()
 #>  the differences explained by random variation would look as follows:
 # Y[i,j] = μ + ε[i,j]
 
-#### Open log -------------------------------------------------------------------
+### Open log -------------------------------------------------------------------
 open_logfile(".overall-mean-rating")
-### Create an RMSE Result Tibble and add a first row for the Project Objective ----
+### Create an RMSE Result Tibble  ----------------------------------------------
+# Create the table and add a first row for the Project Objective
 RMSEs.ResultTibble <- CreateRMSEs_ResultTibble()
 RMSE_kable(RMSEs.ResultTibble)
 put("RMSE Results Tibble created.")
 
-#### Compute Naive RMSE --------------------------------------------------------
+### Model Building: OMR Model --------------------------------------------------
 file_name_tmp <- "1.mu.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -452,7 +405,7 @@ put_log1("The Overall Mean Rating is: %1", mu)
 #> The Overall Mean Rating is: 3.51246520160155
 put_log1("The Naive RMSE is: %1", mu.RMSE)
 
-#### Ensure that this is the best RMSE value for the current model -------------
+### OMR Value Is the Best for the Current Model --------------------------------
 #> If we plug in any other number, we will get a higher RMSE. 
 #> Let's prove that by the following small investigation:
 
@@ -501,7 +454,7 @@ put_log1("Is the previously computed RMSE the best for the current model: %1",
 #> [1] "Is the previously computed RMSE the best for the current model: TRUE"
 writeLines("")
 
-##### Plot dependency of RMSEs vs Overal Mean Rating Deviation -----------------  
+#### Plot dependency of RMSEs vs Overal Mean Rating Deviation -----------------  
 data.frame(delta = deviation, 
            delta.RMSE = deviation.RMSE) |> 
 data.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Overall Mean Rating ($\hat{mu}$)]'),
@@ -512,24 +465,24 @@ data.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Ove
 
 put_log("A plot was constructed for the deviations from the Overall Mean Rating.")
 
-#### Add a row to the RMSE Result Tibble for the Overall Mean Rating Model ------ 
+### Add a row to the RMSE Result Tibble ---------------------------------------- 
 RMSEs.ResultTibble.OMR <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Overall Mean Rating Model", mu.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble.OMR)
 put_log("A row has been added to the RMSE Result Tibble for the `Overall Mean Rating Model`.")
-#### Close Log ---------------------------------------------------------------
+### Close Log ---------------------------------------------------------------
 log_close()
 
-### User Effect Model ---------------------------------------------------------- 
+## User Effect (UE) Model ------------------------------------------------------ 
 # Reference: the Textbook section "23.4 User effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects
 
-#### Open log -------------------------------------------------------------------
+### Open log -------------------------------------------------------------------
 open_logfile(".user-effect")
 put("Building User Effect Model...")
-#### Model building: User Effect -----------------------------------------------
-##### User Mean Ratings Computation --------------------------------------------
+### UE Model building ----------------------------------------------------------
+#### User Mean Ratings Computation --------------------------------------------
 file_name_tmp <- "3.edx.user-mean-ratings.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -568,7 +521,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 } 
 
-##### User Mean Ratings: Visualization ------------------------------
+#### User Mean Ratings: Visualization ------------------------------
 # Let's visualize the average rating for each user:
 
 # sum(is.na(edx.user_mean_ratings$mean_rating))
@@ -577,7 +530,7 @@ if (file.exists(file_path_tmp)) {
 hist(edx.user_mean_ratings$mean_rating, nclass = 30)
 put_log("A histogram of the User Mean Rating distribution has been plotted.")
 
-##### Building User Effect Model ----------------------------------------------
+#### User Effect Computation ----------------------------------------------
 
 # we notice that there is substantial variability across users.
 #>  To account for this, we can use a linear model with a treatment effect `α[i]` 
@@ -626,7 +579,7 @@ put_log("Below is a User Effect data structure:")
 put(str(edx.user_effect))
 sum(is.na(edx.user_effect$a))
 
-###### User Effect data integrity test------------------------------------------
+##### User Effect data integrity test------------------------------------------
 UE.tst <- edx.user_effect |>
   mutate(tst.col = a) |>
   select(userId, tst.col)
@@ -646,13 +599,13 @@ put_log("Below are the User Effect consistency test results")
 put(cv.UE.test.left_join.Nas)
 stopifnot(colSums(cv.UE.test.left_join.Nas)["user.NAs"] == 0)
 
-###### Plot a histogram of the user effects ------------------------------------
+##### Plot a histogram of the user effects ------------------------------------
 par(cex = 0.7)
 hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
      main = TeX(r'[Histogram of $\hat{alpha}_{i}$]'))
 put_log("A histogram of the User Effect distribution has been plotted.")
 
-###### Compute RMSE for User Effect Model ------------------------------------
+### Compute RMSE for User Effect Model ------------------------------------
 #> Finally, we are ready to compute the `RMSE` (additionally using the helper 
 #> function `clamp` we defined above to keep predictions in the proper range):
 
@@ -682,16 +635,16 @@ put_log2("%1-Fold Cross Validation ultimate RMSE: %2",
 edx.user_effect.RMSE
 #> [1] 0.9716054
 
-###### Add a row to the RMSE Result Tibble for the User Effect Model -----------
+### Add a row to the RMSE Result Tibble for the User Effect Model -----------
 RMSEs.ResultTibble.UE <- RMSEs.ResultTibble.OMR |> 
   RMSEs.AddRow("User Effect Model", edx.user_effect.RMSE)
 
 RMSE_kable(RMSEs.ResultTibble.UE)
 put_log("A row has been added to the RMSE Result Tibble for the `User Effect Model`.")
 
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
-### Taking into account User+Movie Effect -------------------------------------
+## User+Movie Effect (UME) Model -----------------------------------------------
 # Reference: the Textbook section "23.5 Movie effects"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects
 
@@ -706,7 +659,7 @@ log_close()
 #> α[i], and then estimating β[j] as the average of the residuals 
 #> `y[i,j] - μ - α[i]`:
 
-#### Support Functions ---------------------------------------------------------
+### Support Functions ---------------------------------------------------------
 UM_effect.functions.file_path <- file.path(support_functions.path, 
                                                "UM-effect.functions.R")
 source(UM_effect.functions.file_path, 
@@ -715,10 +668,60 @@ source(UM_effect.functions.file_path,
        spaced = TRUE,
        verbose = TRUE,
        keep.source = TRUE)
+### Movie Effect Analysis-------------------------------------------------------
 #### Open log ------------------------------------------------------------------
-# User+Movie Effect log: 
-open_logfile(".UM-effect")
-#### Model building: User+Movie Effect ----------------------------------------
+open_logfile(".UME-analysis")
+#### Movies' Popularity --------------------------------------------------------
+#> We can find out the movies that have the greatest number of ratings 
+#> using the following code:
+
+edx.ordered_movie_ratings <- edx |> group_by(movieId, title) |>
+  summarize(number_of_ratings = n()) |>
+  arrange(desc(number_of_ratings))
+print(head(edx.ordered_movie_ratings))
+put_log("Movies popularity has been analysed.")
+
+#### Rating Distribution -------------------------------------------------------
+
+#> The following code figure out the most given edx.rating_groups in order from most to least:
+edx.rating_groups <- edx |>  group_by(rating) |>
+  summarise(count = n()) |>
+  arrange(desc(count))
+print(edx.rating_groups)
+
+#> The following code allows us to summarize that in general, half-star edx.rating_groups 
+#> are less common than whole-star edx.rating_groups (e.g., there are fewer edx.rating_groups of 3.5 
+#> than there are edx.rating_groups of 3 or 4, etc.):
+print(edx |> group_by(rating) |> summarize(count = n()))
+
+#> We can visually see that from the following plot:
+edx.rating_groups |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_line() 
+
+#> The code below cited from article:
+#> https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Rating-distribution-plot
+#> demonstrates the more sophisticated way of visualizing the rating distribution:
+edx.rating_groups |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_bar(stat = "identity", fill = "#8888ff") +
+  ggtitle("Rating Distribution") +
+  xlab("Rating") +
+  ylab("Occurrences Count") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+
+put_log("Completed: Rating statistics have been analyzed.")
+#### Close Log -----------------------------------------------------------------
+log_close()
+### UME Model Building ---------------------------------------------------------
+#### Open log ------------------------------------------------------------------
+open_logfile(".UME.model-building")
+#### Movie Effect Computation ---------------------------------------------------
 file_name_tmp <- "5.cv.UM-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -747,7 +750,7 @@ if (file.exists(file_path_tmp)) {
 
 put(str(cv.UM_effect))
 
-##### User+Movie Effect data integrity test------------------------------------
+#### User+Movie Effect data integrity test------------------------------------
 UME.tst <- cv.UM_effect |>
   mutate(tst.col = b) |>
   select(movieId, tst.col)
@@ -765,16 +768,16 @@ put(cv.UME.test.left_join.Nas)
 # [5,]       NA         0
 
 stopifnot(colSums(cv.UME.test.left_join.Nas)["movie.NAs"] == 0)
-##### User+Movie Effects: Visualization ------------------------------
+#### User+Movie Effects: Visualization ------------------------------
 par(cex = 0.7)
 hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 put_log("A histogram of the Mean User+Movie Effects distribution has been plotted.")
 
-##### Calculate RMSE for trained User+Movie Model ---------------------------
+#### Compute RMSE for UME Model -------------------------------------------------
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 #> [1] 0.8732081
-##### Add a row to the RMSE Result Tibble for the User+Movie Effect Model --------
+#### Add a row to the RMSE Result Tibble for UME Model -------------------------
 RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |> 
   RMSEs.AddRow("User+Movie Effect Model", cv.UM_effect.RMSE)
 
@@ -783,7 +786,7 @@ put_log("A row has been added to the RMSE Result Tibble for the `User+Movie Effe
 
 #### Close Log -----------------------------------------------------------------
 log_close()
-#### Regularizing User+Movie Effect Model  -----
+### Regularizing User+Movie Effect Model  -----
 # Reference: the Textbook section "23.6 Penalized least squares"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares
 
@@ -798,9 +801,9 @@ log_close()
 # β[j](λ) = 1/(λ + n[j])*∑{u=1,n[i]}(Y[i,j] - μ - α[i])
 # where `n[j]` is the number of ratings made for movie `j`.
 
-##### Open log for `Preliminary setting-up of lambda range` feature -----------
+#### Open log for `Pre-configuration` step -------------------------------------
 open_logfile(".rglr.UM-effect.pre-set-lambdas")
-##### UM Effect Regularization Directory Paths ------------------------------------------
+#### UM Effect Regularization Directory Paths ------------------------------------------
 UME.regularization.path <- file.path(data.regularization.path, 
                                            "1.UM-effect")
 dir.create(UME.regularization.path)
@@ -811,7 +814,7 @@ UME.rglr.fine_tune.cache.path <- file.path(UME.regularization.path,
 dir.create(UME.rglr.fine_tune.cache.path)
 put_log1("Directory path has been created: %1", UME.rglr.fine_tune.cache.path)
 
-##### UME Model Regularization: Pre-configuration ------------------------------
+#### UME Model Regularization: Pre-configuration ------------------------------
 file_name_tmp <- "1.UME.rglr.pre-set.RData" # UME stands for `User+Movie Effect`
 file_path_tmp <- file.path(UME.regularization.path, file_name_tmp)
 
@@ -852,7 +855,7 @@ put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie
 has resulted as follows:")
 put(cv.UME.preset.result$best_result)
 
-##### Plot (rough) dependency of RMSEs vs lambdas ------------------------------  
+#### Plot (rough) dependency of RMSEs vs lambdas ------------------------------  
 cv.UME.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UME Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
@@ -860,11 +863,11 @@ cv.UME.preset.result$tuned.result |>
               xlabel = TeX(r'[$\lambda$]'), 
               ylabel = "RMSE")
 
-##### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log file for Fine-tune Stage of the User+Movie Effect regularization ----
+#### Open log file for `Fine-tuning` step --------------------------------------
 open_logfile(".UME.rg.fine-tuning")
-##### Fine-tuning Step of the Regularization Method for the User+Movie Model ---- 
+#### Fine-tuning Step of the Regularization Method for the User+Movie Model ---- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
 
@@ -891,7 +894,7 @@ put(UME.rglr.fine_tune.results$best_result)
 # param.best_value        best_RMSE 
 #        0.3874500        0.8732057 
 
-###### Plot (fine-tuned) dependency of RMSEs vs lambdas -------------------------  
+##### Plot (fine-tuned) dependency of RMSEs vs lambdas -------------------------  
 
 UME.rglr.fine_tune.results$tuned.result |>
   data.plot(title = "UME Model Regularization: Fine-tuned result",
@@ -903,11 +906,11 @@ UME.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 
-##### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log file for re-train Regularized User+Movie Effect Model -----------
+#### Open log file for re-training Regularized Model ---------------------------
 open_logfile(".UME.rg.re-train.best-lambda")
-##### Re-training Regularized User+Movie Effect Model for the best `lambda` -------
+#### Re-training Regularized Model for the best `lambda` -------
 file_name_tmp <- "2.UME.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UME.regularization.path, file_name_tmp)
 
@@ -950,7 +953,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie Effect data has been saved to file: %1",
            file_path_tmp)
 }
-###### Regularized User+Movie Effect data integrity test------------------------
+##### Regularized User+Movie Effect data integrity test------------------------
 UME.tst <- rglr.UM_effect |>
   mutate(tst.col = b) |>
   select(movieId, tst.col)
@@ -968,7 +971,7 @@ put(rglr.UME.test.left_join.Nas)
 # [5,]       NA         0
 
 stopifnot(colSums(rglr.UME.test.left_join.Nas)["movie.NAs"] == 0)
-##### Calculate RMSE for Regularized User+Movie Model --------------------------
+#### Calculate RMSE for Regularized User+Movie Model --------------------------
 UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
 #> [1] 0.872973
 
@@ -976,7 +979,7 @@ put_log1("Regularized User+Movie Effect Model has been re-trained for the best `
          UME.rglr.best_lambda)
 put_log1("The best RMSE after being regularized: %1",
          UME.rglr.retrain.RMSE)
-##### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
+#### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
 RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
                UME.rglr.retrain.RMSE,
@@ -985,12 +988,12 @@ RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |>
 RMSE_kable(RMSEs.ResultTibble.rglr.UME)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie Effect Model`.")
-##### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-### Accounting for Movie Genres ------------------------------------------------
+## User+Movie+Genre Effect (UMGE) Model ---------------------------------------
 #> We can slightly improve our naive model by accounting for movie genres.
 #> Let's do some preliminary analysis first.
-#### Support Functions ---------------------------------------------------------
+### Support Functions ---------------------------------------------------------
 umge_functions_file <- "UMG-effect.functions.R"
 # umge_functions_file <- "UMG-effect.functions.azb001.R"
 umge_functions.file_path <- file.path(support_functions.path, 
@@ -1002,15 +1005,15 @@ source(umge_functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-#### Open log file for the feature: Analysing Genre Bias------
-open_logfile(".UMG-effect")
-#### Data Analysis and Visualization -------------------------------------------
+### Data Analysis and Visualization -------------------------------------------
 # Reference: the Textbook Section "23.7 Exercises" of the Chapter "23 Regularization"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises
 #> The `edx` dataset also has a genres column. This column includes 
 #> every genre that applies to the movie 
 #> (some movies fall under several genres)[@IDS2_23-7].
-##### Computing Genre Mean Ratings ---------------------------------------------
+#### Open log ------------------------------------------------------------------
+open_logfile(".UMGE.data-analysis")
+#### Computing Genre Mean Ratings ---------------------------------------------
 file_name_tmp <- "6.cv.genre-mean-ratings.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1057,7 +1060,7 @@ put_log2("The best rating is for the genre category: %1 (average rating is %2)",
             gnr_mean_ratings.cv$genres[which.max(gnr_mean_ratings.cv$ratings)],
             as.character(clamp(max(gnr_mean_ratings.cv$ratings))))
 
-##### Genres Popularity ------------------------------------------------------------
+#### Genres Popularity ------------------------------------------------------------
 
 put_log2("The worst popularity was for the genre category: %1 (%2 ratings)",
             gnr_mean_ratings.cv$genres[which.min(gnr_mean_ratings.cv$n)],
@@ -1067,12 +1070,12 @@ put_log2("The best popularity was for the genre category: %1 (%2 ratings)",
             gnr_mean_ratings.cv$genres[which.max(gnr_mean_ratings.cv$n)],
             as.character(max(gnr_mean_ratings.cv$n)))
 
-##### Genres Info Visualization ------------------------------------------------
+#### Genres Info Visualization ------------------------------------------------
 #> For illustrative purposes, we will limit the genre information 
 #> we are going to plot to movies with more than 24,000 ratings:
 nratings <- 24000
 
-###### Plot Genre Info --------------------------------------------------------------  
+##### Plot Genre Info --------------------------------------------------------------  
 genre_ratings_plot_dat <- gnr_mean_ratings.cv |>
   filter(n > nratings)
 
@@ -1103,7 +1106,7 @@ put_log1("The worst ratings were for the genre category: %1",
 put_log1("The best ratings were for the genre category: %1",
         genre_ratings_plot_dat$genres[which.max(genre_ratings_plot_dat$ratings)])
 
-####### Alternative way of visualizing a Genre Effect ----------------------------
+##### Visualization:Alternative way --------------------------------------------
 #> Reference: Article "Movie Recommendation System using R - BEST" written by 
 #> Amir Moterfaker (https://www.kaggle.com/amirmotefaker)
 #> (section "Average rating for each genre")[@MRS-R-BEST]
@@ -1135,7 +1138,7 @@ has been plotted alternative way.",
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-#### Including Separated Genre effect -----------------------------------------------------
+### UMGE Model Building --------------------------------------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j]  + ε[i,j]
 # where g[i,j] is a combination of genres for movie `i` rated by user `j`,
 # so that g[i,j] = ∑{k=1,K}(x[i,j]^k*𝜸[k]) 
@@ -1143,10 +1146,10 @@ log_close()
 
 # mutate(userId = as.integer(userId),
 #        movieId = as.integer(movieId)) |>
-#### Open log file for the feature: Building User+Movie+Genre Effect Model------
+#### Open log-------------------------------------------------------------------
 open_logfile(".UMGE-model.train")
 
-#### Model building: User+Movie+Genre Effect -----------------------------------
+#### UMG Effect Computation ----------------------------------------------------
 file_name_tmp <- "7.cv.UMG-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1181,14 +1184,14 @@ if (file.exists(file_path_tmp)) {
 put_log("User+Movie+Genre Effect Model data structure:")
 put(str(cv.UMG_effect))
 
-##### Plot a histogram of the Movie Genre Effect distribution -----------------
+##### Plot a Histogram: UMG Effect Distribution --------------------------------
 par(cex = 0.7)
 hist(cv.UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
      main = TeX(r'[Histogram of $\hat{g}_{i,j}$]'))
 
 put_log("A histogram of the Movie Genre Effect distribution has been plotted.")
 
-#### Compute RMSE: User+Movie+Genre effects ------------------------------------
+#### Compute UMGE Model RMSE ---------------------------------------------------
 cv.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(cv.UMG_effect)
 cv.UMG_effect.RMSE
 #> [1] 0.859473
@@ -1202,10 +1205,10 @@ put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genr
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-#### Regularizing User+Movie+Genre Effects --------------------------------------
-##### Open log file for `Preliminary setting-up of lambda range` feature -------
+### UMGE Model Regularization --------------------------------------------------
+#### Open log for `Preliminary setting-up of lambda range` feature -------------
 open_logfile(".rglr.UMG-effect.pre-set-lambdas")
-##### UMG Effect Regularization Directory Paths --------------------------------
+#### UMG Effect Regularization Directory Paths --------------------------------
 UMGE.regularization.path <- file.path(data.regularization.path, 
                                            "2.UMG-effect")
 dir.create(UMGE.regularization.path)
@@ -1215,7 +1218,7 @@ UMGE.rglr.fine_tune.cache.path <- file.path(UMGE.regularization.path,
                                            fine_tune.cache.folder)
 dir.create(UMGE.rglr.fine_tune.cache.path)
 put_log1("Directory path has been created: %1", UMGE.rglr.fine_tune.cache.path)
-##### UMGE Model Regularization: Pre-configuration ----------------------------
+#### UMGE Model Regularization: Pre-configuration ----------------------------
 file_name_tmp <- "1.UMGE.rglr.pre-set.RData" # UMGE stands for `User+Movie+Genre Effect`
 file_path_tmp <- file.path(UMGE.regularization.path, file_name_tmp)
 
@@ -1257,7 +1260,7 @@ put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie
 has resulted as follows:")
 put(cv.UMGE.preset.result$best_result)
 
-###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
+##### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 cv.UMGE.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UMGE Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
@@ -1269,11 +1272,11 @@ cv.UMGE.preset.result$tuned.result |>
                                 ")"),
               normalize = TRUE)
 
-##### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log file for UMG Effect Regularization (Fine-Tuning)` feature -------
+#### Open log file for Regularization (Fine-Tuning)` feature -------------------
 open_logfile(".UMGE.rglr.fine-tuning")
-##### UMGE Model Regularization: Fine-tuning ----------------------------------- 
+#### UMGE Model Regularization: Fine-tuning ----------------------------------- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGE.preset.result$tuned.result)
 
@@ -1301,7 +1304,7 @@ put(UMGE.rglr.fine_tune.results$best_result)
 # param.best_value        best_RMSE 
 #       0.03554688       0.87297303 
 
-###### Plot (fine-tuned) dependency of RMSEs vs lambdas ------------------------  
+##### Plot (fine-tuned) dependency of RMSEs vs lambdas ------------------------  
 UMGE.rglr.fine_tune.results$tuned.result |>
   data.plot(title = "UMGE Model Regularization: Fine-tuned result",
               xname = "parameter.value",
@@ -1312,11 +1315,11 @@ UMGE.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 
-##### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log for re-training Regularized UMGE Model for the best `lambda` value ----
+#### Open log for re-training Regularized UMGE Model for the best `lambda` value ----
 open_logfile(".UMGE.rglr.re-train.best-lambda")
-##### Re-train `Regularized UMGE Model` for the best `lambda` value ------------
+#### Re-train `Regularized UMGE Model` for the best `lambda` value ------------
 file_name_tmp <- "2.UMGE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGE.regularization.path, file_name_tmp)
 
@@ -1367,7 +1370,7 @@ if (file.exists(file_path_tmp)) {
            UMGE.rglr.best_lambda)
 } 
 
-##### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model ----
+#### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model ----
 RMSEs.ResultTibble.rglr.UMGE <- RMSEs.ResultTibble.UMGE |> 
   RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
                rglr.UMG_effect.RMSE,
@@ -1377,12 +1380,12 @@ RMSEs.ResultTibble.rglr.UMGE <- RMSEs.ResultTibble.UMGE |>
 RMSE_kable(RMSEs.ResultTibble.rglr.UMGE)
 put_log("A row has been added to the RMSE Result Tibble for the Regularized UMGE Model`.")
 
-##### Close Log ----------------------------------------------------------------
+#### Close Log ----------------------------------------------------------------
 log_close()
-### Accounting for User+Movie+Genre+Year (UMGY) Effect (UMGYE) -----------------
-#### Open log file for the feature: `Building  User+Movie+Genre+Year Effect Model`----
+## User+Movie+Genre+Year Effect (UMGYE) Model ----------------------------------
+### Open log file for the feature: `Building  User+Movie+Genre+Year Effect Model`----
 open_logfile(".UMGY-effect")
-#### Plot: Average Rating per Year ------------------------------------------------
+### Plot: Average Rating per Year ------------------------------------------------
 start <- put_start_date()
 put("Plotting Average Rating per Year distribution...")
 put_log("Ignoring the data from users 
@@ -1407,7 +1410,7 @@ edx |>
 put_end_date(start)
 put("Average Rating per Year distribution has been plotted.")
 
-#### Support Functions ---------------------------------------------------------
+### Support Functions ---------------------------------------------------------
 cv.UMGY_effect.functions_file <- "UMGY-effect.functions.R"
 cv.UMGY_effect.functions.file_path <- file.path(support_functions.path, 
                                       cv.UMGY_effect.functions_file)
@@ -1417,7 +1420,7 @@ source(cv.UMGY_effect.functions.file_path,
        spaced = TRUE,
        verbose = TRUE,
        keep.source = TRUE)
-#### Training User+Movie+Genre+Year Effect Model ----------------------------------------
+### Training User+Movie+Genre+Year Effect Model ----------------------------------------
 file_name_tmp <- "8.cv.UMGY-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1448,11 +1451,11 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Genre+Year Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
-#### Compute User+Movie+Genre+Year Effect Model RMSE ---------------------------
+### Compute User+Movie+Genre+Year Effect Model RMSE ---------------------------
 cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 cv.UMGY_effect.RMSE
 #> [1] 0.8590795
-#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Year Effect Model ---- 
+### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Year Effect Model ---- 
 RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |> 
   RMSEs.AddRow("User+Movie+Genre+Year Effect Model", 
                cv.UMGY_effect.RMSE)
@@ -1460,13 +1463,13 @@ RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |>
 RMSE_kable(RMSEs.ResultTibble.UMGYE)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre+Year Effect Model`.")
 
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
 
-#### Regularizing User+Movie+Genre+Year Effect ---------------------------------
-##### Open log file for `Preliminary setting-up of lambda range` feature -------
+### Regularizing User+Movie+Genre+Year Effect ---------------------------------
+#### Open log file for `Preliminary setting-up of lambda range` feature -------
 open_logfile(".rglr.UMGY-effect.pre-set-lambdas")
-##### UMGY Effect Regularization Directory Paths --------------------------------
+#### UMGY Effect Regularization Directory Paths --------------------------------
 UMGYE.regularization.path <- file.path(data.regularization.path, 
                                             "3.UMGY-effect")
 dir.create(UMGYE.regularization.path)
@@ -1477,7 +1480,7 @@ UMGYE.rglr.fine_tune.cache.path <- file.path(UMGYE.regularization.path,
                                             fine_tune.cache.folder)
 dir.create(UMGYE.rglr.fine_tune.cache.path)
 put_log1("Directory path has been created: %1", UMGYE.rglr.fine_tune.cache.path)
-##### UMGYE Model Regularization: Pre-configuration ---------------------------
+#### UMGYE Model Regularization: Pre-configuration ---------------------------
 file_name_tmp <- "1.UMGYE.rglr.pre-set.RData" # UMGE stands for `User+Movie+Genre+Year Effect`
 file_path_tmp <- file.path(UMGYE.regularization.path, file_name_tmp)
 
@@ -1522,7 +1525,7 @@ put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie
 has resulted as follows:")
 put(cv.UMGYE.preset.result$best_result)
 
-###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
+##### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 cv.UMGYE.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UMGYE Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
@@ -1530,11 +1533,11 @@ cv.UMGYE.preset.result$tuned.result |>
               xlabel = TeX(r'[$\lambda$]'), 
               ylabel = "RMSE")
 
-##### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year Effect Regularization` feature ----
+#### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year Effect Regularization` feature ----
 open_logfile(".UMGYE.rglr.fine-tuning")
-##### UMGYE Model Regularization: Fine-tuning ----------------------- 
+#### UMGYE Model Regularization: Fine-tuning ----------------------- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGYE.preset.result$tuned.result)
 
@@ -1558,7 +1561,7 @@ put_log("Fine-tuning stage of the User+Movie+Genre+Year Effect Model Regularizat
 has ended up with with the following results:")
 put(UMGYE.rglr.fine_tune.results$best_result)
 
-###### Plot (fine-tuned) dependency of RMSEs vs lambdas -----------------------------  
+##### Plot (fine-tuned) dependency of RMSEs vs lambdas -----------------------------  
 UMGYE.rglr.fine_tune.results$tuned.result |>
   data.plot(title = "UMGYE Model Regularization: Fine-tuned result",
               xname = "parameter.value",
@@ -1569,11 +1572,11 @@ UMGYE.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log file for re-training Regularized Model for the best `lambda` value----
+#### Open log file for re-training Regularized Model for the best `lambda` value----
 open_logfile(".UMGYE.rg.re-train.best-lambda")
-#### Re-train Regularized User+Movie+Genre+Year Effect Model for the best `lambda` value ----
+### Re-train Regularized User+Movie+Genre+Year Effect Model for the best `lambda` value ----
 file_name_tmp <- "2.UMGYE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGYE.regularization.path, file_name_tmp)
 
@@ -1618,7 +1621,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 } 
 
-#### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre+Year Effects Model ---- 
+### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre+Year Effects Model ---- 
 RMSEs.ResultTibble.rglr.UMGYE <- RMSEs.ResultTibble.UMGYE |> 
   RMSEs.AddRow("Regularized UMGYE Model", 
                rglr.UMGY_effect.RMSE,
@@ -1629,14 +1632,14 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UMGYE)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie+Genre+Year Effect Model`.")
 
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
 
 ### Accounting for User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect (UMGYDE) ----
 # Y[i,j] = μ + α[i] + β[j] + g[i,j] yr[i,j]  + f(d[i,j]) + ε[i,j]
 
 # with `f` a smooth function of `d[(i,j]`
-#### Support Functions --------------------------------------------------------
+### Support Functions --------------------------------------------------------
 cv.UMGYDE.default_params.functions_file <- "UMGYD-effect.functions.R"
 cv.UMGYDE.default_params.functions.file_path <- file.path(support_functions.path, 
                                                 cv.UMGYDE.default_params.functions_file)
@@ -1648,9 +1651,9 @@ source(cv.UMGYDE.default_params.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-#### Open log file for training the UMGYDE model using `loess` function with default parameters ----
+### Open log file for training the UMGYDE model using `loess` function with default parameters ----
 open_logfile(".UMGYDE.loess.default-params")
-###### Model Tuning Data File Paths --------------------------------------------
+##### Model Tuning Data File Paths --------------------------------------------
 UMGYDE.tuning_folder <- "UMGYD-effect"
 
 UMGYDE.tuning.data.path <- 
@@ -1729,7 +1732,7 @@ the `User+Movie+Genre+Year+(Smoothed)Day Effect Model` data
 using `loess` function with parameter `degree = 2`: %1", 
 UMGYDE.fine_tune.degree2.data.path)
 
-#### Train model using `loess` function with default `span` & `degree` params----
+### Train model using `loess` function with default `span` & `degree` params----
 file_name_tmp <- "9.cv.UMGYDE.loess.default-params.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1772,7 +1775,7 @@ CVFolds_N)
 
 put(str(cv.UMGYDE.default_params))
 
-#### User+Movie+Genre+Year+Day-Smoothed Effect Model Visualization -------------
+### User+Movie+Genre+Year+Day-Smoothed Effect Model Visualization -------------
 # mean_day_smoothed_effect <- compute_mean_dse(day_smoothed_effect_ls)
 # str(mean_day_smoothed_effect)
 
@@ -1784,7 +1787,7 @@ cv.UMGYDE.default_params |>
 put_log("Date Smoothed Effect has been plotted 
 for the `loess` function fitted with default parameters.")
 
-#### Calculate RMSE for the `loess` function fitted with default parameters -------
+### Calculate RMSE for the `loess` function fitted with default parameters -------
 start <- put_start_date()
 cv.UMGYDE.default_params.RMSE <- cv.UMGYDE.default_params |>
   calc_UMGY_SmoothedDay_effect.RMSE.cv()
@@ -1798,7 +1801,7 @@ print(cv.UMGYDE.default_params.RMSE)
 #> [1] 0.8588864
 
 
-##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
                cv.UMGYDE.default_params.RMSE,
@@ -1807,14 +1810,14 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
-#### Tune the UMGYD model using `loess` with `span` & `degree` params ----------
-##### 1. `degree = 0` ---------------------------------------------------------
-###### Open log file for tuning the model using `loess` function with parameter `degree = 0`----
+### Tune the UMGYD model using `loess` with `span` & `degree` params ----------
+#### 1. `degree = 0` ---------------------------------------------------------
+##### Open log file for tuning the model using `loess` function with parameter `degree = 0`----
 open_logfile(".UMGYDE.loess.degree0.pre-tuning")
 put("Case 1. `degree = 0`")
-###### Preliminary setting-up of spans range ----------------------------------
+##### Preliminary setting-up of spans range ----------------------------------
 file_name_tmp <- "1.lss.UMGYDE.pre-set.degree0.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree0.data.path, file_name_tmp)
 
@@ -1864,7 +1867,7 @@ put(lss.UMGYDE.preset.degree0.result$best_result)
 # param.best_value        best_RMSE 
 #          0.00150          0.85762 
 
-###### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 0) --------
+##### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 0) --------
 plt.title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 0`"
 
 lss.UMGYDE.preset.degree0.result$tuned.result |>
@@ -1875,12 +1878,12 @@ lss.UMGYDE.preset.degree0.result$tuned.result |>
               ylabel = "RMSE")
 rm(plt.title)
 
-###### Close Log -----------------------------------------------------------------
+##### Close Log -----------------------------------------------------------------
 log_close()
 
-###### Open log file for fine-tuning the model using `loess` function with parameter `degree = 0`----
+##### Open log file for fine-tuning the model using `loess` function with parameter `degree = 0`----
 open_logfile(".lss.UMGYDE.fine-tune.degree0")
-###### Fine-tune the span parameter value for `degree = 0` ------------------ 
+##### Fine-tune the span parameter value for `degree = 0` ------------------ 
 lss.fine_tune.loop_starter <- 
   c(lss.UMGYDE.preset.degree0.result$tuned.result$parameter.value[1], 
     lss.UMGYDE.preset.degree0.result$tuned.result$parameter.value[3], 
@@ -1906,7 +1909,7 @@ lss.UMGYDE.fine_tune.degree0.result.best_span <-
 lss.UMGYDE.fine_tune.degree0.result.best_RMSE <- 
   lss.UMGYDE.fine_tune.degree0.result$best_result["best_RMSE"]
 
-###### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 0) ----  
+##### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 0) ----  
 plt.title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree` = 0"
 
 lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
@@ -1917,7 +1920,7 @@ lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
               ylabel = "RMSE")
 rm(plt.title)
 
-##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
                lss.UMGYDE.fine_tune.degree0.result.best_RMSE,
@@ -1925,13 +1928,13 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
                  msg.glue(lss.UMGYDE.fine_tune.degree0.result.best_span))
 
 RMSE_kable(RMSEs.ResultTibble)
-###### Close Log ---------------------------------------------------------------
+##### Close Log ---------------------------------------------------------------
 log_close()
-###### 2. `degree = 1` --------------------------------------------------------------
-###### Open log file for tuning the model using `loess` function with parameter `degree = 1`----
+##### 2. `degree = 1` --------------------------------------------------------------
+##### Open log file for tuning the model using `loess` function with parameter `degree = 1`----
 open_logfile(".UMGYDE.loess.degree1.pre-tuning")
 put("Case 2. `degree = 1`")
-###### Preliminary setting-up of spans range ----------------------------------
+##### Preliminary setting-up of spans range ----------------------------------
 file_name_tmp <- "1.lss.UMGYDE.pre-set.degree1.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree1.data.path, file_name_tmp)
 
@@ -1981,7 +1984,7 @@ put(lss.UMGYDE.preset.degree1.result$best_result)
 # param.best_value        best_RMSE 
 #        0.0015000        0.8576205 
 
-###### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 1) --------  
+##### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 1) --------  
 lss.UMGYDE.preset.degree1.result$tuned.result |>
   data.plot(title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 1`",
               xname = "parameter.value", 
@@ -1989,12 +1992,12 @@ lss.UMGYDE.preset.degree1.result$tuned.result |>
               xlabel = "spans", 
               ylabel = "RMSE")
 
-###### Close Log -----------------------------------------------------------------
+##### Close Log -----------------------------------------------------------------
 log_close()
 
-###### Open log file for fine-tuning the model using `loess` function with parameter `degree = 1`----
+##### Open log file for fine-tuning the model using `loess` function with parameter `degree = 1`----
 open_logfile(".lss.UMGYDE.fine-tune.degree1")
-###### Fine-tune the span parameter value for `degree = 1` --------------------- 
+##### Fine-tune the span parameter value for `degree = 1` --------------------- 
 lss.fine_tune.loop_starter <- 
   c(lss.UMGYDE.preset.degree1.result$tuned.result$parameter.value[1], 
     lss.UMGYDE.preset.degree1.result$tuned.result$parameter.value[3], 
@@ -2020,7 +2023,7 @@ lss.UMGYDE.fine_tune.degree1.result.best_span <-
 lss.UMGYDE.fine_tune.degree1.result.best_RMSE <- 
   lss.UMGYDE.fine_tune.degree1.result$best_result["best_RMSE"]
 
-###### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 1) ----  
+##### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 1) ----  
 lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
   data.plot(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 1`", 
                              xname = "parameter.value", 
@@ -2028,7 +2031,7 @@ lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
                              xlabel = "spans", 
                              ylabel = "RMSE")
 
-##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
                lss.UMGYDE.fine_tune.degree1.result.best_RMSE,
@@ -2036,13 +2039,13 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
                  msg.glue(lss.UMGYDE.fine_tune.degree1.result.best_span))
 
 RMSE_kable(RMSEs.ResultTibble)
-###### Close Log ---------------------------------------------------------------
+##### Close Log ---------------------------------------------------------------
 log_close()
-###### 3. `degree = 2` ---------------------------------------------------------
-###### Open log file for tuning the model using `loess` function with parameter `degree = 2`----
+##### 3. `degree = 2` ---------------------------------------------------------
+##### Open log file for tuning the model using `loess` function with parameter `degree = 2`----
 open_logfile(".UMGYDE.loess.degree2.pre-tuning")
 put("Case 3. `degree = 2`")
-###### Preliminary setting-up of spans range ----------------------------------
+##### Preliminary setting-up of spans range ----------------------------------
 file_name_tmp <- "1.lss.UMGYDE.pre-set.degree2.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree2.data.path, file_name_tmp)
 
@@ -2092,7 +2095,7 @@ put(lss.UMGYDE.preset.degree2.result$best_result)
 # param.best_value        best_RMSE 
 #          0.00150          0.85762 
 
-###### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 2) --------  
+##### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 2) --------  
 lss.UMGYDE.preset.degree2.result$tuned.result |>
   data.plot(title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 2`",
               xname = "parameter.value", 
@@ -2100,12 +2103,12 @@ lss.UMGYDE.preset.degree2.result$tuned.result |>
               xlabel = "spans", 
               ylabel = "RMSE")
 
-###### Close Log -----------------------------------------------------------------
+##### Close Log -----------------------------------------------------------------
 log_close()
 
-###### Open log file for fine-tuning the model using `loess` function with parameter `degree = 2`----
+##### Open log file for fine-tuning the model using `loess` function with parameter `degree = 2`----
 open_logfile(".lss.UMGYDE.fine-tune.degree2")
-###### Fine-tune the span parameter value for `degree = 2` ------------------ 
+##### Fine-tune the span parameter value for `degree = 2` ------------------ 
 lss.fine_tune.loop_starter <- 
   c(lss.UMGYDE.preset.degree2.result$tuned.result$parameter.value[1], 
     lss.UMGYDE.preset.degree2.result$tuned.result$parameter.value[3], 
@@ -2131,7 +2134,7 @@ lss.UMGYDE.fine_tune.degree2.result.best_span <-
 lss.UMGYDE.fine_tune.degree2.result.best_RMSE <- 
   lss.UMGYDE.fine_tune.degree2.result$best_result["best_RMSE"]
 
-###### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 2) ----  
+##### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 2) ----  
 lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
   data.plot.left_detailed(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 2`", 
                              title.left = "Left Part of the Chart Above (Zoomed in)",
@@ -2141,7 +2144,7 @@ lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
                              xlabel1 = "spans", 
                              ylabel1 = "RMSE")
 
-##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
                lss.UMGYDE.fine_tune.degree2.result.best_RMSE,
@@ -2149,12 +2152,12 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
                  msg.glue(lss.UMGYDE.fine_tune.degree2.result.best_span))
 
 RMSE_kable(RMSEs.ResultTibble)
-##### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
 
-##### Open log file for re-training of the model with the best `span` value ----
+#### Open log file for re-training of the model with the best `span` value ----
 open_logfile(".lss.UMGYDE.re-train.best_degree&span")
-#### Retrain with the best parameters figured out above ------------------------
+### Retrain with the best parameters figured out above ------------------------
 file_name_tmp <- "1.lss.UMGYE.re-train.best-params.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.data.path, file_name_tmp)
 
@@ -2228,7 +2231,7 @@ span = %1, degree = %2", lss.best_span, lss.best_degree)
            file_path_tmp)
 }
 
-###### Tuned UMGYD Effect data integrity test------------------------
+##### Tuned UMGYD Effect data integrity test------------------------
 tuned.UMGYDE.tst <- lss.UMGYD_effect |>
   mutate(tst.col = de_smoothed) |>
   select(days, tst.col)
@@ -2246,7 +2249,7 @@ put(tuned.UMGYDE.test.left_join.Nas)
 # [5,]       NA         0
 
 stopifnot(colSums(tuned.UMGYDE.test.left_join.Nas)["days.NAs"] == 0)
-##### The Best Date Smoothed Effect Visualization ----------------------------------
+#### The Best Date Smoothed Effect Visualization ----------------------------------
 lss.UMGYD_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
@@ -2254,7 +2257,7 @@ lss.UMGYD_effect |>
 
 put_log1("Optimized Mean Date Smoothed Effect has been plotted for the %1-Fold Cross Validation samples.",
          CVFolds_N)
-##### Calculate RMSE for `loess` function fitted with the best parameters ------
+#### Calculate RMSE for `loess` function fitted with the best parameters ------
 
 lss.best_degree <- lss.UMGYDE.best_params["degree"]
 lss.best_span <- lss.UMGYDE.best_params["span"]
@@ -2277,7 +2280,7 @@ put_log1("Is this a best RMSE? %1",
 print(lss.UMGYD_effect.RMSE)
 #> [1] 0.8568612
 
-##### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
                lss.UMGYD_effect.RMSE,
@@ -2300,12 +2303,12 @@ using `loess` function call with the best degree & span values.")
 # put_end_date(start)
 #> [1] 0.8724055
 
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
-#### Regularizing User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect (UMGYDE) ----
-##### Open log file for UMGYDE `Preliminary setting-up of lambda range` feature -------
+### Regularizing User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect (UMGYDE) ----
+#### Open log file for UMGYDE `Preliminary setting-up of lambda range` feature -------
 open_logfile(".rglr.UMGYD-effect.pre-set-lambdas")
-##### UMGYD Effect Regularization Directory Paths --------------------------------
+#### UMGYD Effect Regularization Directory Paths --------------------------------
 UMGYDE.regularization.path <- file.path(data.regularization.path, 
                                        "4.UMGYD-effect")
 dir.create(UMGYDE.regularization.path)
@@ -2316,7 +2319,7 @@ UMGYDE.rglr.fine_tune.cache.path <- file.path(UMGYDE.regularization.path,
                                              fine_tune.cache.folder)
 dir.create(UMGYDE.rglr.fine_tune.cache.path)
 put_log1("Directory path has been created: %1", UMGYDE.rglr.fine_tune.cache.path)
-##### UMGYDE Model Regularization: Pre-configuration --------------------------
+#### UMGYDE Model Regularization: Pre-configuration --------------------------
 file_name_tmp <- "1.UMGYDE.rglr.pre-set.RData" # UMGE stands for `User+Movie+Genre+Year+(Smoothed)Day Effect`
 file_path_tmp <- file.path(UMGYDE.regularization.path, file_name_tmp)
 
@@ -2360,7 +2363,7 @@ put_log("Preliminary regularization set-up of `lambda`s range for the User+Movie
 has resulted as follows:")
 put(cv.UMGYDE.preset.result$best_result)
 
-###### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
+##### Plot (rough) dependency of RMSEs vs lambdas -----------------------------  
 cv.UMGYDE.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UMGYDE Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
@@ -2368,11 +2371,11 @@ cv.UMGYDE.preset.result$tuned.result |>
               xlabel = TeX(r'[$\lambda$]'), 
               ylabel = "RMSE")
 
-##### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year+(Smoothed)Day Effect Regularization` feature ----
+#### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year+(Smoothed)Day Effect Regularization` feature ----
 open_logfile(".UMGYDE.rglr.fine-tuning")
-##### UMGYDE Model Regularization: Fine-tuning ----------------------------------- 
+#### UMGYDE Model Regularization: Fine-tuning ----------------------------------- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGYDE.preset.result$tuned.result)
 
@@ -2405,7 +2408,7 @@ put(UMGYDE.rglr.fine_tune.results$best_result)
 
 UMGYDE.rglr.fine_tune.RMSE.best <- UMGYDE.rglr.fine_tune.results$best_result["best_RMSE"]
 
-###### Plot (fine-tuned) dependency of RMSEs vs lambdas ------------------------  
+##### Plot (fine-tuned) dependency of RMSEs vs lambdas ------------------------  
 UMGYDE.rglr.fine_tune.results$tuned.result |>
   data.plot(title = "UMGYDE Model Regularization: Fine-tuned result",
               xname = "parameter.value",
@@ -2415,11 +2418,11 @@ UMGYDE.rglr.fine_tune.results$tuned.result |>
                                 as.character(round(UMGYDE.rglr.fine_tune.RMSE.best, digits = 7)),
                                 ")"),
               normalize = TRUE)
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
-##### Open log file for re-training Regularized Model for the best `lambda` value----
+#### Open log file for re-training Regularized Model for the best `lambda` value----
 open_logfile(".UMGYDE.rg.re-train.best-lambda")
-#### Re-train Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best `lambda` value ----
+### Re-train Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best `lambda` value ----
 file_name_tmp <- "2.UMGYDE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGYDE.regularization.path, file_name_tmp)
 
@@ -2469,7 +2472,7 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 } 
 
-###### Regularized UMGYD Effect data integrity test------------------------
+##### Regularized UMGYD Effect data integrity test------------------------
 rglr.UMGYDE.tst <- rglr.UMGYD_effect |>
   mutate(tst.col = de_smoothed) |>
   select(days, tst.col)
@@ -2487,7 +2490,7 @@ put(rglr.UMGYDE.test.left_join.Nas)
 # [5,]       NA        NA        0
 
 stopifnot(colSums(rglr.UMGYDE.test.left_join.Nas)["days.NAs"] == 0)
-#### Add a row to the RMSE Result Tibble for the Regularized UMGYD Effects Model ---- 
+### Add a row to the RMSE Result Tibble for the Regularized UMGYD Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
                rglr.UMGYD_effect.RMSE)
@@ -2495,10 +2498,10 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
 
-#### UMGYDE Model Final Holdout Test  -------------------------------------------
+### UMGYDE Model Final Holdout Test  -------------------------------------------
 
 final.UMGYDE.predicted <- final_holdout_test |>
   UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
@@ -2509,7 +2512,7 @@ sum(is.na(final.UMGYDE.predicted$predicted))
 # calc_UMGY_SmoothedDay_effect.RMSE(final_holdout_test, rglr.UMGYD_effect)
 # #> [1] 0.902012
 
-##### UMGYDE Model Final Holdout Test data integrity validation-----------------
+#### UMGYDE Model Final Holdout Test data integrity validation-----------------
 final.predicted.tst <- final.UMGYDE.predicted |>
   mutate(tst.col = predicted) |>
   select(userId, movieId, tst.col)
@@ -2525,13 +2528,13 @@ put(final.predicted.left_join.Nas)
 stopifnot(final.predicted.left_join.Nas["user.NAs"] == 0 &&
             final.predicted.left_join.Nas["movie.NAs"] == 0)
 
-#### Compute UMGYDE Model Final Holdout Test RMSE ---------------------------
+### Compute UMGYDE Model Final Holdout Test RMSE ---------------------------
 final.UMGYDE.predicted.RMSE <- rmse2(final_holdout_test$rating,
                                      final.UMGYDE.predicted$predicted)
 final.UMGYDE.predicted.RMSE
 #> [1] 0.8804351
 
-#### Add a row to the RMSE Result Tibble for the Final Holdout Test of the UMGYD Effects Model ---- 
+### Add a row to the RMSE Result Tibble for the Final Holdout Test of the UMGYD Effects Model ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Final Holdout Test of the UMGYD Effect Model", 
                final.UMGYDE.predicted.RMSE)
@@ -2539,7 +2542,7 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
 
 ### Matrix Factorization -------------------------------------------------------
@@ -2552,9 +2555,9 @@ log_close()
 #> https://zhangyk8.github.io/teaching/file_spring2018/Improving_regularized_singular_value_decomposition_for_collaborative_filtering.pdf
 #> https://www.csie.ntu.edu.tw/~cjlin/papers/libmf/mf_adaptive_pakdd.pdf
 
-#### Open log file for Matrix Factorization Method ----------------------------
+### Open log file for Matrix Factorization Method ----------------------------
 open_logfile(".matrix-factorization")
-#### Support Functions --------------------------------------------------------
+### Support Functions --------------------------------------------------------
 MF.functions.file <- "MF.functions.R"
 MF.functions.file_path <- file.path(support_functions.path, 
                                     MF.functions.file)
@@ -2565,7 +2568,7 @@ source(MF.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-##### Perform the Matrix Factorization & Final Test ----------------------------
+#### Perform the Matrix Factorization & Final Test ----------------------------
 # library(recosystem)
 
 file_name_tmp <- "10.matrix-factorization.RData"
@@ -2638,13 +2641,13 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 
 }
-#### Compute Final Holdout Test RMSE ---------------------------
+### Compute Final Holdout Test RMSE ---------------------------
 final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
                                      mf.predicted_ratings)
 final_holdout_test.RMSE
 #> [1] 0.7875645
 
-#### Add a row to the RMSE Result Tibble for the Final Holdout Test ---- 
+### Add a row to the RMSE Result Tibble for the Final Holdout Test ---- 
 RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Matrix Factorization, Final Holdout Test", 
                final_holdout_test.RMSE)
@@ -2652,6 +2655,6 @@ RMSEs.ResultTibble <- RMSEs.ResultTibble |>
 RMSE_kable(RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
-#### Close Log -----------------------------------------------------------------
+### Close Log -----------------------------------------------------------------
 log_close()
 

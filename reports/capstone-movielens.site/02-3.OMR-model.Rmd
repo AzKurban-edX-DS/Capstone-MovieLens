@@ -1,7 +1,11 @@
-## Overall Mean Rating (Naive) Model
+## Overall Mean Rating (OMR) Model
 \
 
 Let's begin our analysis by evaluating the simplest model described in [Section _23.3 The First Model_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model), and then gradually refine it through further research.
+
+### Mathematical Description of the OMR Model
+\
+
 It is about a model that assumes the same rating for all movies and users with all the differences explained by random variation would look as follows:
 
 $$
@@ -9,6 +13,9 @@ Y_{i,j} = \mu + \varepsilon_{i,j}
 $$
 
 with $\varepsilon_{i,j}$ independent errors sampled from the same distribution centered at 0 and $\mu$ the _true_ rating for all movies.
+
+### OMR Model Building
+\
 
 We know that the estimate that minimizes the RMSE is the least squares estimate of $\mu$ and, in this case, is the average of all ratings:
 
@@ -28,44 +35,10 @@ data.frame(fold_No = 1:5, MSE = mu.MSEs) |>
 mu.RMSE <- sqrt(mean(mu.MSEs))
 mu.RMSE
 ```
-::: {.noteblock data-latex=""}
-For the _Mean Squared Error_ data visualization we used [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) function] defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.function.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script.
-:::
 
-```{r eval=FALSE}
-data.plot <- function(data, 
-                      title, 
-                      xname, 
-                      yname, 
-                      xlabel = NULL, 
-                      ylabel = NULL,
-                      line_col = "blue",
-                      # scale = 1,
-                      normalize = FALSE) {
-  y <- data[, yname]
-  
-  if (normalize) {
-    y <- y - min(y)
-  }
-  
-  if (is.null(xlabel)) {
-    xlabel = xname
-  }
-  if (is.null(ylabel)) {
-    ylabel = yname
-  }
-  
-  aes_mapping <- aes(x = data[, xname], y = y)
-  
-  data |> 
-    ggplot(mapping = aes_mapping) +
-    ggtitle(title) +
-    xlab(xlabel) +
-    ylab(ylabel) +
-    geom_point() + 
-    geom_line(color=line_col)
-}
-```
+::: {.noteblock data-latex=""}
+For the _Mean Squared Errors_ data visualization we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report, which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+:::
 
 Here we also used [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L54) function defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script (already mentioned above) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method: 
 
@@ -85,7 +58,7 @@ naive_model_RMSE <- function(val){
 ```
 \newpage
 
-### Ensure that `mu.RMSE` value is the best for the current model
+### OMR Value Is the Best for the Current Model
 \
 
 If we plug in any other number, we will get a higher RMSE. Let's prove that by the following small investigation:
