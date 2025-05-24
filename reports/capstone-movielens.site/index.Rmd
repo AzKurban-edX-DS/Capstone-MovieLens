@@ -11,6 +11,7 @@ output:
   bookdown::pdf_document2: 
     df_print: paged
     toc: true
+    toc_depth: 3
     fig_caption: true
     keep_tex: true
     citation_package: biblatex
@@ -53,7 +54,22 @@ vignette: >
   \end{blackbox}
   \end{itemize}
   }
-  
+
+```{css style settings, echo = FALSE}
+blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 10px;
+    font-style: italic;
+    border-left: 5px solid #eee;
+}
+```
+
+```{r env_test, include=FALSE}
+# str(edx)
+dim(edx.mx)
+```
+
 ```{r, setup0, eval=FALSE, include=FALSE }
 ## Setup
 r.path <- "../../r"
@@ -78,15 +94,7 @@ source(setup_script.file_path,
 # or sys.source("your-script.R", envir = knitr::knit_global())
 ```
 
-```{r setup, include=FALSE}
-# knitr::knit_global(envir = "R_GlobalEnv")
-# knitr::knit_global(envir = "R_GlobalEnv")
-# knitr::knit_global(envir = .GlobalEnv)
-# knitr::knit_global(envir = NULL)
-# str(edx)
-dim(edx.mx)
-```
-
+\newpage
 
 ```{r child = '01.intro.Rmd'}
 ```

@@ -129,14 +129,14 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-23}
+\date{2025-05-24}
 
 \begin{document}
 \maketitle
 
 {
 \hypersetup{linkcolor=}
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
 \tableofcontents
 }
 \newenvironment{infobox}[1]
@@ -156,6 +156,8 @@
   \end{blackbox}
   \end{itemize}
   }
+
+\newpage
 
 \section{Introduction / Overview / Executive Summary}\label{introduction-overview-executive-summary}
 
@@ -429,270 +431,6 @@ Finally, we can see that no movies have a rating of 0. Movies are rated from 0.5
 ## 10    5   1390114
 \end{verbatim}
 
-\begin{noteblock}
-Further analysis of the \texttt{edx} dataset was also inspired by the article \href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook}{Movie Recommendation System using R - BEST} written by \href{https://www.kaggle.com/amirmotefaker}{Amir Moterfaker}\autocite{MRS-R-BEST}, from which the code and explanatory notes below were cited.
-
-\end{noteblock}
-
-\newpage
-
-\paragraph{\texorpdfstring{Rating distribution plot\autocite{MRS-R-BEST}}{Rating distribution plot{[}@MRS-R-BEST{]}}}\label{rating-distribution-plotmrs-r-best}
-
-\hfill\break
-The code below demonstrates another way of visualizing the rating distribution:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Rating Distribution"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Occurrences Count"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-22-1.pdf}}
-
-This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
-\newpage
-
-\paragraph{Ratings per movie}\label{ratings-per-movie}
-
-\hfill\break
-
-\subparagraph{\texorpdfstring{Movie popularity count\autocite{MRS-R-BEST}}{Movie popularity count{[}@MRS-R-BEST{]}}}\label{movie-popularity-countmrs-r-best}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    movieId count
-##      <int> <int>
-##  1       1 23790
-##  2       2 10779
-##  3       3  7028
-##  4       4  1577
-##  5       5  6400
-##  6       6 12346
-##  7       7  7259
-##  8       8   821
-##  9       9  2278
-## 10      10 15187
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(count))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##      count        
-##  Min.   :    1.0  
-##  1st Qu.:   30.0  
-##  Median :  122.0  
-##  Mean   :  842.9  
-##  3rd Qu.:  565.0  
-##  Max.   :31362.0
-\end{verbatim}
-
-\newpage
-
-\subparagraph{\texorpdfstring{Ratings per movie plot\autocite{MRS-R-BEST}}{Ratings per movie plot{[}@MRS-R-BEST{]}}}\label{ratings-per-movie-plotmrs-r-best}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ movieId, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ratings per movie"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Movies"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of ratings"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
-\end{verbatim}
-
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-25-1.pdf}}
-\newpage
-
-\subparagraph{\texorpdfstring{Movies' rating histogram\autocite{MRS-R-BEST}}{Movies' rating histogram{[}@MRS-R-BEST{]}}}\label{movies-rating-histogrammrs-r-best}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Movies\textquotesingle{} rating histogram"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating count"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of movies"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_log10}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-\end{verbatim}
-
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-26-1.pdf}}
-\newpage
-
-\paragraph{\texorpdfstring{Ratings per user\autocite{MRS-R-BEST}}{Ratings per user{[}@MRS-R-BEST{]}}}\label{ratings-per-usermrs-r-best}
-
-\hfill\break
-
-\subparagraph{User rating count (activity measure)}\label{user-rating-count-activity-measure}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    userId count
-##     <int> <int>
-##  1      1    19
-##  2      2    17
-##  3      3    31
-##  4      4    35
-##  5      5    74
-##  6      6    39
-##  7      7    96
-##  8      8   727
-##  9      9    21
-## 10     10   112
-\end{verbatim}
-
-\subparagraph{User rating summary}\label{user-rating-summary}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(count))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##      count       
-##  Min.   :  10.0  
-##  1st Qu.:  32.0  
-##  Median :  62.0  
-##  Mean   : 128.8  
-##  3rd Qu.: 141.0  
-##  Max.   :6616.0
-\end{verbatim}
-
-\newpage
-
-\subparagraph{Ratings per user plot}\label{ratings-per-user-plot}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ userId, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ratings per user"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Users"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of ratings"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
-\end{verbatim}
-
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-29-1.pdf}}
-\newpage
-
-\subparagraph{Users' rating histogram}\label{users-rating-histogram}
-
-\hfill\break
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Users\textquotesingle{} rating histogram"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating count"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of users"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_log10}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
-        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-\end{verbatim}
-
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-30-1.pdf}}
 \newpage
 
 \section{Methods / Analysis}\label{methods-analysis}
@@ -1013,8 +751,8 @@ To be able to map the date, year, and number of days since the earliest record i
 \begin{verbatim}
 ## 'data.frame':    6519590 obs. of  5 variables:
 ##  $ timestamp: int  838985046 838983525 838983421 838983392 838984474 838983653 838984885 838983707 838984596 838983834 ...
-##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" ...
-##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" ...
+##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" "1996-08-02 10:56:32" ...
+##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" "1996-08-02" ...
 ##  $ year     : num  1996 1996 1996 1996 1996 ...
 ##  $ days     : int  571 571 571 571 571 571 571 571 571 571 ...
 \end{verbatim}
@@ -1325,7 +1063,7 @@ The \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/
 
 For our further analysis, we are going to use the following \emph{common helper functions}:
 
-\paragraph{\texorpdfstring{\texttt{clamp} function}{clamp function}}\label{clamp-function}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L4}{clamp} function}{clamp function}}\label{func.clamp}
 
 \hfill\break
 
@@ -1368,11 +1106,16 @@ All the \emph{common helper functions}, including those described above, are def
 
 \newpage
 
-\subsection{Overall Mean Rating (Naive) Model}\label{overall-mean-rating-naive-model}
+\subsection{Overall Mean Rating (OMR) Model}\label{overall-mean-rating-omr-model}
 
 \hfill\break
 
 Let's begin our analysis by evaluating the simplest model described in \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#a-first-model}{Section \emph{23.3 The First Model} of the \emph{Course Textbook}}, and then gradually refine it through further research.
+
+\subsubsection{Mathematical Description of the OMR Model}\label{mathematical-description-of-the-omr-model}
+
+\hfill\break
+
 It is about a model that assumes the same rating for all movies and users with all the differences explained by random variation would look as follows:
 
 \[
@@ -1380,6 +1123,10 @@ Y_{i,j} = \mu + \varepsilon_{i,j}
 \]
 
 with \(\varepsilon_{i,j}\) independent errors sampled from the same distribution centered at 0 and \(\mu\) the \emph{true} rating for all movies.
+
+\subsubsection{OMR Model Building}\label{omr-model-building}
+
+\hfill\break
 
 We know that the estimate that minimizes the RMSE is the least squares estimate of \(\mu\) and, in this case, is the average of all ratings:
 
@@ -1406,7 +1153,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-87-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-70-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1420,46 +1167,9 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{verbatim}
 
 \begin{noteblock}
-For the \emph{Mean Squared Error} data visualization we used \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.plot} function{]} defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R}{data.helper.function.R} script.
+For the \emph{Mean Squared Errors} data visualization we use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{data.plot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }
-\NormalTok{                      title, }
-\NormalTok{                      xname, }
-\NormalTok{                      yname, }
-                      \AttributeTok{xlabel =} \ConstantTok{NULL}\NormalTok{, }
-                      \AttributeTok{ylabel =} \ConstantTok{NULL}\NormalTok{,}
-                      \AttributeTok{line\_col =} \StringTok{"blue"}\NormalTok{,}
-                      \CommentTok{\# scale = 1,}
-                      \AttributeTok{normalize =} \ConstantTok{FALSE}\NormalTok{) \{}
-\NormalTok{  y }\OtherTok{\textless{}{-}}\NormalTok{ data[, yname]}
-  
-  \ControlFlowTok{if}\NormalTok{ (normalize) \{}
-\NormalTok{    y }\OtherTok{\textless{}{-}}\NormalTok{ y }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(y)}
-\NormalTok{  \}}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.null}\NormalTok{(xlabel)) \{}
-\NormalTok{    xlabel }\OtherTok{=}\NormalTok{ xname}
-\NormalTok{  \}}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.null}\NormalTok{(ylabel)) \{}
-\NormalTok{    ylabel }\OtherTok{=}\NormalTok{ yname}
-\NormalTok{  \}}
-  
-\NormalTok{  aes\_mapping }\OtherTok{\textless{}{-}} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ data[, xname], }\AttributeTok{y =}\NormalTok{ y)}
-  
-\NormalTok{  data }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{mapping =}\NormalTok{ aes\_mapping) }\SpecialCharTok{+}
-    \FunctionTok{ggtitle}\NormalTok{(title) }\SpecialCharTok{+}
-    \FunctionTok{xlab}\NormalTok{(xlabel) }\SpecialCharTok{+}
-    \FunctionTok{ylab}\NormalTok{(ylabel) }\SpecialCharTok{+}
-    \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} 
-    \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color=}\NormalTok{line\_col)}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
 
 Here we also used \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L54}{naive\_model\_MSEs} function defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R} script (already mentioned above) to compute \emph{Mean Squared Errors} using \emph{5-Fold Cross Validation} method:
 
@@ -1485,7 +1195,7 @@ One more function, defined in the \href{https://github.com/AzKurban-edX-DS/Capst
 
 \newpage
 
-\subsubsection{\texorpdfstring{Ensure that \texttt{mu.RMSE} value is the best for the current model}{Ensure that mu.RMSE value is the best for the current model}}\label{ensure-that-mu.rmse-value-is-the-best-for-the-current-model}
+\subsubsection{OMR Value Is the Best for the Current Model}\label{omr-value-is-the-best-for-the-current-model}
 
 \hfill\break
 
@@ -1515,7 +1225,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-92-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-74-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1568,11 +1278,16 @@ To win the grand prize of \$1,000,000, a participating team had to get an RMSE o
 
 \newpage
 
-\subsection{User Effect Model}\label{user-effect-model}
+\subsection{User Effect (UE) Model}\label{user-effect-ue-model}
 
 \hfill\break
 
-To improve our model let's now take into consideration user effects as explained in \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#user-effects}{Section \emph{23.4 User effects}} of the \emph{Course Textbook}.
+\subsubsection{User Effect Anasysis}\label{user-effect-anasysis}
+
+\hfill\break
+
+To improve our model let's now take into consideration user effects as explained in \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#user-effects}{Section \emph{23.4 User effects}} of the \emph{Course Textbook}\autocite{IDS2_23-4}.
+
 If we visualize the average rating for each user the way the \href{https://x.com/rafalab}{the author} shows, we can see that there is substantial variability in the average ratings across users:
 
 \begin{Shaded}
@@ -1581,7 +1296,138 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-104-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-85-1.pdf}}
+
+\newpage
+
+\paragraph{Ratings per user}\label{ratings-per-user}
+
+\hfill\break
+eponymous
+homonymous
+
+\begin{noteblock}
+The code in this section is cited from \href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook\#Ratings-per-user}{the eponymous section} of the article \emph{Movie Recommendation System using R - BEST}\autocite{MRS-R-BEST}.
+
+\end{noteblock}
+
+\subparagraph{User rating count (activity measure)}\label{user-rating-count-activity-measure}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    userId count
+##     <int> <int>
+##  1      1    19
+##  2      2    17
+##  3      3    31
+##  4      4    35
+##  5      5    74
+##  6      6    39
+##  7      7    96
+##  8      8   727
+##  9      9    21
+## 10     10   112
+\end{verbatim}
+
+\subparagraph{User rating summary}\label{user-rating-summary}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      count       
+##  Min.   :  10.0  
+##  1st Qu.:  32.0  
+##  Median :  62.0  
+##  Mean   : 128.8  
+##  3rd Qu.: 141.0  
+##  Max.   :6616.0
+\end{verbatim}
+
+\newpage
+
+\subparagraph{Ratings per user plot}\label{ratings-per-user-plot}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ userId, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ratings per user"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Users"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of ratings"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-88-1.pdf}}
+\newpage
+
+\subparagraph{Users' rating histogram}\label{users-rating-histogram}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(userId) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Users\textquotesingle{} rating histogram"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of users"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_log10}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-89-1.pdf}}
+
+\newpage
+
+\subsubsection{Mathematical Description of the UE Model}\label{mathematical-description-of-the-ue-model}
+
+\hfill\break
 
 Following the author's further explanation, to account for this variability, we will use a linear model with a \emph{treatment effect} \(\alpha_i\) for each user. The sum \(\mu+\alpha_i\) can be interpreted as the typical rating user \(i\) gives to movies. So we write the model as follows:
 
@@ -1590,6 +1436,10 @@ Y_{i,j} = \mu + \alpha_i + \varepsilon_{i,j}
 \]
 
 Statistics textbooks refer to the \(\alpha\)s as treatment effects. In the Netflix challenge papers, they refer to them as \emph{bias}\autocite{IDS2_23-4,MFT_RS}.
+
+\subsubsection{UE Model Building}\label{ue-model-building}
+
+\hfill\break
 
 As it is stated here\autocite{IDS2_23-4}, it can be shown that the least squares estimate \(\hat{\alpha}_i\) is just the average of \(y_{i,j} - \hat{\mu}\) for each user \(i\). So we can compute them this way:
 
@@ -1650,7 +1500,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-109-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-94-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1671,7 +1521,9 @@ The full source code of the \emph{User Effect} computation is available in the \
 
 \end{noteblock}
 
-Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L4}{clamp} helper function we defined above to keep predictions in the proper range):
+Finally, we are ready to compute the \texttt{RMSE} (additionally using the \hyperref[func.clamp]{clamp} helper function we described above to keep predictions in the proper range):
+
+Now, we are ready to compute the \emph{Mean Squared Errors} from the \emph{5-Fold Cross Validation} (additionally using the \hyperref[func.clamp]{clamp} helper function we described above):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1684,11 +1536,6 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
     \FunctionTok{pull}\NormalTok{(resid) }\SpecialCharTok{|\textgreater{}} \FunctionTok{mse}\NormalTok{()}
 \NormalTok{\})}
 \FunctionTok{put\_end\_date}\NormalTok{(start)}
-
-\NormalTok{edx.user\_effect.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(edx.user\_effect.MSEs))}
-
-\NormalTok{RMSEs.ResultTibble.UE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.OMR }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"User Effect Model"}\NormalTok{, edx.user\_effect.RMSE)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1701,7 +1548,23 @@ Finally, we are ready to compute the \texttt{RMSE} (additionally using the \href
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-111-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-96-1.pdf}}
+
+\begin{noteblock}
+For the \emph{Mean Squared Errors} data visualization we use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Finally, we calculate the \texttt{RMSE} as the \emph{square root} of the average of the \emph{Mean Squared Errors} we obtained through the \emph{5-Fold Cross Validation} above:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx.user\_effect.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(edx.user\_effect.MSEs))}
+
+\NormalTok{RMSEs.ResultTibble.UE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.OMR }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"User Effect Model"}\NormalTok{, edx.user\_effect.RMSE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1730,7 +1593,224 @@ The full source code of the \emph{User Effect Model RMSE} computation is availab
 
 \hfill\break
 
-In \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#movie-effects}{23.5 Movie effects} section of the \emph{Course Textbook} the author draws our attention to the fact that some movies are generally rated higher than others. He also explains that a linear model with a \emph{treatment effect} \(\beta_j\) for each movie can be used in this case, which can be interpreted as movie effect or the difference between the average ranking for movie \(j\) and the overall average \(\mu\):
+\subsubsection{Movie Effect Analysis}\label{movie-effect-analysis}
+
+\hfill\break
+
+\paragraph{Movies' Popularity}\label{movies-popularity}
+
+\hfill\break
+
+\phantomsection\label{textbook.23.5.movie_effects}
+In \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#movie-effects}{23.5 Movie effects} section of the \emph{Course Textbook} the author draws our attention to the fact that some movies are generally rated higher than others.
+
+To prove this fact, we can find out the movies with the highest number of ratings using the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx.ordered\_movie\_ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId, title) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{number\_of\_ratings =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(number\_of\_ratings))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(edx.ordered\_movie\_ratings))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   movieId [6]
+##   movieId title                            number_of_ratings
+##     <int> <chr>                                        <int>
+## 1     296 Pulp Fiction (1994)                          31362
+## 2     356 Forrest Gump (1994)                          31079
+## 3     593 Silence of the Lambs, The (1991)             30382
+## 4     480 Jurassic Park (1993)                         29360
+## 5     318 Shawshank Redemption, The (1994)             28015
+## 6     110 Braveheart (1995)                            26212
+\end{verbatim}
+
+\newpage
+
+Now, we can figure out the most given ratings in order from most to least:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx.rating\_groups }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
+     \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
+     \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(edx.rating\_groups)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    rating   count
+##     <dbl>   <int>
+##  1    4   2588430
+##  2    3   2121240
+##  3    5   1390114
+##  4    3.5  791624
+##  5    2    711422
+##  6    4.5  526736
+##  7    1    345679
+##  8    2.5  333010
+##  9    1.5  106426
+## 10    0.5   85374
+\end{verbatim}
+
+\newpage
+
+\paragraph{Rating Distribution}\label{rating-distribution}
+
+\hfill\break
+
+The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(edx.rating\_groups }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(rating))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    rating   count
+##     <dbl>   <int>
+##  1    0.5   85374
+##  2    1    345679
+##  3    1.5  106426
+##  4    2    711422
+##  5    2.5  333010
+##  6    3   2121240
+##  7    3.5  791624
+##  8    4   2588430
+##  9    4.5  526736
+## 10    5   1390114
+\end{verbatim}
+
+We can visually see that from the following plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx.rating\_groups }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-116-1.pdf}}
+
+\newpage
+
+The more sophisticated way of visualizing the rating distribution shown below is cited from the \href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook\#Rating-distribution-plot}{Rating distribution plot} section of the article \emph{Movie Recommendation System using R - BEST}\autocite{MRS-R-BEST} already referenced above in the \hyperref[ratings-per-user]{Ratings per user} section of this report.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx.rating\_groups }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Rating Distribution"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Occurrences Count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-117-1.pdf}}
+
+\begin{quote}
+This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
+\end{quote}
+
+The two more plots below, from the same article, give us an additional visual representation of the movies' popularity.
+
+\newpage
+
+\subparagraph{\texorpdfstring{\href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook\#Ratings-per-movie-plot}{Ratings per movie plot}}{Ratings per movie plot}}\label{ratings-per-movie-plot}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx.movie\_groups }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(movieId) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{())}
+  
+\NormalTok{edx.movie\_groups }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ movieId, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ratings per movie"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Movies"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of ratings"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-118-1.pdf}}
+\newpage
+
+\subparagraph{\texorpdfstring{\href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook\#Movies'-rating-histogram}{Movies' rating histogram}}{Movies' rating histogram}}\label{movies-rating-histogram}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edx.movie\_groups }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ count)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#8888ff"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#4020dd"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Movies\textquotesingle{} rating histogram"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Rating count"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of movies"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ comma) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_log10}\NormalTok{(}\AttributeTok{n.breaks =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_economist}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{10}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{), }
+        \AttributeTok{plot.margin =} \FunctionTok{margin}\NormalTok{(}\FloatTok{0.7}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\StringTok{"cm"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-119-1.pdf}}
+
+\begin{quote}
+This histogram better conveys the information provided by the summary() function, where the quantiles' values state that half the movies are rated between 30 and 565 times\autocite{MRS-R-BEST}.
+\end{quote}
+
+\newpage
+
+\subsubsection{Mathematical Description of the UME Model}\label{mathematical-description-of-the-ume-model}
+
+\hfill\break
+
+The author of the \emph{Course Textbook} mentioned \hyperref[textbook.23.5.movie_effects]{above} also explains that in this case one can use a linear model with a \emph{treatment effect} \(\beta_j\) for each movie, which can be interpreted as the movie effect, or the difference between the average rating for movie \(j\) and the overall average \(\mu\):
 
 \[
 Y_{i,j} = \mu + \alpha_i + \beta_j +\varepsilon_{i,j}
@@ -1941,7 +2021,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-127-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-128-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -2102,7 +2182,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-133-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-134-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -2188,7 +2268,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-136-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-137-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{UME Model Regularization: Retraining Model with the best \(\lambda\)}{UME Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{ume-model-regularization-retraining-model-with-the-best-lambda}
@@ -2293,114 +2373,7 @@ Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.3874
 
 As mentioned in \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#exercises}{Section 23.7: Exercises} of the \emph{Chapter ``23 Regularization'' of the Course Textbook} the \texttt{Movielens} dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)\autocite{IDS2_23-7}.
 
-\subsubsection{Genre Data Analysis}\label{genre-data-analysis}
-
-\hfill\break
-
-\paragraph{Movie Genres Data}\label{movie-genres-data}
-
-\hfill\break
-
-The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#library(stringr)}
-\NormalTok{genres }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"Drama"}\NormalTok{, }\StringTok{"Comedy"}\NormalTok{, }\StringTok{"Thriller"}\NormalTok{, }\StringTok{"Romance"}\NormalTok{)}
-\FunctionTok{sapply}\NormalTok{(genres, }\ControlFlowTok{function}\NormalTok{(g) \{}
-  \FunctionTok{sum}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(edx}\SpecialCharTok{$}\NormalTok{genres, g))}
-\NormalTok{\})}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    Drama   Comedy Thriller  Romance 
-##  3910127  3540930  2325899  1712100
-\end{verbatim}
-
-Further, we can find out the movies that have the greatest number of ratings using the following code:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ordered\_movie\_ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(movieId, title) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{number\_of\_ratings =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(number\_of\_ratings))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## `summarise()` has grouped output by 'movieId'. You can override using the `.groups` argument.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(ordered\_movie\_ratings))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 6 x 3
-## # Groups:   movieId [6]
-##   movieId title                            number_of_ratings
-##     <int> <chr>                                        <int>
-## 1     296 Pulp Fiction (1994)                          31362
-## 2     356 Forrest Gump (1994)                          31079
-## 3     593 Silence of the Lambs, The (1991)             30382
-## 4     480 Jurassic Park (1993)                         29360
-## 5     318 Shawshank Redemption, The (1994)             28015
-## 6     110 Braveheart (1995)                            26212
-\end{verbatim}
-
-and figure out the most given ratings in order from most to least:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ratings }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}}  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-     \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-     \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(count))}
-\FunctionTok{print}\NormalTok{(ratings)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 10 x 2
-##    rating   count
-##     <dbl>   <int>
-##  1    4   2588430
-##  2    3   2121240
-##  3    5   1390114
-##  4    3.5  791624
-##  5    2    711422
-##  6    4.5  526736
-##  7    1    345679
-##  8    2.5  333010
-##  9    1.5  106426
-## 10    0.5   85374
-\end{verbatim}
-
-The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{())}
-\end{Highlighting}
-\end{Shaded}
-
-We can visually see that from the following plot:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{edx }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{group\_by}\NormalTok{(rating) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rating, }\AttributeTok{y =}\NormalTok{ count)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{() }
-\end{Highlighting}
-\end{Shaded}
-
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-166-1.pdf}}
-
-\paragraph{Movie Genres Effect}\label{movie-genres-effect}
+\subsubsection{Movie Genres Effect Anasysis}\label{movie-genres-effect-anasysis}
 
 \hfill\break
 
@@ -2462,7 +2435,7 @@ The plot below shows strong evidence of a genre effect (for illustrative purpose
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-167-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-170-1.pdf}}
 Below are worst and best ratings categories:
 
 \begin{verbatim}
@@ -2499,7 +2472,7 @@ Another way of visualizing a genre effect is shown in the section \href{https://
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-169-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-172-1.pdf}}
 
 \subsubsection{Mathematical Description of the UMGE Model}\label{mathematical-description-of-the-umge-model}
 
@@ -2940,7 +2913,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-181-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-184-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -3031,7 +3004,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-184-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-187-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{UMGE Model Regularization: Retraining Model with the best \(\lambda\)}{UMGE Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{umge-model-regularization-retraining-model-with-the-best-lambda}
@@ -3119,7 +3092,7 @@ Regularized User+Movie+Genre Effect Model & 0.8729728 & Computed for `lambda` = 
 \end{tabular}
 
 \begin{noteblock}
-As we can see, the current model still does not show much improvement after \emph{regularization}, even though the data analysis we made in the \hyperref[movie-genres-effect]{Movie Genres Effect} section showed strong evidence of a genre effect.
+As we can see, the current model still does not show much improvement after \emph{regularization}, even though the data analysis we made in the {[}Movie Genres Effect{]} section showed strong evidence of a genre effect.
 It looks like we need a better model to account for a genre effect more efficiently.
 
 Or, maybe, we have implemented the current model not quite correctly (?)
@@ -3197,7 +3170,7 @@ The \emph{Year Effect} visualization and analysis code in this section are cited
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-218-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-216-1.pdf}}
 
 \newpage
 
@@ -3286,6 +3259,16 @@ A data structure containg information about \emph{Date General Effect}.
 \hfill\break
 
 This is a helper function that calculates the \emph{date general effect} of the user ratings using the \emph{5-Fold Cross Validation} method and is intended to be used in other functions and scripts (for instance in \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv}) described below.
+
+\subparagraph{Souurce Code}\label{souurce-code}
+
+\hfill\break
+
+\begin{noteblock}
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{calc\_date\_general\_effect.cv} function is available in the \hyperref[L1]{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{UMGY-effect.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
 The following is a simplified version of the function's source code:
 
 \begin{Shaded}
@@ -3315,14 +3298,11 @@ Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-
 
 \end{noteblock}
 
-\begin{noteblock}
-The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{calc\_date\_general\_effect.cv} function is available in the \hyperref[L1]{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{UMGY-effect.functions.R} script on \emph{GitHub}.
-
-\end{noteblock}
-
 \subparagraph{Return}\label{return-1}
 
 A data structure containg information about \emph{Date General Effect} as result of \emph{5-Fold Cross Validation}.
+
+\newpage
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L69}{calc\_UMGY\_effect} Function}{calc\_UMGY\_effect Function}}\label{func.calc_UMGY_effect}
 
@@ -3457,6 +3437,8 @@ The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYE M
   \end{itemize}
 \end{itemize}
 
+\newpage
+
 \subparagraph{Source Code}\label{source-code-1}
 
 \hfill\break
@@ -3482,8 +3464,6 @@ The source code of the function is provided below:
 The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L92}{calc\_UMGY\_effect\_MSE} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L92}{UMGYE Model Support Functions} script.
 
 \end{noteblock}
-
-\newpage
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L102}{calc\_UMGY\_effect\_MSE.cv} Function}{calc\_UMGY\_effect\_MSE.cv Function}}\label{calc_umgy_effect_mse.cv-function}
 
@@ -3583,8 +3563,6 @@ The source code of the function \href{https://github.com/AzKurban-edX-DS/Capston
 
 \end{noteblock}
 
-\newpage
-
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{calc\_UMGY\_effect\_RMSE.cv} Function}{calc\_UMGY\_effect\_RMSE.cv Function}}\label{calc_umgy_effect_rmse.cv-function}
 
 \hfill\break
@@ -3630,6 +3608,8 @@ The source code of the function is provided below:
 The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{calc\_UMGY\_effect\_RMSE.cv} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{UMGYE Model Support Functions} script.
 
 \end{noteblock}
+
+\newpage
 
 \subsubsection{UMGYE Model Building}\label{umgye-model-building}
 

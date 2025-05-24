@@ -115,6 +115,14 @@ A data structure containg information about _Date General Effect_.
 \
 
 This is a helper function that calculates the _date general effect_ of the user ratings using the _5-Fold Cross Validation_ method and is intended to be used in other functions and scripts (for instance in [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)) described below.
+
+##### Souurce Code
+\
+
+::: {.noteblock data-latex=""}
+The complete version of the source code of the [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) function is available in the [UMGYE Model Support Functions](#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) script on _GitHub_.
+:::
+
 The following is a simplified version of the function's source code:
 ```{r eval=FALSE}
 calc_date_general_effect.cv <- function(lambda = 0){
@@ -140,13 +148,11 @@ calc_date_general_effect.cv <- function(lambda = 0){
 Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) to aggregate the _5-Fold Cross Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report).
 :::
 
-::: {.noteblock data-latex=""}
-The complete version of the source code of the [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) function is available in the [UMGYE Model Support Functions](#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) script on _GitHub_.
-:::
-
 ##### Return
 
 A data structure containg information about _Date General Effect_ as result of _5-Fold Cross Validation_. 
+
+\newpage
 
 #### [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L69) Function {#func.calc_UMGY_effect}
 \
@@ -247,6 +253,8 @@ The function calculates the _Mean Squared Error (MSE)_ of the _UMGYE Model_ for 
     - [train_UMGY_effect](#func.train_UMGY_effect);
     - [train_UMGY_effect.cv](#func.train_UMGY_effect.cv).
 
+\newpage
+
 ##### Source Code
 \
 
@@ -267,8 +275,6 @@ calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
 ::: {.noteblock data-latex=""}
 The source code of the function [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92) is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92) script. 
 :::
-
-\newpage
 
 #### [calc_UMGY_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L102) Function
 \
@@ -338,8 +344,6 @@ calc_UMGY_effect_RMSE <- function(test_set, UMGY_effect){
 The source code of the function [calc_UMGY_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L114) is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L114) script. 
 :::
 
-\newpage
-
 #### [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L118) Function
 \
 
@@ -372,6 +376,8 @@ calc_UMGY_effect_RMSE.cv <- function(UMGY_effect){
 ::: {.noteblock data-latex=""}
 The source code of the function [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L118) is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L118) script. 
 :::
+
+\newpage
 
 ### UMGYE Model Building
 \

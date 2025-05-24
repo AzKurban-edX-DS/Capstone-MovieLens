@@ -1,7 +1,132 @@
 ## User+Movie Effect (UME) Model
 \
 
-In [23.5 Movie effects](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) section of the *Course Textbook* the author draws our attention to the fact that some movies are generally rated higher than others. He also explains that a linear model with a _treatment effect_ $\beta_j$ for each movie can be used in this case, which can be interpreted as movie effect or the difference between the average ranking for movie $j$ and the overall average $\mu$: 
+### Movie Effect Analysis
+\
+
+#### Movies' Popularity
+\
+
+::: {#textbook.23.5.movie_effects .sidebar }
+In [23.5 Movie effects](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) section of the *Course Textbook* the author draws our attention to the fact that some movies are generally rated higher than others. 
+:::
+
+To prove this fact, we can find out the movies with the highest number of ratings using the following code:
+```{r, eval=FALSE}
+edx.ordered_movie_ratings <- edx |> group_by(movieId, title) |>
+  summarize(number_of_ratings = n()) |>
+  arrange(desc(number_of_ratings))
+```
+```{r }
+print(head(edx.ordered_movie_ratings))
+```
+
+\newpage
+
+Now, we can figure out the most given ratings in order from most to least:
+```{r, eval=FALSE}
+edx.rating_groups <- edx |>  group_by(rating) |>
+     summarise(count = n()) |>
+     arrange(desc(count))
+```
+```{r, include=TRUE}
+print(edx.rating_groups)
+```
+
+\newpage
+
+#### Rating Distribution
+\
+
+The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
+```{r, include=TRUE}
+print(edx.rating_groups |> arrange(rating))
+```
+
+We can visually see that from the following plot:
+```{r}
+edx.rating_groups |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_line() 
+
+```
+
+\newpage
+
+The more sophisticated way of visualizing the rating distribution shown below is cited from the [Rating distribution plot](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Rating-distribution-plot) section of the article _Movie Recommendation System using R - BEST_[@MRS-R-BEST] already referenced above in the [Ratings per user] section of this report.
+
+```{r}
+edx.rating_groups |>
+  ggplot(aes(x = rating, y = count)) +
+  geom_bar(stat = "identity", fill = "#8888ff") +
+  ggtitle("Rating Distribution") +
+  xlab("Rating") +
+  ylab("Occurrences Count") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+> This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold[@MRS-R-BEST].
+
+The two more plots below, from the same article, give us an additional visual representation of the movies' popularity.
+
+\newpage
+
+##### [Ratings per movie plot](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Ratings-per-movie-plot)
+\
+
+```{r}
+edx.movie_groups <- edx |>
+  group_by(movieId) |>
+  summarize(count = n())
+  
+edx.movie_groups |>
+  ggplot(aes(x = movieId, y = count)) +
+  geom_point(alpha = 0.2, color = "#4020dd") +
+  geom_smooth(color = "red") +
+  ggtitle("Ratings per movie") +
+  xlab("Movies") +
+  ylab("Number of ratings") +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+\newpage
+
+##### [Movies' rating histogram](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Movies'-rating-histogram)
+\
+
+```{r}
+edx.movie_groups |>
+  ggplot(aes(x = count)) +
+  geom_histogram(fill = "#8888ff", color = "#4020dd") +
+  ggtitle("Movies' rating histogram") +
+  xlab("Rating count") +
+  ylab("Number of movies") +
+  scale_y_continuous(labels = comma) +
+  scale_x_log10(n.breaks = 10) +
+  theme_economist() +
+  theme(axis.title.x = element_text(vjust = -5, face = "bold"), 
+        axis.title.y = element_text(vjust = 10, face = "bold"), 
+        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
+```
+
+> This histogram better conveys the information provided by the summary() function, where the quantiles’ values state that half the movies are rated between 30 and 565 times[@MRS-R-BEST].
+
+\newpage
+
+
+### Mathematical Description of the UME Model
+\
+
+The author of the *Course Textbook* mentioned [above](#textbook.23.5.movie_effects) also explains that in this case one can use a linear model with a _treatment effect_ $\beta_j$ for each movie, which can be interpreted as the movie effect, or the difference between the average rating for movie $j$ and the overall average $\mu$: 
 
 $$
 Y_{i,j} = \mu + \alpha_i + \beta_j +\varepsilon_{i,j}

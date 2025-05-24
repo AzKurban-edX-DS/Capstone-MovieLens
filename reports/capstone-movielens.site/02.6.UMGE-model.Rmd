@@ -3,53 +3,7 @@
 
 As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_ the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
 
-### Genre Data Analysis
-\
-
-#### Movie Genres Data 
-\
-
-The following code computes movie rating summaries by popular genres like Drama, Comedy, Thriller, and Romance:
-```{r }
-#library(stringr)
-genres = c("Drama", "Comedy", "Thriller", "Romance")
-sapply(genres, function(g) {
-  sum(str_detect(edx$genres, g))
-})
-```
-
-Further, we can find out the movies that have the greatest number of ratings using the following code:
-```{r }
-ordered_movie_ratings <- edx |> group_by(movieId, title) |>
-  summarize(number_of_ratings = n()) |>
-  arrange(desc(number_of_ratings))
-print(head(ordered_movie_ratings))
-```
-
-and figure out the most given ratings in order from most to least:
-```{r}
-ratings <- edx |>  group_by(rating) |>
-     summarise(count = n()) |>
-     arrange(desc(count))
-print(ratings)
-```
-
-The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
-```{r}
-edx |> group_by(rating) |> summarize(count = n())
-```
-
-We can visually see that from the following plot:
-```{r}
-edx |>
-  group_by(rating) |>
-  summarize(count = n()) |>
-  ggplot(aes(x = rating, y = count)) +
-  geom_line() 
-
-```
-
-#### Movie Genres Effect 
+### Movie Genres Effect Anasysis
 \
 
 The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 20, 000 ratings).
