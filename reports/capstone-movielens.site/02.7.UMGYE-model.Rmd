@@ -218,7 +218,7 @@ A data structure containg information about _User+Movie+Genre+Year (UMGY) Effect
 #### [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) Function {#func.train_UMGY_effect.cv}
 \
 
-This function is used to train the current model using the _5-Fold Cross Validation_ method.
+This function is used to train the current model using the _5-Fold Cross Validation_.
 The following is the source code of the function:
 ```{r eval=FALSE}
 train_UMGY_effect.cv <- function(lambda = 0){
@@ -232,14 +232,14 @@ train_UMGY_effect.cv <- function(lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) function is also available in the [UMGYE Model Support Functions](#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) script on _GitHub_.
+The source code of the [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) function is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) script on _GitHub_.
 :::
 
 ##### Return
 
 A data structure containg information about _User+Movie+Genre+Year (UMGY) Effect_. 
 
-#### [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92) Function
+#### [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92) Function {#func.calc_UMGY_effect_MSE}
 \
 
 The function calculates the _Mean Squared Error (MSE)_ of the _UMGYE Model_ for the given _Test Set_ passed in the `test_set` parameter.
@@ -276,7 +276,7 @@ calc_UMGY_effect_MSE <- function(test_set, UMGY_effect){
 The source code of the function [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92) is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92) script. 
 :::
 
-#### [calc_UMGY_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L102) Function
+#### [calc_UMGY_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L102) Function {#func.calc_UMGY_effect_MSE.cv}
 \
 
 The function calculates the _5-Fold Cross Validation MSE_ result for the _UMGY Effect_ data passed in the `UMGY_effect` parameter. 
@@ -315,7 +315,7 @@ The source code of the function [calc_UMGY_effect_MSE.cv](https://github.com/AzK
 :::
 
 
-#### [calc_UMGY_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L114) Function
+#### [calc_UMGY_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L114) Function {#func.calc_UMGY_effect_RMSE}
 \
 
 The function calculates the _Mean Squared Error (MSE)_ of the _UMGYE Model_ for the given _Test Set_ passed in the `test_set` parameter.
@@ -344,7 +344,7 @@ calc_UMGY_effect_RMSE <- function(test_set, UMGY_effect){
 The source code of the function [calc_UMGY_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L114) is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L114) script. 
 :::
 
-#### [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L118) Function
+#### [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L118) Function {#func.calc_UMGY_effect_RMSE.cv}
 \
 
 The function calculates the _5-Fold Cross Validation MSE_ result for the _UMGY Effect_ data passed in the `UMGY_effect` parameter. 
@@ -383,37 +383,43 @@ The source code of the function [calc_UMGY_effect_RMSE.cv](https://github.com/Az
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of builing and training the current model is available in the [Model building: UMGYE Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+The complete source code of building and training the current model is available in the [UMGYE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1432) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1432) script on _GitHub_.
 :::
 
-Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
+Below, we provide the most significant line of the code for training our model using the `5-Fold Cross Validation` method:
 ```{r, eval=FALSE}
+  cv.UMGY_effect <- train_UMGY_effect.cv()
+```
+```{r}
+str(cv.UMGY_effect)
+summary(cv.UMGY_effect)
 ```
 
-\newpage
+::: {.noteblock data-latex=""}
+We use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function described above to compute the _UMGY Effect_.
+:::
 
 We can now construct predictors and calculate the _RMSE_ of the current model using the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) function described above:
 
 ```{r, eval=FALSE}
-cv.UMG_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMG_effect)
+cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 
-RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGYE |> 
-  RMSEs.AddRow("UMGYE Effect (UMGYE) Model", cv.UMG_effect.RMSE,
-               comment = "Comment")
+RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |> 
+  RMSEs.AddRow("UMGYE Model", 
+               cv.UMGY_effect.RMSE,
+               comment = "User+Movie+Genre+Year Effect (UMGYE) Model")
 ```
 ```{r}
 RMSE_kable(RMSEs.ResultTibble.UMGYE)
 ```
 
-
-::: {.noteblock data-latex=""}
-Hello Note!!!
-:::
-
 \newpage
 
+::: {.noteblock data-latex=""}
+Now, we have a bit better result than one for the previous model.
+:::
 
-### UMGYE Effect Model Regularization
+### UMGYE Model Regularization
 \
 
 We have already explained the idea of the _Linear Model Regularization_ in the [UME Model Regularization] section above. Let's extend the concept outlined there to our current model.

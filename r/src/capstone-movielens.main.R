@@ -467,7 +467,9 @@ put_log("A plot was constructed for the deviations from the Overall Mean Rating.
 
 ### Add a row to the RMSE Result Tibble ---------------------------------------- 
 RMSEs.ResultTibble.OMR <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Overall Mean Rating Model", mu.RMSE)
+  RMSEs.AddRow("OMR Model", 
+               mu.RMSE,
+               comment = "Overall Mean Rating (OMR) Model")
 
 RMSE_kable(RMSEs.ResultTibble.OMR)
 put_log("A row has been added to the RMSE Result Tibble for the `Overall Mean Rating Model`.")
@@ -637,7 +639,9 @@ edx.user_effect.RMSE
 
 ### Add a row to the RMSE Result Tibble for the User Effect Model -----------
 RMSEs.ResultTibble.UE <- RMSEs.ResultTibble.OMR |> 
-  RMSEs.AddRow("User Effect Model", edx.user_effect.RMSE)
+  RMSEs.AddRow("UE Model", 
+               edx.user_effect.RMSE,
+               comment = "User Effect (UE) Model")
 
 RMSE_kable(RMSEs.ResultTibble.UE)
 put_log("A row has been added to the RMSE Result Tibble for the `User Effect Model`.")
@@ -779,7 +783,9 @@ cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 #> [1] 0.8732081
 #### Add a row to the RMSE Result Tibble for UME Model -------------------------
 RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |> 
-  RMSEs.AddRow("User+Movie Effect Model", cv.UM_effect.RMSE)
+  RMSEs.AddRow("UME Model", 
+               cv.UM_effect.RMSE,
+               comment = "User+Movie Effect (UME) Model")
 
 RMSE_kable(RMSEs.ResultTibble.UME)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie Effect Model`.")
@@ -981,7 +987,7 @@ put_log1("The best RMSE after being regularized: %1",
          UME.rglr.retrain.RMSE)
 #### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
 RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |> 
-  RMSEs.AddRow("Regularized User+Movie Effect Model", 
+  RMSEs.AddRow("Regularized UME Model", 
                UME.rglr.retrain.RMSE,
                comment = "Computed for `lambda` = %1" |>
                  msg.glue(UME.rglr.best_lambda))
@@ -1198,7 +1204,10 @@ cv.UMG_effect.RMSE
 
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre Effect Model ---- 
 RMSEs.ResultTibble.UMGE <- RMSEs.ResultTibble.rglr.UME |> 
-  RMSEs.AddRow("User+Movie+Genre Effect (UMGE) Model", cv.UMG_effect.RMSE)
+  RMSEs.AddRow("UMGE Model", 
+               cv.UMG_effect.RMSE,
+               comment = "User+Movie+Genre Effect (UMGE) Model")
+
 RMSE_kable(RMSEs.ResultTibble.UMGE)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre Effect Model`.")
 
@@ -1372,7 +1381,7 @@ if (file.exists(file_path_tmp)) {
 
 #### Add a row to the RMSE Result Tibble for the Regularized User+Movie+Genre Effect Model ----
 RMSEs.ResultTibble.rglr.UMGE <- RMSEs.ResultTibble.UMGE |> 
-  RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
+  RMSEs.AddRow("Regularized UMGE Model", 
                rglr.UMG_effect.RMSE,
                comment = "Computed for `lambda` = %1" |>
                  msg.glue(UMGE.rglr.best_lambda))
@@ -1383,8 +1392,8 @@ put_log("A row has been added to the RMSE Result Tibble for the Regularized UMGE
 #### Close Log ----------------------------------------------------------------
 log_close()
 ## User+Movie+Genre+Year Effect (UMGYE) Model ----------------------------------
-### Open log file for the feature: `Building  User+Movie+Genre+Year Effect Model`----
-open_logfile(".UMGY-effect")
+### Open log file for UMGYE Model Building -------------------------------------
+open_logfile(".UMGYE.model-building")
 ### Plot: Average Rating per Year ------------------------------------------------
 start <- put_start_date()
 put("Plotting Average Rating per Year distribution...")
@@ -1420,7 +1429,7 @@ source(cv.UMGY_effect.functions.file_path,
        spaced = TRUE,
        verbose = TRUE,
        keep.source = TRUE)
-### Training User+Movie+Genre+Year Effect Model ----------------------------------------
+### UMGYE Model Building -------------------------------------------------------
 file_name_tmp <- "8.cv.UMGY-effect.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1451,14 +1460,15 @@ if (file.exists(file_path_tmp)) {
   put_log1("User+Movie+Genre+Year Effect data has been saved to file: %1", 
            file_path_tmp)
 } 
-### Compute User+Movie+Genre+Year Effect Model RMSE ---------------------------
+#### Compute User+Movie+Genre+Year Effect Model RMSE ---------------------------
 cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 cv.UMGY_effect.RMSE
 #> [1] 0.8590795
-### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Year Effect Model ---- 
+#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Year Effect Model ---- 
 RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |> 
-  RMSEs.AddRow("User+Movie+Genre+Year Effect Model", 
-               cv.UMGY_effect.RMSE)
+  RMSEs.AddRow("UMGYE Model", 
+               cv.UMGY_effect.RMSE,
+               comment = "User+Movie+Genre+Year Effect (UMGYE) Model")
 
 RMSE_kable(RMSEs.ResultTibble.UMGYE)
 put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genre+Year Effect Model`.")
@@ -1466,10 +1476,10 @@ put_log("A row has been added to the RMSE Result Tibble for the `User+Movie+Genr
 ### Close Log -----------------------------------------------------------------
 log_close()
 
-### Regularizing User+Movie+Genre+Year Effect ---------------------------------
-#### Open log file for `Preliminary setting-up of lambda range` feature -------
+### UMGYE Model Regularization -------------------------------------------------
+#### Open log for Pre-configuration step ----------------------------------
 open_logfile(".rglr.UMGY-effect.pre-set-lambdas")
-#### UMGY Effect Regularization Directory Paths --------------------------------
+#### UMGYE Model Regularization Directory Paths --------------------------------
 UMGYE.regularization.path <- file.path(data.regularization.path, 
                                             "3.UMGY-effect")
 dir.create(UMGYE.regularization.path)
@@ -1535,7 +1545,7 @@ cv.UMGYE.preset.result$tuned.result |>
 
 #### Close Log -----------------------------------------------------------------
 log_close()
-#### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year Effect Regularization` feature ----
+#### Open log for UMGYE Model Regularization:Fine-tunig ------------------------
 open_logfile(".UMGYE.rglr.fine-tuning")
 #### UMGYE Model Regularization: Fine-tuning ----------------------- 
 endpoints <- 
@@ -1572,11 +1582,11 @@ UMGYE.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 
-### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-#### Open log file for re-training Regularized Model for the best `lambda` value----
+### Open log for Re-training Regularized Model for the best `lambda` value------
 open_logfile(".UMGYE.rg.re-train.best-lambda")
-### Re-train Regularized User+Movie+Genre+Year Effect Model for the best `lambda` value ----
+### Re-train Regularized UMGYE Model for the best `lambda` value ---------------
 file_name_tmp <- "2.UMGYE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGYE.regularization.path, file_name_tmp)
 
@@ -1802,12 +1812,13 @@ print(cv.UMGYDE.default_params.RMSE)
 
 
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
+RMSEs.ResultTibble.UMGYDE <- RMSEs.ResultTibble.rglr.UMGYE |> 
+  RMSEs.AddRow("UMGYDE (Default) Model", 
                cv.UMGYDE.default_params.RMSE,
-               comment = "Computed using `loess` function with default `degree` & `span` parameters.")
+               comment = "User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+computed using `loess` function with default `degree` & `span` parameters.")
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UMGYDE)
 put_log("A row has been added to the RMSE Result Tibble 
 for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 ### Close Log -----------------------------------------------------------------
@@ -1921,13 +1932,13 @@ lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
 rm(plt.title)
 
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
+RMSEs.ResultTibble.UMGYDE0 <- RMSEs.ResultTibble.UMGYDE |> 
+  RMSEs.AddRow("Tuned UMGYDE.d0 Model", 
                lss.UMGYDE.fine_tune.degree0.result.best_RMSE,
-               comment = "Computed using function call: `loess(degree = 0, span = %1)`" |>
+               comment = "UMGYDE Model computed using function call: `loess(degree = 0, span = %1)`" |>
                  msg.glue(lss.UMGYDE.fine_tune.degree0.result.best_span))
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UMGYDE0)
 ##### Close Log ---------------------------------------------------------------
 log_close()
 ##### 2. `degree = 1` --------------------------------------------------------------
@@ -2032,13 +2043,14 @@ lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
                              ylabel = "RMSE")
 
 #### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
+RMSEs.ResultTibble.UMGYDE1 <- RMSEs.ResultTibble.UMGYDE0 |> 
+  RMSEs.AddRow("Tuned UMGYDE.d1 Model", 
                lss.UMGYDE.fine_tune.degree1.result.best_RMSE,
-               comment = "Computed using function call: `loess(degree = 1, span = %1)`" |>
+               comment = "UMGYDE Model computed using function call: `loess(degree = 1, span = %1)`" |>
                  msg.glue(lss.UMGYDE.fine_tune.degree1.result.best_span))
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UMGYDE1)
+
 ##### Close Log ---------------------------------------------------------------
 log_close()
 ##### 3. `degree = 2` ---------------------------------------------------------
@@ -2144,14 +2156,15 @@ lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
                              xlabel1 = "spans", 
                              ylabel1 = "RMSE")
 
-#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
+#### Add a row to the RMSE Result Tibble for the UMGYDE Model ------------------ 
+RMSEs.ResultTibble.UMGYDE2 <- RMSEs.ResultTibble.UMGYDE1 |> 
+  RMSEs.AddRow("Tuned UMGYDE.d2 Model", 
                lss.UMGYDE.fine_tune.degree2.result.best_RMSE,
-               comment = "Computed using function call: `loess(degree = 2, span = %1)`" |>
+               comment = "UMGYDE Model computed using function call: `loess(degree = 2, span = %1)`" |>
                  msg.glue(lss.UMGYDE.fine_tune.degree2.result.best_span))
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UMGYDE2)
+
 #### Close Log -----------------------------------------------------------------
 log_close()
 
@@ -2280,13 +2293,16 @@ put_log1("Is this a best RMSE? %1",
 print(lss.UMGYD_effect.RMSE)
 #> [1] 0.8568612
 
-#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Tuned User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
+#### Add a row to the RMSE Result Tibble for the UMGYDE Model ------------------ 
+RMSEs.ResultTibble.UMGYDE.tuned <- RMSEs.ResultTibble.UMGYDE2 |> 
+  RMSEs.AddRow("Tuned UMGYDE Best Model", 
                lss.UMGYD_effect.RMSE,
-               comment = "Computed using `loess` function call with the best degree & span values.")
+               comment = "UMGYDE Model computed using `loess` function call with the best degree & span values.")
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UMGYDE.tuned)
+
+
+
 put_log("A row has been added to the RMSE Result Tibble 
 for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`
 using `loess` function call with the best degree & span values.")
@@ -2491,11 +2507,13 @@ put(rglr.UMGYDE.test.left_join.Nas)
 
 stopifnot(colSums(rglr.UMGYDE.test.left_join.Nas)["days.NAs"] == 0)
 ### Add a row to the RMSE Result Tibble for the Regularized UMGYD Effects Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model", 
-               rglr.UMGYD_effect.RMSE)
+RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.tuned |> 
+  RMSEs.AddRow("Regularized UMGYDE Model", 
+               rglr.UMGYD_effect.RMSE,
+               comment = "The best tuned and regularized UMGYDE Model.")
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(RMSEs.ResultTibble.UMGYDE.rglr.tuned)
+
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 ### Close Log -----------------------------------------------------------------
@@ -2535,11 +2553,13 @@ final.UMGYDE.predicted.RMSE
 #> [1] 0.8804351
 
 ### Add a row to the RMSE Result Tibble for the Final Holdout Test of the UMGYD Effects Model ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Final Holdout Test of the UMGYD Effect Model", 
-               final.UMGYDE.predicted.RMSE)
+final.RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
+  RMSEs.AddRow("Best UMGYDE Model (Final Test)", 
+               final.UMGYDE.predicted.RMSE,
+               comment = "Final Holdout Test of the best tuned and regularized UMGYDE Model.")
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)
+
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 ### Close Log -----------------------------------------------------------------
@@ -2648,11 +2668,12 @@ final_holdout_test.RMSE
 #> [1] 0.7875645
 
 ### Add a row to the RMSE Result Tibble for the Final Holdout Test ---- 
-RMSEs.ResultTibble <- RMSEs.ResultTibble |> 
-  RMSEs.AddRow("Matrix Factorization, Final Holdout Test", 
-               final_holdout_test.RMSE)
+final.MF.RMSEs.ResultTibble <- final.RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
+  RMSEs.AddRow("MF (Final Test)", 
+               final_holdout_test.RMSE,
+               comment = "Matrix Factorization of the Best Model Residuals, Final Holdout Test")
 
-RMSE_kable(RMSEs.ResultTibble)
+RMSE_kable(final.MF.RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 ### Close Log -----------------------------------------------------------------
