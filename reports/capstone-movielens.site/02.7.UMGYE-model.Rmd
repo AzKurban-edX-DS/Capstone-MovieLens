@@ -413,11 +413,11 @@ RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |>
 RMSE_kable(RMSEs.ResultTibble.UMGYE)
 ```
 
-\newpage
-
 ::: {.noteblock data-latex=""}
 Now, we have a bit better result than one for the previous model.
 :::
+
+\newpage
 
 ### UMGYE Model Regularization
 \
