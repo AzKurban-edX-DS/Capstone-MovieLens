@@ -129,7 +129,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-24}
+\date{2025-05-25}
 
 \begin{document}
 \maketitle
@@ -1270,7 +1270,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.864900 & \\
-Overall Mean Rating Model & 1.060346 & \\
+OMR Model & 1.060346 & Overall Mean Rating (OMR) Model\\
 \bottomrule
 \end{tabular}
 
@@ -1521,8 +1521,6 @@ The full source code of the \emph{User Effect} computation is available in the \
 
 \end{noteblock}
 
-Finally, we are ready to compute the \texttt{RMSE} (additionally using the \hyperref[func.clamp]{clamp} helper function we described above to keep predictions in the proper range):
-
 Now, we are ready to compute the \emph{Mean Squared Errors} from the \emph{5-Fold Cross Validation} (additionally using the \hyperref[func.clamp]{clamp} helper function we described above):
 
 \begin{Shaded}
@@ -1577,8 +1575,8 @@ Finally, we calculate the \texttt{RMSE} as the \emph{square root} of the average
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-Overall Mean Rating Model & 1.0603462 & \\
-User Effect Model & 0.9697962 & \\
+OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
+UE Model & 0.9697962 & User Effect (UE) Model\\
 \bottomrule
 \end{tabular}
 
@@ -2045,9 +2043,9 @@ We can now construct predictors and see how much the \texttt{RMSE} improves\auto
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-Overall Mean Rating Model & 1.0603462 & \\
-User Effect Model & 0.9697962 & \\
-User+Movie Effect Model & 0.8732081 & \\
+OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
+UE Model & 0.9697962 & User Effect (UE) Model\\
+UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 \bottomrule
 \end{tabular}
 
@@ -2358,10 +2356,10 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-Overall Mean Rating Model & 1.0603462 & \\
-User Effect Model & 0.9697962 & \\
-User+Movie Effect Model & 0.8732081 & \\
-Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
+UE Model & 0.9697962 & User Effect (UE) Model\\
+UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \bottomrule
 \end{tabular}
 
@@ -2753,12 +2751,12 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-Overall Mean Rating Model & 1.0603462 & \\
-User Effect Model & 0.9697962 & \\
-User+Movie Effect Model & 0.8732081 & \\
-Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
+UE Model & 0.9697962 & User Effect (UE) Model\\
+UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
-User+Movie+Genre Effect (UMGE) Model & 0.8729730 & \\
+UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
 \bottomrule
 \end{tabular}
 
@@ -3081,13 +3079,13 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-Overall Mean Rating Model & 1.0603462 & \\
-User Effect Model & 0.9697962 & \\
-User+Movie Effect Model & 0.8732081 & \\
-Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
+UE Model & 0.9697962 & User Effect (UE) Model\\
+UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
-User+Movie+Genre Effect (UMGE) Model & 0.8729730 & \\
-Regularized User+Movie+Genre Effect Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
+UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
+Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
 \bottomrule
 \end{tabular}
 
@@ -3384,7 +3382,7 @@ A data structure containg information about \emph{User+Movie+Genre+Year (UMGY) E
 
 \hfill\break
 
-This function is used to train the current model using the \emph{5-Fold Cross Validation} method.
+This function is used to train the current model using the \emph{5-Fold Cross Validation}.
 The following is the source code of the function:
 
 \begin{Shaded}
@@ -3401,7 +3399,7 @@ The following is the source code of the function:
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L84}{train\_UMGY\_effect.cv} function is also available in the \hyperref[L1]{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L84}{UMGY-effect.functions.R} script on \emph{GitHub}.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L84}{train\_UMGY\_effect.cv} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L1}{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L84}{UMGY-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -3409,7 +3407,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 A data structure containg information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L92}{calc\_UMGY\_effect\_MSE} Function}{calc\_UMGY\_effect\_MSE Function}}\label{calc_umgy_effect_mse-function}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L92}{calc\_UMGY\_effect\_MSE} Function}{calc\_UMGY\_effect\_MSE Function}}\label{func.calc_UMGY_effect_MSE}
 
 \hfill\break
 
@@ -3465,7 +3463,7 @@ The source code of the function \href{https://github.com/AzKurban-edX-DS/Capston
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L102}{calc\_UMGY\_effect\_MSE.cv} Function}{calc\_UMGY\_effect\_MSE.cv Function}}\label{calc_umgy_effect_mse.cv-function}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L102}{calc\_UMGY\_effect\_MSE.cv} Function}{calc\_UMGY\_effect\_MSE.cv Function}}\label{func.calc_UMGY_effect_MSE.cv}
 
 \hfill\break
 
@@ -3515,7 +3513,7 @@ The source code of the function \href{https://github.com/AzKurban-edX-DS/Capston
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L114}{calc\_UMGY\_effect\_RMSE} Function}{calc\_UMGY\_effect\_RMSE Function}}\label{calc_umgy_effect_rmse-function}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L114}{calc\_UMGY\_effect\_RMSE} Function}{calc\_UMGY\_effect\_RMSE Function}}\label{func.calc_UMGY_effect_RMSE}
 
 \hfill\break
 
@@ -3563,7 +3561,7 @@ The source code of the function \href{https://github.com/AzKurban-edX-DS/Capston
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{calc\_UMGY\_effect\_RMSE.cv} Function}{calc\_UMGY\_effect\_RMSE.cv Function}}\label{calc_umgy_effect_rmse.cv-function}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L118}{calc\_UMGY\_effect\_RMSE.cv} Function}{calc\_UMGY\_effect\_RMSE.cv Function}}\label{func.calc_UMGY_effect_RMSE.cv}
 
 \hfill\break
 
@@ -3616,23 +3614,61 @@ The source code of the function \href{https://github.com/AzKurban-edX-DS/Capston
 \hfill\break
 
 \begin{noteblock}
-The complete source code of builing and training the current model is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L}{Model building: UMGYE Effect} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script on \emph{GitHub}.
+The complete source code of building and training the current model is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1432}{UMGYE Model Building} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1432}{capstone-movielens.main.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-Below, we provide the most significant part of the code for training our model using the \texttt{5-Fold\ Cross\ Validation} method:
+Below, we provide the most significant line of the code for training our model using the \texttt{5-Fold\ Cross\ Validation} method:
 
-\newpage
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  cv.UMGY\_effect }\OtherTok{\textless{}{-}} \FunctionTok{train\_UMGY\_effect.cv}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(cv.UMGY\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [15 x 2] (S3: tbl_df/tbl/data.frame)
+##  $ year: num [1:15] 1995 1996 1997 1998 1999 ...
+##  $ ye  : num [1:15] 0.6694 0.1152 0.0118 0.0262 0.0335 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(cv.UMGY\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       year            ye          
+##  Min.   :1995   Min.   :-0.06477  
+##  1st Qu.:1998   1st Qu.:-0.02190  
+##  Median :2002   Median : 0.01182  
+##  Mean   :2002   Mean   : 0.04811  
+##  3rd Qu.:2006   3rd Qu.: 0.02937  
+##  Max.   :2009   Max.   : 0.66940
+\end{verbatim}
+
+\begin{noteblock}
+We use the \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv} function described above to compute the \emph{UMGY Effect}.
+
+\end{noteblock}
 
 We can now construct predictors and calculate the \emph{RMSE} of the current model using the \hyperref[func.calc_UMGY_effect_RMSE.cv]{calc\_UMGY\_effect\_RMSE.cv} function described above:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{cv.UMG\_effect.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{calc\_UMGY\_effect\_RMSE.cv}\NormalTok{(cv.UMG\_effect)}
+\NormalTok{cv.UMGY\_effect.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{calc\_UMGY\_effect\_RMSE.cv}\NormalTok{(cv.UMGY\_effect)}
 
-\NormalTok{RMSEs.ResultTibble.UMGYE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.rglr.UMGYE }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"UMGYE Effect (UMGYE) Model"}\NormalTok{, cv.UMG\_effect.RMSE,}
-               \AttributeTok{comment =} \StringTok{"Comment"}\NormalTok{)}
+\NormalTok{RMSEs.ResultTibble.UMGYE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.rglr.UMGE }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"UMGYE Model"}\NormalTok{, }
+\NormalTok{               cv.UMGY\_effect.RMSE,}
+               \AttributeTok{comment =} \StringTok{"User+Movie+Genre+Year Effect (UMGYE) Model"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3647,25 +3683,25 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-Overall Mean Rating Model & 1.0603462 & \\
-User Effect Model & 0.9697962 & \\
-User+Movie Effect Model & 0.8732081 & \\
-Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
+UE Model & 0.9697962 & User Effect (UE) Model\\
+UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
-User+Movie+Genre Effect (UMGE) Model & 0.8729730 & \\
-Regularized User+Movie+Genre Effect Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-User+Movie+Genre+Year Effect Model & 0.8723973 & \\
+UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
+Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
 \bottomrule
 \end{tabular}
 
+\newpage
+
 \begin{noteblock}
-Hello Note!!!
+Now, we have a bit better result than one for the previous model.
 
 \end{noteblock}
 
-\newpage
-
-\subsubsection{UMGYE Effect Model Regularization}\label{umgye-effect-model-regularization}
+\subsubsection{UMGYE Model Regularization}\label{umgye-model-regularization}
 
 \hfill\break
 
@@ -3858,14 +3894,14 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-Overall Mean Rating Model & 1.0603462 & \\
-User Effect Model & 0.9697962 & \\
-User+Movie Effect Model & 0.8732081 & \\
-Regularized User+Movie Effect Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
+UE Model & 0.9697962 & User Effect (UE) Model\\
+UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
-User+Movie+Genre Effect (UMGE) Model & 0.8729730 & \\
-Regularized User+Movie+Genre Effect Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-User+Movie+Genre+Year Effect Model & 0.8723973 & \\
+UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
+Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
 Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
 \bottomrule
 \end{tabular}

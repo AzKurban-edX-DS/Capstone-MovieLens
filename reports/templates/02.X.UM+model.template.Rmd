@@ -98,7 +98,7 @@ The source code of the [train_UM?_effect.cv](https://github.com/AzKurban-edX-DS/
 
 A data structure containg information about _User+Movie+Genre+Year (UM?) Effect_. 
 
-#### [calc_UM?_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM?-effect.functions.R#L93) Function
+#### [calc_UM?_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM?-effect.functions.R#L93) Function {#func.calc_UM?_effect_MSE}
 \
 
 The function calculates the _Mean Squared Error (MSE)_ of the _UM?E Model_ for the given _Test Set_ passed in the `test_set` parameter.
@@ -126,7 +126,7 @@ The source code of the function [calc_UM?_effect_MSE](https://github.com/AzKurba
 
 \newpage
 
-#### [calc_UM?_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM?-effect.functions.R#L119) Function
+#### [calc_UM?_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM?-effect.functions.R#L119) Function {#func.calc_UM?_effect_MSE.cv}
 \
 
 The function calculates the _5-Fold Cross Validation MSE_ result for the _UM? Effect_ data passed in the `UM?_effect` parameter. 
@@ -165,7 +165,7 @@ The source code of the function [calc_UM?_effect_MSE.cv](https://github.com/AzKu
 :::
 
 
-#### [calc_UM?_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM?-effect.functions.R#L115) Function
+#### [calc_UM?_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM?-effect.functions.R#L115) Function {#func.calc_UM?_effect_RMSE}
 \
 
 The function calculates the _Mean Squared Error (MSE)_ of the _UM?E Model_ for the given _Test Set_ passed in the `test_set` parameter.
@@ -193,7 +193,7 @@ The source code of the function [calc_UM?_effect_RMSE](https://github.com/AzKurb
 
 \newpage
 
-#### [calc_UM?_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM?-effect.functions.R#L119) Function
+#### [calc_UM?_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM?-effect.functions.R#L119) Function {#func.calc_UM?_effect_RMSE.cv}
 \
 
 The function calculates the _5-Fold Cross Validation MSE_ result for the _UM? Effect_ data passed in the `UM?_effect` parameter. 
