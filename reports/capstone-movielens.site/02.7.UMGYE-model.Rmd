@@ -498,7 +498,7 @@ cv.UMGYE.preset.result$best_result
 ```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section can be found in the [UMGYE Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1493) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1493) script.
+The complete version of the source code provided in this section can be found in the [UMGYE Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1493) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1493) script on _GitHub_.
 :::
 
 Now, let's visualize the results of the $\lambda$ range preconfiguration:
