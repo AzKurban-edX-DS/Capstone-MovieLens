@@ -1586,7 +1586,7 @@ UMGYE.rglr.fine_tune.results$tuned.result |>
 log_close()
 ### Open log for Re-training Regularized Model for the best `lambda` value------
 open_logfile(".UMGYE.rg.re-train.best-lambda")
-### Re-train Regularized UMGYE Model for the best `lambda` value ---------------
+### Re-train Regularized UMGYE Model for the best `lambda` ---------------------
 file_name_tmp <- "2.UMGYE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGYE.regularization.path, file_name_tmp)
 
