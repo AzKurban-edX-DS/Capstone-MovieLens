@@ -531,7 +531,7 @@ First, the function generates a sequence of the `input parameter values` based o
 
 The `tune.model_param` function returns a range of input parameter values associated with the set of corresponding _Root Mean Squared Errors_ that is also guaranteed to include their minimum value, as described in the [Value](#func.tune.model_param.value) subsection of the [tune.model_param](#func.tune.model_param) function description.
 
-Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function `get_fine_tune.param.endpoints.idx` (see the description of the function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) below) and, using one more helper function `get_best_param.result`  (see the description of the function [get_best_param.result](#func.get_best_param.result) below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
+Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) (see the description below) and, using one more helper function [get_best_param.result](#func.get_best_param.result)  (see the description below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
 
 The found values of the boundary indices are then used as the endpoints of a new interval to regenerate the sequence based on it in the next iteration, just as it was done based on the values of the `loop_starter` parameter at the very beginning of the execution. The value of `step divisor`, used to calculate the step of the generated sequence, remains unchanged during the entire execution (see the description of the [loop_strarter](#func.model.tune.param_range.params.loop_starter) parameter above for details).
 
@@ -703,6 +703,78 @@ Currently computed minial value is: ", min_RMSE)
 The complete version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script.
 :::
 :::
+
+\newpage
+
+### [get_fine_tune.param.endpoints](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L80) Function {#func.get_fine_tune.param.endpoints}
+\
+
+The algorithm finds the values of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
+
+#### Signature
+\
+```{r eval=FALSE}
+get_fine_tune.param.endpoints <- function(preset.result) {
+  # ...
+  
+  c(start = preset.result$parameter.value[i], 
+    end = preset.result$parameter.value[j],
+    best = preset.result$parameter.value[best.idx])
+}
+```
+
+#### Parameters
+\
+
+::: {#func.get_fine_tune.param.endpoints.params.preset.result .sidebar }
+##### ***preset.result***
+\
+A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
+```{r eval=FALSE}
+    tuned_result <- tune.model_param(test_param_vals, 
+                                  fn_tune.test.param_value,
+                                  break.if_min,
+                                  steps.beyond_min)
+    
+    tuned.result <- tuned_result$tuned.result
+    # tuned.result = data.frame(RMSE, parameter.value)
+    # ...
+    bound.idx <- get_fine_tune.param.endpoints(tuned.result)
+    # bounnd.idx =  c(start.index, end.index, min_RMSE.index)
+```
+::: 
+
+#### Details
+\
+
+Under the hood, the function internally calls another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described below to figure out the boundary indices of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in the [preset.result](#func.get_fine_tune.param.endpoints.params.preset.result) parameter.
+
+#### Value
+\
+A vector containing the element value corresponding to the minimum `RMSE` in a given sequence, along with the values of its nearest neighboring elements:
+```{r eval=FALSE}
+  c(start = preset.result$parameter.value[i], 
+    end = preset.result$parameter.value[j],
+    best = preset.result$parameter.value[best.idx])
+```
+
+#### Source Code
+\
+The source code of the [get_fine_tune.param.endpoints](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L80) function is provided below:
+```{r eval=FALSE}
+get_fine_tune.param.endpoints <- function(preset.result) {
+
+  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+  
+  i <- preset.result.idx["start"]
+  j <- preset.result.idx["end"]
+  best.idx <- preset.result.idx["best"]
+  
+  c(start = preset.result$parameter.value[i], 
+    end = preset.result$parameter.value[j],
+    best = preset.result$parameter.value[best.idx])
+}
+```
 
 \newpage
 

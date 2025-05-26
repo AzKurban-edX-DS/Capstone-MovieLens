@@ -11,7 +11,7 @@ output:
   bookdown::pdf_document2: 
     df_print: paged
     toc: true
-    toc_depth: 3
+    toc_depth: 4
     fig_caption: true
     keep_tex: true
     citation_package: biblatex
