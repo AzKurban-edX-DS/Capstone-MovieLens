@@ -435,7 +435,7 @@ And the formula \@ref(eq:ME-regularized) for calculating the values of the _trea
 (\#eq:YE-regularized)
 \end{equation}
 
-where $n_r$ is the number of ratings made in year $r$. 
+where $n_v$ is the number of ratings made in year $v$. 
 
 As with the previous models, we implement the _Regularization_ method for the current model in the following three steps:
 

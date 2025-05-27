@@ -10,24 +10,24 @@ The _Year Effect_ visualization and analysis code in this section are cited from
 ### Mathematical Description of the UMGYDE Model
 \
 
-If we define $d_{i,j}$ as the _number of days since the earliest record_ in the `edx` dataset for movie $j$ rated by user $i$, then the formula \@res(eq:UMGYE-model) describing the _UMGYE Model_, for the current model, takes the form:
+If we define $d_{i,j}$ as the _number of days since the earliest record_ in the `edx` dataset for movie $j$ rated by user $i$, then the formula \@ref(eq:UMGYE-model) describing the _UMGYE Model_, for the current model, takes the form:
 
 \begin{equation}
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}) + s(d_{i,j}) \varepsilon_{i,j}
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}) + s(d_{i,j}) + \varepsilon_{i,j}
 (\#eq:UMGYDE-model)
 \end{equation}
 
-with $s$ a smooth function of $d_{i,j}$
+with $s$ a _smoothed day_ function of $d_{i,j}$
 
-Therefore, the formula \@res(eq:year-effect) for calculation the prediction of a _year effect_ as a residual, for a _smoothed day effect_ 
+Therefore, the formula \@ref(eq:year-effect) for calculation the prediction of a _year effect_ as a residual, for a _smoothed day effect_ 
 $$
-\hat{f} = s(d_{i,j}) + \varepsilon_{i,j}
+\hat{s}(d_{i,j}) = s(d_{i,j}) + \varepsilon_{i,j}
 $$
 
 takes the following form:
 
 \begin{equation}
-\hat{s(d_{i,j})} = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}))
+\hat{s}(d_{i,j}) = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}))
 (\#eq:smoothed-day-effect)
 \end{equation}
 
@@ -301,14 +301,14 @@ Now, we have a bit better result than one for the previous model.
 ### UMGYDE Model Regularization
 \
 
-We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] section above. We have also seen how the formula \@res(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@res(eq:GE-penalty) for the _UMGE Model_ and then into the formula \@res(eq:GYE-penalty) for the _UMGYE Model_. For the current model, this formula takes the form:
+We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] section above. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_ and then into the formula \@ref(eq:GYE-penalty) for the _UMGYE Model_. For the current model, this formula takes the form:
 
 \begin{equation}
 \sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j}) - s(d_{i,j})\right)^2 + \lambda \sum_{i,j} s(d_{i,j})^2
 (\#eq:DE-penalty)
 \end{equation}
 
-And the formula \@res(eq:ME-regularized) for calculating the values of the _treatment effect_ that minimizes the equation will take the form:
+And the formula \@ref(eq:ME-regularized) for calculating the values of the _treatment effect_ that minimizes the equation will take the form:
 
 \begin{equation}
 \hat{s}(d_{i,j}, \lambda) = \frac{1}{\lambda + n_d} \sum_{r=1}^{n_{d}} \left(Y_{i,j} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j})\right)

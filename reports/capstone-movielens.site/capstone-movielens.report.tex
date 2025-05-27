@@ -207,13 +207,20 @@ Now, we have the datasets listed above:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title              genres         
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:9000055     Length:9000055    
-##  1st Qu.:18124   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08   Class :character   Class :character  
-##  Median :35738   Median : 1834   Median :4.000   Median :1.035e+09   Mode  :character   Mode  :character  
-##  Mean   :35870   Mean   : 4122   Mean   :3.512   Mean   :1.033e+09                                        
-##  3rd Qu.:53607   3rd Qu.: 3626   3rd Qu.:4.000   3rd Qu.:1.127e+09                                        
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
+##      userId         movieId          rating        timestamp            title          
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:9000055    
+##  1st Qu.:18124   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08   Class :character  
+##  Median :35738   Median : 1834   Median :4.000   Median :1.035e+09   Mode  :character  
+##  Mean   :35870   Mean   : 4122   Mean   :3.512   Mean   :1.033e+09                     
+##  3rd Qu.:53607   3rd Qu.: 3626   3rd Qu.:4.000   3rd Qu.:1.127e+09                     
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
+##     genres         
+##  Length:9000055    
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
 \end{verbatim}
 
 \begin{Shaded}
@@ -223,13 +230,20 @@ Now, we have the datasets listed above:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title              genres         
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:999999      Length:999999     
-##  1st Qu.:18096   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.467e+08   Class :character   Class :character  
-##  Median :35768   Median : 1827   Median :4.000   Median :1.035e+09   Mode  :character   Mode  :character  
-##  Mean   :35870   Mean   : 4108   Mean   :3.512   Mean   :1.033e+09                                        
-##  3rd Qu.:53621   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09                                        
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
+##      userId         movieId          rating        timestamp            title          
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:999999     
+##  1st Qu.:18096   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.467e+08   Class :character  
+##  Median :35768   Median : 1827   Median :4.000   Median :1.035e+09   Mode  :character  
+##  Mean   :35870   Mean   : 4108   Mean   :3.512   Mean   :1.033e+09                     
+##  3rd Qu.:53621   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09                     
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
+##     genres         
+##  Length:999999     
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
 \end{verbatim}
 
 \newpage
@@ -644,13 +658,20 @@ To account for the Movie Genre Effect more accurately, we need a dataset with sp
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title              genres         
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:23371423    Length:23371423   
-##  1st Qu.:18140   1st Qu.:  616   1st Qu.:3.000   1st Qu.:9.472e+08   Class :character   Class :character  
-##  Median :35784   Median : 1748   Median :4.000   Median :1.042e+09   Mode  :character   Mode  :character  
-##  Mean   :35886   Mean   : 4277   Mean   :3.527   Mean   :1.035e+09                                        
-##  3rd Qu.:53638   3rd Qu.: 3635   3rd Qu.:4.000   3rd Qu.:1.131e+09                                        
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
+##      userId         movieId          rating        timestamp            title          
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:23371423   
+##  1st Qu.:18140   1st Qu.:  616   1st Qu.:3.000   1st Qu.:9.472e+08   Class :character  
+##  Median :35784   Median : 1748   Median :4.000   Median :1.042e+09   Mode  :character  
+##  Mean   :35886   Mean   : 4277   Mean   :3.527   Mean   :1.035e+09                     
+##  3rd Qu.:53638   3rd Qu.: 3635   3rd Qu.:4.000   3rd Qu.:1.131e+09                     
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
+##     genres         
+##  Length:23371423   
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
 \end{verbatim}
 
 Note that we use the \texttt{splitGenreRows} function to split rows of the original dataset:
@@ -751,8 +772,8 @@ To be able to map the date, year, and number of days since the earliest record i
 \begin{verbatim}
 ## 'data.frame':    6519590 obs. of  5 variables:
 ##  $ timestamp: int  838985046 838983525 838983421 838983392 838984474 838983653 838984885 838983707 838984596 838983834 ...
-##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" "1996-08-02 10:56:32" ...
-##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" "1996-08-02" ...
+##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" ...
+##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" ...
 ##  $ year     : num  1996 1996 1996 1996 1996 ...
 ##  $ days     : int  571 571 571 571 571 571 571 571 571 571 ...
 \end{verbatim}
@@ -4030,24 +4051,24 @@ The \emph{Year Effect} visualization and analysis code in this section are cited
 
 \hfill\break
 
-If we define \(d_{i,j}\) as the \emph{number of days since the earliest record} in the \texttt{edx} dataset for movie \(j\) rated by user \(i\), then the formula @res(eq:UMGYE-model) describing the \emph{UMGYE Model}, for the current model, takes the form:
+If we define \(d_{i,j}\) as the \emph{number of days since the earliest record} in the \texttt{edx} dataset for movie \(j\) rated by user \(i\), then the formula \eqref{eq:UMGYE-model} describing the \emph{UMGYE Model}, for the current model, takes the form:
 
 \begin{equation}
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}) + s(d_{i,j}) \varepsilon_{i,j}
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}) + s(d_{i,j}) + \varepsilon_{i,j}
 \label{eq:UMGYDE-model}
 \end{equation}
 
 with \(s\) a smooth function of \(d_{i,j}\)
 
-Therefore, the formula @res(eq:year-effect) for calculation the prediction of a \emph{year effect} as a residual, for a \emph{smoothed day effect}
+Therefore, the formula \eqref{eq:year-effect} for calculation the prediction of a \emph{year effect} as a residual, for a \emph{smoothed day effect}
 \[
-\hat{f} = s(d_{i,j}) + \varepsilon_{i,j}
+\hat{s}(d_{i,j}) = s(d_{i,j}) + \varepsilon_{i,j}
 \]
 
 takes the following form:
 
 \begin{equation}
-\hat{s(d_{i,j})} = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}))
+\hat{s}(d_{i,j}) = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}))
 \label{eq:smoothed-day-effect}
 \end{equation}
 
@@ -4425,33 +4446,19 @@ Now, we have a bit better result than one for the previous model.
 
 \hfill\break
 
-We have already explained the idea of \emph{Linear Model Regularization} in the \hyperref[ume-model-regularization]{UME Model Regularization} section above. We have also seen how the formula @res(eq:ME-penalty) for adding a penalty to the \emph{UME Model} is transformed into the formula @res(eq:GE-penalty) for the \emph{UMGE Model} and then into the formula @res(eq:GYE-penalty) for the \emph{UMGYE Model}. For the current model, this formula takes the form:
+We have already explained the idea of \emph{Linear Model Regularization} in the \hyperref[ume-model-regularization]{UME Model Regularization} section above. We have also seen how the formula \eqref{eq:ME-penalty} for adding a penalty to the \emph{UME Model} is transformed into the formula \eqref{eq:GE-penalty} for the \emph{UMGE Model} and then into the formula \eqref{eq:GYE-penalty} for the \emph{UMGYE Model}. For the current model, this formula takes the form:
 
 \begin{equation}
 \sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j}) - s(d_{i,j})\right)^2 + \lambda \sum_{i,j} s(d_{i,j})^2
 \label{eq:DE-penalty}
 \end{equation}
 
-And the formula @res(eq:ME-regularized) for calculating the values of the \emph{treatment effect} that minimizes the equation will take the form:
-
-\begin{equation}
-\hat{\gamma}(v_{i,j}, \lambda) = \frac{1}{\lambda + n_v} \sum_{r=1}^{n_v} \left(Y_{i,j} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j})\right)
-\label{eq:DE0-regularized}
-\end{equation}
+And the formula \eqref{eq:ME-regularized} for calculating the values of the \emph{treatment effect} that minimizes the equation will take the form:
 
 \begin{equation}
 \hat{s}(d_{i,j}, \lambda) = \frac{1}{\lambda + n_d} \sum_{r=1}^{n_{d}} \left(Y_{i,j} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j})\right)
 \label{eq:DE-regularized}
 \end{equation}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{\textbackslash{}begin\{equation\}}
-\NormalTok{\textbackslash{}hat\{s\}(d\_\{i,j, \textbackslash{}lambda}\ErrorTok{)} \OtherTok{=}\NormalTok{ \textbackslash{}frac\{}\DecValTok{1}\NormalTok{\}\{\textbackslash{}lambda }\SpecialCharTok{+}\NormalTok{ n\_d\} \textbackslash{}sum\_\{r}\OtherTok{=}\DecValTok{1}\NormalTok{\}}\SpecialCharTok{\^{}}\NormalTok{\{n\_\{d\}\} \textbackslash{}}\FunctionTok{left}\NormalTok{(Y\_\{i,j\} }\SpecialCharTok{{-}}\NormalTok{ \textbackslash{}mu }\SpecialCharTok{{-}}\NormalTok{ \textbackslash{}alpha\_i }\SpecialCharTok{{-}}\NormalTok{ \textbackslash{}beta\_j }\SpecialCharTok{{-}}\NormalTok{ g\_\{i,j\} }\SpecialCharTok{{-}}\NormalTok{ \textbackslash{}}\FunctionTok{gamma}\NormalTok{(v\_\{i,j\})\textbackslash{}right)}
-\NormalTok{(\textbackslash{}}\CommentTok{\#eq:DE{-}regularized)}
-\CommentTok{\# \textbackslash{}end\{equation\}}
-\end{Highlighting}
-\end{Shaded}
 
 where \(n_d\) is the number of ratings made on the day \(d\).
 
@@ -4545,7 +4552,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-280-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-279-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -4620,7 +4627,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-283-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-282-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
