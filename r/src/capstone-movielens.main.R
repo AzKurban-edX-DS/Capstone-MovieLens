@@ -1645,10 +1645,10 @@ for the `Regularized User+Movie+Genre+Year Effect Model`.")
 ### Close Log -----------------------------------------------------------------
 log_close()
 
-### Accounting for User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect (UMGYDE) ----
+## User+Movie+Genre+Year+Day Effect (UMGYDE) Model -----------------------------
 # Y[i,j] = μ + α[i] + β[j] + g[i,j] yr[i,j]  + f(d[i,j]) + ε[i,j]
 
-# with `f` a smooth function of `d[(i,j]`
+# with `f` a smooth function of `d[i,j]`
 ### Support Functions --------------------------------------------------------
 cv.UMGYDE.default_params.functions_file <- "UMGYD-effect.functions.R"
 cv.UMGYDE.default_params.functions.file_path <- file.path(support_functions.path, 
@@ -1661,9 +1661,9 @@ source(cv.UMGYDE.default_params.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-### Open log file for training the UMGYDE model using `loess` function with default parameters ----
+### Open log for training with default parameters ------------------------------
 open_logfile(".UMGYDE.loess.default-params")
-##### Model Tuning Data File Paths --------------------------------------------
+### Model Tuning Data File Paths -----------------------------------------------
 UMGYDE.tuning_folder <- "UMGYD-effect"
 
 UMGYDE.tuning.data.path <- 
@@ -1742,7 +1742,7 @@ the `User+Movie+Genre+Year+(Smoothed)Day Effect Model` data
 using `loess` function with parameter `degree = 2`: %1", 
 UMGYDE.fine_tune.degree2.data.path)
 
-### Train model using `loess` function with default `span` & `degree` params----
+### Training with default parameters -------------------------------------------
 file_name_tmp <- "9.cv.UMGYDE.loess.default-params.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1785,10 +1785,7 @@ CVFolds_N)
 
 put(str(cv.UMGYDE.default_params))
 
-### User+Movie+Genre+Year+Day-Smoothed Effect Model Visualization -------------
-# mean_day_smoothed_effect <- compute_mean_dse(day_smoothed_effect_ls)
-# str(mean_day_smoothed_effect)
-
+#### UMGYD Effect Visualization ------------------------------------------------
 cv.UMGYDE.default_params |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
@@ -1797,7 +1794,7 @@ cv.UMGYDE.default_params |>
 put_log("Date Smoothed Effect has been plotted 
 for the `loess` function fitted with default parameters.")
 
-### Calculate RMSE for the `loess` function fitted with default parameters -------
+#### UMGYDE Model (default params): RMSE Calculation ---------------------------
 start <- put_start_date()
 cv.UMGYDE.default_params.RMSE <- cv.UMGYDE.default_params |>
   calc_UMGY_SmoothedDay_effect.RMSE.cv()
@@ -1809,9 +1806,7 @@ with default (degree & span) parameters for the %1-Fold Cross Validation samples
 
 print(cv.UMGYDE.default_params.RMSE)
 #> [1] 0.8588864
-
-
-#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+#### UMGYDE Model RMSE Result Tibble: Add a row (default params) --------------- 
 RMSEs.ResultTibble.UMGYDE <- RMSEs.ResultTibble.rglr.UMGYE |> 
   RMSEs.AddRow("UMGYDE (Default) Model", 
                cv.UMGYDE.default_params.RMSE,
@@ -1823,12 +1818,12 @@ put_log("A row has been added to the RMSE Result Tibble
 for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 ### Close Log -----------------------------------------------------------------
 log_close()
-### Tune the UMGYD model using `loess` with `span` & `degree` params ----------
-#### 1. `degree = 0` ---------------------------------------------------------
-##### Open log file for tuning the model using `loess` function with parameter `degree = 0`----
+### UMGYDE Model Tuning by `span` & `degree` parameters ------------------------
+#### 1. `degree = 0` -----------------------------------------------------------
+##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 0`) -------
 open_logfile(".UMGYDE.loess.degree0.pre-tuning")
 put("Case 1. `degree = 0`")
-##### Preliminary setting-up of spans range ----------------------------------
+##### UMGYDE Model Tuning: Pre-configuration (`degree = 0`) --------------------
 file_name_tmp <- "1.lss.UMGYDE.pre-set.degree0.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree0.data.path, file_name_tmp)
 
@@ -1878,7 +1873,7 @@ put(lss.UMGYDE.preset.degree0.result$best_result)
 # param.best_value        best_RMSE 
 #          0.00150          0.85762 
 
-##### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 0) --------
+###### UMGYDE (Rough) Tuned Model Plot (`degree = 0`) --------------------------
 plt.title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 0`"
 
 lss.UMGYDE.preset.degree0.result$tuned.result |>
@@ -1892,9 +1887,9 @@ rm(plt.title)
 ##### Close Log -----------------------------------------------------------------
 log_close()
 
-##### Open log file for fine-tuning the model using `loess` function with parameter `degree = 0`----
+##### Open log for UMGYDE Model Fine-tuning (`degree = 0`) -----------------------
 open_logfile(".lss.UMGYDE.fine-tune.degree0")
-##### Fine-tune the span parameter value for `degree = 0` ------------------ 
+##### UMGYDE Model Fine-tuning (`degree = 0`) ---------------------------------- 
 lss.fine_tune.loop_starter <- 
   c(lss.UMGYDE.preset.degree0.result$tuned.result$parameter.value[1], 
     lss.UMGYDE.preset.degree0.result$tuned.result$parameter.value[3], 
@@ -1920,7 +1915,7 @@ lss.UMGYDE.fine_tune.degree0.result.best_span <-
 lss.UMGYDE.fine_tune.degree0.result.best_RMSE <- 
   lss.UMGYDE.fine_tune.degree0.result$best_result["best_RMSE"]
 
-##### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 0) ----  
+###### UMGYDE Fine-tuned Model Plot: `RMSEs` vs `spans` (`degree = 0`) ---------  
 plt.title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree` = 0"
 
 lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
@@ -1931,7 +1926,7 @@ lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
               ylabel = "RMSE")
 rm(plt.title)
 
-#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+##### UMGYDE Tuned Model RMSE Result Tibble: Add a row (`degree = 0`) ----------- 
 RMSEs.ResultTibble.UMGYDE0 <- RMSEs.ResultTibble.UMGYDE |> 
   RMSEs.AddRow("Tuned UMGYDE.d0 Model", 
                lss.UMGYDE.fine_tune.degree0.result.best_RMSE,
@@ -1941,11 +1936,11 @@ RMSEs.ResultTibble.UMGYDE0 <- RMSEs.ResultTibble.UMGYDE |>
 RMSE_kable(RMSEs.ResultTibble.UMGYDE0)
 ##### Close Log ---------------------------------------------------------------
 log_close()
-##### 2. `degree = 1` --------------------------------------------------------------
-##### Open log file for tuning the model using `loess` function with parameter `degree = 1`----
+#### 2. `degree = 1` -----------------------------------------------------------
+##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 1`) -------
 open_logfile(".UMGYDE.loess.degree1.pre-tuning")
 put("Case 2. `degree = 1`")
-##### Preliminary setting-up of spans range ----------------------------------
+##### UMGYDE Model Tuning: Pre-configuration (`degree = 1`) --------------------
 file_name_tmp <- "1.lss.UMGYDE.pre-set.degree1.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree1.data.path, file_name_tmp)
 
@@ -1995,7 +1990,7 @@ put(lss.UMGYDE.preset.degree1.result$best_result)
 # param.best_value        best_RMSE 
 #        0.0015000        0.8576205 
 
-##### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 1) --------  
+###### UMGYDE (Rough) Tuned Model Plot (`degree = 1`) --------------------------
 lss.UMGYDE.preset.degree1.result$tuned.result |>
   data.plot(title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 1`",
               xname = "parameter.value", 
@@ -2006,9 +2001,9 @@ lss.UMGYDE.preset.degree1.result$tuned.result |>
 ##### Close Log -----------------------------------------------------------------
 log_close()
 
-##### Open log file for fine-tuning the model using `loess` function with parameter `degree = 1`----
+##### Open log for UMGYDE Model Fine-tuning (`degree = 1`) ---------------------
 open_logfile(".lss.UMGYDE.fine-tune.degree1")
-##### Fine-tune the span parameter value for `degree = 1` --------------------- 
+##### UMGYDE Model Fine-tuning (`degree = 1`) ---------------------------------- 
 lss.fine_tune.loop_starter <- 
   c(lss.UMGYDE.preset.degree1.result$tuned.result$parameter.value[1], 
     lss.UMGYDE.preset.degree1.result$tuned.result$parameter.value[3], 
@@ -2034,7 +2029,7 @@ lss.UMGYDE.fine_tune.degree1.result.best_span <-
 lss.UMGYDE.fine_tune.degree1.result.best_RMSE <- 
   lss.UMGYDE.fine_tune.degree1.result$best_result["best_RMSE"]
 
-##### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 1) ----  
+###### UMGYDE Fine-tuned Model Plot: `RMSEs` vs `spans` (`degree` = 1) ---------  
 lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
   data.plot(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 1`", 
                              xname = "parameter.value", 
@@ -2042,7 +2037,7 @@ lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
                              xlabel = "spans", 
                              ylabel = "RMSE")
 
-#### Add a row to the RMSE Result Tibble for the User+Movie+Genre+Date Effects Model ---- 
+##### UMGYDE Tuned Model RMSE Result Tibble: Add a row (`degree = 1`) ---------- 
 RMSEs.ResultTibble.UMGYDE1 <- RMSEs.ResultTibble.UMGYDE0 |> 
   RMSEs.AddRow("Tuned UMGYDE.d1 Model", 
                lss.UMGYDE.fine_tune.degree1.result.best_RMSE,
@@ -2053,11 +2048,11 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE1)
 
 ##### Close Log ---------------------------------------------------------------
 log_close()
-##### 3. `degree = 2` ---------------------------------------------------------
-##### Open log file for tuning the model using `loess` function with parameter `degree = 2`----
+#### 3. `degree = 2` -----------------------------------------------------------
+##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 2`) -------
 open_logfile(".UMGYDE.loess.degree2.pre-tuning")
 put("Case 3. `degree = 2`")
-##### Preliminary setting-up of spans range ----------------------------------
+##### UMGYDE Model Tuning: Pre-configuration (`degree = 2`) --------------------
 file_name_tmp <- "1.lss.UMGYDE.pre-set.degree2.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.degree2.data.path, file_name_tmp)
 
@@ -2107,7 +2102,7 @@ put(lss.UMGYDE.preset.degree2.result$best_result)
 # param.best_value        best_RMSE 
 #          0.00150          0.85762 
 
-##### Plot (rough) dependency of `RMSEs` vs `spans` (for `degree` = 2) --------  
+###### UMGYDE (Rough) Tuned Model Plot (`degree = 2`) --------------------------
 lss.UMGYDE.preset.degree2.result$tuned.result |>
   data.plot(title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 2`",
               xname = "parameter.value", 
@@ -2118,9 +2113,9 @@ lss.UMGYDE.preset.degree2.result$tuned.result |>
 ##### Close Log -----------------------------------------------------------------
 log_close()
 
-##### Open log file for fine-tuning the model using `loess` function with parameter `degree = 2`----
+##### Open log for UMGYDE Model Fine-tuning (`degree = 2`) ---------------------
 open_logfile(".lss.UMGYDE.fine-tune.degree2")
-##### Fine-tune the span parameter value for `degree = 2` ------------------ 
+##### UMGYDE Model Fine-tuning (`degree = 2`) ---------------------------------- 
 lss.fine_tune.loop_starter <- 
   c(lss.UMGYDE.preset.degree2.result$tuned.result$parameter.value[1], 
     lss.UMGYDE.preset.degree2.result$tuned.result$parameter.value[3], 
@@ -2146,7 +2141,7 @@ lss.UMGYDE.fine_tune.degree2.result.best_span <-
 lss.UMGYDE.fine_tune.degree2.result.best_RMSE <- 
   lss.UMGYDE.fine_tune.degree2.result$best_result["best_RMSE"]
 
-##### Plot (fine-tuned) dependency of `RMSEs` vs `spans` (for `degree` = 2) ----  
+###### UMGYDE Fine-tuned Model Plot: `RMSEs` vs `spans` (`degree` = 2) ---------  
 lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
   data.plot.left_detailed(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 2`", 
                              title.left = "Left Part of the Chart Above (Zoomed in)",
@@ -2156,7 +2151,7 @@ lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
                              xlabel1 = "spans", 
                              ylabel1 = "RMSE")
 
-#### Add a row to the RMSE Result Tibble for the UMGYDE Model ------------------ 
+##### UMGYDE Tuned Model RMSE Result Tibble: Add a row (`degree = 2`) ----------- 
 RMSEs.ResultTibble.UMGYDE2 <- RMSEs.ResultTibble.UMGYDE1 |> 
   RMSEs.AddRow("Tuned UMGYDE.d2 Model", 
                lss.UMGYDE.fine_tune.degree2.result.best_RMSE,
@@ -2168,9 +2163,9 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE2)
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-#### Open log file for re-training of the model with the best `span` value ----
+####  Open log for UMGYDE Tuned Model: Re-training with the Best Rarams --------
 open_logfile(".lss.UMGYDE.re-train.best_degree&span")
-### Retrain with the best parameters figured out above ------------------------
+#### UMGYDE Tuned Model: Retraining with the best params -----------------------
 file_name_tmp <- "1.lss.UMGYE.re-train.best-params.RData"
 file_path_tmp <- file.path(UMGYDE.tuning.data.path, file_name_tmp)
 
@@ -2262,7 +2257,7 @@ put(tuned.UMGYDE.test.left_join.Nas)
 # [5,]       NA         0
 
 stopifnot(colSums(tuned.UMGYDE.test.left_join.Nas)["days.NAs"] == 0)
-#### The Best Date Smoothed Effect Visualization ----------------------------------
+##### The Best Date Smoothed Effect Visualization ----------------------------------
 lss.UMGYD_effect |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
@@ -2270,7 +2265,7 @@ lss.UMGYD_effect |>
 
 put_log1("Optimized Mean Date Smoothed Effect has been plotted for the %1-Fold Cross Validation samples.",
          CVFolds_N)
-#### Calculate RMSE for `loess` function fitted with the best parameters ------
+#### UMGYDE Model (best params): RMSE Calculation ------------------------------
 
 lss.best_degree <- lss.UMGYDE.best_params["degree"]
 lss.best_span <- lss.UMGYDE.best_params["span"]
@@ -2293,7 +2288,7 @@ put_log1("Is this a best RMSE? %1",
 print(lss.UMGYD_effect.RMSE)
 #> [1] 0.8568612
 
-#### Add a row to the RMSE Result Tibble for the UMGYDE Model ------------------ 
+##### UMGYDE Tuned Model RMSE Result Tibble: Add a row (best params) ----------- 
 RMSEs.ResultTibble.UMGYDE.tuned <- RMSEs.ResultTibble.UMGYDE2 |> 
   RMSEs.AddRow("Tuned UMGYDE Best Model", 
                lss.UMGYD_effect.RMSE,
@@ -2319,12 +2314,12 @@ using `loess` function call with the best degree & span values.")
 # put_end_date(start)
 #> [1] 0.8724055
 
-### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-### Regularizing User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect (UMGYDE) ----
-#### Open log file for UMGYDE `Preliminary setting-up of lambda range` feature -------
+### UMGDYE Model Regularization ------------------------------------------------
+#### Open log for Pre-configuration step ----------------------------------
 open_logfile(".rglr.UMGYD-effect.pre-set-lambdas")
-#### UMGYD Effect Regularization Directory Paths --------------------------------
+#### UMGYDE Model Regularization Directory Paths -------------------------------
 UMGYDE.regularization.path <- file.path(data.regularization.path, 
                                        "4.UMGYD-effect")
 dir.create(UMGYDE.regularization.path)
@@ -2389,7 +2384,7 @@ cv.UMGYDE.preset.result$tuned.result |>
 
 #### Close Log -----------------------------------------------------------------
 log_close()
-#### Open log file for Fine-Tuning Stage of the `User+Movie+Genre+Year+(Smoothed)Day Effect Regularization` feature ----
+#### Open log for UMGYDE Model Regularization:Fine-tunig -----------------------
 open_logfile(".UMGYDE.rglr.fine-tuning")
 #### UMGYDE Model Regularization: Fine-tuning ----------------------------------- 
 endpoints <- 
@@ -2434,11 +2429,11 @@ UMGYDE.rglr.fine_tune.results$tuned.result |>
                                 as.character(round(UMGYDE.rglr.fine_tune.RMSE.best, digits = 7)),
                                 ")"),
               normalize = TRUE)
-### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
-#### Open log file for re-training Regularized Model for the best `lambda` value----
+####  Open log for Regularized Model: Re-training with the Best Rarams ---------
 open_logfile(".UMGYDE.rg.re-train.best-lambda")
-### Re-train Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best `lambda` value ----
+#### UMGYDE Regularized Model: Retraining with the best params -----------------
 file_name_tmp <- "2.UMGYDE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGYDE.regularization.path, file_name_tmp)
 
@@ -2506,7 +2501,7 @@ put(rglr.UMGYDE.test.left_join.Nas)
 # [5,]       NA        NA        0
 
 stopifnot(colSums(rglr.UMGYDE.test.left_join.Nas)["days.NAs"] == 0)
-### Add a row to the RMSE Result Tibble for the Regularized UMGYD Effects Model ---- 
+#### UMGYDE Regularized Model RMSE Result Tibble: Add a row -------------------- 
 RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.tuned |> 
   RMSEs.AddRow("Regularized UMGYDE Model", 
                rglr.UMGYD_effect.RMSE,
@@ -2516,10 +2511,10 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE.rglr.tuned)
 
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
-### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
 
-### UMGYDE Model Final Holdout Test  -------------------------------------------
+### UMGYDE Model: Final Holdout Test  ------------------------------------------
 
 final.UMGYDE.predicted <- final_holdout_test |>
   UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
@@ -2530,7 +2525,7 @@ sum(is.na(final.UMGYDE.predicted$predicted))
 # calc_UMGY_SmoothedDay_effect.RMSE(final_holdout_test, rglr.UMGYD_effect)
 # #> [1] 0.902012
 
-#### UMGYDE Model Final Holdout Test data integrity validation-----------------
+#### UMGYDE Model Final Holdout Test data integrity validation------------------
 final.predicted.tst <- final.UMGYDE.predicted |>
   mutate(tst.col = predicted) |>
   select(userId, movieId, tst.col)
@@ -2546,13 +2541,13 @@ put(final.predicted.left_join.Nas)
 stopifnot(final.predicted.left_join.Nas["user.NAs"] == 0 &&
             final.predicted.left_join.Nas["movie.NAs"] == 0)
 
-### Compute UMGYDE Model Final Holdout Test RMSE ---------------------------
+#### Compute UMGYDE Model Final Holdout Test RMSE ------------------------------
 final.UMGYDE.predicted.RMSE <- rmse2(final_holdout_test$rating,
                                      final.UMGYDE.predicted$predicted)
 final.UMGYDE.predicted.RMSE
 #> [1] 0.8804351
 
-### Add a row to the RMSE Result Tibble for the Final Holdout Test of the UMGYD Effects Model ---- 
+#### UMGYDE Model Final Holdout Test RMSE Result Tibble: Add a row ------------- 
 final.RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
   RMSEs.AddRow("Best UMGYDE Model (Final Test)", 
                final.UMGYDE.predicted.RMSE,
@@ -2562,10 +2557,10 @@ RMSE_kable(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)
 
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
-### Close Log -----------------------------------------------------------------
+#### Close Log -----------------------------------------------------------------
 log_close()
 
-### Matrix Factorization -------------------------------------------------------
+## Matrix Factorization (MF) ---------------------------------------------------
 #> Reference: 
 #> recosystem: Recommender System Using Parallel Matrix Factorization
 #> https://cran.r-project.org/web/packages/recosystem/vignettes/introduction.html
@@ -2575,9 +2570,9 @@ log_close()
 #> https://zhangyk8.github.io/teaching/file_spring2018/Improving_regularized_singular_value_decomposition_for_collaborative_filtering.pdf
 #> https://www.csie.ntu.edu.tw/~cjlin/papers/libmf/mf_adaptive_pakdd.pdf
 
-### Open log file for Matrix Factorization Method ----------------------------
+### Open log for MF ------------------------------------------------------------
 open_logfile(".matrix-factorization")
-### Support Functions --------------------------------------------------------
+### MF: Support Functions ------------------------------------------------------
 MF.functions.file <- "MF.functions.R"
 MF.functions.file_path <- file.path(support_functions.path, 
                                     MF.functions.file)
@@ -2588,7 +2583,7 @@ source(MF.functions.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-#### Perform the Matrix Factorization & Final Test ----------------------------
+### Perform the Matrix Factorization & Final Test ----------------------------
 # library(recosystem)
 
 file_name_tmp <- "10.matrix-factorization.RData"
@@ -2661,13 +2656,13 @@ if (file.exists(file_path_tmp)) {
            file_path_tmp)
 
 }
-### Compute Final Holdout Test RMSE ---------------------------
+#### Compute Final Holdout Test RMSE -------------------------------------------
 final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
                                      mf.predicted_ratings)
 final_holdout_test.RMSE
 #> [1] 0.7875645
 
-### Add a row to the RMSE Result Tibble for the Final Holdout Test ---- 
+### Final Holdout Test RMSE Result Tibble: Add a row  -------------------------- 
 final.MF.RMSEs.ResultTibble <- final.RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
   RMSEs.AddRow("MF (Final Test)", 
                final_holdout_test.RMSE,

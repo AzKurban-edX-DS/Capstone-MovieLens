@@ -117,6 +117,9 @@ source(setup_script.file_path,
 ```{r child = '02.7.UMGYE-model.Rmd'}
 ```
 
+```{r child = '02.8-0.UMGYDE-model.Rmd'}
+```
+
 ```{r child = '04.appendix.Rmd'}
 ```
 
