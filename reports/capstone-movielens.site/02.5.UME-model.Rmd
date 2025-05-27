@@ -327,7 +327,7 @@ Specifically, instead of minimizing the least squares equation, we minimize an e
 The first term is just the sum of squares and the second is a penalty that gets larger when many $\beta_i$s are large. Using calculus, we can actually show that the values of $\beta_i$ that minimize this equation are:
 
 \begin{equation}
-\hat{\beta}_j(\lambda) = \frac{1}{\lambda + n_j} \sum_{i=1}^{n_i} \left(Y_{i,j} - \mu - \alpha_i\right)
+\hat{\beta}_j(\lambda) = \frac{1}{\lambda + n_j} \sum_{i=1}^{n_j} \left(Y_{i,j} - \mu - \alpha_i\right)
 (\#eq:ME-regularized)
 \end{equation}
 

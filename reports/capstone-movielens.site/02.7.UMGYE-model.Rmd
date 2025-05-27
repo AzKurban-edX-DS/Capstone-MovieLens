@@ -41,22 +41,22 @@ edx |>
 ### Mathematical Description of the UMGYE Model
 \
 
-If we define $\gamma(r)$ as the _year effect_ for the year (here denotes by $r$) of rating a movie $j$ by a user $i$, the formula \@ref(eq:UMGE-model) describing the _UMGE Model_, for the current model, takes the form:
+If we define $\gamma(v_{i,j})$ as the _year effect_ for the year (here denotes by $v_{i,j}$) of rating a movie $j$ by a user $i$, the formula \@ref(eq:UMGE-model) describing the _UMGE Model_, for the current model, takes the form:
 
 \begin{equation}
-Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(r) + \varepsilon_{i,j}
+Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}) + \varepsilon_{i,j}
 (\#eq:UMGYE-model)
 \end{equation}
 
 Therefore, the formula \@ref(eq:genre-effect) for calculation the prediction of a _genre effect_ as a residual, for a _year effect_ 
 $$
-\hat{\gamma}(r) = \gamma(r) + \varepsilon_{i,j}
+\hat{\gamma}(v_{i,j}) = \gamma(v_{i,j}) + \varepsilon_{i,j}
 $$
 
 takes the following form: 
 
 \begin{equation}
-\hat{\gamma}(r) = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j})
+\hat{\gamma}(v_{i,j}) = Y_{i,j} - (\mu + \alpha_i + \beta_j + g_{i,j})
 (\#eq:year-effect)
 \end{equation}
 
@@ -424,14 +424,14 @@ Now, we have a bit better result than one for the previous model.
 We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] section above. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_. For the current model, this formula takes the form:
 
 \begin{equation}
-\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(r)\right)^2 + \lambda \sum_{r} \gamma(r)^2
+\sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j})\right)^2 + \lambda \sum_{i,j} \gamma(v_{i,j})^2
 (\#eq:YE-penalty)
 \end{equation}
 
 And the formula \@ref(eq:ME-regularized) for calculating the values of the _treatment effect_ that minimizes the equation will take the form:
 
 \begin{equation}
-\hat{\gamma}(r, \lambda) = \frac{1}{\lambda + n_r} \sum_{i=1}^{n_{r}} \left(Y_{i,j} - \mu - \alpha_i - \beta_j - g_{i,j}\right)
+\hat{\gamma}(v_{i,j}, \lambda) = \frac{1}{\lambda + n_v} \sum_{r=1}^{n_v} \left(Y_{i,j} - \mu - \alpha_i - \beta_j - g_{i,j}\right)
 (\#eq:YE-regularized)
 \end{equation}
 

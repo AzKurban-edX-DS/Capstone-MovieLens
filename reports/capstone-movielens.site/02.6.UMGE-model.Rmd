@@ -312,7 +312,7 @@ In this case, the formula \@ref(eq:ME-penalty) for adding a penalty takes the fo
 And the formula \@ref(eq:ME-regularized) for calculating the values of the _treatment effect_ that minimizes the equation will take the form:
 
 \begin{equation}
-\hat{g}_{i,j}(\lambda) = \frac{1}{\lambda + n_g} \sum_{i=1}^{n_{g}} \left(Y_{i,j} - \mu - \alpha_i - \beta_j\right)
+\hat{g}_{i,j}(\lambda) = \frac{1}{\lambda + n_g} \sum_{r=1}^{n_{g}} \left(Y_{i,j} - \mu - \alpha_i - \beta_j\right)
 (\#eq:GE-regularized)
 \end{equation}
 

@@ -1648,7 +1648,7 @@ log_close()
 ### Accounting for User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect (UMGYDE) ----
 # Y[i,j] = μ + α[i] + β[j] + g[i,j] yr[i,j]  + f(d[i,j]) + ε[i,j]
 
-# with `f` a smooth function of `d[(i,j]`
+# with `f` a smooth function of `d[i,j]`
 ### Support Functions --------------------------------------------------------
 cv.UMGYDE.default_params.functions_file <- "UMGYD-effect.functions.R"
 cv.UMGYDE.default_params.functions.file_path <- file.path(support_functions.path, 
