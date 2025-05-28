@@ -1,4 +1,4 @@
-# Support Functions --------------------------------------------------------
+# UMGYDE Model Support Functions -----------------------------------------------
 calc_day_general_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
     stop("Function:calc_day_general_effect 
@@ -17,7 +17,6 @@ Computing Day General Effect for lambda: %1...",
     left_join(date_days_map, by = "timestamp") |>
     left_join(rglr.UMGY_effect, by='year') |>
     mutate(resid = rating - (mu + a + b + g + ye)) |>
-    # filter(!is.na(resid)) |>
     group_by(days) |>
     summarise(de = mean_reg(resid, lambda), 
               year = mean(year))
@@ -46,20 +45,16 @@ Computing Day General Effect list for %1-Fold Cross Validation samples...",
            CVFolds_N)
   start <- put_start_date()
   gday_effect_ls <- lapply(edx_CV,  function(cv_fold_dat){
-    # start <- put_start_date()
     cv_fold_dat$train_set |> calc_day_general_effect(lambda)
   })
-  str(gday_effect_ls)
   put_end_date(start)
   put_log1("Function `calc_day_general_effect.cv`:
 Day General Effect list has been computed for %1-Fold Cross Validation samples.", 
            CVFolds_N)
   
   gday_effect_united <- union_cv_results(gday_effect_ls)
-  str(gday_effect_united)
-  
+
   gday_effect <- gday_effect_united |>
-    #filter(!is.na(de)) |>
     group_by(days) |>
     summarise(de = mean(de), year = mean(year))
   
@@ -141,7 +136,6 @@ UMGY_SmoothedDay_effect.predict <- function(test_set, day_smoothed_effect) {
                                ifelse(is.na(de_smoothed), 
                                       0, 
                                       de_smoothed))) |> 
-    # filter(!is.na(predicted)) |>
     select(userId, movieId, timestamp, rating, predicted)
 }
 
@@ -156,7 +150,6 @@ calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
     # left_join(rglr.UMGY_effect, by='year') |>
     # left_join(day_smoothed_effect, by='days') |>
     mutate(resid = rating - predicted) |> 
-    # filter(!is.na(resid)) |>
     pull(resid) |> mse()
 }
 calc_UMGY_SmoothedDay_effect.MSE.cv <- function(day_smoothed_effect){

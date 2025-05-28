@@ -74,7 +74,7 @@ For now, we omit the `lambda` parameter, accepting its default value `lambda = 0
 #### [calc_date_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L2) Function {#func.calc_date_general_effect}
 \
 
-This is a helper function that calculates the _date general effect_ of the user ratings and is intended to be used in other functions and scripts (for instance in [train_UMGY_effect](#func.train_UMGY_effect)) described below.
+This is a helper function that calculates the _date general effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_effect](#func.train_UMGY_effect)) described below.
 
 The following is a slightly simplified version of the function's source code:
 ```{r eval=FALSE}
@@ -103,23 +103,23 @@ Computing Date Global Effect for lambda: %1...",
 ```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code of the [calc_date_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L2) function is available in the [UMGYE Model Support Functions](#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L2) script on _GitHub_.
+The complete version of the source code of the [calc_date_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L2) function is available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L2) script on _GitHub_.
 :::
 
 ##### Return
 
-A data structure containg information about _Date General Effect_. 
+A data structure containing information about _Date General Effect_. 
 
 #### [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) Function {#func.calc_date_general_effect.cv}
 \
 
-This is a helper function that calculates the _date general effect_ of the user ratings using the _5-Fold Cross Validation_ method and is intended to be used in other functions and scripts (for instance in [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)) described below.
+This is a helper function that calculates the _date general effect_ of the user ratings using the _5-Fold Cross Validation_ method and is intended to be used in other functions and scripts (such as [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)) described below.
 
 ##### Souurce Code
 \
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code of the [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) function is available in the [UMGYE Model Support Functions](#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) script on _GitHub_.
+The complete version of the source code of the [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) function is available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L30) script on _GitHub_.
 :::
 
 The following is a simplified version of the function's source code:
@@ -144,19 +144,19 @@ calc_date_general_effect.cv <- function(lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) to aggregate the _5-Fold Cross Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report).
+Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) to aggregate the _5-Fold Cross Validation_ results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report).
 :::
 
 ##### Return
 
-A data structure containg information about _Date General Effect_ as result of _5-Fold Cross Validation_. 
+A data structure containing information about _Date General Effect_ as result of _5-Fold Cross Validation_. 
 
 \newpage
 
 #### [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L69) Function {#func.calc_UMGY_effect}
 \
 
-This is a helper function that calculates the _UMGY effect_ of the user ratings and is intended to be used in other functions and scripts (for instance in [train_UMGY_effect](#func.train_UMGY_effect)) described below.
+This is a helper function that calculates the _UMGY effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_effect](#func.train_UMGY_effect)) described below.
 
 ##### Parameters
 \
@@ -185,7 +185,7 @@ The source code of the [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Cap
 
 ##### Return
 
-A data structure containg information about _User+Movie+Genre+Year (UMGY) Effect_. 
+A data structure containing information about _User+Movie+Genre+Year (UMGY) Effect_. 
 
 #### [train_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L74) Function {#func.train_UMGY_effect}
 \
@@ -212,7 +212,7 @@ The source code of the [train_UMGY_effect](https://github.com/AzKurban-edX-DS/Ca
 
 ##### Return
 
-A data structure containg information about _User+Movie+Genre+Year (UMGY) Effect_. 
+A data structure containing information about _User+Movie+Genre+Year (UMGY) Effect_. 
 
 #### [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) Function {#func.train_UMGY_effect.cv}
 \
@@ -236,7 +236,7 @@ The source code of the [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS
 
 ##### Return
 
-A data structure containg information about _User+Movie+Genre+Year (UMGY) Effect_. 
+A data structure containing information about _User+Movie+Genre+Year (UMGY) Effect_. 
 
 #### [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92) Function {#func.calc_UMGY_effect_MSE}
 \
