@@ -191,7 +191,15 @@ Let's install the development version of this package from the GitHub repository
 \begin{Shaded}
 \begin{Highlighting}[]
 \ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(edx.capstone.movielens.data)) pak}\SpecialCharTok{::}\FunctionTok{pak}\NormalTok{(}\StringTok{"AzKurban{-}edX{-}DS/edx.capstone.movielens.data"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## Loading required package: edx.capstone.movielens.data
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(edx.capstone.movielens.data)}
 \NormalTok{edx }\OtherTok{\textless{}{-}}\NormalTok{ edx.capstone.movielens.data}\SpecialCharTok{::}\NormalTok{edx}
 \NormalTok{final\_holdout\_test }\OtherTok{\textless{}{-}}\NormalTok{ edx.capstone.movielens.data}\SpecialCharTok{::}\NormalTok{final\_holdout\_test}
@@ -4135,13 +4143,75 @@ A data structure containing information about \emph{Date General Effect} as resu
 
 \newpage
 
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{loess\_de} Function}{loess\_de Function}}\label{func.loess_de}
+
+\hfill\break
+
+This is a helper function that calculates the \emph{Smoothed Day Effect} of user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.calc_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect}) described below.
+
+\subparagraph{Parameters}\label{parameters-5}
+
+\hfill\break
+
+\textbf{\emph{de\_bias.dat}}
+
+\hfill\break
+The \emph{day general effect} data, which is a data structure returned by any of the following functions described above:
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[func.calc_day_general_effect]{calc\_day\_general\_effect};
+\item
+  \hyperref[func.calc_day_general_effect.cv]{calc\_day\_general\_effect.cv}.
+\end{itemize}
+
+\textbf{\emph{degree}}
+
+\hfill\break
+
+\textbf{\emph{span}}
+
+\hfill\break
+
+\subparagraph{Details}\label{details}
+
+\hfill\break
+
+The function is a wrapper to the {[}stats::loess{]} and calls it under the hood.
+
+\subparagraph{Source Code}\label{source-code-5}
+
+\hfill\break
+
+The following is the source code of the function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{loess\_de }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(de\_bias.dat, }\AttributeTok{degree =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{span =} \ConstantTok{NA}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(degree)) degree }\OtherTok{=} \DecValTok{2}
+  \ControlFlowTok{if}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(span)) span }\OtherTok{=} \FloatTok{0.75}
+  \FunctionTok{loess}\NormalTok{(de }\SpecialCharTok{\textasciitilde{}}\NormalTok{ days, }\AttributeTok{span =}\NormalTok{ span, }\AttributeTok{degree =}\NormalTok{ degree, }\AttributeTok{data =}\NormalTok{ de\_bias.dat)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{loess\_de} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{UMGYD-effect.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-7}
+
+A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
+
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{calc\_UMGYD\_effect} Function}{calc\_UMGYD\_effect Function}}\label{func.calc_UMGYD_effect}
 
 \hfill\break
 
-This is a helper function that calculates the \emph{UMGYD effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect}) described below.
+This is a helper function that calculates the \emph{UMGYD Effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect}) described below.
 
-\subparagraph{Parameters}\label{parameters-5}
+\subparagraph{Parameters}\label{parameters-6}
 
 \hfill\break
 
@@ -4155,28 +4225,18 @@ The function accepts the only parameter \texttt{date\_general\_effect}, which is
   \hyperref[func.calc_day_general_effect.cv]{calc\_day\_general\_effect.cv}.
 \end{itemize}
 
-\subparagraph{Source Code}\label{source-code-5}
+\subparagraph{Source Code}\label{source-code-6}
 
 \hfill\break
 
 The following is the source code of the function:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{calc\_UMGYD\_effect }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(date\_general\_effect)\{}
-\NormalTok{  date\_general\_effect }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{group\_by}\NormalTok{(year) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{summarise}\NormalTok{(}\AttributeTok{ye =} \FunctionTok{mean}\NormalTok{(de, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{noteblock}
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{calc\_UMGYD\_effect} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{UMGYD-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\subparagraph{Return}\label{return-7}
+\subparagraph{Return}\label{return-8}
 
 A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
 
@@ -4187,27 +4247,12 @@ A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD
 This function is used to train the current model using the \emph{Train Set} dataset passed in the \texttt{train\_set} parameter.
 The following is the source code of the function:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{train\_UMGYD\_effect }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(train\_set, }\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(lambda)) \{}
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"Function: train\_UMGYD\_effect}
-\StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
-\NormalTok{  \}}
-  
-\NormalTok{  train\_set }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{calc\_day\_general\_effect}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{calc\_UMGYD\_effect}\NormalTok{()}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{noteblock}
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{train\_UMGYD\_effect} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{UMGYD-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\subparagraph{Return}\label{return-8}
+\subparagraph{Return}\label{return-9}
 
 A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
 
@@ -4236,7 +4281,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \end{noteblock}
 
-\subparagraph{Return}\label{return-9}
+\subparagraph{Return}\label{return-10}
 
 A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
 
@@ -4246,7 +4291,7 @@ A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD
 
 The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYDE Model} for the given \emph{Test Set} passed in the \texttt{test\_set} parameter.
 
-\subparagraph{Parameters}\label{parameters-6}
+\subparagraph{Parameters}\label{parameters-7}
 
 \hfill\break
 
@@ -4270,7 +4315,7 @@ The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYDE 
 
 \newpage
 
-\subparagraph{Source Code}\label{source-code-6}
+\subparagraph{Source Code}\label{source-code-7}
 
 \hfill\break
 
@@ -4302,7 +4347,7 @@ The source code of the function \href{https://github.com/AzKurban-edX-DS/Capston
 
 The function calculates the \emph{5-Fold Cross Validation MSE} result for the \emph{UMGYD Effect} data passed in the \texttt{UMGYD\_effect} parameter.
 
-\subparagraph{Parameters}\label{parameters-7}
+\subparagraph{Parameters}\label{parameters-8}
 
 \hfill\break
 
@@ -4318,7 +4363,7 @@ The function accepts the only parameter: \texttt{UMGYD\_effect}, which is a data
   \hyperref[func.train_UMGYD_effect.cv]{train\_UMGYD\_effect.cv}.
 \end{itemize}
 
-\subparagraph{Source Code}\label{source-code-7}
+\subparagraph{Source Code}\label{source-code-8}
 
 \hfill\break
 
@@ -4352,7 +4397,7 @@ The source code of the function \href{https://github.com/AzKurban-edX-DS/Capston
 
 The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYDE Model} for the given \emph{Test Set} passed in the \texttt{test\_set} parameter.
 
-\subparagraph{Parameters}\label{parameters-8}
+\subparagraph{Parameters}\label{parameters-9}
 
 \hfill\break
 
@@ -4374,7 +4419,7 @@ The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYDE 
   \end{itemize}
 \end{itemize}
 
-\subparagraph{Source Code}\label{source-code-8}
+\subparagraph{Source Code}\label{source-code-9}
 
 \hfill\break
 
@@ -4400,7 +4445,7 @@ The source code of the function \href{https://github.com/AzKurban-edX-DS/Capston
 
 The function calculates the \emph{5-Fold Cross Validation MSE} result for the \emph{UMGYD Effect} data passed in the \texttt{UMGYD\_effect} parameter.
 
-\subparagraph{Parameters}\label{parameters-9}
+\subparagraph{Parameters}\label{parameters-10}
 
 \hfill\break
 
@@ -4416,7 +4461,7 @@ The function accepts the only parameter: \texttt{UMGYD\_effect}, which is a data
   \hyperref[func.train_UMGYD_effect.cv]{train\_UMGYD\_effect.cv}.
 \end{itemize}
 
-\subparagraph{Source Code}\label{source-code-9}
+\subparagraph{Source Code}\label{source-code-10}
 
 \hfill\break
 
@@ -4602,7 +4647,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-281-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-282-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -4677,7 +4722,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-284-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-285-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -4732,7 +4777,7 @@ Aggregates the input data frames into a single data frame.
 \end{Shaded}
 
 \phantomsection\label{func.union_cv_results.params}
-\paragraph{Parameters}\label{parameters-10}
+\paragraph{Parameters}\label{parameters-11}
 
 \hfill\break
 
@@ -4744,7 +4789,7 @@ Aggregates the input data frames into a single data frame.
 \end{itemize}
 
 \phantomsection\label{func.union_cv_results.details}
-\paragraph{Details}\label{details}
+\paragraph{Details}\label{details-1}
 
 \hfill\break
 
@@ -4758,7 +4803,7 @@ The function is used to aggregate the \emph{N-Fold Cross Validation} method resu
 A data frame that is a union of the input data frames.
 
 \phantomsection\label{func.union_cv_results.code}
-\paragraph{Source Code}\label{source-code-10}
+\paragraph{Source Code}\label{source-code-11}
 
 \hfill\break
 
@@ -4809,7 +4854,7 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.params
 \end{Shaded}
 
 \phantomsection\label{func.data.plot.params}
-\paragraph{Parameters}\label{parameters-11}
+\paragraph{Parameters}\label{parameters-12}
 
 \hfill\break
 
@@ -4870,14 +4915,14 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.params
 \end{itemize}
 
 \phantomsection\label{func.data.plot.details}
-\paragraph{Details}\label{details-1}
+\paragraph{Details}\label{details-2}
 
 \hfill\break
 
 The function is a wrapper for the \href{https://ggplot2.tidyverse.org/reference/ggplot.html}{ggplot2::ggplot} function and is a simple and convenient tool for visualizing the data of this project.
 
 \phantomsection\label{func.data.plot.code}
-\paragraph{Source Code}\label{source-code-11}
+\paragraph{Source Code}\label{source-code-12}
 
 \hfill\break
 
@@ -4934,7 +4979,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.data.helper.func0.params}
-\paragraph{Parameters}\label{parameters-12}
+\paragraph{Parameters}\label{parameters-13}
 
 \hfill\break
 
@@ -4953,7 +4998,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{itemize}
 
 \phantomsection\label{func.data.helper.func0.details}
-\paragraph{Details}\label{details-2}
+\paragraph{Details}\label{details-3}
 
 \hfill\break
 
@@ -4968,7 +5013,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.data.helper.func0.code}
-\paragraph{Source Code}\label{source-code-12}
+\paragraph{Source Code}\label{source-code-13}
 
 \hfill\break
 
@@ -5006,7 +5051,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{Shaded}
 
 \phantomsection\label{func.mean_reg.params}
-\paragraph{Parameters}\label{parameters-13}
+\paragraph{Parameters}\label{parameters-14}
 
 \hfill\break
 
@@ -5031,7 +5076,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{itemize}
 
 \phantomsection\label{func.mean_reg.details}
-\paragraph{Details}\label{details-3}
+\paragraph{Details}\label{details-4}
 
 \hfill\break
 We call this function internally from the functions that compute the \emph{penalized estimates} as described in section \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#penalized-least-squares}{23.6 Penalized Least Squares} of the \emph{Course Textbook}\autocite{IDS2_23-6}.
@@ -5057,7 +5102,7 @@ When the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} 
 \]
 
 \phantomsection\label{func.mean_reg.code}
-\paragraph{Source Code}\label{source-code-13}
+\paragraph{Source Code}\label{source-code-14}
 
 \hfill\break
 
@@ -5109,7 +5154,7 @@ The function searches for the parameter value corresponding to the minimum value
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-14}
+\paragraph{Parameters}\label{parameters-15}
 
 \hfill\break
 
@@ -5133,7 +5178,7 @@ The function searches for the parameter value corresponding to the minimum value
   \textbf{steps.beyond\_min = 2:} (takes effect only if \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number of steps after finding the minimum value of the \texttt{RMSE}, upon completion of which the function should terminate.
 \end{itemize}
 
-\paragraph{Details}\label{details-4}
+\paragraph{Details}\label{details-5}
 
 \hfill\break
 During execution, the function uses a helper function specified by the \texttt{fn\_tune.test.param\_value} parameter, which calculates the \texttt{RMSE} value for the given parameter from the list determined by the \texttt{param\_values} parameter.
@@ -5157,7 +5202,7 @@ The function returns a data structure containing the found value of the input pa
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-14}
+\paragraph{Source Code}\label{source-code-15}
 
 \hfill\break
 Below is the most significant part of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function:
@@ -5255,7 +5300,7 @@ The function fine-tunes the model by searching for the best possible value of th
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-15}
+\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-16}
 
 \hfill\break
 
@@ -5323,7 +5368,7 @@ This is a parameter that is required for the \href{https://github.com/AzKurban-e
 This is a parameter that is required for the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function that is called internally during execution (see the description of the \texttt{tune.model\_param} function \hyperref[func.tune.model_param]{above}).
 
 \phantomsection\label{func.model.tune.param_range.details}
-\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-5}
+\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-6}
 
 \hfill\break
 First, the function generates a sequence of the \texttt{input\ parameter\ values} based on the \texttt{loop\_starter} parameter values, as described above (see the \hyperref[func.model.tune.param_range.params.loop_starter]{loop\_starter} parameter description for the details), which is used as one of the input parameters for the helper function \hyperref[func.tune.model_param]{tune.model\_param}, which is repeatedly called during the execution, performing fine-tuning of the model.
@@ -5354,7 +5399,7 @@ A data structure containing the minimum \texttt{RMSE} value reached during the f
 \end{Shaded}
 
 \phantomsection\label{func.model.tune.param_range.code}
-\paragraph{Source Code}\label{source-code-15}
+\paragraph{Source Code}\label{source-code-16}
 
 \hfill\break
 Below is the simplified version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} function:
@@ -5534,7 +5579,7 @@ The algorithm finds the values of the nearest neighboring elements of the elemen
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-16}
+\paragraph{Parameters}\label{parameters-17}
 
 \hfill\break
 
@@ -5559,7 +5604,7 @@ A data structure compatible with the \texttt{tuned.result} item of the data stru
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Details}\label{details-6}
+\paragraph{Details}\label{details-7}
 
 \hfill\break
 
@@ -5578,7 +5623,7 @@ A vector containing the element value corresponding to the minimum \texttt{RMSE}
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-16}
+\paragraph{Source Code}\label{source-code-17}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L80}{get\_fine\_tune.param.endpoints} function is provided below:
@@ -5622,7 +5667,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-17}
+\paragraph{Parameters}\label{parameters-18}
 
 \hfill\break
 
@@ -5647,7 +5692,7 @@ A data structure compatible with the \texttt{tuned.result} item of the data stru
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Details}\label{details-7}
+\paragraph{Details}\label{details-8}
 
 \hfill\break
 The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
@@ -5665,7 +5710,7 @@ A vector containing the index of the element corresponding to the minimum \textt
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-17}
+\paragraph{Source Code}\label{source-code-18}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L87}{get\_fine\_tune.param.endpoints.idx} function is shown below:
@@ -5724,7 +5769,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-18}
+\paragraph{Parameters}\label{parameters-19}
 
 \hfill\break
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the \texttt{RMSE}.
@@ -5737,7 +5782,7 @@ A pair of matched vectors, the first of which contains the values of the input p
   \textbf{rmses:} A vector containing values of the corresponding \texttt{Root\ Mean\ Squared\ Errors}..
 \end{itemize}
 
-\paragraph{Details}\label{details-8}
+\paragraph{Details}\label{details-9}
 
 \hfill\break
 Extracts the best values from the input data and returns them as a vector containing a pair of the best \emph{input parameter} value and the corresponding \emph{minimum \texttt{RMSE}}.
@@ -5753,7 +5798,7 @@ A vector containing a pair of the best \emph{input parameter} value and the corr
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-18}
+\paragraph{Source Code}\label{source-code-19}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} function is shown below:
@@ -5783,7 +5828,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname00.params}
-\paragraph{Parameters}\label{parameters-19}
+\paragraph{Parameters}\label{parameters-20}
 
 \hfill\break
 
@@ -5802,7 +5847,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{itemize}
 
 \phantomsection\label{func.fname00.details}
-\paragraph{Details}\label{details-9}
+\paragraph{Details}\label{details-10}
 
 \hfill\break
 
@@ -5817,7 +5862,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname00.code}
-\paragraph{Source Code}\label{source-code-19}
+\paragraph{Source Code}\label{source-code-20}
 
 \hfill\break
 
@@ -5838,14 +5883,14 @@ The source code of the \href{}{fname00} is also available in the \href{}{Some.Se
 \hfill\break
 
 \phantomsection\label{func.fname01.params}
-\paragraph{Parameters}\label{parameters-20}
+\paragraph{Parameters}\label{parameters-21}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname01.details}
-\paragraph{Details}\label{details-10}
+\paragraph{Details}\label{details-11}
 
 \hfill\break
 
@@ -5860,7 +5905,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname01.code}
-\paragraph{Source Code}\label{source-code-20}
+\paragraph{Source Code}\label{source-code-21}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5880,14 +5925,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname02.params}
-\paragraph{Parameters}\label{parameters-21}
+\paragraph{Parameters}\label{parameters-22}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname02.details}
-\paragraph{Details}\label{details-11}
+\paragraph{Details}\label{details-12}
 
 \hfill\break
 
@@ -5902,7 +5947,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname02.code}
-\paragraph{Source Code}\label{source-code-21}
+\paragraph{Source Code}\label{source-code-22}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5922,14 +5967,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname0.params}
-\paragraph{Parameters}\label{parameters-22}
+\paragraph{Parameters}\label{parameters-23}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname0.details}
-\paragraph{Details}\label{details-12}
+\paragraph{Details}\label{details-13}
 
 \hfill\break
 
@@ -5944,7 +5989,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname0.code}
-\paragraph{Source Code}\label{source-code-22}
+\paragraph{Source Code}\label{source-code-23}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5964,14 +6009,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname03.params}
-\paragraph{Parameters}\label{parameters-23}
+\paragraph{Parameters}\label{parameters-24}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname03.details}
-\paragraph{Details}\label{details-13}
+\paragraph{Details}\label{details-14}
 
 \hfill\break
 
@@ -5986,7 +6031,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname03.code}
-\paragraph{Source Code}\label{source-code-23}
+\paragraph{Source Code}\label{source-code-24}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6006,14 +6051,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname1.params}
-\paragraph{Parameters}\label{parameters-24}
+\paragraph{Parameters}\label{parameters-25}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname1.details}
-\paragraph{Details}\label{details-14}
+\paragraph{Details}\label{details-15}
 
 \hfill\break
 
@@ -6028,7 +6073,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname1.code}
-\paragraph{Source Code}\label{source-code-24}
+\paragraph{Source Code}\label{source-code-25}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6052,14 +6097,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname2.params}
-\paragraph{Parameters}\label{parameters-25}
+\paragraph{Parameters}\label{parameters-26}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname2.details}
-\paragraph{Details}\label{details-15}
+\paragraph{Details}\label{details-16}
 
 \hfill\break
 
@@ -6074,7 +6119,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname2.code}
-\paragraph{Source Code}\label{source-code-25}
+\paragraph{Source Code}\label{source-code-26}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6094,14 +6139,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname3.params}
-\paragraph{Parameters}\label{parameters-26}
+\paragraph{Parameters}\label{parameters-27}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname3.details}
-\paragraph{Details}\label{details-16}
+\paragraph{Details}\label{details-17}
 
 \hfill\break
 
@@ -6116,7 +6161,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname3.code}
-\paragraph{Source Code}\label{source-code-26}
+\paragraph{Source Code}\label{source-code-27}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6136,14 +6181,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname4.params}
-\paragraph{Parameters}\label{parameters-27}
+\paragraph{Parameters}\label{parameters-28}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname4.details}
-\paragraph{Details}\label{details-17}
+\paragraph{Details}\label{details-18}
 
 \hfill\break
 
@@ -6158,7 +6203,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname4.code}
-\paragraph{Source Code}\label{source-code-27}
+\paragraph{Source Code}\label{source-code-28}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6178,14 +6223,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname5.params}
-\paragraph{Parameters}\label{parameters-28}
+\paragraph{Parameters}\label{parameters-29}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname5.details}
-\paragraph{Details}\label{details-18}
+\paragraph{Details}\label{details-19}
 
 \hfill\break
 
@@ -6200,7 +6245,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname5.code}
-\paragraph{Source Code}\label{source-code-28}
+\paragraph{Source Code}\label{source-code-29}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6220,14 +6265,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname6.params}
-\paragraph{Parameters}\label{parameters-29}
+\paragraph{Parameters}\label{parameters-30}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname6.details}
-\paragraph{Details}\label{details-19}
+\paragraph{Details}\label{details-20}
 
 \hfill\break
 
@@ -6242,7 +6287,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname6.code}
-\paragraph{Source Code}\label{source-code-29}
+\paragraph{Source Code}\label{source-code-30}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6262,14 +6307,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname7.params}
-\paragraph{Parameters}\label{parameters-30}
+\paragraph{Parameters}\label{parameters-31}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname7.details}
-\paragraph{Details}\label{details-20}
+\paragraph{Details}\label{details-21}
 
 \hfill\break
 
@@ -6284,7 +6329,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname7.code}
-\paragraph{Source Code}\label{source-code-30}
+\paragraph{Source Code}\label{source-code-31}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6304,14 +6349,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname8.params}
-\paragraph{Parameters}\label{parameters-31}
+\paragraph{Parameters}\label{parameters-32}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname8.details}
-\paragraph{Details}\label{details-21}
+\paragraph{Details}\label{details-22}
 
 \hfill\break
 
@@ -6326,7 +6371,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname8.code}
-\paragraph{Source Code}\label{source-code-31}
+\paragraph{Source Code}\label{source-code-32}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:

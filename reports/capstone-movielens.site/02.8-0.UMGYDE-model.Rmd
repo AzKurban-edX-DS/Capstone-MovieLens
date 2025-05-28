@@ -103,10 +103,59 @@ A data structure containing information about _Date General Effect_ as result of
 \newpage
 
 
+#### [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) Function {#func.loess_de}
+\
+
+This is a helper function that calculates the _Smoothed Day Effect_ of user ratings and is intended to be used in other functions and scripts (such as [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect)) described below.
+
+##### Parameters
+\
+
+###### ***de_bias.dat***
+\
+The _day general effect_ data, which is a data structure returned by any of the following functions described above:
+
+  - [calc_day_general_effect](#func.calc_day_general_effect);
+  - [calc_day_general_effect.cv](#func.calc_day_general_effect.cv).
+
+
+###### ***degree***
+\
+
+###### ***span***
+\
+
+##### Details
+\
+
+The function is a wrapper to the [stats::loess] and calls it under the hood.
+
+
+##### Source Code
+\
+
+The following is the source code of the function:
+```{r eval=FALSE}
+loess_de <- function(de_bias.dat, degree = NA, span = NA){
+  if(is.na(degree)) degree = 2
+  if(is.na(span)) span = 0.75
+  loess(de ~ days, span = span, degree = degree, data = de_bias.dat)
+}
+```
+
+
+::: {.noteblock data-latex=""}
+The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) function is also available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) script on _GitHub_.
+:::
+
+##### Return
+
+A data structure containing information about _User+Movie+Genre+Year (UMGYD) Effect_. 
+
 #### [calc_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) Function {#func.calc_UMGYD_effect}
 \
 
-This is a helper function that calculates the _UMGYD effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGYD_effect](#func.train_UMGYD_effect)) described below.
+This is a helper function that calculates the _UMGYD Effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGYD_effect](#func.train_UMGYD_effect)) described below.
 
 ##### Parameters
 \
@@ -121,11 +170,7 @@ The function accepts the only parameter `date_general_effect`, which is a data s
 
 The following is the source code of the function:
 ```{r eval=FALSE}
-calc_UMGYD_effect <- function(date_general_effect){
-  date_general_effect |>
-    group_by(year) |>
-    summarise(ye = mean(de, na.rm = TRUE))
-}
+
 ```
 
 
@@ -143,16 +188,6 @@ A data structure containing information about _User+Movie+Genre+Year (UMGYD) Eff
 This function is used to train the current model using the _Train Set_ dataset passed in the `train_set` parameter.
 The following is the source code of the function:
 ```{r eval=FALSE}
-train_UMGYD_effect <- function(train_set, lambda = 0){
-  if (is.na(lambda)) {
-    stop("Function: train_UMGYD_effect
-`lambda` is `NA`")
-  }
-  
-  train_set |>
-    calc_day_general_effect(lambda) |>
-    calc_UMGYD_effect()
-}
 
 ```
 

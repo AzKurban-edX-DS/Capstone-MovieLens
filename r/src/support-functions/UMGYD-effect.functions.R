@@ -67,7 +67,7 @@ Training completed: Day General Effects model for lambda: %1...",
   gday_effect
 }
 loess_de <- function(de_bias.dat, degree = NA, span = NA){
-  if(is.na(degree)) degree = 2
+  if(is.na(degree)) degree = 1
   if(is.na(span)) span = 0.75
   loess(de ~ days, span = span, degree = degree, data = de_bias.dat)
 }
