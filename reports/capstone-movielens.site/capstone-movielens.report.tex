@@ -129,7 +129,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-27}
+\date{2025-05-28}
 
 \begin{document}
 \maketitle
@@ -207,20 +207,13 @@ Now, we have the datasets listed above:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title          
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:9000055    
-##  1st Qu.:18124   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08   Class :character  
-##  Median :35738   Median : 1834   Median :4.000   Median :1.035e+09   Mode  :character  
-##  Mean   :35870   Mean   : 4122   Mean   :3.512   Mean   :1.033e+09                     
-##  3rd Qu.:53607   3rd Qu.: 3626   3rd Qu.:4.000   3rd Qu.:1.127e+09                     
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
-##     genres         
-##  Length:9000055    
-##  Class :character  
-##  Mode  :character  
-##                    
-##                    
-## 
+##      userId         movieId          rating        timestamp            title              genres         
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:9000055     Length:9000055    
+##  1st Qu.:18124   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08   Class :character   Class :character  
+##  Median :35738   Median : 1834   Median :4.000   Median :1.035e+09   Mode  :character   Mode  :character  
+##  Mean   :35870   Mean   : 4122   Mean   :3.512   Mean   :1.033e+09                                        
+##  3rd Qu.:53607   3rd Qu.: 3626   3rd Qu.:4.000   3rd Qu.:1.127e+09                                        
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
 \end{verbatim}
 
 \begin{Shaded}
@@ -230,20 +223,13 @@ Now, we have the datasets listed above:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title          
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:999999     
-##  1st Qu.:18096   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.467e+08   Class :character  
-##  Median :35768   Median : 1827   Median :4.000   Median :1.035e+09   Mode  :character  
-##  Mean   :35870   Mean   : 4108   Mean   :3.512   Mean   :1.033e+09                     
-##  3rd Qu.:53621   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09                     
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
-##     genres         
-##  Length:999999     
-##  Class :character  
-##  Mode  :character  
-##                    
-##                    
-## 
+##      userId         movieId          rating        timestamp            title              genres         
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:999999      Length:999999     
+##  1st Qu.:18096   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.467e+08   Class :character   Class :character  
+##  Median :35768   Median : 1827   Median :4.000   Median :1.035e+09   Mode  :character   Mode  :character  
+##  Mean   :35870   Mean   : 4108   Mean   :3.512   Mean   :1.033e+09                                        
+##  3rd Qu.:53621   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09                                        
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
 \end{verbatim}
 
 \newpage
@@ -658,20 +644,13 @@ To account for the Movie Genre Effect more accurately, we need a dataset with sp
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title          
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:23371423   
-##  1st Qu.:18140   1st Qu.:  616   1st Qu.:3.000   1st Qu.:9.472e+08   Class :character  
-##  Median :35784   Median : 1748   Median :4.000   Median :1.042e+09   Mode  :character  
-##  Mean   :35886   Mean   : 4277   Mean   :3.527   Mean   :1.035e+09                     
-##  3rd Qu.:53638   3rd Qu.: 3635   3rd Qu.:4.000   3rd Qu.:1.131e+09                     
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
-##     genres         
-##  Length:23371423   
-##  Class :character  
-##  Mode  :character  
-##                    
-##                    
-## 
+##      userId         movieId          rating        timestamp            title              genres         
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:23371423    Length:23371423   
+##  1st Qu.:18140   1st Qu.:  616   1st Qu.:3.000   1st Qu.:9.472e+08   Class :character   Class :character  
+##  Median :35784   Median : 1748   Median :4.000   Median :1.042e+09   Mode  :character   Mode  :character  
+##  Mean   :35886   Mean   : 4277   Mean   :3.527   Mean   :1.035e+09                                        
+##  3rd Qu.:53638   3rd Qu.: 3635   3rd Qu.:4.000   3rd Qu.:1.131e+09                                        
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
 \end{verbatim}
 
 Note that we use the \texttt{splitGenreRows} function to split rows of the original dataset:
@@ -772,8 +751,8 @@ To be able to map the date, year, and number of days since the earliest record i
 \begin{verbatim}
 ## 'data.frame':    6519590 obs. of  5 variables:
 ##  $ timestamp: int  838985046 838983525 838983421 838983392 838984474 838983653 838984885 838983707 838984596 838983834 ...
-##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" ...
-##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" ...
+##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" "1996-08-02 10:56:32" ...
+##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" "1996-08-02" ...
 ##  $ year     : num  1996 1996 1996 1996 1996 ...
 ##  $ days     : int  571 571 571 571 571 571 571 571 571 571 ...
 \end{verbatim}
@@ -1286,12 +1265,12 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.864900 & \\
-OMR Model & 1.060346 & Overall Mean Rating (OMR) Model\\
+Overall Mean Rating Model & 1.060346 & \\
 \bottomrule
 \end{tabular}
 
@@ -1591,13 +1570,13 @@ Finally, we calculate the \texttt{RMSE} as the \emph{square root} of the average
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
 \bottomrule
 \end{tabular}
 
@@ -2059,14 +2038,14 @@ We can now construct predictors and see how much the \texttt{RMSE} improves\auto
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
-UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
 \bottomrule
 \end{tabular}
 
@@ -2376,14 +2355,14 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
-UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \bottomrule
 \end{tabular}
@@ -2771,14 +2750,14 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
-UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
@@ -3103,14 +3082,14 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
-UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
@@ -3241,7 +3220,7 @@ For now, we omit the \texttt{lambda} parameter, accepting its default value \tex
 
 \hfill\break
 
-This is a helper function that calculates the \emph{date general effect} of the user ratings and is intended to be used in other functions and scripts (for instance in \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect}) described below.
+This is a helper function that calculates the \emph{date general effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect}) described below.
 
 The following is a slightly simplified version of the function's source code:
 
@@ -3273,26 +3252,26 @@ The following is a slightly simplified version of the function's source code:
 \end{Shaded}
 
 \begin{noteblock}
-The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L2}{calc\_date\_general\_effect} function is available in the \hyperref[L1]{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L2}{UMGY-effect.functions.R} script on \emph{GitHub}.
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L2}{calc\_date\_general\_effect} function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L1}{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L2}{UMGY-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
 \subparagraph{Return}\label{return}
 
-A data structure containg information about \emph{Date General Effect}.
+A data structure containing information about \emph{Date General Effect}.
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{calc\_date\_general\_effect.cv} Function}{calc\_date\_general\_effect.cv Function}}\label{func.calc_date_general_effect.cv}
 
 \hfill\break
 
-This is a helper function that calculates the \emph{date general effect} of the user ratings using the \emph{5-Fold Cross Validation} method and is intended to be used in other functions and scripts (for instance in \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv}) described below.
+This is a helper function that calculates the \emph{date general effect} of the user ratings using the \emph{5-Fold Cross Validation} method and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_effect.cv]{train\_UMGY\_effect.cv}) described below.
 
 \subparagraph{Souurce Code}\label{souurce-code}
 
 \hfill\break
 
 \begin{noteblock}
-The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{calc\_date\_general\_effect.cv} function is available in the \hyperref[L1]{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{UMGY-effect.functions.R} script on \emph{GitHub}.
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{calc\_date\_general\_effect.cv} function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L1}{UMGYE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L30}{UMGY-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -3321,13 +3300,13 @@ The following is a simplified version of the function's source code:
 \end{Shaded}
 
 \begin{noteblock}
-Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} to aggregate the \emph{5-Fold Cross Validation} method results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} to aggregate the \emph{5-Fold Cross Validation} results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
 
 \end{noteblock}
 
 \subparagraph{Return}\label{return-1}
 
-A data structure containg information about \emph{Date General Effect} as result of \emph{5-Fold Cross Validation}.
+A data structure containing information about \emph{Date General Effect} as result of \emph{5-Fold Cross Validation}.
 
 \newpage
 
@@ -3335,7 +3314,7 @@ A data structure containg information about \emph{Date General Effect} as result
 
 \hfill\break
 
-This is a helper function that calculates the \emph{UMGY effect} of the user ratings and is intended to be used in other functions and scripts (for instance in \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect}) described below.
+This is a helper function that calculates the \emph{UMGY effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_effect]{train\_UMGY\_effect}) described below.
 
 \subparagraph{Parameters}\label{parameters}
 
@@ -3374,7 +3353,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \subparagraph{Return}\label{return-2}
 
-A data structure containg information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
+A data structure containing information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L74}{train\_UMGY\_effect} Function}{train\_UMGY\_effect Function}}\label{func.train_UMGY_effect}
 
@@ -3405,7 +3384,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \subparagraph{Return}\label{return-3}
 
-A data structure containg information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
+A data structure containing information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L84}{train\_UMGY\_effect.cv} Function}{train\_UMGY\_effect.cv Function}}\label{func.train_UMGY_effect.cv}
 
@@ -3434,7 +3413,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \subparagraph{Return}\label{return-4}
 
-A data structure containg information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
+A data structure containing information about \emph{User+Movie+Genre+Year (UMGY) Effect}.
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L92}{calc\_UMGY\_effect\_MSE} Function}{calc\_UMGY\_effect\_MSE Function}}\label{func.calc_UMGY_effect_MSE}
 
@@ -3707,14 +3686,14 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
-UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
@@ -3748,7 +3727,7 @@ And the formula \eqref{eq:ME-regularized} for calculating the values of the \emp
 \label{eq:YE-regularized}
 \end{equation}
 
-where \(n_r\) is the number of ratings made in year \(r\).
+where \(n_v\) is the number of ratings made in year \(v\).
 
 As with the previous models, we implement the \emph{Regularization} method for the current model in the following three steps:
 
@@ -4017,14 +3996,14 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
-UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
@@ -4040,25 +4019,18 @@ Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
 
 \hfill\break
 
-\subsubsection{Day Effect Analysis}\label{day-effect-analysis}
-
-\begin{noteblock}
-The \emph{Year Effect} visualization and analysis code in this section are cited from the article \href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook}{Movie Recommendation System using R - BEST} mentioned earlier in this report\autocite{MRS-R-BEST}.
-
-\end{noteblock}
-
 \subsubsection{Mathematical Description of the UMGYDE Model}\label{mathematical-description-of-the-umgyde-model}
 
 \hfill\break
 
-If we define \(d_{i,j}\) as the \emph{number of days since the earliest record} in the \texttt{edx} dataset for movie \(j\) rated by user \(i\), then the formula \eqref{eq:UMGYE-model} describing the \emph{UMGYE Model}, for the current model, takes the form:
+If we define \(d_{i,j}\) as the \emph{number of days since the earliest record} in the \texttt{edx} dataset for movie \(j\) rated by user \(i\), then the formula \eqref{eq:UMGYDE-model} describing the \emph{UMGYDE Model}, for the current model, takes the form:
 
 \begin{equation}
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}) + s(d_{i,j}) + \varepsilon_{i,j}
 \label{eq:UMGYDE-model}
 \end{equation}
 
-with \(s\) a smooth function of \(d_{i,j}\)
+with \(s\) a \emph{smoothed day} function of \(d_{i,j}\)
 
 Therefore, the formula \eqref{eq:year-effect} for calculation the prediction of a \emph{year effect} as a residual, for a \emph{smoothed day effect}
 \[
@@ -4085,11 +4057,89 @@ For now, we omit the \texttt{lambda} parameter, accepting its default value \tex
 
 \end{noteblock}
 
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L2}{calc\_day\_general\_effect} Function}{calc\_day\_general\_effect Function}}\label{func.calc_day_general_effect}
+
+\hfill\break
+
+This is a helper function that calculates the \emph{day general effect} of user ratings on a \emph{given day since the earliest record} in the \texttt{edx} dataset and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect}) described below.
+
+The following is a simplified version of the function's source code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_day\_general\_effect }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(train\_set, }\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
+\NormalTok{  train\_set }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{left\_join}\NormalTok{(edx.user\_effect, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(rglr.UM\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(rglr.UMG\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(date\_days\_map, }\AttributeTok{by =} \StringTok{"timestamp"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(rglr.UMGY\_effect, }\AttributeTok{by=}\StringTok{\textquotesingle{}year\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}}\NormalTok{ (mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b }\SpecialCharTok{+}\NormalTok{ g }\SpecialCharTok{+}\NormalTok{ ye)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{group\_by}\NormalTok{(days) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{summarise}\NormalTok{(}\AttributeTok{de =} \FunctionTok{mean\_reg}\NormalTok{(resid, lambda), }
+              \AttributeTok{year =} \FunctionTok{mean}\NormalTok{(year))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L2}{calc\_day\_general\_effect} function is available in the {[}UMGYDE Model Support Functions{]}((\url{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}) section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L2}{UMGYD-effect.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-5}
+
+A data structure containing information about \emph{Day General Effect}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L31}{calc\_day\_general\_effect.cv} Function}{calc\_day\_general\_effect.cv Function}}\label{func.calc_day_general_effect.cv}
+
+\hfill\break
+
+This is a helper function that calculates the \emph{day general effect} of user ratings on a \emph{given day since the earliest record} in the \texttt{edx} dataset using the \emph{5-Fold Cross Validation} and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}) described below.
+
+\subparagraph{Souurce Code}\label{souurce-code-1}
+
+\hfill\break
+
+\begin{noteblock}
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L31}{calc\_day\_general\_effect.cv} function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L30}{UMGYD-effect.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+The following is a simplified version of the function's source code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_day\_general\_effect.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
+\NormalTok{  gday\_effect\_ls }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(edx\_CV,  }\ControlFlowTok{function}\NormalTok{(cv\_fold\_dat)\{}
+\NormalTok{    cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{train\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_day\_general\_effect}\NormalTok{(lambda)}
+\NormalTok{  \})}
+
+\NormalTok{  gday\_effect\_united }\OtherTok{\textless{}{-}} \FunctionTok{union\_cv\_results}\NormalTok{(gday\_effect\_ls)}
+
+\NormalTok{  gday\_effect\_united }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{group\_by}\NormalTok{(days) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{summarise}\NormalTok{(}\AttributeTok{de =} \FunctionTok{mean}\NormalTok{(de), }\AttributeTok{year =} \FunctionTok{mean}\NormalTok{(year))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} to aggregate the \emph{5-Fold Cross Validation} results (for details, see the \hyperref[func.union_cv_results]{union\_cv\_results} function description in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-6}
+
+A data structure containing information about \emph{Date General Effect} as result of \emph{5-Fold Cross Validation}.
+
+\newpage
+
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{calc\_UMGYD\_effect} Function}{calc\_UMGYD\_effect Function}}\label{func.calc_UMGYD_effect}
 
 \hfill\break
 
-This is a helper function that calculates the \emph{UMGYD effect} of the user ratings and is intended to be used in other functions and scripts (for instance in \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect}) described below.
+This is a helper function that calculates the \emph{UMGYD effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect}) described below.
 
 \subparagraph{Parameters}\label{parameters-5}
 
@@ -4100,9 +4150,9 @@ The function accepts the only parameter \texttt{date\_general\_effect}, which is
 \begin{itemize}
 \tightlist
 \item
-  \hyperref[func.calc_date_general_effect]{calc\_date\_general\_effect};
+  \hyperref[func.calc_day_general_effect]{calc\_day\_general\_effect};
 \item
-  \hyperref[func.calc_date_general_effect.cv]{calc\_date\_general\_effect.cv}.
+  \hyperref[func.calc_day_general_effect.cv]{calc\_day\_general\_effect.cv}.
 \end{itemize}
 
 \subparagraph{Source Code}\label{source-code-5}
@@ -4126,9 +4176,9 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \end{noteblock}
 
-\subparagraph{Return}\label{return-5}
+\subparagraph{Return}\label{return-7}
 
-A data structure containg information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
+A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{train\_UMGYD\_effect} Function}{train\_UMGYD\_effect Function}}\label{func.train_UMGYD_effect}
 
@@ -4146,7 +4196,7 @@ The following is the source code of the function:
 \NormalTok{  \}}
   
 \NormalTok{  train\_set }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{calc\_date\_general\_effect}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{calc\_day\_general\_effect}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{calc\_UMGYD\_effect}\NormalTok{()}
 \NormalTok{\}}
 \end{Highlighting}
@@ -4157,9 +4207,9 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \end{noteblock}
 
-\subparagraph{Return}\label{return-6}
+\subparagraph{Return}\label{return-8}
 
-A data structure containg information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
+A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L84}{train\_UMGYD\_effect.cv} Function}{train\_UMGYD\_effect.cv Function}}\label{func.train_UMGYD_effect.cv}
 
@@ -4176,7 +4226,7 @@ The following is the source code of the function:
 \StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
 \NormalTok{  \}}
   
-  \FunctionTok{calc\_date\_general\_effect.cv}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_UMGYD\_effect}\NormalTok{()  }
+  \FunctionTok{calc\_day\_general\_effect.cv}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_UMGYD\_effect}\NormalTok{()  }
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -4186,9 +4236,9 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \end{noteblock}
 
-\subparagraph{Return}\label{return-7}
+\subparagraph{Return}\label{return-9}
 
-A data structure containg information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
+A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L92}{calc\_UMGYD\_effect\_MSE} Function}{calc\_UMGYD\_effect\_MSE Function}}\label{func.calc_UMGYD_effect_MSE}
 
@@ -4416,14 +4466,14 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{20em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{20em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
 Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
-UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
@@ -4446,7 +4496,7 @@ Now, we have a bit better result than one for the previous model.
 
 \hfill\break
 
-We have already explained the idea of \emph{Linear Model Regularization} in the \hyperref[ume-model-regularization]{UME Model Regularization} section above. We have also seen how the formula \eqref{eq:ME-penalty} for adding a penalty to the \emph{UME Model} is transformed into the formula \eqref{eq:GE-penalty} for the \emph{UMGE Model} and then into the formula \eqref{eq:GYE-penalty} for the \emph{UMGYE Model}. For the current model, this formula takes the form:
+We have already explained the idea of \emph{Linear Model Regularization} in the \hyperref[ume-model-regularization]{UME Model Regularization} section above. We have also seen how the formula \eqref{eq:ME-penalty} for adding a penalty to the \emph{UME Model} is transformed into the formula \eqref{eq:GE-penalty} for the \emph{UMGE Model} and then into the formula \eqref{eq:GYE-penalty} for the \emph{UMGYDE Model}. For the current model, this formula takes the form:
 
 \begin{equation}
 \sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j}) - s(d_{i,j})\right)^2 + \lambda \sum_{i,j} s(d_{i,j})^2
@@ -4552,7 +4602,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-279-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-281-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -4627,7 +4677,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-282-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-284-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.

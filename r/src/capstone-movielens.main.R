@@ -2302,18 +2302,6 @@ put_log("A row has been added to the RMSE Result Tibble
 for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`
 using `loess` function call with the best degree & span values.")
 
-# start <- put_start_date()
-# final_holdout_test |>
-#   left_join(date_days_map, by = "timestamp") |>
-#   left_join(edx.user_effect, by = "userId") |>
-#   left_join(mean_user_movie_genre_bias, by = "movieId") |>
-#   left_join(# cv.UMGYDE.default_params, by='days') |>
-#   mutate(resid = rating - clamp(mu + a + b + g + de_smoothed)) |>
-#   filter(!is.na(resid)) |>
-#   pull(resid) |> final_rmse()
-# put_end_date(start)
-#> [1] 0.8724055
-
 #### Close Log -----------------------------------------------------------------
 log_close()
 ### UMGDYE Model Regularization ------------------------------------------------
