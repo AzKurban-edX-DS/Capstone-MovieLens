@@ -121,9 +121,6 @@ train_UMGY_SmoothedDay_effect.cv <- function(degree = NA,
 }
 
 UMGY_SmoothedDay_effect.predict <- function(test_set, day_smoothed_effect) {
-  # mean.ye <- mean(rglr.UMGY_effect$ye)
-  # mean.de_smoothed <- mean(rglr.UMGYD_effect$de_smoothed)
-  
   test_set |>
     left_join(edx.user_effect, by = "userId") |>
     left_join(rglr.UM_effect, by = "movieId") |>
@@ -140,15 +137,8 @@ UMGY_SmoothedDay_effect.predict <- function(test_set, day_smoothed_effect) {
 }
 
 calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
-  # browser()
   test_set |>
     UMGY_SmoothedDay_effect.predict(day_smoothed_effect) |>
-    # left_join(edx.user_effect, by = "userId") |>
-    # left_join(rglr.UM_effect, by = "movieId") |>
-    # left_join(rglr.UMG_effect, by = "movieId") |>
-    # left_join(date_days_map, by = "timestamp") |>
-    # left_join(rglr.UMGY_effect, by='year') |>
-    # left_join(day_smoothed_effect, by='days') |>
     mutate(resid = rating - predicted) |> 
     pull(resid) |> mse()
 }

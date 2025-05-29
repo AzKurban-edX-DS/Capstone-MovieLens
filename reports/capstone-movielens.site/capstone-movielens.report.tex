@@ -129,7 +129,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-28}
+\date{2025-05-29}
 
 \begin{document}
 \maketitle
@@ -191,15 +191,7 @@ Let's install the development version of this package from the GitHub repository
 \begin{Shaded}
 \begin{Highlighting}[]
 \ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(edx.capstone.movielens.data)) pak}\SpecialCharTok{::}\FunctionTok{pak}\NormalTok{(}\StringTok{"AzKurban{-}edX{-}DS/edx.capstone.movielens.data"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## Loading required package: edx.capstone.movielens.data
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(edx.capstone.movielens.data)}
 \NormalTok{edx }\OtherTok{\textless{}{-}}\NormalTok{ edx.capstone.movielens.data}\SpecialCharTok{::}\NormalTok{edx}
 \NormalTok{final\_holdout\_test }\OtherTok{\textless{}{-}}\NormalTok{ edx.capstone.movielens.data}\SpecialCharTok{::}\NormalTok{final\_holdout\_test}
@@ -4026,10 +4018,7 @@ Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
 \subsection{User+Movie+Genre+Year+Day Effect (UMGYDE) Model}\label{usermoviegenreyearday-effect-umgyde-model}
 
 \hfill\break
-
-\subsubsection{Mathematical Description of the UMGYDE Model}\label{mathematical-description-of-the-umgyde-model}
-
-\hfill\break
+\#\#\# Mathematical Description of the UMGYDE Model\\
 
 If we define \(d_{i,j}\) as the \emph{number of days since the earliest record} in the \texttt{edx} dataset for movie \(j\) rated by user \(i\), then the formula \eqref{eq:UMGYDE-model} describing the \emph{UMGYDE Model}, for the current model, takes the form:
 
@@ -4058,10 +4047,11 @@ takes the following form:
 
 \hfill\break
 
+\phantomsection\label{sec.umgydem.support_functions.note.lambda}
 \begin{noteblock}
 Some of the functions described in this section accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call as well, which we will also need for the \emph{Regularization} techniques to apply to our models (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
 We have already explained that in the \hyperref[ume-model-regularization]{UME Model Regularization} section.
-For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
+For now, we omit the \texttt{lambda} parameter, implicitly using its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
 \end{noteblock}
 
@@ -4069,7 +4059,25 @@ For now, we omit the \texttt{lambda} parameter, accepting its default value \tex
 
 \hfill\break
 
-This is a helper function that calculates the \emph{day general effect} of user ratings on a \emph{given day since the earliest record} in the \texttt{edx} dataset and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect}) described below.
+This is a helper function that calculates the \emph{Day General Effect} of user ratings on a \emph{given day since the earliest record} in the \texttt{edx} dataset and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect}) described below.
+
+\subparagraph{Parameters}\label{parameters-5}
+
+\hfill\break
+
+\textbf{\emph{train\_set}}
+
+\hfill\break
+The \emph{Train Set} dataset.
+
+\textbf{\emph{lambda}}
+
+\hfill\break
+As explained \hyperref[sec.umgydem.support_functions.note.lambda]{above} in this section, this parameter is used for the \emph{Regularization} techniques. Otherwise, it is omitted, meaning its default (zero) value is used.
+
+\subparagraph{Source Code}\label{source-code-5}
+
+\hfill\break
 
 The following is a simplified version of the function's source code:
 
@@ -4091,19 +4099,31 @@ The following is a simplified version of the function's source code:
 \end{Shaded}
 
 \begin{noteblock}
-The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L2}{calc\_day\_general\_effect} function is available in the {[}UMGYDE Model Support Functions{]}((\url{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}) section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L2}{UMGYD-effect.functions.R} script on \emph{GitHub}.
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L2}{calc\_day\_general\_effect} function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L2}{UMGYD-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
 \subparagraph{Return}\label{return-5}
 
-A data structure containing information about \emph{Day General Effect}.
+\hfill\break
+A data frame object representing the \emph{Day General Effect}.
+
+\newpage
 
 \paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L31}{calc\_day\_general\_effect.cv} Function}{calc\_day\_general\_effect.cv Function}}\label{func.calc_day_general_effect.cv}
 
 \hfill\break
 
-This is a helper function that calculates the \emph{day general effect} of user ratings on a \emph{given day since the earliest record} in the \texttt{edx} dataset using the \emph{5-Fold Cross Validation} and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}) described below.
+This is a helper function that calculates the \emph{Day General Effect} of user ratings on a \emph{given day since the earliest record} in the \texttt{edx} dataset using the \emph{5-Fold Cross Validation} and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}) described below.
+
+\subparagraph{Parameters}\label{parameters-6}
+
+\hfill\break
+
+\textbf{\emph{lambda}}
+
+\hfill\break
+As explained \hyperref[sec.umgydem.support_functions.note.lambda]{above} in this section, this parameter is used for the \emph{Regularization} techniques. Otherwise, it is omitted, meaning its default (zero) value is used.
 
 \subparagraph{Souurce Code}\label{souurce-code-1}
 
@@ -4139,7 +4159,8 @@ Here we use the function call \href{https://github.com/AzKurban-edX-DS/Capstone-
 
 \subparagraph{Return}\label{return-6}
 
-A data structure containing information about \emph{Date General Effect} as result of \emph{5-Fold Cross Validation}.
+\hfill\break
+A data frame object representing the \emph{Day General Effect}.
 
 \newpage
 
@@ -4149,14 +4170,14 @@ A data structure containing information about \emph{Date General Effect} as resu
 
 This is a helper function that calculates the \emph{Smoothed Day Effect} of user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.calc_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect}) described below.
 
-\subparagraph{Parameters}\label{parameters-5}
+\subparagraph{Parameters}\label{parameters-7}
 
 \hfill\break
 
 \textbf{\emph{de\_bias.dat}}
 
 \hfill\break
-The \emph{day general effect} data, which is a data structure returned by any of the following functions described above:
+A data frame object representing the \emph{Day General Effect}. It can be returned by the following functions described above:
 
 \begin{itemize}
 \tightlist
@@ -4169,18 +4190,20 @@ The \emph{day general effect} data, which is a data structure returned by any of
 \textbf{\emph{degree}}
 
 \hfill\break
+A parameter to pass to the internally called \href{https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess}{stats::loess} function (see the \hyperref[func.loess_de.details]{Details} section below), meaning the degree of the polynomials to be used.
 
 \textbf{\emph{span}}
 
 \hfill\break
+A parameter to pass to the internally called \href{https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess}{stats::loess} function (see the \hyperref[func.loess_de.details]{Details} section below) to control the degree of smoothing.
 
+\phantomsection\label{func.loess_de.details}
 \subparagraph{Details}\label{details}
 
 \hfill\break
+The function is a wrapper for the \href{https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess}{stats::loess} and calls it under the hood.
 
-The function is a wrapper to the {[}stats::loess{]} and calls it under the hood.
-
-\subparagraph{Source Code}\label{source-code-5}
+\subparagraph{Source Code}\label{source-code-6}
 
 \hfill\break
 
@@ -4203,19 +4226,26 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \subparagraph{Return}\label{return-7}
 
-A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
+\hfill\break
+An object of class \texttt{loess} returned by the internally called function \href{https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess}{stats::loess} (see the \hyperref[func.loess_de.details]{Details} section above).
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{calc\_UMGYD\_effect} Function}{calc\_UMGYD\_effect Function}}\label{func.calc_UMGYD_effect}
+\newpage
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{calc\_UMGY\_SmoothedDay\_effect} Function}{calc\_UMGY\_SmoothedDay\_effect Function}}\label{func.calc_UMGY_SmoothedDay_effect}
 
 \hfill\break
 
-This is a helper function that calculates the \emph{UMGYD Effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect}) described below.
+This is a helper function that calculates the \emph{Smoothed Day Effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect}) described below.
 
-\subparagraph{Parameters}\label{parameters-6}
+\subparagraph{Parameters}\label{parameters-8}
 
 \hfill\break
 
-The function accepts the only parameter \texttt{date\_general\_effect}, which is a data structure returned by any of the following functions described above:
+\phantomsection\label{func.calc_UMGY_SmoothedDay_effect.params.day_gen_effect}
+\textbf{\emph{day\_gen\_effect}}
+
+\hfill\break
+A data frame object representing the \emph{Day General Effect}. It can be returned by the following functions described above:
 
 \begin{itemize}
 \tightlist
@@ -4225,265 +4255,498 @@ The function accepts the only parameter \texttt{date\_general\_effect}, which is
   \hyperref[func.calc_day_general_effect.cv]{calc\_day\_general\_effect.cv}.
 \end{itemize}
 
-\subparagraph{Source Code}\label{source-code-6}
+\textbf{\emph{degree}}
 
 \hfill\break
+A parameter to pass to the internally called \hyperref[func.loess_de]{loess\_de} function (see the \hyperref[func.calc_UMGY_SmoothedDay_effect.details]{Details} section below), meaning the degree of the polynomials to be used.
 
-The following is the source code of the function:
-
-\begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{calc\_UMGYD\_effect} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L69}{UMGYD-effect.functions.R} script on \emph{GitHub}.
-
-\end{noteblock}
-
-\subparagraph{Return}\label{return-8}
-
-A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{train\_UMGYD\_effect} Function}{train\_UMGYD\_effect Function}}\label{func.train_UMGYD_effect}
+\textbf{\emph{span}}
 
 \hfill\break
+A parameter to pass to the internally called \hyperref[func.loess_de]{loess\_de} function (see the \hyperref[func.calc_UMGY_SmoothedDay_effect.details]{Details} section below) to control the degree of smoothing.
 
-This function is used to train the current model using the \emph{Train Set} dataset passed in the \texttt{train\_set} parameter.
-The following is the source code of the function:
-
-\begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{train\_UMGYD\_effect} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{UMGYD-effect.functions.R} script on \emph{GitHub}.
-
-\end{noteblock}
-
-\subparagraph{Return}\label{return-9}
-
-A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L84}{train\_UMGYD\_effect.cv} Function}{train\_UMGYD\_effect.cv Function}}\label{func.train_UMGYD_effect.cv}
+\phantomsection\label{func.calc_UMGY_SmoothedDay_effect.details}
+\subparagraph{Details}\label{details-1}
 
 \hfill\break
-
-This function is used to train the current model using the \emph{5-Fold Cross Validation}.
-The following is the source code of the function:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{train\_UMGYD\_effect.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(lambda)) \{}
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"Function: train\_UMGYD\_effect.cv}
-\StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
-\NormalTok{  \}}
-  
-  \FunctionTok{calc\_day\_general\_effect.cv}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_UMGYD\_effect}\NormalTok{()  }
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L84}{train\_UMGYD\_effect.cv} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L84}{UMGYD-effect.functions.R} script on \emph{GitHub}.
-
-\end{noteblock}
-
-\subparagraph{Return}\label{return-10}
-
-A data structure containing information about \emph{User+Movie+Genre+Year (UMGYD) Effect}.
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L92}{calc\_UMGYD\_effect\_MSE} Function}{calc\_UMGYD\_effect\_MSE Function}}\label{func.calc_UMGYD_effect_MSE}
-
-\hfill\break
-
-The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYDE Model} for the given \emph{Test Set} passed in the \texttt{test\_set} parameter.
-
-\subparagraph{Parameters}\label{parameters-7}
-
-\hfill\break
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{test\_set:} A \emph{Test Set} dataset used for \emph{UMGYDE Model} validation;
-\item
-  \textbf{UMGYD\_effect:} A data structure returned by any of the following functions described above:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \hyperref[func.train_UMGYD_effect]{calc\_UMGYD\_effect};
-  \item
-    \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect};
-  \item
-    \hyperref[func.train_UMGYD_effect.cv]{train\_UMGYD\_effect.cv}.
-  \end{itemize}
-\end{itemize}
-
-\newpage
+Under the hood, the function internally calls the \hyperref[func.loess_de]{loess\_de} described above and constructs the \emph{User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect} data object based on the object of class \texttt{loess} it returns along with the data passed by the \hyperref[func.calc_UMGY_SmoothedDay_effect.params.day_gen_effect]{day\_gen\_effect} parameter.
 
 \subparagraph{Source Code}\label{source-code-7}
 
 \hfill\break
 
-The source code of the function is provided below:
+The following is the source code of the function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{calc\_UMGYD\_effect\_MSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, UMGYD\_effect)\{}
-\NormalTok{  test\_set }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{left\_join}\NormalTok{(edx.user\_effect, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{left\_join}\NormalTok{(rglr.UM\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{left\_join}\NormalTok{(rglr.UMG\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{left\_join}\NormalTok{(date\_days\_map, }\AttributeTok{by =} \StringTok{"timestamp"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{left\_join}\NormalTok{(UMGYD\_effect, }\AttributeTok{by=}\StringTok{\textquotesingle{}year\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
-    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}} \FunctionTok{clamp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b }\SpecialCharTok{+}\NormalTok{ g }\SpecialCharTok{+}\NormalTok{ ye)) }\SpecialCharTok{|\textgreater{}} 
-    \FunctionTok{pull}\NormalTok{(resid) }\SpecialCharTok{|\textgreater{}} \FunctionTok{mse}\NormalTok{()}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{noteblock}
-The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L92}{calc\_UMGYD\_effect\_MSE} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L92}{UMGYDE Model Support Functions} script.
-
-\end{noteblock}
-
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L102}{calc\_UMGYD\_effect\_MSE.cv} Function}{calc\_UMGYD\_effect\_MSE.cv Function}}\label{func.calc_UMGYD_effect_MSE.cv}
-
-\hfill\break
-
-The function calculates the \emph{5-Fold Cross Validation MSE} result for the \emph{UMGYD Effect} data passed in the \texttt{UMGYD\_effect} parameter.
-
-\subparagraph{Parameters}\label{parameters-8}
-
-\hfill\break
-
-The function accepts the only parameter: \texttt{UMGYD\_effect}, which is a data structure returned by the one of the following functions described above:
-
-\begin{itemize}
-\tightlist
-\item
-  \hyperref[func.train_UMGYD_effect]{calc\_UMGYD\_effect};
-\item
-  \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect};
-\item
-  \hyperref[func.train_UMGYD_effect.cv]{train\_UMGYD\_effect.cv}.
-\end{itemize}
-
-\subparagraph{Source Code}\label{source-code-8}
-
-\hfill\break
-
-The source code of the function is provided below:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{calc\_UMGYD\_effect\_MSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(UMGYD\_effect)\{}
-\NormalTok{  start }\OtherTok{\textless{}{-}} \FunctionTok{put\_start\_date}\NormalTok{()}
-\NormalTok{  UMGYD\_effect\_MSEs }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(edx\_CV, }\ControlFlowTok{function}\NormalTok{(cv\_fold\_dat)\{}
-\NormalTok{    cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{validation\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_UMGYD\_effect\_MSE}\NormalTok{(UMGYD\_effect)}
-\NormalTok{  \})}
-  \FunctionTok{put\_end\_date}\NormalTok{(start)}
-  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Function: calc\_UMGYD\_effect\_MSE.cv}
-\StringTok{Date (Year) Effect MSE values have been computed for the \%1{-}Fold Cross Validation samples."}\NormalTok{, }
-\NormalTok{           CVFolds\_N)}
+\NormalTok{calc\_UMGY\_SmoothedDay\_effect }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(day\_gen\_effect, }
+                                         \AttributeTok{degree =} \ConstantTok{NA}\NormalTok{, }
+                                         \AttributeTok{span =} \ConstantTok{NA}\NormalTok{)\{}
+  \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function \textasciigrave{}calc\_UMGY\_SmoothedDay\_effect\textasciigrave{}: }
+\StringTok{Training model using \textasciigrave{}loess\textasciigrave{} function with the following parameters:}
+\StringTok{degree: \%1;}
+\StringTok{span: \%2}
+\StringTok{..."}\NormalTok{,}
+\NormalTok{           degree,}
+\NormalTok{           span)}
+  \CommentTok{\# browser()}
+\NormalTok{  fit }\OtherTok{\textless{}{-}}\NormalTok{ day\_gen\_effect }\SpecialCharTok{|\textgreater{}} \FunctionTok{loess\_de}\NormalTok{(degree, span)}
+\NormalTok{  smth\_day\_effect }\OtherTok{\textless{}{-}}\NormalTok{ day\_gen\_effect }\SpecialCharTok{|\textgreater{}} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{de\_smoothed =}\NormalTok{ fit}\SpecialCharTok{$}\NormalTok{fitted)}
   
-  \FunctionTok{mean}\NormalTok{(UMGYD\_effect\_MSEs)}
+  \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"Function \textasciigrave{}calc\_UMGY\_SmoothedDay\_effect\textasciigrave{}: }
+\StringTok{Model has been trained using \textasciigrave{}loess\textasciigrave{} function with the following parameters:}
+\StringTok{degree: \%1;}
+\StringTok{span: \%2."}\NormalTok{,}
+\NormalTok{           degree,}
+\NormalTok{           span)}
+  
+\NormalTok{  smth\_day\_effect}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L102}{calc\_UMGYD\_effect\_MSE.cv} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L102}{UMGYDE Model Support Functions} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{calc\_UMGY\_SmoothedDay\_effect} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L74}{UMGYD-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L114}{calc\_UMGYD\_effect\_RMSE} Function}{calc\_UMGYD\_effect\_RMSE Function}}\label{func.calc_UMGYD_effect_RMSE}
+\subparagraph{Return}\label{return-8}
+
+\hfill\break
+A data frame object representing the \emph{User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect}.
+
+\newpage
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L97}{train\_UMGY\_SmoothedDay\_effect} Function}{train\_UMGY\_SmoothedDay\_effect Function}}\label{func.train_UMGY_SmoothedDay_effect}
 
 \hfill\break
 
-The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYDE Model} for the given \emph{Test Set} passed in the \texttt{test\_set} parameter.
+This is a helper function that calculates the \emph{Smoothed Day Effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect}) described below.
 
 \subparagraph{Parameters}\label{parameters-9}
 
 \hfill\break
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{test\_set:} A \emph{Test Set} dataset used for \emph{UMGYDE Model} validation;
-\item
-  \textbf{UMGYD\_effect:} A data structure returned by any of the following functions described above:
+\textbf{\emph{train\_set}}
 
-  \begin{itemize}
-  \tightlist
-  \item
-    \hyperref[func.train_UMGYD_effect]{calc\_UMGYD\_effect};
-  \item
-    \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect};
-  \item
-    \hyperref[func.train_UMGYD_effect.cv]{train\_UMGYD\_effect.cv}.
-  \end{itemize}
-\end{itemize}
+\hfill\break
+The \emph{Train Set} dataset.
 
-\subparagraph{Source Code}\label{source-code-9}
+\textbf{\emph{degree}}
+
+\hfill\break
+A parameter to pass to the internally called \hyperref[func.calc_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect} function (see the \hyperref[func.train_UMGY_SmoothedDay_effect.details]{Details} section below), meaning the degree of the polynomials to be used.
+
+\textbf{\emph{span}}
+
+\hfill\break
+A parameter to pass to the internally called \hyperref[func.calc_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect} function (see the \hyperref[func.train_UMGY_SmoothedDay_effect.details]{Details} section below) to control the degree of smoothing.
+
+\textbf{\emph{lambda}}
+
+\hfill\break
+As explained \hyperref[sec.umgydem.support_functions.note.lambda]{above} in this section, this parameter is used for the \emph{Regularization} techniques. Otherwise, it is omitted, meaning its default (zero) value is used.
+
+\phantomsection\label{func.train_UMGY_SmoothedDay_effect.details}
+\subparagraph{Details}\label{details-2}
+
+\hfill\break
+Under the hood, the function internally calls the \hyperref[func.calc_day_general_effect]{calc\_day\_general\_effect} and then \hyperref[func.calc_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect} described above, and returns the \emph{User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect} data object that the latter inner function returns.
+
+\subparagraph{Source Code}\label{source-code-8}
 
 \hfill\break
 
-The source code of the function is provided below:
+The following is the source code of the function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{calc\_UMGYD\_effect\_RMSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, UMGYD\_effect)\{}
-\NormalTok{  mse }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}} \FunctionTok{calc\_UMGYD\_effect\_MSE}\NormalTok{(UMGYD\_effect)}
-  \FunctionTok{sqrt}\NormalTok{(mse)}
+\NormalTok{train\_UMGY\_SmoothedDay\_effect }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(train\_set, }
+                                          \AttributeTok{degree =} \ConstantTok{NA}\NormalTok{, }
+                                          \AttributeTok{span =} \ConstantTok{NA}\NormalTok{,}
+                                          \AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(lambda)) \{}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Function: train\_UMGY\_SmoothedDay\_effect}
+\StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
+\NormalTok{  \}}
+  
+\NormalTok{  train\_set }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{calc\_day\_general\_effect}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{train\_UMGY\_SmoothedDay\_effect}\NormalTok{(degree, span)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L114}{calc\_UMGYD\_effect\_RMSE} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L114}{UMGYDE Model Support Functions} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L97}{train\_UMGY\_SmoothedDay\_effect} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L97}{UMGYD-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L118}{calc\_UMGYD\_effect\_RMSE.cv} Function}{calc\_UMGYD\_effect\_RMSE.cv Function}}\label{func.calc_UMGYD_effect_RMSE.cv}
+\subparagraph{Return}\label{return-9}
+
+\hfill\break
+A data frame object representing the \emph{User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect}.
+
+\newpage
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L111}{train\_UMGY\_SmoothedDay\_effect.cv} Function}{train\_UMGY\_SmoothedDay\_effect.cv Function}}\label{func.train_UMGY_SmoothedDay_effect.cv}
 
 \hfill\break
 
-The function calculates the \emph{5-Fold Cross Validation MSE} result for the \emph{UMGYD Effect} data passed in the \texttt{UMGYD\_effect} parameter.
+This is a helper function that calculates the \emph{Smoothed Day Effect} of the user ratings and is intended to be used in other functions and scripts (such as \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}) described below.
 
 \subparagraph{Parameters}\label{parameters-10}
 
 \hfill\break
 
-The function accepts the only parameter: \texttt{UMGYD\_effect}, which is a data structure returned by the one of the following functions described above:
+\textbf{\emph{degree}}
+
+\hfill\break
+A parameter to pass to the internally called \hyperref[func.calc_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect} function (see the \hyperref[func.train_UMGY_SmoothedDay_effect.cv.details]{Details} section below), meaning the degree of the polynomials to be used.
+
+\textbf{\emph{span}}
+
+\hfill\break
+A parameter to pass to the internally called \hyperref[func.calc_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect} function (see the \hyperref[func.train_UMGY_SmoothedDay_effect.cv.details]{Details} section below) to control the degree of smoothing.
+
+\textbf{\emph{lambda}}
+
+\hfill\break
+As explained \hyperref[sec.umgydem.support_functions.note.lambda]{above} in this section, this parameter is used for the \emph{Regularization} techniques. Otherwise, it is omitted, meaning its default (zero) value is used.
+
+\phantomsection\label{func.train_UMGY_SmoothedDay_effect.cv.details}
+\subparagraph{Details}\label{details-3}
+
+\hfill\break
+Under the hood, the function internally calls the \hyperref[func.calc_day_general_effect.cv]{calc\_day\_general\_effect.cv} and then \hyperref[func.calc_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect} described above, and returns the \emph{User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect} data object that the latter inner function returns.
+
+\subparagraph{Source Code}\label{source-code-9}
+
+\hfill\break
+
+The following is the source code of the function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_UMGY\_SmoothedDay\_effect.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{degree =} \ConstantTok{NA}\NormalTok{, }
+                                             \AttributeTok{span =} \ConstantTok{NA}\NormalTok{,}
+                                             \AttributeTok{lambda =} \DecValTok{0}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(lambda)) \{}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Function: train\_UMGY\_SmoothedDay\_effect.cv}
+\StringTok{\textasciigrave{}lambda\textasciigrave{} is \textasciigrave{}NA\textasciigrave{}"}\NormalTok{)}
+\NormalTok{  \}}
+  
+  \FunctionTok{calc\_day\_general\_effect.cv.cv}\NormalTok{(lambda) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{calc\_UMGY\_SmoothedDay\_effect}\NormalTok{(degree, span)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L111}{train\_UMGY\_SmoothedDay\_effect.cv} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L111}{UMGYD-effect.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-10}
+
+\hfill\break
+A data frame object representing the \emph{User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L123}{UMGY\_SmoothedDay\_effect.predict} Function}{UMGY\_SmoothedDay\_effect.predict Function}}\label{func.UMGY_SmoothedDay_effect.predict}
+
+\hfill\break
+
+This is a helper function that predicts user rating values on the \emph{Test Set} passed by the \hyperref[func.UMGY_SmoothedDay_effect.predict.params.test_set]{test\_set} parameter, taking into account the \emph{User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect} passed by the \hyperref[func.UMGY_SmoothedDay_effect.predict.params.day_smoothed_effect]{day\_smoothed\_effect} parameter.
+
+\subparagraph{Parameters}\label{parameters-11}
+
+\hfill\break
+
+\phantomsection\label{func.UMGY_SmoothedDay_effect.predict.params.test_set}
+\textbf{\emph{test\_set}}
+
+\hfill\break
+A \emph{Test Set} dataset for the \emph{UMGYDE Model} validation.
+
+\phantomsection\label{func.UMGY_SmoothedDay_effect.predict.params.day_smoothed_effect}
+\textbf{\emph{day\_smoothed\_effect}}
+
+\hfill\break
+A data object representing the \emph{UMGYD Effect}, which can be returned by any of the following functions described above:
 
 \begin{itemize}
 \tightlist
 \item
-  \hyperref[func.train_UMGYD_effect]{calc\_UMGYD\_effect};
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect};
 \item
-  \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect};
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect};
 \item
-  \hyperref[func.train_UMGYD_effect.cv]{train\_UMGYD\_effect.cv}.
+  \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}.
 \end{itemize}
 
 \subparagraph{Source Code}\label{source-code-10}
 
 \hfill\break
 
-The source code of the function is provided below:
+Below is the source code of the function:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{calc\_UMGYD\_effect\_RMSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(UMGYD\_effect)\{}
-\NormalTok{  UMGYD\_effect\_RMSE }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{calc\_UMGYD\_effect\_MSE.cv}\NormalTok{(UMGYD\_effect))}
-  \FunctionTok{put\_log2}\NormalTok{(}\StringTok{"\%1{-}Fold Cross Validation ultimate RMSE: \%2"}\NormalTok{, }
-\NormalTok{           CVFolds\_N, }
-\NormalTok{           UMGYD\_effect\_RMSE)}
-  
-\NormalTok{  UMGYD\_effect\_RMSE}
+\NormalTok{UMGY\_SmoothedDay\_effect.predict }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, day\_smoothed\_effect) \{}
+\NormalTok{  test\_set }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(edx.user\_effect, }\AttributeTok{by =} \StringTok{"userId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(rglr.UM\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(rglr.UMG\_effect, }\AttributeTok{by =} \StringTok{"movieId"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(date\_days\_map, }\AttributeTok{by =} \StringTok{"timestamp"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(rglr.UMGY\_effect, }\AttributeTok{by=}\StringTok{\textquotesingle{}year\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{left\_join}\NormalTok{(day\_smoothed\_effect, }\AttributeTok{by=}\StringTok{\textquotesingle{}days\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{predicted =} \FunctionTok{clamp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ a }\SpecialCharTok{+}\NormalTok{ b }\SpecialCharTok{+}\NormalTok{ g }\SpecialCharTok{+} 
+                               \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(ye), }\DecValTok{0}\NormalTok{, ye) }\SpecialCharTok{+}
+                               \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(de\_smoothed), }
+                                      \DecValTok{0}\NormalTok{, }
+\NormalTok{                                      de\_smoothed))) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{select}\NormalTok{(userId, movieId, timestamp, rating, predicted)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L118}{calc\_UMGYD\_effect\_RMSE.cv} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L118}{UMGYDE Model Support Functions} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L123}{UMGY\_SmoothedDay\_effect.predict} function is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L123}{UMGYD-effect.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
+
+\subparagraph{Return}\label{return-11}
+
+\hfill\break
+
+A data frame object containing predicted values.
+
+\newpage
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L139}{calc\_UMGY\_SmoothedDay\_effect.MSE} Function}{calc\_UMGY\_SmoothedDay\_effect.MSE Function}}\label{func.calc_UMGY_SmoothedDay_effect.MSE}
+
+\hfill\break
+
+The function calculates the \emph{Mean Squared Error (MSE)} of the \emph{UMGYDE Model} for the given \emph{Test Set} passed by the \hyperref[func.calc_UMGY_SmoothedDay_effect.MSE.params.test_set]{test\_set} parameter.
+
+\subparagraph{Parameters}\label{parameters-12}
+
+\hfill\break
+
+\phantomsection\label{func.calc_UMGY_SmoothedDay_effect.MSE.params.test_set}
+\textbf{\emph{test\_set}}
+
+\hfill\break
+A \emph{Test Set} dataset for the \emph{UMGYDE Model} validation.
+
+\phantomsection\label{func.calc_UMGY_SmoothedDay_effect.MSE.params.day_smoothed_effect}
+\textbf{\emph{day\_smoothed\_effect}}
+
+\hfill\break
+A data object representing the \emph{UMGYD Effect}, which can be returned by any of the following functions described above:
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect};
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect};
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}.
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code-11}
+
+\hfill\break
+
+The source code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_UMGY\_SmoothedDay\_effect.MSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, day\_smoothed\_effect) \{}
+\NormalTok{  test\_set }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{UMGY\_SmoothedDay\_effect.predict}\NormalTok{(day\_smoothed\_effect) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{resid =}\NormalTok{ rating }\SpecialCharTok{{-}}\NormalTok{ predicted) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{pull}\NormalTok{(resid) }\SpecialCharTok{|\textgreater{}} \FunctionTok{mse}\NormalTok{()}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L139}{calc\_UMGY\_SmoothedDay\_effect.MSE} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L139}{UMGYD-effect.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-12}
+
+\hfill\break
+The \emph{Mean Squared Error (MSE)} value of the \emph{UMGYDE Model} computed on the \emph{Test Set} passed by the \hyperref[func.calc_UMGY_SmoothedDay_effect.MSE.params.test_set]{test\_set} parameter.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L145}{calc\_UMGY\_SmoothedDay\_effect.MSE.cv} Function}{calc\_UMGY\_SmoothedDay\_effect.MSE.cv Function}}\label{func.calc_UMGY_SmoothedDay_effect.MSE.cv}
+
+\hfill\break
+
+The function calculates the \emph{5-Fold Cross Validation MSE} result for the \emph{UMGYD Effect} data passed by the \hyperref[func.calc_UMGY_SmoothedDay_effect.MSE.cv.params.day_smoothed_effect]{day\_smoothed\_effect} parameter.
+
+\subparagraph{Parameters}\label{parameters-13}
+
+\hfill\break
+
+\phantomsection\label{func.calc_UMGY_SmoothedDay_effect.MSE.cv.params.day_smoothed_effect}
+\textbf{\emph{day\_smoothed\_effect}}
+
+\hfill\break
+A data object representing the \emph{UMGYD Effect}, which can be returned by any of the following functions described above:
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect};
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect};
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}.
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code-12}
+
+\hfill\break
+
+Below is a simplified version of the function's source code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_UMGY\_SmoothedDay\_effect.MSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(day\_smoothed\_effect)\{}
+\NormalTok{  smth\_day\_effect\_MSEs }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(edx\_CV, }\ControlFlowTok{function}\NormalTok{(cv\_fold\_dat)\{}
+\NormalTok{    cv\_fold\_dat}\SpecialCharTok{$}\NormalTok{validation\_set }\SpecialCharTok{|\textgreater{}} 
+      \FunctionTok{calc\_UMGY\_SmoothedDay\_effect.MSE}\NormalTok{(day\_smoothed\_effect)}
+\NormalTok{  \})}
+  
+  \FunctionTok{mean}\NormalTok{(smth\_day\_effect\_MSEs)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L145}{calc\_UMGY\_SmoothedDay\_effect.MSE.cv} function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L145}{UMGYD-effect.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-13}
+
+\hfill\break
+The \emph{Mean Squared Error (MSE)} value of the \emph{UMGYDE Model} computed as the mean of the \emph{5-Fold Cross Validation} results.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L161}{calc\_UMGY\_SmoothedDay\_effect.RMSE} Function}{calc\_UMGY\_SmoothedDay\_effect.RMSE Function}}\label{func.calc_UMGY_SmoothedDay_effect.RMSE}
+
+\hfill\break
+
+The function calculates the \emph{Root Mean Squared Error (RMSE)} of the \emph{UMGYDE Model} for the given \emph{Test Set} passed by the \hyperref[func.calc_UMGY_SmoothedDay_effect.RMSE.params.test_set]{test\_set} parameter.
+
+\subparagraph{Parameters}\label{parameters-14}
+
+\hfill\break
+
+\phantomsection\label{func.calc_UMGY_SmoothedDay_effect.RMSE.params.test_set}
+\textbf{\emph{test\_set}}
+
+\hfill\break
+A \emph{Test Set} dataset for the \emph{UMGYDE Model} validation.
+
+\phantomsection\label{func.calc_UMGY_SmoothedDay_effect.RMSE.params.day_smoothed_effect}
+\textbf{\emph{day\_smoothed\_effect}}
+
+\hfill\break
+A data object representing the \emph{UMGYD Effect}, which can be returned by any of the following functions described above:
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect};
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect};
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}.
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code-13}
+
+\hfill\break
+
+The source code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_UMGY\_SmoothedDay\_effect.RMSE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(test\_set, day\_smoothed\_effect)\{}
+\NormalTok{  day\_smth\_effect\_MSe }\OtherTok{\textless{}{-}}\NormalTok{ test\_set }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{calc\_UMGY\_SmoothedDay\_effect.MSE}\NormalTok{(day\_smoothed\_effect)}
+  
+  \FunctionTok{sqrt}\NormalTok{(day\_smth\_effect\_MSe)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L161}{calc\_UMGY\_SmoothedDay\_effect.RMSE} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L161}{UMGYD-effect.functions.R} script.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-14}
+
+\hfill\break
+The \emph{Root Mean Squared Error (RMSE)} value of the \emph{UMGYDE Model} computed on the \emph{Test Set} passed by the \hyperref[func.calc_UMGY_SmoothedDay_effect.RMSE.params.test_set]{test\_set} parameter.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L167}{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} Function}{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv Function}}\label{func.calc_UMGY_SmoothedDay_effect.RMSE.cv}
+
+\hfill\break
+
+The function calculates the \emph{5-Fold Cross Validation RMSE} result for the \emph{UMGYD Effect} data passed by the \hyperref[func.calc_UMGY_SmoothedDay_effect.RMSE.cv.params.day_smoothed_effect]{day\_smoothed\_effect} parameter.
+
+\subparagraph{Parameters}\label{parameters-15}
+
+\hfill\break
+
+\phantomsection\label{func.calc_UMGY_SmoothedDay_effect.RMSE.cv.params.day_smoothed_effect}
+\textbf{\emph{day\_smoothed\_effect}}
+
+\hfill\break
+A data object representing the \emph{UMGYD Effect}, which can be returned by any of the following functions described above:
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{calc\_UMGY\_SmoothedDay\_effect};
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect};
+\item
+  \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv}.
+\end{itemize}
+
+\subparagraph{Source Code}\label{source-code-14}
+
+\hfill\break
+
+The source code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(day\_smoothed\_effect)\{}
+  \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{calc\_UMGY\_SmoothedDay\_effect.MSE.cv}\NormalTok{(day\_smoothed\_effect))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+The source code of the function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L167}{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L1}{UMGYDE Model Support Functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L167}{UMGYD-effect.functions.R} script.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-15}
+
+\hfill\break
+The \emph{Root Mean Squared Error (RMSE)} value of the \emph{UMGYDE Model} computed as the square root of the \emph{5-Fold Cross Validation MSE} result.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \newpage
 
@@ -4647,7 +4910,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-282-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-283-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -4722,7 +4985,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-285-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-286-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -4777,7 +5040,7 @@ Aggregates the input data frames into a single data frame.
 \end{Shaded}
 
 \phantomsection\label{func.union_cv_results.params}
-\paragraph{Parameters}\label{parameters-11}
+\paragraph{Parameters}\label{parameters-16}
 
 \hfill\break
 
@@ -4789,7 +5052,7 @@ Aggregates the input data frames into a single data frame.
 \end{itemize}
 
 \phantomsection\label{func.union_cv_results.details}
-\paragraph{Details}\label{details-1}
+\paragraph{Details}\label{details-4}
 
 \hfill\break
 
@@ -4803,7 +5066,7 @@ The function is used to aggregate the \emph{N-Fold Cross Validation} method resu
 A data frame that is a union of the input data frames.
 
 \phantomsection\label{func.union_cv_results.code}
-\paragraph{Source Code}\label{source-code-11}
+\paragraph{Source Code}\label{source-code-15}
 
 \hfill\break
 
@@ -4854,7 +5117,7 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.params
 \end{Shaded}
 
 \phantomsection\label{func.data.plot.params}
-\paragraph{Parameters}\label{parameters-12}
+\paragraph{Parameters}\label{parameters-17}
 
 \hfill\break
 
@@ -4915,14 +5178,14 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.params
 \end{itemize}
 
 \phantomsection\label{func.data.plot.details}
-\paragraph{Details}\label{details-2}
+\paragraph{Details}\label{details-5}
 
 \hfill\break
 
 The function is a wrapper for the \href{https://ggplot2.tidyverse.org/reference/ggplot.html}{ggplot2::ggplot} function and is a simple and convenient tool for visualizing the data of this project.
 
 \phantomsection\label{func.data.plot.code}
-\paragraph{Source Code}\label{source-code-12}
+\paragraph{Source Code}\label{source-code-16}
 
 \hfill\break
 
@@ -4979,7 +5242,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.data.helper.func0.params}
-\paragraph{Parameters}\label{parameters-13}
+\paragraph{Parameters}\label{parameters-18}
 
 \hfill\break
 
@@ -4998,7 +5261,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{itemize}
 
 \phantomsection\label{func.data.helper.func0.details}
-\paragraph{Details}\label{details-3}
+\paragraph{Details}\label{details-6}
 
 \hfill\break
 
@@ -5013,7 +5276,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.data.helper.func0.code}
-\paragraph{Source Code}\label{source-code-13}
+\paragraph{Source Code}\label{source-code-17}
 
 \hfill\break
 
@@ -5051,7 +5314,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{Shaded}
 
 \phantomsection\label{func.mean_reg.params}
-\paragraph{Parameters}\label{parameters-14}
+\paragraph{Parameters}\label{parameters-19}
 
 \hfill\break
 
@@ -5076,7 +5339,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{itemize}
 
 \phantomsection\label{func.mean_reg.details}
-\paragraph{Details}\label{details-4}
+\paragraph{Details}\label{details-7}
 
 \hfill\break
 We call this function internally from the functions that compute the \emph{penalized estimates} as described in section \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#penalized-least-squares}{23.6 Penalized Least Squares} of the \emph{Course Textbook}\autocite{IDS2_23-6}.
@@ -5102,7 +5365,7 @@ When the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} 
 \]
 
 \phantomsection\label{func.mean_reg.code}
-\paragraph{Source Code}\label{source-code-14}
+\paragraph{Source Code}\label{source-code-18}
 
 \hfill\break
 
@@ -5154,7 +5417,7 @@ The function searches for the parameter value corresponding to the minimum value
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-15}
+\paragraph{Parameters}\label{parameters-20}
 
 \hfill\break
 
@@ -5178,7 +5441,7 @@ The function searches for the parameter value corresponding to the minimum value
   \textbf{steps.beyond\_min = 2:} (takes effect only if \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number of steps after finding the minimum value of the \texttt{RMSE}, upon completion of which the function should terminate.
 \end{itemize}
 
-\paragraph{Details}\label{details-5}
+\paragraph{Details}\label{details-8}
 
 \hfill\break
 During execution, the function uses a helper function specified by the \texttt{fn\_tune.test.param\_value} parameter, which calculates the \texttt{RMSE} value for the given parameter from the list determined by the \texttt{param\_values} parameter.
@@ -5202,7 +5465,7 @@ The function returns a data structure containing the found value of the input pa
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-15}
+\paragraph{Source Code}\label{source-code-19}
 
 \hfill\break
 Below is the most significant part of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function:
@@ -5300,7 +5563,7 @@ The function fine-tunes the model by searching for the best possible value of th
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-16}
+\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-21}
 
 \hfill\break
 
@@ -5368,7 +5631,7 @@ This is a parameter that is required for the \href{https://github.com/AzKurban-e
 This is a parameter that is required for the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function that is called internally during execution (see the description of the \texttt{tune.model\_param} function \hyperref[func.tune.model_param]{above}).
 
 \phantomsection\label{func.model.tune.param_range.details}
-\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-6}
+\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-9}
 
 \hfill\break
 First, the function generates a sequence of the \texttt{input\ parameter\ values} based on the \texttt{loop\_starter} parameter values, as described above (see the \hyperref[func.model.tune.param_range.params.loop_starter]{loop\_starter} parameter description for the details), which is used as one of the input parameters for the helper function \hyperref[func.tune.model_param]{tune.model\_param}, which is repeatedly called during the execution, performing fine-tuning of the model.
@@ -5399,7 +5662,7 @@ A data structure containing the minimum \texttt{RMSE} value reached during the f
 \end{Shaded}
 
 \phantomsection\label{func.model.tune.param_range.code}
-\paragraph{Source Code}\label{source-code-16}
+\paragraph{Source Code}\label{source-code-20}
 
 \hfill\break
 Below is the simplified version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} function:
@@ -5579,7 +5842,7 @@ The algorithm finds the values of the nearest neighboring elements of the elemen
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-17}
+\paragraph{Parameters}\label{parameters-22}
 
 \hfill\break
 
@@ -5604,7 +5867,7 @@ A data structure compatible with the \texttt{tuned.result} item of the data stru
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Details}\label{details-7}
+\paragraph{Details}\label{details-10}
 
 \hfill\break
 
@@ -5623,7 +5886,7 @@ A vector containing the element value corresponding to the minimum \texttt{RMSE}
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-17}
+\paragraph{Source Code}\label{source-code-21}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L80}{get\_fine\_tune.param.endpoints} function is provided below:
@@ -5667,7 +5930,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-18}
+\paragraph{Parameters}\label{parameters-23}
 
 \hfill\break
 
@@ -5692,7 +5955,7 @@ A data structure compatible with the \texttt{tuned.result} item of the data stru
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Details}\label{details-8}
+\paragraph{Details}\label{details-11}
 
 \hfill\break
 The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
@@ -5710,7 +5973,7 @@ A vector containing the index of the element corresponding to the minimum \textt
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-18}
+\paragraph{Source Code}\label{source-code-22}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L87}{get\_fine\_tune.param.endpoints.idx} function is shown below:
@@ -5769,7 +6032,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-19}
+\paragraph{Parameters}\label{parameters-24}
 
 \hfill\break
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the \texttt{RMSE}.
@@ -5782,7 +6045,7 @@ A pair of matched vectors, the first of which contains the values of the input p
   \textbf{rmses:} A vector containing values of the corresponding \texttt{Root\ Mean\ Squared\ Errors}..
 \end{itemize}
 
-\paragraph{Details}\label{details-9}
+\paragraph{Details}\label{details-12}
 
 \hfill\break
 Extracts the best values from the input data and returns them as a vector containing a pair of the best \emph{input parameter} value and the corresponding \emph{minimum \texttt{RMSE}}.
@@ -5798,7 +6061,7 @@ A vector containing a pair of the best \emph{input parameter} value and the corr
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-19}
+\paragraph{Source Code}\label{source-code-23}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} function is shown below:
@@ -5828,7 +6091,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname00.params}
-\paragraph{Parameters}\label{parameters-20}
+\paragraph{Parameters}\label{parameters-25}
 
 \hfill\break
 
@@ -5847,7 +6110,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{itemize}
 
 \phantomsection\label{func.fname00.details}
-\paragraph{Details}\label{details-10}
+\paragraph{Details}\label{details-13}
 
 \hfill\break
 
@@ -5862,7 +6125,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname00.code}
-\paragraph{Source Code}\label{source-code-20}
+\paragraph{Source Code}\label{source-code-24}
 
 \hfill\break
 
@@ -5883,14 +6146,14 @@ The source code of the \href{}{fname00} is also available in the \href{}{Some.Se
 \hfill\break
 
 \phantomsection\label{func.fname01.params}
-\paragraph{Parameters}\label{parameters-21}
+\paragraph{Parameters}\label{parameters-26}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname01.details}
-\paragraph{Details}\label{details-11}
+\paragraph{Details}\label{details-14}
 
 \hfill\break
 
@@ -5905,7 +6168,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname01.code}
-\paragraph{Source Code}\label{source-code-21}
+\paragraph{Source Code}\label{source-code-25}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5925,14 +6188,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname02.params}
-\paragraph{Parameters}\label{parameters-22}
+\paragraph{Parameters}\label{parameters-27}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname02.details}
-\paragraph{Details}\label{details-12}
+\paragraph{Details}\label{details-15}
 
 \hfill\break
 
@@ -5947,7 +6210,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname02.code}
-\paragraph{Source Code}\label{source-code-22}
+\paragraph{Source Code}\label{source-code-26}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -5967,14 +6230,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname0.params}
-\paragraph{Parameters}\label{parameters-23}
+\paragraph{Parameters}\label{parameters-28}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname0.details}
-\paragraph{Details}\label{details-13}
+\paragraph{Details}\label{details-16}
 
 \hfill\break
 
@@ -5989,7 +6252,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname0.code}
-\paragraph{Source Code}\label{source-code-23}
+\paragraph{Source Code}\label{source-code-27}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6009,14 +6272,14 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \hfill\break
 
 \phantomsection\label{func.fname03.params}
-\paragraph{Parameters}\label{parameters-24}
+\paragraph{Parameters}\label{parameters-29}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname03.details}
-\paragraph{Details}\label{details-14}
+\paragraph{Details}\label{details-17}
 
 \hfill\break
 
@@ -6031,7 +6294,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname03.code}
-\paragraph{Source Code}\label{source-code-24}
+\paragraph{Source Code}\label{source-code-28}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6051,14 +6314,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname1.params}
-\paragraph{Parameters}\label{parameters-25}
+\paragraph{Parameters}\label{parameters-30}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname1.details}
-\paragraph{Details}\label{details-15}
+\paragraph{Details}\label{details-18}
 
 \hfill\break
 
@@ -6073,7 +6336,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname1.code}
-\paragraph{Source Code}\label{source-code-25}
+\paragraph{Source Code}\label{source-code-29}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6097,14 +6360,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname2.params}
-\paragraph{Parameters}\label{parameters-26}
+\paragraph{Parameters}\label{parameters-31}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname2.details}
-\paragraph{Details}\label{details-16}
+\paragraph{Details}\label{details-19}
 
 \hfill\break
 
@@ -6119,7 +6382,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname2.code}
-\paragraph{Source Code}\label{source-code-26}
+\paragraph{Source Code}\label{source-code-30}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6139,14 +6402,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname3.params}
-\paragraph{Parameters}\label{parameters-27}
+\paragraph{Parameters}\label{parameters-32}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname3.details}
-\paragraph{Details}\label{details-17}
+\paragraph{Details}\label{details-20}
 
 \hfill\break
 
@@ -6161,7 +6424,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname3.code}
-\paragraph{Source Code}\label{source-code-27}
+\paragraph{Source Code}\label{source-code-31}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6181,14 +6444,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname4.params}
-\paragraph{Parameters}\label{parameters-28}
+\paragraph{Parameters}\label{parameters-33}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname4.details}
-\paragraph{Details}\label{details-18}
+\paragraph{Details}\label{details-21}
 
 \hfill\break
 
@@ -6203,7 +6466,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname4.code}
-\paragraph{Source Code}\label{source-code-28}
+\paragraph{Source Code}\label{source-code-32}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6223,14 +6486,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname5.params}
-\paragraph{Parameters}\label{parameters-29}
+\paragraph{Parameters}\label{parameters-34}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname5.details}
-\paragraph{Details}\label{details-19}
+\paragraph{Details}\label{details-22}
 
 \hfill\break
 
@@ -6245,7 +6508,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname5.code}
-\paragraph{Source Code}\label{source-code-29}
+\paragraph{Source Code}\label{source-code-33}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6265,14 +6528,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname6.params}
-\paragraph{Parameters}\label{parameters-30}
+\paragraph{Parameters}\label{parameters-35}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname6.details}
-\paragraph{Details}\label{details-20}
+\paragraph{Details}\label{details-23}
 
 \hfill\break
 
@@ -6287,7 +6550,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname6.code}
-\paragraph{Source Code}\label{source-code-30}
+\paragraph{Source Code}\label{source-code-34}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6307,14 +6570,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname7.params}
-\paragraph{Parameters}\label{parameters-31}
+\paragraph{Parameters}\label{parameters-36}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname7.details}
-\paragraph{Details}\label{details-21}
+\paragraph{Details}\label{details-24}
 
 \hfill\break
 
@@ -6329,7 +6592,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname7.code}
-\paragraph{Source Code}\label{source-code-31}
+\paragraph{Source Code}\label{source-code-35}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
@@ -6349,14 +6612,14 @@ The source code of the \href{}{} is also available in the \href{}{Regularization
 \hfill\break
 
 \phantomsection\label{func.fname8.params}
-\paragraph{Parameters}\label{parameters-32}
+\paragraph{Parameters}\label{parameters-37}
 
 \hfill\break
 - \textbf{param1:} description;
 - \textbf{param2:} description.
 
 \phantomsection\label{func.fname8.details}
-\paragraph{Details}\label{details-22}
+\paragraph{Details}\label{details-25}
 
 \hfill\break
 
@@ -6371,7 +6634,7 @@ Note
 \hfill\break
 
 \phantomsection\label{func.fname8.code}
-\paragraph{Source Code}\label{source-code-32}
+\paragraph{Source Code}\label{source-code-36}
 
 \hfill\break
 The soure code of the \href{}{function} function is shown below:
