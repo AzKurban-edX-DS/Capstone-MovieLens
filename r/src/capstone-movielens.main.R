@@ -1743,7 +1743,7 @@ using `loess` function with parameter `degree = 2`: %1",
 UMGYDE.fine_tune.degree2.data.path)
 
 ### UMGYDE Model (UMGYDEM) Building --------------------------------------------
-#### UMGYDEM Training with default parameters -------------------------------------------
+#### UMGYDEM Training with default parameters ----------------------------------
 file_name_tmp <- "9.cv.UMGYDE.loess.default-params.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1812,7 +1812,7 @@ RMSEs.ResultTibble.UMGYDE <- RMSEs.ResultTibble.rglr.UMGYE |>
   RMSEs.AddRow("UMGYDE (Default) Model", 
                cv.UMGYDE.default_params.RMSE,
                comment = "User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
-computed using `loess` function with default `degree` & `span` parameters.")
+computed using `stats::loess` function with `degree=1` & `span=0.75` parameter values.")
 
 RMSE_kable(RMSEs.ResultTibble.UMGYDE)
 put_log("A row has been added to the RMSE Result Tibble 
