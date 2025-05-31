@@ -264,13 +264,18 @@ This is a helper function that calculates the _Smoothed Day Effect_ of the user 
 \
 The _Train Set_ dataset.
 
+
+::: { #func.train_UMGY_SmoothedDay_effect.params.degree .sidebar }
 ###### ***degree***
 \
 A parameter to pass to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function (see the [Details](#func.train_UMGY_SmoothedDay_effect.details) section below), meaning the degree of the polynomials to be used.
+:::
 
+::: { #func.train_UMGY_SmoothedDay_effect.params.span .sidebar }
 ###### ***span***
 \
 A parameter to pass to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function (see the [Details](#func.train_UMGY_SmoothedDay_effect.details) section below) to control the degree of smoothing.
+:::
 
 ###### ***lambda***
 \
@@ -613,7 +618,7 @@ The _Root Mean Squared Error (RMSE)_ of the _UMGYD Model_ computed as the square
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of building and training the current model is available in the [UMGYDE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1432) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1432) script on _GitHub_.
+The complete source code of building and training the current model is available in the [UMGYDE Model (UMGYDEM) Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1745) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1745) script on _GitHub_.
 :::
 
 Below, we provide the most significant line of the code for training our model using the `5-Fold Cross Validation` method:
@@ -804,6 +809,9 @@ _Root Mean Square Error (RMSE)_ of the _UMGYD_ model trained using the [stats::l
 ### UMGYDE Model Regularization
 \
 
+#### UMGYDE Model Regularization: Mathematical Description
+\
+
 We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] section above. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_ and then into the formula \@ref(eq:GYE-penalty) for the _UMGYDE Model_. For the current model, this formula takes the form:
 
 \begin{equation}
@@ -833,32 +841,26 @@ As with the previous models, we implement the _Regularization_ method for the cu
 #### UMGYDE Model Regularization: Support Functions
 \
 
-##### [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L97) Function {#func.regularize.train_UMGYD_effect}
+##### [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L223) Function {#func.regularize.train_UMGYD_effect}
 \
 
-This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other functions and scripts (such as [regularize.train_UMGYD_effect](#func.regularize.train_UMGYD_effect)) described below.
+The function is an overloaded version of the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function described above, with the fixed values of the [degree](#func.train_UMGY_SmoothedDay_effect.params.degree) and [span](#func.train_UMGY_SmoothedDay_effect.params.span) parameters set to the best values figured out during the tuning process described in the [UMGYDE Model Tuning] section above.
 
 ###### Parameters
 \
 
-::: { #func..params. .sidebar }
+::: { #func.regularize.train_UMGYD_effect.params.train_set .sidebar }
   - ***train_set:***
-The _Train Set_ dataset.
+The _Train Set_ dataset .
 
 :::
 
-::: { #func..params. .sidebar }
+::: { #func.regularize.train_UMGYD_effect.params.lambda .sidebar }
   - ***lambda:***
-As explained [above](#sec.umgydem.support_functions.note.lambda) in the [] section, this is the $\lambda$ coefficient of the penalty of the _Regularization_ method.
+  In accordance with the description in the [UMGYDE Model Regularization: Mathematical Description] section above, this is the _Regularization parameter_ $\lambda$ used for the _UMGYDE Model Regularization_ process.
 
 :::
 
-
-::: { #func.regularize.train_UMGYD_effect.details .sidebar }
-###### Details
-\
-Under the hood, the function internally calls the 
-:::
 
 ###### Source Code
 \
@@ -876,41 +878,38 @@ regularize.train_UMGYD_effect <- function(train_set, lambda) {
 }
 ```
 
-
 ::: {.noteblock data-latex=""}
-The source code of the [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L97) function is also available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L97) script on _GitHub_.
+The source code of the [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L223) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L222) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L223) script on _GitHub_.
 :::
 
 ###### Return
 \
-A data frame object representing the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect_. 
+A data frame object representing the _UMGYD Effect_. 
 
 \newpage
 
-
-
-##### [regularize.train_UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L190) Function {#func.regularize.train_UMGYD_effect.cv}
+##### [regularize.train_UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L232) Function {#func.regularize.train_UMGYD_effect.cv}
 \
-The overloaded version of the [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above with the fixed [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.params.degree) parameter value of 0.
+
+::: {.noteblock data-latex=""}
+The source code of the [regularize.train_UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L232) function is defined in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L222) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L232) script on _GitHub_.
+:::
+
+The function is an overloaded version of the [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) function described above, with the fixed values of the [degree](#func.train_UMGY_SmoothedDay_effect.cv.params.degree) and [span](#func.train_UMGY_SmoothedDay_effect.cv.params.span) parameters set to the best values figured out during the tuning process described in the [UMGYDE Model Tuning] section above.
+
 
 ###### Parameters
 \
 
 ::: { #func.regularize.train_UMGYD_effect.cv.params.lambda .sidebar }
   - ***lambda:***
-As explained [above](#sec.umgydem.support_functions.note.lambda) in the [] section, this is the $\lambda$ coefficient of the penalty of the _Regularization_ method.
+  In accordance with the description in the [UMGYDE Model Regularization: Mathematical Description] section above, this is the _Regularization parameter_ $\lambda$ used for the _UMGYDE Model Regularization_ process.
 
-:::
-
-::: { #func.regularize.train_UMGYD_effect.cv.details .sidebar }
-###### Details
-\
-Under the hood, the function internally calls the [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) described above with the fixed [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.params.degree) parameter value of 0 and the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.params.span) parameter value taken from the [parameter of the same name](#func.regularize.train_UMGYD_effect.cv.params.span) of this function to compute the `RMSE` of the model to be tuned.
 :::
 
 ###### Source Code
 \
-Below is the function's source code:
+The source code of the function is provided below:
 ```{r eval=FALSE}
 regularize.train_UMGYD_effect.cv <- function(lambda) {
   best_degree <- lss.UMGYDE.best_params["degree"]
@@ -923,27 +922,37 @@ regularize.train_UMGYD_effect.cv <- function(lambda) {
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [regularize.train_UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L190) function is also available in the [Tuning `loess` Parameters](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L170) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L190) script on _GitHub_.
+Note that we reuse the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) calling it internally from the [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv), but now with the $\lambda$ parameter different from the default ('lambda = 0') value.
 :::
 
 ###### Return
 \
-_Root Mean Square Error (RMSE)_ of the _UMGYD_ model trained using the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function called with the given [span](#func.regularize.train_UMGYD_effect.cv.params.span) parameter and the `degree` parameter value equal to 0.
+A data frame object representing the _UMGYD Effect_. 
 
 \newpage
-
-
 
 ##### [regularize.test_lambda.UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L240) Function {#func.regularize.test_lambda.UMGYD_effect.cv}
 \
 
-::: {.noteblock data-latex=""}
-The [regularize.test_lambda.UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L240) function are defined in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L222) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L240) script on _GitHub.
+The function calculates _RMSE_ of the _UMGYDE Model_ using _5-Fold Cross Validation_ for the given $\lambda$ parameter value.
+
+::: { #func.regularize.test_lambda.UMGYD_effect.cv.params.lambda .sidebar }
+  - ***lambda:***
+  In accordance with the description in the [UMGYDE Model Regularization: Mathematical Description] section above, this is the _Regularization parameter_ $\lambda$ used for the _UMGYDE Model Regularization_ process.
+
 :::
 
-This function calculates _RMSE_ of the _UMGYDE Model_ using _5-Fold Cross Validation_ for the given $\lambda$ parameter value:
+
+::: { #func.regularize.test_lambda.UMGYD_effect.cv.details .sidebar }
+##### Details
+\
+Under the hood, the function internally calls the [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv) and then [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above, and returns the _RMSE_ value that the latter inner function calculates for the given [lambda](#func.regularize.test_lambda.UMGYD_effect.cv.params.lambda) parameter value passed to the former one.
+:::
 
 
+###### Source Code
+\
+The source code of the function is provided below:
 ```{r, eval=FALSE}
 regularize.test_lambda.UMGYD_effect.cv <- function(lambda){
   if (is.na(lambda)) {
@@ -957,8 +966,12 @@ regularize.test_lambda.UMGYD_effect.cv <- function(lambda){
 ```
 
 ::: {.noteblock data-latex=""}
-Note that we reuse the function [train_UMGYD_effect.cv](#func.train_UMGYD_effect.cv) calling it from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv), but now with the $\lambda$ parameter different from the default ('lambda = 0') value.
+The source code of the [regularize.test_lambda.UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L240) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L222) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L240) script on _GitHub_.
 :::
+
+###### Return
+\
+_Root Mean Squared Error (RMSE)_ of the _UMGYD Model_ trained for the given [lambda](#func.regularize.train_UMGYD_effect.cv.params.span) parameter value.
 
 \newpage
 

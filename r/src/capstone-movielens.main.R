@@ -1742,7 +1742,8 @@ the `User+Movie+Genre+Year+(Smoothed)Day Effect Model` data
 using `loess` function with parameter `degree = 2`: %1", 
 UMGYDE.fine_tune.degree2.data.path)
 
-### Training with default parameters -------------------------------------------
+### UMGYDE Model (UMGYDEM) Building --------------------------------------------
+#### UMGYDEM Training with default parameters -------------------------------------------
 file_name_tmp <- "9.cv.UMGYDE.loess.default-params.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
