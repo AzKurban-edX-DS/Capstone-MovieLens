@@ -1742,7 +1742,8 @@ the `User+Movie+Genre+Year+(Smoothed)Day Effect Model` data
 using `loess` function with parameter `degree = 2`: %1", 
 UMGYDE.fine_tune.degree2.data.path)
 
-### Training with default parameters -------------------------------------------
+### UMGYDE Model (UMGYDEM) Building --------------------------------------------
+#### UMGYDEM Training with default parameters ----------------------------------
 file_name_tmp <- "9.cv.UMGYDE.loess.default-params.RData"
 file_path_tmp <- file.path(data.models.path, file_name_tmp)
 
@@ -1811,7 +1812,7 @@ RMSEs.ResultTibble.UMGYDE <- RMSEs.ResultTibble.rglr.UMGYE |>
   RMSEs.AddRow("UMGYDE (Default) Model", 
                cv.UMGYDE.default_params.RMSE,
                comment = "User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
-computed using `loess` function with default `degree` & `span` parameters.")
+computed using `stats::loess` function with `degree=1` & `span=0.75` parameter values.")
 
 RMSE_kable(RMSEs.ResultTibble.UMGYDE)
 put_log("A row has been added to the RMSE Result Tibble 
@@ -1819,7 +1820,7 @@ for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 ### Close Log -----------------------------------------------------------------
 log_close()
 ### UMGYDE Model Tuning by `span` & `degree` parameters ------------------------
-#### 1. `degree = 0` -----------------------------------------------------------
+#### UMGYDE Model Tuning: Step 1 (`degree = 0`) --------------------------------
 ##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 0`) -------
 open_logfile(".UMGYDE.loess.degree0.pre-tuning")
 put("Case 1. `degree = 0`")
@@ -1936,7 +1937,7 @@ RMSEs.ResultTibble.UMGYDE0 <- RMSEs.ResultTibble.UMGYDE |>
 RMSE_kable(RMSEs.ResultTibble.UMGYDE0)
 ##### Close Log ---------------------------------------------------------------
 log_close()
-#### 2. `degree = 1` -----------------------------------------------------------
+#### UMGYDE Model Tuning: Step 2 (`degree = 1`) --------------------------------
 ##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 1`) -------
 open_logfile(".UMGYDE.loess.degree1.pre-tuning")
 put("Case 2. `degree = 1`")
@@ -2048,7 +2049,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE1)
 
 ##### Close Log ---------------------------------------------------------------
 log_close()
-#### 3. `degree = 2` -----------------------------------------------------------
+#### UMGYDE Model Tuning: Step 3 (`degree = 2`) --------------------------------
 ##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 2`) -------
 open_logfile(".UMGYDE.loess.degree2.pre-tuning")
 put("Case 3. `degree = 2`")

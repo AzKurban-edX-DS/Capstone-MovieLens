@@ -42,9 +42,9 @@ RMSEs.AddRow <- function(RMSEs, method, value, comment = ""){
             Comment = comment)
 }
 RMSE_kable <- function(RMSEs,
-                       col1width = 20,
+                       col1width = 15,
                        col2width = 5,
-                       col3width = 20){
+                       col3width = 32){
   RMSEs |>
     kable(align='lcl', booktabs = T, padding = 5) |> 
     row_spec(0, bold = T) |>
