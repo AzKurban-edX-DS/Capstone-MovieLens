@@ -136,7 +136,7 @@ The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.or
 #### Source Code
 \
 
-The soure code of the [data.plot]() function is shown below:
+The soure code of the [data.plot]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) function is shown below:
 ```{r eval=FALSE}
 data.plot <- function(data, 
                       title, 
@@ -175,6 +175,250 @@ data.plot <- function(data,
 The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script.
 :::
 :::
+
+### [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) Function {#func.data.plot.left.n}
+\
+
+Plots a graph based on the dataset passed in the [data](#func.data.plot.left.n.params.data) parameter, using both points and a line.
+
+::: { #func.data.plot.left.n.Usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+data.plot.left.n <- function(data, 
+                             left.n = 0,
+                             title, 
+                             xname, 
+                             yname, 
+                             xlabel, 
+                             ylabel,
+                             line_col = "red",
+                             normalize = FALSE)
+```
+:::
+
+::: { #func.data.plot.left.n.params .sidebar }
+#### Parameters
+\
+
+::: { #func.data.plot.left.n.params.data .sidebar }
+  - **data:** Dataset to use for the plot; 
+
+:::
+::: { #func.data.plot.left.n.params.title .sidebar }
+  - **title:** Title of the plot; 
+
+:::
+::: { #func.data.plot.left.n.params.xname .sidebar }
+  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
+
+:::
+::: { #func.data.plot.left.n.params.yname .sidebar }
+  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
+
+:::
+::: { #func.data.plot.left.n.params.xlabel .sidebar }
+  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+
+:::
+::: { #func.data.plot.left.n.params.ylabel .sidebar }
+  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+
+:::
+::: { #func.data.plot.left.n.params.line_col .sidebar }
+  - **line_col = blue:** The line color; 
+
+:::
+::: { #func.data.plot.left.n.params.normalize .sidebar }
+  - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
+
+:::
+:::
+
+::: { #func.data.plot.left.n.details .sidebar }
+#### Details
+\
+
+The function is a wrapper for the [data.plot](#func.data.plot) function described above and is a simple and convenient tool for more detailed visualizing the left part of the graph.
+
+:::
+
+::: { #func.data.plot.left.n.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) function is shown below:
+```{r eval=FALSE}
+data.plot.left.n <- function(data, 
+                             left.n = 0,
+                             title, 
+                             xname, 
+                             yname, 
+                             xlabel, 
+                             ylabel,
+                             line_col = "red",
+                             normalize = FALSE) {
+  x_col <- data[, xname] 
+  y_col <- data[, yname]
+  
+  
+  data.left <- data
+  
+  if (left.n > 0) {
+    data.left <- data |> 
+      head(left.n)
+  }
+  
+  data.left |>
+    data.plot(title = title,
+              xname = xname,
+              yname = yname,
+              xlabel = xlabel,
+              ylabel = ylabel,
+              line_col = line_col,
+              normalize = normalize)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) script.
+:::
+:::
+
+
+
+### [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) Function {#func.data.plot.left_detailed}
+\
+
+Plots a graph based on the dataset passed in the [data](#func.data.plot.left_detailed.params.data) parameter, using both points and a line.
+
+::: { #func.data.plot.left_detailed.Usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+data.plot.left_detailed <- function(data, 
+                                    left.n = 0,
+                                    title = NULL,
+                                    title.left = NULL,
+                                    xname, 
+                                    yname, 
+                                    xlabel1 = NULL, 
+                                    xlabel2 = NULL, 
+                                    ylabel1 = NULL,
+                                    ylabel2 = NULL,
+                                    line_col1 = "blue",
+                                    line_col2 = "red",
+                                    normalize = FALSE)
+```
+:::
+
+::: { #func.data.plot.left_detailed.params .sidebar }
+#### Parameters
+\
+
+::: { #func.data.plot.left_detailed.params.data .sidebar }
+  - **data:** Dataset to use for the plot; 
+
+:::
+::: { #func.data.plot.left_detailed.params.title .sidebar }
+  - **title:** Title of the plot; 
+
+:::
+::: { #func.data.plot.left_detailed.params.xname .sidebar }
+  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
+
+:::
+::: { #func.data.plot.left_detailed.params.yname .sidebar }
+  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
+
+:::
+::: { #func.data.plot.left_detailed.params.xlabel .sidebar }
+  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+
+:::
+::: { #func.data.plot.left_detailed.params.ylabel .sidebar }
+  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+
+:::
+::: { #func.data.plot.left_detailed.params.line_col .sidebar }
+  - **line_col = blue:** The line color; 
+
+:::
+::: { #func.data.plot.left_detailed.params.normalize .sidebar }
+  - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
+
+:::
+:::
+
+::: { #func.data.plot.left_detailed.details .sidebar }
+#### Details
+\
+
+The function is a wrapper for the [data.plot.left.n](#func.data.plot.left.n) function described above and is a simple and convenient tool for more detailed visualizing the left part of the graph.
+
+:::
+
+::: { #func.data.plot.left_detailed.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) function is shown below:
+```{r eval=FALSE}
+data.plot.left_detailed <- function(data, 
+                                    left.n = 0,
+                                    title = NULL,
+                                    title.left = NULL,
+                                    xname, 
+                                    yname, 
+                                    xlabel1 = NULL, 
+                                    xlabel2 = NULL, 
+                                    ylabel1 = NULL,
+                                    ylabel2 = NULL,
+                                    line_col1 = "blue",
+                                    line_col2 = "red",
+                                    normalize = FALSE) {
+  if(is.null(xlabel1)) {
+    xlabel1 <- xname
+  }
+  if(is.null(xlabel2)) {
+    xlabel2 <- str_glue(xlabel1, " (left part)")
+  }
+  if(is.null(ylabel1)) {
+    ylabel1 <- yname
+  }
+  if(is.null(ylabel2)) {
+    ylabel2 <- ylabel1
+  }
+  
+  p1 <- data |>
+    data.plot(title = title,
+              xname = xname, 
+              yname = yname, 
+              xlabel = xlabel1, 
+              ylabel = ylabel1,
+              line_col = line_col1)
+  
+  p2 <- data |>
+    data.plot.left.n(left.n = left.n,
+                     title = title.left,
+                     xname = xname, 
+                     yname = yname, 
+                     xlabel = xlabel2, 
+                     ylabel = ylabel2,
+                     line_col = line_col2,
+                     normalize = normalize)
+  grid.arrange(p1, p2)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) script.
+:::
+:::
+
+
 
 ### [data.helper.func0]() Function {#func.data.helper.func0}
 \

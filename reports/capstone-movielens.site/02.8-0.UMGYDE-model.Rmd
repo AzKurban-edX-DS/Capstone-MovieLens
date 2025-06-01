@@ -831,35 +831,337 @@ _Root Mean Square Error (RMSE)_ of the _UMGYD_ model trained using the [stats::l
 #### UMGYDE Model Tuning: Step 1 (`degree = 0`)
 \
 
+##### Pre-configuration: `span` Range Determination
+\
+
 ::: {.noteblock data-latex=""}
-The complete source code of the ***Step 1*** of the current model tuning is available in the [UMGYDE Model Tuning: Step 1 (`degree = `)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1823) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1823) script on _GitHub_.
+The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning: Pre-configuration (`degree = 0`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1827) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1827) script on _GitHub_.
 :::
 
+Below the most significant part of the code performing the current model tuning, the _Pre-configuration Step_ is provided:
+```{r, eval=FALSE}
+  spans <- seq(0.0005, 1, 0.001)
+  lss.UMGYDE.preset.degree0.result <- 
+    tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
+```
+```{r}
+str(lss.UMGYDE.preset.degree0.result)
+```
 
+Below is the visual representation of the `span` parameter values range we have figured out in this step of tuning:
+```{r}
+plt.title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 0`"
+lss.UMGYDE.preset.degree0.result$tuned.result |>
+  data.plot(plt.title,
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = "spans", 
+              ylabel = "RMSE")
+rm(plt.title)
+```
+
+
+
+##### UMGYDE Model Fine-tuning (`degree = 0`)
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the solution described in this section is available in the [UMGYDE Model Fine-tuning (`degree = 0`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1893) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1893) script on _GitHub_.
+:::
+
+Below the most significant part of the code performing the current model _Fine-tuning_ is provided:
+```{r, eval=FALSE}
+lss.fine_tune.loop_starter <- 
+  c(lss.UMGYDE.preset.degree0.result$tuned.result$parameter.value[1], 
+    lss.UMGYDE.preset.degree0.result$tuned.result$parameter.value[3], 
+    8)
+
+cache_file.base_name <- "UMGYDE.degree0.tuning-span"
+
+lss.UMGYDE.fine_tune.degree0.result <- 
+  model.tune.param_range(lss.fine_tune.loop_starter,
+                         UMGYDE.fine_tune.degree0.data.path,
+                         cache_file.base_name,
+                         train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
+```
+```{r}
+lss.fine_tune.loop_starter
+str(lss.UMGYDE.fine_tune.degree0.result)
+```
+
+Below is the visual representation of the current model _Fine-tuning_ results for the parameter value: `degree = 0`:
+```{r}
+plt.title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree` = 0"
+
+lss.UMGYDE.fine_tune.degree0.result$tuned.result |>
+  data.plot(plt.title, 
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = "spans", 
+              ylabel = "RMSE")
+rm(plt.title)
+```
+Now, we can add the _UMGYDE Model Tuning_ result for `degree = 0` to our _Result Table_:
+```{r, eval=FALSE}
+RMSEs.ResultTibble.UMGYDE0 <- RMSEs.ResultTibble.UMGYDE |> 
+  RMSEs.AddRow("Tuned UMGYDE.d0 Model", 
+               lss.UMGYDE.fine_tune.degree0.result.best_RMSE,
+               comment = "UMGYDE Model computed using function call: `loess(degree = 0, span = %1)`" |>
+                 msg.glue(lss.UMGYDE.fine_tune.degree0.result.best_span))
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.UMGYDE0)
+```
 
 #### UMGYDE Model Tuning: Step 2 (`degree = 1`)
 \
 
+##### Pre-configuration: `span` Range Determination
+\
+
 ::: {.noteblock data-latex=""}
-The complete source code the ***Step 2*** of the current model tuning is available in the [UMGYDE Model Tuning: Step  (`degree = `)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1) script on _GitHub_.
+The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning: Pre-configuration  (`degree = 1`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1944) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1944) script on _GitHub_.
 :::
+
+Below the most significant part of the code performing the current model tuning, the _Pre-configuration Step_ is provided:
+```{r, eval=FALSE}
+  lss.UMGYDE.preset.degree1.result <- 
+    tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree1)
+```
+```{r}
+str(lss.UMGYDE.preset.degree1.result)
+```
+
+Below is the visual representation of the `span` parameter values range we have figured out in this step of tuning:
+```{r}
+lss.UMGYDE.preset.degree1.result$tuned.result |>
+  data.plot(title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 1`",
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = "spans", 
+              ylabel = "RMSE")
+```
+
+##### UMGYDE Model Fine-tuning (`degree = 1`)
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the solution described in this section is available in the [UMGYDE Model Fine-tuning (`degree = 1`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2007) script on _GitHub_.
+:::
+
+Below the most significant part of the code performing the current model _Fine-tuning_ is provided:
+```{r, eval=FALSE}
+lss.fine_tune.loop_starter <- 
+  c(lss.UMGYDE.preset.degree1.result$tuned.result$parameter.value[1], 
+    lss.UMGYDE.preset.degree1.result$tuned.result$parameter.value[3], 
+    8)
+
+cache_file.base_name <- "UMGYDE.degree1.tuning-span"
+
+lss.UMGYDE.fine_tune.degree1.result <- 
+  model.tune.param_range(lss.fine_tune.loop_starter,
+                         UMGYDE.fine_tune.degree1.data.path,
+                         cache_file.base_name,
+                         train_UMGY_SmoothedDay_effect.RMSE.cv.degree1)
+```
+```{r}
+lss.fine_tune.loop_starter
+str(lss.UMGYDE.fine_tune.degree1.result)
+```
+
+Below is the visual representation of the current model _Fine-tuning_ results for the parameter value: `degree = 1`:
+```{r}
+lss.UMGYDE.fine_tune.degree1.result$tuned.result |>
+  data.plot(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 1`", 
+                             xname = "parameter.value", 
+                             yname = "RMSE", 
+                             xlabel = "spans", 
+                             ylabel = "RMSE")
+```
+
+Now, we can add the _UMGYDE Model Tuning_ result for `degree = 1` to our _Result Table_:
+```{r, eval=FALSE}
+RMSEs.ResultTibble.UMGYDE1 <- RMSEs.ResultTibble.UMGYDE0 |> 
+  RMSEs.AddRow("Tuned UMGYDE.d1 Model", 
+               lss.UMGYDE.fine_tune.degree1.result.best_RMSE,
+               comment = "UMGYDE Model computed using function call: `loess(degree = 1, span = %1)`" |>
+                 msg.glue(lss.UMGYDE.fine_tune.degree1.result.best_span))
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.UMGYDE1)
+```
+
+
+
+
 
 #### UMGYDE Model Tuning: Step 3 (`degree = 2`)
 \
 
+##### Pre-configuration: `span` Range Determination
+\
+
 ::: {.noteblock data-latex=""}
-The complete source code the ***Step 3*** of the current model tuning is available in the [UMGYDE Model Tuning: Step  (`degree = `)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1) script on _GitHub_.
+The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning: Pre-configuration (`degree = 2`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2056) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2057) script on _GitHub_.
+:::
+
+Below the most significant part of the code performing the current model tuning, the _Pre-configuration Step_ is provided:
+```{r, eval=FALSE}
+  spans <- seq(0.0005, 1, 0.001)
+  lss.UMGYDE.preset.degree2.result <- 
+    tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree2)
+```
+```{r}
+str(lss.UMGYDE.preset.degree2.result)
+```
+
+Below is the visual representation of the `span` parameter values range we have figured out in this step of tuning:
+```{r}
+lss.UMGYDE.preset.degree2.result$tuned.result |>
+  data.plot(title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 2`",
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = "spans", 
+              ylabel = "RMSE")
+```
+
+
+##### UMGYDE Model Fine-tuning (`degree = 2`)
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the solution described in this section is available in the [UMGYDE Model Fine-tuning (`degree = 2`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2119) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2119) script on _GitHub_.
+:::
+
+Below the most significant part of the code performing the current model _Fine-tuning_ is provided:
+```{r, eval=FALSE}
+lss.fine_tune.loop_starter <- 
+  c(lss.UMGYDE.preset.degree2.result$tuned.result$parameter.value[1], 
+    lss.UMGYDE.preset.degree2.result$tuned.result$parameter.value[3], 
+    8)
+
+cache_file.base_name <- "UMGYDE.degree2.tuning-span"
+
+lss.UMGYDE.fine_tune.degree2.result <- 
+  model.tune.param_range(lss.fine_tune.loop_starter,
+                         UMGYDE.fine_tune.degree2.data.path,
+                         cache_file.base_name,
+                         train_UMGY_SmoothedDay_effect.RMSE.cv.degree2)
+```
+```{r}
+lss.fine_tune.loop_starter
+str(lss.UMGYDE.fine_tune.degree2.result)
+```
+
+Below is the visual representation of the current model _Fine-tuning_ results for the parameter value: `degree = 2`:
+```{r}
+lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
+  data.plot.left_detailed(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 2`", 
+                             title.left = "Left Part of the Chart Above (Zoomed in)",
+                             left.n = 8,
+                             xname = "parameter.value", 
+                             yname = "RMSE", 
+                             xlabel1 = "spans", 
+                             ylabel1 = "RMSE")
+```
+
+::: {.noteblock data-latex=""}
+The custom data visualization function [data.plot.left_detailed](#func.data.plot.left_detailed) we used above is described in the [Data Helper Functions] section of the [Appendix] to this report.
 :::
 
 
+Now, we can add the _UMGYDE Model Tuning_ result for `degree = 2` to our _Result Table_:
+```{r, eval=FALSE}
+RMSEs.ResultTibble.UMGYDE2 <- RMSEs.ResultTibble.UMGYDE1 |> 
+  RMSEs.AddRow("Tuned UMGYDE.d2 Model", 
+               lss.UMGYDE.fine_tune.degree2.result.best_RMSE,
+               comment = "UMGYDE Model computed using function call: `loess(degree = 2, span = %1)`" |>
+                 msg.glue(lss.UMGYDE.fine_tune.degree2.result.best_span))
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.UMGYDE2)
+```
 
+\newpage
+
+#### UMGYDE Model Tuning: Re-training with the Best `degree` & `span` Parameters
+\
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section are available in the [UMGYDE Tuned Model: Retraining with the best params](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#2169) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2169) script on _GitHub_.
+:::
+
+Now, we can calculate the _Regularized UMGYDE Effect_ by retraining our model on the entire `edx` dataset with the best values of the `degree` and `span` parameters we figured out above, for the definitive _Root Mean Squared Error_ calculation and use in subsequent processing.
+
+The most significant part of the code that performs this operation is shown below:
+```{r, eval=FALSE}
+lss.best_results <- data.frame(degree = degree, 
+                         span = c(lss.UMGYDE.fine_tune.degree0.result.best_span,
+                                  lss.UMGYDE.fine_tune.degree1.result.best_span,
+                                  lss.UMGYDE.fine_tune.degree2.result.best_span),
+                         
+                         RMSE = c(lss.UMGYDE.fine_tune.degree0.result.best_RMSE, 
+                                  lss.UMGYDE.fine_tune.degree1.result.best_RMSE,
+                                  lss.UMGYDE.fine_tune.degree2.result.best_RMSE))
+
+lss.best_RMSE.idx <- which.min(lss.best_results$RMSE)
+
+
+lss.UMGYDE.best_params <- 
+  c(degree =  lss.best_results[lss.best_RMSE.idx, "degree"],  # 1
+    span = lss.best_results[lss.best_RMSE.idx, "span"], # 0.00087,
+    RMSE = lss.best_results[lss.best_RMSE.idx, "RMSE"]) # 0.8568619
+
+lss.best_degree <- lss.UMGYDE.best_params["degree"]
+lss.best_span <- lss.UMGYDE.best_params["span"]
+lss.best_RMSE <- lss.UMGYDE.best_params["RMSE"]
+
+put_log2("Re-training model using `loess` function with the best parameters: 
+span = %1, degree = %2", lss.best_span, lss.best_degree)
+
+lss.UMGYD_effect <- edx |> 
+  train_UMGY_SmoothedDay_effect(lss.best_degree, lss.best_span)
+```
+```{r}
+lss.UMGYDE.best_params
+str(lss.UMGYD_effect)
+```
 
 
 ::: {.noteblock data-latex=""}
-Now, we have a bit better result than one for the previous model.
+Here we use the helper function [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) described above in the [UMGYDE Model: Helper Functions] section.
+:::
+
+Let's now visualize final Smoothed Day effect we have obtained:
+```{r}
+lss.UMGYD_effect |>
+  ggplot(aes(x = days)) +
+  geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
+  geom_line(aes(y = de_smoothed), color = "red")
+```
+
+::: {.noteblock data-latex=""}
+It should be noted, however, that the graph above is not as smooth as before, although the data now provides better results.
 :::
 
 
+We calculate the _Root Mean Squared Error_ for the ultimately computed _UMGYDE Effect_ using the helper function [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above in the [UMGYDE Model: Helper Functions] section above as follows:
+```{r, eval=FALSE}
+lss.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(lss.UMGYD_effect)
+```
+
+Finally, we add the definitive result for the current model to our _Result Table_:
+```{r, eval=FALSE}
+RMSEs.ResultTibble.UMGYDE.tuned <- RMSEs.ResultTibble.UMGYDE2 |> 
+  RMSEs.AddRow("Tuned UMGYDE Best Model", 
+               lss.UMGYD_effect.RMSE,
+               comment = "UMGYDE Model computed using `loess` function call with the best degree & span values.")
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.UMGYDE.tuned)
+```
+
+Finally, let's regularize our tuned model as we did with the previous ones.
 
 \newpage
 
@@ -1137,6 +1439,11 @@ Finally, we add the definitive result for the current model to our _Result Table
 ```
 ```{r}
 ```
+
+::: {.noteblock data-latex=""}
+Now, we have a better result than one for the previous model, but still insufficient to meet the Project Objective.
+:::
+
 
 \newpage
 
