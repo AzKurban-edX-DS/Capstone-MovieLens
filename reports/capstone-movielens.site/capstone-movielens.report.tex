@@ -129,7 +129,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-05-31}
+\date{2025-06-01}
 
 \begin{document}
 \maketitle
@@ -1265,7 +1265,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -1570,7 +1570,7 @@ Finally, we calculate the \texttt{RMSE} as the \emph{square root} of the average
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -2038,7 +2038,7 @@ We can now construct predictors and see how much the \texttt{RMSE} improves\auto
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -2355,7 +2355,7 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -2750,7 +2750,7 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -3082,7 +3082,7 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -3686,7 +3686,7 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -3996,7 +3996,7 @@ Finally, we add the definitive result for the current model to our \emph{Result 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -4043,7 +4043,7 @@ takes the following form:
 
 \newpage
 
-\subsubsection{UMGYDE Model: Support Functions}\label{umgyde-model-support-functions}
+\subsubsection{UMGYDE Model: Helper Functions}\label{umgyde-model-helper-functions}
 
 \hfill\break
 
@@ -4750,23 +4750,68 @@ The \emph{Root Mean Squared Error (RMSE)} of the \emph{UMGYD Model} computed as 
 
 \newpage
 
-\subsubsection{UMGYDE Model Building}\label{umgyde-model-building}
+\subsubsection{UMGYDE Model Building With Default Parameters}\label{umgyde-model-building-with-default-parameters}
 
 \hfill\break
 
 \begin{noteblock}
-The complete source code of building and training the current model is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1432}{UMGYDE Model Building} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1432}{capstone-movielens.main.R} script on \emph{GitHub}.
+The complete source code of building and training the current model is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1745}{UMGYDEM Training with default parameters} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1745}{capstone-movielens.main.R} script on \emph{GitHub}.
 
 \end{noteblock}
+
+We are going to use our helper function \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv} described in the \hyperref[umgyde-model-helper-functions]{UMGYDE Model: Helper Functions} section, which, as we explained, internally calls the R function \href{https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess}{stats::loess}.
+
+We will start by calling the \texttt{train\_UMGY\_SmoothedDay\_effect.cv} with default parameters, which means that the \texttt{loess} function will be implicitly called with \texttt{degree\ =\ 1} and \texttt{span\ =\ 0.75} parameters (the default values for our custom \hyperref[func.loess_de]{loess\_de} function, which, in turn, calls the \texttt{loess} under the hood).
 
 Below, we provide the most significant line of the code for training our model using the \texttt{5-Fold\ Cross\ Validation} method:
 
-\begin{noteblock}
-We use the \hyperref[func.train_UMGYD_effect.cv]{train\_UMGYD\_effect.cv} function described above to compute the \emph{UMGYD Effect}.
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  cv.UMGYDE.default\_params }\OtherTok{\textless{}{-}} \FunctionTok{train\_UMGY\_SmoothedDay\_effect.cv}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
 
-\end{noteblock}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(cv.UMGYDE.default\_params)}
+\end{Highlighting}
+\end{Shaded}
 
-We can now construct predictors and calculate the \emph{RMSE} of the current model using the \hyperref[func.calc_UMGYD_effect_RMSE.cv]{calc\_UMGYD\_effect\_RMSE.cv} function described above:
+\begin{verbatim}
+## tibble [4,640 x 4] (S3: tbl_df/tbl/data.frame)
+##  $ days       : int [1:4640] 0 385 388 389 392 393 394 396 397 399 ...
+##  $ de         : num [1:4640] 0.6676 0.2939 0.1661 0.3206 -0.0871 ...
+##  $ year       : num [1:4640] 1995 1996 1996 1996 1996 ...
+##  $ de_smoothed: num [1:4640] 0.0834 0.0553 0.0552 0.0551 0.0549 ...
+\end{verbatim}
+
+Below is the visual representation of the UMGYD Effect data we have just computed:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cv.UMGYDE.default\_params }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ days)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ de), }\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{alpha =}\NormalTok{ .}\DecValTok{5}\NormalTok{, }\AttributeTok{color =} \StringTok{"grey"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ de\_smoothed), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-278-1.pdf}}
+
+Let's calculate the \emph{RMSE} of the current model using the \hyperref[func.calc_UMGY_SmoothedDay_effect.RMSE.cv]{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} function described above:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cv.UMGYDE.default\_params.RMSE }\OtherTok{\textless{}{-}}\NormalTok{ cv.UMGYDE.default\_params }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv}\NormalTok{()}
+
+\NormalTok{RMSEs.ResultTibble.UMGYDE }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.rglr.UMGYE }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"UMGYDE (Default) Model"}\NormalTok{, }
+\NormalTok{               cv.UMGYDE.default\_params.RMSE,}
+               \AttributeTok{comment =} \StringTok{"User+Movie+Genre+Year+Day Effect (UMGYDE) Model }
+\StringTok{computed using \textasciigrave{}stats::loess\textasciigrave{} function with \textasciigrave{}degree=1\textasciigrave{} \& \textasciigrave{}span=0.75\textasciigrave{} parameter values."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4774,7 +4819,7 @@ We can now construct predictors and calculate the \emph{RMSE} of the current mod
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tabular}{>{\raggedright\arraybackslash}p{35em}>{\centering\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{50em}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
 \toprule
 \textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
 \midrule
@@ -4789,18 +4834,21 @@ Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
 UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
 Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
 UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
-computed using `loess` function with default `degree` \& `span` parameters.\\
+computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \bottomrule
 \end{tabular}
 
+Unfortunately, with the default parameters, we obtained an even worse result than before.
+Let's tune the current model by adjusting the \texttt{degree} and \texttt{span} parameters and see what we get.
+
 \begin{noteblock}
-Now, we have a bit better result than one for the previous model.
+Since the \texttt{degree} parameter can only take three discrete values, 0, 1, and 2, we will perform the tuning in three steps - one per each possible value of the \texttt{degree} parameter.
 
 \end{noteblock}
 
 \newpage
 
-\subsubsection{UMGYDE Model Tuning}\label{umgyde-model-tuning}
+\subsubsection{\texorpdfstring{UMGYDE Model Tuning by \texttt{degree} and \texttt{span} Parameters}{UMGYDE Model Tuning by degree and span Parameters}}\label{umgyde-model-tuning-by-degree-and-span-parameters}
 
 \hfill\break
 
@@ -5005,6 +5053,30 @@ Return
 
 \newpage
 
+\paragraph{\texorpdfstring{UMGYDE Model Tuning: Step 1 (\texttt{degree\ =\ 0})}{UMGYDE Model Tuning: Step 1 (degree = 0)}}\label{umgyde-model-tuning-step-1-degree-0}
+
+\hfill\break
+
+\begin{noteblock}
+The complete source code of building and training the current model is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1823}{UMGYDE Model Tuning: Step 1 (\texttt{degree\ =})} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1823}{capstone-movielens.main.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\paragraph{\texorpdfstring{UMGYDE Model Tuning: Step 2 (\texttt{degree\ =\ 1})}{UMGYDE Model Tuning: Step 2 (degree = 1)}}\label{umgyde-model-tuning-step-2-degree-1}
+
+\hfill\break
+
+\paragraph{\texorpdfstring{UMGYDE Model Tuning: Step 3 (\texttt{degree\ =\ 2})}{UMGYDE Model Tuning: Step 3 (degree = 2)}}\label{umgyde-model-tuning-step-3-degree-2}
+
+\hfill\break
+
+\begin{noteblock}
+Now, we have a bit better result than one for the previous model.
+
+\end{noteblock}
+
+\newpage
+
 \subsubsection{UMGYDE Model Regularization}\label{umgyde-model-regularization}
 
 \hfill\break
@@ -5051,7 +5123,7 @@ As with the previous models, we implement the \emph{Regularization} method for t
 
 \hfill\break
 
-The function is an overloaded version of the \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect} function described above, with the fixed values of the \hyperref[func.train_UMGY_SmoothedDay_effect.params.degree]{degree} and \hyperref[func.train_UMGY_SmoothedDay_effect.params.span]{span} parameters set to the best values figured out during the tuning process described in the \hyperref[umgyde-model-tuning]{UMGYDE Model Tuning} section above.
+The function is an overloaded version of the \hyperref[func.train_UMGY_SmoothedDay_effect]{train\_UMGY\_SmoothedDay\_effect} function described above, with the fixed values of the \hyperref[func.train_UMGY_SmoothedDay_effect.params.degree]{degree} and \hyperref[func.train_UMGY_SmoothedDay_effect.params.span]{span} parameters set to the best values figured out during the tuning process described in the {[}UMGYDE Model Tuning{]} section above.
 
 Parameters
 
@@ -5114,7 +5186,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \end{noteblock}
 
-The function is an overloaded version of the \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv} function described above, with the fixed values of the \hyperref[func.train_UMGY_SmoothedDay_effect.cv.params.degree]{degree} and \hyperref[func.train_UMGY_SmoothedDay_effect.cv.params.span]{span} parameters set to the best values figured out during the tuning process described in the \hyperref[umgyde-model-tuning]{UMGYDE Model Tuning} section above.
+The function is an overloaded version of the \hyperref[func.train_UMGY_SmoothedDay_effect.cv]{train\_UMGY\_SmoothedDay\_effect.cv} function described above, with the fixed values of the \hyperref[func.train_UMGY_SmoothedDay_effect.cv.params.degree]{degree} and \hyperref[func.train_UMGY_SmoothedDay_effect.cv.params.span]{span} parameters set to the best values figured out during the tuning process described in the {[}UMGYDE Model Tuning{]} section above.
 
 Parameters
 
@@ -5263,7 +5335,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-289-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-290-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -5338,7 +5410,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-292-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-293-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.

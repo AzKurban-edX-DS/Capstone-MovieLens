@@ -1820,7 +1820,7 @@ for the tuned `User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 ### Close Log -----------------------------------------------------------------
 log_close()
 ### UMGYDE Model Tuning by `span` & `degree` parameters ------------------------
-#### 1. `degree = 0` -----------------------------------------------------------
+#### UMGYDE Model Tuning: Step 1 (`degree = 0`) --------------------------------
 ##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 0`) -------
 open_logfile(".UMGYDE.loess.degree0.pre-tuning")
 put("Case 1. `degree = 0`")
@@ -1937,7 +1937,7 @@ RMSEs.ResultTibble.UMGYDE0 <- RMSEs.ResultTibble.UMGYDE |>
 RMSE_kable(RMSEs.ResultTibble.UMGYDE0)
 ##### Close Log ---------------------------------------------------------------
 log_close()
-#### 2. `degree = 1` -----------------------------------------------------------
+#### UMGYDE Model Tuning: Step 2 (`degree = 1`) --------------------------------
 ##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 1`) -------
 open_logfile(".UMGYDE.loess.degree1.pre-tuning")
 put("Case 2. `degree = 1`")
@@ -2049,7 +2049,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE1)
 
 ##### Close Log ---------------------------------------------------------------
 log_close()
-#### 3. `degree = 2` -----------------------------------------------------------
+#### UMGYDE Model Tuning: Step 3 (`degree = 2`) --------------------------------
 ##### Open log for UMGYDE Model Tuning: Pre-configuration (`degree = 2`) -------
 open_logfile(".UMGYDE.loess.degree2.pre-tuning")
 put("Case 3. `degree = 2`")
