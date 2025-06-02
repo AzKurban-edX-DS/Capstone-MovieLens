@@ -2394,14 +2394,6 @@ UMGYDE.rglr.fine_tune.results <-
                          cache.base_name,
                          regularize.test_lambda.UMGYD_effect.cv)
 
-# UMGYDE.rglr.fine_tune.results$tuned.result |>
-#   data.plot(title = TeX(r'[Fine-tune Stage results of the Regularization Process for the UMGYD Model.]'),
-#               xname = "parameter.value", 
-#               yname = "RMSE", 
-#               xlabel = TeX(r'[$\lambda$]'), 
-#               ylabel = "RMSE")
-# 
-
 put_log("Fine-tuning stage of the User+Movie+Genre+Year+(Smoothed)Day Effect Model Regularization 
 has ended up with with the following results:")
 put(UMGYDE.rglr.fine_tune.results$best_result)
