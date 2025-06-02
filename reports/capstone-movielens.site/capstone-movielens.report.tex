@@ -129,7 +129,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-06-01}
+\date{2025-06-02}
 
 \begin{document}
 \maketitle
@@ -1153,7 +1153,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-75-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-79-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1225,7 +1225,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-79-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-83-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1296,7 +1296,7 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-90-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-94-1.pdf}}
 
 \newpage
 
@@ -1391,7 +1391,7 @@ The code in this section is cited from \href{https://www.kaggle.com/code/amirmot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-93-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-97-1.pdf}}
 \newpage
 
 \subparagraph{Users' rating histogram}\label{users-rating-histogram}
@@ -1421,7 +1421,7 @@ The code in this section is cited from \href{https://www.kaggle.com/code/amirmot
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-94-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-98-1.pdf}}
 
 \newpage
 
@@ -1500,7 +1500,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-99-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-103-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1546,7 +1546,7 @@ Now, we are ready to compute the \emph{Mean Squared Errors} from the \emph{5-Fol
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-101-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-105-1.pdf}}
 
 \begin{noteblock}
 For the \emph{Mean Squared Errors} data visualization we use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -1705,7 +1705,7 @@ We can visually see that from the following plot:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-121-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-125-1.pdf}}
 
 \newpage
 
@@ -1728,7 +1728,7 @@ The more sophisticated way of visualizing the rating distribution shown below is
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-122-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-126-1.pdf}}
 
 \begin{quote}
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
@@ -1768,7 +1768,7 @@ The two more plots below, from the same article, give us an additional visual re
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-123-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-127-1.pdf}}
 \newpage
 
 \subparagraph{\texorpdfstring{\href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook\#Movies'-rating-histogram}{Movies' rating histogram}}{Movies' rating histogram}}\label{movies-rating-histogram}
@@ -1796,7 +1796,7 @@ The two more plots below, from the same article, give us an additional visual re
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-124-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-128-1.pdf}}
 
 \begin{quote}
 This histogram better conveys the information provided by the summary() function, where the quantiles' values state that half the movies are rated between 30 and 565 times\autocite{MRS-R-BEST}.
@@ -2019,7 +2019,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-133-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-137-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -2182,7 +2182,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-139-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-143-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -2270,7 +2270,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-142-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-146-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{UME Model Regularization: Retraining Model with the best \(\lambda\)}{UME Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{ume-model-regularization-retraining-model-with-the-best-lambda}
@@ -2437,7 +2437,7 @@ The plot below shows strong evidence of a genre effect (for illustrative purpose
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-175-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-179-1.pdf}}
 Below are worst and best ratings categories:
 
 \begin{verbatim}
@@ -2474,7 +2474,7 @@ Another way of visualizing a genre effect is shown in the section \href{https://
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-177-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-181-1.pdf}}
 
 \subsubsection{Mathematical Description of the UMGE Model}\label{mathematical-description-of-the-umge-model}
 
@@ -2917,7 +2917,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-189-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-193-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -3010,7 +3010,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-192-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-196-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{UMGE Model Regularization: Retraining Model with the best \(\lambda\)}{UMGE Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{umge-model-regularization-retraining-model-with-the-best-lambda}
@@ -3176,7 +3176,7 @@ The \emph{Year Effect} visualization and analysis code in this section are cited
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-221-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-225-1.pdf}}
 
 \newpage
 
@@ -3843,7 +3843,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-238-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-242-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -3939,7 +3939,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-241-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-245-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -4796,7 +4796,7 @@ Below is the visual representation of the UMGYD Effect data we have just compute
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-282-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-286-1.pdf}}
 
 Let's calculate the \emph{RMSE} of the current model using the \hyperref[func.calc_UMGY_SmoothedDay_effect.RMSE.cv]{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} function described above:
 
@@ -5105,7 +5105,7 @@ Below is the visual representation of the \texttt{span} parameter values range w
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-291-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-295-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5182,7 +5182,7 @@ Below is the visual representation of the current model \emph{Fine-tuning} resul
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-294-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-298-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5279,7 +5279,7 @@ Below is the visual representation of the \texttt{span} parameter values range w
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-299-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-303-1.pdf}}
 
 \subparagraph{\texorpdfstring{UMGYDE Model Fine-tuning (\texttt{degree\ =\ 1})}{UMGYDE Model Fine-tuning (degree = 1)}}\label{umgyde-model-fine-tuning-degree-1}
 
@@ -5348,7 +5348,7 @@ Below is the visual representation of the current model \emph{Fine-tuning} resul
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-302-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-306-1.pdf}}
 
 Now, we can add the \emph{UMGYDE Model Tuning} result for \texttt{degree\ =\ 1} to our \emph{Result Table}:
 
@@ -5441,7 +5441,7 @@ Below is the visual representation of the \texttt{span} parameter values range w
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-307-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-311-1.pdf}}
 
 \subparagraph{\texorpdfstring{UMGYDE Model Fine-tuning (\texttt{degree\ =\ 2})}{UMGYDE Model Fine-tuning (degree = 2)}}\label{umgyde-model-fine-tuning-degree-2}
 
@@ -5512,7 +5512,7 @@ Below is the visual representation of the current model \emph{Fine-tuning} resul
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-310-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-314-1.pdf}}
 
 \begin{noteblock}
 The custom data visualization function \hyperref[func.data.plot.left_detailed]{data.plot.left\_detailed} we used above is described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report.
@@ -5647,7 +5647,7 @@ Let's now visualize final Smoothed Day effect we have obtained:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-315-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-319-1.pdf}}
 
 \begin{noteblock}
 It should be noted, however, that the graph above is not as smooth as before, although the data now provides better results.
@@ -5745,7 +5745,7 @@ As with the previous models, we implement the \emph{Regularization} method for t
 
 \newpage
 
-\paragraph{UMGYDE Model Regularization: Support Functions}\label{umgyde-model-regularization-support-functions}
+\paragraph{UMGYDE Model Regularization: Helper Functions}\label{umgyde-model-regularization-helper-functions}
 
 \hfill\break
 
@@ -5875,7 +5875,7 @@ The function calculates \emph{RMSE} of the \emph{UMGYDE Model} using \emph{5-Fol
 \end{itemize}
 
 \phantomsection\label{func.regularize.test_lambda.UMGYD_effect.cv.details}
-\subparagraph{Details}\label{details-8}
+Details
 
 \hfill\break
 Under the hood, the function internally calls the \hyperref[func.regularize.train_UMGYD_effect.cv]{regularize.train\_UMGYD\_effect.cv} and then \hyperref[func.calc_UMGY_SmoothedDay_effect.RMSE.cv]{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} described above, and returns the \emph{RMSE} value that the latter inner function calculates for the given \hyperref[func.regularize.test_lambda.UMGYD_effect.cv.params.lambda]{lambda} parameter value passed to the former one.
@@ -5915,11 +5915,24 @@ Return
 
 \hfill\break
 
+\begin{noteblock}
+The complete version of the source code shown in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2322}{UMGYDE Model Regularization: Pre-configuration} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2322}{capstone-movielens.main.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
 Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
 
 We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMGYD_effect.cv]{regularize.test\_lambda.UMGYD\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
 
 Below we provide the most significant part of the code that performs this operation:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  lambdas }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{256}\NormalTok{, }\DecValTok{16}\NormalTok{)}
+\NormalTok{  cv.UMGYDE.preset.result }\OtherTok{\textless{}{-}} 
+    \FunctionTok{tune.model\_param}\NormalTok{(lambdas, regularize.test\_lambda.UMGYD\_effect.cv)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5947,11 +5960,6 @@ Below we provide the most significant part of the code that performs this operat
 ##       16.0000000        0.8708197
 \end{verbatim}
 
-\begin{noteblock}
-The complete version of the source code provided in this section can be found in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1493}{UMGYDE Model Regularization: Pre-configuration} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1493}{capstone-movielens.main.R} script on \emph{GitHub}.
-
-\end{noteblock}
-
 Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 
 \begin{Shaded}
@@ -5965,7 +5973,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-324-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-328-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -5979,7 +5987,7 @@ We use the custom data visualization function \hyperref[func.data.plot]{data.plo
 \hfill\break
 
 \begin{noteblock}
-The complete version of the source code provided in this section can be found in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L867}{Fine-tuning Step of the Regularization Method for the User+Movie Model} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R}{capstone-movielens.main.R} script on \emph{GitHub}.
+The complete version of the source code shown in this section can be found in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2378}{UMGYDE Model Regularization: Fine-tuning} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2378}{capstone-movielens.main.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -5988,6 +5996,25 @@ We are now ready to perform the fine-tuning step of our model \emph{regularizati
 Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMGYD_effect.cv]{regularize.test\_lambda.UMGYD\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
 
 Below we provide the most significant part of the code that performs this operation:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{endpoints }\OtherTok{\textless{}{-}} 
+  \FunctionTok{get\_fine\_tune.param.endpoints}\NormalTok{(cv.UMGYDE.preset.result}\SpecialCharTok{$}\NormalTok{tuned.result)}
+
+\NormalTok{UMGYDE.loop\_starter }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(endpoints[}\StringTok{"start"}\NormalTok{], }
+\NormalTok{                        endpoints[}\StringTok{"end"}\NormalTok{], }
+                        \DecValTok{8}\NormalTok{)}
+
+\NormalTok{cache.base\_name }\OtherTok{\textless{}{-}} \StringTok{"UMGYDE.rglr.fine{-}tuning"}
+
+\NormalTok{UMGYDE.rglr.fine\_tune.results }\OtherTok{\textless{}{-}} 
+  \FunctionTok{model.tune.param\_range}\NormalTok{(UMGYDE.loop\_starter,}
+\NormalTok{                         UMGYDE.rglr.fine\_tune.cache.path,}
+\NormalTok{                         cache.base\_name,}
+\NormalTok{                         regularize.test\_lambda.UMGYD\_effect.cv)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6040,7 +6067,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-327-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-331-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -6054,23 +6081,196 @@ We use the custom data visualization function \hyperref[func.data.plot]{data.plo
 \hfill\break
 
 \begin{noteblock}
-The complete version of the source code provided in this section are available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1589}{Re-train Regularized UMGYDE Model for the best \texttt{lambda}} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1589}{capstone-movielens.main.R} script on \emph{GitHub}.
+The complete version of the source code shown in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2417}{UMGYDE Regularized Model: Retraining with the best params} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2417}{capstone-movielens.main.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-Now, we can calculate the \emph{Regularized UMGYDE Effect} by retraining our model on the entire \texttt{edx} dataset with the best value of the \(\lambda\) parameter we just calculated, for the definitive \emph{Root Mean Squared Error} calculation and use in subsequent models.
+Now, we can compute the \emph{Regularized UMGYDE Effect} by re-training our model on the entire \texttt{edx} dataset with the best value of the \(\lambda\) parameter we have just figured out and use it in subsequent analysis.
+
+The most significant part of the code for this operation is shown below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  best\_result }\OtherTok{\textless{}{-}}\NormalTok{ UMGYDE.rglr.fine\_tune.results}\SpecialCharTok{$}\NormalTok{best\_result}
+\NormalTok{  UMGYDE.rglr.best\_lambda }\OtherTok{\textless{}{-}}\NormalTok{ best\_result[}\StringTok{"param.best\_value"}\NormalTok{]}
+\NormalTok{  UMGYDE.rglr.best\_RMSE }\OtherTok{\textless{}{-}}\NormalTok{ best\_result[}\StringTok{"best\_RMSE"}\NormalTok{]}
+  
+  \FunctionTok{put\_log1}\NormalTok{(}\StringTok{"Re{-}training Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best \textasciigrave{}lambda\textasciigrave{}: \%1..."}\NormalTok{,}
+\NormalTok{           UMGYDE.rglr.best\_lambda)}
+  
+\NormalTok{  rglr.UMGYD\_effect }\OtherTok{\textless{}{-}}\NormalTok{ edx }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{regularize.train\_UMGYD\_effect}\NormalTok{(UMGYDE.rglr.best\_lambda)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{str}\NormalTok{(rglr.UMGYD\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [4,640 x 4] (S3: tbl_df/tbl/data.frame)
+##  $ days       : int [1:4640] 0 385 388 389 392 393 394 396 397 399 ...
+##  $ de         : Named num [1:4640] 0.0331 0.1537 0.1174 0.239 -0.0277 ...
+##   ..- attr(*, "names")= chr [1:4640] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  $ year       : num [1:4640] 1995 1996 1996 1996 1996 ...
+##  $ de_smoothed: num [1:4640] 0.025 0.1492 0.1638 0.1565 0.0627 ...
+\end{verbatim}
 
 \begin{noteblock}
-Here we use the helper function \hyperref[func.train_UMGYD_effect]{train\_UMGYD\_effect} described above in the \hyperref[umgyde-model-regularization-support-functions]{UMGYDE Model Regularization: Support Functions} section.
+Here we use the helper function \hyperref[func.regularize.train_UMGYD_effect]{regularize.train\_UMGYD\_effect} described above in the \hyperref[umgyde-model-helper-functions]{UMGYDE Model: Helper Functions} section.
 
 \end{noteblock}
 
-We calculate the \emph{Root Mean Squared Error} for the ultimately computed \emph{UMGYDE Effect} using the helper function \hyperref[func.calc_UMGYD_effect_RMSE.cv]{calc\_UMGYD\_effect\_RMSE.cv} described above in the \hyperref[umgyde-model-regularization-support-functions]{UMGYDE Model Regularization: Support Functions} section as follows:
+We calculate the \emph{Root Mean Squared Error} for the ultimately computed \emph{Regularized UMGYDE Effect} using the helper function \hyperref[func.calc_UMGY_SmoothedDay_effect.RMSE.cv]{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} described above in the \hyperref[umgyde-model-helper-functions]{UMGYDE Model: Helper Functions} section as follows:
 
-Finally, we add the definitive result for the current model to our \emph{Result Table}:
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  rglr.UMGYD\_effect.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv}\NormalTok{(rglr.UMGYD\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+As always, we add the definitive result for the current model to our \emph{Result Table}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSEs.ResultTibble.UMGYDE.rglr.tuned }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.UMGYDE.tuned }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"Regularized UMGYDE Model"}\NormalTok{, }
+\NormalTok{               rglr.UMGYD\_effect.RMSE,}
+               \AttributeTok{comment =} \StringTok{"The best tuned and regularized UMGYDE Model."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSE\_kable}\NormalTok{(RMSEs.ResultTibble.UMGYDE.rglr.tuned)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
+\toprule
+\textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
+\midrule
+Project Objective & 0.8649000 & \\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
+Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+\addlinespace
+UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
+Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
+UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+computed using `loess` function with default `degree` \& `span` parameters.\\
+\addlinespace
+Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708295 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709886 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707850 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707750 & The best tuned and regularized UMGYDE Model.\\
+\bottomrule
+\end{tabular}
 
 \begin{noteblock}
-Now, we have a better result than one for the previous model, but still insufficient to meet the Project Objective.
+Now, we have a better result than the ones for the previous models, but still insufficient to meet the Project Objective. Let's see what else we can do to achieve our ultimate goal.
+
+\end{noteblock}
+
+\newpage
+
+\paragraph{UMGYDE Model: Final Holdout Test (Preliminary Assesment)}\label{umgyde-model-final-holdout-test-preliminary-assesment}
+
+\begin{noteblock}
+The complete version of the source code shown in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2498}{UMGYDE Model: Final Holdout Test} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2498}{capstone-movielens.main.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Let's see what we have achieved so far, using the \texttt{final\_holdout\_test} dataset for the first time.
+Firstly, we compute predictions for our current model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final.UMGYDE.predicted }\OtherTok{\textless{}{-}}\NormalTok{ final\_holdout\_test }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{UMGY\_SmoothedDay\_effect.predict}\NormalTok{(rglr.UMGYD\_effect)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(final.UMGYDE.predicted)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    999999 obs. of  5 variables:
+##  $ userId   : int  1 1 1 2 2 2 3 3 4 4 ...
+##  $ movieId  : int  231 480 586 151 858 1544 590 4995 34 432 ...
+##  $ timestamp: int  838983392 838983653 838984068 868246450 868245645 868245920 1136075494 1133571200 844416936 844417070 ...
+##  $ rating   : num  5 5 5 3 2 3 3.5 4.5 5 3 ...
+##  $ predicted: num  4.49 5 4.63 3.3 4.07 ...
+\end{verbatim}
+
+\begin{noteblock}
+Here we use the helper function \hyperref[func.UMGY_SmoothedDay_effect.predict]{UMGY\_SmoothedDay\_effect.predict} described above in the \hyperref[umgyde-model-helper-functions]{UMGYDE Model: Helper Functions} section.
+
+\end{noteblock}
+
+Then we compute the \emph{RMSE} and add the result to our \emph{Result Table}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final.UMGYDE.predicted.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{rmse2}\NormalTok{(final\_holdout\_test}\SpecialCharTok{$}\NormalTok{rating,}
+\NormalTok{                                     final.UMGYDE.predicted}\SpecialCharTok{$}\NormalTok{predicted)}
+
+\NormalTok{final.RMSEs.ResultTibble.UMGYDE.rglr.tuned }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.UMGYDE.rglr.tuned }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"Best UMGYDE Model (Final Test)"}\NormalTok{, }
+\NormalTok{               final.UMGYDE.predicted.RMSE,}
+               \AttributeTok{comment =} \StringTok{"Final Holdout Test of the best tuned and regularized UMGYDE Model."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSE\_kable}\NormalTok{(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{32em}}
+\toprule
+\textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
+\midrule
+Project Objective & 0.8649000 & \\
+Overall Mean Rating Model & 1.0603462 & \\
+User Effect Model & 0.9697962 & \\
+User+Movie Effect Model & 0.8732081 & \\
+Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
+\addlinespace
+UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
+Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
+UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+computed using `loess` function with default `degree` \& `span` parameters.\\
+\addlinespace
+Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708295 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709886 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707850 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707750 & The best tuned and regularized UMGYDE Model.\\
+\addlinespace
+Best UMGYDE Model (Final Test) & 0.8804225 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
+\bottomrule
+\end{tabular}
+
+\begin{noteblock}
+Here we use the helper function \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L28}{rmse2} to calculate the \emph{RMSE} that is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L18}{(R)MSE-related functions} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L28}{common-helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\begin{noteblock}
+As expected, we have not achieved a result that is good enough to meet our \emph{Project Objective}.
 
 \end{noteblock}
 
@@ -6296,7 +6496,12 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \hfill\break
 
-Plots a graph based on the dataset passed in the \hyperref[func.data.plot.left.n.params.data]{data} parameter, using both points and a line.
+Plots a graph based on the first \(n\) rows (the \(n\) is specified by the \hyperref[func.data.plot.left.n.params.left.n]{left.n} parameter) of the dataset passed in the \hyperref[func.data.plot.left.n.params.data]{data} parameter, using both points and a line.
+
+\begin{noteblock}
+The dataset passed in the \hyperref[func.data.plot.left.n.params.data]{data} parameter is assumed to be sorted by the column used for the \(x\) axis (specified by the column name passed in the \hyperref[func.data.plot.left.n.params.xname]{xname} parameter).
+
+\end{noteblock}
 
 \phantomsection\label{func.data.plot.left.n.Usage}
 \paragraph{Usage}\label{usage-2}
@@ -6326,49 +6531,56 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.left.n
 \begin{itemize}
 \tightlist
 \item
-  \textbf{data:} Dataset to use for the plot;
+  \textbf{data:} Dataset to use for the plot.
+\end{itemize}
+
+\phantomsection\label{func.data.plot.left.n.params.left.n}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{left.n:} If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left.n.params.title}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{title:} Title of the plot;
+  \textbf{title:} Title of the plot.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left.n.params.xname}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{xname:} The name of the dataset column used as the source of the \(x\) variable for the plot;
+  \textbf{xname:} The name of the dataset column used as the source of the \(x\) variable for the plot.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left.n.params.yname}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{yname:} The name of the dataset column used as the source of the \(y\) variable for the plot;
+  \textbf{yname:} The name of the dataset column used as the source of the \(y\) variable for the plot.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left.n.params.xlabel}
 \begin{itemize}
 \tightlist
 \item
-  \emph{xlabel = NULL}:** The \(x\) axis label. If \texttt{NULL}, the value of the \texttt{xname} parameter is used for the label;
+  \emph{xlabel = NULL}:** The \(x\) axis label. If \texttt{NULL}, the value of the \texttt{xname} parameter is used for the label.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left.n.params.ylabel}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{ylabel = NULL:} The \(y\) axis label. If \texttt{NULL}, the value of the \texttt{yname} parameter is used for the label.;
+  \textbf{ylabel = NULL:} The \(y\) axis label. If \texttt{NULL}, the value of the \texttt{yname} parameter is used for the label.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left.n.params.line_col}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{line\_col = blue:} The line color;
+  \textbf{line\_col = blue:} The line color.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left.n.params.normalize}
@@ -6383,14 +6595,14 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.left.n
 
 \hfill\break
 
-The function is a wrapper for the \hyperref[func.data.plot]{data.plot} function described above and is a simple and convenient tool for more detailed visualizing the left part of the graph.
+The function is a wrapper for the \hyperref[func.data.plot]{data.plot} function described above and is a simple and convenient tool for more detailed visualization of the left part of the graph, initially built based on the entire data set passed in the \hyperref[func.data.plot.left.n.params.data]{data} parameter.
 
 \phantomsection\label{func.data.plot.left.n.code}
 \paragraph{Source Code}\label{source-code-24}
 
 \hfill\break
 
-The soure code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L493}{data.plot.left.n} function is shown below:
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L493}{data.plot.left.n} function is shown below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6435,7 +6647,12 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \hfill\break
 
-Plots a graph based on the dataset passed in the \hyperref[func.data.plot.left_detailed.params.data]{data} parameter, using both points and a line.
+Combines two graphs plotted by the internally called helper functions in a grid: the first is a standard graph plotted by the \hyperref[func.data.plot]{data.plot} function described above, the second is a graph based on the first \(n\) rows (the \(n\) is specified by the \hyperref[func.data.plot.left.n.params.left.n]{left.n} parameter) of the dataset plotted by the \hyperref[func.data.plot.left.n]{data.plot.left.n} function also described above (The data for both graphs is passed in the {[}data{]}).(\#func.data.plot.left.n.params.data) parameter).
+
+\begin{noteblock}
+The dataset passed in the \hyperref[func.data.plot.left.n.params.data]{data} parameter is assumed to be sorted by the column used for the \(x\) axis (specified by the column name passed in the \hyperref[func.data.plot.left.n.params.xname]{xname} parameter).
+
+\end{noteblock}
 
 \phantomsection\label{func.data.plot.left_detailed.Usage}
 \paragraph{Usage}\label{usage-3}
@@ -6469,49 +6686,70 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.left_d
 \begin{itemize}
 \tightlist
 \item
-  \textbf{data:} Dataset to use for the plot;
+  \textbf{data:} Dataset to use for the plot.
+\end{itemize}
+
+\phantomsection\label{func.data.plot.left.n.params.left.n}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{left.n:} If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left_detailed.params.title}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{title:} Title of the plot;
+  \textbf{title:} Title of the plot.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left_detailed.params.xname}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{xname:} The name of the dataset column used as the source of the \(x\) variable for the plot;
+  \textbf{xname:} The name of the dataset column used as the source of the \(x\) variable for the plot.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left_detailed.params.yname}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{yname:} The name of the dataset column used as the source of the \(y\) variable for the plot;
+  \textbf{yname:} The name of the dataset column used as the source of the \(y\) variable for the plot.
 \end{itemize}
 
-\phantomsection\label{func.data.plot.left_detailed.params.xlabel}
+\phantomsection\label{func.data.plot.left_detailed.params.xlabel1}
 \begin{itemize}
 \tightlist
 \item
-  \emph{xlabel = NULL}:** The \(x\) axis label. If \texttt{NULL}, the value of the \texttt{xname} parameter is used for the label;
+  \emph{xlabel1 = NULL}:** The \(x\) axis label for the first plot. If \texttt{NULL}, the value of the \texttt{xname} parameter is used for the label.
 \end{itemize}
 
-\phantomsection\label{func.data.plot.left_detailed.params.ylabel}
+\phantomsection\label{func.data.plot.left_detailed.params.xlabel2}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{ylabel = NULL:} The \(y\) axis label. If \texttt{NULL}, the value of the \texttt{yname} parameter is used for the label.;
+  \emph{xlabel2 = NULL}:** The \(x\) axis label for the second plot. If \texttt{NULL}, the value of the \texttt{xname} parameter is used for the label.
+\end{itemize}
+
+\phantomsection\label{func.data.plot.left_detailed.params.ylabel1}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ylabel1 = NULL:} The \(y\) axis label for the first plot. If \texttt{NULL}, the value of the \texttt{yname} parameter is used for the label.
+\end{itemize}
+
+\phantomsection\label{func.data.plot.left_detailed.params.ylabel2}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ylabel2 = NULL:} The \(y\) axis label for the second plot. If \texttt{NULL}, the value of the \texttt{yname} parameter is used for the label.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left_detailed.params.line_col}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{line\_col = blue:} The line color;
+  \textbf{line\_col = blue:} The line color.
 \end{itemize}
 
 \phantomsection\label{func.data.plot.left_detailed.params.normalize}
@@ -6526,7 +6764,7 @@ Plots a graph based on the dataset passed in the \hyperref[func.data.plot.left_d
 
 \hfill\break
 
-The function is a wrapper for the \hyperref[func.data.plot.left.n]{data.plot.left.n} function described above and is a simple and convenient tool for more detailed visualizing the left part of the graph.
+Under the hood, the function calls internally the \hyperref[func.data.plot]{data.plot} and \hyperref[func.data.plot.left.n]{data.plot.left.n} functions (described above) to build two graphs and combines them into a grid.
 
 \phantomsection\label{func.data.plot.left_detailed.code}
 \paragraph{Source Code}\label{source-code-25}
