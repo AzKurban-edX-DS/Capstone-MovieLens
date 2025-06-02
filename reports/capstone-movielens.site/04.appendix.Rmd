@@ -179,7 +179,11 @@ The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-M
 ### [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) Function {#func.data.plot.left.n}
 \
 
-Plots a graph based on the dataset passed in the [data](#func.data.plot.left.n.params.data) parameter, using both points and a line.
+Plots a graph based on the first $n$ rows (the $n$ is specified by the [left.n](#func.data.plot.left.n.params.left.n) parameter) of the dataset passed in the [data](#func.data.plot.left.n.params.data) parameter, using both points and a line.
+
+::: {.noteblock data-latex=""}
+The dataset passed in the [data](#func.data.plot.left.n.params.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.params.xname) parameter).
+:::
 
 ::: { #func.data.plot.left.n.Usage .sidebar }
 #### Usage
@@ -203,31 +207,35 @@ data.plot.left.n <- function(data,
 \
 
 ::: { #func.data.plot.left.n.params.data .sidebar }
-  - **data:** Dataset to use for the plot; 
+  - **data:** Dataset to use for the plot. 
+
+:::
+::: { #func.data.plot.left.n.params.left.n .sidebar }
+  - **left.n:** If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
 
 :::
 ::: { #func.data.plot.left.n.params.title .sidebar }
-  - **title:** Title of the plot; 
+  - **title:** Title of the plot. 
 
 :::
 ::: { #func.data.plot.left.n.params.xname .sidebar }
-  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
+  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot. 
 
 :::
 ::: { #func.data.plot.left.n.params.yname .sidebar }
-  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
+  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot. 
 
 :::
 ::: { #func.data.plot.left.n.params.xlabel .sidebar }
-  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left.n.params.ylabel .sidebar }
-  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left.n.params.line_col .sidebar }
-  - **line_col = blue:** The line color; 
+  - **line_col = blue:** The line color. 
 
 :::
 ::: { #func.data.plot.left.n.params.normalize .sidebar }
@@ -240,15 +248,14 @@ data.plot.left.n <- function(data,
 #### Details
 \
 
-The function is a wrapper for the [data.plot](#func.data.plot) function described above and is a simple and convenient tool for more detailed visualizing the left part of the graph.
-
+The function is a wrapper for the [data.plot](#func.data.plot) function described above and is a simple and convenient tool for more detailed visualization of the left part of the graph, initially built based on the entire data set passed in the [data](#func.data.plot.left.n.params.data) parameter.
 :::
 
 ::: { #func.data.plot.left.n.code .sidebar }
 #### Source Code
 \
 
-The soure code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) function is shown below:
+The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) function is shown below:
 ```{r eval=FALSE}
 data.plot.left.n <- function(data, 
                              left.n = 0,
@@ -286,12 +293,14 @@ The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Cap
 :::
 :::
 
-
-
 ### [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) Function {#func.data.plot.left_detailed}
 \
 
-Plots a graph based on the dataset passed in the [data](#func.data.plot.left_detailed.params.data) parameter, using both points and a line.
+Combines two graphs plotted by the internally called helper functions in a grid: the first is a standard graph plotted by the [data.plot](#func.data.plot) function described above, the second is a graph based on the first $n$ rows (the $n$ is specified by the [left.n](#func.data.plot.left.n.params.left.n) parameter) of the dataset plotted by the [data.plot.left.n](#func.data.plot.left.n) function also described above (The data for both graphs is passed in the [data]).(#func.data.plot.left.n.params.data) parameter).
+
+::: {.noteblock data-latex=""}
+The dataset passed in the [data](#func.data.plot.left.n.params.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.params.xname) parameter).
+:::
 
 ::: { #func.data.plot.left_detailed.Usage .sidebar }
 #### Usage
@@ -319,31 +328,43 @@ data.plot.left_detailed <- function(data,
 \
 
 ::: { #func.data.plot.left_detailed.params.data .sidebar }
-  - **data:** Dataset to use for the plot; 
+  - **data:** Dataset to use for the plot. 
+
+:::
+::: { #func.data.plot.left.n.params.left.n .sidebar }
+  - **left.n:** If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
 
 :::
 ::: { #func.data.plot.left_detailed.params.title .sidebar }
-  - **title:** Title of the plot; 
+  - **title:** Title of the plot. 
 
 :::
 ::: { #func.data.plot.left_detailed.params.xname .sidebar }
-  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
+  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot. 
 
 :::
 ::: { #func.data.plot.left_detailed.params.yname .sidebar }
-  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
+  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot. 
 
 :::
-::: { #func.data.plot.left_detailed.params.xlabel .sidebar }
-  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+::: { #func.data.plot.left_detailed.params.xlabel1 .sidebar }
+  - *xlabel1 = NULL*:** The $x$ axis label for the first plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
-::: { #func.data.plot.left_detailed.params.ylabel .sidebar }
-  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+::: { #func.data.plot.left_detailed.params.xlabel2 .sidebar }
+  - *xlabel2 = NULL*:** The $x$ axis label for the second plot. If `NULL`, the value of the `xname` parameter is used for the label. 
+
+:::
+::: { #func.data.plot.left_detailed.params.ylabel1 .sidebar }
+  - **ylabel1 = NULL:** The $y$ axis label for the first plot. If `NULL`, the value of the `yname` parameter is used for the label. 
+
+:::
+::: { #func.data.plot.left_detailed.params.ylabel2 .sidebar }
+  - **ylabel2 = NULL:** The $y$ axis label for the second plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.params.line_col .sidebar }
-  - **line_col = blue:** The line color; 
+  - **line_col = blue:** The line color. 
 
 :::
 ::: { #func.data.plot.left_detailed.params.normalize .sidebar }
@@ -356,8 +377,7 @@ data.plot.left_detailed <- function(data,
 #### Details
 \
 
-The function is a wrapper for the [data.plot.left.n](#func.data.plot.left.n) function described above and is a simple and convenient tool for more detailed visualizing the left part of the graph.
-
+Under the hood, the function calls internally the [data.plot](#func.data.plot) and [data.plot.left.n](#func.data.plot.left.n) functions (described above) to build two graphs and combines them into a grid.
 :::
 
 ::: { #func.data.plot.left_detailed.code .sidebar }

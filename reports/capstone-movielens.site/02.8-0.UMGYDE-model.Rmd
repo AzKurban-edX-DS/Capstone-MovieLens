@@ -1197,7 +1197,7 @@ As with the previous models, we implement the _Regularization_ method for the cu
 
 \newpage
 
-#### UMGYDE Model Regularization: Support Functions
+#### UMGYDE Model Regularization: Helper Functions
 \
 
 ##### [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L223) Function {#func.regularize.train_UMGYD_effect}
@@ -1303,7 +1303,7 @@ The function calculates _RMSE_ of the _UMGYDE Model_ using _5-Fold Cross Validat
 
 
 ::: { #func.regularize.test_lambda.UMGYD_effect.cv.details .sidebar }
-##### Details
+###### Details
 \
 Under the hood, the function internally calls the [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv) and then [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above, and returns the _RMSE_ value that the latter inner function calculates for the given [lambda](#func.regularize.test_lambda.UMGYD_effect.cv.params.lambda) parameter value passed to the former one.
 :::
@@ -1337,21 +1337,24 @@ _Root Mean Squared Error (RMSE)_ of the _UMGYD Model_ trained for the given [lam
 #### UMGYDE Model Regularization: Pre-configuration
 \
 
+::: {.noteblock data-latex=""}
+The complete version of the source code shown in this section is available in the [UMGYDE Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2322) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2322) script on _GitHub_.
+:::
+
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
 We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
+  lambdas <- seq(0, 256, 16)
+  cv.UMGYDE.preset.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UMGYD_effect.cv)
 ```
 ```{r}
 str(cv.UMGYDE.preset.result)
 cv.UMGYDE.preset.result$best_result
 ```
-
-::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section can be found in the [UMGYDE Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1493) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1493) script on _GitHub_.
-:::
 
 Now, let's visualize the results of the $\lambda$ range preconfiguration:
 ``` {r}
@@ -1373,7 +1376,7 @@ We use the custom data visualization function [data.plot](#func.data.plot) descr
 \
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section can be found in the [Fine-tuning Step of the Regularization Method for the User+Movie Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L867) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+The complete version of the source code shown in this section can be found in the [UMGYDE Model Regularization: Fine-tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2378) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2378) script on _GitHub_.
 :::
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
@@ -1382,6 +1385,20 @@ Here we are going to use the [model.tune.param_range](#func.model.tune.param_ran
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
+endpoints <- 
+  get_fine_tune.param.endpoints(cv.UMGYDE.preset.result$tuned.result)
+
+UMGYDE.loop_starter <- c(endpoints["start"], 
+                        endpoints["end"], 
+                        8)
+
+cache.base_name <- "UMGYDE.rglr.fine-tuning"
+
+UMGYDE.rglr.fine_tune.results <- 
+  model.tune.param_range(UMGYDE.loop_starter,
+                         UMGYDE.rglr.fine_tune.cache.path,
+                         cache.base_name,
+                         regularize.test_lambda.UMGYD_effect.cv)
 ```
 ```{r}
 str(UMGYDE.rglr.fine_tune.results)
@@ -1417,33 +1434,96 @@ We use the custom data visualization function [data.plot](#func.data.plot) descr
 \
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section are available in the [Re-train Regularized UMGYDE Model for the best `lambda`](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1589) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1589) script on _GitHub_.
+The complete version of the source code shown in this section is available in the [UMGYDE Regularized Model: Retraining with the best params](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2417) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2417) script on _GitHub_.
 :::
 
-Now, we can calculate the _Regularized UMGYDE Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
+Now, we can compute the _Regularized UMGYDE Effect_ by re-training our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we have just figured out and use it in subsequent analysis.
 
+The most significant part of the code for this operation is shown below: 
 ```{r, eval=FALSE}
-
-```
-
-::: {.noteblock data-latex=""}
-Here we use the helper function [train_UMGYD_effect](#func.train_UMGYD_effect) described above in the [UMGYDE Model Regularization: Support Functions] section.
-:::
-
-We calculate the _Root Mean Squared Error_ for the ultimately computed _UMGYDE Effect_ using the helper function [calc_UMGYD_effect_RMSE.cv](#func.calc_UMGYD_effect_RMSE.cv) described above in the [UMGYDE Model Regularization: Support Functions] section as follows:
-```{r, eval=FALSE}
-```
-
-Finally, we add the definitive result for the current model to our _Result Table_:
-```{r, eval=FALSE}
+  best_result <- UMGYDE.rglr.fine_tune.results$best_result
+  UMGYDE.rglr.best_lambda <- best_result["param.best_value"]
+  UMGYDE.rglr.best_RMSE <- best_result["best_RMSE"]
+  
+  put_log1("Re-training Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best `lambda`: %1...",
+           UMGYDE.rglr.best_lambda)
+  
+  rglr.UMGYD_effect <- edx |> 
+    regularize.train_UMGYD_effect(UMGYDE.rglr.best_lambda)
 ```
 ```{r}
+  str(rglr.UMGYD_effect)
+```
+
+
+::: {.noteblock data-latex=""}
+Here we use the helper function [regularize.train_UMGYD_effect](#func.regularize.train_UMGYD_effect) described above in the [UMGYDE Model: Helper Functions] section.
+:::
+
+We calculate the _Root Mean Squared Error_ for the ultimately computed _Regularized UMGYDE Effect_ using the helper function [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above in the [UMGYDE Model: Helper Functions] section as follows:
+```{r, eval=FALSE}
+  rglr.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(rglr.UMGYD_effect)
+```
+
+As always, we add the definitive result for the current model to our _Result Table_:
+```{r, eval=FALSE}
+RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.tuned |> 
+  RMSEs.AddRow("Regularized UMGYDE Model", 
+               rglr.UMGYD_effect.RMSE,
+               comment = "The best tuned and regularized UMGYDE Model.")
+```
+```{r}
+RMSE_kable(RMSEs.ResultTibble.UMGYDE.rglr.tuned)
 ```
 
 ::: {.noteblock data-latex=""}
-Now, we have a better result than one for the previous model, but still insufficient to meet the Project Objective.
+Now, we have a better result than the ones for the previous models, but still insufficient to meet the Project Objective. Let's see what else we can do to achieve our ultimate goal. 
+:::
+
+\newpage
+
+#### UMGYDE Model: Final Holdout Test (Preliminary Assesment)
+
+::: {.noteblock data-latex=""}
+The complete version of the source code shown in this section is available in the [UMGYDE Model: Final Holdout Test](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2498) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2498) script on _GitHub_.
+:::
+
+Let's see what we have achieved so far, using the `final_holdout_test` dataset for the first time.
+Firstly, we compute predictions for our current model:
+```{r, eval=FALSE}
+final.UMGYDE.predicted <- final_holdout_test |>
+  UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
+```
+```{r}
+str(final.UMGYDE.predicted)
+```
+::: {.noteblock data-latex=""}
+Here we use the helper function [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) described above in the [UMGYDE Model: Helper Functions] section.
+:::
+
+Then we compute the _RMSE_ and add the result to our _Result Table_:
+```{r, eval=FALSE}
+final.UMGYDE.predicted.RMSE <- rmse2(final_holdout_test$rating,
+                                     final.UMGYDE.predicted$predicted)
+
+final.RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
+  RMSEs.AddRow("Best UMGYDE Model (Final Test)", 
+               final.UMGYDE.predicted.RMSE,
+               comment = "Final Holdout Test of the best tuned and regularized UMGYDE Model.")
+```
+```{r}
+RMSE_kable(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)
+```
+
+::: {.noteblock data-latex=""}
+Here we use the helper function [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) to calculate the _RMSE_ that is defined in the  [(R)MSE-related functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L18) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) script on _GitHub_.
 :::
 
 
+::: {.noteblock data-latex=""}
+As expected, we have not achieved a result that is good enough to meet our _Project Objective_.
+:::
+
 \newpage
+
 
