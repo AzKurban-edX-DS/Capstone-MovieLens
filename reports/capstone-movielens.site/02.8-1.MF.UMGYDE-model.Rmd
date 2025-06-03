@@ -1,11 +1,51 @@
-### UMGYDE Model: Matrix Factorization
+## UMGYDE Model: Matrix Factorization (MF)
 \
 
-We use the following models to account for the `date` effect:
+For our next solution, we will use the [`recosystem` package](https://cran.r-project.org/web/packages/recosystem/index.html) to perform the _Parallel Matrix Factorization_.
+
+### MF: Matematical Description
+\
+
+As outlined in [this article](https://cran.r-project.org/web/packages/recosystem/vignettes/introduction.html)[@yqiu_recosystem230505], the idea of the _Matrix Factorization_ method is to approximate the whole rating matrix $R_{m \times n}$ by the product of two matrices of lower dimensions, $P_{n \times k}$ and $Q_{n\times k}$, such that 
+
+\begin{equation}
+\mathbb{R} \approx \mathbb{PQ^T}
+(\#eq:R-PQ-MF)
+\end{equation}
+
+In relation to our model, the expression \@ref(eq:R-PQ-MF) will take the form:
+
+\begin{equation}
+\mathbf{R} \thicksim \mathbf{\hat{R}} + \mathbf{PQ^T} +  \varepsilon
+(\#eq:UMGYDE-MF)
+\end{equation}
+
+
+where:
+  
+  - $\mathbf{R}$ is the $U_\mathrm{m} \times M_n$ rating matrix with $U_m$ users and $M_n$ movies;
+  - $\mathbf{\hat{R}}$ represents the predictions from our best model: _Regularized UMGYDE Model_;
+  - $\mathbf{P}$ and $\mathbf{Q}$ are $P_{m \times k}$ and $Q_{n \times k}$ matrices, respectively, where $k$ is the number of _latent features_ to be found.
+
+If we denote the $u$-th row of $\mathbf{P}$ as $\mathbf{p}_u$ and the $v$-th row of $\mathbf{Q}$ as $\mathbf{q}_v$, then the unknown rating $\mathbf{r}_{u,v}$ given by user $u$ on movie item $v$ for our model can be estimated as $\hat{\mathbf{r}}_{u,v} + \mathbf{p}_{u}\mathbf{q}^T_{v}$, where the $\hat{\mathbf{r}}_{u,v}$ is the prediction given by our last _Regularized UMGYDE Model_.
+
+A typical solution for $\mathbf{P}$ and $\mathbf{Q}$ is given by the following optimization problem [@chin_FPSGM_MF_SMS2015a; @chin_LRS_SGM_MF2015b]:
 
 $$
-Y_{i,j} = \mu + \alpha_i + \beta_j + f(d_{i,j}) + \varepsilon_{i,j}
+\begin{array}{cc} min \\
+\tiny{P,Q} \end{array} \sum_{(u,v)\in R}[f(\mathbf{p}_u, \mathbf{q}_v; \mathbf{r}_{u,v}) + \mu_P\parallel\mathbf{p}_u\parallel_1 + \mu_Q\parallel\mathbf{q}_v\parallel_1 + \frac{\lambda_P}2\parallel\mathbf{p}_u\parallel^2_2 + \frac{\lambda_Q}2\parallel\mathbf{q}_v\parallel^2_2]
 $$
 
+where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v}$ is the observed ratings, $f$ is the loss function, and $\mu_P$, $\mu_Q$, $\lambda_P$, $\lambda_Q$ are penalty parameters to avoid overfitting.[@yqiu_recosystem230505]
+
+::: { custom-style="blockquote" } 
+> _The process of solving the matrices $P$ and $Q$ is referred to as model training, and the selection of penalty parameters is called parameter tuning. In `recosystem`, we provide convenient functions for these two tasks, and additionally have functions for model exporting (outputting $P$ and $Q$ matrices) and prediction._[@yqiu_recosystem230505]
+
+:::
 
 \newpage
+
+### MF: Helper Funtions
+
+\newpage
+

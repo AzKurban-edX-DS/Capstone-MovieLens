@@ -2553,7 +2553,7 @@ log_close()
 
 ### Open log for MF ------------------------------------------------------------
 open_logfile(".matrix-factorization")
-### MF: Support Functions ------------------------------------------------------
+### MF: Helper Functions ------------------------------------------------------
 MF.functions.file <- "MF.functions.R"
 MF.functions.file_path <- file.path(support_functions.path, 
                                     MF.functions.file)

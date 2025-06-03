@@ -1483,6 +1483,7 @@ Now, we have a better result than the ones for the previous models, but still in
 \newpage
 
 #### UMGYDE Model: Final Holdout Test (Preliminary Assesment)
+\
 
 ::: {.noteblock data-latex=""}
 The complete version of the source code shown in this section is available in the [UMGYDE Model: Final Holdout Test](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2498) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2498) script on _GitHub_.
@@ -1511,18 +1512,23 @@ final.RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.rglr.tun
                final.UMGYDE.predicted.RMSE,
                comment = "Final Holdout Test of the best tuned and regularized UMGYDE Model.")
 ```
-```{r}
-RMSE_kable(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)
-```
 
 ::: {.noteblock data-latex=""}
 Here we use the helper function [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) to calculate the _RMSE_ that is defined in the  [(R)MSE-related functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L18) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) script on _GitHub_.
 :::
 
+And finally, we print out the results:
+```{r}
+RMSE_kable(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)
+```
 
 ::: {.noteblock data-latex=""}
 As expected, we have not achieved a result that is good enough to meet our _Project Objective_.
 :::
+
+As explained in the [Chapter 24 `Matrix Factorization`](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html) of the _Course Textbook_, so far our models _"ignore an important source of information related to the fact that groups of movies have similar rating patterns and groups of users have similar rating patterns as well..."_ [@IDS2_24]
+
+Then the author shows that in this case, the _Matrix Factorization_ method can considerably improve our results. In the next section, we will apply this method to our current model and see what we get.
 
 \newpage
 
