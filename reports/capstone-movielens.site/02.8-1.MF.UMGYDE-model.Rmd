@@ -45,7 +45,91 @@ where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v
 
 \newpage
 
-### MF: Helper Funtions
+### MF: Helper Functions
+
+#### [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L1) Function {#func.mf.residual.dataframe}
+\
+
+::: { #func.mf.residual.dataframe.params.description .sidebar }
+##### Description
+\
+
+Computes residuals, defined as the difference between the observed and predicted values of the fully trained _UMGYDE Model_ as described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section.
+
+##### Parameters
+\
+
+###### ***train_set***
+\
+
+::: { #func.mf.residual.dataframe.params.train_set .sidebar }
+The dataset to be trained.
+:::
+
+##### Source Code
+\
+
+The folowing is the source code of the function:
+```{r eval=FALSE}
+mf.residual.dataframe <- function(train_set){
+  train_set |> 
+    left_join(edx.user_effect, by = "userId") |>
+    left_join(rglr.UM_effect, by = "movieId") |>
+    left_join(rglr.UMG_effect, by = "movieId") |>
+    left_join(date_days_map, by = "timestamp") |>
+    left_join(rglr.UMGY_effect, by='year') |>
+    left_join(rglr.UMGYD_effect, by='days') |>
+    mutate(rsdl = rating - (mu + a + b + g + ye + de_smoothed)) |>
+    select(userId, movieId, rsdl)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L1) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L1) script on _GitHub_.
+:::
+
+##### Return
+\
+
+A data frame object containing the residuals (see the [Description](#func.mf.residual.dataframe.params.description) above for the details). 
+
+#### [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) Function {#func.UMGYDE_model.predict}
+\
+
+This is a wrapper for the [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) function described in the [UMGYDE Model: Helper Functions] section above with the fixed [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.params.day_smoothed_effect) parameter value obtained after the _UMGYDE Model_ (described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section)  has been fully trained.
+
+##### Parameters
+\
+
+::: { #func.UMGYDE_model.predict.params.test_set .sidebar }
+###### ***test_set***
+\
+
+The dataset for testing the _UMGYDE Model_ after it has been fully trained.
+:::
+
+##### Source Code
+\
+
+The following is the source code of the function:
+```{r eval=FALSE}
+UMGYDE_model.predict <- function(test_set) {
+  test_set |>
+    UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) script on _GitHub_.
+:::
+
+##### Return
+\
+
+A data frame object containing predicted values. 
+
+
+
 
 \newpage
 
