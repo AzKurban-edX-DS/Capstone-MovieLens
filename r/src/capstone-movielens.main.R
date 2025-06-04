@@ -2553,7 +2553,7 @@ log_close()
 
 ### Open log for MF ------------------------------------------------------------
 open_logfile(".matrix-factorization")
-### MF: Support Functions ------------------------------------------------------
+### MF: Helper Functions ------------------------------------------------------
 MF.functions.file <- "MF.functions.R"
 MF.functions.file_path <- file.path(support_functions.path, 
                                     MF.functions.file)
@@ -2579,9 +2579,7 @@ if (file.exists(file_path_tmp)) {
   put_log1("Overall mean rating data has been loaded from file: %1",
            file_path_tmp)
 } else {
-  mf.edx.residual <- mf.residual.dataframe(edx) #|>
-    #pull(rsdl)
-  
+  mf.edx.residual <- mf.residual.dataframe(edx)
   str(mf.edx.residual)
   sum(is.na(mf.edx.residual))
   #> [1] 0

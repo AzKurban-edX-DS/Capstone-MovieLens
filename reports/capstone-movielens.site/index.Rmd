@@ -14,6 +14,7 @@ output:
     toc_depth: 4
     fig_caption: true
     keep_tex: true
+    css: custom.css
     citation_package: biblatex
     delete_merged_file: true
 colorlinks: true
@@ -56,13 +57,6 @@ vignette: >
   }
 
 ```{css style settings, echo = FALSE}
-blockquote {
-    padding: 10px 20px;
-    margin: 0 0 20px;
-    font-size: 10px;
-    font-style: italic;
-    border-left: 5px solid #eee;
-}
 ```
 
 ```{r env_test, include=FALSE}
@@ -119,6 +113,10 @@ source(setup_script.file_path,
 
 ```{r child = '02.8-0.UMGYDE-model.Rmd'}
 ```
+
+```{r child = '02.8-1.MF.UMGYDE-model.Rmd'}
+```
+
 
 ```{r child = '04.appendix.Rmd'}
 ```
