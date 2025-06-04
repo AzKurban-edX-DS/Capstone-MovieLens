@@ -32,8 +32,8 @@ If we denote the $u$-th row of $\mathbf{P}$ as $\mathbf{p}_u$ and the $v$-th row
 A typical solution for $\mathbf{P}$ and $\mathbf{Q}$ is given by the following optimization problem [@chin_FPSGM_MF_SMS2015a; @chin_LRS_SGM_MF2015b]:
 
 $$
-\begin{array}{c} {\scriptscriptstyle min} \\
-{\scriptscriptstyle P,Q} \end{array} \sum_{(u,v)\in R}[f(\mathbf{p}_u, \mathbf{q}_v; \mathbf{r}_{u,v}) + \mu_P\parallel\mathbf{p}_u\parallel_1 + \mu_Q\parallel\mathbf{q}_v\parallel_1 + \frac{\lambda_P}2\parallel\mathbf{p}_u\parallel^2_2 + \frac{\lambda_Q}2\parallel\mathbf{q}_v\parallel^2_2]
+\begin{array}{c} { min} \\
+{\scriptstyle P,Q} \end{array} \sum_{(u,v)\in R}[f(\mathbf{p}_u, \mathbf{q}_v; \mathbf{r}_{u,v}) + \mu_P\parallel\mathbf{p}_u\parallel_1 + \mu_Q\parallel\mathbf{q}_v\parallel_1 + \frac{\lambda_P}2\parallel\mathbf{p}_u\parallel^2_2 + \frac{\lambda_Q}2\parallel\mathbf{q}_v\parallel^2_2]
 $$
 
 where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v}$ is the observed ratings, $f$ is the loss function, and $\mu_P$, $\mu_Q$, $\lambda_P$, $\lambda_Q$ are penalty parameters to avoid overfitting.[@yqiu_recosystem230505]
@@ -216,7 +216,7 @@ First, we get the final predictions combining the predicted residuals from the `
 str(mf.reco.residual)
 str(mf.predicted_ratings)
 ```
-Next, we compute the _RMSE_ using the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) custom helper function, already mentioned above in the [UMGYDE Model: Final Holdout Test (Preliminary Assessment)] section, and add the result to our _Result Table_:
+Next, we compute the _RMSE_ using the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) custom helper function, already mentioned above in the [UMGYDE Model: Final Holdout Test (Preliminary Assessment)] section:
 ```{r, eval=FALSE}
 final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
                                      mf.predicted_ratings)

@@ -438,64 +438,7 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 :::
 :::
 
-
-
-### [data.helper.func0]() Function {#func.data.helper.func0}
-\
-
-::: { #func.data.helper.func0.Usage .sidebar }
-#### Usage
-\
-
-```{r eval=FALSE}
-
-```
-:::
-
-::: { #func.data.helper.func0.params .sidebar }
-#### Parameters
-\
-
-::: { #func.data.helper.func0.params.p1 .sidebar }
-  - **p1:** description; 
-
-:::
-::: { #func.data.helper.func0.params.2 .sidebar }
-  - **p2:** description. 
-
-:::
-:::
-
-::: { #func.data.helper.func0.details .sidebar }
-#### Details
-\
-
-::: {.noteblock data-latex=""}
-Note 
-:::
-:::
-
-::: { #func.data.helper.func0.value .sidebar }
-#### Value
-\
-
-:::
-
-::: { #func.data.helper.func0.code .sidebar }
-#### Source Code
-\
-
-The soure code of the [data.helper.func0]() function is shown below:
-```{r eval=FALSE}
-
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [data.helper.func0]() is also available in the [Some.Section]() section of the [Somefunctions.R]() script.
-:::
-:::
-
-
+\newpage
 
 ## Regularization: Common Helper Functions {#appndx_a.rglr.common_helper.functions}
 \
