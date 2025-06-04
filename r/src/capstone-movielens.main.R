@@ -2589,14 +2589,12 @@ if (file.exists(file_path_tmp)) {
                                data_memory(user_index = userId, 
                                            item_index = movieId,
                                            rating = rsdl))
-                                           # index1 = TRUE))
-  
+
   final_holdout_test.reco <- with(final_holdout_test, 
                           data_memory(user_index = userId, 
                                       item_index = movieId, 
                                       rating = rating))
-  ## index1 = TRUE))
-  
+
   reco <- Reco()
   
   reco.tuned <- reco$tune(mf.edx.residual.reco, opts = list(dim = c(10, 20, 30),
@@ -2626,7 +2624,11 @@ if (file.exists(file_path_tmp)) {
   put_log1("Saving User+Movie+Genre+Year+(Smoothed)Day Effect Model data to file: %1...", 
            file_path_tmp)
   start <- put_start_date()
-  save(mf.reco.residual,
+  save(mf.edx.residual,
+       mf.edx.residual.reco,
+       final_holdout_test.reco,
+       reco.tuned,
+       mf.reco.residual,
        final.UMGYDE.predicted,
        mf.predicted_ratings,
        file = file_path_tmp)

@@ -1482,7 +1482,7 @@ Now, we have a better result than the ones for the previous models, but still in
 
 \newpage
 
-#### UMGYDE Model: Final Holdout Test (Preliminary Assesment)
+#### UMGYDE Model: Final Holdout Test (Preliminary Assessment)
 \
 
 ::: {.noteblock data-latex=""}
@@ -1523,7 +1523,7 @@ RMSE_kable(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)
 ```
 
 ::: {.noteblock data-latex=""}
-As expected, we have not achieved a result that is good enough to meet our _Project Objective_.
+As expected, we have not yet achieved a result that meets our Project Objective.
 :::
 
 As explained in the [Chapter 24 `Matrix Factorization`](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html) of the _Course Textbook_, so far our models _"ignore an important source of information related to the fact that groups of movies have similar rating patterns and groups of users have similar rating patterns as well..."_ [@IDS2_24]
