@@ -1,9 +1,25 @@
 # Conclusion
 \
 
-Hello Conclusion!
+In this project, a _Machine Learning Algorithm_ was successfully developed for a _Recommender System_ (hereinafter referred to as _RS MLA_) to predict movie ratings using the [10M version of the MovieLens](http://grouplens.org/datasets/movielens/10m/) dataset. 
 
-This is a great conclusion, isn't it?!!
+Since it was needed to convert the original dataset into a _Data Source_, suitable for processing by the _RS MLA_, a package [edx.capstone.movielens.data], specifically designed for this purpose, was developed and used, providing the _RS MLA_ with the necessary datasets.
+
+Following the Netflix Grand Prize Contest requirements, the _Root Mean Squared Error (RMSE)_ metric was used to evaluate the accuracy of our models.
+
+
+By incorporating essential factors such as overall average rating, movie, user, and some other observable effects, as well as efficient techniques such as _Regularization_ and _Matrix Factorization_ methods, the accuracy was significantly improved compared to the baseline model.
+
+The baseline model was the _Overall Mean Rating_ model described in the [Overall Mean Rating (OMR) Model] section.
+
+The following effects were taken into account:
+
+  - ***User:*** based on which the _User Effect (UE) Model_ described in the [User Effect (UE) Model] section was built;
+  - ***Movie:*** ;
+  - ***Genre:*** ;
+  - ***Year:*** ;
+  - ***Day*** ;.
+
 
 \newpage
 

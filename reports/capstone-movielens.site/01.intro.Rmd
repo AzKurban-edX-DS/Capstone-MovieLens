@@ -9,7 +9,7 @@ $$
 with $N$ being the number of user/movie combinations for which we make predictions and the sum occurring over all these combinations[@IDS2_23-2].
 
 Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563[@BigChaosSln]). 
-\newpage
+
 
 ## Datasets Overview
 
