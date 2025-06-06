@@ -447,63 +447,182 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 ## Common Helper Functions
 
 ### Common Helper Functions: Result RMSEs Table
+\
 
 ::: {.noteblock data-latex=""}
 The complete source code of the functions described in this section are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
-### [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) Function {#func.RMSEs.}
+
+#### [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L) Function {#func.RMSEs.}
 \
 
+::: {.noteblock data-latex=""}
+The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L) script on _GitHub_.
+:::
 
 
-::: { #func.RMSEs..usage .sidebar }
-#### Usage
+::: { #func.RMSEs.usage .sidebar }
+##### Usage
 \
 
 ```{r eval=FALSE}
 ```
 :::
 
-::: { #func.RMSEs..params .sidebar }
-#### Parameters
+::: { #func.RMSEs.params .sidebar }
+##### Parameters
 \
 
-::: { #func.RMSEs..params.vals .sidebar }
+::: { #func.RMSEs.params.RMSEs .sidebar }
   - ***RMSEs:*** _Resut (RMSEs) Table_ to modify;
 
 :::
 
+::: { #func.RMSEs.params. .sidebar }
+  - ***:*** ;
 
-::: { #func.RMSEs..details .sidebar }
-#### Details
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs.details .sidebar }
+##### Details
 \
 
 
-::: { #func.RMSEs..code .sidebar }
-#### Source Code
+::: { #func.RMSEs.code .sidebar }
+##### Source Code
 \
 
-The soure code of the [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) function is shown below:
+The soure code of the function is provided below:
 ```{r eval=FALSE}
 ```
-
-::: {.noteblock data-latex=""}
-The source code of the [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) script on _GitHub_.
-:::
 :::
 
-#### Return
+##### Return
 
 The modified _Resut (RMSEs) Table_.
 
 
-### [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) Function {#func.RMSEs.AddDiffColumn}
+#### [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L) Function {#func.RMSEs.AddRow}
 \
+
+::: {.noteblock data-latex=""}
+The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L) script on _GitHub_.
+:::
+
+
+::: { #func.RMSEs.AddRow.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+RMSEs.AddRow(RMSEs, 
+             method, 
+             value, 
+             comment = "", 
+             before = NULL)
+```
+:::
+
+::: { #func.RMSEs.AddRow.params .sidebar }
+##### Parameters
+\
+
+::: { #func.RMSEs.AddRow.params.RMSEs .sidebar }
+  - ***RMSEs:*** _Resut (RMSEs) Table_ to modify;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***method:*** The _Method or Model_ being evaluated;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***value:*** The _Root Mean Squared Error (RMSE)_ value;
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***comment:*** Detailed information about the record or any other comment (if needed);
+
+:::
+
+::: { #func.RMSEs.params. .sidebar }
+  - ***before:*** One-based row index where to add the new rows, if NULL (default): after last row;
+
+:::
+
+::: { #func.RMSEs.AddRow.code .sidebar }
+##### Source Code
+\
+
+The soure code of the function is provided below:
+```{r eval=FALSE}
+RMSEs.AddRow <- function(RMSEs, 
+                         method, 
+                         value, 
+                         comment = "", 
+                         before = NULL){
+  RMSEs |>
+    add_row(Method = method,
+            RMSE = value,
+            Comment = comment,
+            .before = before)
+}
+```
+:::
+
+##### Return
+
+The modified _Resut (RMSEs) Table_.
+
+
+#### [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L49) Function {#func.RMSEs.AddDiffColumn}
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L49) script on _GitHub_.
+:::
 
 Adds a calculated column named _Diff_ to the _Result(RMSEs)_ table (passed in the [RMSEs](#func.RMSEs.AddDiffColumn.params.RMSEs) parameter) that contains, for each row, the difference between the value of the _RMSE_ column for the previous row and the value of the same column for the current row. This is true for each row except the first, for which the value is always zero.
 
 ::: { #func.RMSEs.AddDiffColumn.usage .sidebar }
-#### Usage
+##### Usage
 \
 
 ```{r eval=FALSE}
@@ -512,7 +631,7 @@ RMSEs.ModifiedTable <- RMSEs.AddDiffColumn(RMSEs)
 :::
 
 ::: { #func.RMSEs.AddDiffColumn.params .sidebar }
-#### Parameters
+##### Parameters
 \
 
 ::: { #func.RMSEs.AddDiffColumn.params.RMSEs .sidebar }
@@ -520,17 +639,11 @@ RMSEs.ModifiedTable <- RMSEs.AddDiffColumn(RMSEs)
 
 :::
 
-
-::: { #func.RMSEs.AddDiffColumn.details .sidebar }
-#### Details
-\
-
-
 ::: { #func.RMSEs.AddDiffColumn.code .sidebar }
-#### Source Code
+##### Source Code
 \
 
-The soure code of the [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) function is shown below:
+The soure code of the function is provided below:
 ```{r eval=FALSE}
 RMSEs.AddDiffColumn <- function(RMSEs){
   RMSEs.Diff <- RMSEs |>
@@ -548,11 +661,11 @@ RMSEs.AddDiffColumn <- function(RMSEs){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) script on _GitHub_.
+Under the hood, the function calls internally the [RMSEs.AddRow](#func.RMSEs.AddRow) function described above.
 :::
 :::
 
-#### Return
+##### Return
 
 The modified _Resut (RMSEs) Table_.
 
@@ -563,13 +676,13 @@ The modified _Resut (RMSEs) Table_.
 The complete source code of the functions described in this section are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
 
-### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) Function {#func.mean_reg}
+#### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) Function {#func.mean_reg}
 \
 
 A general function for computing the arithmetic mean given a _regularization parameter_ $\lambda$. We will call it the _penaized mean_.
 
 ::: { #func.mean_reg.usage .sidebar }
-#### Usage
+##### Usage
 \
 
 ```{r eval=FALSE}
@@ -579,7 +692,7 @@ mean_reg(vals, lambda = 0, na.rm = TRUE)
 :::
 
 ::: { #func.mean_reg.params .sidebar }
-#### Parameters
+##### Parameters
 \
 
 ::: { #func.mean_reg.params.vals .sidebar }
@@ -596,7 +709,7 @@ mean_reg(vals, lambda = 0, na.rm = TRUE)
 
 
 ::: { #func.mean_reg.details .sidebar }
-#### Details
+##### Details
 \
 We call this function internally from the functions that compute the _penalized estimates_  as described in section [23.6 Penalized Least Squares](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook_[@IDS2_23-6].
 
@@ -606,7 +719,7 @@ If the [lambda](#func.mean_reg.params.lambda) parameter is `0` (the default), th
 :::
 
 ::: { #func.mean_reg.code .sidebar }
-#### Source Code
+##### Source Code
 \
 
 The soure code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function is shown below:
@@ -630,7 +743,7 @@ The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-Mo
 :::
 
 ::: { #func.mean_reg.value .sidebar }
-#### Value
+##### Value
 \
 
 The function calculates the _penalized mean_ of the [vals](#func.mean_reg.params.vals) parameter as follows:
@@ -645,12 +758,12 @@ $$
 
 :::
 
-### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
+#### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
 \
 
 The function searches for the parameter value corresponding to the minimum value of the `RMSE` from the list of values specified by the `param_values` parameter.
 
-#### Signature
+##### Signature
 \
 ```{r eval=FALSE}
 tune.model_param <- function(param_values, 
@@ -665,7 +778,7 @@ tune.model_param <- function(param_values,
 }  
 ```
 
-#### Parameters
+##### Parameters
 \
 
   - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
@@ -678,7 +791,7 @@ tune.model_param <- function(param_values,
   
   - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
 
-#### Details
+##### Details
 \
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
 
@@ -687,7 +800,7 @@ Note that the algorithm assumes that the dependence of the `RMSE` on the input p
 :::
 
 ::: { #func.tune.model_param.value .sidebar }
-#### Value
+##### Value
 \
 The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values:
 ```{r eval=FALSE}
@@ -697,7 +810,7 @@ The function returns a data structure containing the found value of the input pa
 ```
 :::
 
-#### Source Code
+##### Source Code
 \
 Below is the most significant part of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function:
 ```{r eval=FALSE}
@@ -762,12 +875,12 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
 
 \newpage
 
-### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
+#### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
 \
 
 The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding `RMSE` value is minimal.
 
-#### Signature
+##### Signature
 \
 ```{r eval=FALSE}
 model.tune.param_range <- function(loop_starter,
@@ -786,11 +899,11 @@ model.tune.param_range <- function(loop_starter,
 }
 ```
 
-#### **Parameters**
+##### **Parameters**
 \
 
 ::: { #func.model.tune.param_range.params.loop_starter .sidebar }
-##### ***loop_starter***
+###### ***loop_starter***
 \
 A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval on which the parameter value that minimizes `RMSE` is sought.
 `dvs` is a divisor for splitting the interval to transform it into a sequence of values among which the value that minimizes `RMSE` is sought.
@@ -807,48 +920,48 @@ In fact, the `seq` function is called internally to generate the sequence during
 :::
 
 ::: { #func.model.tune.param_range.params.tune_dir_path .sidebar }
-##### ***tune_dir_path***
+###### ***tune_dir_path***
 \
 To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the files are cached.
 :::
 
 ::: { #func.model.tune.param_range.params.cache_file_base_name .sidebar }
-##### ***cache_file_base_name***
+###### ***cache_file_base_name***
 \
 The algorithm generates unique names for cache files based on this and the `loop_starter` parameter, as well as some other intermediate values calculated during the execution.
 :::
 
 ::: { #func.model.tune.param_range.params.fn_tune.test.param_value .sidebar }
-##### ***fn_tune.test.param_value***
+###### ***fn_tune.test.param_value***
 \
 This is a helper function name that is passed to the same-named parameter of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during the execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 :::
 
 ::: { #func.model.tune.param_range.params.max.identical.min_RMSE.count .sidebar }
-##### ***max.identical.min_RMSE.count = 4***
+###### ***max.identical.min_RMSE.count = 4***
 \
 If more than one identical minimum `RMSE` value is calculated during execution, the number of identical minimums is limited by the value of this parameter. When it is reached, the algorithm considers the task execution to be complete.
 :::
 
 ::: { #func.model.tune.param_range.params.endpoint.min_diff .sidebar }
-##### ***endpoint.min_diff = 0***
+###### ***endpoint.min_diff = 0***
 \
 Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the `Details` section [below](#func.model.tune.param_range.details)).
 :::
 
 ::: { #func.model.tune.param_range.params.break.if_min .sidebar }
-##### ***break.if_min = TRUE***
+###### ***break.if_min = TRUE***
 \
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 :::
 
 ::: { #func.model.tune.param_range.params.steps.beyond_min .sidebar }
-##### ***steps.beyond_min = 2***
+###### ***steps.beyond_min = 2***
 \
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 
 ::: { #func.model.tune.param_range.details .sidebar }
-#### **Details** 
+##### **Details** 
 \
 First, the function generates a sequence of the `input parameter values` based on the `loop_starter` parameter values, as described above (see the [loop_starter](#func.model.tune.param_range.params.loop_starter) parameter description for the details), which is used as one of the input parameters for the helper function [tune.model_param](#func.tune.model_param), which is repeatedly called during the execution, performing fine-tuning of the model.
 
@@ -863,7 +976,7 @@ Thus, with each subsequent iteration, the minimum `RMSE` value is calculated mor
 The calculation is completed when subsequent calculated values of the minimum `RMSE` stop improving and reach the most accurate possible value.
 :::
 
-#### **Value**
+##### **Value**
 \
 
 A data structure containing the minimum `RMSE` value reached during the fine-tuning process, the corresponding input parameter value, and information about the final sequence, on which the best output values were found:
@@ -875,7 +988,7 @@ A data structure containing the minimum `RMSE` value reached during the fine-tun
 ```
 
 ::: {#func.model.tune.param_range.code .sidebar }
-#### Source Code
+##### Source Code
 \
 Below is the simplified version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) function:
 ```{r eval=FALSE}
@@ -1029,12 +1142,12 @@ The complete version of the source code of the [model.tune.param_range](https://
 
 \newpage
 
-### [get_fine_tune.param.endpoints](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L80) Function {#func.get_fine_tune.param.endpoints}
+#### [get_fine_tune.param.endpoints](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L80) Function {#func.get_fine_tune.param.endpoints}
 \
 
 The algorithm finds the values of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
-#### Signature
+##### Signature
 \
 ```{r eval=FALSE}
 get_fine_tune.param.endpoints <- function(preset.result) {
@@ -1046,11 +1159,11 @@ get_fine_tune.param.endpoints <- function(preset.result) {
 }
 ```
 
-#### Parameters
+##### Parameters
 \
 
 ::: {#func.get_fine_tune.param.endpoints.params.preset.result .sidebar }
-##### ***preset.result***
+###### ***preset.result***
 \
 A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
 ```{r eval=FALSE}
@@ -1067,12 +1180,12 @@ A data structure compatible with the `tuned.result` item of the data structure r
 ```
 ::: 
 
-#### Details
+##### Details
 \
 
 Under the hood, the function internally calls another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described below to figure out the boundary indices of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in the [preset.result](#func.get_fine_tune.param.endpoints.params.preset.result) parameter.
 
-#### Value
+##### Value
 \
 A vector containing the element value corresponding to the minimum `RMSE` in a given sequence, along with the values of its nearest neighboring elements:
 ```{r eval=FALSE}
@@ -1081,7 +1194,7 @@ A vector containing the element value corresponding to the minimum `RMSE` in a g
     best = preset.result$parameter.value[best.idx])
 ```
 
-#### Source Code
+##### Source Code
 \
 The source code of the [get_fine_tune.param.endpoints](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L80) function is provided below:
 ```{r eval=FALSE}
@@ -1101,10 +1214,10 @@ get_fine_tune.param.endpoints <- function(preset.result) {
 
 \newpage
 
-### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
+#### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
 \
 
-#### Signature
+##### Signature
 \
 ```{r eval=FALSE}
 get_fine_tune.param.endpoints.idx <- function(preset.result) {
@@ -1116,11 +1229,11 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 }
 ```
 
-#### Parameters
+##### Parameters
 \
 
 ::: {#func.get_fine_tune.param.endpoints.idx.params.preset.result .sidebar }
-##### ***preset.result***
+###### ***preset.result***
 \
 A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
 ```{r eval=FALSE}
@@ -1137,11 +1250,11 @@ A data structure compatible with the `tuned.result` item of the data structure r
 ```
 ::: 
 
-#### Details
+##### Details
 \
 The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
-#### Value
+##### Value
 \
 A vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
 ```{r eval=FALSE}
@@ -1150,7 +1263,7 @@ A vector containing the index of the element corresponding to the minimum `RMSE`
     best)  # index of the best `RMSE`
 ```
 
-#### Source Code
+##### Source Code
 \
 The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) function is shown below:
 ```{r eval=FALSE}
@@ -1188,10 +1301,10 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 
 \newpage
 
-### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
+#### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
 \
 
-#### Signature
+##### Signature
 \
 ```{r eval=FALSE}
 get_best_param.result <- function(param_values, rmses){
@@ -1202,25 +1315,25 @@ get_best_param.result <- function(param_values, rmses){
 
 ```
 
-#### Parameters
+##### Parameters
 \
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the `RMSE`.
   
   - **param_values:** A vector containing the values of the input parameters for tuning;; 
   - **rmses:** A vector containing values of the corresponding `Root Mean Squared Errors`..
 
-#### Details
+##### Details
 \
 Extracts the best values from the input data and returns them as a vector containing a pair of the best _input parameter_ value and the corresponding _minimum `RMSE`_.
 
-#### Value
+##### Value
 \
 A vector containing a pair of the best _input parameter_ value and the corresponding _minimum `RMSE`_:
 ```{r eval=FALSE}
 c(param.best_value, best_RMSE)
 ```
 
-#### Source Code
+##### Source Code
 \
 The source code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) function is shown below:
 ```{r eval=FALSE}

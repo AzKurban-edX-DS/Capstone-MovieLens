@@ -35,7 +35,8 @@ CreateRMSEs_ResultTibble <- function(){
          RMSE = project_objective,
          Comment = " ")
 }
-RMSEs.AddRow <- function(RMSEs, method, 
+RMSEs.AddRow <- function(RMSEs, 
+                         method, 
                          value, 
                          comment = "", 
                          before = NULL){
