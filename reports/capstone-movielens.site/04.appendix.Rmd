@@ -439,8 +439,10 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 :::
 
 \newpage
+## Common Helper Functions
 
-## Regularization: Common Helper Functions {#appndx_a.rglr.common_helper.functions}
+
+### Common Helper Functions: Regularization {#appndx_a.CHF.regularization}
 \
 
 ::: {.noteblock data-latex=""}
