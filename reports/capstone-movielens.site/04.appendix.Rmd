@@ -2,6 +2,10 @@
 ## Data Helper Functions {#appndx_a.data_helper.functions}
 \
 
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+:::
+
 ### [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) Function {#func.union_cv_results}
 \
 
@@ -61,7 +65,7 @@ union_cv_results <- function(data_list) {
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) is also available in the [Model training](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L431) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) script.
+The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) is also available in the [Model training](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L431) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) script on _GitHub_.
 :::
 :::
 
@@ -172,7 +176,7 @@ data.plot <- function(data,
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script.
+The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
 :::
 :::
 
@@ -289,7 +293,7 @@ data.plot.left.n <- function(data,
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) script.
+The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) script on _GitHub_.
 :::
 :::
 
@@ -434,19 +438,129 @@ data.plot.left_detailed <- function(data,
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) script.
+The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) script on _GitHub_.
 :::
 :::
 
 \newpage
+
 ## Common Helper Functions
 
+### Common Helper Functions: Result RMSEs Table
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
+:::
+### [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) Function {#func.RMSEs.}
+\
+
+
+
+::: { #func.RMSEs..usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+```
+:::
+
+::: { #func.RMSEs..params .sidebar }
+#### Parameters
+\
+
+::: { #func.RMSEs..params.vals .sidebar }
+  - ***RMSEs:*** _Resut (RMSEs) Table_ to modify;
+
+:::
+
+
+::: { #func.RMSEs..details .sidebar }
+#### Details
+\
+
+
+::: { #func.RMSEs..code .sidebar }
+#### Source Code
+\
+
+The soure code of the [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) script on _GitHub_.
+:::
+:::
+
+#### Return
+
+The modified _Resut (RMSEs) Table_.
+
+
+### [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) Function {#func.RMSEs.AddDiffColumn}
+\
+
+Adds a calculated column named _Diff_ to the _Result(RMSEs)_ table (passed in the [RMSEs](#func.RMSEs.AddDiffColumn.params.RMSEs) parameter) that contains, for each row, the difference between the value of the _RMSE_ column for the previous row and the value of the same column for the current row. This is true for each row except the first, for which the value is always zero.
+
+::: { #func.RMSEs.AddDiffColumn.usage .sidebar }
+#### Usage
+\
+
+```{r eval=FALSE}
+RMSEs.ModifiedTable <- RMSEs.AddDiffColumn(RMSEs)
+```
+:::
+
+::: { #func.RMSEs.AddDiffColumn.params .sidebar }
+#### Parameters
+\
+
+::: { #func.RMSEs.AddDiffColumn.params.RMSEs .sidebar }
+  - ***RMSEs:*** _Resut (RMSEs) Table_ to modify;
+
+:::
+
+
+::: { #func.RMSEs.AddDiffColumn.details .sidebar }
+#### Details
+\
+
+
+::: { #func.RMSEs.AddDiffColumn.code .sidebar }
+#### Source Code
+\
+
+The soure code of the [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) function is shown below:
+```{r eval=FALSE}
+RMSEs.AddDiffColumn <- function(RMSEs){
+  RMSEs.Diff <- RMSEs |>
+    RMSEs.AddRow(NULL, project_objective, before = 1) #|>
+    #RMSEs.AddRow(NULL, 0, before = 1)
+    
+  
+  RMSEs.Diff <- RMSEs.Diff[-nrow(RMSEs.Diff),]
+    
+  RMSEs |>
+  add_column(Diff = RMSEs.Diff$RMSE - RMSEs$RMSE, 
+             .before = "Comment")
+  
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L48) script on _GitHub_.
+:::
+:::
+
+#### Return
+
+The modified _Resut (RMSEs) Table_.
 
 ### Common Helper Functions: Regularization {#appndx_a.CHF.regularization}
 \
 
 ::: {.noteblock data-latex=""}
-The full source code of the functions described below are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
+The complete source code of the functions described in this section are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
 
 ### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) Function {#func.mean_reg}
@@ -491,22 +605,6 @@ If the [lambda](#func.mean_reg.params.lambda) parameter is `0` (the default), th
 :::
 :::
 
-::: { #func.mean_reg.value .sidebar }
-#### Value
-\
-
-The function calculates the _penalized mean_ of the [vals](#func.mean_reg.params.vals) parameter as follows:
-$$
-\mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
-$$
-
-When the [lambda](#func.mean_reg.params.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean as follows:
-$$
-\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
-$$
-
-:::
-
 ::: { #func.mean_reg.code .sidebar }
 #### Source Code
 \
@@ -527,8 +625,24 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L62) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) script.
+The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L62) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) script on _GitHub_.
 :::
+:::
+
+::: { #func.mean_reg.value .sidebar }
+#### Value
+\
+
+The function calculates the _penalized mean_ of the [vals](#func.mean_reg.params.vals) parameter as follows:
+$$
+\mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
+$$
+
+When the [lambda](#func.mean_reg.params.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean as follows:
+$$
+\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
+$$
+
 :::
 
 ### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
@@ -909,7 +1023,7 @@ Currently computed minial value is: ", min_RMSE)
 ```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script.
+The complete version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script on _GitHub_.
 :::
 :::
 
