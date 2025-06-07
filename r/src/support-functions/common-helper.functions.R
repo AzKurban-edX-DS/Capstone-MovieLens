@@ -71,8 +71,6 @@ RMSE.Total_kable <- function(RMSEs,
     column_spec(column = 4, 
                 width = RSME.tibble.col_width(col4width)) 
 }
-  
-
 RMSE_kable <- function(RMSEs,
                        col1width = 15,
                        col2width = 5,
