@@ -2654,6 +2654,7 @@ put_log("A row has been added to the RMSE Result Tibble
 for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 ### Total Results Tibbe --------------------------------------------------------
 total.RMSEs.ResultTibble <- RMSEs.AddDiffColumn(final.MF.RMSEs.ResultTibble)
-s### Close Log -----------------------------------------------------------------
+RMSE.Total_kable(total.RMSEs.ResultTibble)
+### Close Log -----------------------------------------------------------------
 log_close()
 

@@ -469,51 +469,51 @@ The complete source code of this function is available in the [RMSEs Result Tibb
 ```
 :::
 
-::: { #func.RMSEs.params .sidebar }
+::: { #func.RMSEs..params .sidebar }
 ##### Parameters
 \
 
-::: { #func.RMSEs.params.RMSEs .sidebar }
+::: { #func.RMSEs..params.RMSEs .sidebar }
   - ***RMSEs:*** _Resut (RMSEs) Table_ to modify;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs..params. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs..params. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs..params. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs..params. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs..params. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs..params. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs..params. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs..params. .sidebar }
   - ***:*** ;
 
 :::
@@ -537,13 +537,12 @@ The soure code of the function is provided below:
 The modified _Resut (RMSEs) Table_.
 
 
-#### [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L) Function {#func.RMSEs.AddRow}
+#### [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L38) Function {#func.RMSEs.AddRow}
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L) script on _GitHub_.
+The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L38) script on _GitHub_.
 :::
-
 
 ::: { #func.RMSEs.AddRow.usage .sidebar }
 ##### Usage
@@ -567,22 +566,22 @@ RMSEs.AddRow(RMSEs,
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs.AddRow.params.method .sidebar }
   - ***method:*** The _Method or Model_ being evaluated;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs.AddRow.params.value .sidebar }
   - ***value:*** The _Root Mean Squared Error (RMSE)_ value;
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs.AddRow.params.comment .sidebar }
   - ***comment:*** Detailed information about the record or any other comment (if needed);
 
 :::
 
-::: { #func.RMSEs.params. .sidebar }
+::: { #func.RMSEs.AddRow.params.before .sidebar }
   - ***before:*** One-based row index where to add the new rows, if NULL (default): after last row;
 
 :::
@@ -668,6 +667,167 @@ Under the hood, the function calls internally the [RMSEs.AddRow](#func.RMSEs.Add
 ##### Return
 
 The modified _Resut (RMSEs) Table_.
+
+#### [RMSE_kable](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) Function {#func.RMSE_kable}
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) script on _GitHub_.
+:::
+
+Prints the _Resut (RMSEs) Table_.
+
+::: {.noteblock data-latex=""}
+It is assumed that the table has the following three columns:
+  
+  1. *Method*;
+  2. *RMSE*;
+  3. *Comment*;
+  
+:::
+
+::: { #func.RMSE_kableusage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+RMSE_kable <- function(RMSEs,
+                       col1width = 15,
+                       col2width = 5,
+                       col3width = 30)
+```
+:::
+
+::: { #func.RMSE_kable.params .sidebar }
+##### Parameters
+\
+
+::: { #func.RMSE_kable.params.RMSEs .sidebar }
+  - ***RMSEs:*** _Resut (RMSEs) Table_ to print;
+
+:::
+
+::: { #func.RMSE_kable.params.col1width .sidebar }
+  - ***col1width:*** Width of the first column;
+
+:::
+
+::: { #func.RMSE_kable.params.col2width .sidebar }
+  - ***col2width:*** Width of the second column;
+
+:::
+
+::: { #func.RMSE_kable.params.col3width .sidebar }
+  - ***col3width:*** Width of the third column;
+
+:::
+
+::: { #func.RMSE_kablecode .sidebar }
+##### Source Code
+\
+
+The soure code of the function is provided below:
+```{r eval=FALSE}
+RMSE_kable <- function(RMSEs,
+                       col1width = 15,
+                       col2width = 5,
+                       col3width = 30){
+  RMSEs |>
+    kable(align='lcl', booktabs = T, padding = 5) |> 
+    row_spec(0, bold = T) |>
+    column_spec(column = 1, width = RSME.tibble.col_width(col1width)) |>
+    column_spec(column = 2, width = RSME.tibble.col_width(col2width)) |>
+    column_spec(column = 3, width = RSME.tibble.col_width(col3width)) 
+}
+```
+:::
+
+#### [RMSE.Total_kable](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L85) Function {#func.RMSE.Total_kable}
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L85) script on _GitHub_.
+:::
+
+Prints the _Resut (RMSEs) Table_.
+
+::: {.noteblock data-latex=""}
+It is assumed that the table has the following four columns:
+  
+  1. *Method*;
+  2. *RMSE*;
+  3. *Diff*;
+  4. *Comment*;
+  
+:::
+
+::: { #func.RMSE.Total_kableusage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+RMSE.Total_kable <- function(RMSEs,
+                       col1width = 15,
+                       col2width = 7,
+                       col3width = 5,
+                       col4width = 25)
+```
+:::
+
+::: { #func.RMSE.Total_kable.params .sidebar }
+##### Parameters
+\
+
+::: { #func.RMSE.Total_kable.params.RMSEs .sidebar }
+  - ***RMSEs:*** _Resut (RMSEs) Table_ to print;
+
+:::
+
+::: { #func.RMSE.Total_kable.params. .sidebar }
+  - ***col1width:*** Width of the first column;
+
+:::
+
+::: { #func.RMSE.Total_kable.params. .sidebar }
+  - ***col2width:*** Width of the second column;
+
+:::
+
+::: { #func.RMSE.Total_kable.params. .sidebar }
+  - ***col3width:*** Width of the third column;
+
+:::
+
+::: { #func.RMSE.Total_kable.params. .sidebar }
+  - ***col4width:*** Width of the fourth column;
+
+:::
+
+::: { #func.RMSE.Total_kablecode .sidebar }
+##### Source Code
+\
+
+The soure code of the function is provided below:
+```{r eval=FALSE}
+RMSE.Total_kable <- function(RMSEs,
+                       col1width = 15,
+                       col2width = 7,
+                       col3width = 5, 
+                       col4width = 25){
+  RMSEs |> 
+    RMSE_kable(col1width,
+               col2width,
+               col3width) |>
+    column_spec(column = 4, 
+                width = RSME.tibble.col_width(col4width)) 
+}
+
+```
+
+::: {.noteblock data-latex=""}
+Under the hood, the function calls internally the [RMSE_kable](#func.RMSE_kable) function described above.
+:::
+:::
 
 ### Common Helper Functions: Regularization {#appndx_a.CHF.regularization}
 \

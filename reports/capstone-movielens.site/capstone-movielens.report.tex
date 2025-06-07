@@ -129,7 +129,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2025-06-04}
+\date{2025-06-07}
 
 \begin{document}
 \maketitle
@@ -170,7 +170,6 @@ Following the \href{https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/2
 with \(N\) being the number of user/movie combinations for which we make predictions and the sum occurring over all these combinations\autocite{IDS2_23-2}.
 
 Our goal is to achieve a value of less than 0.86490 (compare with the \emph{Netflix Grand Prize} requirement: of at least 0.8563\autocite{BigChaosSln}).
-\newpage
 
 \subsection{Datasets Overview}\label{datasets-overview}
 
@@ -1153,7 +1152,7 @@ If we predict all unknown ratings with \(\hat{\mu}\), we obtain the following RM
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-72-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-74-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1225,7 +1224,7 @@ Let's make a quick investigation of the \texttt{deviation.RMSE} result we have j
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-76-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-78-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1296,7 +1295,7 @@ If we visualize the average rating for each user the way the \href{https://x.com
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-87-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-89-1.pdf}}
 
 \newpage
 
@@ -1391,7 +1390,7 @@ The code in this section is cited from \href{https://www.kaggle.com/code/amirmot
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-90-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-92-1.pdf}}
 \newpage
 
 \subparagraph{Users' rating histogram}\label{users-rating-histogram}
@@ -1421,7 +1420,7 @@ The code in this section is cited from \href{https://www.kaggle.com/code/amirmot
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-91-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-93-1.pdf}}
 
 \newpage
 
@@ -1500,7 +1499,7 @@ And then we compute a \emph{User Effect} this way:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-96-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-98-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1546,7 +1545,7 @@ Now, we are ready to compute the \emph{Mean Squared Errors} from the \emph{5-Fol
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-98-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-100-1.pdf}}
 
 \begin{noteblock}
 For the \emph{Mean Squared Errors} data visualization we use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -1705,7 +1704,7 @@ We can visually see that from the following plot:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-118-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-120-1.pdf}}
 
 \newpage
 
@@ -1728,7 +1727,7 @@ The more sophisticated way of visualizing the rating distribution shown below is
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-119-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-121-1.pdf}}
 
 \begin{quote}
 This graph is another confirmation of what we found out above: rounded ratings occur more often than half-stared ones. The upward trend previously discussed is now perfectly clear, although it seems to top right between the 3 and 4-star ratings lowering the occurrences count afterward. That might be due to users being more hesitant to rate with the highest mark for whichever reasons they might hold\autocite{MRS-R-BEST}.
@@ -1768,7 +1767,7 @@ The two more plots below, from the same article, give us an additional visual re
 ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-120-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-122-1.pdf}}
 \newpage
 
 \subparagraph{\texorpdfstring{\href{https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook\#Movies'-rating-histogram}{Movies' rating histogram}}{Movies' rating histogram}}\label{movies-rating-histogram}
@@ -1796,7 +1795,7 @@ The two more plots below, from the same article, give us an additional visual re
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-121-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-123-1.pdf}}
 
 \begin{quote}
 This histogram better conveys the information provided by the summary() function, where the quantiles' values state that half the movies are rated between 30 and 565 times\autocite{MRS-R-BEST}.
@@ -1859,7 +1858,7 @@ We use this function to build and train our model using the \texttt{train\_set} 
 \end{Shaded}
 
 \begin{noteblock}
-The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+The function described above accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We also use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call, which we will need later for the \emph{Regularization} techniques (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report).
 We will explain that later in the {[}User+Movie Effect Model Regularization{]} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. In this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
@@ -2019,7 +2018,7 @@ Below, we provide the most significant part of the code for training our model u
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-130-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-132-1.pdf}}
 
 We can now construct predictors and see how much the \texttt{RMSE} improves\autocite{IDS2_23-5}:
 
@@ -2132,7 +2131,7 @@ Note that we reuse the function \hyperref[func.train_user_movie_effect.cv]{train
 
 Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
 
-We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
+We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 
@@ -2182,7 +2181,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-136-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-138-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -2197,7 +2196,7 @@ We use the custom data visualization function \hyperref[func.data.plot]{data.plo
 
 We are now ready to perform the fine-tuning step of our model \emph{regularization} process to determine the best value for the \(\lambda\) parameter.
 
-Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
+Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UM_effect.cv]{regularize.test\_lambda.UM\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 
@@ -2270,7 +2269,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-139-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-141-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{UME Model Regularization: Retraining Model with the best \(\lambda\)}{UME Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{ume-model-regularization-retraining-model-with-the-best-lambda}
@@ -2437,7 +2436,7 @@ The plot below shows strong evidence of a genre effect (for illustrative purpose
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-172-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-174-1.pdf}}
 Below are worst and best ratings categories:
 
 \begin{verbatim}
@@ -2474,7 +2473,7 @@ Another way of visualizing a genre effect is shown in the section \href{https://
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-174-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-176-1.pdf}}
 
 \subsubsection{Mathematical Description of the UMGE Model}\label{mathematical-description-of-the-umge-model}
 
@@ -2515,7 +2514,7 @@ as a residual:
 \hfill\break
 
 \begin{noteblock}
-Some of the functions described in this section accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call as well, which we will also need for the \emph{Regularization} techniques to apply to our models (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+Some of the functions described in this section accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call as well, which we will also need for the \emph{Regularization} techniques to apply to our models (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the Section \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report).
 We have already explained that in the \hyperref[ume-model-regularization]{UME Model Regularization} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
@@ -2849,7 +2848,7 @@ Note that we reuse the function \hyperref[func.train_user_movie_genre_effect.cv]
 
 Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
 
-We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMG_effect.cv]{regularize.test\_lambda.UMG\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
+We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMG_effect.cv]{regularize.test\_lambda.UMG\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 
@@ -2917,7 +2916,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-186-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-188-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -2932,7 +2931,7 @@ We use the custom data visualization function \hyperref[func.data.plot]{data.plo
 
 We are now ready to perform the fine-tuning step of our model \emph{regularization} process to determine the best value for the \(\lambda\) parameter.
 
-Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMG_effect.cv]{regularize.test\_lambda.UMG\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
+Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMG_effect.cv]{regularize.test\_lambda.UMG\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 
@@ -3010,7 +3009,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-189-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-191-1.pdf}}
 \newpage
 
 \paragraph{\texorpdfstring{UMGE Model Regularization: Retraining Model with the best \(\lambda\)}{UMGE Model Regularization: Retraining Model with the best \textbackslash lambda}}\label{umge-model-regularization-retraining-model-with-the-best-lambda}
@@ -3176,7 +3175,7 @@ The \emph{Year Effect} visualization and analysis code in this section are cited
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-218-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-220-1.pdf}}
 
 \newpage
 
@@ -3210,7 +3209,7 @@ takes the following form:
 \hfill\break
 
 \begin{noteblock}
-Some of the functions described in this section accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call as well, which we will also need for the \emph{Regularization} techniques to apply to our models (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report).
+Some of the functions described in this section accepts the \texttt{lambda} parameter, which we will need later for the \emph{Model Regularization} method. We use the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} function call as well, which we will also need for the \emph{Regularization} techniques to apply to our models (for details, see the \hyperref[func.mean_reg]{mean\_reg} function description in the \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report).
 We have already explained that in the \hyperref[ume-model-regularization]{UME Model Regularization} section.
 For now, we omit the \texttt{lambda} parameter, accepting its default value \texttt{lambda\ =\ 0}. Let's recall that in this case, the \hyperref[func.mean_reg]{mean\_reg} function is equivalent to the standard R function \href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean}{base::mean}.
 
@@ -3785,7 +3784,7 @@ Note that we reuse the function \hyperref[func.train_UMGY_effect.cv]{train\_UMGY
 
 Let's perform the preconfiguration to determine the appropriate range of \(\lambda\) for subsequent fine-tuning of our current model:
 
-We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMGY_effect.cv]{regularize.test\_lambda.UMGY\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
+We are going to use the \hyperref[func.tune.model_param]{tune.model\_param} function described in the \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMGY_effect.cv]{regularize.test\_lambda.UMGY\_effect.cv} function as the value of the \hyperref[func.tune.model_param.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 
@@ -3843,7 +3842,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-235-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-237-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -3863,7 +3862,7 @@ The complete version of the source code provided in this section can be found in
 
 We are now ready to perform the fine-tuning step of our model \emph{regularization} process to determine the best value for the \(\lambda\) parameter.
 
-Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMGY_effect.cv]{regularize.test\_lambda.UMGY\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
+Here we are going to use the \hyperref[func.model.tune.param_range]{model.tune.param\_range} function described in the \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report, passing the \hyperref[func.regularize.test_lambda.UMGY_effect.cv]{regularize.test\_lambda.UMGY\_effect.cv} function as the value of the \hyperref[func.model.tune.param_range.params.fn_tune.test.param_value]{fn\_tune.test.param\_value} parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 
@@ -3917,7 +3916,7 @@ Below we provide the most significant part of the code that performs this operat
 \end{verbatim}
 
 \begin{noteblock}
-Under the hood, this code block internally calls the helper function \hyperref[func.get_fine_tune.param.endpoints]{get\_fine\_tune.param.endpoints} described in the \hyperref[appndx_a.rglr.common_helper.functions]{Regularization: Common Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report to figure out the boundaries of the range of values from the nearest neighborhood of the value corresponding to the best \texttt{RMSE} in the data passed in as a parameter.
+Under the hood, this code block internally calls the helper function \hyperref[func.get_fine_tune.param.endpoints]{get\_fine\_tune.param.endpoints} described in the \hyperref[appndx_a.CHF.regularization]{Common Helper Functions: Regularization} section of the \hyperref[appndx_a]{Appendix} to this report to figure out the boundaries of the range of values from the nearest neighborhood of the value corresponding to the best \texttt{RMSE} in the data passed in as a parameter.
 
 \end{noteblock}
 
@@ -3939,7 +3938,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-238-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-240-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -4796,7 +4795,7 @@ Below is the visual representation of the UMGYD Effect data we have just compute
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-279-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-281-1.pdf}}
 
 Let's calculate the \emph{RMSE} of the current model using the \hyperref[func.calc_UMGY_SmoothedDay_effect.RMSE.cv]{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} function described above:
 
@@ -5105,7 +5104,7 @@ Below is the visual representation of the \texttt{span} parameter values range w
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-288-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-290-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5182,7 +5181,7 @@ Below is the visual representation of the current model \emph{Fine-tuning} resul
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-291-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-293-1.pdf}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5279,7 +5278,7 @@ Below is the visual representation of the \texttt{span} parameter values range w
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-296-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-298-1.pdf}}
 
 \subparagraph{\texorpdfstring{UMGYDE Model Fine-tuning (\texttt{degree\ =\ 1})}{UMGYDE Model Fine-tuning (degree = 1)}}\label{umgyde-model-fine-tuning-degree-1}
 
@@ -5348,7 +5347,7 @@ Below is the visual representation of the current model \emph{Fine-tuning} resul
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-299-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-301-1.pdf}}
 
 Now, we can add the \emph{UMGYDE Model Tuning} result for \texttt{degree\ =\ 1} to our \emph{Result Table}:
 
@@ -5441,7 +5440,7 @@ Below is the visual representation of the \texttt{span} parameter values range w
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-304-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-306-1.pdf}}
 
 \subparagraph{\texorpdfstring{UMGYDE Model Fine-tuning (\texttt{degree\ =\ 2})}{UMGYDE Model Fine-tuning (degree = 2)}}\label{umgyde-model-fine-tuning-degree-2}
 
@@ -5512,7 +5511,7 @@ Below is the visual representation of the current model \emph{Fine-tuning} resul
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-307-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-309-1.pdf}}
 
 \begin{noteblock}
 The custom data visualization function \hyperref[func.data.plot.left_detailed]{data.plot.left\_detailed} we used above is described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report.
@@ -5647,7 +5646,7 @@ Let's now visualize final Smoothed Day effect we have obtained:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-312-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-314-1.pdf}}
 
 \begin{noteblock}
 It should be noted, however, that the graph above is not as smooth as before, although the data now provides better results.
@@ -5973,7 +5972,7 @@ Now, let's visualize the results of the \(\lambda\) range preconfiguration:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-321-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-323-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -6067,7 +6066,7 @@ Let's visualize the fine-tuning results:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-324-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-326-1.pdf}}
 
 \begin{noteblock}
 We use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in the \hyperref[appndx_a.data_helper.functions]{Data Helper Functions} section of the \hyperref[appndx_a]{Appendix} to this report, which is defined in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
@@ -6721,11 +6720,92 @@ Finally, we have reached our ultimate goal, since the \emph{Root Mean Squared Er
 
 \newpage
 
+\section{Conclusion}\label{conclusion}
+
+\hfill\break
+
+In this project, a \emph{Machine Learning Algorithm} was successfully developed for a \emph{Recommender System} (hereinafter referred to as \emph{RS MLA}) to predict movie ratings using the \href{http://grouplens.org/datasets/movielens/10m/}{10M version of the MovieLens} dataset.
+
+Since it was needed to convert the original dataset into a \emph{Data Source}, suitable for processing by the \emph{RS MLA}, a package {[}edx.capstone.movielens.data{]}, specifically designed for this purpose, was developed and used, providing the \emph{RS MLA} with the necessary datasets.
+
+Following the Netflix Grand Prize Contest requirements, the \emph{Root Mean Squared Error (RMSE)} metric was used to evaluate the accuracy of our models.
+
+By incorporating essential factors such as overall average rating, movie, user, and some other observable effects, as well as efficient techniques such as \emph{Regularization} and \emph{Matrix Factorization} methods, the accuracy was significantly improved compared to the baseline model.
+
+The baseline model was the \emph{Overall Mean Rating} model described in the \hyperref[overall-mean-rating-omr-model]{Overall Mean Rating (OMR) Model} section.
+
+The following effects were taken into account:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{User:}} based on which the \emph{User Effect (UE) Model} described in the \hyperref[user-effect-ue-model]{User Effect (UE) Model} section was built (significantly improved the \emph{RMSE} compared to the baseline model);
+\item
+  \textbf{\emph{Movie:}} based on which (and the \emph{User Effect}) the \emph{Regularized User+Movie Effect (UME) Model} described in the \hyperref[usermovie-effect-ume-model]{User+Movie Effect (UME) Model} section was eventually built (even better improved the \emph{RMSE} compared to the previous (\emph{UE}) model);
+\item
+  \textbf{\emph{Genre:}} based on which (and the previous effects) the \emph{Regularized User+Movie+Genre Effect (UMGE) Model} described in the \hyperref[usermoviegenre-effect-umge-model]{User+Movie+Genre Effect (UMGE) Model} section was built (even after \emph{regularization} it showed very little improvement in \emph{RMSE} compared to the previous (\emph{UME}) model; before regularization, for some reason, there was no improvement at all);
+\item
+  \textbf{\emph{Year:}} based on which (and the previous effects) the \emph{Regularized User+Movie+Genre+Year Effect (UMGYE) Model} described in the \hyperref[usermoviegenreyear-effect-umgye-model]{User+Movie+Genre+Year Effect (UMGYE) Model} section was built (provided a much better improvement in \emph{RMSE} compared to the previous (\emph{UMGE}) model but still two orders of magnitude less than the \emph{UE} and \emph{UME} models showed);
+\item
+  \textbf{\emph{Day}} based on which (and the previous effects) the \emph{Regularized (and Tuned) User+Movie+Genre+Year+Day Effect (UMGYDE) Model} described in the \hyperref[usermoviegenreyearday-effect-umgyde-model]{User+Movie+Genre+Year+Day Effect (UMGYDE) Model} section was built (showed almost twice better improvement than the previous (\emph{UMGYE}) model but still not good enough to meet the \emph{Project Objective});.
+\item
+  \textbf{\emph{Day (Matrix Factorization):}} (described in the \hyperref[umgyde-model-matrix-factorization-mf]{UMGYDE Model: Matrix Factorization (MF)} section) \emph{Matrix Factorization} method performed on the \emph{Regularized UMGYDE Model} provided substantial improvement comparable to that shown by the \emph{UE} and \emph{UME} models, and finally permitted to reach the \emph{Project Objective}.
+\end{itemize}
+
+The \emph{Result Summary Table} constructed below shows in detail the progress of our \emph{Recommender System} improvement:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{total.RMSEs.ResultTibble }\OtherTok{\textless{}{-}} \FunctionTok{RMSEs.AddDiffColumn}\NormalTok{(final.MF.RMSEs.ResultTibble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSE.Total\_kable}\NormalTok{(total.RMSEs.ResultTibble)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{7em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{25em}}
+\toprule
+\textbf{Method} & \textbf{RMSE} & \textbf{Diff} & \textbf{Comment}\\
+\midrule
+Project Objective & 0.8649000 & 0.0000000 & \\
+Overall Mean Rating Model & 1.0603462 & -0.1954462 & \\
+User Effect Model & 0.9697962 & 0.0905500 & \\
+User+Movie Effect Model & 0.8732081 & 0.0965881 & \\
+Regularized UME Model & 0.8729730 & 0.0002351 & Computed for `lambda` = 0.38745002746582\\
+\addlinespace
+UMGE Model & 0.8729730 & 0.0000000 & User+Movie+Genre Effect (UMGE) Model\\
+Regularized UMGE Model & 0.8729728 & 0.0000003 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723973 & 0.0005755 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721857 & 0.0002117 & Computed for `lambda` = 233.77668762207\\
+UMGYDE (Default) Model & 0.8722410 & -0.0000553 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+computed using `loess` function with default `degree` \& `span` parameters.\\
+\addlinespace
+Tuned UMGYDE.d0 Model & 0.8711131 & 0.0011279 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708295 & 0.0002836 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709886 & -0.0001591 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707850 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707750 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
+\addlinespace
+Best UMGYDE Model (Final Test) & 0.8804225 & -0.0096476 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
+MF (Final Test) & 0.7875645 & 0.0928580 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+\bottomrule
+\end{tabular}
+
+\newpage
+
 \section{Appendix}\label{appndx_a}
 
 \subsection{Data Helper Functions}\label{appndx_a.data_helper.functions}
 
 \hfill\break
+
+\begin{noteblock}
+The complete source code of the functions described in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
 
 \subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} Function}{union\_cv\_results Function}}\label{func.union_cv_results}
 
@@ -6793,7 +6873,7 @@ The soure code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L431}{Model training} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{data.helper.functions.R} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L431}{Model training} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{data.helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -6933,7 +7013,7 @@ The soure code of the {[}data.plot{]}((\url{https://github.com/AzKurban-edX-DS/C
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.plot} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.plot} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L592}{data.helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -7084,7 +7164,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L493}{data.plot.left.n} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L493}{data.helper.functions.R} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L493}{data.plot.left.n} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L493}{data.helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -7269,29 +7349,509 @@ The soure code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L448}{data.plot.left\_detailed} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L448}{data.helper.functions.R} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L448}{data.plot.left\_detailed} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L447}{Data Visualization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L448}{data.helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
 \newpage
 
-\subsection{Regularization: Common Helper Functions}\label{appndx_a.rglr.common_helper.functions}
+\subsection{Common Helper Functions}\label{common-helper-functions-1}
+
+\subsubsection{Common Helper Functions: Result RMSEs Table}\label{common-helper-functions-result-rmses-table}
 
 \hfill\break
 
 \begin{noteblock}
-The full source code of the functions described below are available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model Tuning} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R} script on \emph{GitHub}.
+The complete source code of the functions described in this section are available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model Tuning} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} Function}{mean\_reg Function}}\label{func.mean_reg}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L}{RMSEs.} Function}{RMSEs. Function}}\label{func.RMSEs.}
+
+\hfill\break
+
+\begin{noteblock}
+The complete source code of this function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L32}{RMSEs Result Tibble} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L}{common-helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\phantomsection\label{func.RMSEs.usage}
+\subparagraph{Usage}\label{usage-4}
+
+\hfill\break
+
+\phantomsection\label{func.RMSEs..params}
+\subparagraph{Parameters}\label{parameters-28}
+
+\hfill\break
+
+\phantomsection\label{func.RMSEs..params.RMSEs}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{RMSEs:}} \emph{Resut (RMSEs) Table} to modify;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs..params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{:}} ;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs..params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{:}} ;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs..params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{:}} ;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs..params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{:}} ;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs..params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{:}} ;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs..params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{:}} ;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs..params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{:}} ;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs..params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{:}} ;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs.details}
+\subparagraph{Details}\label{details-13}
+
+\hfill\break
+
+\phantomsection\label{func.RMSEs.code}
+\subparagraph{Source Code}\label{source-code-28}
+
+\hfill\break
+
+The soure code of the function is provided below:
+
+\subparagraph{Return}\label{return-25}
+
+The modified \emph{Resut (RMSEs) Table}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L38}{RMSEs.AddRow} Function}{RMSEs.AddRow Function}}\label{func.RMSEs.AddRow}
+
+\hfill\break
+
+\begin{noteblock}
+The complete source code of this function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L32}{RMSEs Result Tibble} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L38}{common-helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\phantomsection\label{func.RMSEs.AddRow.usage}
+\subparagraph{Usage}\label{usage-5}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RMSEs.AddRow}\NormalTok{(RMSEs, }
+\NormalTok{             method, }
+\NormalTok{             value, }
+             \AttributeTok{comment =} \StringTok{""}\NormalTok{, }
+             \AttributeTok{before =} \ConstantTok{NULL}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\phantomsection\label{func.RMSEs.AddRow.params}
+\subparagraph{Parameters}\label{parameters-29}
+
+\hfill\break
+
+\phantomsection\label{func.RMSEs.AddRow.params.RMSEs}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{RMSEs:}} \emph{Resut (RMSEs) Table} to modify;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs.AddRow.params.method}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{method:}} The \emph{Method or Model} being evaluated;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs.AddRow.params.value}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{value:}} The \emph{Root Mean Squared Error (RMSE)} value;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs.AddRow.params.comment}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{comment:}} Detailed information about the record or any other comment (if needed);
+\end{itemize}
+
+\phantomsection\label{func.RMSEs.AddRow.params.before}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{before:}} One-based row index where to add the new rows, if NULL (default): after last row;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs.AddRow.code}
+\subparagraph{Source Code}\label{source-code-29}
+
+\hfill\break
+
+The soure code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSEs.AddRow }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(RMSEs, }
+\NormalTok{                         method, }
+\NormalTok{                         value, }
+                         \AttributeTok{comment =} \StringTok{""}\NormalTok{, }
+                         \AttributeTok{before =} \ConstantTok{NULL}\NormalTok{)\{}
+\NormalTok{  RMSEs }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{add\_row}\NormalTok{(}\AttributeTok{Method =}\NormalTok{ method,}
+            \AttributeTok{RMSE =}\NormalTok{ value,}
+            \AttributeTok{Comment =}\NormalTok{ comment,}
+            \AttributeTok{.before =}\NormalTok{ before)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{Return}\label{return-26}
+
+The modified \emph{Resut (RMSEs) Table}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L49}{RMSEs.AddDiffColumn} Function}{RMSEs.AddDiffColumn Function}}\label{func.RMSEs.AddDiffColumn}
+
+\hfill\break
+
+\begin{noteblock}
+The complete source code of this function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L32}{RMSEs Result Tibble} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L49}{common-helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Adds a calculated column named \emph{Diff} to the \emph{Result(RMSEs)} table (passed in the \hyperref[func.RMSEs.AddDiffColumn.params.RMSEs]{RMSEs} parameter) that contains, for each row, the difference between the value of the \emph{RMSE} column for the previous row and the value of the same column for the current row. This is true for each row except the first, for which the value is always zero.
+
+\phantomsection\label{func.RMSEs.AddDiffColumn.usage}
+\subparagraph{Usage}\label{usage-6}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSEs.ModifiedTable }\OtherTok{\textless{}{-}} \FunctionTok{RMSEs.AddDiffColumn}\NormalTok{(RMSEs)}
+\end{Highlighting}
+\end{Shaded}
+
+\phantomsection\label{func.RMSEs.AddDiffColumn.params}
+\subparagraph{Parameters}\label{parameters-30}
+
+\hfill\break
+
+\phantomsection\label{func.RMSEs.AddDiffColumn.params.RMSEs}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{RMSEs:}} \emph{Resut (RMSEs) Table} to modify;
+\end{itemize}
+
+\phantomsection\label{func.RMSEs.AddDiffColumn.code}
+\subparagraph{Source Code}\label{source-code-30}
+
+\hfill\break
+
+The soure code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSEs.AddDiffColumn }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(RMSEs)\{}
+\NormalTok{  RMSEs.Diff }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{RMSEs.AddRow}\NormalTok{(}\ConstantTok{NULL}\NormalTok{, project\_objective, }\AttributeTok{before =} \DecValTok{1}\NormalTok{) }\CommentTok{\#|\textgreater{}}
+    \CommentTok{\#RMSEs.AddRow(NULL, 0, before = 1)}
+    
+  
+\NormalTok{  RMSEs.Diff }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.Diff[}\SpecialCharTok{{-}}\FunctionTok{nrow}\NormalTok{(RMSEs.Diff),]}
+    
+\NormalTok{  RMSEs }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{add\_column}\NormalTok{(}\AttributeTok{Diff =}\NormalTok{ RMSEs.Diff}\SpecialCharTok{$}\NormalTok{RMSE }\SpecialCharTok{{-}}\NormalTok{ RMSEs}\SpecialCharTok{$}\NormalTok{RMSE, }
+             \AttributeTok{.before =} \StringTok{"Comment"}\NormalTok{)}
+  
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+Under the hood, the function calls internally the \hyperref[func.RMSEs.AddRow]{RMSEs.AddRow} function described above.
+
+\end{noteblock}
+
+\subparagraph{Return}\label{return-27}
+
+The modified \emph{Resut (RMSEs) Table}.
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{RMSE\_kable} Function}{RMSE\_kable Function}}\label{func.RMSE_kable}
+
+\hfill\break
+
+\begin{noteblock}
+The complete source code of this function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L32}{RMSEs Result Tibble} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{common-helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Prints the \emph{Resut (RMSEs) Table}.
+
+\begin{noteblock}
+
+It is assumed that the table has the following three columns:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \emph{Method};
+\item
+  \emph{RMSE};
+\item
+  \emph{Comment};
+\end{enumerate}
+
+\end{noteblock}
+
+\phantomsection\label{func.RMSE_kableusage}
+\subparagraph{Usage}\label{usage-7}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSE\_kable }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(RMSEs,}
+                       \AttributeTok{col1width =} \DecValTok{15}\NormalTok{,}
+                       \AttributeTok{col2width =} \DecValTok{5}\NormalTok{,}
+                       \AttributeTok{col3width =} \DecValTok{30}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\phantomsection\label{func.RMSE_kable.params}
+\subparagraph{Parameters}\label{parameters-31}
+
+\hfill\break
+
+\phantomsection\label{func.RMSE_kable.params.RMSEs}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{RMSEs:}} \emph{Resut (RMSEs) Table} to print;
+\end{itemize}
+
+\phantomsection\label{func.RMSE_kable.params.col1width}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{col1width:}} Width of the first column;
+\end{itemize}
+
+\phantomsection\label{func.RMSE_kable.params.col2width}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{col2width:}} Width of the second column;
+\end{itemize}
+
+\phantomsection\label{func.RMSE_kable.params.col3width}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{col3width:}} Width of the third column;
+\end{itemize}
+
+\phantomsection\label{func.RMSE_kablecode}
+\subparagraph{Source Code}\label{source-code-31}
+
+\hfill\break
+
+The soure code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSE\_kable }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(RMSEs,}
+                       \AttributeTok{col1width =} \DecValTok{15}\NormalTok{,}
+                       \AttributeTok{col2width =} \DecValTok{5}\NormalTok{,}
+                       \AttributeTok{col3width =} \DecValTok{30}\NormalTok{)\{}
+\NormalTok{  RMSEs }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{kable}\NormalTok{(}\AttributeTok{align=}\StringTok{\textquotesingle{}lcl\textquotesingle{}}\NormalTok{, }\AttributeTok{booktabs =}\NormalTok{ T, }\AttributeTok{padding =} \DecValTok{5}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{row\_spec}\NormalTok{(}\DecValTok{0}\NormalTok{, }\AttributeTok{bold =}\NormalTok{ T) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{column\_spec}\NormalTok{(}\AttributeTok{column =} \DecValTok{1}\NormalTok{, }\AttributeTok{width =} \FunctionTok{RSME.tibble.col\_width}\NormalTok{(col1width)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{column\_spec}\NormalTok{(}\AttributeTok{column =} \DecValTok{2}\NormalTok{, }\AttributeTok{width =} \FunctionTok{RSME.tibble.col\_width}\NormalTok{(col2width)) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{column\_spec}\NormalTok{(}\AttributeTok{column =} \DecValTok{3}\NormalTok{, }\AttributeTok{width =} \FunctionTok{RSME.tibble.col\_width}\NormalTok{(col3width)) }
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L85}{RMSE.Total\_kable} Function}{RMSE.Total\_kable Function}}\label{func.RMSE.Total_kable}
+
+\hfill\break
+
+\begin{noteblock}
+The complete source code of this function is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L32}{RMSEs Result Tibble} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L85}{common-helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+Prints the \emph{Resut (RMSEs) Table}.
+
+\begin{noteblock}
+
+It is assumed that the table has the following four columns:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \emph{Method};
+\item
+  \emph{RMSE};
+\item
+  \emph{Diff};
+\item
+  \emph{Comment};
+\end{enumerate}
+
+\end{noteblock}
+
+\phantomsection\label{func.RMSE.Total_kableusage}
+\subparagraph{Usage}\label{usage-8}
+
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSE.Total\_kable }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(RMSEs,}
+                       \AttributeTok{col1width =} \DecValTok{15}\NormalTok{,}
+                       \AttributeTok{col2width =} \DecValTok{7}\NormalTok{,}
+                       \AttributeTok{col3width =} \DecValTok{5}\NormalTok{,}
+                       \AttributeTok{col4width =} \DecValTok{25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\phantomsection\label{func.RMSE.Total_kable.params}
+\subparagraph{Parameters}\label{parameters-32}
+
+\hfill\break
+
+\phantomsection\label{func.RMSE.Total_kable.params.RMSEs}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{RMSEs:}} \emph{Resut (RMSEs) Table} to print;
+\end{itemize}
+
+\phantomsection\label{func.RMSE.Total_kable.params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{col1width:}} Width of the first column;
+\end{itemize}
+
+\phantomsection\label{func.RMSE.Total_kable.params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{col2width:}} Width of the second column;
+\end{itemize}
+
+\phantomsection\label{func.RMSE.Total_kable.params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{col3width:}} Width of the third column;
+\end{itemize}
+
+\phantomsection\label{func.RMSE.Total_kable.params.}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{col4width:}} Width of the fourth column;
+\end{itemize}
+
+\phantomsection\label{func.RMSE.Total_kablecode}
+\subparagraph{Source Code}\label{source-code-32}
+
+\hfill\break
+
+The soure code of the function is provided below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSE.Total\_kable }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(RMSEs,}
+                       \AttributeTok{col1width =} \DecValTok{15}\NormalTok{,}
+                       \AttributeTok{col2width =} \DecValTok{7}\NormalTok{,}
+                       \AttributeTok{col3width =} \DecValTok{5}\NormalTok{, }
+                       \AttributeTok{col4width =} \DecValTok{25}\NormalTok{)\{}
+\NormalTok{  RMSEs }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{RMSE\_kable}\NormalTok{(col1width,}
+\NormalTok{               col2width,}
+\NormalTok{               col3width) }\SpecialCharTok{|\textgreater{}}
+    \FunctionTok{column\_spec}\NormalTok{(}\AttributeTok{column =} \DecValTok{4}\NormalTok{, }
+                \AttributeTok{width =} \FunctionTok{RSME.tibble.col\_width}\NormalTok{(col4width)) }
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{noteblock}
+Under the hood, the function calls internally the \hyperref[func.RMSE_kable]{RMSE\_kable} function described above.
+
+\end{noteblock}
+
+\subsubsection{Common Helper Functions: Regularization}\label{appndx_a.CHF.regularization}
+
+\hfill\break
+
+\begin{noteblock}
+The complete source code of the functions described in this section are available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model Tuning} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R}{common-helper.functions.R} script on \emph{GitHub}.
+
+\end{noteblock}
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} Function}{mean\_reg Function}}\label{func.mean_reg}
 
 \hfill\break
 
 A general function for computing the arithmetic mean given a \emph{regularization parameter} \(\lambda\). We will call it the \emph{penaized mean}.
 
 \phantomsection\label{func.mean_reg.usage}
-\paragraph{Usage}\label{usage-4}
+\subparagraph{Usage}\label{usage-9}
 
 \hfill\break
 
@@ -7302,7 +7862,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{Shaded}
 
 \phantomsection\label{func.mean_reg.params}
-\paragraph{Parameters}\label{parameters-28}
+\subparagraph{Parameters}\label{parameters-33}
 
 \hfill\break
 
@@ -7327,7 +7887,7 @@ A general function for computing the arithmetic mean given a \emph{regularizatio
 \end{itemize}
 
 \phantomsection\label{func.mean_reg.details}
-\paragraph{Details}\label{details-13}
+\subparagraph{Details}\label{details-14}
 
 \hfill\break
 We call this function internally from the functions that compute the \emph{penalized estimates} as described in section \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#penalized-least-squares}{23.6 Penalized Least Squares} of the \emph{Course Textbook}\autocite{IDS2_23-6}.
@@ -7337,23 +7897,8 @@ If the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} (t
 
 \end{noteblock}
 
-\phantomsection\label{func.mean_reg.value}
-\paragraph{Value}\label{value-1}
-
-\hfill\break
-
-The function calculates the \emph{penalized mean} of the \hyperref[func.mean_reg.params.vals]{vals} parameter as follows:
-\[
-\mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
-\]
-
-When the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} (meaning the \(\lambda = 0\)), the function calculates the simple arithmetic mean as follows:
-\[
-\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
-\]
-
 \phantomsection\label{func.mean_reg.code}
-\paragraph{Source Code}\label{source-code-28}
+\subparagraph{Source Code}\label{source-code-33}
 
 \hfill\break
 
@@ -7376,17 +7921,32 @@ The soure code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \end{Shaded}
 
 \begin{noteblock}
-The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L62}{Regularization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{common-helper.functions.R} script.
+The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{mean\_reg} is also available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L62}{Regularization} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L63}{common-helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
-\subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} Function}{tune.model\_param Function}}\label{func.tune.model_param}
+\phantomsection\label{func.mean_reg.value}
+\subparagraph{Value}\label{value-1}
+
+\hfill\break
+
+The function calculates the \emph{penalized mean} of the \hyperref[func.mean_reg.params.vals]{vals} parameter as follows:
+\[
+\mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
+\]
+
+When the \hyperref[func.mean_reg.params.lambda]{lambda} parameter is \texttt{0} (meaning the \(\lambda = 0\)), the function calculates the simple arithmetic mean as follows:
+\[
+\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
+\]
+
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} Function}{tune.model\_param Function}}\label{func.tune.model_param}
 
 \hfill\break
 
 The function searches for the parameter value corresponding to the minimum value of the \texttt{RMSE} from the list of values specified by the \texttt{param\_values} parameter.
 
-\paragraph{Signature}\label{signature}
+\subparagraph{Signature}\label{signature}
 
 \hfill\break
 
@@ -7405,7 +7965,7 @@ The function searches for the parameter value corresponding to the minimum value
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-29}
+\subparagraph{Parameters}\label{parameters-34}
 
 \hfill\break
 
@@ -7429,7 +7989,7 @@ The function searches for the parameter value corresponding to the minimum value
   \textbf{steps.beyond\_min = 2:} (takes effect only if \texttt{break.if\_min} parameter is \texttt{TRUE}) Specifies the number of steps after finding the minimum value of the \texttt{RMSE}, upon completion of which the function should terminate.
 \end{itemize}
 
-\paragraph{Details}\label{details-14}
+\subparagraph{Details}\label{details-15}
 
 \hfill\break
 During execution, the function uses a helper function specified by the \texttt{fn\_tune.test.param\_value} parameter, which calculates the \texttt{RMSE} value for the given parameter from the list determined by the \texttt{param\_values} parameter.
@@ -7440,7 +8000,7 @@ Note that the algorithm assumes that the dependence of the \texttt{RMSE} on the 
 \end{noteblock}
 
 \phantomsection\label{func.tune.model_param.value}
-\paragraph{Value}\label{value-2}
+\subparagraph{Value}\label{value-2}
 
 \hfill\break
 The function returns a data structure containing the found value of the input parameter \texttt{param\_values} for which the \texttt{RMSE} value is minimal, as well as the minimum \texttt{RMSE} value itself, along with a sequence of all calculated \texttt{RMSE} values:
@@ -7453,7 +8013,7 @@ The function returns a data structure containing the found value of the input pa
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-29}
+\subparagraph{Source Code}\label{source-code-34}
 
 \hfill\break
 Below is the most significant part of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function:
@@ -7522,13 +8082,13 @@ Below is the most significant part of the source code of the \href{https://githu
 
 \newpage
 
-\subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} Function}{model.tune.param\_range Function}}\label{func.model.tune.param_range}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} Function}{model.tune.param\_range Function}}\label{func.model.tune.param_range}
 
 \hfill\break
 
 The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding \texttt{RMSE} value is minimal.
 
-\paragraph{Signature}\label{signature-1}
+\subparagraph{Signature}\label{signature-1}
 
 \hfill\break
 
@@ -7551,12 +8111,12 @@ The function fine-tunes the model by searching for the best possible value of th
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-30}
+\subparagraph{\texorpdfstring{\textbf{Parameters}}{Parameters}}\label{parameters-35}
 
 \hfill\break
 
 \phantomsection\label{func.model.tune.param_range.params.loop_starter}
-\subparagraph{\texorpdfstring{\textbf{\emph{loop\_starter}}}{loop\_starter}}\label{loop_starter}
+\textbf{\emph{loop\_starter}}
 
 \hfill\break
 A numeric vector of the form \texttt{c(start,\ end,\ dvs)}, where \texttt{start} and \texttt{end} are the endpoints of the interval on which the parameter value that minimizes \texttt{RMSE} is sought.
@@ -7577,49 +8137,49 @@ The sequence obtained as a result of the transformation is equivalent to the one
 In fact, the \texttt{seq} function is called internally to generate the sequence during the execution of the \texttt{model.tune.param\_range} function.
 
 \phantomsection\label{func.model.tune.param_range.params.tune_dir_path}
-\subparagraph{\texorpdfstring{\textbf{\emph{tune\_dir\_path}}}{tune\_dir\_path}}\label{tune_dir_path}
+\textbf{\emph{tune\_dir\_path}}
 
 \hfill\break
 To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the files are cached.
 
 \phantomsection\label{func.model.tune.param_range.params.cache_file_base_name}
-\subparagraph{\texorpdfstring{\textbf{\emph{cache\_file\_base\_name}}}{cache\_file\_base\_name}}\label{cache_file_base_name}
+\textbf{\emph{cache\_file\_base\_name}}
 
 \hfill\break
 The algorithm generates unique names for cache files based on this and the \texttt{loop\_starter} parameter, as well as some other intermediate values calculated during the execution.
 
 \phantomsection\label{func.model.tune.param_range.params.fn_tune.test.param_value}
-\subparagraph{\texorpdfstring{\textbf{\emph{fn\_tune.test.param\_value}}}{fn\_tune.test.param\_value}}\label{fn_tune.test.param_value}
+\textbf{\emph{fn\_tune.test.param\_value}}
 
 \hfill\break
 This is a helper function name that is passed to the same-named parameter of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function that is called internally during the execution (see the description of the \texttt{tune.model\_param} function \hyperref[func.tune.model_param]{above}).
 
 \phantomsection\label{func.model.tune.param_range.params.max.identical.min_RMSE.count}
-\subparagraph{\texorpdfstring{\textbf{\emph{max.identical.min\_RMSE.count = 4}}}{max.identical.min\_RMSE.count = 4}}\label{max.identical.min_rmse.count-4}
+\textbf{\emph{max.identical.min\_RMSE.count = 4}}
 
 \hfill\break
 If more than one identical minimum \texttt{RMSE} value is calculated during execution, the number of identical minimums is limited by the value of this parameter. When it is reached, the algorithm considers the task execution to be complete.
 
 \phantomsection\label{func.model.tune.param_range.params.endpoint.min_diff}
-\subparagraph{\texorpdfstring{\textbf{\emph{endpoint.min\_diff = 0}}}{endpoint.min\_diff = 0}}\label{endpoint.min_diff-0}
+\textbf{\emph{endpoint.min\_diff = 0}}
 
 \hfill\break
 Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum \texttt{RMSE} value (for details, see the \texttt{Details} section \hyperref[func.model.tune.param_range.details]{below}).
 
 \phantomsection\label{func.model.tune.param_range.params.break.if_min}
-\subparagraph{\texorpdfstring{\textbf{\emph{break.if\_min = TRUE}}}{break.if\_min = TRUE}}\label{break.if_min-true}
+\textbf{\emph{break.if\_min = TRUE}}
 
 \hfill\break
 This is a parameter that is required for the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function that is called internally during execution (see the description of the \texttt{tune.model\_param} function \hyperref[func.tune.model_param]{above}).
 
 \phantomsection\label{func.model.tune.param_range.params.steps.beyond_min}
-\subparagraph{\texorpdfstring{\textbf{\emph{steps.beyond\_min = 2}}}{steps.beyond\_min = 2}}\label{steps.beyond_min-2}
+\textbf{\emph{steps.beyond\_min = 2}}
 
 \hfill\break
 This is a parameter that is required for the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L116}{tune.model\_param} function that is called internally during execution (see the description of the \texttt{tune.model\_param} function \hyperref[func.tune.model_param]{above}).
 
 \phantomsection\label{func.model.tune.param_range.details}
-\paragraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-15}
+\subparagraph{\texorpdfstring{\textbf{Details}}{Details}}\label{details-16}
 
 \hfill\break
 First, the function generates a sequence of the \texttt{input\ parameter\ values} based on the \texttt{loop\_starter} parameter values, as described above (see the \hyperref[func.model.tune.param_range.params.loop_starter]{loop\_starter} parameter description for the details), which is used as one of the input parameters for the helper function \hyperref[func.tune.model_param]{tune.model\_param}, which is repeatedly called during the execution, performing fine-tuning of the model.
@@ -7634,7 +8194,7 @@ Thus, with each subsequent iteration, the minimum \texttt{RMSE} value is calcula
 
 The calculation is completed when subsequent calculated values of the minimum \texttt{RMSE} stop improving and reach the most accurate possible value.
 
-\paragraph{\texorpdfstring{\textbf{Value}}{Value}}\label{value-3}
+\subparagraph{\texorpdfstring{\textbf{Value}}{Value}}\label{value-3}
 
 \hfill\break
 
@@ -7650,7 +8210,7 @@ A data structure containing the minimum \texttt{RMSE} value reached during the f
 \end{Shaded}
 
 \phantomsection\label{func.model.tune.param_range.code}
-\paragraph{Source Code}\label{source-code-30}
+\subparagraph{Source Code}\label{source-code-35}
 
 \hfill\break
 Below is the simplified version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} function:
@@ -7802,19 +8362,19 @@ Below is the simplified version of the source code of the \href{https://github.c
 \end{Shaded}
 
 \begin{noteblock}
-The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model Tuning} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{common-helper.functions.R} script.
+The complete version of the source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{model.tune.param\_range} is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L74}{Model Tuning} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L198}{common-helper.functions.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
 \newpage
 
-\subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L80}{get\_fine\_tune.param.endpoints} Function}{get\_fine\_tune.param.endpoints Function}}\label{func.get_fine_tune.param.endpoints}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L80}{get\_fine\_tune.param.endpoints} Function}{get\_fine\_tune.param.endpoints Function}}\label{func.get_fine_tune.param.endpoints}
 
 \hfill\break
 
 The algorithm finds the values of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
-\paragraph{Signature}\label{signature-2}
+\subparagraph{Signature}\label{signature-2}
 
 \hfill\break
 
@@ -7830,12 +8390,12 @@ The algorithm finds the values of the nearest neighboring elements of the elemen
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-31}
+\subparagraph{Parameters}\label{parameters-36}
 
 \hfill\break
 
 \phantomsection\label{func.get_fine_tune.param.endpoints.params.preset.result}
-\subparagraph{\texorpdfstring{\textbf{\emph{preset.result}}}{preset.result}}\label{preset.result}
+\textbf{\emph{preset.result}}
 
 \hfill\break
 A data structure compatible with the \texttt{tuned.result} item of the data structure returned by the \hyperref[func.tune.model_param]{tune.model\_param} function (see the \hyperref[func.tune.model_param.value]{Value} subsection of the \texttt{tune.model\_param} function description section for more details). Here is a sample of using this parameter in the \texttt{model.tune.param\_range} function \hyperref[func.model.tune.param_range.code]{code}:
@@ -7855,13 +8415,13 @@ A data structure compatible with the \texttt{tuned.result} item of the data stru
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Details}\label{details-16}
+\subparagraph{Details}\label{details-17}
 
 \hfill\break
 
 Under the hood, the function internally calls another helper function \hyperref[func.get_fine_tune.param.endpoints.idx]{get\_fine\_tune.param.endpoints.idx} described below to figure out the boundary indices of the range of values from the nearest neighborhood of the value corresponding to the best \texttt{RMSE} in the data passed in the \hyperref[func.get_fine_tune.param.endpoints.params.preset.result]{preset.result} parameter.
 
-\paragraph{Value}\label{value-4}
+\subparagraph{Value}\label{value-4}
 
 \hfill\break
 A vector containing the element value corresponding to the minimum \texttt{RMSE} in a given sequence, along with the values of its nearest neighboring elements:
@@ -7874,7 +8434,7 @@ A vector containing the element value corresponding to the minimum \texttt{RMSE}
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-31}
+\subparagraph{Source Code}\label{source-code-36}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L80}{get\_fine\_tune.param.endpoints} function is provided below:
@@ -7898,11 +8458,11 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \newpage
 
-\subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L87}{get\_fine\_tune.param.endpoints.idx} Function}{get\_fine\_tune.param.endpoints.idx Function}}\label{func.get_fine_tune.param.endpoints.idx}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L87}{get\_fine\_tune.param.endpoints.idx} Function}{get\_fine\_tune.param.endpoints.idx Function}}\label{func.get_fine_tune.param.endpoints.idx}
 
 \hfill\break
 
-\paragraph{Signature}\label{signature-3}
+\subparagraph{Signature}\label{signature-3}
 
 \hfill\break
 
@@ -7918,12 +8478,12 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-32}
+\subparagraph{Parameters}\label{parameters-37}
 
 \hfill\break
 
 \phantomsection\label{func.get_fine_tune.param.endpoints.idx.params.preset.result}
-\subparagraph{\texorpdfstring{\textbf{\emph{preset.result}}}{preset.result}}\label{preset.result-1}
+\textbf{\emph{preset.result}}
 
 \hfill\break
 A data structure compatible with the \texttt{tuned.result} item of the data structure returned by the \hyperref[func.tune.model_param]{tune.model\_param} function (see the \hyperref[func.tune.model_param.value]{Value} subsection of the \texttt{tune.model\_param} function description section for more details). Here is a sample of using this parameter in the \texttt{model.tune.param\_range} function \hyperref[func.model.tune.param_range.code]{code}:
@@ -7943,12 +8503,12 @@ A data structure compatible with the \texttt{tuned.result} item of the data stru
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Details}\label{details-17}
+\subparagraph{Details}\label{details-18}
 
 \hfill\break
 The algorithm finds the indices of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
 
-\paragraph{Value}\label{value-5}
+\subparagraph{Value}\label{value-5}
 
 \hfill\break
 A vector containing the index of the element corresponding to the minimum \texttt{RMSE} value in a given sequence, along with the indices of its nearest neighboring elements:
@@ -7961,7 +8521,7 @@ A vector containing the index of the element corresponding to the minimum \textt
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-32}
+\subparagraph{Source Code}\label{source-code-37}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L87}{get\_fine\_tune.param.endpoints.idx} function is shown below:
@@ -8002,11 +8562,11 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 \newpage
 
-\subsubsection{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} Function}{get\_best\_param.result Function}}\label{func.get_best_param.result}
+\paragraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} Function}{get\_best\_param.result Function}}\label{func.get_best_param.result}
 
 \hfill\break
 
-\paragraph{Signature}\label{signature-4}
+\subparagraph{Signature}\label{signature-4}
 
 \hfill\break
 
@@ -8020,7 +8580,7 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Parameters}\label{parameters-33}
+\subparagraph{Parameters}\label{parameters-38}
 
 \hfill\break
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the \texttt{RMSE}.
@@ -8033,12 +8593,12 @@ A pair of matched vectors, the first of which contains the values of the input p
   \textbf{rmses:} A vector containing values of the corresponding \texttt{Root\ Mean\ Squared\ Errors}..
 \end{itemize}
 
-\paragraph{Details}\label{details-18}
+\subparagraph{Details}\label{details-19}
 
 \hfill\break
 Extracts the best values from the input data and returns them as a vector containing a pair of the best \emph{input parameter} value and the corresponding \emph{minimum \texttt{RMSE}}.
 
-\paragraph{Value}\label{value-6}
+\subparagraph{Value}\label{value-6}
 
 \hfill\break
 A vector containing a pair of the best \emph{input parameter} value and the corresponding \emph{minimum \texttt{RMSE}}:
@@ -8049,7 +8609,7 @@ A vector containing a pair of the best \emph{input parameter} value and the corr
 \end{Highlighting}
 \end{Shaded}
 
-\paragraph{Source Code}\label{source-code-33}
+\subparagraph{Source Code}\label{source-code-38}
 
 \hfill\break
 The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} function is shown below:

@@ -14,11 +14,21 @@ The baseline model was the _Overall Mean Rating_ model described in the [Overall
 
 The following effects were taken into account:
 
-  - ***User:*** based on which the _User Effect (UE) Model_ described in the [User Effect (UE) Model] section was built;
-  - ***Movie:*** ;
-  - ***Genre:*** ;
-  - ***Year:*** ;
-  - ***Day*** ;.
+  - ***User:*** based on which the _User Effect (UE) Model_ described in the [User Effect (UE) Model] section was built (significantly improved the _RMSE_ compared to the baseline model);
+  - ***Movie:*** based on which (and the _User Effect_) the _Regularized User+Movie Effect (UME) Model_ described in the [User+Movie Effect (UME) Model] section was eventually built (even better improved the _RMSE_ compared to the previous (*UE*) model);
+  - ***Genre:*** based on which (and the previous effects) the _Regularized User+Movie+Genre Effect (UMGE) Model_ described in the [User+Movie+Genre Effect (UMGE) Model] section was built (even after _regularization_ it showed very little improvement in _RMSE_ compared to the previous (*UME*) model; before regularization, for some reason, there was no improvement at all);
+  - ***Year:*** based on which (and the previous effects) the _Regularized User+Movie+Genre+Year Effect (UMGYE) Model_ described in the [User+Movie+Genre+Year Effect (UMGYE) Model] section was built (provided a much better improvement in _RMSE_ compared to the previous (*UMGE*) model but still two orders of magnitude less than the *UE* and *UME* models showed);
+  - ***Day*** based on which (and the previous effects) the _Regularized (and Tuned) User+Movie+Genre+Year+Day Effect (UMGYDE) Model_ described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section was built (showed almost twice better improvement than the previous (*UMGYE*) model but still not good enough to meet the *Project Objective*);.
+  - ***Day (Matrix Factorization):*** (described in the [UMGYDE Model: Matrix Factorization (MF)] section) *Matrix Factorization* method performed on the _Regularized UMGYDE Model_ provided substantial improvement comparable to that shown by the *UE* and *UME* models, and finally permitted to reach the *Project Objective*. 
+
+The *Result Summary Table* constructed below shows in detail the progress of our *Recommender System* improvement:
+
+```{r, eval=FALSE}
+total.RMSEs.ResultTibble <- RMSEs.AddDiffColumn(final.MF.RMSEs.ResultTibble)
+```
+```{r}
+RMSE.Total_kable(total.RMSEs.ResultTibble)
+```
 
 
 \newpage
