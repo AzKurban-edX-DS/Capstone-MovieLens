@@ -117,11 +117,13 @@ source(setup_script.file_path,
 ```{r child = '02.8-1.MF.UMGYDE-model.Rmd'}
 ```
 
-```{r child = '03.conclusion.Rmd'}
+```{r child = '03.results.Rmd'}
 ```
 
+```{r child = '04.conclusion.Rmd'}
+```
 
-```{r child = '04.appendix.Rmd'}
+```{r child = '05.appendix.Rmd'}
 ```
 
 

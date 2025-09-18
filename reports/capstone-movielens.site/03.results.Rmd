@@ -1,0 +1,19 @@
+# Results
+\
+
+The *Result Summary Table* constructed below shows in detail the progress of our *Recommender System* improvement:
+
+```{r, eval=FALSE}
+total.RMSEs.ResultTibble <- RMSEs.AddDiffColumn(final.MF.RMSEs.ResultTibble)
+```
+```{r}
+RMSE.Total_kable(total.RMSEs.ResultTibble)
+```
+
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn) and [RMSE.Total_kable](#func.RMSE.Total_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
+
+
+\newpage
+

@@ -290,10 +290,11 @@ RMSEs.ResultTibble.UMGE <- RMSEs.ResultTibble.rglr.UME |>
 RMSE_kable(RMSEs.ResultTibble.UMGE)
 ```
 
-
 ::: {.noteblock data-latex=""}
-Unfortunately, for some reason, we do not see any improvement here yet.
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
 :::
+
+Unfortunately, for some reason, we do not see any improvement here yet.
 
 \newpage
 
@@ -510,11 +511,13 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UMGE)
 ```
 
 ::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
+
 As we can see, the current model still does not show much improvement after _regularization_, even though the data analysis we made in the [Movie Genres Effect] section showed strong evidence of a genre effect.
 It looks like we need a better model to account for a genre effect more efficiently. 
 
 Or, maybe, we have implemented the current model not quite correctly (?)
-:::
 
 \newpage
 

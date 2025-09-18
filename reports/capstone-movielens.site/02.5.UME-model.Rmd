@@ -308,6 +308,10 @@ RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |>
 RMSE_kable(RMSEs.ResultTibble.UME)
 ```
 
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
+
 \newpage
 
 ### UME Model Regularization
@@ -517,6 +521,10 @@ RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |>
 ```{r}
 RMSE_kable(RMSEs.ResultTibble.rglr.UME)
 ```
+
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
 
 \newpage
 

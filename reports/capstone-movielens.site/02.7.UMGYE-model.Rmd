@@ -413,8 +413,10 @@ RMSE_kable(RMSEs.ResultTibble.UMGYE)
 ```
 
 ::: {.noteblock data-latex=""}
-Now, we have a bit better result than one for the previous model.
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
 :::
+
+Now, we have a bit better result than one for the previous model.
 
 \newpage
 
@@ -612,6 +614,10 @@ RMSEs.ResultTibble.rglr.UMGYE <- RMSEs.ResultTibble.UMGYE |>
 ```{r}
 RMSE_kable(RMSEs.ResultTibble.rglr.UMGYE)
 ```
+
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
 
 \newpage
 
