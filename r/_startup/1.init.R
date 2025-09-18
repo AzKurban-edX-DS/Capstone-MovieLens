@@ -21,9 +21,9 @@ source(setup_script.file_path,
        keep.source = TRUE)
 
 ## Define Logging Functions ----------------------------------------------------
-log-func_script.file_path <- file.path(support_functions.path, "logging-functions.R")
+log_func_script.file_path <- file.path(support_functions.path, "logging-functions.R")
 
-source(log-func_script.file_path, 
+source(log_func_script.file_path, 
        catch.aborts = TRUE,
        echo = TRUE,
        spaced = TRUE,
