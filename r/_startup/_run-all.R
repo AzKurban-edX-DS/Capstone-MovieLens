@@ -3,7 +3,7 @@
 startup.path <- "r/_startup"
 init.script_path <- file.path(startup.path, "1.init.R")
 run_main.script_path <- file.path(startup.path, "2.run-main-script.R")
-rmd_render.script_path < file.path(startup.path, "3.rmd.render.R")
+rmd_render.script_path <- file.path(startup.path, "3.rmd.render.R")
 
 ## Run Scripts -----------------------------------------------------------------
 
