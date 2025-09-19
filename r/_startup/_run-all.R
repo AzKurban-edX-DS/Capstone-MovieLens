@@ -21,11 +21,9 @@ source(run_main.script_path,
        verbose = TRUE,
        keep.source = TRUE)
 
-# source(path, 
-#        catch.aborts = TRUE,
-#        echo = TRUE,
-#        spaced = TRUE,
-#        verbose = TRUE,
-#        keep.source = TRUE)
-# 
-
+source(rmd_render.script_path,
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)

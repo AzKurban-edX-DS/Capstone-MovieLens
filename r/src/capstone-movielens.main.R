@@ -2349,6 +2349,7 @@ if (file.exists(file_path_tmp)) {
   save(mf.edx.residual,
        mf.edx.residual.reco,
        final_holdout_test.reco,
+       reco,
        reco.tuned,
        mf.reco.residual,
        final.UMGYDE.predicted,
