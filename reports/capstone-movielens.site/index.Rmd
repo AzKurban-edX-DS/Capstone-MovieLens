@@ -3,6 +3,7 @@ title: "Capstone Movielens Report"
 site: bookdown::bookdown_site
 author: "Azamat Kurbanaev"
 date: "`r Sys.Date()`"
+# Specify the bibliography file
 bibliography: references.bib
 csl: bit-numerical-mathematics.csl 
 envir:
@@ -17,6 +18,12 @@ output:
     css: custom.css
     citation_package: biblatex
     delete_merged_file: true
+biblatexoptions:
+  - backend=biber
+  - natbib=true 
+  - style=numeric
+  - backref=true
+  - sorting=none
 colorlinks: true
 linkcolor: red
 citecolor: blue
@@ -24,10 +31,6 @@ header-includes:
     - \usepackage{awesomebox}
     - \usepackage{hyperref}
     - \usepackage{amsmath}
-    - \usepackage[natbib=true, 
-                  style=numeric, 
-                  backref=true, 
-                  sorting=none]{biblatex}
     - \hypersetup{backref,
           pdfpagemode=Normal,
           colorlinks=true,
