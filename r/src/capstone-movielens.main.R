@@ -96,7 +96,6 @@ if (file.exists(file_path_tmp)) {
   mu <- mean(edx$rating)
 
   mu.MSEs <- naive_model_MSEs(mu)
-  # plot(MSEs)
 
   data.frame(fold_No = 1:5, MSE = mu.MSEs) |>
     data.plot(title = "MSE resuls of the 5-fold Cross Validation performed for the Overall Mean Rating Model",
@@ -105,7 +104,7 @@ if (file.exists(file_path_tmp)) {
   
   
   put_log1("MSE values plotted for %1-Fold Cross Validation samples.", CVFolds_N)
-  mu.RMSE <- sqrt(mean(MSEs))
+  mu.RMSE <- sqrt(mean(mu.MSEs))
   # mu.RMSE <- naive_model_RMSE(mu)
   put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, mu.RMSE)
   #> 5-Fold Cross Validation ultimate RMSE: 1.06034335317133

@@ -10,6 +10,9 @@ source(log_func_script.file_path,
        verbose = TRUE,
        keep.source = TRUE)
 
+## Open log file for `Loading Source Datasets` feature -------------------------
+open_logfile(".source-datasets")
+
 ## Load Source Datasets from Specially Designed Package ------------------------
 if(!require(edx.capstone.movielens.data)) {
   start <- put_start_date()
@@ -28,6 +31,8 @@ put_log1("Dataset loaded from `edx.capstone.movielens.data` package: final_holdo
 sum(is.na(final_holdout_test$rating))
 #> [1] 0
 put(summary(final_holdout_test))
+### Close Log ---------------------------------------------------------------
+log_close()
 
 ### Open log file for `Initialize Source File Paths` Feature -------------------
 open_logfile(".src.file-paths")
