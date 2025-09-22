@@ -66,7 +66,7 @@ takes the following form:
 \
 
 ::: {.noteblock data-latex=""}
-Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call as well, which we will also need for the *Regularization* techniques to apply to our models (for details, see the  [mean_reg](#func.mean_reg) function description in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report).
+Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call as well, which we will also need for the *Regularization* techniques to apply to our models (for details, see the  [mean_reg](#func.mean_reg) function description in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of the [Appendix] to this report).
 We have already explained that in the [UME Model Regularization] section. 
 For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
@@ -413,8 +413,10 @@ RMSE_kable(RMSEs.ResultTibble.UMGYE)
 ```
 
 ::: {.noteblock data-latex=""}
-Now, we have a bit better result than one for the previous model.
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
 :::
+
+Now, we have a bit better result than one for the previous model.
 
 \newpage
 
@@ -482,7 +484,7 @@ Note that we reuse the function [train_UMGY_effect.cv](#func.train_UMGY_effect.c
 
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
-We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter.
+We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.params.fn_tune.test.param_value) parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
@@ -526,7 +528,7 @@ The complete version of the source code provided in this section can be found in
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
-Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.params.fn_tune.test.param_value) parameter.
+Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of the [Appendix] to this report, passing the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.params.fn_tune.test.param_value) parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
@@ -553,7 +555,7 @@ UMGYE.rglr.fine_tune.results$best_result
 ```
 
 ::: {.noteblock data-latex=""}
-Under the hood, this code block internally calls the helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of the [Appendix] to this report to figure out the boundaries of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in as a parameter.
+Under the hood, this code block internally calls the helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of the [Appendix] to this report to figure out the boundaries of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in as a parameter.
 :::
 
 \newpage
@@ -612,6 +614,10 @@ RMSEs.ResultTibble.rglr.UMGYE <- RMSEs.ResultTibble.UMGYE |>
 ```{r}
 RMSE_kable(RMSEs.ResultTibble.rglr.UMGYE)
 ```
+
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
 
 \newpage
 

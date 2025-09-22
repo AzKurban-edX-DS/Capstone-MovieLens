@@ -159,7 +159,9 @@ data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
 ```
 
 ::: {.noteblock data-latex=""}
-For the _Mean Squared Errors_ data visualization we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report, which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+For the _Mean Squared Errors_ data visualization we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report.
+
+The full source code of the _User Effect Model RMSE_ computation is available in the [Compute RMSE for User Effect Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L655) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
 :::
 
 Finally, we calculate the `RMSE` as the _square root_ of the average of the _Mean Squared Errors_ we obtained through the _5-Fold Cross Validation_ above:   
@@ -173,11 +175,8 @@ RMSEs.ResultTibble.UE <- RMSEs.ResultTibble.OMR |>
 RMSE_kable(RMSEs.ResultTibble.UE)
 ```
 
-
-
-
 ::: {.noteblock data-latex=""}
-The full source code of the _User Effect Model RMSE_ computation is available in the [Compute RMSE for User Effect Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L655) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
 :::
 
 \newpage

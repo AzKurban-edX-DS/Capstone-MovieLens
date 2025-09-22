@@ -658,6 +658,10 @@ computed using `stats::loess` function with `degree=1` & `span=0.75` parameter v
 RMSE_kable(RMSEs.ResultTibble.UMGYDE)
 ```
 
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
+
 Unfortunately, with the default parameters, we obtained an even worse result than before.
 Let's tune the current model by adjusting the `degree` and `span` parameters and see what we get.
 
@@ -913,6 +917,10 @@ RMSEs.ResultTibble.UMGYDE0 <- RMSEs.ResultTibble.UMGYDE |>
 RMSE_kable(RMSEs.ResultTibble.UMGYDE0)
 ```
 
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
+
 #### UMGYDE Model Tuning: Step 2 (`degree = 1`)
 \
 
@@ -991,9 +999,9 @@ RMSEs.ResultTibble.UMGYDE1 <- RMSEs.ResultTibble.UMGYDE0 |>
 RMSE_kable(RMSEs.ResultTibble.UMGYDE1)
 ```
 
-
-
-
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
 
 #### UMGYDE Model Tuning: Step 3 (`degree = 2`)
 \
@@ -1082,6 +1090,10 @@ RMSEs.ResultTibble.UMGYDE2 <- RMSEs.ResultTibble.UMGYDE1 |>
 RMSE_kable(RMSEs.ResultTibble.UMGYDE2)
 ```
 
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
+
 \newpage
 
 #### UMGYDE Model Tuning: Re-training with the Best `degree` & `span` Parameters
@@ -1160,6 +1172,10 @@ RMSEs.ResultTibble.UMGYDE.tuned <- RMSEs.ResultTibble.UMGYDE2 |>
 ```{r}
 RMSE_kable(RMSEs.ResultTibble.UMGYDE.tuned)
 ```
+
+::: {.noteblock data-latex=""}
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions: Result RMSEs Table] section of the [Appendix] to this report.
+:::
 
 Finally, let's regularize our tuned model as we did with the previous ones.
 

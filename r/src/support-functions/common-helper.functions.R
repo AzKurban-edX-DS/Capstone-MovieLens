@@ -35,11 +35,41 @@ CreateRMSEs_ResultTibble <- function(){
          RMSE = project_objective,
          Comment = " ")
 }
-RMSEs.AddRow <- function(RMSEs, method, value, comment = ""){
+RMSEs.AddRow <- function(RMSEs, 
+                         method, 
+                         value, 
+                         comment = "", 
+                         before = NULL){
   RMSEs |>
     add_row(Method = method,
             RMSE = value,
-            Comment = comment)
+            Comment = comment,
+            .before = before)
+}
+RMSEs.AddDiffColumn <- function(RMSEs){
+  RMSEs.Diff <- RMSEs |>
+    RMSEs.AddRow(NULL, project_objective, before = 1) #|>
+    #RMSEs.AddRow(NULL, 0, before = 1)
+    
+  
+  RMSEs.Diff <- RMSEs.Diff[-nrow(RMSEs.Diff),]
+    
+  RMSEs |>
+  add_column(Diff = RMSEs.Diff$RMSE - RMSEs$RMSE, 
+             .before = "Comment")
+  
+}
+RMSE.Total_kable <- function(RMSEs,
+                       col1width = 15,
+                       col2width = 7,
+                       col3width = 5, 
+                       col4width = 25){
+  RMSEs |> 
+    RMSE_kable(col1width,
+               col2width,
+               col3width) |>
+    column_spec(column = 4, 
+                width = RSME.tibble.col_width(col4width)) 
 }
 RMSE_kable <- function(RMSEs,
                        col1width = 15,

@@ -88,4 +88,3 @@ conflict_prefer("pivot_wider", "tidyr", quiet = TRUE)
 conflict_prefer("kable", "kableExtra", quiet = TRUE)
 conflict_prefer("year", "lubridate", quiet = TRUE)
 conflicts_prefer(base::as.matrix)
-
