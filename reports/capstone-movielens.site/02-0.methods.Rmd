@@ -1,6 +1,6 @@
 # Methods and Analysis
 ::: {.noteblock data-latex=""}
-All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src)[@edx_capstone_movielens]. 
+All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r)[@edx_capstone_movielens]. 
 :::
 
 ## Defining Logging and Time Measuring Helper Functions
@@ -79,7 +79,7 @@ put_log2 <- function(msg_template, arg1, arg2){
 ```
 
 ::: {.noteblock data-latex=""}
-The full source code of these functions is available in the [Logging Helper functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) script on _GitHub_.
+The full source code of these functions is available in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R) script on _GitHub_.
 :::
 
 \newpage
