@@ -87,7 +87,7 @@ The full source code of these functions is available in the [logging-functions.R
 ## Preparing train and set datasets
 \
 
-We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1].We will also use the _5-Fold Cross Validation_ method as described in [Section 29.6 Cross validation](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook_. 
+We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1].We will also use the _5-Fold Cross Validation_ method as described in [Section 29.6 Cross validation](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook_[@IDS2_29-6]. 
 To prepare datasets for processing, we will use the following functions, specifically designed for these operations:
 
   - [init_source_datasets](#func.init_source_datasets)
@@ -180,7 +180,7 @@ make_source_datasets <- function(){
 #### `edx.mx` Matrix Object
 \
 
-We will use the array representation described in [Section 17.5 of the Textbook](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), for the training data: we denote ranking for movie $j$ by user $i$ as $y_{i,j}$. To create this matrix, we use `tidyr::pivot_wider` function:
+We will use the array representation described in [Section 17.5 Analysis of variance (ANOVA)](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova) of the _Course Textbook_[@IDS2_17-5], for the training data: we denote ranking for movie $j$ by user $i$ as $y_{i,j}$. To create this matrix, we use `tidyr::pivot_wider` function:
 
 ```{r eval=FALSE}
 
