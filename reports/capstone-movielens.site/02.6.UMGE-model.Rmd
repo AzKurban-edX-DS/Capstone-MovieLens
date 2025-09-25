@@ -1,7 +1,7 @@
 ## User+Movie+Genre Effect (UMGE) Model
 \
 
-As mentioned in [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter "23 Regularization" of the Course Textbook_ the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
+As mentioned in [Chapter 23: *Regularization*, Section 23.7: *Exercises*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the *Course Textbook* the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
 
 ### Movie Genres Effect Anasysis
 \
@@ -66,9 +66,9 @@ plot_dat |>
 ### Mathematical Description of the UMGE Model
 \
 
-To account for a _genre effect_ we will use the model suggested in the [Section 23.7: Exercises](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the _Chapter 23 "Regularization" of the Course Textbook_[@IDS2_23-7]:
+To account for a _genre effect_ we will use the model suggested in the [Chapter 23: *Regularization*, Section 23.7: *Exercises*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the *Course Textbook*:
 
-If we define a _genre treatment effect_ $g_{i,j}$ for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
+If we define a _genre treatment effect_ $g_{i,j}$ for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect[@IDS2_23-7]:
 
 \begin{equation}
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}

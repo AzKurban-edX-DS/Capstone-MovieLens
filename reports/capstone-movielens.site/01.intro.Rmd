@@ -1,7 +1,7 @@
 # Overview and Executive Summary {#intro}
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
-Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the _Root Mean Square Error_ (_RMSE_) score, which, as shown in [Section 23.2 Loss function](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook_, is defined as:
+Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the _Root Mean Square Error_ (_RMSE_) score, which, as shown in [Section 23.2 *Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook_, is defined as:
 $$
 \mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
 $$
@@ -62,7 +62,7 @@ n_users <- n_distinct(edx$userId)
 print(n_users)
 ```
 
-Now, note the expressions below which confirm the fact explained in [Section _23.1.1 Movielens data_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_[@IDS2_23-1-1] that not every user rated every movie:
+Now, note the expressions below which confirm the fact explained in [Section 23.1.1 *Movielens data*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ that not every user rated every movie[@IDS2_23-1-1]:
 ```{r}
 max_possible_ratings <- n_movies*n_users
 sprintf("Maximum possible ratings: %s", max_possible_ratings)
