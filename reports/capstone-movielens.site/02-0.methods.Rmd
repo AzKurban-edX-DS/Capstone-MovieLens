@@ -279,7 +279,7 @@ To be able to map the date, year, and number of days since the earliest record i
 \
 
 Here we have a list of sample objects we need to perform the _5-Fold Cross Validation_ 
-as explained in [Section 29.6.1 K-fold cross validation](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook_[@IDS2_29-6-1]:
+as explained in [Section 29.6.1 _K-fold cross validation_](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook_[@IDS2_29-6-1]:
 ```{r eval=FALSE}
   start <- put_start_date()
   edx_CV <- lapply(kfold_index,  function(fold_i){
@@ -424,7 +424,7 @@ For our further analysis, we are going to use the following _common helper funct
 #### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L4) function {#func.clamp}
 \
 
-As explained in [Section  23.4 _User effects_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_[@IDS2_23-4] we know ratings can’t be below 0.5 or above 5. For this reason, we will use the `clamp` function described in that section:
+As explained in [Section  23.4 _User effects_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_[@IDS2_23-4] we know ratings cannot be below 0.5 or above 5. For this reason, we will use the `clamp` function described in that section:
 ```{r eval=FALSE}
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 ```

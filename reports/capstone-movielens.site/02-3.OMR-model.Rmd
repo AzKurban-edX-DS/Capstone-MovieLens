@@ -12,7 +12,7 @@ $$
 Y_{i,j} = \mu + \varepsilon_{i,j}
 $$
 
-with $\varepsilon_{i,j}$ independent errors sampled from the same distribution centered at 0 and $\mu$ is the rating for all movies.
+with $\varepsilon_{i,j}$ independent errors sampled from the same distribution centered at 0 and $\mu$ is the average rating for all movies.
 
 ### OMR Model Building
 \
