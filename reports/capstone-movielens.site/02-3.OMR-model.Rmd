@@ -40,7 +40,7 @@ mu.RMSE
 For the _Mean Squared Errors_ data visualization we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of the [Appendix] to this report, which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
 :::
 
-Here we also used [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L54) function defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script (already mentioned above) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method: 
+Here we also used [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L89) function defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L89) script (already mentioned above) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method: 
 
 ```{r eval=FALSE }
 naive_model_MSEs <- function(val) {
@@ -50,7 +50,7 @@ naive_model_MSEs <- function(val) {
 }
 ```
 
-One more function, defined in the [same script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R), that we will need for further analysis of the current model, is the [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L59) one:
+One more function, defined in the [same script](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L94), that we will need for further analysis of the current model, is the [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L94) one:
 ```{r eval=FALSE }
 naive_model_RMSE <- function(val){
   sqrt(mean(naive_model_MSEs(val)))
