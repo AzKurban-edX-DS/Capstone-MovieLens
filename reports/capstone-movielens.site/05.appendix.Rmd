@@ -6,13 +6,15 @@
 The complete source code of the functions described in this section is available in the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
 :::
 
-### [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) Function {#func.union_cv_results}
+### Model Training Functions
+
+#### [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) Function {#func.union_cv_results}
 \
 
 Aggregates the input data frames into a single data frame.
 
 ::: { #func.union_cv_results.Usage .sidebar }
-#### Usage
+##### Usage
 \
 
 ```{r eval=FALSE}
@@ -21,18 +23,18 @@ union_cv_results(data_list = data)
 ```
 :::
 
-::: { #func.union_cv_results.params .sidebar }
-#### Parameters
+::: { #func.union_cv_results.args .sidebar }
+##### Arguments
 \
 
-::: { #func.union_cv_results.params.data_list .sidebar }
+::: { #func.union_cv_results.args.data_list .sidebar }
   - **data_list:** List of data frames representing the results of the _N-Fold Cross Validation_ method execution.; 
 
 :::
 :::
 
 ::: { #func.union_cv_results.details .sidebar }
-#### Details
+##### Details
 \
 
 The function is used to aggregate the _N-Fold Cross Validation_ method result data into a single data frame for further processing.
@@ -40,14 +42,14 @@ The function is used to aggregate the _N-Fold Cross Validation_ method result da
 :::
 
 ::: { #func.union_cv_results.value .sidebar }
-#### Value
+##### Value
 \
 
 A data frame that is a union of the input data frames.
 :::
 
 ::: { #func.union_cv_results.code .sidebar }
-#### Source Code
+##### Source Code
 \
 
 The soure code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) function is shown below:
@@ -69,13 +71,81 @@ The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Cap
 :::
 :::
 
-### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) Function {#func.data.plot}
+
+
+
+
+#### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) Function {#func.get_best_param.result}
 \
 
-Plots a graph based on the dataset passed in the [data](#func.data.plot.params.data) parameter, using both points and a line.
+Selects the best parameter value and the corresponding minimum Root Mean Squared Error value from the function's input arguments.
+
+::: { #func.get_best_param.result.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+get_best_param.result(param_values, rmses)
+
+```
+:::
+
+::: { #func.get_best_param.result.args .sidebar }
+##### Arguments
+\
+
+::: { #func.get_best_param.result.args.param_values .sidebar }
+  - **param_values:** List of parameters to choose the best value.; 
+
+:::
+::: { #func.get_best_param.result.args.rmses .sidebar }
+  - **rmses:** A list of Root Mean Squared Errors corresponding to the parameter values specified in the list passed by the argument [param_values](#func.get_best_param.result.args.param_values). 
+
+:::
+:::
+
+::: { #func.get_best_param.result.details .sidebar }
+##### Details
+\
+
+A parameter value that corresponds to the minimum RMSE is considered the best.
+
+:::
+
+::: { #func.get_best_param.result.value .sidebar }
+##### Value
+\
+
+A data frame that is a union of the input data frames.
+:::
+
+::: { #func.get_best_param.result.code .sidebar }
+##### Source Code
+\
+
+The soure code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) function is shown below:
+```{r eval=FALSE}
+get_best_param.result <- function(param_values, rmses){
+  best_pvalue_idx <- which.min(rmses)
+  c(param.best_value = param_values[best_pvalue_idx], 
+    best_RMSE = rmses[best_pvalue_idx])
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) is also available in the [Model training](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L431) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L442) script on _GitHub_.
+:::
+:::
+
+### Data Visualization Functions
+
+#### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) Function {#func.data.plot}
+\
+
+Plots a graph based on the dataset passed in the [data](#func.data.plot.args.data) parameter, using both points and a line.
 
 ::: { #func.data.plot.Usage .sidebar }
-#### Usage
+##### Usage
 \
 
 ```{r eval=FALSE}
@@ -90,46 +160,46 @@ data.plot(data,
 ```
 :::
 
-::: { #func.data.plot.params .sidebar }
-#### Parameters
+::: { #func.data.plot.args .sidebar }
+##### Arguments
 \
 
-::: { #func.data.plot.params.data .sidebar }
+::: { #func.data.plot.args.data .sidebar }
   - **data:** Dataset to use for the plot; 
 
 :::
-::: { #func.data.plot.params.title .sidebar }
+::: { #func.data.plot.args.title .sidebar }
   - **title:** Title of the plot; 
 
 :::
-::: { #func.data.plot.params.xname .sidebar }
+::: { #func.data.plot.args.xname .sidebar }
   - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
 
 :::
-::: { #func.data.plot.params.yname .sidebar }
+::: { #func.data.plot.args.yname .sidebar }
   - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
 
 :::
-::: { #func.data.plot.params.xlabel .sidebar }
+::: { #func.data.plot.args.xlabel .sidebar }
   - **xlabel = NULL:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
 
 :::
-::: { #func.data.plot.params.ylabel .sidebar }
+::: { #func.data.plot.args.ylabel .sidebar }
   - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
 
 :::
-::: { #func.data.plot.params.line_col .sidebar }
+::: { #func.data.plot.args.line_col .sidebar }
   - **line_col = blue:** The line color; 
 
 :::
-::: { #func.data.plot.params.normalize .sidebar }
+::: { #func.data.plot.args.normalize .sidebar }
   - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
 
 :::
 :::
 
 ::: { #func.data.plot.details .sidebar }
-#### Details
+##### Details
 \
 
 The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function and is a simple and convenient tool for visualizing the data of this project.
@@ -137,7 +207,7 @@ The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.or
 :::
 
 ::: { #func.data.plot.code .sidebar }
-#### Source Code
+##### Source Code
 \
 
 The soure code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) function is shown below:
@@ -180,17 +250,17 @@ The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-M
 :::
 :::
 
-### [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) Function {#func.data.plot.left.n}
+#### [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) Function {#func.data.plot.left.n}
 \
 
-Plots a graph based on the first $n$ rows (the $n$ is specified by the [left.n](#func.data.plot.left.n.params.left.n) parameter) of the dataset passed in the [data](#func.data.plot.left.n.params.data) parameter, using both points and a line.
+Plots a graph based on the first $n$ rows (the $n$ is specified by the [left.n](#func.data.plot.left.n.args.left.n) parameter) of the dataset passed in the [data](#func.data.plot.left.n.args.data) parameter, using both points and a line.
 
 ::: {.noteblock data-latex=""}
-The dataset passed in the [data](#func.data.plot.left.n.params.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.params.xname) parameter).
+The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.args.xname) parameter).
 :::
 
 ::: { #func.data.plot.left.n.Usage .sidebar }
-#### Usage
+##### Usage
 \
 
 ```{r eval=FALSE}
@@ -206,57 +276,57 @@ data.plot.left.n <- function(data,
 ```
 :::
 
-::: { #func.data.plot.left.n.params .sidebar }
-#### Parameters
+::: { #func.data.plot.left.n.args .sidebar }
+##### Arguments
 \
 
-::: { #func.data.plot.left.n.params.data .sidebar }
+::: { #func.data.plot.left.n.args.data .sidebar }
   - **data:** Dataset to use for the plot. 
 
 :::
-::: { #func.data.plot.left.n.params.left.n .sidebar }
+::: { #func.data.plot.left.n.args.left.n .sidebar }
   - **left.n:** If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
 
 :::
-::: { #func.data.plot.left.n.params.title .sidebar }
+::: { #func.data.plot.left.n.args.title .sidebar }
   - **title:** Title of the plot. 
 
 :::
-::: { #func.data.plot.left.n.params.xname .sidebar }
+::: { #func.data.plot.left.n.args.xname .sidebar }
   - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot. 
 
 :::
-::: { #func.data.plot.left.n.params.yname .sidebar }
+::: { #func.data.plot.left.n.args.yname .sidebar }
   - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot. 
 
 :::
-::: { #func.data.plot.left.n.params.xlabel .sidebar }
+::: { #func.data.plot.left.n.args.xlabel .sidebar }
   - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
-::: { #func.data.plot.left.n.params.ylabel .sidebar }
+::: { #func.data.plot.left.n.args.ylabel .sidebar }
   - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
-::: { #func.data.plot.left.n.params.line_col .sidebar }
+::: { #func.data.plot.left.n.args.line_col .sidebar }
   - **line_col = blue:** The line color. 
 
 :::
-::: { #func.data.plot.left.n.params.normalize .sidebar }
+::: { #func.data.plot.left.n.args.normalize .sidebar }
   - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
 
 :::
 :::
 
 ::: { #func.data.plot.left.n.details .sidebar }
-#### Details
+##### Details
 \
 
-The function is a wrapper for the [data.plot](#func.data.plot) function described above and is a simple and convenient tool for more detailed visualization of the left part of the graph, initially built based on the entire data set passed in the [data](#func.data.plot.left.n.params.data) parameter.
+The function is a wrapper for the [data.plot](#func.data.plot) function described above and is a simple and convenient tool for more detailed visualization of the left part of the graph, initially built based on the entire data set passed in the [data](#func.data.plot.left.n.args.data) parameter.
 :::
 
 ::: { #func.data.plot.left.n.code .sidebar }
-#### Source Code
+##### Source Code
 \
 
 The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) function is shown below:
@@ -297,17 +367,17 @@ The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Cap
 :::
 :::
 
-### [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) Function {#func.data.plot.left_detailed}
+#### [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) Function {#func.data.plot.left_detailed}
 \
 
-Combines two graphs plotted by the internally called helper functions in a grid: the first is a standard graph plotted by the [data.plot](#func.data.plot) function described above, the second is a graph based on the first $n$ rows (the $n$ is specified by the [left.n](#func.data.plot.left.n.params.left.n) parameter) of the dataset plotted by the [data.plot.left.n](#func.data.plot.left.n) function also described above (The data for both graphs is passed in the [data]).(#func.data.plot.left.n.params.data) parameter).
+Combines two graphs plotted by the internally called helper functions in a grid: the first is a standard graph plotted by the [data.plot](#func.data.plot) function described above, the second is a graph based on the first $n$ rows (the $n$ is specified by the [left.n](#func.data.plot.left.n.args.left.n) parameter) of the dataset plotted by the [data.plot.left.n](#func.data.plot.left.n) function also described above (The data for both graphs is passed in the [data]).(#func.data.plot.left.n.args.data) parameter).
 
 ::: {.noteblock data-latex=""}
-The dataset passed in the [data](#func.data.plot.left.n.params.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.params.xname) parameter).
+The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.args.xname) parameter).
 :::
 
 ::: { #func.data.plot.left_detailed.Usage .sidebar }
-#### Usage
+##### Usage
 \
 
 ```{r eval=FALSE}
@@ -327,65 +397,65 @@ data.plot.left_detailed <- function(data,
 ```
 :::
 
-::: { #func.data.plot.left_detailed.params .sidebar }
-#### Parameters
+::: { #func.data.plot.left_detailed.args .sidebar }
+##### Arguments
 \
 
-::: { #func.data.plot.left_detailed.params.data .sidebar }
+::: { #func.data.plot.left_detailed.args.data .sidebar }
   - **data:** Dataset to use for the plot. 
 
 :::
-::: { #func.data.plot.left.n.params.left.n .sidebar }
+::: { #func.data.plot.left.n.args.left.n .sidebar }
   - **left.n:** If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
 
 :::
-::: { #func.data.plot.left_detailed.params.title .sidebar }
+::: { #func.data.plot.left_detailed.args.title .sidebar }
   - **title:** Title of the plot. 
 
 :::
-::: { #func.data.plot.left_detailed.params.xname .sidebar }
+::: { #func.data.plot.left_detailed.args.xname .sidebar }
   - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot. 
 
 :::
-::: { #func.data.plot.left_detailed.params.yname .sidebar }
+::: { #func.data.plot.left_detailed.args.yname .sidebar }
   - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot. 
 
 :::
-::: { #func.data.plot.left_detailed.params.xlabel1 .sidebar }
+::: { #func.data.plot.left_detailed.args.xlabel1 .sidebar }
   - *xlabel1 = NULL*:** The $x$ axis label for the first plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
-::: { #func.data.plot.left_detailed.params.xlabel2 .sidebar }
+::: { #func.data.plot.left_detailed.args.xlabel2 .sidebar }
   - *xlabel2 = NULL*:** The $x$ axis label for the second plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
-::: { #func.data.plot.left_detailed.params.ylabel1 .sidebar }
+::: { #func.data.plot.left_detailed.args.ylabel1 .sidebar }
   - **ylabel1 = NULL:** The $y$ axis label for the first plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
-::: { #func.data.plot.left_detailed.params.ylabel2 .sidebar }
+::: { #func.data.plot.left_detailed.args.ylabel2 .sidebar }
   - **ylabel2 = NULL:** The $y$ axis label for the second plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
-::: { #func.data.plot.left_detailed.params.line_col .sidebar }
+::: { #func.data.plot.left_detailed.args.line_col .sidebar }
   - **line_col = blue:** The line color. 
 
 :::
-::: { #func.data.plot.left_detailed.params.normalize .sidebar }
+::: { #func.data.plot.left_detailed.args.normalize .sidebar }
   - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
 
 :::
 :::
 
 ::: { #func.data.plot.left_detailed.details .sidebar }
-#### Details
+##### Details
 \
 
 Under the hood, the function calls internally the [data.plot](#func.data.plot) and [data.plot.left.n](#func.data.plot.left.n) functions (described above) to build two graphs and combines them into a grid.
 :::
 
 ::: { #func.data.plot.left_detailed.code .sidebar }
-#### Source Code
+##### Source Code
 \
 
 The soure code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) function is shown below:
@@ -444,9 +514,11 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 
 \newpage
 
+
+
 ## Common Helper Functions
 
-### Common Helper Functions: Result RMSEs Table
+### Result RMSEs Table Functions
 \
 
 ::: {.noteblock data-latex=""}
@@ -469,51 +541,51 @@ The complete source code of this function is available in the [RMSEs Result Tibb
 ```
 :::
 
-::: { #func.RMSEs..params .sidebar }
-##### Parameters
+::: { #func.RMSEs..args .sidebar }
+##### Arguments
 \
 
-::: { #func.RMSEs..params.RMSEs .sidebar }
+::: { #func.RMSEs..args.RMSEs .sidebar }
   - ***RMSEs:*** _Resut (RMSEs) Table_ to modify;
 
 :::
 
-::: { #func.RMSEs..params. .sidebar }
+::: { #func.RMSEs..args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs..params. .sidebar }
+::: { #func.RMSEs..args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs..params. .sidebar }
+::: { #func.RMSEs..args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs..params. .sidebar }
+::: { #func.RMSEs..args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs..params. .sidebar }
+::: { #func.RMSEs..args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs..params. .sidebar }
+::: { #func.RMSEs..args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs..params. .sidebar }
+::: { #func.RMSEs..args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs..params. .sidebar }
+::: { #func.RMSEs..args. .sidebar }
   - ***:*** ;
 
 :::
@@ -557,31 +629,31 @@ RMSEs.AddRow(RMSEs,
 ```
 :::
 
-::: { #func.RMSEs.AddRow.params .sidebar }
-##### Parameters
+::: { #func.RMSEs.AddRow.args .sidebar }
+##### Arguments
 \
 
-::: { #func.RMSEs.AddRow.params.RMSEs .sidebar }
+::: { #func.RMSEs.AddRow.args.RMSEs .sidebar }
   - ***RMSEs:*** _Resut (RMSEs) Table_ to modify;
 
 :::
 
-::: { #func.RMSEs.AddRow.params.method .sidebar }
+::: { #func.RMSEs.AddRow.args.method .sidebar }
   - ***method:*** The _Method or Model_ being evaluated;
 
 :::
 
-::: { #func.RMSEs.AddRow.params.value .sidebar }
+::: { #func.RMSEs.AddRow.args.value .sidebar }
   - ***value:*** The _Root Mean Squared Error (RMSE)_ value;
 
 :::
 
-::: { #func.RMSEs.AddRow.params.comment .sidebar }
+::: { #func.RMSEs.AddRow.args.comment .sidebar }
   - ***comment:*** Detailed information about the record or any other comment (if needed);
 
 :::
 
-::: { #func.RMSEs.AddRow.params.before .sidebar }
+::: { #func.RMSEs.AddRow.args.before .sidebar }
   - ***before:*** One-based row index where to add the new rows, if NULL (default): after last row;
 
 :::
@@ -618,7 +690,7 @@ The modified _Resut (RMSEs) Table_.
 The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L49) script on _GitHub_.
 :::
 
-Adds a calculated column named _Diff_ to the _Result(RMSEs)_ table (passed in the [RMSEs](#func.RMSEs.AddDiffColumn.params.RMSEs) parameter) that contains, for each row, the difference between the value of the _RMSE_ column for the previous row and the value of the same column for the current row. This is true for each row except the first, for which the value is always zero.
+Adds a calculated column named _Diff_ to the _Result(RMSEs)_ table (passed in the [RMSEs](#func.RMSEs.AddDiffColumn.args.RMSEs) parameter) that contains, for each row, the difference between the value of the _RMSE_ column for the previous row and the value of the same column for the current row. This is true for each row except the first, for which the value is always zero.
 
 ::: { #func.RMSEs.AddDiffColumn.usage .sidebar }
 ##### Usage
@@ -629,11 +701,11 @@ RMSEs.ModifiedTable <- RMSEs.AddDiffColumn(RMSEs)
 ```
 :::
 
-::: { #func.RMSEs.AddDiffColumn.params .sidebar }
-##### Parameters
+::: { #func.RMSEs.AddDiffColumn.args .sidebar }
+##### Arguments
 \
 
-::: { #func.RMSEs.AddDiffColumn.params.RMSEs .sidebar }
+::: { #func.RMSEs.AddDiffColumn.args.RMSEs .sidebar }
   - ***RMSEs:*** _Resut (RMSEs) Table_ to modify;
 
 :::
@@ -698,26 +770,26 @@ RMSE_kable <- function(RMSEs,
 ```
 :::
 
-::: { #func.RMSE_kable.params .sidebar }
-##### Parameters
+::: { #func.RMSE_kable.args .sidebar }
+##### Arguments
 \
 
-::: { #func.RMSE_kable.params.RMSEs .sidebar }
+::: { #func.RMSE_kable.args.RMSEs .sidebar }
   - ***RMSEs:*** _Resut (RMSEs) Table_ to print;
 
 :::
 
-::: { #func.RMSE_kable.params.col1width .sidebar }
+::: { #func.RMSE_kable.args.col1width .sidebar }
   - ***col1width:*** Width of the first column;
 
 :::
 
-::: { #func.RMSE_kable.params.col2width .sidebar }
+::: { #func.RMSE_kable.args.col2width .sidebar }
   - ***col2width:*** Width of the second column;
 
 :::
 
-::: { #func.RMSE_kable.params.col3width .sidebar }
+::: { #func.RMSE_kable.args.col3width .sidebar }
   - ***col3width:*** Width of the third column;
 
 :::
@@ -774,31 +846,31 @@ RMSE.Total_kable <- function(RMSEs,
 ```
 :::
 
-::: { #func.RMSE.Total_kable.params .sidebar }
-##### Parameters
+::: { #func.RMSE.Total_kable.args .sidebar }
+##### Arguments
 \
 
-::: { #func.RMSE.Total_kable.params.RMSEs .sidebar }
+::: { #func.RMSE.Total_kable.args.RMSEs .sidebar }
   - ***RMSEs:*** _Resut (RMSEs) Table_ to print;
 
 :::
 
-::: { #func.RMSE.Total_kable.params. .sidebar }
+::: { #func.RMSE.Total_kable.args. .sidebar }
   - ***col1width:*** Width of the first column;
 
 :::
 
-::: { #func.RMSE.Total_kable.params. .sidebar }
+::: { #func.RMSE.Total_kable.args. .sidebar }
   - ***col2width:*** Width of the second column;
 
 :::
 
-::: { #func.RMSE.Total_kable.params. .sidebar }
+::: { #func.RMSE.Total_kable.args. .sidebar }
   - ***col3width:*** Width of the third column;
 
 :::
 
-::: { #func.RMSE.Total_kable.params. .sidebar }
+::: { #func.RMSE.Total_kable.args. .sidebar }
   - ***col4width:*** Width of the fourth column;
 
 :::
@@ -851,15 +923,15 @@ mean_reg(vals, lambda = 0, na.rm = TRUE)
 ```
 :::
 
-::: { #func.mean_reg.params .sidebar }
-##### Parameters
+::: { #func.mean_reg.args .sidebar }
+##### Arguments
 \
 
-::: { #func.mean_reg.params.vals .sidebar }
+::: { #func.mean_reg.args.vals .sidebar }
   - **vals:** values (usually a numeric vector) to calculate the _penalized mean_;
 
 :::
-::: { #func.mean_reg.params.lambda .sidebar }
+::: { #func.mean_reg.args.lambda .sidebar }
   - **lambda:** a _regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
 
 :::
@@ -874,7 +946,7 @@ mean_reg(vals, lambda = 0, na.rm = TRUE)
 We call this function internally from the functions that compute the _penalized estimates_  as described in section [23.6 Penalized Least Squares](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook_[@IDS2_23-6].
 
 ::: {.noteblock data-latex=""}
-If the [lambda](#func.mean_reg.params.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
+If the [lambda](#func.mean_reg.args.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
 :::
 :::
 
@@ -906,12 +978,12 @@ The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-Mo
 ##### Value
 \
 
-The function calculates the _penalized mean_ of the [vals](#func.mean_reg.params.vals) parameter as follows:
+The function calculates the _penalized mean_ of the [vals](#func.mean_reg.args.vals) parameter as follows:
 $$
 \mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
 $$
 
-When the [lambda](#func.mean_reg.params.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean as follows:
+When the [lambda](#func.mean_reg.args.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean as follows:
 $$
 \mu = \frac{1}{N} \sum_{i=1}^{N} x_i
 $$
@@ -938,12 +1010,12 @@ tune.model_param <- function(param_values,
 }  
 ```
 
-##### Parameters
+##### Arguments
 \
 
   - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
 
-::: { #func.tune.model_param.params.fn_tune.test.param_value .sidebar }
+::: { #func.tune.model_param.args.fn_tune.test.param_value .sidebar }
   - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
 
 :::  
@@ -1062,7 +1134,7 @@ model.tune.param_range <- function(loop_starter,
 ##### **Parameters**
 \
 
-::: { #func.model.tune.param_range.params.loop_starter .sidebar }
+::: { #func.model.tune.param_range.args.loop_starter .sidebar }
 ###### ***loop_starter***
 \
 A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval on which the parameter value that minimizes `RMSE` is sought.
@@ -1079,43 +1151,43 @@ seq(start, end, step)
 In fact, the `seq` function is called internally to generate the sequence during the execution of the `model.tune.param_range` function.
 :::
 
-::: { #func.model.tune.param_range.params.tune_dir_path .sidebar }
+::: { #func.model.tune.param_range.args.tune_dir_path .sidebar }
 ###### ***tune_dir_path***
 \
 To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the files are cached.
 :::
 
-::: { #func.model.tune.param_range.params.cache_file_base_name .sidebar }
+::: { #func.model.tune.param_range.args.cache_file_base_name .sidebar }
 ###### ***cache_file_base_name***
 \
 The algorithm generates unique names for cache files based on this and the `loop_starter` parameter, as well as some other intermediate values calculated during the execution.
 :::
 
-::: { #func.model.tune.param_range.params.fn_tune.test.param_value .sidebar }
+::: { #func.model.tune.param_range.args.fn_tune.test.param_value .sidebar }
 ###### ***fn_tune.test.param_value***
 \
 This is a helper function name that is passed to the same-named parameter of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during the execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 :::
 
-::: { #func.model.tune.param_range.params.max.identical.min_RMSE.count .sidebar }
+::: { #func.model.tune.param_range.args.max.identical.min_RMSE.count .sidebar }
 ###### ***max.identical.min_RMSE.count = 4***
 \
 If more than one identical minimum `RMSE` value is calculated during execution, the number of identical minimums is limited by the value of this parameter. When it is reached, the algorithm considers the task execution to be complete.
 :::
 
-::: { #func.model.tune.param_range.params.endpoint.min_diff .sidebar }
+::: { #func.model.tune.param_range.args.endpoint.min_diff .sidebar }
 ###### ***endpoint.min_diff = 0***
 \
 Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the `Details` section [below](#func.model.tune.param_range.details)).
 :::
 
-::: { #func.model.tune.param_range.params.break.if_min .sidebar }
+::: { #func.model.tune.param_range.args.break.if_min .sidebar }
 ###### ***break.if_min = TRUE***
 \
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
 :::
 
-::: { #func.model.tune.param_range.params.steps.beyond_min .sidebar }
+::: { #func.model.tune.param_range.args.steps.beyond_min .sidebar }
 ###### ***steps.beyond_min = 2***
 \
 This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
@@ -1123,13 +1195,13 @@ This is a parameter that is required for the [tune.model_param](https://github.c
 ::: { #func.model.tune.param_range.details .sidebar }
 ##### **Details** 
 \
-First, the function generates a sequence of the `input parameter values` based on the `loop_starter` parameter values, as described above (see the [loop_starter](#func.model.tune.param_range.params.loop_starter) parameter description for the details), which is used as one of the input parameters for the helper function [tune.model_param](#func.tune.model_param), which is repeatedly called during the execution, performing fine-tuning of the model.
+First, the function generates a sequence of the `input parameter values` based on the `loop_starter` parameter values, as described above (see the [loop_starter](#func.model.tune.param_range.args.loop_starter) parameter description for the details), which is used as one of the input parameters for the helper function [tune.model_param](#func.tune.model_param), which is repeatedly called during the execution, performing fine-tuning of the model.
 
 The `tune.model_param` function returns a range of input parameter values associated with the set of corresponding _Root Mean Squared Errors_ that is also guaranteed to include their minimum value, as described in the [Value](#func.tune.model_param.value) subsection of the [tune.model_param](#func.tune.model_param) function description.
 
 Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) (see the description below) and, using one more helper function [get_best_param.result](#func.get_best_param.result)  (see the description below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
 
-The found values of the boundary indices are then used as the endpoints of a new interval to regenerate the sequence based on it in the next iteration, just as it was done based on the values of the `loop_starter` parameter at the very beginning of the execution. The value of `step divisor`, used to calculate the step of the generated sequence, remains unchanged during the entire execution (see the description of the [loop_strarter](#func.model.tune.param_range.params.loop_starter) parameter above for details).
+The found values of the boundary indices are then used as the endpoints of a new interval to regenerate the sequence based on it in the next iteration, just as it was done based on the values of the `loop_starter` parameter at the very beginning of the execution. The value of `step divisor`, used to calculate the step of the generated sequence, remains unchanged during the entire execution (see the description of the [loop_strarter](#func.model.tune.param_range.args.loop_starter) parameter above for details).
 
 Thus, with each subsequent iteration, the minimum `RMSE` value is calculated more accurately, over an ever-decreasing interval, with the boundary values tending to the minimum `RMSE` value, and the sequence generated with an ever-decreasing step.
 
@@ -1319,10 +1391,10 @@ get_fine_tune.param.endpoints <- function(preset.result) {
 }
 ```
 
-##### Parameters
+##### Arguments
 \
 
-::: {#func.get_fine_tune.param.endpoints.params.preset.result .sidebar }
+::: {#func.get_fine_tune.param.endpoints.args.preset.result .sidebar }
 ###### ***preset.result***
 \
 A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
@@ -1343,7 +1415,7 @@ A data structure compatible with the `tuned.result` item of the data structure r
 ##### Details
 \
 
-Under the hood, the function internally calls another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described below to figure out the boundary indices of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in the [preset.result](#func.get_fine_tune.param.endpoints.params.preset.result) parameter.
+Under the hood, the function internally calls another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described below to figure out the boundary indices of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) parameter.
 
 ##### Value
 \
@@ -1389,10 +1461,10 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 }
 ```
 
-##### Parameters
+##### Arguments
 \
 
-::: {#func.get_fine_tune.param.endpoints.idx.params.preset.result .sidebar }
+::: {#func.get_fine_tune.param.endpoints.idx.args.preset.result .sidebar }
 ###### ***preset.result***
 \
 A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
@@ -1475,7 +1547,7 @@ get_best_param.result <- function(param_values, rmses){
 
 ```
 
-##### Parameters
+##### Arguments
 \
 A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the `RMSE`.
   
