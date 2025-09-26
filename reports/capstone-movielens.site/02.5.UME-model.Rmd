@@ -317,7 +317,7 @@ Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kabl
 ### UME Model Regularization
 \
 
-[Section _23.6 Penalized least squares_ of the *Course Textbook*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects: 
+[Section 23.6 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the *Course Textbook* explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects[@IDS2_23-6]: 
 $$
 \sum_{j=1}^{n} \beta_j^2
 $$ 

@@ -57,7 +57,7 @@ we exclude entries using the semi_join function from the Validation Set.")
 Below are the data consistency verification results")
   put(validation.left_join.Nas)
   
-  # Return result datassets ----------------------------------------------------    
+  # Return result datassets    
   list(train_set = train_set, 
        validation_set = validation_set)
 }

@@ -111,7 +111,7 @@ data.plot(data,
 
 :::
 ::: { #func.data.plot.params.xlabel .sidebar }
-  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+  - **xlabel = NULL:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
 
 :::
 ::: { #func.data.plot.params.ylabel .sidebar }
@@ -140,7 +140,7 @@ The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.or
 #### Source Code
 \
 
-The soure code of the [data.plot]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) function is shown below:
+The soure code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) function is shown below:
 ```{r eval=FALSE}
 data.plot <- function(data, 
                       title, 

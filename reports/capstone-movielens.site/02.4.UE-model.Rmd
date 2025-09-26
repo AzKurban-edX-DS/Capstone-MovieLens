@@ -4,9 +4,9 @@
 ### User Effect Anasysis
 \
 
-To improve our model let's now take into consideration user effects as explained in [Section _23.4 User effects_](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the *Course Textbook*[@IDS2_23-4].
+To improve our model let's now take into consideration user effects as explained in [Section 23.4 *User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the *Course Textbook*.
 
-If we visualize the average rating for each user the way the [the author](https://x.com/rafalab) shows, we can see that there is substantial variability in the average ratings across users: 
+If we visualize the average rating for each user the way the [the author](https://x.com/rafalab) shows, we can see that there is substantial variability in the average ratings across users[@IDS2_23-4]: 
 ```{r}
 hist(edx.user_mean_ratings$mean_rating, nclass = 30)
 ```

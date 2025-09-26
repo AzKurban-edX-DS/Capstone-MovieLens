@@ -1,6 +1,6 @@
 # Methods and Analysis
 ::: {.noteblock data-latex=""}
-All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r/src)[@edx_capstone_movielens]. 
+All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r)[@edx_capstone_movielens]. 
 :::
 
 ## Defining Logging and Time Measuring Helper Functions
@@ -79,7 +79,7 @@ put_log2 <- function(msg_template, arg1, arg2){
 ```
 
 ::: {.noteblock data-latex=""}
-The full source code of these functions is available in the [Logging Helper functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L20) script on _GitHub_.
+The full source code of these functions is available in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R) script on _GitHub_.
 :::
 
 \newpage
@@ -87,28 +87,85 @@ The full source code of these functions is available in the [Logging Helper func
 ## Preparing train and set datasets
 \
 
-We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 23.1.1 Movielens data](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1].We will also use the _5-Fold Cross Validation_ method as described in [Section 29.6 Cross validation](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook_. 
+We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 23.1.1 *Movielens data*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) of the _Course Textbook_ mentioned above[@IDS2_23-1-1].We will also use the _5-Fold Cross Validation_ method as described in [Section 29.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook_[@IDS2_29-6]. 
 To prepare datasets for processing, we will use the following functions, specifically designed for these operations:
 
-::: { #func.make_source_datasets .sidebar }
-  - [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87)
-:::
+  - [init_source_datasets](#func.init_source_datasets)
 
-::: { #func.init_source_datasets .sidebar }
-  - [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L209)
-:::
+  - [make_source_datasets](#func.make_source_datasets)
 
 ::: {.noteblock data-latex=""}
 The full source code of the function listed above is available in the [Initialize input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L86) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
 :::
 
-### The [make_source_datasets](#func.make_source_datasets) function
-\
+### [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L209) Function {#func.init_source_datasets}
+
+The _init_source_datasets_ function checks whether the required source datasets are cached on the hard disk, and, if so, loads the datasets from the cache file.
+
+Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function, which creates all the necessary datasets.
+
+Finally, it stores the data into a cache file on the disk. 
+
+The simplified version of the function's source code is shown below:
+
+```{r eval=FALSE}
+init_source_datasets <- function(){
+  put_log("Method `init_source_datasets`: 
+Initializing sourse datasets...")
+  
+  if(file.exists(movielens_datasets_file_path)){
+    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
+  } else if(file.exists(movielens_datasets_zip)) {
+    put_log("Method `init_source_datasets`: 
+Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...") 
+    
+    unzip(movielens_datasets_zip, movielens_datasets_file_path)
+    
+    if(!file.exists(movielens_datasets_file_path)) {
+      put_log("Method `init_source_datasets`: 
+File does not exists: {movielens_datasets_file}.")
+      stop("Failed to unzip MovieLens data zip-archive.")
+    }
+    
+    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
+  } else {
+    put_log("Method `init_source_datasets`: 
+Creating datasets...")
+    library(edx.capstone.movielens.data)
+    put_log("Method `init_source_datasets`: 
+Library attached: 'edx.capstone.movielens.data'")
+    
+    movielens_datasets <- make_source_datasets()
+    put("Method `init_source_datasets`: 
+All required datasets have been created.")
+    
+    put_log("Method `init_source_datasets`: 
+Saving newly created input datasets to file...")
+    save(movielens_datasets, file =  movielens_datasets_file_path)
+
+    if(!file.exists(movielens_datasets_file_path)) {
+      put_log("Method `init_source_datasets`: 
+File was not created: {movielens_datasets_file}.")
+      warning("MovieLens data was not saved to file.")
+    } else {
+      put_log("Method `init_source_datasets`: 
+Datasets have been saved to file: {movielens_datasets_file_path}.") 
+
+      put_log("Method `init_source_datasets`: 
+Creating zip-archive: {movielens_datasets_zip}...") 
+      zip(movielens_datasets_zip, movielens_datasets_file_path)
+    # ...
+    }
+  }
+  movielens_datasets
+}
+```
+
+### [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87) Function {#func.make_source_datasets}
 
 Let's take a closer look at the objects we will receive as a result of executing this function.
 
 ```{r eval=FALSE}
-
 make_source_datasets <- function(){
   # ...
   list(edx_CV = edx_CV,
@@ -123,7 +180,7 @@ make_source_datasets <- function(){
 #### `edx.mx` Matrix Object
 \
 
-We will use the array representation described in [Section 17.5 of the Textbook](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), for the training data: we denote ranking for movie $j$ by user $i$ as $y_{i,j}$. To create this matrix, we use `tidyr::pivot_wider` function:
+We will use the array representation described in [Section 17.5 *Analysis of variance (ANOVA)*](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova) of the _Course Textbook_, for the training data[@IDS2_17-5]. For this purpose, we will convert the `edx` dataset into a matrix using the `tidyr::pivot_wider` function:
 
 ```{r eval=FALSE}
 
@@ -174,7 +231,7 @@ splitGenreRows <- function(data){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the function mentioned above is also available in the [Initialize input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L86) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
+The [source code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L71) of the function mentioned above is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L1) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
 :::
 
 #### `movie_map` Object
@@ -193,7 +250,7 @@ str(movie_map)
 summary(movie_map)
 ```
 
-Note that titles cannot be considered unique, so we can't use them as IDs[@IDS2_23-1-1].
+Note that titles cannot be considered unique, so we cannot use them as IDs[@IDS2_23-1-1].
 
 
 #### `date_days_map` Object
@@ -222,7 +279,7 @@ To be able to map the date, year, and number of days since the earliest record i
 \
 
 Here we have a list of sample objects we need to perform the _5-Fold Cross Validation_ 
-as explained in [Section 29.6.1 K-fold cross validation](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook_:
+as explained in [Section 29.6.1 *K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook_[@IDS2_29-6-1]:
 ```{r eval=FALSE}
   start <- put_start_date()
   edx_CV <- lapply(kfold_index,  function(fold_i){
@@ -350,7 +407,7 @@ Below are the data consistency verification results")
 ```
 
 ::: {.noteblock data-latex=""}
-The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L15) function is defined in the same script as the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L87)` one, from where it is called.
+The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L15) function is defined in the same script as the [make_source_datasets](#func.make_source_datasets), from which it is called.
 :::
 
 \newpage
@@ -358,12 +415,16 @@ The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-M
 ### Common Helper Functions
 \
 
+::: {.noteblock data-latex=""}
+All the _Common Helper functions_ described below in this section are defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_. 
+:::
+
 For our further analysis, we are going to use the following _common helper functions_:
 
 #### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L4) function {#func.clamp}
 \
 
-As explained in [Section  24.4 User effects](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings can’t be below 0.5 or above 5. For this reason, we will use the `clamp` function described in that section:
+As explained in [Section  23.4 *User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings cannot be below 0.5 or above 5. For this reason, we will use the `clamp` function described in that section[@IDS2_23-4]:
 ```{r eval=FALSE}
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 ```
@@ -387,10 +448,6 @@ rmse2 <- function(true_ratings, predicted_ratings) {
   rmse(true_ratings - predicted_ratings)
 }
 ```
-
-::: {.noteblock data-latex=""}
-All the _common helper functions_, including those described above, are defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_. 
-:::
 
 \newpage
 
