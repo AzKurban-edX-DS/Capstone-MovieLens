@@ -1,4 +1,6 @@
-# UMGYDE Model Support Functions -----------------------------------------------
+# User+Movie+Genre+Day Effect (UMGYDE) Model Support Functions 
+
+## UMGYDE Model Utility Functions ----------------------------------------------
 calc_day_general_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
     stop("Function:calc_day_general_effect 
@@ -167,7 +169,7 @@ calc_UMGY_SmoothedDay_effect.RMSE <- function(test_set, day_smoothed_effect){
 calc_UMGY_SmoothedDay_effect.RMSE.cv <- function(day_smoothed_effect){
   sqrt(calc_UMGY_SmoothedDay_effect.MSE.cv(day_smoothed_effect))
 }
-## Tuning `loess` Parameters ---------------------------------------------------
+## UMGYDE Model: Tuning `loess` Parameters -------------------------------------
 train_UMGY_SmoothedDay_effect.RMSE.cv <- function(degree = NA, span = NA) {
   put_log2("Function `train_UMGY_SmoothedDay_effect.RMSE.cv`:
 Computing RMSE using `loess` function with the following parameters: 
@@ -219,7 +221,7 @@ get_best.RMSE <- function(span_rmses){
   names(rmse) <- c("Span", "RMSE")
   rmse
 }
-## Regularization --------------------------------------------------------------
+## UMGYDE Model Regularization --------------------------------------------------------------
 regularize.train_UMGYD_effect <- function(train_set, lambda) {
   best_degree <- lss.UMGYDE.best_params["degree"]
   best_span <- lss.UMGYDE.best_params["span"]

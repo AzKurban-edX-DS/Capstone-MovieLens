@@ -1,3 +1,5 @@
+# Matrix Factorization Functions
+
 mf.residual.dataframe <- function(train_set){
   train_set |> 
     left_join(edx.user_effect, by = "userId") |>

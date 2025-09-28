@@ -50,19 +50,19 @@ where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v
 #### [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L1) Function {#func.mf.residual.dataframe}
 \
 
-::: { #func.mf.residual.dataframe.params.description .sidebar }
+::: { #func.mf.residual.dataframe.args.description .sidebar }
 ##### Description
 \
 
 Computes residuals, defined as the difference between the observed and predicted values of the fully trained _UMGYDE Model_ as described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section.
 
-##### Parameters
+##### Arguments
 \
 
 ###### ***train_set***
 \
 
-::: { #func.mf.residual.dataframe.params.train_set .sidebar }
+::: { #func.mf.residual.dataframe.args.train_set .sidebar }
 The dataset to be trained.
 :::
 
@@ -91,19 +91,19 @@ The source code of the [mf.residual.dataframe](https://github.com/AzKurban-edX-D
 ##### Return
 \
 
-A data frame object containing the residuals (see the [Description](#func.mf.residual.dataframe.params.description) above for the details). 
+A data frame object containing the residuals (see the [Description](#func.mf.residual.dataframe.args.description) above for the details). 
 
 \newpage
 
 #### [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) Function {#func.UMGYDE_model.predict}
 \
 
-This is a wrapper for the [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) function described in the [UMGYDE Model: Helper Functions] section above with the fixed [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.params.day_smoothed_effect) parameter value obtained after the _UMGYDE Model_ (described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section)  has been fully trained.
+This is a wrapper for the [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) function described in the [UMGYDE Model: Helper Functions] section above with the fixed [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect) parameter value obtained after the _UMGYDE Model_ (described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section)  has been fully trained.
 
-##### Parameters
+##### Arguments
 \
 
-::: { #func.UMGYDE_model.predict.params.test_set .sidebar }
+::: { #func.UMGYDE_model.predict.args.test_set .sidebar }
 ###### ***test_set***
 \
 

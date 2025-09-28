@@ -1,4 +1,6 @@
-# UME Model Support Functions --------------------------------------------------
+# User+Movie Effect (UME) Model Support Functions 
+
+## UME Model Utility Functions --------------------------------------------------
 train_user_movie_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
     stop("Function: train_user_movie_effect
@@ -85,7 +87,7 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
   mean(user_movie_effects_MSEs)
 }
 
-## Regularization --------------------------------------------------------------
+## UME Model Regularization ----------------------------------------------------
 regularize.test_lambda.UM_effect.cv <- function(lambda){
   if (is.na(lambda)) {
     stop("Function: regularize.test_lambda.UM_effect.cv

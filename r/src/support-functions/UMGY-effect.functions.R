@@ -1,4 +1,6 @@
-# UMGYE Model Support Functions ------------------------------------------------
+# User+Movie+Genre Effect (UMGYE) Model Support Functions 
+
+## UMGYE Model Utility Functions -----------------------------------------------
 calc_date_general_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
     stop("Function: calc_date_general_effect
@@ -124,7 +126,7 @@ calc_UMGY_effect_RMSE.cv <- function(UMGY_effect){
   UMGY_effect_RMSE
 }
 
-## Regularization --------------------------------------------------------------
+## UMGYE Model Regularization --------------------------------------------------------------
 regularize.test_lambda.UMGY_effect.cv <- function(lambda){
   if (is.na(lambda)) {
     stop("Function: regularize.test_lambda.UMGY_effect.cv
