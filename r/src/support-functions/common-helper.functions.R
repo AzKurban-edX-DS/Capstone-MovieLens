@@ -1,4 +1,5 @@
-## Common Helper Functions -----------------------------------------------------
+# Common Helper Functions
+Utility Functions --------------------------------------------------------------
 # Because we know ratings can’t be below 0.5 or above 5, 
 # we define the function clamp:
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)

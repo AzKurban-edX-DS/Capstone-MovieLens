@@ -517,6 +517,7 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 
 
 ## Common Helper Functions
+### Utility Functions
 
 ### Result RMSEs Table Functions
 \

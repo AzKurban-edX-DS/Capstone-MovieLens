@@ -1,4 +1,5 @@
-### Logging Helper functions
+# Logging Helper functions
+
 open_logfile <- function(file_name){
   log_file_name <- as.character(Sys.time()) |> 
     str_replace_all(':', '_') |> 
