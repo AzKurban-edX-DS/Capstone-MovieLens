@@ -530,7 +530,7 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 ## Common Helper Functions
 ### Utility Functions {#appndx_a.CHF.utility_funcs}
 
-#### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/common-helper.functions.R#L6) Function {#func.clamp}
+#### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) Function {#func.clamp}
 \
 
 Clamps the input value passed in [r](#func.clamp.args.r) argument between the values passed in [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments. 
@@ -585,7 +585,7 @@ The value clamped between [min](#func.clamp.args.min) and [max](#func.clamp.args
 ##### Source Code
 \
 
-The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/common-helper.functions.R#L6) function is shown below:
+The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) function is shown below:
 ```{r eval=FALSE}
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 ```
@@ -594,7 +594,6 @@ clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L3) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) script on _GitHub_.
 :::
 :::
-
 
 
 
