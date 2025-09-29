@@ -78,9 +78,6 @@ put_log2 <- function(msg_template, arg1, arg2){
 # ...
 ```
 
-::: {.noteblock data-latex=""}
-The full source code of these functions is available in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R) script on _GitHub_.
-:::
 
 \newpage
 
