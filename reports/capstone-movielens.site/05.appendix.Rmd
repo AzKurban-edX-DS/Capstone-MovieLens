@@ -3,8 +3,19 @@
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+The complete source code of the functions described in this section is available in the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
 :::
+
+### Data Processing Functions
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) script on _GitHub_.
+:::
+
+#### [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) Function {#func.sample_train_validation_sets}
+\
+
+##### Usage
 
 ### Model Training Functions
 
@@ -52,7 +63,7 @@ A data frame that is a union of the input data frames.
 ##### Source Code
 \
 
-The soure code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) function is shown below:
+The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) function is shown below:
 ```{r eval=FALSE}
 union_cv_results <- function(data_list) {
   out_dat <- data_list[[1]]
@@ -517,7 +528,77 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 
 
 ## Common Helper Functions
-### Utility Functions
+### Utility Functions {#appndx_a.CHF.utility_funcs}
+
+#### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/common-helper.functions.R#L6) Function {#func.clamp}
+\
+
+Clamps the input value passed in [r](#func.clamp.args.r) argument between the values passed in [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments. 
+
+::: { #func.clamp.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+r_clamped <- clamp(r, min = 0.5, max = 5)
+```
+:::
+
+::: { #func.clamp.args .sidebar }
+##### Arguments
+\
+
+::: { #func.clamp.args.r .sidebar }
+  - **r:** Value to clamp; 
+
+:::
+::: { #func.clamp.args.min .sidebar }
+  - **min:** Minimum allowed value; 
+
+:::
+:::
+::: { #func.clamp.args.max .sidebar }
+  - **max:** Maximum allowed value; 
+
+:::
+:::
+
+::: { #func.clamp.details .sidebar }
+##### Details
+\
+
+As explained in [Section  23.4 *User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings cannot be below 0.5 or above 5. For this reason, we need a function described in that section[@IDS2_23-4]:
+
+Therefore, in our project this function is used to clamp the computed movie rating values between 0.5 and 5.
+
+:::
+
+::: { #func.clamp.value .sidebar }
+##### Value
+\
+
+The value clamped between [min](#func.clamp.args.min) and [max](#func.clamp.args.max) argument values.
+
+:::
+
+::: { #func.clamp.code .sidebar }
+##### Source Code
+\
+
+The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/common-helper.functions.R#L6) function is shown below:
+```{r eval=FALSE}
+clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L6) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) script on _GitHub_.
+:::
+:::
+
+
+
+
+
 
 ### Result RMSEs Table Functions
 \
@@ -902,7 +983,7 @@ Under the hood, the function calls internally the [RMSE_kable](#func.RMSE_kable)
 :::
 :::
 
-### Common Helper Functions: Regularization {#appndx_a.CHF.regularization}
+### Regularization {#appndx_a.CHF.regularization}
 \
 
 ::: {.noteblock data-latex=""}

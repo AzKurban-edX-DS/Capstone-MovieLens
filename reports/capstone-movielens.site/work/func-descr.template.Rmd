@@ -1,0 +1,63 @@
+---
+title: "func-descr.template"
+output: html_document
+---
+
+#### [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/.R#LX) Function {#func.@@func}
+\
+
+::: { #func.@@func.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+@@func()
+
+```
+:::
+
+::: { #func.@@func.args .sidebar }
+##### Arguments
+\
+
+::: { #func.@@func.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.@@func.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.@@func.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.@@func.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.@@func.code .sidebar }
+##### Source Code
+\
+
+The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L) section of the [@@script.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#L432) script on _GitHub_.
+:::
+:::
+
+
+
+
+

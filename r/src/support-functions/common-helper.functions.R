@@ -1,5 +1,6 @@
 # Common Helper Functions
-Utility Functions --------------------------------------------------------------
+
+##Utility Functions --------------------------------------------------------------
 # Because we know ratings can’t be below 0.5 or above 5, 
 # we define the function clamp:
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
@@ -17,7 +18,6 @@ make_ordinal_no <- function(n){
 }
 
 ## (R)MSE-related functions ---------------------------------------------------- 
-
 #> Let's define some helper functions that we will use in our subsequent analysis:
 mse <- function(r) mean(r^2)
 mse_cv <- function(r_list) {
