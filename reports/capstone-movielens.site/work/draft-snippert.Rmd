@@ -68,7 +68,7 @@ open_logfile <- function(file_name){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [open_logfile](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) function is also available in the [Logging Helper functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L1) section of the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) script on _GitHub_.
+The source code of the [open_logfile](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) script on _GitHub_.
 :::
 :::
 
