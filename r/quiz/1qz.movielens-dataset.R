@@ -64,6 +64,9 @@ edx %>% filter(rating == 3) %>% tally()
 #========================================================
 
 #### Q3
+
+# How many different movies are in the edx dataset?
+
 #library(dplyr)
 
 movies <- edx |> group_by(movieId) |>
@@ -78,6 +81,9 @@ n_distinct(edx$movieId)
 #========================================================
 
 #### Q4
+
+# How many different users are in the edx dataset?
+
 n_distinct(edx$userId)
 #> [1] 69878
 #--------------------------------------------------------
@@ -88,6 +94,9 @@ n_distinct(edx$userId)
 #========================================================
 
 #### Q5
+
+# How many movie ratings are in each of the following genres in the edx dataset?
+
 library(stringr)
 
 genres_ratings <- edx |> group_by(genres) |>
@@ -123,38 +132,23 @@ dim(ind)
 test <- c("Drama_Drama_Drama", "Drama_Drama", "Drama", "Comedy", "Thriller")
 str_detect(test, "Drama")
 
-# dramas <- genres_ratings |> filter(sum(str_detect(genres, "Drama")) > 0) |>
-#   mutate(n_dramas = sum(str_detect(genres, "Drama")))
-#          
-# dramas
-# 
-# drama_ind = which(genres_ratings$genres == "Drama")
-
-# genres_ratings[which(genres_ratings$genres == "Comedy"),]
-# # # A tibble: 1 × 2
-# # genres ratings
-# # <chr>    <int>
-# #   1 Comedy  700889
-# 
-# genres_ratings[which(genres_ratings$genres == "Thriller"),]
-# 
-# genres_ratings[which(genres_ratings$genres == "Romance"),]
-
-
-
+# Drama:
 drama_ratings <- genres_ratings[str_detect(genres_ratings$genres, "Drama"),]
 drama_ratings
 sum(drama_ratings$ratings)
 #> [1] 3910127
 
+# Comedy:
 comedy_ratings <- genres_ratings[str_detect(genres_ratings$genres, "Comedy"),]
 sum(comedy_ratings$ratings)
 #> [1] 3540930
 
+# Thriller:
 thriller_ratings <- genres_ratings[str_detect(genres_ratings$genres, "Thriller"),]
 sum(thriller_ratings$ratings)
 #> [1] 2325899
 
+# Romance:
 romance_ratings <- genres_ratings[str_detect(genres_ratings$genres, "Romance"),]
 sum(romance_ratings$ratings)
 #> [1] 1712100
@@ -185,6 +179,9 @@ edx %>% separate_rows(genres, sep = "\\|") %>%
 #========================================================
 
 #### Q6
+
+# Which movie has the greatest number of ratings?
+
 str(edx)
 
 movie_ratings <- edx |> group_by(title) |>
@@ -198,6 +195,10 @@ head(movie_ratings)
 
 movie_ratings[which.max(movie_ratings$ratings),]
 
+# # A tibble: 1 × 2
+#   title               ratings
+#   <chr>                 <int>
+# 1 Pulp Fiction (1994)   31362
 #--------------------------------------------------------
 ##### Explanation
 # The following code will rank the movies in order of number of ratings:
@@ -206,9 +207,27 @@ edx %>% group_by(movieId, title) %>%
   summarize(count = n()) %>%
   arrange(desc(count))
 
+# # A tibble: 10,677 × 3
+# # Groups:   movieId [10,677]
+#    movieId title                                                        count
+#      <int> <chr>                                                        <int>
+#  1     296 Pulp Fiction (1994)                                          31362
+#  2     356 Forrest Gump (1994)                                          31079
+#  3     593 Silence of the Lambs, The (1991)                             30382
+#  4     480 Jurassic Park (1993)                                         29360
+#  5     318 Shawshank Redemption, The (1994)                             28015
+#  6     110 Braveheart (1995)                                            26212
+#  7     457 Fugitive, The (1993)                                         25998
+#  8     589 Terminator 2: Judgment Day (1991)                            25984
+#  9     260 Star Wars: Episode IV - A New Hope (a.k.a. Star Wars) (1977) 25672
+# 10     150 Apollo 13 (1995)                                             24284
+# # ℹ 10,667 more rows
+# # ℹ Use `print(n = ...)` to see more rows
 #========================================================
 
 #### Q7
+
+# What are the five most given ratings in order from most to least?
 
 ratings <- edx |>  group_by(movieId, rating) |>
   summarise(count = n()) |>
@@ -251,15 +270,34 @@ edx |>  group_by(rating) |>
 
 edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
   arrange(desc(count))
+# # A tibble: 5 × 2
+#   rating   count
+#    <dbl>   <int>
+# 1    4   2588430
+# 2    3   2121240
+# 3    5   1390114
+# 4    3.5  791624
+# 5    2    711422
+
 #---------------------------------
 ## Test
 edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
   arrange(count)
-
+# # A tibble: 5 × 2
+#   rating   count
+#    <dbl>   <int>
+# 1    2    711422
+# 2    3.5  791624
+# 3    5   1390114
+# 4    3   2121240
+# 5    4   2588430
 
 #========================================================
 
 #### Q8
+
+#> True or False: In general, half star ratings are less common than whole star ratings 
+#> (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.).
 
 ratings <- edx |>  group_by(rating) |>
   summarise(count = n()) |>
@@ -291,7 +329,9 @@ edx %>%
   group_by(rating) %>%
   summarize(count = n()) %>%
   ggplot(aes(x = rating, y = count)) +
-  geom_line() 
+  geom_line()
+
+# The answer is: TRUE.
 #========================================================
 
 #### Q
