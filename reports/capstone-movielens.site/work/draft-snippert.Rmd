@@ -3,68 +3,72 @@ title: "func-descr.template"
 output: html_document
 ---
 
-#### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/common-helper.functions.R#L6) Function {#func.clamp}
+#### [open_logfile](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) Function {#func.open_logfile}
 \
 
-Clamps the input value passed in [r](#func.clamp.args.r) argument between the values passed in [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments. 
+A function to initialize the log file.
 
-::: { #func.clamp.Usage .sidebar }
+::: { #func.open_logfile.Usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
-r_clamped <- clamp(r, min = 0.5, max = 5)
+open_logfile(file_name)
 ```
 :::
 
-::: { #func.clamp.args .sidebar }
+::: { #func.open_logfile.args .sidebar }
 ##### Arguments
 \
 
-::: { #func.clamp.args.r .sidebar }
-  - **r:** Value to clamp; 
-
-:::
-::: { #func.clamp.args.min .sidebar }
-  - **min:** Minimum allowed value; 
-
-:::
-:::
-::: { #func.clamp.args.max .sidebar }
-  - **max:** Maximum allowed value; 
+::: { #func.open_logfile.args.r .sidebar }
+  - **file_name:** A name used as a base to generate a unique log file name; 
 
 :::
 :::
 
-::: { #func.clamp.details .sidebar }
+::: { #func.open_logfile.details .sidebar }
 ##### Details
 \
 
-As explained in [Section  23.4 *User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings cannot be below 0.5 or above 5. For this reason, we need a function described in that section[@IDS2_23-4]:
+This function is a wrapper to [logr::log_open](https://www.rdocumentation.org/packages/logr/versions/1.3.9/topics/log_open) function. It also calls internally the following functions to generate a unique file name based on the [file_name] argument and _system time_:
+  - [Sys.time]();
+  - [stringr::str_replace](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace);
+  - [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace)
 
-Therefore, in our project this function is used to clamp the computed movie rating values between 0.5 and 5.
+For more information on the _inner functions_ listed above, see the [R Documentation](https://www.rdocumentation.org/).
 
 :::
 
-::: { #func.clamp.value .sidebar }
+::: { #func.open_logfile.value .sidebar }
 ##### Value
 \
 
-The value clamped between [min](#func.clamp.args.min) and [max](#func.clamp.args.max) argument values.
+The path of the log.
 
 :::
 
-::: { #func.clamp.code .sidebar }
+::: { #func.open_logfile.code .sidebar }
 ##### Source Code
 \
 
-The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/common-helper.functions.R#L6) function is shown below:
+The source code of the [open_logfile](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) function is shown below:
 ```{r eval=FALSE}
-clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
+library(logr)
+library(stringr)
+
+open_logfile <- function(file_name){
+  log_file_name <- as.character(Sys.time()) |> 
+    str_replace_all(':', '_') |> 
+    str_replace(' ', 'T') |>
+    str_c(file_name)
+  
+  log_open(file_name = log_file_name)
+}
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L6) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) script on _GitHub_.
+The source code of the [open_logfile](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) script on _GitHub_.
 :::
 :::
 
