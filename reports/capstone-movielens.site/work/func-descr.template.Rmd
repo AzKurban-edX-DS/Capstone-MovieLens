@@ -3,6 +3,67 @@ title: "func-descr.template"
 output: html_document
 ---
 
+#### [log_func_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#Lx) Function {#func.log_func_tmpl}
+\
+
+
+::: { #func.log_func_tmpl.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.log_func_tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.log_func_tmpl.args.file_name .sidebar }
+  - **file_name:** A name used as a base to generate a unique log file name; 
+
+:::
+:::
+
+::: { #func.log_func_tmpl.details .sidebar }
+##### Details
+\
+
+
+:::
+
+::: { #func.log_func_tmpl.value .sidebar }
+##### Value
+\
+
+
+:::
+
+::: { #func.log_func_tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [log_func_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#Lx) function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [log_func_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#Lx) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#Lx) script on _GitHub_.
+:::
+:::
+
+
+
+
+
+
+
+
+
+
+
 #### [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) Function {#func.@@func}
 \
 
