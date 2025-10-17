@@ -232,10 +232,123 @@ The source code of the [print_end_date](https://github.com/AzKurban-edX-DS/Capst
 :::
 :::
 
+#### [print_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) Function {#func.print_end_date}
+\
 
+Prints the system date and time at the time the function is called, and then the time elapsed since the date and time specified by the [start](#func.print_end_date.args.start) argument.
 
+::: { #func.print_end_date.Usage .sidebar }
+##### Usage
+\
 
+```{r eval=FALSE}
+print_end_date(start)
+```
+:::
 
+::: { #func.print_end_date.args .sidebar }
+##### Arguments
+\
+
+::: { #func.print_end_date.args.start .sidebar }
+  - **start:** An object of class `POSIXct` representing the value of the moment from which time is measured. 
+
+:::
+:::
+
+::: { #func.print_end_date.details .sidebar }
+##### Details
+\
+
+This function internally calls [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print), [base::date](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/date), and [base::Sys.time](https://www.rdocumentation.org/link/Sys.time?package=base&version=3.6.2) `R` functions.
+
+It first prints the value returned by the `date` function, then builds an object of class `difftime` representing the time elapsed since the date and time specified by the [start](#func.print_end_date.args.start) argument, prints the object, and, finally, returns the object to the client code.
+
+:::
+
+::: { #func.print_end_date.value .sidebar }
+##### Value
+\
+
+Returns an object of class `difftime` representing the time elapsed since the date and time specified by the [start](#func.print_end_date.args.start) argument. 
+
+:::
+
+::: { #func.print_end_date.code .sidebar }
+##### Source Code
+\
+
+The source code of the [print_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is shown below:
+```{r eval=FALSE}
+print_end_date <- function(start){
+  print(date())
+  print(Sys.time() - start)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [print_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) script on _GitHub_.
+:::
+:::
+
+#### [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) Function {#func.put_end_date}
+\
+
+Outputs the system date and time to the currently open log (using the [open_logfile](#func.open_logfile) function described above).
+
+The first value in the output is the system date and time at the time the function is called, and the second value is the time elapsed since the date and time specified by the [start](#func.put_end_date.args.start) argument.
+
+::: { #func.put_end_date.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+put_end_date(start)
+```
+:::
+
+::: { #func.put_end_date.args .sidebar }
+##### Arguments
+\
+
+::: { #func.put_end_date.args.start .sidebar }
+  - **start:** An object of class `POSIXct` representing the value of the moment from which time is measured. 
+
+:::
+:::
+
+::: { #func.put_end_date.details .sidebar }
+##### Details
+\
+
+This function works similarly to the [print_end_date](#func.print_end_date) function described above, but unlike the latter, it outputs the information to the currently open log file.
+
+:::
+
+::: { #func.put_end_date.value .sidebar }
+##### Value
+\
+
+Returns an object of class `difftime` representing the time elapsed since the date and time specified by the [start](#func.put_end_date.args.start) argument. 
+
+:::
+
+::: { #func.put_end_date.code .sidebar }
+##### Source Code
+\
+
+The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is shown below:
+```{r eval=FALSE}
+put_end_date <- function(start){
+  put(date())
+  put(Sys.time() - start)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) script on _GitHub_.
+:::
+:::
 
 
 
