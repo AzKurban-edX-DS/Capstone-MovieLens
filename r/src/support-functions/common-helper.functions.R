@@ -1,22 +1,5 @@
 # Common Helper Functions
 
-##Utility Functions --------------------------------------------------------------
-# Because we know ratings can’t be below 0.5 or above 5, 
-# we define the function clamp:
-clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
-
-make_ordinal_no <- function(n){
-  if(n == 1){
-    "1st"
-  } else if(n == 2) {
-    "2nd"
-  } else if(n == 3) {
-    "3rd"
-  } else {
-    str_glue("{n}th")
-  }
-}
-
 ## (R)MSE-related functions ---------------------------------------------------- 
 #> Let's define some helper functions that we will use in our subsequent analysis:
 mse <- function(r) mean(r^2)
@@ -516,5 +499,32 @@ Currently reached best RMSE for `parameter value = %1`: %2",
        param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
        tuned.result = data.frame(parameter.value = parameter.value,
                                  RMSE = result.RMSE))
+}
+
+##Utility Functions --------------------------------------------------------------
+# Because we know ratings can’t be below 0.5 or above 5, 
+# we define the function clamp:
+clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
+
+make_ordinal_no <- function(n){
+  if(n == 1){
+    "1st"
+  } else if(n == 2) {
+    "2nd"
+  } else if(n == 3) {
+    "3rd"
+  } else {
+    str_glue("{n}th")
+  }
+}
+
+msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
+  msg_template |> 
+    str_replace_all(arg.name, as.character(arg))
+}
+msg.glue <- function(msg_template, arg, arg.name = "%1"){
+  msg_template |>
+    msg.set_arg(arg, arg.name) |>
+    str_glue()
 }
 

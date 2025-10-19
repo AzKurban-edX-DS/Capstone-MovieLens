@@ -78,14 +78,343 @@ The source code of the [open_logfile](https://github.com/AzKurban-edX-DS/Capston
 :::
 :::
 
+#### [print_start_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L11) Function {#func.print_start_date}
+\
+
+Prints the system date and time at the time the function is called and returns the system's idea of the current date and time.
+
+::: { #func.print_start_date.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+print_start_date()
+```
+:::
+
+::: { #func.print_start_date.details .sidebar }
+##### Details
+\
+
+This function internally calls [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print), [base::date](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/date), and [base::Sys.time](https://www.rdocumentation.org/link/Sys.time?package=base&version=3.6.2) `R` functions.
+
+It first prints the value returned by the `date` function, then returns the object returned by the `Sys.time` function.
+:::
+
+::: { #func.print_start_date.value .sidebar }
+##### Value
+\
+
+An object of class `POSIXct` (see [DateTimeClasses](https://www.rdocumentation.org/link/DateTimeClasses?package=base&version=3.6.2)). 
+
+:::
+
+::: { #func.print_start_date.code .sidebar }
+##### Source Code
+\
+
+The source code of the [print_start_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L11) function is shown below:
+```{r eval=FALSE}
+print_start_date <- function(){
+  print(date())
+  Sys.time()
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [print_start_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L11) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L11) script on _GitHub_.
+:::
+:::
+
+#### [put_start_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L15) Function {#func.put_start_date}
+\
+
+Outputs the system date and time to the currently opened log (using the [open_logfile](#func.open_logfile) function described above) at the time the function is called and returns the system's idea of the current date and time.
+
+::: { #func.put_start_date.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+put_start_date()
+```
+:::
+
+::: { #func.put_start_date.details .sidebar }
+##### Details
+\
+
+This function internally calls [logr::put](https://www.rdocumentation.org/packages/logr/versions/1.3.4/topics/log_print), [base::date](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/date), and [base::Sys.time](https://www.rdocumentation.org/link/Sys.time?package=base&version=3.6.2) `R` functions.
+
+It first outputs the value returned by the `date` function to the currently opened log, then returns the object returned by the `Sys.time` function.
+:::
+
+::: { #func.put_start_date.value .sidebar }
+##### Value
+\
+
+An object of class `POSIXct` (see [DateTimeClasses](https://www.rdocumentation.org/link/DateTimeClasses?package=base&version=3.6.2)). 
+
+:::
+
+::: { #func.put_start_date.code .sidebar }
+##### Source Code
+\
+
+The source code of the [put_start_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L15) function is shown below:
+```{r eval=FALSE}
+put_start_date <- function(){
+  put(date())
+  Sys.time()
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [put_start_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L15) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L15) script on _GitHub_.
+:::
+:::
+
+#### [print_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) Function {#func.print_end_date}
+\
+
+Prints the system date and time at the time the function is called, and then the time elapsed since the date and time specified by the [start](#func.print_end_date.args.start) argument.
+
+::: { #func.print_end_date.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+print_end_date(start)
+```
+:::
+
+::: { #func.print_end_date.args .sidebar }
+##### Arguments
+\
+
+::: { #func.print_end_date.args.start .sidebar }
+  - **start:** An object of class `POSIXct` representing the value of the moment from which time is measured. 
+
+:::
+:::
+
+::: { #func.print_end_date.details .sidebar }
+##### Details
+\
+
+This function internally calls [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print), [base::date](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/date), and [base::Sys.time](https://www.rdocumentation.org/link/Sys.time?package=base&version=3.6.2) `R` functions.
+
+It first prints the value returned by the `date` function, then builds an object of class `difftime` representing the time elapsed since the date and time specified by the [start](#func.print_end_date.args.start) argument, prints the object, and, finally, returns the object to the client code.
+
+:::
+
+::: { #func.print_end_date.value .sidebar }
+##### Value
+\
+
+An object of class `difftime` representing the time elapsed since the date and time specified by the [start](#func.print_end_date.args.start) argument. 
+
+:::
+
+::: { #func.print_end_date.code .sidebar }
+##### Source Code
+\
+
+The source code of the [print_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is shown below:
+```{r eval=FALSE}
+print_end_date <- function(start){
+  print(date())
+  print(Sys.time() - start)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [print_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) script on _GitHub_.
+:::
+:::
+
+#### [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) Function {#func.put_end_date}
+\
+
+Outputs the system date and time to the currently open log (using the [open_logfile](#func.open_logfile) function described above).
+
+The first value in the output is the system date and time at the time the function is called, and the second value is the time elapsed since the date and time specified by the [start](#func.put_end_date.args.start) argument.
+
+::: { #func.put_end_date.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+put_end_date(start)
+```
+:::
+
+::: { #func.put_end_date.args .sidebar }
+##### Arguments
+\
+
+::: { #func.put_end_date.args.start .sidebar }
+  - **start:** An object of class `POSIXct` representing the value of the moment from which time is measured. 
+
+:::
+:::
+
+::: { #func.put_end_date.details .sidebar }
+##### Details
+\
+
+This function works similarly to the [print_end_date](#func.print_end_date) function described above, but unlike the latter, it outputs the information to the currently open log file.
+
+:::
+
+::: { #func.put_end_date.value .sidebar }
+##### Value
+\
+
+An object of class `difftime` representing the time elapsed since the date and time specified by the [start](#func.put_end_date.args.start) argument. 
+
+:::
+
+::: { #func.put_end_date.code .sidebar }
+##### Source Code
+\
+
+The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is shown below:
+```{r eval=FALSE}
+put_end_date <- function(start){
+  put(date())
+  put(Sys.time() - start)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) script on _GitHub_.
+:::
+:::
+
+#### [print_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L28) Function {#func.print_log}
+\
+
+Prints a multiline string specified by the [msg](#func.print_log.args.msg) argument.
+
+::: { #func.print_log.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+print_log(msg)
+```
+:::
+
+::: { #func.print_log.args .sidebar }
+##### Arguments
+\
+
+::: { #func.print_log.args.msg .sidebar }
+  - **msg:** A string to print (can be multiline). 
+
+:::
+:::
+
+::: { #func.print_log.details .sidebar }
+##### Details
+\
+
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` functions to print the (possibly multiline) string specified by the [msg](#func.print_log.args.msg) argument.
+
+:::
+
+::: { #func.print_log.value .sidebar }
+##### Value
+\
+
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) 
+
+:::
+
+::: { #func.print_log.code .sidebar }
+##### Source Code
+\
+
+The source code of the [print_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L28) function is shown below:
+```{r eval=FALSE}
+print_log <- function(msg){
+  print(str_glue(msg))
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [print_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L28) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L28) script on _GitHub_.
+:::
+:::
+
+#### [put_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L31) Function {#func.put_log}
+\
+
+Outputs a multiline string specified by the [msg](#func.put_log.args.msg) argument to the currently opened log (using the [open_logfile](#func.open_logfile) function described above).
+
+::: { #func.put_log.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+put_log(msg)
+```
+:::
+
+::: { #func.put_log.args .sidebar }
+##### Arguments
+\
+
+::: { #func.put_log.args.msg .sidebar }
+  - **msg:** A string to print (can be multiline). 
+
+:::
+:::
+
+::: { #func.put_log.details .sidebar }
+##### Details
+\
+
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [logr::put](https://www.rdocumentation.org/packages/logr/versions/1.3.4/topics/log_print) `R` functions to output the (possibly multiline) string specified by the [msg](#func.put_log.args.msg) argument.
+
+The function works similarly to the [print_log](#func.print_log) function described above, but unlike the latter, it outputs the information to the currently open log file.
+
+:::
+
+::: { #func.put_log.value .sidebar }
+##### Value
+\
+
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) 
+
+:::
+
+::: { #func.put_log.code .sidebar }
+##### Source Code
+\
+
+The source code of the [put_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L31) function is shown below:
+```{r eval=FALSE}
+put_log <- function(msg){
+  put(str_glue(msg))
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [put_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L31) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L31) script on _GitHub_.
+:::
+:::
 
 
 
 
+
+# ------------------------------------------------------------------------------
 
 ### Utility Functions {#appndx_a.CHF.utility_funcs}
 
-#### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) Function {#func.clamp}
+#### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L507) Function {#func.clamp}
 \
 
 Clamps the input value passed in [r](#func.clamp.args.r) argument between the values passed in [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments. 
@@ -140,13 +469,13 @@ The value clamped between [min](#func.clamp.args.min) and [max](#func.clamp.args
 ##### Source Code
 \
 
-The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) function is shown below:
+The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L507) function is shown below:
 ```{r eval=FALSE}
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L3) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) script on _GitHub_.
+The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L507) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L504) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L507) script on _GitHub_.
 :::
 :::
 

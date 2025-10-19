@@ -25,16 +25,6 @@ put_end_date <- function(start){
   put(Sys.time() - start)
 }
 
-msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
-  msg_template |> 
-    str_replace_all(arg.name, as.character(arg))
-}
-msg.glue <- function(msg_template, arg, arg.name = "%1"){
-  msg_template |>
-    msg.set_arg(arg, arg.name) |>
-    str_glue()
-}
-
 print_log <- function(msg){
   print(str_glue(msg))
 }

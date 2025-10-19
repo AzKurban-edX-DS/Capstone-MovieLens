@@ -10,31 +10,6 @@ First, let's define some helper functions for logging and time-measuring feature
 
 ```{r eval=FALSE }
 # Logging Helper functions -----------------------------------------------------
-open_logfile <- function(file_name){
-  log_file_name <- as.character(Sys.time()) |> 
-    str_replace_all(':', '_') |> 
-    str_replace(' ', 'T') |>
-    str_c(file_name)
-  
-  log_open(file_name = log_file_name)
-}
-print_start_date <- function(){
-  print(date())
-  Sys.time()
-}
-put_start_date <- function(){
-  put(date())
-  Sys.time()
-}
-print_end_date <- function(start){
-  print(date())
-  print(Sys.time() - start)
-}
-put_end_date <- function(start){
-  put(date())
-  put(Sys.time() - start)
-}
-
 msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
   msg_template |> 
     str_replace_all(arg.name, as.character(arg))
