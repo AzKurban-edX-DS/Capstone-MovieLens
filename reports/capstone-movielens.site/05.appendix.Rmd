@@ -467,6 +467,8 @@ The source code of the [get_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 :::
 :::
 
+\newpage
+
 #### [print_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L38) Function {#func.print_log1}
 \
 
@@ -500,7 +502,7 @@ print_log1(msg_template, arg1)
 ##### Details
 \
 
-This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the string (possibly multiline) produced by the (also called internally) [print_log1](#func.print_log1) function described above.
+This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the string (possibly multiline) produced by the (also called internally) [get_log1](#func.get_log1) function described above.
 
 :::
 
@@ -508,7 +510,7 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [print_log1](#func.print_log1) function described above.
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log1](#func.get_log1) function described above.
 
 :::
 
@@ -519,7 +521,7 @@ A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/refere
 The source code of the [print_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L38) function is shown below:
 ```{r eval=FALSE}
 print_log1 <- function(msg_template, arg1){
-  print(print_log1(msg_template, arg1))
+  print(get_log1(msg_template, arg1))
 }
 ```
 
@@ -527,6 +529,8 @@ print_log1 <- function(msg_template, arg1){
 The source code of the [print_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L38) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L38) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 #### [put_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L41) Function {#func.put_log1}
 \
@@ -561,7 +565,7 @@ put_log1(msg_template, arg1)
 ##### Details
 \
 
-This function internally calls the [logr::put](https://www.rdocumentation.org/packages/logr/versions/1.3.4/topics/log_print) `R` function to output the string (possibly multiline) produced by the (also called internally) [put_log1](#func.put_log1) function described above.
+This function internally calls the [logr::put](https://www.rdocumentation.org/packages/logr/versions/1.3.4/topics/log_print) `R` function to output the string (possibly multiline) produced by the (also called internally) [get_log1](#func.get_log1) function described above.
 
 The function works similarly to the [print_log1](#func.print_log1) function described above, but unlike the latter, it outputs the information to the currently open log file.
 
@@ -571,7 +575,7 @@ The function works similarly to the [print_log1](#func.print_log1) function desc
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [put_log1](#func.put_log1) function described above.
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log1](#func.get_log1) function described above.
 :::
 
 ::: { #func.put_log1.code .sidebar }
@@ -581,7 +585,7 @@ A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/refere
 The source code of the [put_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L41) function is shown below:
 ```{r eval=FALSE}
 put_log1 <- function(msg_template, arg1){
-  put(put_log1(msg_template, arg1))
+  put(get_log1(msg_template, arg1))
 }
 ```
 
@@ -598,7 +602,7 @@ The source code of the [put_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 
 
-
+\newpage
 
 # ------------------------------------------------------------------------------
 
