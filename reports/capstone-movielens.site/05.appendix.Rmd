@@ -1027,8 +1027,6 @@ The source code of the [put_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 \newpage
 
-#--------------------------------------
-
 #### [get_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L72) Function {#func.get_log4}
 \
 
@@ -1268,10 +1266,6 @@ The source code of the [put_log4](https://github.com/AzKurban-edX-DS/Capstone-Mo
 :::
 
 \newpage
-
-
-
-# ------------------------------------------------------------------------------
 
 ### Utility Functions {#appndx_a.CHF.utility_funcs}
 
