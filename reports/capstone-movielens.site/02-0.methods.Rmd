@@ -20,36 +20,6 @@ msg.glue <- function(msg_template, arg, arg.name = "%1"){
     str_glue()
 }
 
-print_log <- function(msg){
-  print(str_glue(msg))
-}
-put_log <- function(msg){
-  put(str_glue(msg))
-}
-
-get_log1 <- function(msg_template, arg1) {
-  str_glue(str_replace_all(msg_template, "%1", as.character(arg1)))
-}
-print_log1 <- function(msg_template, arg1){
-  print(get_log1(msg_template, arg1))
-}
-put_log1 <- function(msg_template, arg1){
-  put(get_log1(msg_template, arg1))
-}
-
-get_log2 <- function(msg_template, arg1, arg2) {
-  msg_template |> 
-    str_replace_all("%1", as.character(arg1)) |>
-    str_replace_all("%2", as.character(arg2)) |>
-    str_glue()
-}
-print_log2 <- function(msg_template, arg1, arg2){
-  print(get_log1(msg_template, arg1, arg2))
-}
-put_log2 <- function(msg_template, arg1, arg2){
-  put(get_log1(msg_template, arg1, arg2))
-}
-
 # ...
 ```
 

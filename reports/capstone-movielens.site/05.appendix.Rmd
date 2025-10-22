@@ -1334,6 +1334,151 @@ The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-Movie
 :::
 :::
 
+#### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) Function {#func.msg.set_arg}
+\
+
+Builds a message string from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument using the format element specified by the following arguments:
+  - [arg.name](#func.msg.set_arg.args.arg.name): name of the element; 
+  - [arg](#func.msg.set_arg.args.arg): the element value.
+  
+::: { #func.msg.set_arg.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+msg.set_arg(msg_template, arg, arg, arg.name = "%1")
+```
+:::
+
+::: { #func.msg.set_arg.args .sidebar }
+##### Arguments
+\
+
+::: { #func.msg.set_arg.args.msg_template .sidebar }
+  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of a substring of the form `%1`. 
+
+:::
+
+::: { #func.msg.set_arg.args.arg.name .sidebar }
+  - **arg.name:** Value to replace the format elements represented by the substring specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument. 
+:::
+
+::: { #func.msg.set_arg.args.arg .sidebar }
+  - **arg:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.msg.set_arg.args.msg_template) argument. 
+
+:::
+:::
+
+::: { #func.msg.set_arg.details .sidebar }
+##### Details
+\
+
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to format a string from the template using the format value passed in the [msg_template](#func.msg.set_arg.args.msg_template) and [arg](#func.msg.set_arg.args.arg)  arguments, respectively.
+
+:::
+
+::: { #func.msg.set_arg.value .sidebar }
+##### Value
+\
+
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the [stringr::str_replace_all()](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace). 
+
+:::
+
+::: { #func.msg.set_arg.code .sidebar }
+##### Source Code
+\
+
+The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) function is shown below:
+```{r eval=FALSE}
+msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
+  msg_template |> 
+    str_replace_all(arg.name, as.character(arg))
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) function is defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+#### [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) Function {#func.msg.glue}
+\
+
+Builds a message string from the template passed in the [msg_template](#func.msg.glue.args.msg_template) argument using the format element specified by the following arguments:
+  - [arg.name](#func.msg.glue.args.arg.name): name of the element; 
+  - [arg](#func.msg.glue.args.arg): the element value.
+  
+::: { #func.msg.glue.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+msg.glue(msg_template, arg, arg, arg.name = "%1")
+```
+:::
+
+::: { #func.msg.glue.args .sidebar }
+##### Arguments
+\
+
+::: { #func.msg.glue.args.msg_template .sidebar }
+  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of a substring of the form `%1`. 
+
+:::
+
+::: { #func.msg.glue.args.arg.name .sidebar }
+  - **arg.name:** Value to replace the format elements represented by the substring specified by the [arg.name](#func.msg.glue.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument. 
+:::
+
+::: { #func.msg.glue.args.arg .sidebar }
+  - **arg:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.msg.glue.args.msg_template) argument. 
+
+:::
+:::
+
+::: { #func.msg.glue.details .sidebar }
+##### Details
+\
+
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to format a string from the template using the format value passed in the [msg_template](#func.msg.glue.args.msg_template) and [arg](#func.msg.glue.args.arg)  arguments, respectively.
+
+:::
+
+::: { #func.msg.glue.value .sidebar }
+##### Value
+\
+
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the [stringr::str_replace_all()](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace). 
+
+:::
+
+::: { #func.msg.glue.code .sidebar }
+##### Source Code
+\
+
+The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) function is shown below:
+```{r eval=FALSE}
+msg.glue <- function(msg_template, arg, arg.name = "%1"){
+  msg_template |>
+    msg.set_arg(arg, arg.name) |>
+    str_glue()
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) function is defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+
+
+
+
 
 
 ### Result RMSEs Table Functions
