@@ -804,8 +804,6 @@ The source code of the [put_log2](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 \newpage
 
-#--------------------------------------
-
 #### [get_log3](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L58) Function {#func.get_log3}
 \
 
@@ -1028,6 +1026,249 @@ The source code of the [put_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 :::
 
 \newpage
+
+#--------------------------------------
+
+#### [get_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L72) Function {#func.get_log4}
+\
+
+Builds a string from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument using the format values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3) arguments, and [arg4](#func.get_log4.args.arg4) arguments.
+
+::: { #func.get_log4.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+get_log4(msg_template, arg1, arg2, arg3, arg4)
+```
+:::
+
+::: { #func.get_log4.args .sidebar }
+##### Arguments
+\
+
+::: { #func.get_log4.args.msg_template .sidebar }
+  - **msg_template:** Message template (or format string; can be multiline), i.e., any string containing format elements ("%1"). 
+
+:::
+
+::: { #func.get_log4.args.arg1 .sidebar }
+  - **arg1:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.get_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.get_log4.args.arg2 .sidebar }
+  - **arg2:** The value to replace the format elements represented by the substring `%2` in the message template specified by the [msg_template](#func.get_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.get_log4.args.arg3 .sidebar }
+  - **arg3:** The value to replace the format elements represented by the substring `%3` in the message template specified by the [msg_template](#func.get_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.get_log4.args.arg4 .sidebar }
+  - **arg4:** The value to replace the format elements represented by the substring `%4` in the message template specified by the [msg_template](#func.get_log4.args.msg_template) argument. 
+
+:::
+:::
+
+::: { #func.get_log4.details .sidebar }
+##### Details
+\
+
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to format a string from the template using the format value passed in the [msg_template](#func.get_log4.args.msg_template), [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments, respectively.
+
+:::
+
+::: { #func.get_log4.value .sidebar }
+##### Value
+\
+
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the [stringr::str_replace_all()](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace). 
+
+:::
+
+::: { #func.get_log4.code .sidebar }
+##### Source Code
+\
+
+The source code of the [get_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L72) function is shown below:
+```{r eval=FALSE}
+get_log4 <- function(msg_template, arg1, arg2, arg3, arg4) {
+  msg_template |> 
+    str_replace_all("%1", as.character(arg1)) |>
+    str_replace_all("%2", as.character(arg2)) |>
+    str_replace_all("%3", as.character(arg2)) |>
+    str_replace_all("%4", as.character(arg2)) |>
+    str_glue()
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [get_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L72) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L72) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+#### [print_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L80) Function {#func.print_log4}
+\
+
+Prints a string formed from the template passed in the [msg_template](#func.print_log4.args.msg_template) argument using the format values specified by the [arg1](#func.print_log4.args.arg1), [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments.
+
+::: { #func.print_log4.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+print_log4(msg_template, arg1, arg2, arg3, arg4)
+```
+:::
+
+::: { #func.print_log4.args .sidebar }
+##### Arguments
+\
+
+::: { #func.print_log4.args.msg_template .sidebar }
+  - **msg_template:** Message template (or format string; can be multiline), i.e., any string containing format elements ("%1"). 
+
+:::
+
+::: { #func.print_log4.args.arg1 .sidebar }
+  - **arg1:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.print_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.print_log4.args.arg2 .sidebar }
+  - **arg2:** The value to replace the format elements represented by the substring `%2` in the message template specified by the [msg_template](#func.print_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.print_log4.args.arg3 .sidebar }
+  - **arg3:** The value to replace the format elements represented by the substring `%3` in the message template specified by the [msg_template](#func.print_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.print_log4.args.arg4 .sidebar }
+  - **arg4:** The value to replace the format elements represented by the substring `%4` in the message template specified by the [msg_template](#func.print_log4.args.msg_template) argument. 
+
+:::
+:::
+
+::: { #func.print_log4.details .sidebar }
+##### Details
+\
+
+This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the string (possibly multiline) produced by the (also called internally) [get_log4](#func.get_log4) function described above.
+
+:::
+
+::: { #func.print_log4.value .sidebar }
+##### Value
+\
+
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log4](#func.get_log4) function described above.
+
+:::
+
+::: { #func.print_log4.code .sidebar }
+##### Source Code
+\
+
+The source code of the [print_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L80) function is shown below:
+```{r eval=FALSE}
+print_log4 <- function(msg_template, arg1, arg2, arg3, arg4){
+  print(get_log4(msg_template, arg1, arg2, arg3, arg4))
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [print_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L80) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L80) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+#### [put_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L83) Function {#func.put_log4}
+\
+
+Outputs a string to the currently open log (using the [open_logfile](#func.open_logfile) function described above) formed from the template passed in the [msg_template](#func.put_log4.args.msg_template) argument using the format values specified by the [arg1](#func.put_log4.args.arg1), [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments.
+
+::: { #func.put_log4.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+put_log4(msg_template, arg1, arg2, arg3, arg4)
+```
+:::
+
+::: { #func.put_log4.args .sidebar }
+##### Arguments
+\
+
+::: { #func.put_log4.args.msg_template .sidebar }
+  - **msg_template:** Message template (or format string; can be multiline), i.e., any string containing format elements ("%1"). 
+
+:::
+
+::: { #func.put_log4.args.arg1 .sidebar }
+  - **arg1:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.put_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.put_log4.args.arg2 .sidebar }
+  - **arg2:** The value to replace the format elements represented by the substring `%2` in the message template specified by the [msg_template](#func.put_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.get_log4.args.arg3 .sidebar }
+  - **arg3:** The value to replace the format elements represented by the substring `%3` in the message template specified by the [msg_template](#func.put_log4.args.msg_template) argument. 
+
+:::
+
+::: { #func.get_log4.args.arg4 .sidebar }
+  - **arg4:** The value to replace the format elements represented by the substring `%4` in the message template specified by the [msg_template](#func.put_log4.args.msg_template) argument. 
+
+:::
+:::
+
+::: { #func.put_log4.details .sidebar }
+##### Details
+\
+
+This function internally calls the [logr::put](https://www.rdocumentation.org/packages/logr/versions/1.3.4/topics/log_print) `R` function to output the string (possibly multiline) produced by the (also called internally) [get_log4](#func.get_log4) function described above.
+
+The function works similarly to the [print_log4](#func.print_log4) function described above, but unlike the latter, it outputs the information to the currently open log file.
+
+:::
+
+::: { #func.put_log4.value .sidebar }
+##### Value
+\
+
+A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log4](#func.get_log4) function described above.
+:::
+
+::: { #func.put_log4.code .sidebar }
+##### Source Code
+\
+
+The source code of the [put_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L83) function is shown below:
+```{r eval=FALSE}
+put_log4 <- function(msg_template, arg1, arg2, arg3, arg4){
+  put(get_log4(msg_template, arg1, arg2, arg3, arg4))
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [put_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L83) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L83) script on _GitHub_.
+:::
+:::
+
+\newpage
+
 
 
 # ------------------------------------------------------------------------------
