@@ -409,7 +409,7 @@ The source code of the [put_log](https://github.com/AzKurban-edX-DS/Capstone-Mov
 #### [get_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L35) Function {#func.get_log1}
 \
 
-Builds a string from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument using the format value specified by the [arg1](#func.get_log1.args.arg1).
+Builds a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument using the format value specified by the [arg1](#func.get_log1.args.arg1) argument.
 
 ::: { #func.get_log1.Usage .sidebar }
 ##### Usage
@@ -425,12 +425,12 @@ get_log1(msg_template, arg1)
 \
 
 ::: { #func.get_log1.args.msg_template .sidebar }
-  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of a substring of the form `%1`. 
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern `%1` to be replaced by the value specified by the [arg1](#func.get_log1.args.arg1) argument. 
 
 :::
 
 ::: { #func.get_log1.args.arg1 .sidebar }
-  - **arg1:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.get_log1.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the pattern `%1` in the message template passed in the [msg_template](#func.get_log1.args.msg_template) argument. 
 
 :::
 :::
@@ -439,7 +439,7 @@ get_log1(msg_template, arg1)
 ##### Details
 \
 
-This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to format a string from the template using the format value passed in the [msg_template](#func.get_log1.args.msg_template) and [arg1](#func.get_log1.args.arg1)  arguments, respectively.
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to format a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument using the format value specified by the [arg1](#func.get_log1.args.arg1)  argument.
 
 :::
 
@@ -1338,8 +1338,10 @@ The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-Movie
 \
 
 Builds a message string from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument using the format element specified by the following arguments:
-  - [arg.name](#func.msg.set_arg.args.arg.name): name of the element; 
-  - [arg](#func.msg.set_arg.args.arg): the element value.
+
+  - [arg.name](#func.msg.set_arg.args.arg.name): the pattern to be replaced by the value passed in the [arg] argument;
+  
+  - [arg](#func.msg.set_arg.args.arg): the value to replace all occurrences of the pattern passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument.
   
 ::: { #func.msg.set_arg.Usage .sidebar }
 ##### Usage
@@ -1355,17 +1357,17 @@ msg.set_arg(msg_template, arg, arg, arg.name = "%1")
 \
 
 ::: { #func.msg.set_arg.args.msg_template .sidebar }
-  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of a substring of the form `%1`. 
-
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of a pattern specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument.
+  
 :::
 
 ::: { #func.msg.set_arg.args.arg.name .sidebar }
-  - **arg.name:** Value to replace the format elements represented by the substring specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument. 
+  - **arg.name:** Substring to replace in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
+
 :::
 
 ::: { #func.msg.set_arg.args.arg .sidebar }
-  - **arg:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.msg.set_arg.args.msg_template) argument. 
-
+  - **arg:** Value to replace the format elements represented by the substring specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument. 
 :::
 :::
 
@@ -1373,7 +1375,7 @@ msg.set_arg(msg_template, arg, arg, arg.name = "%1")
 ##### Details
 \
 
-This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to format a string from the template using the format value passed in the [msg_template](#func.msg.set_arg.args.msg_template) and [arg](#func.msg.set_arg.args.arg)  arguments, respectively.
+This function internally calls [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to format a string from the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument using the format value specified by the [arg](#func.msg.set_arg.args.arg)  argument to replace all occurances of the substring specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument (`%1` by default).
 
 :::
 
@@ -1408,7 +1410,9 @@ The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone
 \
 
 Builds a message string from the template passed in the [msg_template](#func.msg.glue.args.msg_template) argument using the format element specified by the following arguments:
+  
   - [arg.name](#func.msg.glue.args.arg.name): name of the element; 
+  
   - [arg](#func.msg.glue.args.arg): the element value.
   
 ::: { #func.msg.glue.Usage .sidebar }
@@ -1425,16 +1429,16 @@ msg.glue(msg_template, arg, arg, arg.name = "%1")
 \
 
 ::: { #func.msg.glue.args.msg_template .sidebar }
-  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of a substring of the form `%1`. 
+  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of a substring specified by the [arg.name](#func.msg.msg.glue.args.arg.name) argument.
 
 :::
 
 ::: { #func.msg.glue.args.arg.name .sidebar }
-  - **arg.name:** Value to replace the format elements represented by the substring specified by the [arg.name](#func.msg.glue.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument. 
+  - **arg.name:** Substring to replace in the message template passed in the [msg_template](#func.msg.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.msg.glue.args.arg) argument.
 :::
 
 ::: { #func.msg.glue.args.arg .sidebar }
-  - **arg:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.msg.glue.args.msg_template) argument. 
+  - **arg:** Value to replace the format elements represented by the substring specified by the [arg.name](#func.msg.glue.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument. 
 
 :::
 :::
