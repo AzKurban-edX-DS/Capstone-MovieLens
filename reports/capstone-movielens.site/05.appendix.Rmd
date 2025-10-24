@@ -409,7 +409,7 @@ The source code of the [put_log](https://github.com/AzKurban-edX-DS/Capstone-Mov
 #### [get_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L35) Function {#func.get_log1}
 \
 
-Builds a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument using the format value specified by the [arg1](#func.get_log1.args.arg1) argument.
+Creates a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
 
 ::: { #func.get_log1.Usage .sidebar }
 ##### Usage
@@ -439,7 +439,7 @@ get_log1(msg_template, arg1)
 ##### Details
 \
 
-This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to format a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument using the format value specified by the [arg1](#func.get_log1.args.arg1)  argument.
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1)  argument to replace all the occurrences of the pattern `%1` found in the template.
 
 :::
 
@@ -472,7 +472,7 @@ The source code of the [get_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [print_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L38) Function {#func.print_log1}
 \
 
-Prints a string formed from the template passed in the [msg_template](#func.print_log1.args.msg_template) argument using the format value specified by the [arg1](#func.print_log1.args.arg1).
+Prints a log created from the template passed in the [msg_template](#func.print_log1.args.msg_template) argument, using the value specified by the [arg1](#func.print_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
 
 ::: { #func.print_log1.Usage .sidebar }
 ##### Usage
@@ -488,12 +488,12 @@ print_log1(msg_template, arg1)
 \
 
 ::: { #func.print_log1.args.msg_template .sidebar }
-  - **msg_template:**Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of a substring of the form `%1`. 
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern `%1` to be replaced by the value specified by the [arg1](#func.print_log1.args.arg1) argument. 
 
 :::
 
 ::: { #func.print_log1.args.arg1 .sidebar }
-  - **arg1:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.print_log1.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the pattern `%1` in the message template passed in the [msg_template](#func.print_log1.args.msg_template) argument. 
 
 :::
 :::
@@ -502,7 +502,7 @@ print_log1(msg_template, arg1)
 ##### Details
 \
 
-This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the string (possibly multiline) produced by the (also called internally) [get_log1](#func.get_log1) function described above.
+This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the object returned by the [get_log1](#func.get_log1) function (also called internally) described above.
 
 :::
 
@@ -510,8 +510,7 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log1](#func.get_log1) function described above.
-
+A glue object, returned by the internally called function [get_log1](#func.get_log1) described above.
 :::
 
 ::: { #func.print_log1.code .sidebar }
@@ -1337,9 +1336,9 @@ The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-Movie
 #### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) Function {#func.msg.set_arg}
 \
 
-Builds a message string from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument using the format element specified by the following arguments:
+Builds a character vector from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument using the format element specified by the following arguments:
 
-  - [arg.name](#func.msg.set_arg.args.arg.name): the pattern to be replaced by the value passed in the [arg] argument;
+  - [arg.name](#func.msg.set_arg.args.arg.name): the pattern to be replaced by the value passed in the [arg](#func.msg.set_arg.args.arg) argument;
   
   - [arg](#func.msg.set_arg.args.arg): the value to replace all occurrences of the pattern passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument.
   
