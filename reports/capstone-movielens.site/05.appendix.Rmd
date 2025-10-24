@@ -447,7 +447,7 @@ This function internally calls [stringr::str_glue](https://www.rdocumentation.or
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the [stringr::str_replace_all()](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace). 
+A glue object, returned by the internally called [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) function, created from the character vector returned by the (also internally called) function [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace).
 
 :::
 
@@ -642,7 +642,7 @@ This function internally calls [stringr::str_glue](https://www.rdocumentation.or
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the [stringr::str_replace_all()](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace). 
+A glue object, returned by the internally called [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) function, created from the character vector returned by the (also internally called) function [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace).
 
 :::
 
@@ -855,7 +855,7 @@ This function internally calls [stringr::str_glue](https://www.rdocumentation.or
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the [stringr::str_replace_all()](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace). 
+A glue object, returned by the internally called [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) function, created from the character vector returned by the (also internally called) function [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace).
 
 :::
 
@@ -1083,7 +1083,7 @@ This function internally calls [stringr::str_glue](https://www.rdocumentation.or
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the [stringr::str_replace_all()](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace). 
+A glue object, returned by the internally called [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) function, created from the character vector returned by the (also internally called) function [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace).
 
 :::
 
