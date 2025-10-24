@@ -1048,7 +1048,7 @@ get_log4(msg_template, arg1, arg2, arg3, arg4)
 \
 
 ::: { #func.get_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, and `%3` to be replaced by the values specified by the [arg1](#func.get_log4.args.arg1),  [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, `%3`, and `%4` to be replaced by the values specified by the [arg1](#func.get_log4.args.arg1),  [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments, respectively.
 
 :::
 
@@ -1131,7 +1131,7 @@ print_log4(msg_template, arg1, arg2, arg3, arg4)
 \
 
 ::: { #func.print_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, and `%3` to be replaced by the values specified by the [arg1](#func.print_log4.args.arg1),  [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, `%3`, and `%4` to be replaced by the values specified by the [arg1](#func.print_log4.args.arg1),  [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments, respectively.
 
 :::
 
@@ -1209,7 +1209,7 @@ put_log4(msg_template, arg1, arg2, arg3, arg4)
 \
 
 ::: { #func.put_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, and `%3` to be replaced by the values specified by the [arg1](#func.put_log4.args.arg1),  [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, `%3`, and `%4` to be replaced by the values specified by the [arg1](#func.put_log4.args.arg1),  [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments, respectively.
 
 :::
 
