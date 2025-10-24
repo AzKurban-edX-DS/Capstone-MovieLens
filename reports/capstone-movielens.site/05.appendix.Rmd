@@ -823,22 +823,22 @@ get_log3(msg_template, arg1, arg2, arg3)
 \
 
 ::: { #func.get_log3.args.msg_template .sidebar }
-  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of each of the following substrings: `%1`, `%2`, `%3`. 
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1` and `%2`, to be replaced by the values specified by the [arg1](#func.get_log3.args.arg1) and  [arg2](#func.get_log3.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.get_log3.args.arg1 .sidebar }
-  - **arg1:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.get_log3.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log3.args.arg2 .sidebar }
-  - **arg2:** The value to replace the format elements represented by the substring `%2` in the message template specified by the [msg_template](#func.get_log3.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log3.args.arg3 .sidebar }
-  - **arg3:** The value to replace the format elements represented by the substring `%3` in the message template specified by the [msg_template](#func.get_log3.args.msg_template) argument. 
+  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 :::
@@ -899,22 +899,22 @@ print_log3(msg_template, arg1, arg2, arg3)
 \
 
 ::: { #func.print_log3.args.msg_template .sidebar }
-  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of each of the following substrings: `%1`, `%2`, `%3`. 
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1` and `%2`, to be replaced by the values specified by the [arg1](#func.print_log3.args.arg1) and  [arg2](#func.print_log3.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.print_log3.args.arg1 .sidebar }
-  - **arg1:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.print_log3.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log3.args.arg2 .sidebar }
-  - **arg2:** The value to replace the format elements represented by the substring `%2` in the message template specified by the [msg_template](#func.print_log3.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log3.args.arg3 .sidebar }
-  - **arg3:** The value to replace the format elements represented by the substring `%3` in the message template specified by the [msg_template](#func.print_log3.args.msg_template) argument. 
+  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 :::
@@ -972,22 +972,22 @@ put_log3(msg_template, arg1, arg2, arg3)
 \
 
 ::: { #func.put_log3.args.msg_template .sidebar }
-  - **msg_template:** Message template (or format string), i.e., any (possibly multiline) string containing at least one occurrence of each of the following substrings: `%1`, `%2`, `%3`. 
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1` and `%2`, to be replaced by the values specified by the [arg1](#func.put_log3.args.arg1) and  [arg2](#func.put_log3.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.put_log3.args.arg1 .sidebar }
-  - **arg1:** The value to replace the format elements represented by the substring `%1` in the message template specified by the [msg_template](#func.put_log3.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log3.args.arg2 .sidebar }
-  - **arg2:** The value to replace the format elements represented by the substring `%2` in the message template specified by the [msg_template](#func.put_log3.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 
-::: { #func.get_log3.args.arg3 .sidebar }
-  - **arg3:** The value to replace the format elements represented by the substring `%3` in the message template specified by the [msg_template](#func.put_log3.args.msg_template) argument. 
+::: { #func.put_log3.args.arg3 .sidebar }
+  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 :::
