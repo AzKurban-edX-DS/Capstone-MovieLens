@@ -738,7 +738,7 @@ The source code of the [print_log2](https://github.com/AzKurban-edX-DS/Capstone-
 #### [put_log2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L54) Function {#func.put_log2}
 \
 
-Outputs a string to the currently open log (using the [open_logfile](#func.open_logfile) function described above) formed from the template passed in the [msg_template](#func.put_log2.args.msg_template) argument using the format values specified by the [arg1](#func.put_log2.args.arg1) and [arg2](#func.put_log2.args.arg2) arguments.
+Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log2.args.msg_template) argument, using the values specified by the [arg1](#func.put_log2.args.arg1) and [arg2](#func.put_log2.args.arg2) arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
 
 ::: { #func.put_log2.Usage .sidebar }
 ##### Usage
@@ -956,7 +956,7 @@ The source code of the [print_log3](https://github.com/AzKurban-edX-DS/Capstone-
 #### [put_log3](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L68) Function {#func.put_log3}
 \
 
-Outputs a string to the currently open log (using the [open_logfile](#func.open_logfile) function described above) formed from the template passed in the [msg_template](#func.put_log3.args.msg_template) argument using the format values specified by the [arg1](#func.put_log3.args.arg1), [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments.
+Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log3.args.msg_template) argument, using the values specified by the [arg1](#func.put_log3.args.arg1), [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
 
 ::: { #func.put_log3.Usage .sidebar }
 ##### Usage
@@ -1191,7 +1191,7 @@ The source code of the [print_log4](https://github.com/AzKurban-edX-DS/Capstone-
 #### [put_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L83) Function {#func.put_log4}
 \
 
-Outputs a string to the currently open log (using the [open_logfile](#func.open_logfile) function described above) formed from the template passed in the [msg_template](#func.put_log4.args.msg_template) argument using the format values specified by the [arg1](#func.put_log4.args.arg1), [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments.
+Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log4.args.msg_template) argument, using the values specified by the [arg1](#func.put_log4.args.arg1), [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
 
 ::: { #func.put_log4.Usage .sidebar }
 ##### Usage
