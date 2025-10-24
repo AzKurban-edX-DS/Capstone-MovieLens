@@ -705,7 +705,7 @@ print_log2(msg_template, arg1, arg2)
 ##### Details
 \
 
-This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the string (possibly multiline) produced by the (also called internally) [get_log2](#func.get_log2) function described above.
+This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the object returned by the [get_log2](#func.get_log2) function (also called internally) described above.
 
 :::
 
@@ -923,7 +923,7 @@ print_log3(msg_template, arg1, arg2, arg3)
 ##### Details
 \
 
-This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the string (possibly multiline) produced by the (also called internally) [get_log3](#func.get_log3) function described above.
+This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the object returned by the [get_log3](#func.get_log3) function (also called internally) described above.
 
 :::
 
@@ -1158,7 +1158,7 @@ print_log4(msg_template, arg1, arg2, arg3, arg4)
 ##### Details
 \
 
-This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the string (possibly multiline) produced by the (also called internally) [get_log4](#func.get_log4) function described above.
+This function internally calls the [base::print](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print) `R` function to print the object returned by the [get_log4](#func.get_log4) function (also called internally) described above.
 
 :::
 
