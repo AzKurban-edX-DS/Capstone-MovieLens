@@ -869,6 +869,7 @@ get_log3 <- function(msg_template, arg1, arg2, arg3) {
   msg_template |> 
     str_replace_all("%1", as.character(arg1)) |>
     str_replace_all("%2", as.character(arg2)) |>
+    str_replace_all("%3", as.character(arg3)) |>
     str_glue()
 }
 ```
@@ -1098,8 +1099,8 @@ get_log4 <- function(msg_template, arg1, arg2, arg3, arg4) {
   msg_template |> 
     str_replace_all("%1", as.character(arg1)) |>
     str_replace_all("%2", as.character(arg2)) |>
-    str_replace_all("%3", as.character(arg2)) |>
-    str_replace_all("%4", as.character(arg2)) |>
+    str_replace_all("%3", as.character(arg3)) |>
+    str_replace_all("%4", as.character(arg4)) |>
     str_glue()
 }
 ```
