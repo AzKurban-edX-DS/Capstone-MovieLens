@@ -233,7 +233,7 @@ The source code of the [print_end_date](https://github.com/AzKurban-edX-DS/Capst
 :::
 :::
 
-#### [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) Function {#func.put_end_date}
+#### [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L23) Function {#func.put_end_date}
 \
 
 Outputs the system date and time to the currently open log (using the [open_logfile](#func.open_logfile) function described above).
@@ -279,7 +279,7 @@ An object of class `difftime` representing the time elapsed since the date and t
 ##### Source Code
 \
 
-The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is shown below:
+The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L23) function is shown below:
 ```{r eval=FALSE}
 put_end_date <- function(start){
   put(date())
@@ -288,7 +288,7 @@ put_end_date <- function(start){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L19) script on _GitHub_.
+The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L23) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L23) script on _GitHub_.
 :::
 :::
 
