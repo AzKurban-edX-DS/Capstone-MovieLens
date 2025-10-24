@@ -713,7 +713,7 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log2](#func.get_log2) function described above.
+A glue object, returned by the internally called function [get_log2](#func.get_log2) described above.
 
 :::
 
@@ -783,7 +783,7 @@ The function works similarly to the [print_log2](#func.print_log2) function desc
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log2](#func.get_log2) function described above.
+A glue object, returned by the internally called function [get_log2](#func.get_log2) described above.
 :::
 
 ::: { #func.put_log2.code .sidebar }
@@ -931,7 +931,7 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log3](#func.get_log3) function described above.
+A glue object, returned by the internally called function [get_log3](#func.get_log3) described above.
 
 :::
 
@@ -1006,7 +1006,8 @@ The function works similarly to the [print_log3](#func.print_log3) function desc
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log3](#func.get_log3) function described above.
+A glue object, returned by the internally called function [get_log3](#func.get_log3) described above.
+
 :::
 
 ::: { #func.put_log3.code .sidebar }
@@ -1166,7 +1167,7 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log4](#func.get_log4) function described above.
+A glue object, returned by the internally called function [get_log4](#func.get_log4) described above.
 
 :::
 
@@ -1246,7 +1247,7 @@ The function works similarly to the [print_log4](#func.print_log4) function desc
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) from the character vector produced by the internally called [get_log4](#func.get_log4) function described above.
+A glue object, returned by the internally called function [get_log4](#func.get_log4) described above.
 :::
 
 ::: { #func.put_log4.code .sidebar }
