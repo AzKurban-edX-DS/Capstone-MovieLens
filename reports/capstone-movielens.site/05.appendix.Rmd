@@ -670,7 +670,7 @@ The source code of the [get_log2](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [print_log2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L51) Function {#func.print_log2}
 \
 
-Prints a string formed from the template passed in the [msg_template](#func.print_log2.args.msg_template) argument using the format values specified by the [arg1](#func.print_log2.args.arg1) and [arg2](#func.print_log2.args.arg2) arguments.
+Prints a log created from the template passed in the [msg_template](#func.print_log2.args.msg_template) argument, using the values specified by the [arg1](#func.print_log2.args.arg1) and [arg2](#func.print_log2.args.arg2) arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
 
 ::: { #func.print_log2.Usage .sidebar }
 ##### Usage
@@ -883,7 +883,7 @@ The source code of the [get_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [print_log3](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L65) Function {#func.print_log3}
 \
 
-Prints a string formed from the template passed in the [msg_template](#func.print_log3.args.msg_template) argument using the format values specified by the [arg1](#func.print_log3.args.arg1), [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments.
+Prints a log created from the template passed in the [msg_template](#func.print_log3.args.msg_template) argument, using the values specified by the [arg1](#func.print_log3.args.arg1), [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
 
 ::: { #func.print_log3.Usage .sidebar }
 ##### Usage
@@ -1113,7 +1113,7 @@ The source code of the [get_log4](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [print_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L80) Function {#func.print_log4}
 \
 
-Prints a string formed from the template passed in the [msg_template](#func.print_log4.args.msg_template) argument using the format values specified by the [arg1](#func.print_log4.args.arg1), [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments.
+Prints a log created from the template passed in the [msg_template](#func.print_log4.args.msg_template) argument, using the values specified by the [arg1](#func.print_log4.args.arg1), [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
 
 ::: { #func.print_log4.Usage .sidebar }
 ##### Usage
