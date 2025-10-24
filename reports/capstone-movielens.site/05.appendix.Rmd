@@ -1032,7 +1032,7 @@ The source code of the [put_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [get_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L72) Function {#func.get_log4}
 \
 
-Creates a character vector from the template passed in the [msg_template](#func.get_log3.args.msg_template) argument, using the values specified by the [arg1](#func.get_log3.args.arg1), [arg2](#func.get_log3.args.arg2), [arg3](#func.get_log3.args.arg3), and [arg4](#func.get_log3.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
+Creates a character vector from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument, using the values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
 
 ::: { #func.get_log4.Usage .sidebar }
 ##### Usage
