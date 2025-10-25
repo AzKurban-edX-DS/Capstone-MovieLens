@@ -1077,7 +1077,7 @@ get_log4(msg_template, arg1, arg2, arg3, arg4)
 ##### Details
 \
 
-This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log3.args.msg_template) argument, using the values specified by the [arg1](#func.get_log3.args.arg1), [arg2](#func.get_log3.args.arg2), [arg3](#func.get_log3.args.arg3), and [arg4](#func.get_log3.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument, using the values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
 
 :::
 
