@@ -1339,18 +1339,14 @@ The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-Movie
 #### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) Function {#func.msg.set_arg}
 \
 
-Builds a character vector from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument using the format element specified by the following arguments:
+Creates a character vector from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument, using the value specified by the [arg](#func.msg.set_arg.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument found in the template.
 
-  - [arg.name](#func.msg.set_arg.args.arg.name): the pattern to be replaced by the value passed in the [arg](#func.msg.set_arg.args.arg) argument;
-  
-  - [arg](#func.msg.set_arg.args.arg): the value to replace all occurrences of the pattern passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument.
-  
 ::: { #func.msg.set_arg.Usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
-msg.set_arg(msg_template, arg, arg, arg.name = "%1")
+msg.set_arg(msg_template, arg, arg.name = "%1")
 ```
 :::
 
@@ -1364,12 +1360,13 @@ msg.set_arg(msg_template, arg, arg, arg.name = "%1")
 :::
 
 ::: { #func.msg.set_arg.args.arg.name .sidebar }
-  - **arg.name:** Substring to replace in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
+  - **arg.name:** Substring (pattern) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
 
 :::
 
 ::: { #func.msg.set_arg.args.arg .sidebar }
-  - **arg:** Value to replace the format elements represented by the substring specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument. 
+  - **arg:** Value to replace all occurrences of the pattern specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument.
+  
 :::
 :::
 
