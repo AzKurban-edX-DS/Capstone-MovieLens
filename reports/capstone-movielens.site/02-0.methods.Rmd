@@ -1,6 +1,6 @@
 # Methods and Analysis
 ::: {.noteblock data-latex=""}
-All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r)[@edx_capstone_movielens]. 
+All the source code of the `R` scripts utilized in this project is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r)[@edx_capstone_movielens]. 
 :::
 
 ## Preparing train and set datasets
