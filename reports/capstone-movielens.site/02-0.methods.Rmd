@@ -3,29 +3,6 @@
 All the source code of the R-scripts is available on the project's [GitHub repository](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/tree/main/r)[@edx_capstone_movielens]. 
 :::
 
-## Defining Logging and Time Measuring Helper Functions
-\
-
-First, let's define some helper functions for logging and time-measuring features that we will use in our R scripts. Some of them are listed below:
-
-```{r eval=FALSE }
-# Logging Helper functions -----------------------------------------------------
-msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
-  msg_template |> 
-    str_replace_all(arg.name, as.character(arg))
-}
-msg.glue <- function(msg_template, arg, arg.name = "%1"){
-  msg_template |>
-    msg.set_arg(arg, arg.name) |>
-    str_glue()
-}
-
-# ...
-```
-
-
-\newpage
-
 ## Preparing train and set datasets
 \
 
