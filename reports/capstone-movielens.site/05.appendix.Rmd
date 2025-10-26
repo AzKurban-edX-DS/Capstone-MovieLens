@@ -1360,7 +1360,7 @@ msg.set_arg(msg_template, arg, arg.name = "%1")
 :::
 
 ::: { #func.msg.set_arg.args.arg.name .sidebar }
-  - **arg.name:** Substring (pattern) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
+  - **arg.name:** (*Optional: `%1` by default*) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
 
 :::
 
@@ -1374,7 +1374,7 @@ msg.set_arg(msg_template, arg, arg.name = "%1")
 ##### Details
 \
 
-This function is a wrapper for the [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` function, which is called internally to replace all occurrences of the substring specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument, in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument (`%1` by default).
+This function is a wrapper for the [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` function, which is called internally to replace all occurrences of the pattern (placeholder) specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (`%1` by default), in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
 
 :::
 
@@ -1408,7 +1408,7 @@ The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone
 #### [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) Function {#func.msg.glue}
 \
 
-Creates a [glue::glue](https://glue.tidyverse.org/reference/glue.html) object from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument, using the value specified by the [arg](#func.msg.set_arg.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument found in the template.
+Creates a [glue::glue](https://glue.tidyverse.org/reference/glue.html) object from the template passed in the [msg_template](#func.msg.glue.args.msg_template) argument, using the value specified by the [arg](#func.msg.glue.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.glue.args.arg.name) argument found in the template.
   
 ::: { #func.msg.glue.Usage .sidebar }
 ##### Usage
@@ -1429,7 +1429,7 @@ msg.glue(msg_template, arg, arg, arg.name = "%1")
 :::
 
 ::: { #func.msg.glue.args.arg.name .sidebar }
-  - **arg.name:** Substring (pattern) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.glue.args.arg) argument.
+  - **arg.name:** (*Optional: `%1` by default*) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.glue.args.arg) argument.
 
 :::
 
@@ -1451,7 +1451,7 @@ This function internally calls the [stringr::str_glue](https://www.rdocumentatio
 ##### Value
 \
 
-A [glue::glue](https://glue.tidyverse.org/reference/glue.html) object created from the character vector returned by the internally called [msg.set_arg](#func.msg.set_arg) function.
+A [glue::glue](https://glue.tidyverse.org/reference/glue.html) object created from the character vector returned by the internally called [msg.set_arg()](#func.msg.set_arg).
 
 :::
 
