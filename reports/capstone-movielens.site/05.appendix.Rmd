@@ -1475,6 +1475,10 @@ The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 \newpage
 
+### (R)MSE-related Functions
+
+
+
 
 
 

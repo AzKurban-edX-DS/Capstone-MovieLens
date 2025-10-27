@@ -64,6 +64,128 @@ The source code of the [log_func_tmpl](https://github.com/AzKurban-edX-DS/Capsto
 
 
 
+
+
+#### [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.helper-func.tmpl}
+\
+
+::: { #func.helper-func.tmpl.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+helper-func.tmpl()
+
+```
+:::
+
+::: { #func.helper-func.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.helper-func.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.helper-func.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.helper-func.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.helper-func.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.helper-func.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+
+
+
+
+
+
+#### [dat-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) Function {#func.dat-func.tmpl}
+\
+
+::: { #func.dat-func.tmpl.Usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+dat-func.tmpl()
+
+```
+:::
+
+::: { #func.dat-func.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.dat-func.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.dat-func.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.dat-func.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.dat-func.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.dat-func.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [dat-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [dat-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+
+
+
+
+
+
 #### [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) Function {#func.@@func}
 \
 
