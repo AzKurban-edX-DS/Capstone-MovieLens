@@ -330,35 +330,3 @@ The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-M
 :::
 
 \newpage
-
-### Common Helper Functions
-\
-
-::: {.noteblock data-latex=""}
-All the _Common Helper functions_ described below in this section are defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_. 
-:::
-
-For our further analysis, we are going to use the following _common helper functions_:
-
-#### Functions to calculate _(Root) Mean Squared Error_
-\
-
-We will need the following functions to calculate _(R)MSEs_:
-```{r eval=FALSE}
-mse <- function(r) mean(r^2)
-
-mse_cv <- function(r_list) {
-  mses <- sapply(r_list, mse(r))
-  mean(mses)
-}
-
-rmse <- function(r) sqrt(mse(r))
-# rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
-
-rmse2 <- function(true_ratings, predicted_ratings) {
-  rmse(true_ratings - predicted_ratings)
-}
-```
-
-\newpage
-
