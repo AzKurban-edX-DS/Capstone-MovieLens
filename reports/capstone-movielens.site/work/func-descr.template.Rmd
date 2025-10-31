@@ -120,6 +120,97 @@ The source code of the [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Cap
 :::
 :::
 
+#### [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.RMSEs.}
+\
+
+Modifies the original _Result (RMSEs) Table_ passed in the [RMSEs](#func.RMSEs..args.RMSEs) argument.
+
+::: { #func.RMSEs..usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+```
+:::
+
+::: { #func.RMSEs..args .sidebar }
+##### Arguments
+\
+
+::: { #func.RMSEs..args.RMSEs .sidebar }
+  - ***RMSEs:*** Original _Resut (RMSEs) Table_ (of type *data frame*) to modify;
+
+:::
+
+::: { #func.RMSEs..args. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs..args. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs..args. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs..args. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs..args. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs..args. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs..args. .sidebar }
+  - ***:*** ;
+
+:::
+
+::: { #func.RMSEs..args. .sidebar }
+  - ***:*** ;
+
+:::
+:::
+
+::: { #func.RMSEs.details .sidebar }
+##### Details
+\
+
+This function is a wrapper for the [tibble::]() function, which is called internally to modify a data frame representing the original _Result (RMSEs) Table_, which stores the _RMSE_ values for the models used in the project to predict movie ratings.
+:::
+::: { #func.RMSEs..value .sidebar }
+##### Value
+\
+
+The modified tibble returned by the internally called [tibble::()]().
+
+:::
+
+
+::: { #func.RMSEs..code .sidebar }
+##### Source Code
+\
+
+The source code of the [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+:::
+
+::: {.noteblock data-latex=""}
+The source code of the [RMSEs.](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+:::
+
 
 
 
