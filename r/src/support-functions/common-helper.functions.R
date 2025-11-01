@@ -8,7 +8,6 @@ mse_cv <- function(r_list) {
   mean(mses)
 }
 rmse <- function(r) sqrt(mse(r))
-# rmse_cv <- function(r_list) sqrt(mse_cv(r_list))
 rmse2 <- function(true_ratings, predicted_ratings) {
   rmse(true_ratings - predicted_ratings)
 }
@@ -33,15 +32,24 @@ RMSEs.AddRow <- function(RMSEs,
 RMSEs.AddDiffColumn <- function(RMSEs){
   RMSEs.Diff <- RMSEs |>
     RMSEs.AddRow(NULL, project_objective, before = 1) #|>
-    #RMSEs.AddRow(NULL, 0, before = 1)
-    
-  
+
   RMSEs.Diff <- RMSEs.Diff[-nrow(RMSEs.Diff),]
     
   RMSEs |>
   add_column(Diff = RMSEs.Diff$RMSE - RMSEs$RMSE, 
              .before = "Comment")
   
+}
+RMSE_kable <- function(RMSEs,
+                       col1width = 15,
+                       col2width = 5,
+                       col3width = 30){
+  RMSEs |>
+    kable(align='lcl', booktabs = T, padding = 5) |> 
+    row_spec(0, bold = T) |>
+    column_spec(column = 1, width = RSME.tibble.col_width(col1width)) |>
+    column_spec(column = 2, width = RSME.tibble.col_width(col2width)) |>
+    column_spec(column = 3, width = RSME.tibble.col_width(col3width)) 
 }
 RMSE.Total_kable <- function(RMSEs,
                        col1width = 15,
@@ -54,17 +62,6 @@ RMSE.Total_kable <- function(RMSEs,
                col3width) |>
     column_spec(column = 4, 
                 width = RSME.tibble.col_width(col4width)) 
-}
-RMSE_kable <- function(RMSEs,
-                       col1width = 15,
-                       col2width = 5,
-                       col3width = 30){
-  RMSEs |>
-    kable(align='lcl', booktabs = T, padding = 5) |> 
-    row_spec(0, bold = T) |>
-    column_spec(column = 1, width = RSME.tibble.col_width(col1width)) |>
-    column_spec(column = 2, width = RSME.tibble.col_width(col2width)) |>
-    column_spec(column = 3, width = RSME.tibble.col_width(col3width)) 
 }
 RSME.tibble.col_width <- function(x){
   "%1em" |> msg.glue(x)

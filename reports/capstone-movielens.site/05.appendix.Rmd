@@ -1607,7 +1607,7 @@ The source code of the [rmse](https://github.com/AzKurban-edX-DS/Capstone-MovieL
 
 \newpage
 
-#### [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L12) Function {#func.rmse2}
+#### [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L11) Function {#func.rmse2}
 \
 
 Calculates *Root Mean Squared Error* as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
@@ -1641,7 +1641,7 @@ rmse2(true_ratings, predicted_ratings)
 ##### Source Code
 \
 
-The source code of the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L12) function is shown below:
+The source code of the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L11) function is shown below:
 ```{r eval=FALSE}
 rmse2 <- function(true_ratings, predicted_ratings) {
   rmse(true_ratings - predicted_ratings)
@@ -1649,7 +1649,7 @@ rmse2 <- function(true_ratings, predicted_ratings) {
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L12) function is also available in the [(R)MSE-related functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L3) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L12) script on _GitHub_.
+The source code of the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L11) function is also available in the [(R)MSE-related functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L3) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L11) script on _GitHub_.
 :::
 :::
 
@@ -1659,13 +1659,14 @@ The source code of the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-Movie
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section are available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
+The complete source code of the functions described in this section are available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
 :::
 
-#### [CreateRMSEs_ResultTibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L17) Function {#func.CreateRMSEs_ResultTibble}
+#### [CreateRMSEs_ResultTibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) Function {#func.CreateRMSEs_ResultTibble}
 \
 
-Creates a _Result (RMSEs) Table_ of type *data frame*.
+Creates a _RMSEs Result Tibble_ of type *data frame*.
+
 ::: { #func.CreateRMSEs_ResultTibble.usage .sidebar }
 ##### Usage
 \
@@ -1675,11 +1676,11 @@ RMSEs.ResultTibble <- CreateRMSEs_ResultTibble()
 ```
 :::
 
-::: { #func.CreateRMSEs_ResultTibble.args .sidebar }
+::: { #func.CreateRMSEs_ResultTibble.details .sidebar }
 ##### Details
 \
 
-This function is a wrapper for the [tibble::tibble](https://www.rdocumentation.org/packages/tibble/versions/3.2.1/topics/tibble) function, which is called internally to construct a data frame representing the _Result (RMSEs) Table_ to store the _RMSE_ values for every model used in the project to predict movie ratings.
+This function is a wrapper for the [tibble::tibble](https://www.rdocumentation.org/packages/tibble/versions/3.2.1/topics/tibble) function, which is called internally to construct a data frame representing the _RMSEs Result Tibble_ to store the _RMSE_ values for every model used in the project to predict movie ratings.
 
 The result data frame, which is returned to the client code, has the following columns:
 
@@ -1700,7 +1701,7 @@ A tibble returned by the internally called [tibble::tibble()](https://www.rdocum
 ##### Source Code
 \
 
-The source code of the [CreateRMSEs_ResultTibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L17) function is shown below:
+The source code of the [CreateRMSEs_ResultTibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) function is shown below:
 ```{r eval=FALSE}
 CreateRMSEs_ResultTibble <- function(){
   tibble(Method = c("Project Objective"),
@@ -1711,13 +1712,13 @@ CreateRMSEs_ResultTibble <- function(){
 :::
 
 ::: {.noteblock data-latex=""}
-The source code of the [CreateRMSEs_ResultTibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L17) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L17) script on _GitHub_.
+The source code of the [CreateRMSEs_ResultTibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) script on _GitHub_.
 :::
 
-#### [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L22) Function {#func.RMSEs.AddRow}
+#### [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L21) Function {#func.RMSEs.AddRow}
 \
 
-Adds a row to the original _Result (RMSEs) Table_ passed in the [RMSEs](#func.RMSEs.AddRow.args.RMSEs) argument.
+Adds a row to the original _RMSEs Result Tibble_ passed in the [RMSEs](#func.RMSEs.AddRow.args.RMSEs) argument.
 
 ::: { #func.RMSEs.AddRow.usage .sidebar }
 ##### Usage
@@ -1737,7 +1738,7 @@ RMSEs.AddRow(RMSEs,
 \
 
 ::: { #func.RMSEs.AddRow.args.RMSEs .sidebar }
-  - ***RMSEs:*** Original _Resut (RMSEs) Table_ (of type *data frame*) to modify;
+  - ***RMSEs:*** Original _RMSEs Result Tibble_ (of type *data frame*) to modify;
 
 :::
 
@@ -1762,11 +1763,13 @@ RMSEs.AddRow(RMSEs,
 :::
 :::
 
-::: { #func.RMSEs.AddRow.code .sidebar }
+::: { #func.RMSEs.AddRow.code.details .sidebar }
 ##### Details
 \
 
-This function is a wrapper for the [tibble::add_row](https://www.rdocumentation.org/packages/tibble/versions/3.2.1/topics/add_row) function, which is called internally to modify a data frame representing the original _Result (RMSEs) Table_, which stores the _RMSE_ values for the models used in the project to predict movie ratings.
+This function is a wrapper for the [tibble::add_row](https://www.rdocumentation.org/packages/tibble/versions/3.2.1/topics/add_row) function, which is called internally to modify a data frame representing the original _RMSEs Result Tibble_, which stores the _RMSE_ values for the models used in the project to predict movie ratings.
+
+For more information about the _RMSEs Result Tibble_, see the [Details](#func.CreateRMSEs_ResultTibble.details) section of the [CreateRMSEs_ResultTibble](#func.CreateRMSEs_ResultTibble) function description above.
 
 :::
 
@@ -1783,7 +1786,7 @@ The modified tibble returned by the internally called [tibble::add_row()](https:
 ##### Source Code
 \
 
-The source code of the [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L22) function is shown below:
+The source code of the [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L21) function is shown below:
 ```{r eval=FALSE}
 RMSEs.AddRow <- function(RMSEs, 
                          method, 
@@ -1800,7 +1803,7 @@ RMSEs.AddRow <- function(RMSEs,
 :::
 
 ::: {.noteblock data-latex=""}
-The source code of the [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L22) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L22) script on _GitHub_.
+The source code of the [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L21) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L21) script on _GitHub_.
 :::
 
 
@@ -1810,14 +1813,10 @@ The source code of the [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capston
 
 
 
-#### [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L49) Function {#func.RMSEs.AddDiffColumn}
+#### [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) Function {#func.RMSEs.AddDiffColumn}
 \
 
-::: {.noteblock data-latex=""}
-The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L49) script on _GitHub_.
-:::
-
-Adds a calculated column named _Diff_ to the _Result(RMSEs)_ table (passed in the [RMSEs](#func.RMSEs.AddDiffColumn.args.RMSEs) parameter) that contains, for each row, the difference between the value of the _RMSE_ column for the previous row and the value of the same column for the current row. This is true for each row except the first, for which the value is always zero.
+Adds a calculated column named _Diff_ to the _RMSEs Result Tibble_ (passed in the [RMSEs](#func.RMSEs.AddDiffColumn.args.RMSEs) parameter) that contains, for each row, the difference between the value of the _RMSE_ column for the previous row and the value of the same column for the current row. This is true for each row except the first, for which the value is always zero.
 
 ::: { #func.RMSEs.AddDiffColumn.usage .sidebar }
 ##### Usage
@@ -1833,22 +1832,39 @@ RMSEs.ModifiedTable <- RMSEs.AddDiffColumn(RMSEs)
 \
 
 ::: { #func.RMSEs.AddDiffColumn.args.RMSEs .sidebar }
-  - ***RMSEs:*** _Result (RMSEs) Table_ to modify;
+  - ***RMSEs:*** _RMSEs Result Tibble_ to modify;
 
+:::
+:::
+
+::: { #func.RMSEs.AddDiffColumn.details .sidebar }
+##### Details
+\
+
+This function is a wrapper for the [tibble::add_column](https://www.rdocumentation.org/packages/tibble/versions/3.2.1/topics/add_column) function, which is called internally to modify a data frame representing the original _RMSEs Result Tibble_. It also internally uses the [RMSEs.AddRow](#func.RMSEs.AddRow) function described above to perform the necessary intermediate calculations.
+
+For more information about the _RMSEs Result Tibble_, see the [Details](#func.CreateRMSEs_ResultTibble.details) section of the [CreateRMSEs_ResultTibble](#func.CreateRMSEs_ResultTibble) function description above.
+
+:::
+
+
+::: { #func.RMSEs.AddRow.value .sidebar }
+##### Value
+\
+
+The modified tibble returned by the internally called [tibble::add_column()](https://www.rdocumentation.org/packages/tibble/versions/3.2.1/topics/add_column).
 :::
 
 ::: { #func.RMSEs.AddDiffColumn.code .sidebar }
 ##### Source Code
 \
 
-The soure code of the function is provided below:
+The source code of the [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) function is shown below:
 ```{r eval=FALSE}
 RMSEs.AddDiffColumn <- function(RMSEs){
   RMSEs.Diff <- RMSEs |>
     RMSEs.AddRow(NULL, project_objective, before = 1) #|>
-    #RMSEs.AddRow(NULL, 0, before = 1)
-    
-  
+
   RMSEs.Diff <- RMSEs.Diff[-nrow(RMSEs.Diff),]
     
   RMSEs |>
@@ -1857,15 +1873,11 @@ RMSEs.AddDiffColumn <- function(RMSEs){
   
 }
 ```
+:::
 
 ::: {.noteblock data-latex=""}
-Under the hood, the function calls internally the [RMSEs.AddRow](#func.RMSEs.AddRow) function described above.
+The source code of the [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) script on _GitHub_.
 :::
-:::
-
-##### Return
-
-The modified _Result (RMSEs) Table_.
 
 #### [RMSE_kable](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) Function {#func.RMSE_kable}
 \
@@ -1874,7 +1886,7 @@ The modified _Result (RMSEs) Table_.
 The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) script on _GitHub_.
 :::
 
-Prints the _Result (RMSEs) Table_.
+Prints the _RMSEs Result Tibble_.
 
 ::: {.noteblock data-latex=""}
 It is assumed that the table has the following three columns:
@@ -1902,7 +1914,7 @@ RMSE_kable <- function(RMSEs,
 \
 
 ::: { #func.RMSE_kable.args.RMSEs .sidebar }
-  - ***RMSEs:*** _Result (RMSEs) Table_ to print;
+  - ***RMSEs:*** _RMSEs Result Tibble_ to print;
 
 :::
 
@@ -1948,7 +1960,7 @@ RMSE_kable <- function(RMSEs,
 The complete source code of this function is available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L85) script on _GitHub_.
 :::
 
-Prints the _Result (RMSEs) Table_.
+Prints the _RMSEs Result Tibble_.
 
 ::: {.noteblock data-latex=""}
 It is assumed that the table has the following four columns:
@@ -1978,7 +1990,7 @@ RMSE.Total_kable <- function(RMSEs,
 \
 
 ::: { #func.RMSE.Total_kable.args.RMSEs .sidebar }
-  - ***RMSEs:*** _Result (RMSEs) Table_ to print;
+  - ***RMSEs:*** _RMSEs Result Tibble_ to print;
 
 :::
 
