@@ -2063,7 +2063,7 @@ RMSE.Total_kable(RMSEs,
 \
 
 ::: { #func.RMSE.Total_kable.args.RMSEs .sidebar }
-  - ***RMSEs:*** The final _RMSEs Result Tibble_ to print;
+  - ***RMSEs:*** The _Final RMSEs Result Tibble_ to print;
 
 :::
 
