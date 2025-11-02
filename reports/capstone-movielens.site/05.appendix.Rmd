@@ -1875,8 +1875,6 @@ RMSEs.AddDiffColumn <- function(RMSEs){
 The source code of the [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) script on _GitHub_.
 :::
 
-\newpage
-
 #### [RSME.tibble.col_width](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L66) Function {#func.RSME.tibble.col_width}
 \
 
@@ -2000,7 +1998,7 @@ For more information about the _RMSEs Result Tibble_, see the [Details](#func.Cr
 ##### Value
 \
 
-The table created by the internally called [knitr::kable()]().
+The table created by the internally called [knitr::kable()](https://www.rdocumentation.org/packages/knitr/versions/1.43/topics/kable).
 
 :::
 
@@ -2035,7 +2033,7 @@ The source code of the [RMSE_kable](https://github.com/AzKurban-edX-DS/Capstone-
 #### [RMSE.Total_kable](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L54) Function {#func.RMSE.Total_kable}
 \
 
-Prints the final _RMSEs Result Tibble_.
+Prints the _Final RMSEs Result Tibble_.
 
 ::: {.noteblock data-latex=""}
 It is assumed that the tibble has the following four columns:
@@ -2095,6 +2093,8 @@ RMSE.Total_kable(RMSEs,
 \
 
 This function is a wrapper for the [RMSE_kable](#func.RMSE_kable) function described above, which is called internally to print the table, created from the final _RMSEs Result Tibble_ data.
+
+It is assumed that the  _Final RMSEs Result Tibble_ is previously constructed from the original _RMSEs Result Tibble_ using the [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn) function described above.
 
 The [kableExtra::column_spec](https://www.rdocumentation.org/packages/kableExtra/versions/1.3.4/topics/column_spec) function, along with the [RSME.tibble.col_width](#func.RSME.tibble.col_width) function described above, are also used internally to set the width of the last column of the table.
 
