@@ -120,12 +120,12 @@ The source code of the [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Cap
 :::
 :::
 
-#### [RMSEs.tibble-tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.RMSEs.tibble-tmpl}
+#### [RMSEs.tibble_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.RMSEs.tibble_tmpl}
 \
 
-Modifies the original _RMSEs Result Tibble_ passed in the [RMSEs](#func.RMSEs.tibble-tmpl.args.RMSEs) argument.
+Modifies the original _RMSEs Result Tibble_ passed in the [RMSEs](#func.RMSEs.tibble_tmpl.args.RMSEs) argument.
 
-::: { #func.RMSEs.tibble-tmpl.usage .sidebar }
+::: { #func.RMSEs.tibble_tmpl.usage .sidebar }
 ##### Usage
 \
 
@@ -133,64 +133,66 @@ Modifies the original _RMSEs Result Tibble_ passed in the [RMSEs](#func.RMSEs.ti
 ```
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args .sidebar }
 ##### Arguments
 \
 
-::: { #func.RMSEs.tibble-tmpl.args.RMSEs .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args.RMSEs .sidebar }
   - ***RMSEs:*** Original _RMSEs Result Tibble_ (of type *data frame*) to modify;
 
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args. .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args. .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args. .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args. .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args. .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args. .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args. .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args. .sidebar }
   - ***:*** ;
 
 :::
 
-::: { #func.RMSEs.tibble-tmpl.args. .sidebar }
+::: { #func.RMSEs.tibble_tmpl.args. .sidebar }
   - ***:*** ;
 
 :::
 :::
 
-::: { #func.RMSEs.tibble-tmpl.details .sidebar }
+::: { #func.RMSEs.tibble_tmpl.details .sidebar }
 ##### Details
 \
 
 This function is a wrapper for the [tibble::]() function, which is called internally to modify a data frame representing the original _RMSEs Result Tibble_, which stores the _RMSE_ values for the models used in the project to predict movie ratings.
+
+For more information about the _RMSEs Result Tibble_, see the [Details](#func.CreateRMSEs_ResultTibble.details) section of the [CreateRMSEs_ResultTibble](#func.CreateRMSEs_ResultTibble) function description above.
 :::
 
-::: { #func.RMSEs.tibble-tmpl.value .sidebar }
+::: { #func.RMSEs.tibble_tmpl.value .sidebar }
 ##### Value
 \
 
@@ -199,24 +201,20 @@ The modified tibble returned by the internally called [tibble::()]().
 :::
 
 
-::: { #func.RMSEs.tibble-tmpl.code .sidebar }
+::: { #func.RMSEs.tibble_tmpl.code .sidebar }
 ##### Source Code
 \
 
-The source code of the [RMSEs.tibble-tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+The source code of the [RMSEs.tibble_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
 ```{r eval=FALSE}
 ```
 :::
 
 ::: {.noteblock data-latex=""}
-The source code of the [RMSEs.tibble-tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+The source code of the [RMSEs.tibble_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
 :::
 
-
-
-
-
-
+\newpage
 
 #### [dat-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) Function {#func.dat-func.tmpl}
 \
