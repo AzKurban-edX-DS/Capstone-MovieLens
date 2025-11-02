@@ -66,15 +66,6 @@ RMSE.Total_kable <- function(RMSEs,
 RSME.tibble.col_width <- function(x){
   "%1em" |> msg.glue(x)
 }
-## Overall Mean Rating Model ---------------------------------------------------
-naive_model_MSEs <- function(val) {
-  sapply(edx_CV, function(cv_item){
-    mse(cv_item$validation_set$rating - val)
-  })
-}
-naive_model_RMSE <- function(val){
-  sqrt(mean(naive_model_MSEs(val)))
-}
 ## Regularization --------------------------------------------------------------
 mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   if (is.na(lambda)) {
@@ -87,7 +78,6 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
   sums/(N + lambda)
 }
-## Model Tuning ---------------------------------------------------------
 get_fine_tune.param.endpoints <- function(preset.result) {
 
   preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
@@ -103,8 +93,7 @@ get_fine_tune.param.endpoints <- function(preset.result) {
 get_fine_tune.param.endpoints.idx <- function(preset.result) {
   best_RMSE <- min(preset.result$RMSE)
   best_RMSE.idx <- which.min(preset.result$RMSE)
-  # best_lambda <- preset.result$parameter.value[best_RMSE.idx]
-  
+
   preset.result.N <- length(preset.result$RMSE)
   i <- best_RMSE.idx
   j <- i
@@ -234,9 +223,7 @@ model.tune.param_range <- function(loop_starter,
   if (interval_divisor < 4) {
     interval_divisor <- 4
   }
-  # max_interval_divisor <- loop_starter[4]
-  
-  
+
   best_RMSE <- NA
   param.best_value <- 0
   
@@ -257,8 +244,6 @@ Final best RMSE for `parameter value = %1`: %2",
                param_values.best_result["best_RMSE"])
       
       put(param_values.best_result)
-      # param.best_value   best_RMSE 
-      # -75.0000000   0.8578522  
       # browser()
       break
     }
@@ -306,9 +291,6 @@ Tuning data has been loaded from file: %1", file_path_tmp)
       
       tuned.result <- tuned_result$tuned.result
       
-      
-      #     put_log1("Function `model.tune.param_range`:
-      # File NOT saved (disabled for debug purposes): %1", file_path_tmp)
       save(tuned_result,
            param.best_value,
            # best_RMSE,
@@ -329,7 +311,6 @@ File saved: %1", file_path_tmp)
     prm_val.leftmost.tmp <- tuned.result$parameter.value[start.idx]
     RMSE.leftmost.tmp <- tuned.result$RMSE[start.idx]
 
-    # tuned.result.N <- length(tuned.result$parameter.value)
     prm_val.rightmost.tmp <- tuned.result$parameter.value[end.idx]
     RMSE.rightmost.tmp <- tuned.result$RMSE[end.idx]
     
@@ -343,16 +324,13 @@ File saved: %1", file_path_tmp)
       prm_val.leftmost <- prm_val.leftmost.tmp
       RMSE.leftmost <- RMSE.leftmost.tmp
       
-      # n <- length(tuned.result$parameter.value)
       prm_val.rightmost <- prm_val.rightmost.tmp
       RMSE.rightmost <- RMSE.rightmost.tmp
       
       param.best_value <- min_RMSE.prm_val
       best_RMSE <- min_RMSE
-      
       # browser()
     }
-    
     # browser()
 
     if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
@@ -416,18 +394,6 @@ So far reached best RMSE for `parameter value = %1`: %2",
         # browser()
         break
       }
-
-      # if (interval_divisor < max_interval_divisor) {
-      #   interval_divisor <- interval_divisor*interval_divisor.multiplier
-      #   # browser()
-      # } else {
-      #   warning("`interval_divisor` reached its maximum allowed value: ",
-      #           max_interval_divisor)
-      #   put_log1("The actual value of the `interval_divisor` is %1",
-      #            interval_divisor)
-      #   # browser()
-      #   #break
-      # }
     } else if (best_RMSE < min_RMSE) {
       warning("Current minimal RMSE is greater than previously computed best value: ",
               best_RMSE, "
@@ -450,27 +416,6 @@ Currently reached best RMSE for `parameter value = %1`: %2",
              param_values.best_result["best_RMSE"])
     
     put(param_values.best_result)
-    
-    #seq_start_ind <- best_RMSE.idx - 1
-    
-    # if (seq_start_ind < 1) {
-    #   seq_start_ind <- 1
-    #   warning("`tuned.result$parameter.value` index too small, so it assigned a value ",
-    #           seq_start_ind)
-    #   # browser()
-    # }
-    
-    #seq_end_ind <- best_RMSE.idx + 1
-    
-#     if (length(tuned.result$parameter.value) < seq_end_ind) {
-#       warning("`seq_end_ind` index too large and will be set to `best_RMSE.idx`.")
-#       seq_end_ind <- best_RMSE.idx
-#       put_log1("Function `model.tune.param_range`:
-# Index exeeded the length of `tuned.result$parameter.value`, so it is set to maximum possible value of %1",
-#                seq_end_ind)
-#       # browser()
-#     }
-    
   }
   # End repeat loop
   
@@ -490,7 +435,6 @@ Currently reached best RMSE for `parameter value = %1`: %2",
     result.RMSE[n+1] <- RMSE.rightmost
     # browser()
   }
-  
   # browser()
   list(best_result = param_values.best_result,
        param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
@@ -498,11 +442,19 @@ Currently reached best RMSE for `parameter value = %1`: %2",
                                  RMSE = result.RMSE))
 }
 
-##Utility Functions --------------------------------------------------------------
+##Utility Functions ------------------------------------------------------------
 # Because we know ratings can’t be below 0.5 or above 5, 
 # we define the function clamp:
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
-
+msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
+  msg_template |> 
+    str_replace_all(arg.name, as.character(arg))
+}
+msg.glue <- function(msg_template, arg, arg.name = "%1"){
+  msg_template |>
+    msg.set_arg(arg, arg.name) |>
+    str_glue()
+}
 make_ordinal_no <- function(n){
   if(n == 1){
     "1st"
@@ -514,14 +466,3 @@ make_ordinal_no <- function(n){
     str_glue("{n}th")
   }
 }
-
-msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
-  msg_template |> 
-    str_replace_all(arg.name, as.character(arg))
-}
-msg.glue <- function(msg_template, arg, arg.name = "%1"){
-  msg_template |>
-    msg.set_arg(arg, arg.name) |>
-    str_glue()
-}
-

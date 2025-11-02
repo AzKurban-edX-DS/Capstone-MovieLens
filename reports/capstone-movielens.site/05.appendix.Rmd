@@ -1271,7 +1271,11 @@ The source code of the [put_log4](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 ### Utility Functions {#appndx_a.CHF.utility_funcs}
 
-#### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L507) Function {#func.clamp}
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section are available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L445) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L445) script on _GitHub_.
+:::
+
+#### [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L448) Function {#func.clamp}
 \
 
 Clamps the input value passed in [r](#func.clamp.args.r) argument between the values passed in [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments. 
@@ -1326,17 +1330,17 @@ The value clamped between [min](#func.clamp.args.min) and [max](#func.clamp.args
 ##### Source Code
 \
 
-The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L507) function is shown below:
+The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L448) function is shown below:
 ```{r eval=FALSE}
 clamp <- function(x, min = 0.5, max = 5) pmax(pmin(x, max), min)
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L507) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L504) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L507) script on _GitHub_.
+The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L448) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L445) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L448) script on _GitHub_.
 :::
 :::
 
-#### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) Function {#func.msg.set_arg}
+#### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) Function {#func.msg.set_arg}
 \
 
 Creates a character vector from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument, using the value specified by the [arg](#func.msg.set_arg.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument found in the template.
@@ -1375,7 +1379,6 @@ msg.set_arg(msg_template, arg, arg.name = "%1")
 \
 
 This function is a wrapper for the [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` function, which is called internally to replace all occurrences of the pattern (placeholder) specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (`%1` by default), in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
-
 :::
 
 ::: { #func.msg.set_arg.value .sidebar }
@@ -1383,14 +1386,13 @@ This function is a wrapper for the [stringr::str_replace_all](https://www.rdocum
 \
 
 The character vector returned by the internally called [stringr::str_replace_all()](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace).
-
 :::
 
 ::: { #func.msg.set_arg.code .sidebar }
 ##### Source Code
 \
 
-The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) function is shown below:
+The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) function is shown below:
 ```{r eval=FALSE}
 msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
   msg_template |> 
@@ -1399,13 +1401,13 @@ msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) function is defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L521) script on _GitHub_.
+The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L445) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) script on _GitHub_.
 :::
 :::
 
 \newpage
 
-#### [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) Function {#func.msg.glue}
+#### [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) Function {#func.msg.glue}
 \
 
 Creates a [glue::glue](https://glue.tidyverse.org/reference/glue.html) object from the template passed in the [msg_template](#func.msg.glue.args.msg_template) argument, using the value specified by the [arg](#func.msg.glue.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.glue.args.arg.name) argument found in the template.
@@ -1459,7 +1461,7 @@ A [glue::glue](https://glue.tidyverse.org/reference/glue.html) object created fr
 ##### Source Code
 \
 
-The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) function is shown below:
+The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#453) function is shown below:
 ```{r eval=FALSE}
 msg.glue <- function(msg_template, arg, arg.name = "%1"){
   msg_template |>
@@ -1469,7 +1471,7 @@ msg.glue <- function(msg_template, arg, arg.name = "%1"){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) function is defined in the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L525) script on _GitHub_.
+The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L445) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) script on _GitHub_.
 :::
 :::
 
@@ -1478,7 +1480,7 @@ The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-Mo
 ### (Root) Mean Squared Error Calculation
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section are available in the [(R)MSE-related functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L3) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
+The complete source code of the functions described in this section are available in the [(R)MSE-related functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L3) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L3) script on _GitHub_.
 :::
 
 #### [mse](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L5) Function {#func.mse}
@@ -1655,11 +1657,11 @@ The source code of the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-Movie
 
 \newpage
 
-### Result RMSEs Table Functions
+### Result RMSEs Tibble Functions
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section are available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
+The complete source code of the functions described in this section are available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) script on _GitHub_.
 :::
 
 #### [CreateRMSEs_ResultTibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L16) Function {#func.CreateRMSEs_ResultTibble}
@@ -2139,7 +2141,7 @@ The source code of the [RMSE.Total_kable](https://github.com/AzKurban-edX-DS/Cap
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section are available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R) script on _GitHub_.
+The complete source code of the functions described in this section are available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L78) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L78) script on _GitHub_.
 :::
 
 #### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) Function {#func.mean_reg}
@@ -2602,7 +2604,7 @@ Currently computed minial value is: ", min_RMSE)
 ```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L74) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script on _GitHub_.
+The complete version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L78) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script on _GitHub_.
 :::
 :::
 
