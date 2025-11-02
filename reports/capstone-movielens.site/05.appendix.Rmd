@@ -1875,8 +1875,6 @@ RMSEs.AddDiffColumn <- function(RMSEs){
 The source code of the [RMSEs.AddDiffColumn](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) function is also available in the [RMSEs Result Tibble](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L15) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L32) script on _GitHub_.
 :::
 
-\newpage
-
 #### [RSME.tibble.col_width](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L66) Function {#func.RSME.tibble.col_width}
 \
 
