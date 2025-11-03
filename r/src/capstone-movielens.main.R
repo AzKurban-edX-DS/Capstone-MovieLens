@@ -71,6 +71,16 @@ log_close()
 #>  the differences explained by random variation would look as follows:
 # Y[i,j] = μ + ε[i,j]
 
+### Support Functions ---------------------------------------------------------
+OMR_model.functions.file_path <- file.path(support_functions.path, 
+                                           "OMR-model.functions.R")
+source(OMR_model.functions.file_path, 
+       catch.aborts = TRUE,
+       echo = TRUE,
+       spaced = TRUE,
+       verbose = TRUE,
+       keep.source = TRUE)
+
 ### Open log -------------------------------------------------------------------
 open_logfile(".overall-mean-rating")
 ### Create an RMSE Result Tibble  ----------------------------------------------
