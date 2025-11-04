@@ -85,7 +85,7 @@ filter_noMore_nratings <- function(data, nratings){
     filter(n() > nratings) |>
     ungroup()  
 }
-## Initialize input datasets ---------------------------------------------------
+## Initializing input datasets ---------------------------------------------------
 make_source_datasets <- function(){
   put_log("Function: `make_source_datasets`: Creating source datasets...")
   
@@ -220,6 +220,7 @@ Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...")
     
     start <- put_start_date()
     unzip(movielens_datasets_zip, movielens_datasets_file_path)
+    put_end_date(start)
     
     if(!file.exists(movielens_datasets_file_path)) {
       put_log("Method `init_source_datasets`: 
@@ -268,16 +269,6 @@ Failed to zip file: {movielens_datasets_file_path}.")
       } else {
         put_log("Method `init_source_datasets`: 
 Zip-archive created: {movielens_datasets_zip}.")
-        #file.remove(movielens_datasets_file)
-        
-        if(file.exists(movielens_datasets_file_path)){
-          put_log("Method `init_source_datasets`: 
-Failed to remove file: {movielens_datasets_file_path}.")
-          warning("Failed to remove MovieLens data file.")
-        } else {
-          put_log("Method `init_source_datasets`: 
-File has been removed: {movielens_datasets_file_path}")
-        }
       }
     }
   }

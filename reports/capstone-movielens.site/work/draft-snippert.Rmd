@@ -8,7 +8,7 @@ output: html_document
 
 A function to initialize the log file.
 
-::: { #func.open_logfile.Usage .sidebar }
+::: { #func.open_logfile.usage .sidebar }
 ##### Usage
 \
 

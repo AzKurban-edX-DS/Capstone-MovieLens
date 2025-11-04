@@ -1,4 +1,4 @@
-# Appendix {#appndx_a}
+# Appendix A: Support Functions {#appndx_a}
 ## Common Helper Functions
 ### Logging Functions {#appndx_a.CHF.logging-funcs}
 
@@ -11,7 +11,7 @@ The full source code of the functions described in this section is available in 
 
 A function to initialize the log file.
 
-::: { #func.open_logfile.Usage .sidebar }
+::: { #func.open_logfile.usage .sidebar }
 ##### Usage
 \
 
@@ -83,7 +83,7 @@ The source code of the [open_logfile](https://github.com/AzKurban-edX-DS/Capston
 
 Prints the system date and time at the time the function is called and returns the system's idea of the current date and time.
 
-::: { #func.print_start_date.Usage .sidebar }
+::: { #func.print_start_date.usage .sidebar }
 ##### Usage
 \
 
@@ -131,7 +131,7 @@ The source code of the [print_start_date](https://github.com/AzKurban-edX-DS/Cap
 
 Outputs the system date and time to the currently opened log (using the [open_logfile](#func.open_logfile) function described above) at the time the function is called and returns the system's idea of the current date and time.
 
-::: { #func.put_start_date.Usage .sidebar }
+::: { #func.put_start_date.usage .sidebar }
 ##### Usage
 \
 
@@ -179,7 +179,7 @@ The source code of the [put_start_date](https://github.com/AzKurban-edX-DS/Capst
 
 Prints the system date and time at the time the function is called, and then the time elapsed since the date and time specified by the [start](#func.print_end_date.args.start) argument.
 
-::: { #func.print_end_date.Usage .sidebar }
+::: { #func.print_end_date.usage .sidebar }
 ##### Usage
 \
 
@@ -240,7 +240,7 @@ Outputs the system date and time to the currently open log (using the [open_logf
 
 The first value in the output is the system date and time at the time the function is called, and the second value is the time elapsed since the date and time specified by the [start](#func.put_end_date.args.start) argument.
 
-::: { #func.put_end_date.Usage .sidebar }
+::: { #func.put_end_date.usage .sidebar }
 ##### Usage
 \
 
@@ -297,7 +297,7 @@ The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capston
 
 Prints a multiline string specified by the [msg](#func.print_log.args.msg) argument.
 
-::: { #func.print_log.Usage .sidebar }
+::: { #func.print_log.usage .sidebar }
 ##### Usage
 \
 
@@ -353,7 +353,7 @@ The source code of the [print_log](https://github.com/AzKurban-edX-DS/Capstone-M
 
 Outputs a multiline string specified by the [msg](#func.put_log.args.msg) argument to the currently opened log (using the [open_logfile](#func.open_logfile) function described above).
 
-::: { #func.put_log.Usage .sidebar }
+::: { #func.put_log.usage .sidebar }
 ##### Usage
 \
 
@@ -411,7 +411,7 @@ The source code of the [put_log](https://github.com/AzKurban-edX-DS/Capstone-Mov
 
 Creates a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
 
-::: { #func.get_log1.Usage .sidebar }
+::: { #func.get_log1.usage .sidebar }
 ##### Usage
 \
 
@@ -474,7 +474,7 @@ The source code of the [get_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 Prints a log created from the template passed in the [msg_template](#func.print_log1.args.msg_template) argument, using the value specified by the [arg1](#func.print_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
 
-::: { #func.print_log1.Usage .sidebar }
+::: { #func.print_log1.usage .sidebar }
 ##### Usage
 \
 
@@ -536,7 +536,7 @@ The source code of the [print_log1](https://github.com/AzKurban-edX-DS/Capstone-
 
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log1.args.msg_template) argument, using the value specified by the [arg1](#func.put_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
 
-::: { #func.put_log1.Usage .sidebar }
+::: { #func.put_log1.usage .sidebar }
 ##### Usage
 \
 
@@ -601,7 +601,7 @@ The source code of the [put_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 Creates a character vector from the template passed in the [msg_template](#func.get_log2.args.msg_template) argument, using the values specified by the [arg1](#func.get_log2.args.arg1) and [arg2](#func.get_log2.args.arg2) arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
 
-::: { #func.get_log2.Usage .sidebar }
+::: { #func.get_log2.usage .sidebar }
 ##### Usage
 \
 
@@ -672,7 +672,7 @@ The source code of the [get_log2](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 Prints a log created from the template passed in the [msg_template](#func.print_log2.args.msg_template) argument, using the values specified by the [arg1](#func.print_log2.args.arg1) and [arg2](#func.print_log2.args.arg2) arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
 
-::: { #func.print_log2.Usage .sidebar }
+::: { #func.print_log2.usage .sidebar }
 ##### Usage
 \
 
@@ -740,7 +740,7 @@ The source code of the [print_log2](https://github.com/AzKurban-edX-DS/Capstone-
 
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log2.args.msg_template) argument, using the values specified by the [arg1](#func.put_log2.args.arg1) and [arg2](#func.put_log2.args.arg2) arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
 
-::: { #func.put_log2.Usage .sidebar }
+::: { #func.put_log2.usage .sidebar }
 ##### Usage
 \
 
@@ -809,7 +809,7 @@ The source code of the [put_log2](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 Creates a character vector from the template passed in the [msg_template](#func.get_log3.args.msg_template) argument, using the values specified by the [arg1](#func.get_log3.args.arg1), [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3) arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
 
-::: { #func.get_log3.Usage .sidebar }
+::: { #func.get_log3.usage .sidebar }
 ##### Usage
 \
 
@@ -886,7 +886,7 @@ The source code of the [get_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 Prints a log created from the template passed in the [msg_template](#func.print_log3.args.msg_template) argument, using the values specified by the [arg1](#func.print_log3.args.arg1), [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
 
-::: { #func.print_log3.Usage .sidebar }
+::: { #func.print_log3.usage .sidebar }
 ##### Usage
 \
 
@@ -959,7 +959,7 @@ The source code of the [print_log3](https://github.com/AzKurban-edX-DS/Capstone-
 
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log3.args.msg_template) argument, using the values specified by the [arg1](#func.put_log3.args.arg1), [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
 
-::: { #func.put_log3.Usage .sidebar }
+::: { #func.put_log3.usage .sidebar }
 ##### Usage
 \
 
@@ -1034,7 +1034,7 @@ The source code of the [put_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 Creates a character vector from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument, using the values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
 
-::: { #func.get_log4.Usage .sidebar }
+::: { #func.get_log4.usage .sidebar }
 ##### Usage
 \
 
@@ -1117,7 +1117,7 @@ The source code of the [get_log4](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 Prints a log created from the template passed in the [msg_template](#func.print_log4.args.msg_template) argument, using the values specified by the [arg1](#func.print_log4.args.arg1), [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
 
-::: { #func.print_log4.Usage .sidebar }
+::: { #func.print_log4.usage .sidebar }
 ##### Usage
 \
 
@@ -1195,7 +1195,7 @@ The source code of the [print_log4](https://github.com/AzKurban-edX-DS/Capstone-
 
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log4.args.msg_template) argument, using the values specified by the [arg1](#func.put_log4.args.arg1), [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
 
-::: { #func.put_log4.Usage .sidebar }
+::: { #func.put_log4.usage .sidebar }
 ##### Usage
 \
 
@@ -1280,7 +1280,7 @@ The complete source code of the functions described in this section are availabl
 
 Clamps the input value passed in [r](#func.clamp.args.r) argument between the values passed in [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments. 
 
-::: { #func.clamp.Usage .sidebar }
+::: { #func.clamp.usage .sidebar }
 ##### Usage
 \
 
@@ -1298,12 +1298,12 @@ r_clamped <- clamp(r, min = 0.5, max = 5)
 
 :::
 ::: { #func.clamp.args.min .sidebar }
-  - **min:** Minimum allowed value; 
+  - **min:** Minimum allowed value (0.5 by default); 
 
 :::
 :::
 ::: { #func.clamp.args.max .sidebar }
-  - **max:** Maximum allowed value; 
+  - **max:** Maximum allowed value (5 by default); 
 
 :::
 :::
@@ -1311,11 +1311,11 @@ r_clamped <- clamp(r, min = 0.5, max = 5)
 ::: { #func.clamp.details .sidebar }
 ##### Details
 \
+As explained in [Section 25.1 *Case study: recommendation systems / User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings cannot be below 0.5 or above 5. For this reason, we need a function described in that section[@IDS2_25-1]:
 
-As explained in [Section  23.4 *User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings cannot be below 0.5 or above 5. For this reason, we need a function described in that section[@IDS2_23-4]:
+This function is a wrapper for the [base::pmin](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Extremes) and [base::pmax](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Extremes) `R` functions, which are called internally to constrain the input value passed in the [r](#func.clamp.args.r) argument to be within the values passed in the [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments, respectively.
 
-Therefore, in our project this function is used to clamp the computed movie rating values between 0.5 and 5.
-
+In our project this function is used to clamp the computed movie rating values between 0.5 and 5.
 :::
 
 ::: { #func.clamp.value .sidebar }
@@ -1345,7 +1345,7 @@ The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-Movie
 
 Creates a character vector from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument, using the value specified by the [arg](#func.msg.set_arg.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument found in the template.
 
-::: { #func.msg.set_arg.Usage .sidebar }
+::: { #func.msg.set_arg.usage .sidebar }
 ##### Usage
 \
 
@@ -1412,7 +1412,7 @@ The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone
 
 Creates a [glue::glue](https://glue.tidyverse.org/reference/glue.html) object from the template passed in the [msg_template](#func.msg.glue.args.msg_template) argument, using the value specified by the [arg](#func.msg.glue.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.glue.args.arg.name) argument found in the template.
   
-::: { #func.msg.glue.Usage .sidebar }
+::: { #func.msg.glue.usage .sidebar }
 ##### Usage
 \
 
@@ -1461,7 +1461,7 @@ A [glue::glue](https://glue.tidyverse.org/reference/glue.html) object created fr
 ##### Source Code
 \
 
-The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#453) function is shown below:
+The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) function is shown below:
 ```{r eval=FALSE}
 msg.glue <- function(msg_template, arg, arg.name = "%1"){
   msg_template |>
@@ -1488,7 +1488,7 @@ The complete source code of the functions described in this section are availabl
 
 Calculates *Mean Squared Error* as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
 
-::: { #func.mse.Usage .sidebar }
+::: { #func.mse.usage .sidebar }
 ##### Usage
 \
 
@@ -1529,7 +1529,7 @@ The source code of the [mse](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 
 Calculates the average value of the *Mean Squared Errors* calculated using the _K-Fold Cross Validation_ method as described in [Section 31.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_31-6].
 
-::: { #func.mse_cv.Usage .sidebar }
+::: { #func.mse_cv.usage .sidebar }
 ##### Usage
 \
 
@@ -1573,7 +1573,7 @@ The source code of the [mse_cv](https://github.com/AzKurban-edX-DS/Capstone-Movi
 
 Calculates *Root Mean Squared Error* as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
 
-::: { #func.rmse.Usage .sidebar }
+::: { #func.rmse.usage .sidebar }
 ##### Usage
 \
 
@@ -1614,7 +1614,7 @@ The source code of the [rmse](https://github.com/AzKurban-edX-DS/Capstone-MovieL
 
 Calculates *Root Mean Squared Error* as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
 
-::: { #func.rmse2.Usage .sidebar }
+::: { #func.rmse2.usage .sidebar }
 ##### Usage
 \
 
@@ -2815,8 +2815,306 @@ get_best_param.result <- function(param_values, rmses){
 ## Data Helper Functions {#appndx_a.data_helper.functions}
 \
 
+### Initializing Input Datasets
+
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
+The complete source code of the functions described in this section is available in the the [Initializing input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L88) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L88) script on _GitHub_.
+:::
+
+#### [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) Function {#func.make_source_datasets}
+\
+
+Creates the major input datasets used throughout the project. 
+
+::: { #func.make_source_datasets.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+movielens_datasets <- make_source_datasets()
+
+```
+:::
+
+::: { #func.make_source_datasets.details .sidebar }
+##### Details
+\
+
+This function produces datasets listed in the [Value](#func.make_source_datasets.value) section below and described in detail in [Appendix B: Models Training Datasets] using the `edx` as the original dataset.
+
+::: {.noteblock data-latex=""}
+The function calls internally the following functions described below:
+
+  - [splitGenreRows](#) to create the [`edx.sgr` Object];
+  - [sample_train_validation_sets](#) to create *train* and *validation* sets of the inner datasets of the [`edx_CV` Object].
+
+:::
+:::
+
+::: { #func.make_source_datasets.value .sidebar }
+##### Value
+\
+
+The list of the following datasets are returned to the client code:
+
+  - [`edx.mx` Matrix Object];
+  
+  - [`edx.sgr` Object];
+
+  - [`movie_map` Object];
+  
+  - [`date_days_map` Object];
+
+  - [`edx_CV` Object];
+
+:::
+
+::: { #func.make_source_datasets.code .sidebar }
+##### Source Code
+\
+
+The source code of the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) function is shown below:
+```{r eval=FALSE}
+make_source_datasets <- function(){
+  put_log("Function: `make_source_datasets`: Creating source datasets...")
+  
+  put_log("Function: `make_source_datasets`: Creating Rating Matrix from `edx` dataset...")
+  edx.mx <- edx |> 
+    mutate(userId = factor(userId),
+           movieId = factor(movieId)) |>
+    select(movieId, userId, rating) |>
+    pivot_wider(names_from = movieId, values_from = rating) |>
+    column_to_rownames("userId") |>
+    as.matrix()
+  
+  put_log("Function: `make_source_datasets`:
+Matrix created: `edx.mx` of the following dimentions:")
+  put(dim(edx.mx))
+
+  #> To be able to map movie IDs to titles we create the following lookup table:
+  movie_map <- edx |> select(movieId, title, genres) |> 
+    distinct(movieId, .keep_all = TRUE)
+  
+  put_log("Function: `make_source_datasets`: Dataset created: movie_map")
+  put(summary(movie_map))
+  
+  put_log("Function: `make_source_datasets`: Creating Date-Days Map dataset...")
+  date_days_map <- edx |>
+    mutate(date_time = as_datetime(timestamp)) |>
+    mutate(date = as_date(date_time)) |>
+    mutate(year = year(date_time)) |>
+    mutate(days = as.integer(date - min(date))) |>
+    select(timestamp, date_time, date, year, days) |>
+    distinct(timestamp, .keep_all = TRUE)
+  
+  str(date_days_map)
+  put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
+  put(summary(date_days_map))
+  
+  put_log("Function: `make_source_datasets`: 
+To account for the Movie Genre Effect, we need a dataset with split rows 
+for movies belonging to multiple genres.")
+  edx.sgr <- splitGenreRows(edx)
+  
+  
+  
+  #> We will use K-fold cross validation as explained in 
+  #> Section 29.6.1: "K-fold validation" of the Cource Textbook:
+  #> https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation
+  #> We are going to compute the following version of the MSE introducing in that section:
+  
+  # $$
+  #   \mbox{MSE}(\lambda) \approx\frac{1}{B} \sum_{b = 1}^B \frac{1}{N}\sum_{i = 1}^N \left(\hat{y}_i^b(\lambda) - y_i^b\right)^2 
+  # $$
+  
+  start <- put_start_date()
+  edx_CV <- lapply(kfold_index,  function(fold_i){
+    
+    put_log1("Method `make_source_datasets`: 
+Creating K-Fold Cross Validation Datasets, Fold %1", fold_i)
+    
+    #> We split the initial datasets into training sets, which we will use to build 
+    #> and train our models, and validation sets in which we will compute the accuracy 
+    #> of our predictions, the way described in the `Section 23.1.1 Movielens data`
+    #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
+    #> of the Course Textbook.
+    
+    split_sets <- edx |>
+      sample_train_validation_sets(fold_i*1000)
+    
+    train_set <- split_sets$train_set
+    validation_set <- split_sets$validation_set
+    
+    put_log("Function: `make_source_datasets`: 
+Sampling 20% from the split-row version of the `edx` dataset...")
+    split_sets.gs <- edx.sgr |>
+      sample_train_validation_sets(fold_i*2000)
+
+    train.sgr <- split_sets.gs$train_set
+    validation.sgr <- split_sets.gs$validation_set
+    
+    # put_log("Function: `make_source_datasets`: Dataset created: validation.sgr")
+    # put(summary(validation.sgr))
+    
+    #> We will use the array representation described in `Section 17.5 of the Textbook`
+    #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
+    #> for the training data. 
+    #> To create this matrix, we use `tidyr::pivot_wider` function:
+    
+    # train_set <- mutate(train_set, userId = factor(userId), movieId = factor(movieId))
+    # train.sgr <- mutate(train.sgr, userId = factor(userId), movieId = factor(movieId))
+    
+    put_log("Function: `make_source_datasets`: Creating Rating Matrix from Train Set...")
+    train_mx <- train_set |> 
+      mutate(userId = factor(userId),
+             movieId = factor(movieId)) |>
+      select(movieId, userId, rating) |>
+      pivot_wider(names_from = movieId, values_from = rating) |>
+      column_to_rownames("userId") |>
+      as.matrix()
+    
+    put_log("Function: `make_source_datasets`:
+Matrix created: `train_mx` of the following dimentions:")
+    put(dim(train_mx))
+
+
+    list(train_set = train_set,
+         train_mx = train_mx,
+         train.sgr = train.sgr,
+         validation_set = validation_set)
+  })
+  put_end_date(start)
+  put_log("Function: `make_source_datasets`: 
+Set of K-Fold Cross Validation datasets created: edx_CV")
+  
+  tuning_sets <- edx |>
+    sample_train_validation_sets(5423)
+  
+  list(edx_CV = edx_CV,
+       edx.mx = edx.mx,
+       edx.sgr = edx.sgr,
+       tuning_sets = tuning_sets,
+       movie_map = movie_map,
+       date_days_map = date_days_map)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) function is also available in the [Initializing input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L88) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) script on _GitHub_.
+:::
+:::
+
+#### [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) Function {#func.init_source_datasets}
+\
+
+Creates the major input datasets used throughout the project. 
+
+::: { #func.init_source_datasets.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+movielens_datasets <- init_source_datasets()
+
+```
+:::
+
+##### Details
+\
+
+This function produces datasets listed in the [Value](#func.init_source_datasets.value) section below and described in detail in [Appendix B: Models Training Datasets] using the `edx` as the original dataset.
+
+:::
+
+::: { #func.init_source_datasets.value .sidebar }
+##### Value
+\
+
+The list of the following datasets are returned to the client code:
+
+  - [`edx.mx` Matrix Object];
+  
+  - [`edx.sgr` Object];
+
+  - [`movie_map` Object];
+  
+  - [`date_days_map` Object];
+
+  - [`edx_CV` Object];
+
+:::
+
+::: { #func.init_source_datasets.code .sidebar }
+##### Source Code
+\
+
+The simplified source code of the [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) function is shown below:
+```{r eval=FALSE}
+init_source_datasets <- function(){
+  put_log("Method `init_source_datasets`: 
+Initializing sourse datasets...")
+  
+  if(file.exists(movielens_datasets_file_path)){
+    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
+  } else if(file.exists(movielens_datasets_zip)) {
+    put_log("Method `init_source_datasets`: 
+Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...") 
+    
+    unzip(movielens_datasets_zip, movielens_datasets_file_path)
+    
+    if(!file.exists(movielens_datasets_file_path)) {
+      put_log("Method `init_source_datasets`: 
+File does not exists: {movielens_datasets_file}.")
+      stop("Failed to unzip MovieLens data zip-archive.")
+    }
+    
+    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
+  } else {
+    put_log("Method `init_source_datasets`: 
+Creating datasets...")
+    library(edx.capstone.movielens.data)
+    put_log("Method `init_source_datasets`: 
+Library attached: 'edx.capstone.movielens.data'")
+    
+    movielens_datasets <- make_source_datasets()
+    put("Method `init_source_datasets`: 
+All required datasets have been created.")
+    
+    put_log("Method `init_source_datasets`: 
+Saving newly created input datasets to file...")
+    save(movielens_datasets, file =  movielens_datasets_file_path)
+
+    if(!file.exists(movielens_datasets_file_path)) {
+      put_log("Method `init_source_datasets`: 
+File was not created: {movielens_datasets_file}.")
+      warning("MovieLens data was not saved to file.")
+    } else {
+      put_log("Method `init_source_datasets`: 
+Datasets have been saved to file: {movielens_datasets_file_path}.") 
+      
+      
+      put_log("Method `init_source_datasets`: 
+Creating zip-archive: {movielens_datasets_zip}...") 
+      
+      zip(movielens_datasets_zip, movielens_datasets_file_path)
+      
+      if(!file.exists(movielens_datasets_zip)){
+        put_log("Method `init_source_datasets`: 
+Failed to zip file: {movielens_datasets_file_path}.")
+        warning("Failed to zip MovieLens data file.")
+      } else {
+        put_log("Method `init_source_datasets`: 
+Zip-archive created: {movielens_datasets_zip}.")
+      }
+    }
+  }
+  movielens_datasets
+}
+```
+
+::: {.noteblock data-latex=""}
+The complete source code of the [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) function is available in the [Initializing input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L88) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) script on _GitHub_.
+:::
 :::
 
 ### Data Processing Functions
@@ -2825,19 +3123,366 @@ The complete source code of the functions described in this section is available
 The complete source code of the functions described in this section is available in the the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) script on _GitHub_.
 :::
 
+#### [load_movielens_data_from_file](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) Function {#func.load_movielens_data_from_file}
+\
+
+::: { #func.load_movielens_data_from_file.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+```
+:::
+
+::: { #func.load_movielens_data_from_file.args .sidebar }
+##### Arguments
+\
+
+:::
+::: { #func.load_movielens_data_from_file.args.seed .sidebar }
+  - **file_path:** Data file full path. 
+
+:::
+:::
+
+::: { #func.load_movielens_data_from_file.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.load_movielens_data_from_file.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.load_movielens_data_from_file.code .sidebar }
+##### Source Code
+\
+
+The source code of the [load_movielens_data_from_file](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [load_movielens_data_from_file](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) script on _GitHub_.
+:::
+:::
+
+#### [splitByUser](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) Function {#func.splitByUser}
+\
+
+::: { #func.splitByUser.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+```
+:::
+
+::: { #func.splitByUser.args .sidebar }
+##### Arguments
+\
+
+::: { #func.splitByUser.args.data .sidebar }
+  - **data:** ; 
+
+:::
+:::
+
+::: { #func.splitByUser.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.splitByUser.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.splitByUser.code .sidebar }
+##### Source Code
+\
+
+The source code of the [splitByUser](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [splitByUser](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) script on _GitHub_.
+:::
+:::
+
 #### [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) Function {#func.sample_train_validation_sets}
 \
 
-##### Usage
+Splits the input dataset passed in the [data](#func.sample_train_validation_sets.args.data) argument into *train* and *validation* datasets in the way described in [Section 31.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_31-6].
 
-### Model Training Functions
+::: { #func.sample_train_validation_sets.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+split_sets <- data |>
+      sample_train_validation_sets(seed)
+```
+:::
+
+::: { #func.sample_train_validation_sets.args .sidebar }
+##### Arguments
+\
+
+::: { #func.sample_train_validation_sets.args.data .sidebar }
+  - **data:** Input dataset to split; 
+
+:::
+::: { #func.sample_train_validation_sets.args.seed .sidebar }
+  - **seed:** Seed value; 
+
+:::
+:::
+
+::: { #func.sample_train_validation_sets.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.sample_train_validation_sets.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.sample_train_validation_sets.code .sidebar }
+##### Source Code
+\
+
+The source code of the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function is shown below:
+```{r eval=FALSE}
+sample_train_validation_sets <- function(data, seed){
+  put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `data` data...")
+  set.seed(seed)
+  validation_ind <- 
+    sapply(splitByUser(data),
+           function(i) sample(i, ceiling(length(i)*.2))) |> 
+    unlist() |> 
+    sort()
+  
+  put_log("Function: `sample_train_validation_sets`: 
+Extracting 80% of the original `data` not used for the Validation Set, 
+excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
+  
+  train_set <- data[-validation_ind,]
+  
+  put_log("Function: `sample_train_validation_sets`: Dataset created: train_set")
+  put(summary(train_set))
+  
+  put_log("Function: `sample_train_validation_sets`: 
+To make sure we don’t include movies in the Training Set that should not be there, 
+we exclude entries using the semi_join function from the Validation Set.")
+  tmp.data <- data[validation_ind,]
+  
+  validation_set <- tmp.data |> 
+    semi_join(train_set, by = "movieId") |> 
+    semi_join(train_set, by = "userId") |>
+    as.data.frame()
+  
+  # Add rows excluded from `validation_set` into `train_set`
+  tmp.excluded <- anti_join(tmp.data, validation_set)
+  train_set <- rbind(train_set, tmp.excluded)
+  
+  put_log("Function: `sample_train_validation_sets`: Dataset created: validation_set")
+  put(summary(validation_set))
+
+  # CV train & test sets Consistency Test
+  validation.left_join.Nas <- train_set |>
+    mutate(tst.col = rating) |>
+    select(userId, movieId, tst.col) |>
+    data.consistency.test(validation_set)
+  
+  put_log("Function: `sample_train_validation_sets`:
+Below are the data consistency verification results")
+  put(validation.left_join.Nas)
+  
+  # Return result datassets    
+  list(train_set = train_set, 
+       validation_set = validation_set)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) script on _GitHub_.
+:::
+:::
+
+#### [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) Function {#func.mutateDateTimeAndDays}
+\
+
+::: { #func.mutateDateTimeAndDays.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+```
+:::
+
+::: { #func.mutateDateTimeAndDays.args .sidebar }
+##### Arguments
+\
+
+::: { #func.mutateDateTimeAndDays.args.data .sidebar }
+  - **data:** ; 
+
+:::
+:::
+
+::: { #func.mutateDateTimeAndDays.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.mutateDateTimeAndDays.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.mutateDateTimeAndDays.code .sidebar }
+##### Source Code
+\
+
+The source code of the [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) script on _GitHub_.
+:::
+:::
+
+#### [splitGenreRows](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) Function {#func.splitGenreRows}
+\
+Splits rows of the original dataset passed in the [data](#) argument for movies that belong to multiple genres.
+
+::: { #func.splitGenreRows.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+dat.sgr <- splitGenreRows(data)
+```
+:::
+
+::: { #func.splitGenreRows.args .sidebar }
+##### Arguments
+\
+
+::: { #func.splitGenreRows.args.data .sidebar }
+  - **data:** A dataset containing rows corresponding to movies that belong to multiple genres.. 
+
+:::
+:::
+
+::: { #func.splitGenreRows.details .sidebar }
+##### Details
+\
+
+This function is used internally in the [make_source_datasets](#func.make_source_datasets) function described above in the [Initializing Input Datasets] section to create the `edx.sgr` dataset described below in the [`edx.sgr` Object] section of the [Appendix B: Models Training Datasets].
+
+:::
+
+::: { #func.splitGenreRows.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.splitGenreRows.code .sidebar }
+##### Source Code
+\
+
+The source code of the [splitGenreRows](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [splitGenreRows](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) script on _GitHub_.
+:::
+:::
+
+#### [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) Function {#func.filter_noMore_nratings}
+\
+
+::: { #func.filter_noMore_nratings.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+```
+:::
+
+::: { #func.filter_noMore_nratings.args .sidebar }
+##### Arguments
+\
+
+::: { #func.filter_noMore_nratings.args.data .sidebar }
+  - **data:** ; 
+
+:::
+::: { #func.filter_noMore_nratings.args.seed .sidebar }
+  - **seed:** ; 
+
+:::
+:::
+
+::: { #func.filter_noMore_nratings.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.filter_noMore_nratings.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.filter_noMore_nratings.code .sidebar }
+##### Source Code
+\
+
+The source code of the [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) script on _GitHub_.
+:::
+:::
+
+### Models Training Functions
 
 #### [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) Function {#func.union_cv_results}
 \
 
 Aggregates the input data frames into a single data frame.
 
-::: { #func.union_cv_results.Usage .sidebar }
+::: { #func.union_cv_results.usage .sidebar }
 ##### Usage
 \
 
@@ -2904,7 +3549,7 @@ The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Cap
 
 Selects the best parameter value and the corresponding minimum Root Mean Squared Error value from the function's input arguments.
 
-::: { #func.get_best_param.result.Usage .sidebar }
+::: { #func.get_best_param.result.usage .sidebar }
 ##### Usage
 \
 
@@ -2968,7 +3613,7 @@ The source code of the [get_best_param.result](https://github.com/AzKurban-edX-D
 
 Plots a graph based on the dataset passed in the [data](#func.data.plot.args.data) parameter, using both points and a line.
 
-::: { #func.data.plot.Usage .sidebar }
+::: { #func.data.plot.usage .sidebar }
 ##### Usage
 \
 
@@ -3083,7 +3728,7 @@ Plots a graph based on the first $n$ rows (the $n$ is specified by the [left.n](
 The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.args.xname) parameter).
 :::
 
-::: { #func.data.plot.left.n.Usage .sidebar }
+::: { #func.data.plot.left.n.usage .sidebar }
 ##### Usage
 \
 
@@ -3200,7 +3845,7 @@ Combines two graphs plotted by the internally called helper functions in a grid:
 The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.args.xname) parameter).
 :::
 
-::: { #func.data.plot.left_detailed.Usage .sidebar }
+::: { #func.data.plot.left_detailed.usage .sidebar }
 ##### Usage
 \
 
@@ -3338,5 +3983,309 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 
 \newpage
 
+## Models Training: Support Functions
+\
+
+### Overal Mean Rating (OMR) Model Functions
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the [OMR-model.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R) script on _GitHub_.
+:::
+
+#### [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) Function {#func.@@func}
+\
+
+::: { #func.@@func.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+@@func()
+
+```
+:::
+
+::: { #func.@@func.args .sidebar }
+##### Arguments
+\
+
+::: { #func.@@func.args. .sidebar }
+  - **x:** ; 
+
+:::
+:::
+
+::: { #func.@@func.details .sidebar }
+##### Details
+\
 
 
+
+:::
+
+::: { #func.@@func.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.@@func.code .sidebar }
+##### Source Code
+\
+
+The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [@@script.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) script on _GitHub_.
+:::
+:::
+
+
+
+
+
+# Appendix B: Models Training Datasets {#appndx_b}
+\
+
+## `edx.mx` Matrix Object
+\
+
+We use the array representation described in [Section 18.5 *Analysis of variance (ANOVA)*](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova) of the _Course Textbook (New Edition)_, for the training data[@IDS2_18-5]. For this purpose, we will convert the `edx` dataset into a matrix using the `tidyr::pivot_wider` function:
+
+```{r eval=FALSE}
+
+  put_log("Function: `make_source_datasets`: Creating Rating Matrix from `edx` dataset...")
+  edx.mx <- edx |> 
+    mutate(userId = factor(userId),
+           movieId = factor(movieId)) |>
+    select(movieId, userId, rating) |>
+    pivot_wider(names_from = movieId, values_from = rating) |>
+    column_to_rownames("userId") |>
+    as.matrix()
+  
+  put_log("Function: `make_source_datasets`:
+Matrix created: `edx.mx` of the following dimentions:")
+  put(dim(edx.mx))
+```
+
+```{r}
+  str(edx.mx)
+```
+
+## `edx.sgr` Object
+\
+
+To account for the Movie Genre Effect more accurately, we need a dataset with split rows for movies belonging to multiple genres:
+```{r eval=FALSE}
+  put_log("Function: `make_source_datasets`: 
+To account for the Movie Genre Effect, we need a dataset with split rows 
+for movies belonging to multiple genres.")
+  edx.sgr <- splitGenreRows(edx)
+```
+```{r}
+str(edx.sgr)
+summary(edx.sgr)
+```
+
+Note that we use the [splitGenreRows](#func.splitGenreRows) function described above to split rows of the original dataset:
+```{r eval=FALSE}
+splitGenreRows <- function(data){
+  put("Splitting dataset rows related to multiple genres...")
+  start <- put_start_date()
+  gs_splitted <- data |>
+    separate_rows(genres, sep = "\\|")
+  put("Dataset rows related to multiple genres have been splitted to have single genre per row.")
+  put_end_date(start)
+  gs_splitted
+}
+```
+
+::: {.noteblock data-latex=""}
+The [source code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) of the function mentioned above is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
+:::
+
+## `movie_map` Object
+\
+
+To be able to map movie IDs to titles we create the following lookup table:
+```{r eval=FALSE}
+movie_map <- edx |> select(movieId, title, genres) |> 
+    distinct(movieId, .keep_all = TRUE)
+  
+  put_log("Function: `make_source_datasets`: Dataset created: movie_map")
+```
+
+```{r}
+str(movie_map)
+summary(movie_map)
+```
+
+Note that titles cannot be considered unique, so we cannot use them as IDs[@IDS2_25-1].
+
+
+## `date_days_map` Object
+\
+
+We have a `timestamp` field in the `edx` dataset.
+To be able to map the date, year, and number of days since the earliest record in the `edx` dataset with the corresponding value in this field, we create the following lookup table:
+```{r eval=FALSE}
+  put_log("Function: `make_source_datasets`: Creating Date-Days Map dataset...")
+  date_days_map <- edx |>
+    mutate(date_time = as_datetime(timestamp)) |>
+    mutate(date = as_date(date_time)) |>
+    mutate(year = year(date_time)) |>
+    mutate(days = as.integer(date - min(date))) |>
+    select(timestamp, date_time, date, year, days) |>
+    distinct(timestamp, .keep_all = TRUE)
+  
+  put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
+```
+``` {r}
+  str(date_days_map)
+  summary(date_days_map)
+```
+
+## `edx_CV` Object
+\
+
+Here we have a list of sample objects we need to perform the _5-Fold Cross Validation_ 
+as explained in [Section 31.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_31-6]:
+```{r eval=FALSE}
+  start <- put_start_date()
+  edx_CV <- lapply(kfold_index,  function(fold_i){
+    
+    put_log1("Method `make_source_datasets`: 
+Creating K-Fold Cross Validation Datasets, Fold %1", fold_i)
+    
+    #> We split the initial datasets into training sets, which we will use to build 
+    #> and train our models, and validation sets in which we will compute the accuracy 
+    #> of our predictions, the way described in the `Section 23.1.1 Movielens data`
+    #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movielens-data) 
+    #> of the Course Textbook.
+    
+    split_sets <- edx |>
+      sample_train_validation_sets(fold_i*1000)
+    
+    train_set <- split_sets$train_set
+    validation_set <- split_sets$validation_set
+    
+    put_log("Function: `make_source_datasets`: 
+Sampling 20% from the split-row version of the `edx` dataset...")
+    split_sets.gs <- edx.sgr |>
+      sample_train_validation_sets(fold_i*2000)
+
+    train.sgr <- split_sets.gs$train_set
+    validation.sgr <- split_sets.gs$validation_set
+    
+    # put_log("Function: `make_source_datasets`: Dataset created: validation.sgr")
+    # put(summary(validation.sgr))
+    
+    #> We will use the array representation described in `Section 17.5 of the Textbook`
+    #> (https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova), 
+    #> for the training data. 
+    #> To create this matrix, we use `tidyr::pivot_wider` function:
+    
+    put_log("Function: `make_source_datasets`: Creating Rating Matrix from Train Set...")
+    train_mx <- train_set |> 
+      mutate(userId = factor(userId),
+             movieId = factor(movieId)) |>
+      select(movieId, userId, rating) |>
+      pivot_wider(names_from = movieId, values_from = rating) |>
+      column_to_rownames("userId") |>
+      as.matrix()
+    
+    put_log("Function: `make_source_datasets`:
+Matrix created: `train_mx` of the following dimentions:")
+    put(dim(train_mx))
+
+
+    list(train_set = train_set,
+         train_mx = train_mx,
+         train.sgr = train.sgr,
+         validation_set = validation_set)
+  })
+  put_end_date(start)
+  put_log("Function: `make_source_datasets`: 
+Set of K-Fold Cross Validation datasets created: edx_CV")
+```
+```{r}
+str(edx_CV)
+```
+
+::: {.noteblock data-latex=""}
+This code snippet is a [part](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L140) of the [make_source_datasets](#func.make_source_datasets) _function_ code described above.
+:::
+
+Note that we used the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function call to split the original dataset (`edx` in this case): 
+```{r eval=FALSE}
+    split_sets <- edx |>
+      sample_train_validation_sets(fold_i*1000)
+```
+
+which returns a pair of train/validation sets:
+```{r eval=FALSE}
+sample_train_validation_sets <- function(data, seed){
+  put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `data` data...")
+  set.seed(seed)
+  validation_ind <- 
+    sapply(splitByUser(data),
+           function(i) sample(i, ceiling(length(i)*.2))) |> 
+    unlist() |> 
+    sort()
+  
+  put_log("Function: `sample_train_validation_sets`: 
+Extracting 80% of the original `data` not used for the Validation Set, 
+excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
+  
+  train_set <- data[-validation_ind,]
+  
+  put_log("Function: `sample_train_validation_sets`: Dataset created: train_set")
+  put(summary(train_set))
+  
+  put_log("Function: `sample_train_validation_sets`: 
+To make sure we don’t include movies in the Training Set that should not be there, 
+we exclude entries using the semi_join function from the Validation Set.")
+  tmp.data <- data[validation_ind,]
+  
+  validation_set <- tmp.data |> 
+    semi_join(train_set, by = "movieId") |> 
+    semi_join(train_set, by = "userId") |>
+    as.data.frame()
+  
+  # Add rows excluded from `validation_set` into `train_set`
+  tmp.excluded <- anti_join(tmp.data, validation_set)
+  train_set <- rbind(train_set, tmp.excluded)
+  
+  put_log("Function: `sample_train_validation_sets`: Dataset created: validation_set")
+  put(summary(validation_set))
+
+  # CV train & test sets Consistency Test
+  validation.left_join.Nas <- train_set |>
+    mutate(tst.col = rating) |>
+    select(userId, movieId, tst.col) |>
+    data.consistency.test(validation_set)
+  
+  put_log("Function: `sample_train_validation_sets`:
+Below are the data consistency verification results")
+  put(validation.left_join.Nas)
+  
+  # Return result datassets ----------------------------------------------------    
+  list(train_set = train_set, 
+       validation_set = validation_set)
+}
+
+```
+
+::: {.noteblock data-latex=""}
+The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function is defined in the same script as the [make_source_datasets](#func.make_source_datasets), from which it is called.
+:::
+
+\newpage
+
+
+
+
+# End of Report -------------------------------------------------------------
