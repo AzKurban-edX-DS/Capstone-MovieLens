@@ -85,7 +85,7 @@ filter_noMore_nratings <- function(data, nratings){
     filter(n() > nratings) |>
     ungroup()  
 }
-## Initialize input datasets ---------------------------------------------------
+## Initializing input datasets ---------------------------------------------------
 make_source_datasets <- function(){
   put_log("Function: `make_source_datasets`: Creating source datasets...")
   
