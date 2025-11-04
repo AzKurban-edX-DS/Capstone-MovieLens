@@ -7,7 +7,7 @@ output: html_document
 \
 
 
-::: { #func.log_func_tmpl.Usage .sidebar }
+::: { #func.log_func_tmpl.usage .sidebar }
 ##### Usage
 \
 
@@ -69,7 +69,7 @@ The source code of the [log_func_tmpl](https://github.com/AzKurban-edX-DS/Capsto
 #### [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.helper-func.tmpl}
 \
 
-::: { #func.helper-func.tmpl.Usage .sidebar }
+::: { #func.helper-func.tmpl.usage .sidebar }
 ##### Usage
 \
 
@@ -222,7 +222,7 @@ The source code of the [RMSEs.tibble_tmpl](https://github.com/AzKurban-edX-DS/Ca
 #### [dat_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) Function {#func.dat_func.tmpl}
 \
 
-::: { #func.dat_func.tmpl.Usage .sidebar }
+::: { #func.dat_func.tmpl.usage .sidebar }
 ##### Usage
 \
 
@@ -236,8 +236,8 @@ dat_func.tmpl()
 ##### Arguments
 \
 
-::: { #func.dat_func.tmpl.args. .sidebar }
-  - **:** ; 
+::: { #func.dat_func.tmpl.args.data .sidebar }
+  - **data:** ; 
 
 :::
 ::: { #func.dat_func.tmpl.args. .sidebar }
@@ -285,7 +285,7 @@ The source code of the [dat_func.tmpl](https://github.com/AzKurban-edX-DS/Capsto
 #### [datproc_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) Function {#func.datproc_func.tmpl}
 \
 
-::: { #func.datproc_func.tmpl.Usage .sidebar }
+::: { #func.datproc_func.tmpl.usage .sidebar }
 ##### Usage
 \
 
@@ -347,7 +347,7 @@ The source code of the [datproc_func.tmpl](https://github.com/AzKurban-edX-DS/Ca
 #### [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) Function {#func.@@func}
 \
 
-::: { #func.@@func.Usage .sidebar }
+::: { #func.@@func.usage .sidebar }
 ##### Usage
 \
 
