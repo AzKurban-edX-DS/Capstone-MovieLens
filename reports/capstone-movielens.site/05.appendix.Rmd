@@ -4065,6 +4065,10 @@ Matrix created: `edx.mx` of the following dimentions:")
   put(dim(edx.mx))
 ```
 
+::: {.noteblock data-latex=""}
+To create the `edx.mx` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+:::
+
 ```{r}
   str(edx.mx)
 ```
@@ -4081,7 +4085,9 @@ for movies belonging to multiple genres.")
 ```
 
 ::: {.noteblock data-latex=""}
-We use the [splitGenreRows](#func.splitGenreRows) function (described in the [Data Processing Functions] section of the [Appendix A: Support Function]) to split rows of the original dataset.
+To create the `edx.sgr` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+
+The custom function [splitGenreRows](#func.splitGenreRows) used in the code snippet to split the rows of the original dataset (`edx` in this case) is described in the [Data Processing Functions] section of [Appendix A: Support Functions].
 :::
 
 ```{r}
@@ -4099,6 +4105,10 @@ movie_map <- edx |> select(movieId, title, genres) |>
   
   put_log("Function: `make_source_datasets`: Dataset created: movie_map")
 ```
+
+::: {.noteblock data-latex=""}
+To create the `movie_map` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+:::
 
 ```{r}
 str(movie_map)
@@ -4125,6 +4135,11 @@ To be able to map the date, year, and number of days since the earliest record i
   
   put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
 ```
+
+::: {.noteblock data-latex=""}
+To create the `date_days_map` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+:::
+
 ``` {r}
   str(date_days_map)
   summary(date_days_map)
@@ -4193,77 +4208,16 @@ Matrix created: `train_mx` of the following dimentions:")
   put_log("Function: `make_source_datasets`: 
 Set of K-Fold Cross Validation datasets created: edx_CV")
 ```
+
+::: {.noteblock data-latex=""}
+To create the `edx_CV` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+
+The custom function [sample_train_validation_sets](#func.sample_train_validation_sets) used in the code snippet to split the original dataset (`edx` in this case) into *train* and *validation* datasets, is described in the [Data Processing Functions] section of [Appendix A: Support Functions].
+:::
+
 ```{r}
 str(edx_CV)
 ```
-
-::: {.noteblock data-latex=""}
-This code snippet is a [part](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L140) of the [make_source_datasets](#func.make_source_datasets) _function_ code described above.
-:::
-
-Note that we used the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function call to split the original dataset (`edx` in this case): 
-```{r eval=FALSE}
-    split_sets <- edx |>
-      sample_train_validation_sets(fold_i*1000)
-```
-
-which returns a pair of train/validation sets:
-```{r eval=FALSE}
-sample_train_validation_sets <- function(data, seed){
-  put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `data` data...")
-  set.seed(seed)
-  validation_ind <- 
-    sapply(splitByUser(data),
-           function(i) sample(i, ceiling(length(i)*.2))) |> 
-    unlist() |> 
-    sort()
-  
-  put_log("Function: `sample_train_validation_sets`: 
-Extracting 80% of the original `data` not used for the Validation Set, 
-excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
-  
-  train_set <- data[-validation_ind,]
-  
-  put_log("Function: `sample_train_validation_sets`: Dataset created: train_set")
-  put(summary(train_set))
-  
-  put_log("Function: `sample_train_validation_sets`: 
-To make sure we don’t include movies in the Training Set that should not be there, 
-we exclude entries using the semi_join function from the Validation Set.")
-  tmp.data <- data[validation_ind,]
-  
-  validation_set <- tmp.data |> 
-    semi_join(train_set, by = "movieId") |> 
-    semi_join(train_set, by = "userId") |>
-    as.data.frame()
-  
-  # Add rows excluded from `validation_set` into `train_set`
-  tmp.excluded <- anti_join(tmp.data, validation_set)
-  train_set <- rbind(train_set, tmp.excluded)
-  
-  put_log("Function: `sample_train_validation_sets`: Dataset created: validation_set")
-  put(summary(validation_set))
-
-  # CV train & test sets Consistency Test
-  validation.left_join.Nas <- train_set |>
-    mutate(tst.col = rating) |>
-    select(userId, movieId, tst.col) |>
-    data.consistency.test(validation_set)
-  
-  put_log("Function: `sample_train_validation_sets`:
-Below are the data consistency verification results")
-  put(validation.left_join.Nas)
-  
-  # Return result datassets ----------------------------------------------------    
-  list(train_set = train_set, 
-       validation_set = validation_set)
-}
-
-```
-
-::: {.noteblock data-latex=""}
-The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function is defined in the same script as the [make_source_datasets](#func.make_source_datasets), from which it is called.
-:::
 
 \newpage
 
@@ -4271,3 +4225,4 @@ The [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-M
 
 
 # End of Report -------------------------------------------------------------
+v
