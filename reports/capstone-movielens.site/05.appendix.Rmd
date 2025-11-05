@@ -4039,9 +4039,7 @@ The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-Movi
 :::
 :::
 
-
-
-
+\newpage
 
 # Appendix B: Models Training Datasets {#appndx_b}
 \
