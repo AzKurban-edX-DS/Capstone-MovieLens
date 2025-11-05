@@ -2865,7 +2865,7 @@ The list of the following datasets are returned to the client code:
   
   - [`date_days_map` Object];
 
-  - [`edx_CV` Object];
+  - [`edx_CV` Object].
 
 :::
 
@@ -3004,7 +3004,7 @@ The source code of the [make_source_datasets](https://github.com/AzKurban-edX-DS
 :::
 :::
 
-#### [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) Function {#func.init_source_datasets}
+#### [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L211) Function {#func.init_source_datasets}
 \
 
 Creates the major input datasets used throughout the project. 
@@ -3022,7 +3022,9 @@ movielens_datasets <- init_source_datasets()
 ##### Details
 \
 
-This function produces datasets listed in the [Value](#func.init_source_datasets.value) section below and described in detail in [Appendix B: Models Training Datasets] using the `edx` as the original dataset.
+The function checks whether the required source datasets are cached on the hard disk and, if so, loads them from the cache file.
+
+Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function, which creates all the necessary datasets using the `edx` as the original dataset.
 
 :::
 
@@ -3030,7 +3032,7 @@ This function produces datasets listed in the [Value](#func.init_source_datasets
 ##### Value
 \
 
-The list of the following datasets are returned to the client code:
+The list of the following datasets (described in detail in [Appendix B: Models Training Datasets]) is returned to the client code:
 
   - [`edx.mx` Matrix Object];
   
@@ -3040,7 +3042,7 @@ The list of the following datasets are returned to the client code:
   
   - [`date_days_map` Object];
 
-  - [`edx_CV` Object];
+  - [`edx_CV` Object].
 
 :::
 
@@ -3048,7 +3050,7 @@ The list of the following datasets are returned to the client code:
 ##### Source Code
 \
 
-The simplified source code of the [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) function is shown below:
+The simplified source code of the [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L211) function is shown below:
 ```{r eval=FALSE}
 init_source_datasets <- function(){
   put_log("Method `init_source_datasets`: 
@@ -3098,14 +3100,8 @@ Creating zip-archive: {movielens_datasets_zip}...")
       
       zip(movielens_datasets_zip, movielens_datasets_file_path)
       
-      if(!file.exists(movielens_datasets_zip)){
-        put_log("Method `init_source_datasets`: 
-Failed to zip file: {movielens_datasets_file_path}.")
-        warning("Failed to zip MovieLens data file.")
-      } else {
-        put_log("Method `init_source_datasets`: 
+      put_log("Method `init_source_datasets`: 
 Zip-archive created: {movielens_datasets_zip}.")
-      }
     }
   }
   movielens_datasets
@@ -3113,7 +3109,7 @@ Zip-archive created: {movielens_datasets_zip}.")
 ```
 
 ::: {.noteblock data-latex=""}
-The complete source code of the [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) function is available in the [Initializing input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L88) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) script on _GitHub_.
+The complete source code of the [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L211) function is available in the [Initializing input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L88) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L211) script on _GitHub_.
 :::
 :::
 

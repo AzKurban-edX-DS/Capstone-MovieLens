@@ -7,92 +7,22 @@ All the source code of the `R` scripts utilized in this project is available on 
 \
 
 We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 25.1 *Case study: recommendation systems*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-recommendation-systems) of the _Course Textbook (New Edition)_ mentioned above[@IDS2_25-1].We will also use the _5-Fold Cross Validation_ method as described in [Section 31.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_31-6]. 
-To prepare datasets for processing, we will use the following functions, specifically designed for these operations:
-
-  - [init_source_datasets](#func.init_source_datasets)
+To prepare datasets for processing, we will use the following functions (described in detail in the [Initializing Input Datasets] section of the [Appendix A: Support Functions]), specifically designed for these operations:
 
   - [make_source_datasets](#func.make_source_datasets)
-
-::: {.noteblock data-latex=""}
-The full source code of the function listed above is available in the [Initialize input datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L88) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R) script on _GitHub_.
-:::
-
-### [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L211) Function {#func.init_source_datasets}
-
-The _init_source_datasets_ function checks whether the required source datasets are cached on the hard disk, and, if so, loads the datasets from the cache file.
-
-Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function, which creates all the necessary datasets.
-
-Finally, it stores the data into a cache file on the disk. 
-
-The simplified version of the function's source code is shown below:
-
-```{r eval=FALSE}
-init_source_datasets <- function(){
-  put_log("Method `init_source_datasets`: 
-Initializing sourse datasets...")
   
-  if(file.exists(movielens_datasets_file_path)){
-    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
-  } else if(file.exists(movielens_datasets_zip)) {
-    put_log("Method `init_source_datasets`: 
-Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...") 
-    
-    unzip(movielens_datasets_zip, movielens_datasets_file_path)
-    
-    if(!file.exists(movielens_datasets_file_path)) {
-      put_log("Method `init_source_datasets`: 
-File does not exists: {movielens_datasets_file}.")
-      stop("Failed to unzip MovieLens data zip-archive.")
-    }
-    
-    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
-  } else {
-    put_log("Method `init_source_datasets`: 
-Creating datasets...")
-    library(edx.capstone.movielens.data)
-    put_log("Method `init_source_datasets`: 
-Library attached: 'edx.capstone.movielens.data'")
-    
-    movielens_datasets <- make_source_datasets()
-    put("Method `init_source_datasets`: 
-All required datasets have been created.")
-    
-    put_log("Method `init_source_datasets`: 
-Saving newly created input datasets to file...")
-    save(movielens_datasets, file =  movielens_datasets_file_path)
+  - [init_source_datasets](#func.init_source_datasets)
 
-    if(!file.exists(movielens_datasets_file_path)) {
-      put_log("Method `init_source_datasets`: 
-File was not created: {movielens_datasets_file}.")
-      warning("MovieLens data was not saved to file.")
-    } else {
-      put_log("Method `init_source_datasets`: 
-Datasets have been saved to file: {movielens_datasets_file_path}.") 
+As a result of executing these functions, we will obtain the following datasets (detailed in [Appendix B: Models Training Datasets]), which we will use throughout the project:
 
-      put_log("Method `init_source_datasets`: 
-Creating zip-archive: {movielens_datasets_zip}...") 
-      zip(movielens_datasets_zip, movielens_datasets_file_path)
-    # ...
-    }
-  }
-  movielens_datasets
-}
-```
+  - [`edx.mx` Matrix Object];
+  
+  - [`edx.sgr` Object];
 
-### [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) Function {#func.make_source_datasets}
+  - [`movie_map` Object];
+  
+  - [`date_days_map` Object];
 
-Let's take a closer look at the objects we will receive as a result of executing this function.
+  - [`edx_CV` Object].
 
-```{r eval=FALSE}
-make_source_datasets <- function(){
-  # ...
-  list(edx_CV = edx_CV,
-       edx.mx = edx.mx,
-       edx.sgr = edx.sgr,
-       tuning_sets = tuning_sets,
-       movie_map = movie_map,
-       date_days_map = date_days_map)
-}
-```
 
