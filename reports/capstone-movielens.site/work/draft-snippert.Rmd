@@ -3,73 +3,8 @@ title: "func-descr.template"
 output: html_document
 ---
 
-#### [open_logfile](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) Function {#func.open_logfile}
-\
-
-A function to initialize the log file.
-
-::: { #func.open_logfile.usage .sidebar }
-##### Usage
-\
-
-```{r eval=FALSE}
-open_logfile(file_name)
-```
-:::
-
-::: { #func.open_logfile.args .sidebar }
-##### Arguments
-\
-
-::: { #func.open_logfile.args.r .sidebar }
-  - **file_name:** A name used as a base to generate a unique log file name; 
-
-:::
-:::
-
-::: { #func.open_logfile.details .sidebar }
-##### Details
-\
-
-This function is a wrapper to [logr::log_open](https://www.rdocumentation.org/packages/logr/versions/1.3.9/topics/log_open) function. It also calls internally the following functions to generate a unique file name based on the [file_name] argument and _system time_:
-  - [Sys.time]();
-  - [stringr::str_replace](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace);
-  - [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace)
-
-For more information on the _inner functions_ listed above, see the [R Documentation](https://www.rdocumentation.org/).
-
-:::
-
-::: { #func.open_logfile.value .sidebar }
-##### Value
-\
-
-The path of the log.
-
-:::
-
-::: { #func.open_logfile.code .sidebar }
-##### Source Code
-\
-
-The source code of the [open_logfile](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) function is shown below:
-```{r eval=FALSE}
-library(logr)
-library(stringr)
-
-open_logfile <- function(file_name){
-  log_file_name <- as.character(Sys.time()) |> 
-    str_replace_all(':', '_') |> 
-    str_replace(' ', 'T') |>
-    str_c(file_name)
-  
-  log_open(file_name = log_file_name)
-}
-```
-
 ::: {.noteblock data-latex=""}
-The source code of the [open_logfile](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L3) script on _GitHub_.
-:::
+In the code snippet above, we use the custom function [@fn](#func.@fn) described in the [sec_name] section of [Appendix A: Support Functions].
 :::
 
 
