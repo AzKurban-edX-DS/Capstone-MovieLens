@@ -344,6 +344,70 @@ The source code of the [datproc_func.tmpl](https://github.com/AzKurban-edX-DS/Ca
 
 
 
+### Overal Mean Rating (OMR) Model Functions
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the [OMR-model.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R) script on _GitHub_.
+:::
+
+#### [OMR_model_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#LX) Function {#func.OMR_model_func.tmpl}
+\
+
+::: { #func.OMR_model_func.tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+OMR_model_func.tmpl()
+
+```
+:::
+
+::: { #func.OMR_model_func.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.OMR_model_func.tmpl.args. .sidebar }
+  - **x:** ; 
+
+:::
+:::
+
+::: { #func.OMR_model_func.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.OMR_model_func.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.OMR_model_func.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [OMR_model_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [OMR_model_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is defined in the [OMR-model.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+
+
+
+
+
 #### [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) Function {#func.@@func}
 \
 

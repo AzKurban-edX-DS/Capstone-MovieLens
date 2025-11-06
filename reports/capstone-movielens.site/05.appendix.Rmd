@@ -3982,60 +3982,117 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 ## Models Training: Support Functions
 \
 
-### Overal Mean Rating (OMR) Model Functions
+### Overall Mean Rating (OMR) Model Helper Functions
 \
 
 ::: {.noteblock data-latex=""}
 The complete source code of the functions described in this section is available in the [OMR-model.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R) script on _GitHub_.
 :::
 
-#### [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) Function {#func.@@func}
+#### [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L2) Function {#func.naive_model_MSEs}
 \
 
-::: { #func.@@func.usage .sidebar }
+Calculates the Mean Squared Errors (MSEs) for the *Overall Mean Rating (OMR) Model* using the *K-Fold Cross Validation* method as described in section [OMR Model Building] of *this Report*.
+
+::: { #func.naive_model_MSEs.usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
-@@func()
+mu <- mean(edx$rating)
+mu.MSEs <- naive_model_MSEs(mu)
 
 ```
 :::
 
-::: { #func.@@func.args .sidebar }
+::: { #func.naive_model_MSEs.args .sidebar }
 ##### Arguments
 \
 
-::: { #func.@@func.args. .sidebar }
-  - **x:** ; 
+::: { #func.naive_model_MSEs.args. .sidebar }
+  - **mu:** The overall mean rating value. 
 
 :::
 :::
 
-::: { #func.@@func.details .sidebar }
-##### Details
-\
-
-
-
-:::
-
-::: { #func.@@func.value .sidebar }
+::: { #func.naive_model_MSEs.value .sidebar }
 ##### Value
 \
 
+The Mean Squared Errors (MSEs) values obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*.
 :::
 
-::: { #func.@@func.code .sidebar }
+::: { #func.naive_model_MSEs.code .sidebar }
 ##### Source Code
 \
 
-The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) function is shown below:
+The source code of the [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L2) function is shown below:
 ```{r eval=FALSE}
+naive_model_MSEs <- function(mu) {
+  sapply(edx_CV, function(cv_item){
+    mse(cv_item$validation_set$rating - mu)
+  })
+}
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [@@script.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) script on _GitHub_.
+The source code of the [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L2) function is defined in the [OMR-model.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L2) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+#### [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L7) Function {#func.naive_model_RMSE}
+\
+Calculates the Root Mean Squared Error (RMSE) for the *Overall Mean Rating (OMR) Model* using the *K-Fold Cross Validation* method as described in section [OMR Model Building] of *this Report*.
+
+::: { #func.naive_model_RMSE.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+mu <- mean(edx$rating)
+mu.RMSE <- naive_model_RMSE(mu)
+```
+:::
+
+::: { #func.naive_model_RMSE.args .sidebar }
+##### Arguments
+\
+
+::: { #func.naive_model_RMSE.args. .sidebar }
+  - **mu:** The overall mean rating value. 
+
+:::
+:::
+
+::: { #func.naive_model_RMSE.details .sidebar }
+##### Details
+\
+
+This function internally calls the [naive_model_MSEs](#func.naive_model_MSEs) function described above.
+:::
+
+::: { #func.naive_model_RMSE.value .sidebar }
+##### Value
+\
+
+The Root Mean Squared Errors (RMSE) value obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*.
+:::
+
+::: { #func.naive_model_RMSE.code .sidebar }
+##### Source Code
+\
+
+The source code of the [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L7) function is shown below:
+```{r eval=FALSE}
+naive_model_RMSE <- function(mu){
+  sqrt(mean(naive_model_MSEs(mu)))
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L7) function is defined in the [OMR-model.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L7) script on _GitHub_.
 :::
 :::
 
@@ -4073,6 +4130,8 @@ To create the `edx.mx` object, the above code snippet is used in the [make_sourc
   str(edx.mx)
 ```
 
+\newpage
+
 ## `edx.sgr` Object
 \
 
@@ -4094,6 +4153,8 @@ The custom function [splitGenreRows](#func.splitGenreRows) used in the code snip
 str(edx.sgr)
 summary(edx.sgr)
 ```
+
+\newpage
 
 ## `movie_map` Object
 \
@@ -4117,6 +4178,7 @@ summary(movie_map)
 
 Note that titles cannot be considered unique, so we cannot use them as IDs[@IDS2_25-1].
 
+\newpage
 
 ## `date_days_map` Object
 \
@@ -4144,6 +4206,8 @@ To create the `date_days_map` object, the above code snippet is used in the [mak
   str(date_days_map)
   summary(date_days_map)
 ```
+
+\newpage
 
 ## `edx_CV` Object
 \
@@ -4221,8 +4285,3 @@ str(edx_CV)
 
 \newpage
 
-
-
-
-# End of Report -------------------------------------------------------------
-v
