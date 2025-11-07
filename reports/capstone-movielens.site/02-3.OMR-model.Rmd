@@ -42,7 +42,7 @@ mu.RMSE
 
 ::: {.noteblock data-latex=""}
 
-The following custom functions described in [Appendix A: Support Functions] of *this Report*, are used in the code snippets above:
+The following custom functions described in [Appendix A: Support Functions], are used in the code snippets above:
 
   - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [Overall Mean Rating (OMR) Model Helper Functions]) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method;
 

@@ -13,7 +13,7 @@ Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix G
 
 ## Datasets Overview
 
-To start with we have to generate two datasets derived from the _MovieLens_ dataset mentioned [above](#intro):
+To start with we have to generate two datasets derived from the _MovieLens_ dataset mentioned above:
 
 * **edx:** we use it to develop and train our algorithms;
 * **final_holdout_test:**  according to the course requirements, we use it exclusively to evaluate the _**RMSE**_ of our final algorithm.
