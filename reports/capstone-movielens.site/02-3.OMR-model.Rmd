@@ -17,6 +17,10 @@ with $\varepsilon_{i,j}$ independent errors sampled from the same distribution c
 ### OMR Model Building
 \
 
+::: {.noteblock data-latex=""}
+The complete source code of the *Overall Mean Rating* computation described in this section is available in the [Overall Mean Rating (Naive) Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L66) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L66) script on _GitHub_.
+:::
+
 We know that the estimate that minimizes the RMSE is the least squares estimate of $\mu$ and, in this case, is the average of all ratings:
 
 ```{r pressure, echo=TRUE}
