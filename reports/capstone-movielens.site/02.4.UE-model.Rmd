@@ -10,6 +10,7 @@ If we visualize the average rating for each user the way the the author shows, w
 ```{r}
 hist(edx.user_mean_ratings$mean_rating,
      xlab = "User Average Rating",
+     main = "Histogram of User Average Rating",
      nclass = 30)
 ```
 
