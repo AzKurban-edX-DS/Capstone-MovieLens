@@ -432,11 +432,6 @@ union_cv_results <- function(data_list) {
   
   out_dat
 }
-get_best_param.result <- function(param_values, rmses){
-  best_pvalue_idx <- which.min(rmses)
-  c(param.best_value = param_values[best_pvalue_idx], 
-    best_RMSE = rmses[best_pvalue_idx])
-}
 ## Data Visualization ----------------------------------------------------------
 data.plot.left_detailed <- function(data, 
                                     left.n = 0,

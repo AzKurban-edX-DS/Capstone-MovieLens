@@ -1,4 +1,4 @@
-# User+Movie Effect (UME) Model Support Functions 
+# User+Movie Effect (UME) Model Support Functions
 
 ## UME Model Utility Functions --------------------------------------------------
 train_user_movie_effect <- function(train_set, lambda = 0){
