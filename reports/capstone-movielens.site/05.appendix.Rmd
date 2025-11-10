@@ -2141,13 +2141,13 @@ The source code of the [RMSE.Total_kable](https://github.com/AzKurban-edX-DS/Cap
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section are available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L78) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L78) script on _GitHub_.
+The complete source code of the functions described in this section are available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) script on _GitHub_.
 :::
 
-#### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) Function {#func.mean_reg}
+#### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) Function {#func.mean_reg}
 \
 
-Calculates the arithmetic mean taking into account the _regularization parameter_ $\lambda$ passed in the [lambda] argument. We will call it the _penaized mean_.
+Calculates the arithmetic mean taking into account the _regularization parameter_ $\lambda$ passed in the [lambda](#func.mean_reg.args.lambda) argument. We will call it the _penalized mean_.
 
 ::: { #func.mean_reg.usage .sidebar }
 ##### Usage
@@ -2164,11 +2164,11 @@ mean_reg(vals, lambda = 0, na.rm = TRUE)
 \
 
 ::: { #func.mean_reg.args.vals .sidebar }
-  - **vals:** values (usually a numeric vector) to calculate the _penalized mean_;
+  - **vals:** Values (usually a numeric vector) to calculate the _penalized mean_;
 
 :::
 ::: { #func.mean_reg.args.lambda .sidebar }
-  - **lambda:** a _regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
+  - **lambda:** (0 by default) _Regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
 
 :::
   - **na.rm:** a logical evaluating to TRUE or FALSE indicating whether NA values should be stripped before the computation proceeds.
@@ -2185,7 +2185,7 @@ $$
 \mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
 $$
 
-When the [lambda](#func.mean_reg.args.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean as follows:
+When the [lambda](#func.mean_reg.args.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean:
 $$
 \mu = \frac{1}{N} \sum_{i=1}^{N} x_i
 $$
@@ -2208,7 +2208,7 @@ The [penalized mean](#func.mean_reg.details) of the values passed in the [vals](
 ##### Source Code
 \
 
-The soure code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function is shown below:
+The soure code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) function is shown below:
 ```{r eval=FALSE}
 mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   if (is.na(lambda)) {
@@ -2224,7 +2224,7 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L62) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) script on _GitHub_.
+The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) script on _GitHub_.
 :::
 :::
 
@@ -4108,7 +4108,7 @@ The source code of the [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Cap
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the  [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) script on _GitHub_.
+The complete source code of the functions described in this section is available in the  [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) script on _GitHub_.
 :::
 
 #### [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) Function {#func.train_user_movie_effect}
@@ -4177,7 +4177,7 @@ train_user_movie_effect <- function(train_set, lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) script on _GitHub_.
+The source code of the [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) script on _GitHub_.
 :::
 :::
 
