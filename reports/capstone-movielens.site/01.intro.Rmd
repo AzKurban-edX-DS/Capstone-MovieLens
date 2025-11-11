@@ -1,7 +1,7 @@
 # Overview and Executive Summary {#intro}
 
 The goal of the project is to build a Recommendation System using a [10M version of the MovieLens dataset](http://grouplens.org/datasets/movielens/10m/).
-Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the _Root Mean Square Error_ (_RMSE_) score, which, as shown in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_, is defined as:
+Following the [Netflix Grand Prize Contest](https://archive.nytimes.com/bits.blogs.nytimes.com/2009/09/21/netflix-awards-1-million-prize-and-starts-a-new-contest/index.html) requirements, we will evaluate the _Root Mean Square Error_ (_RMSE_) score, which, as shown in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_, is defined as:
 $$
 \mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
 $$

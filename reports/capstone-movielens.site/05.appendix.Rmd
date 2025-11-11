@@ -1311,7 +1311,7 @@ r_clamped <- clamp(r, min = 0.5, max = 5)
 ::: { #func.clamp.details .sidebar }
 ##### Details
 \
-As explained in [Section 25.1 *Case study: recommendation systems / User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings cannot be below 0.5 or above 5. For this reason, we need a function described in that section[@IDS2_25-1]:
+As explained in [Section 24.1 *Case study: recommendation systems / User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the _Course Textbook_ we know ratings cannot be below 0.5 or above 5. For this reason, we need a function described in that section[@IDS2_24-1]:
 
 This function is a wrapper for the [base::pmin](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Extremes) and [base::pmax](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Extremes) `R` functions, which are called internally to constrain the input value passed in the [r](#func.clamp.args.r) argument to be within the values passed in the [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments, respectively.
 
@@ -1486,7 +1486,7 @@ The complete source code of the functions described in this section are availabl
 #### [mse](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L5) Function {#func.mse}
 \
 
-Calculates *Mean Squared Error* as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
+Calculates *Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
 
 ::: { #func.mse.usage .sidebar }
 ##### Usage
@@ -1503,7 +1503,7 @@ mse(r)
 \
 
 ::: { #func.mse.args.r .sidebar }
-  - **r:** Numeric vector representing a set of residuals as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
+  - **r:** Numeric vector representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
 
 :::
 :::
@@ -1544,7 +1544,7 @@ mse_cv(r_list)
 \
 
 ::: { #func.mse_cv.args.r_list .sidebar }
-  - **r_list:** List of numeric vectors, each representing a set of residuals as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1], calculated in `K`th iteration using the _K-Fold Cross Validation_ method. 
+  - **r_list:** List of numeric vectors, each representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1], calculated in `K`th iteration using the _K-Fold Cross Validation_ method. 
 
 :::
 :::
@@ -1571,7 +1571,7 @@ The source code of the [mse_cv](https://github.com/AzKurban-edX-DS/Capstone-Movi
 #### [rmse](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L10) Function {#func.rmse}
 \
 
-Calculates *Root Mean Squared Error* as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
+Calculates *Root Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
 
 ::: { #func.rmse.usage .sidebar }
 ##### Usage
@@ -1588,7 +1588,7 @@ rmse(r)
 \
 
 ::: { #func.rmse.args.r .sidebar }
-  - **r:** Numeric vector representing a set of residuals as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
+  - **r:** Numeric vector representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
 
 :::
 :::
@@ -1612,7 +1612,7 @@ The source code of the [rmse](https://github.com/AzKurban-edX-DS/Capstone-MovieL
 #### [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L11) Function {#func.rmse2}
 \
 
-Calculates *Root Mean Squared Error* as described in [Section 25.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_25-1]. 
+Calculates *Root Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
 
 ::: { #func.rmse2.usage .sidebar }
 ##### Usage
@@ -2190,7 +2190,7 @@ $$
 \mu = \frac{1}{N} \sum_{i=1}^{N} x_i
 $$
 
-We call this function internally from the functions that compute the _penalized estimates_  as described in section [Section 25.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_25-1].
+We call this function internally from the functions that compute the _penalized estimates_  as described in section [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-1].
 
 ::: {.noteblock data-latex=""}
 If the [lambda](#func.mean_reg.args.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
@@ -4143,7 +4143,7 @@ Computes the *Regularized User+Movie (UM) Effect* using the training dataset pas
 ##### Details
 \
 
-The *Regularization technique* (described in section [Section 25.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_25-1]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_effect.args.lambda) argument, is other than default (to be more exact, greater than zero). The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the [mean_reg](#func.mean_reg) function described above in the section [Regularization Functions].
+The *Regularization technique* (described in section [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-1]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_effect.args.lambda) argument, is other than default (to be more exact, greater than zero). The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the [mean_reg](#func.mean_reg) function described above in the section [Regularization Functions].
 :::
 
 ::: { #func.train_user_movie_effect.value .sidebar }
@@ -4600,7 +4600,7 @@ str(movie_map)
 summary(movie_map)
 ```
 
-Note that titles cannot be considered unique, so we cannot use them as IDs[@IDS2_25-1].
+Note that titles cannot be considered unique, so we cannot use them as IDs[@IDS2_24-1].
 
 \newpage
 

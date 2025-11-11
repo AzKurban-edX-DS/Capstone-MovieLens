@@ -8,7 +8,7 @@
 \
 
 ::: {#textbook.25.1.movie_effects .sidebar }
-In [Section 25.1 *Case study: recommendation systems / Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) of the *Course Textbook (New Edition)*, the author draws our attention to the fact that some movies are generally rated higher than others[@IDS2_25-1]. 
+In [Section 24.1 *Case study: recommendation systems / Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) of the *Course Textbook (New Edition)*, the author draws our attention to the fact that some movies are generally rated higher than others[@IDS2_25-1]. 
 :::
 
 To prove this fact, we can find out the movies with the highest number of ratings using the following code:
@@ -245,7 +245,7 @@ Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kabl
 ### UME Model Regularization
 \
 
- [Section 25.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_ explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects[@IDS2_25-1]: 
+ [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_ explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects[@IDS2_25-1]: 
 $$
 \sum_{j=1}^{n} \beta_j^2
 $$ 
