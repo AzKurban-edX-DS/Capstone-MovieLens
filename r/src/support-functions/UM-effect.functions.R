@@ -50,10 +50,6 @@ Training completed: User+Movie Effects model for lambda: %1...",
   
   user_movie_effect
 }
-calc_user_movie_effect_RMSE <- function(test_set, um_effect){
-  mse <- test_set |> calc_user_movie_effect_MSE(um_effect)
-  sqrt(mse)
-}
 calc_user_movie_effect_MSE <- function(test_set, um_effect){
   mse.result <- test_set |>
     left_join(edx.user_effect, by = "userId") |>
@@ -64,12 +60,9 @@ calc_user_movie_effect_MSE <- function(test_set, um_effect){
   stopifnot(!is.na(mse.result))
   mse.result
 }
-calc_user_movie_effect_RMSE.cv <- function(um_effect){
-  user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
-  um_effect_RMSE <- sqrt(user_movie_effects_MSE)
-  put_log2("Function: user_movie_effects_RMSE.cv:
-%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
-  um_effect_RMSE
+calc_user_movie_effect_RMSE <- function(test_set, um_effect){
+  mse <- test_set |> calc_user_movie_effect_MSE(um_effect)
+  sqrt(mse)
 }
 calc_user_movie_effect_MSE.cv <- function(um_effect){
   put_log("Function: user_movie_effects_MSE.cv:
@@ -85,6 +78,13 @@ MSE values have been plotted for the %1-Fold Cross Validation samples.",
            CVFolds_N)
   
   mean(user_movie_effects_MSEs)
+}
+calc_user_movie_effect_RMSE.cv <- function(um_effect){
+  user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
+  um_effect_RMSE <- sqrt(user_movie_effects_MSE)
+  put_log2("Function: user_movie_effects_RMSE.cv:
+%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
+  um_effect_RMSE
 }
 
 ## UME Model Regularization ----------------------------------------------------
