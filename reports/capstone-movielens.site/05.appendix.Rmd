@@ -3508,7 +3508,7 @@ union_cv_results(data_list = data)
 ##### Details
 \
 
-This function internally uses the [base::union]((https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sets) function to aggregate the _N-Fold Cross-Validation_ result data into a single data frame for further processing. 
+This function internally uses the [base::union](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sets) function to aggregate the _N-Fold Cross-Validation_ result data list into a single data frame for further processing. 
 :::
 
 ::: { #func.union_cv_results.value .sidebar }
