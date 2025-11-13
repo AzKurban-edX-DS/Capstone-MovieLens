@@ -4447,6 +4447,7 @@ The `N` value for the *N-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
+The *RMSE* value calculated for the *UM Effect Model* using the *N-Fold Cross-Validation*, where the `N` is the length of the [`edx_CV` Object].
 :::
 
 ::: { #func.calc_user_movie_effect_RMSE.cv.code .sidebar }
