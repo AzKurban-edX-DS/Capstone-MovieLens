@@ -75,7 +75,7 @@ Computing the RMSE taking into account User+Movie Effects...")
   
   put_log1("Function: user_movie_effects_MSE.cv:
 MSE values have been plotted for the %1-Fold Cross Validation samples.", 
-           CVFolds_N)
+           length(edx_CV))
   
   mean(user_movie_effects_MSEs)
 }
@@ -83,7 +83,7 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
   user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
   um_effect_RMSE <- sqrt(user_movie_effects_MSE)
   put_log2("Function: user_movie_effects_RMSE.cv:
-%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
+%1-Fold Cross Validation ultimate RMSE: %2", length(edx_CV), um_effect_RMSE)
   um_effect_RMSE
 }
 

@@ -73,7 +73,7 @@ hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
 str(edx.user_effect)
 ```
 
-Now, we are ready to compute the _Mean Squared Errors_ from the _5-Fold Cross Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A: Support Functions]):
+Now, we are ready to compute the _Mean Squared Errors_ from the _5-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A: Support Functions]):
 ```{r eval=FALSE}
 put_log("Computing the RMSE taking into account user effects...")
 start <- put_start_date()
@@ -97,7 +97,7 @@ data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
 For the _Mean Squared Errors_ data visualization we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Visualization Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions].
 :::
 
-Finally, we calculate the `RMSE` as the _square root_ of the average of the _Mean Squared Errors_ we obtained through the _5-Fold Cross Validation_ above:   
+Finally, we calculate the `RMSE` as the _square root_ of the average of the _Mean Squared Errors_ we obtained through the _5-Fold Cross-Validation_ above:   
 ```{r, eval=FALSE}
 edx.user_effect.RMSE <- sqrt(mean(edx.user_effect.MSEs))
 

@@ -6,7 +6,7 @@ All the source code of the `R` scripts utilized in this project is available on 
 ## Preparing train and set datasets
 \
 
-We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 24.1 *Case study: recommendation systems*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-recommendation-systems) of the _Course Textbook (New Edition)_ mentioned above[@IDS2_25-1].We will also use the _5-Fold Cross Validation_ method as described in [Section 30.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6]. 
+We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 24.1 *Case study: recommendation systems*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-recommendation-systems) of the _Course Textbook (New Edition)_ mentioned above[@IDS2_25-1].We will also use the _5-Fold Cross-Validation_ method as described in [Section 30.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6]. 
 To prepare datasets for processing, we will use the following functions (described in detail in the [Initializing Input Datasets] section of the [Appendix A: Support Functions] of *this Report*), specifically designed for these operations:
 
   - [make_source_datasets](#func.make_source_datasets);
@@ -23,6 +23,6 @@ As a result of executing these functions, we will obtain the following datasets 
   
   - [`date_days_map` Object](#appndx_b.date_days_map): A map between the rating date and the number of days since the earliest entry in the edx dataset;
 
-  - [`edx_CV` Object](#appndx_b.edx_CV): A list of objects created from samples made from the `edx` dataset to use them for the _5-Fold Cross Validation_ in the way explained in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+  - [`edx_CV` Object](#appndx_b.edx_CV): A list of objects created from samples made from the `edx` dataset to use them for the _5-Fold Cross-Validation_ in the way explained in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
 
 

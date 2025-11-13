@@ -105,7 +105,7 @@ For now, we omit the `lambda` parameter, accepting its default value `lambda = 0
 #### `train_user_movie_effect.cv` Function {#func.train_user_movie_effect.cv}
 \
 
-We use the [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L17) function to build and train our model using the `5-Fold Cross Validation` method. Below, we provide the most important part of the code of that function:
+We use the [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L17) function to build and train our model using the *5-Fold Cross-Validation* method. Below, we provide the most important part of the code of that function:
 ```{r eval=FALSE}
 train_user_movie_effect.cv <- function(lambda = 0){
 # ...
@@ -129,7 +129,7 @@ User+Movie Effect list have been computed")
 ```
 
 ::: {.noteblock data-latex=""}
-Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the _5-Fold Cross Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions]).
+Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the _5-Fold Cross-Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions]).
 :::
 
 #### `calc_user_movie_effect_MSE` Function
@@ -152,7 +152,7 @@ calc_user_movie_effect_MSE <- function(test_set, um_effect){
 #### `calc_user_movie_effect_MSE.cv` Function
 \
 
-The source code of the function [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L72) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the _5-Fold Cross Validation_ **MSE**_ result of the _UME Model_ is provided below:
+The source code of the function [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L72) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the _5-Fold Cross-Validation_ **MSE**_ result of the _UME Model_ is provided below:
 ```{r eval=FALSE}
 calc_user_movie_effect_MSE.cv <- function(um_effect){
   put_log("Function: user_movie_effects_MSE.cv:
@@ -164,7 +164,7 @@ Computing the RMSE taking into account User+Movie Effects...")
   put_end_date(start)
   
   put_log1("Function: user_movie_effects_MSE.cv:
-MSE values have been plotted for the %1-Fold Cross Validation samples.", 
+MSE values have been plotted for the %1-Fold Cross-Validation samples.", 
            CVFolds_N)
   
   mean(user_movie_effects_MSEs)
@@ -189,14 +189,14 @@ calc_user_movie_effect_RMSE <- function(test_set, um_effect){
 #### `calc_user_movie_effect_RMSE.cv` Function { #func.calc_user_movie_effect_RMSE.cv }
 \
 
-The source code of the function [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L65) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `5-Fold Cross Validation` RMSE result of the `UME Model` is provided below:
+The source code of the function [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L65) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the *5-Fold Cross-Validation* RMSE result of the `UME Model` is provided below:
 
 ```{r eval=FALSE}
 calc_user_movie_effect_RMSE.cv <- function(um_effect){
   user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
   um_effect_RMSE <- sqrt(user_movie_effects_MSE)
   put_log2("Function: user_movie_effects_RMSE.cv:
-%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
+%1-Fold Cross-Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
   um_effect_RMSE
 }
 
@@ -211,7 +211,7 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
 The complete source code of the _User+Movie Effect_ computation described in this section is available in the [User+Movie Effect (UME) Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L382) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L382) script on _GitHub_.
 :::
 
-Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
+Below, we provide the most significant part of the code for training our model using the *5-Fold Cross-Validation* method:
 ```{r eval=FALSE}
   cv.UM_effect <- train_user_movie_effect.cv()
 ```
@@ -269,7 +269,7 @@ This approach will have our desired effect: when our sample size $n_j$ is very l
 
 We will implement the _Regularization_ method on our  models (starting from the current model) in following three steps:
 
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the `5-Fold Cross Validation` samples;
+  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *5-Fold Cross-Validation* samples;
   
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
   
@@ -288,7 +288,7 @@ The [regularize.test_lambda.UM_effect.cv]() function described below are defined
 ##### [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) Function {#func.regularize.test_lambda.UM_effect.cv}
 \
 
-This function calculates _RMSE_ of the _UME Model_ using _5-Fold Cross Validation_ method for the given $\lambda$ parameter value:
+This function calculates _RMSE_ of the _UME Model_ using _5-Fold Cross-Validation_ method for the given $\lambda$ parameter value:
 ```{r, eval=FALSE}
 regularize.test_lambda.UM_effect.cv <- function(lambda){
   if (is.na(lambda)) {
@@ -321,7 +321,7 @@ cv.UME.preset.result <-
   tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
 
 put_log1("Preliminary regularization set-up of `lambda`s range for the UME Model has been completed
-for the %1-Fold Cross Validation samples.",
+for the %1-Fold Cross-Validation samples.",
 CVFolds_N)
 
 ```
