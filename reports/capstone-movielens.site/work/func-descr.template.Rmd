@@ -66,34 +66,34 @@ The source code of the [log_func_tmpl](https://github.com/AzKurban-edX-DS/Capsto
 
 
 
-#### [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.helper-func.tmpl}
+#### [cmmn_helper_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.cmmn_helper_func.tmpl}
 \
 
-::: { #func.helper-func.tmpl.usage .sidebar }
+::: { #func.cmmn_helper_func.tmpl.usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
-helper-func.tmpl()
+cmmn_helper_func.tmpl()
 
 ```
 :::
 
-::: { #func.helper-func.tmpl.args .sidebar }
+::: { #func.cmmn_helper_func.tmpl.args .sidebar }
 ##### Arguments
 \
 
-::: { #func.helper-func.tmpl.args. .sidebar }
+::: { #func.cmmn_helper_func.tmpl.args. .sidebar }
   - **:** ; 
 
 :::
-::: { #func.helper-func.tmpl.args. .sidebar }
+::: { #func.cmmn_helper_func.tmpl.args. .sidebar }
   - **:** ; 
 
 :::
 :::
 
-::: { #func.helper-func.tmpl.details .sidebar }
+::: { #func.cmmn_helper_func.tmpl.details .sidebar }
 ##### Details
 \
 
@@ -101,22 +101,22 @@ helper-func.tmpl()
 
 :::
 
-::: { #func.helper-func.tmpl.value .sidebar }
+::: { #func.cmmn_helper_func.tmpl.value .sidebar }
 ##### Value
 \
 
 :::
 
-::: { #func.helper-func.tmpl.code .sidebar }
+::: { #func.cmmn_helper_func.tmpl.code .sidebar }
 ##### Source Code
 \
 
-The source code of the [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+The source code of the [cmmn_helper_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
 ```{r eval=FALSE}
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [helper-func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L0) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+The source code of the [cmmn_helper_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L0) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
 :::
 :::
 
@@ -344,6 +344,7 @@ The source code of the [datproc_func.tmpl](https://github.com/AzKurban-edX-DS/Ca
 
 
 
+## Model Helper Functions
 ### Overal Mean Rating (OMR) Model Functions
 \
 
@@ -397,16 +398,140 @@ The source code of the [OMR_model_func.tmpl](https://github.com/AzKurban-edX-DS/
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [OMR_model_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is defined in the [OMR-model.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#LX) script on _GitHub_.
+The source code of the [OMR_model_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#LX) function is defined in the [OMR-model.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+### UME Model Utility Functions
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the  [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) script on _GitHub_.
+:::
+
+#### [ume_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) Function {#func.ume_helper.tmpl}
+\
+
+::: { #func.ume_helper.tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+ume_helper.tmpl()
+
+```
+:::
+
+::: { #func.ume_helper.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.ume_helper.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.ume_helper.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.ume_helper.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.ume_helper.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.ume_helper.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [ume_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [ume_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+### UME Model Regularization
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the  [UME Model Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L90) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L90) script on _GitHub_.
+:::
+
+#### [ume_rglr_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) Function {#func.ume_rglr_helper.tmpl}
+\
+
+::: { #func.ume_rglr_helper.tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+ume_rglr_helper.tmpl()
+
+```
+:::
+
+::: { #func.ume_rglr_helper.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.ume_rglr_helper.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.ume_rglr_helper.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.ume_rglr_helper.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.ume_rglr_helper.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.ume_rglr_helper.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [ume_rglr_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [ume_rglr_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L90) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) script on _GitHub_.
 :::
 :::
 
 \newpage
 
 
-
-
-
+## General Func Tempates -------------------------------------------------------
 
 #### [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) Function {#func.@@func}
 \
@@ -458,11 +583,8 @@ The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-Movi
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L) section of the [@@script.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) script on _GitHub_.
+The source code of the [@@func](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L) section of the [@@script.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/@@script.R#LX) script on _GitHub_.
 :::
 :::
 
-
-
-
-
+\newpage

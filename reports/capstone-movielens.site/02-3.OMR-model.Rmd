@@ -1,7 +1,7 @@
 ## Overall Mean Rating (OMR) Model
 \
 
-Let's begin our analysis by evaluating the simplest model described in [Section 25.1 *Case study: recommendation systems / A first model*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model) of the *Course Textbook (New Edition)*[@IDS2_25-1], and then gradually refine it through further research.
+Let's begin our analysis by evaluating the simplest model described in [Section 24.1 *Case study: recommendation systems / A first model*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model) of the *Course Textbook (New Edition)*[@IDS2_25-1], and then gradually refine it through further research.
 
 ### Mathematical Description of the OMR Model
 \
@@ -16,6 +16,10 @@ with $\varepsilon_{i,j}$ independent errors sampled from the same distribution c
 
 ### OMR Model Building
 \
+
+::: {.noteblock data-latex=""}
+The complete source code of the *Overall Mean Rating* computation described in this section is available in the [Overall Mean Rating (Naive) Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L66) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L66) script on _GitHub_.
+:::
 
 We know that the estimate that minimizes the RMSE is the least squares estimate of $\mu$ and, in this case, is the average of all ratings:
 
@@ -38,9 +42,9 @@ mu.RMSE
 
 ::: {.noteblock data-latex=""}
 
-The following custom functions described in [Appendix A: Support Functions] of *this Report*, are used in the code snippets above:
+The following custom functions described in [Appendix A: Support Functions], are used in the code snippets above:
 
-  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [Overall Mean Rating (OMR) Model Helper Functions]) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method;
+  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model Helper Functions]) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method;
 
   - [data.plot](#func.data.plot) (described in section [Data Visualization Functions]) for the _Mean Squared Errors_ data visualization.
 
@@ -61,7 +65,7 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove that by
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom function [naive_model_RMSE](#func.naive_model_RMSE) described in the [Overall Mean Rating (OMR) Model Helper Functions] section of [Appendix A: Support Functions] to calculate *RMSEs* for the sequence of the deviation values.
+In the code snippet above, we use the custom function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model Helper Functions] section of [Appendix A: Support Functions] to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
 Let's make a quick investigation of the `deviation.RMSE` result we have just got: 
