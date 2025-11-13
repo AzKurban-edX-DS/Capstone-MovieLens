@@ -4211,7 +4211,7 @@ as described in [Section 30.6 *Cross validation / K-fold cross validation*](http
 ##### Details
 \
 
-Under the hood, this function internally calls the [train_user_movie_effect](#func.train_user_movie_effect) function described above for every iteration of the _N-Fold Cross-Validation_ applied to the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in the *Data Helper Functions / [Models Training Functions]* section of this *Appendix* to aggregate the cross-validation results.
+Under the hood, this function internally calls the [train_user_movie_effect](#func.train_user_movie_effect) function described above for each iteration of the _N-Fold Cross-Validation_ applied to the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in the *Data Helper Functions / [Models Training Functions]* section of this *Appendix* to aggregate the cross-validation results.
 
 The `N` value for the *N-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
 
@@ -4263,7 +4263,7 @@ The complete source code of the [train_user_movie_effect.cv](https://github.com/
 #### [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L53) Function {#func.calc_user_movie_effect_MSE}
 \
 
-Calculates *Mean Squared Error (MSE)* for the *UM Effect (UME) Model* produced by the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call.
+Calculates *Mean Squared Error (MSE)* for the *UM Effect (UME) Model* produced by the  [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call.
 
 ::: { #func.calc_user_movie_effect_MSE.usage .sidebar }
 ##### Usage
@@ -4333,7 +4333,7 @@ The source code of the [calc_user_movie_effect_MSE](https://github.com/AzKurban-
 #### [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L67) Function {#func.calc_user_movie_effect_MSE.cv}
 \
 
-Calculates *Mean Squared Error (MSE)* for the *UM Effect (UME) Model* (produced by the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) using *N-Fold Cross-Validation*.
+Calculates *Mean Squared Error (MSE)* for the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) using *N-Fold Cross-Validation*.
 
 ::: { #func.calc_user_movie_effect_MSE.cv.usage .sidebar }
 ##### Usage
@@ -4408,7 +4408,7 @@ The source code of the [calc_user_movie_effect_MSE.cv](https://github.com/AzKurb
 #### [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L82) Function {#func.calc_user_movie_effect_RMSE.cv}
 \
 
-Calculates *Root Mean Squared Error (RMSE)* for the *UM Effect (UME) Model* (produced by the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) using *N-Fold Cross-Validation*.
+Calculates *Root Mean Squared Error (RMSE)* for the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) using *N-Fold Cross-Validation*.
 
 ::: { #func.calc_user_movie_effect_RMSE.cv.usage .sidebar }
 ##### Usage
