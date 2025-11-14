@@ -2846,7 +2846,7 @@ movielens_datasets <- make_source_datasets()
 ##### Details
 \
 
-This function produces datasets listed in the [Value](#func.make_source_datasets.value) section below and described in detail in [Appendix B: Models Training Datasets] using the `edx` as the original dataset.
+This function produces datasets listed in the [Value](#func.make_source_datasets.value) section below and described in detail in [Appendix B: Models Training Datasets], using the `edx` as the original dataset.
 
 ::: {.noteblock data-latex=""}
 The function calls internally the following functions described below:
@@ -3500,7 +3500,7 @@ df <- union_cv_results(data_list)
 \
 
 ::: { #func.union_cv_results.args.data_list .sidebar }
-  - **data_list:** List of data frames representing the results of the *K-Fold Cross-Validation* method execution.; 
+  - **data_list:** List of data frames representing the results of the *K-Fold Cross-Validation* method execution. 
 
 :::
 :::
@@ -3508,7 +3508,7 @@ df <- union_cv_results(data_list)
 ::: { #func.union_cv_results.details .sidebar }
 ##### Details
 \
-This function internally uses the [base::union](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sets) `R` function to combine the data from the list of data frames (result of the *K-Fold Cross-Validation*) passed in the [data_list] argument into a single data frame for further processing.
+This function internally uses the [base::union](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sets) `R` function to combine the data from the list of data frames (result of the *K-Fold Cross-Validation*) passed in the [data_list](#func.union_cv_results.args.data_list) argument into a single data frame for further processing.
 :::
 
 ::: { #func.union_cv_results.value .sidebar }
@@ -4027,7 +4027,7 @@ mu.MSEs <- naive_model_MSEs(mu)
 ##### Value
 \
 
-The Mean Squared Errors (MSEs) values obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the `K` value is determined by the length of the [`edx_CV` Object].
+The Mean Squared Error (MSE) values obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the `K` value is determined by the length of the [`edx_CV` Object].
 
 
 :::
@@ -4271,7 +4271,7 @@ The complete source code of the [train_user_movie_effect.cv](https://github.com/
 #### [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L53) Function {#func.calc_user_movie_effect_MSE}
 \
 
-Calculates *Mean Squared Error (MSE)* for the *UM Effect (UME) Model* produced by the  [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call.
+Validates the *UM Effect (UME) Model* produced by the  [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call.
 
 ::: { #func.calc_user_movie_effect_MSE.usage .sidebar }
 ##### Usage
@@ -4301,7 +4301,7 @@ mse <- test_set |> calc_user_movie_effect_MSE(um_effect)
 ##### Details
 \
 
-To calculate the *MSE* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_MSE.args.um_effect) argument, the function uses the validation dataset passed in the [test_set](#func.calc_user_movie_effect_MSE.args.test_set) arg. 
+The function calculates *Mean Squared Error (MSE)* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_MSE.args.um_effect) argument using the validation dataset passed in the [test_set](#func.calc_user_movie_effect_MSE.args.test_set) arg. 
 
 
 :::
@@ -4372,7 +4372,7 @@ The function calculates *MSE* for the *UME Model* passed in the [um_effect](#fun
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object].
 :::
 :::
 
@@ -4442,7 +4442,7 @@ cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 ##### Details
 \
 
-The function calculates *RMSE* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_RMSE.cv.args.um_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
+The function calculates *Root Squared Error (RMSE)* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_RMSE.cv.args.um_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) function described above, to calculate the *MSE* for the *UME Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
@@ -4455,7 +4455,7 @@ The `K` value for the *K-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
-The *RMSE* value calculated for the *UM Effect Model* using the *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *RMSE* value calculated for the *UM Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
 :::
 
 ::: { #func.calc_user_movie_effect_RMSE.cv.code .sidebar }
