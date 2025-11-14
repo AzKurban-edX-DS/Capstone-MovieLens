@@ -65,8 +65,6 @@ The author then shows how to use an approximation by first computing the least s
 b <- colMeans(y - mu - a, na.rm = TRUE)
 ```
 
-Inspired by this idea, a few support functions were developed by the author of this report, which we will use for our further analysis.
-
 ### UME Model Building
 \
 

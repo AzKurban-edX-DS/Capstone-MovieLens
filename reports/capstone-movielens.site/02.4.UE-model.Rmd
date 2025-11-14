@@ -109,8 +109,7 @@ RMSE_kable(RMSEs.ResultTibble.UE)
 ```
 
 ::: {.noteblock data-latex=""}
-The complete source code of the _User Effect Model RMSE_ computation is available in the [Compute RMSE for User Effect Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L341) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L341) script on _GitHub_.
-
+To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
 :::
 
 \newpage

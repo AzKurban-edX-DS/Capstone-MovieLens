@@ -14,7 +14,7 @@ To prepare datasets for processing, we will use the following functions (describ
   
   - [init_source_datasets](#func.init_source_datasets).
 
-As a result of executing these functions, we will obtain the following datasets (detailed in [Appendix B: Models Training Datasets]), which we will use throughout the project:
+As a result of executing these functions, we will obtain the following datasets (detailed in [Appendix B: Models Training Datasets]), which we will use throughout *This Project*:
 
   - [`edx.mx` Matrix Object](#appndx_b.edx.mx): The `edx` dataset converted to a matrix;
   
@@ -24,7 +24,7 @@ As a result of executing these functions, we will obtain the following datasets 
   
   - [`date_days_map` Object](#appndx_b.date_days_map): A map between the rating date and the number of days since the earliest entry in the edx dataset;
 
-  - [`edx_CV` Object](#appndx_b.edx_CV): A list of objects created from samples made from the `edx` dataset to use them for the _5-Fold Cross-Validation_ in the way explained in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+  - [`edx_CV` Object](#appndx_b.edx_CV): A list of objects created from samples made from the `edx` dataset to use them for the *K-Fold Cross-Validation* in the way explained in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
 
 
 ::: {.noteblock data-latex=""}

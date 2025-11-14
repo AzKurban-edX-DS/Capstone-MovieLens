@@ -4491,7 +4491,7 @@ The source code of the [calc_user_movie_effect_RMSE.cv](https://github.com/AzKur
 \
 
 ```{r eval=FALSE}
-regularize.test_lambda.UM_effect.cv()
+UME.lambda_RMSE <- regularize.test_lambda.UM_effect.cv(lambda)
 
 ```
 :::
