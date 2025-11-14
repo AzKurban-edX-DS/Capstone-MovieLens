@@ -1527,7 +1527,7 @@ The source code of the [mse](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 #### [mse_cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) Function {#func.mse_cv}
 \
 
-Calculates the average value of the *Mean Squared Errors* calculated using the _K-Fold Cross-Validation_ method as described in [Section 30.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Calculates the average value of the *Mean Squared Errors* calculated using the *K-Fold Cross-Validation* method as described in [Section 30.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
 
 ::: { #func.mse_cv.usage .sidebar }
 ##### Usage
@@ -1544,7 +1544,7 @@ mse_cv(r_list)
 \
 
 ::: { #func.mse_cv.args.r_list .sidebar }
-  - **r_list:** List of numeric vectors, each representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1], calculated in `K`th iteration using the _K-Fold Cross-Validation_ method. 
+  - **r_list:** List of numeric vectors, each representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1], calculated in `K`th iteration using the *K-Fold Cross-Validation* method. 
 
 :::
 :::
@@ -3500,7 +3500,7 @@ df <- union_cv_results(data_list)
 \
 
 ::: { #func.union_cv_results.args.data_list .sidebar }
-  - **data_list:** List of data frames representing the results of the _N-Fold Cross-Validation_ method execution.; 
+  - **data_list:** List of data frames representing the results of the *K-Fold Cross-Validation* method execution.; 
 
 :::
 :::
@@ -3508,7 +3508,7 @@ df <- union_cv_results(data_list)
 ::: { #func.union_cv_results.details .sidebar }
 ##### Details
 \
-This function internally uses the [base::union](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sets) `R` function to combine the data from the list of data frames (result of the _N-Fold Cross-Validation_) passed in the [data_list] argument into a single data frame for further processing.
+This function internally uses the [base::union](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sets) `R` function to combine the data from the list of data frames (result of the *K-Fold Cross-Validation*) passed in the [data_list] argument into a single data frame for further processing.
 :::
 
 ::: { #func.union_cv_results.value .sidebar }
@@ -3997,7 +3997,10 @@ The complete source code of the functions described in this section is available
 #### [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L2) Function {#func.naive_model_MSEs}
 \
 
-Calculates the Mean Squared Errors (MSEs) for the *Overall Mean Rating (OMR) Model* using the *K-Fold Cross-Validation* method as described in section [OMR Model Building] of *this Report*.
+Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets].
+
 
 ::: { #func.naive_model_MSEs.usage .sidebar }
 ##### Usage
@@ -4024,7 +4027,9 @@ mu.MSEs <- naive_model_MSEs(mu)
 ##### Value
 \
 
-The Mean Squared Errors (MSEs) values obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*.
+The Mean Squared Errors (MSEs) values obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the `K` value is determined by the length of the [`edx_CV` Object].
+
+
 :::
 
 ::: { #func.naive_model_MSEs.code .sidebar }
@@ -4049,7 +4054,7 @@ The source code of the [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Cap
 
 #### [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L7) Function {#func.naive_model_RMSE}
 \
-Calculates the Root Mean Squared Error (RMSE) for the *Overall Mean Rating (OMR) Model* using the *K-Fold Cross-Validation* method as described in section [OMR Model Building] of *this Report*.
+Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
 
 ::: { #func.naive_model_RMSE.usage .sidebar }
 ##### Usage
@@ -4075,14 +4080,18 @@ mu.RMSE <- naive_model_RMSE(mu)
 ##### Details
 \
 
-This function internally calls the [naive_model_MSEs](#func.naive_model_MSEs) function described above.
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets].
+
+::: {.noteblock data-latex=""}
+This function internally calls the [naive_model_MSEs](#func.naive_model_MSEs) function described above and then calculates the square root of the mean of the obtained results.
+:::
 :::
 
 ::: { #func.naive_model_RMSE.value .sidebar }
 ##### Value
 \
 
-The Root Mean Squared Errors (RMSE) value obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*.
+The Root Mean Squared Errors (RMSE) value obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the `K` value is determined by the length of the [`edx_CV` Object].
 :::
 
 ::: { #func.naive_model_RMSE.code .sidebar }
@@ -4113,7 +4122,7 @@ The complete source code of the functions described in this section is available
 #### [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) Function {#func.train_user_movie_effect}
 \
 
-Computes the *(Regularized) User+Movie (UM) Effect* using the training dataset passed in the [train_set](#func.train_user_movie_effect.args.train_set) parameter.
+Trains the *(Regularized) User+Movie (UM) Effect Model* using the training dataset passed in the [train_set](#func.train_user_movie_effect.args.train_set) parameter.
 
 ::: { #func.train_user_movie_effect.usage .sidebar }
 ##### Usage
@@ -4185,8 +4194,7 @@ The source code of the [train_user_movie_effect](https://github.com/AzKurban-edX
 #### [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L19) Function {#func.train_user_movie_effect.cv}
 \
 
-Trains the *(Regularized) User+Movie (UM) Effect Model* using the the _N-Fold Cross-Validation_ 
-as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Trains the *(Regularized) User+Movie (UM) Effect Model* with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
 
 ::: { #func.train_user_movie_effect.cv.usage .sidebar }
 ##### Usage
@@ -4211,9 +4219,9 @@ as described in [Section 30.6 *Cross validation / K-fold cross validation*](http
 ##### Details
 \
 
-Under the hood, this function internally calls the [train_user_movie_effect](#func.train_user_movie_effect) function described above for each iteration of the _N-Fold Cross-Validation_ applied to the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in the *Data Helper Functions / [Models Training Functions]* section of this *Appendix* to aggregate the cross-validation results.
+Under the hood, this function internally calls the [train_user_movie_effect](#func.train_user_movie_effect) function described above for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in the *Data Helper Functions / [Models Training Functions]* section of this *Appendix* to aggregate the cross-validation results.
 
-The `N` value for the *N-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* (described in section [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-1]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument, is other than default (to be more exact, greater than zero).
@@ -4224,7 +4232,7 @@ The *Regularization technique* (described in section [Section 24.1 *Case study: 
 ##### Value
 \
 
-Data frame representing the *UM Effect Model* trained (and also *regularized* if the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument value is other than the default) using _N-Fold Cross-Validation_.
+Data frame representing the *UM Effect Model* trained (and also *regularized* if the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object]..
 :::
 
 ::: { #func.train_user_movie_effect.cv.code .sidebar }
@@ -4333,7 +4341,7 @@ The source code of the [calc_user_movie_effect_MSE](https://github.com/AzKurban-
 #### [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L67) Function {#func.calc_user_movie_effect_MSE.cv}
 \
 
-Calculates *Mean Squared Error (MSE)* for the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) using *N-Fold Cross-Validation*.
+Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
 
 ::: { #func.calc_user_movie_effect_MSE.cv.usage .sidebar }
 ##### Usage
@@ -4359,12 +4367,12 @@ user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
 ##### Details
 \
 
-The function utilizes *N-Fold Cross-Validation* to calculate *MSE* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_MSE.cv.args.um_effect) argument using the validation datasets contained by the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
+The function calculates *MSE* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_MSE.cv.args.um_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
 ::: {.noteblock data-latex=""}
-This function internally calls the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function for each iteration of the *N-Fold Cross-Validation* method, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
+This function internally calls the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
-The `N` value for the *N-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
 :::
 :::
 
@@ -4372,7 +4380,7 @@ The `N` value for the *N-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
-The *MSE* value calculated for the *UM Effect Model* using the *N-Fold Cross-Validation*, where the `N` is the length of the [`edx_CV` Object].
+The *MSE* value calculated for the *UM Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
 :::
 
 ::: { #func.calc_user_movie_effect_MSE.cv.code .sidebar }
@@ -4408,7 +4416,7 @@ The source code of the [calc_user_movie_effect_MSE.cv](https://github.com/AzKurb
 #### [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L82) Function {#func.calc_user_movie_effect_RMSE.cv}
 \
 
-Calculates *Root Mean Squared Error (RMSE)* for the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) using *N-Fold Cross-Validation*.
+Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
 
 ::: { #func.calc_user_movie_effect_RMSE.cv.usage .sidebar }
 ##### Usage
@@ -4434,12 +4442,12 @@ cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 ##### Details
 \
 
-The function utilizes *N-Fold Cross-Validation* to calculate *RMSE* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_RMSE.cv.args.um_effect) argument using the validation datasets contained by the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
+The function calculates *RMSE* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_RMSE.cv.args.um_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
 ::: {.noteblock data-latex=""}
-This function internally calls the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) function described above, to calculate the *MSE* for the *UME Model* using *N-Fold Cross-Validation*, and then calculates the square root of the result.
+This function internally calls the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) function described above, to calculate the *MSE* for the *UME Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
 
-The `N` value for the *N-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
 :::
 :::
 
@@ -4447,7 +4455,7 @@ The `N` value for the *N-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
-The *RMSE* value calculated for the *UM Effect Model* using the *N-Fold Cross-Validation*, where the `N` is the length of the [`edx_CV` Object].
+The *RMSE* value calculated for the *UM Effect Model* using the *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
 :::
 
 ::: { #func.calc_user_movie_effect_RMSE.cv.code .sidebar }
@@ -4645,7 +4653,7 @@ To create the `date_days_map` object, the above code snippet is used in the [mak
 ## `edx_CV` Object {#appndx_b.edx_CV}
 \
 
-Here we have a list of sample objects we need to perform the _5-Fold Cross-Validation_ 
+`edx_CV` object is a list of sample objects we need to perform the *K-Fold Cross-Validation* 
 as explained in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6]:
 ```{r eval=FALSE}
   start <- put_start_date()
@@ -4706,9 +4714,11 @@ Matrix created: `train_mx` of the following dimentions:")
 Set of K-Fold Cross-Validation datasets created: edx_CV")
 ```
 
-::: {.noteblock data-latex=""}
 To create the `edx_CV` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
 
+The `K` value for the *K-Fold Cross-Validation* is determined by the length of the list composing the `edx_CV` object. In *this Project*, we choose `K = 5`.
+
+::: {.noteblock data-latex=""}
 The custom function [sample_train_validation_sets](#func.sample_train_validation_sets) used in the code snippet to split the original dataset (`edx` in this case) into *train* and *validation* datasets, is described in the [Data Processing Functions] section of [Appendix A: Support Functions].
 :::
 
