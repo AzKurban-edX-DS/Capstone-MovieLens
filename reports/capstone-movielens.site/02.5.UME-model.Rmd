@@ -7,8 +7,8 @@
 #### Movies' Popularity
 \
 
-::: {#textbook.25.1.movie_effects .sidebar }
-In [Section 24.1 *Case study: recommendation systems / Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) of the *Course Textbook (New Edition)*, the author draws our attention to the fact that some movies are generally rated higher than others[@IDS2_25-1]. 
+::: {#textbook.24.1.movie_effects .sidebar }
+In [Section 24.1 *Case study: recommendation systems / Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) of the *Course Textbook (New Edition)*, the author draws our attention to the fact that some movies are generally rated higher than others[@IDS2_24-1]. 
 :::
 
 To prove this fact, we can find out the movies with the highest number of ratings using the following code:
@@ -54,7 +54,7 @@ edx.rating_groups |>
 ### Mathematical Description of the UME Model
 \
 
-In the source mentioned [above](#textbook.25.1.movie_effects) the author also explains that in this case one can use a linear model with a _treatment effect_ $\beta_j$ for each movie, which can be interpreted as the movie effect, or the difference between the average rating for movie $j$ and the overall average $\mu$[@IDS2_25-1]: 
+In the source mentioned [above](#textbook.24.1.movie_effects) the author also explains that in this case one can use a linear model with a _treatment effect_ $\beta_j$ for each movie, which can be interpreted as the movie effect, or the difference between the average rating for movie $j$ and the overall average $\mu$[@IDS2_24-1]: 
 
 $$
 Y_{i,j} = \mu + \alpha_i + \beta_j +\varepsilon_{i,j}
@@ -65,145 +65,6 @@ The author then shows how to use an approximation by first computing the least s
 b <- colMeans(y - mu - a, na.rm = TRUE)
 ```
 
-Inspired by this idea, a few support functions were developed by the author of this report, which we will use for our further analysis.
-
-### UME Model: Support Functions
-\
-
-::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the [UME Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L1) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script on _GitHub_.
-:::
- 
-#### [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L2) Function {#func.train_user_movie_effect}
-\
-
-We use this function to build and train our model using the `train_set` dataset:
-```{r eval=FALSE}
-train_user_movie_effect <- function(train_set, lambda = 0){
-  if (is.na(lambda)) {
-    stop("Function: train_user_movie_effect
-`lambda` is `NA`")
-  }
-
-  UM.effect <- train_set |>
-    left_join(edx.user_effect, by = "userId") |>
-    mutate(resid = rating - (mu + a)) |> 
-    group_by(movieId) |>
-    summarise(b = mean_reg(resid, lambda), n = n())
-  
-  stopifnot(!is.na(mean(UM.effect$b)))
-  UM.effect
-}
-```
-
-::: {.noteblock data-latex=""}
-The function described above accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We also use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call, which we will need later for the *Regularization* techniques (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions]).
-We will explain that later in the [User+Movie Effect Model Regularization] section. 
-For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. In this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
-:::
-
-#### `train_user_movie_effect.cv` Function {#func.train_user_movie_effect.cv}
-\
-
-We use the [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L17) function to build and train our model using the `5-Fold Cross Validation` method. Below, we provide the most important part of the code of that function:
-```{r eval=FALSE}
-train_user_movie_effect.cv <- function(lambda = 0){
-# ...
-  start <- put_start_date()
-  user_movie_effects_ls <- lapply(edx_CV, function(cv_fold_dat){
-    cv_fold_dat$train_set |> train_user_movie_effect(lambda)
-  })
-  put_end_date(start)
-  put_log("Function: train_user_movie_effect.cv:
-User+Movie Effect list have been computed")
-  
-  user_movie_effects_united <- union_cv_results(user_movie_effects_ls)
-
-  user_movie_effect <- user_movie_effects_united |>
-    group_by(movieId) |>
-    summarise(b = mean(b), n = mean(n))
-  # ...
-  user_movie_effect
-}
-
-```
-
-::: {.noteblock data-latex=""}
-Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432), which is defined in the script [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R), to aggregate the _5-Fold Cross Validation_ method results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions]).
-:::
-
-#### `calc_user_movie_effect_MSE` Function
-\
-
-The source code of the function [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L55) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the _Mean Squared Error (MSE)_ of the _UME Model_ for the given `Test Set` is provided below:
-```{r eval=FALSE}
-calc_user_movie_effect_MSE <- function(test_set, um_effect){
-  mse.result <- test_set |>
-    left_join(edx.user_effect, by = "userId") |>
-    left_join(um_effect, by = "movieId") |>
-    mutate(resid = rating - clamp(mu + a + b)) |> 
-    pull(resid) |> mse()
-  
-  stopifnot(!is.na(mse.result))
-  mse.result
-}
-```
-
-#### `calc_user_movie_effect_MSE.cv` Function
-\
-
-The source code of the function [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L72) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the _5-Fold Cross Validation_ **MSE**_ result of the _UME Model_ is provided below:
-```{r eval=FALSE}
-calc_user_movie_effect_MSE.cv <- function(um_effect){
-  put_log("Function: user_movie_effects_MSE.cv:
-Computing the RMSE taking into account User+Movie Effects...")
-  start <- put_start_date()
-  user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
-    cv_fold_dat$validation_set |> calc_user_movie_effect_MSE(um_effect)
-  })
-  put_end_date(start)
-  
-  put_log1("Function: user_movie_effects_MSE.cv:
-MSE values have been plotted for the %1-Fold Cross Validation samples.", 
-           CVFolds_N)
-  
-  mean(user_movie_effects_MSEs)
-}
-
-```
-
-
-#### `calc_user_movie_effect_RMSE` Function
-\
-
-
-The source code of the function [calc_user_movie_effect_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L51) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `Root Mean Squared Error (RMSE)` of the `UME Model` for the given `Test Set` is provided below:
-
-```{r eval=FALSE}
-calc_user_movie_effect_RMSE <- function(test_set, um_effect){
-  mse <- test_set |> calc_user_movie_effect_MSE(um_effect)
-  sqrt(mse)
-}
-```
-
-#### `calc_user_movie_effect_RMSE.cv` Function { #func.calc_user_movie_effect_RMSE.cv }
-\
-
-The source code of the function [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L65) defined in the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R) script to calculate the `5-Fold Cross Validation` RMSE result of the `UME Model` is provided below:
-
-```{r eval=FALSE}
-calc_user_movie_effect_RMSE.cv <- function(um_effect){
-  user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
-  um_effect_RMSE <- sqrt(user_movie_effects_MSE)
-  put_log2("Function: user_movie_effects_RMSE.cv:
-%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, um_effect_RMSE)
-  um_effect_RMSE
-}
-
-```
-
-\newpage
-
 ### UME Model Building
 \
 
@@ -211,10 +72,15 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
 The complete source code of the _User+Movie Effect_ computation described in this section is available in the [User+Movie Effect (UME) Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L382) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L382) script on _GitHub_.
 :::
 
-Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
+Below, we provide the most significant part of the code for training our model with the use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied:
 ```{r eval=FALSE}
   cv.UM_effect <- train_user_movie_effect.cv()
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above we use the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function described in the [UME Model Utility Functions] section of [Appendix A: Support Functions].
+:::
+
 ```{r}
 str(cv.UM_effect)
 
@@ -237,7 +103,11 @@ RMSE_kable(RMSEs.ResultTibble.UME)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
+
+  - [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) (described in the [UME Model Utility Functions] section) to calculate the *RMSE* for the *Current Model*;
+  
+  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the [Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
 
 \newpage
@@ -245,7 +115,7 @@ Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kabl
 ### UME Model Regularization
 \
 
- [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_ explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects[@IDS2_25-1]: 
+ [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_ explains why and how we should use _Penalized least squares_ to improve our predictions. The author also explains that the general idea of penalized regression is to control the total variability of the movie effects[@IDS2_24-1]: 
 $$
 \sum_{j=1}^{n} \beta_j^2
 $$ 
@@ -265,11 +135,11 @@ The first term is just the sum of squares and the second is a penalty that gets 
 
 where $n_j$ is the number of ratings made for movie $j$. 
 
-This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_25-1].
+This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_24-1].
 
 We will implement the _Regularization_ method on our  models (starting from the current model) in following three steps:
 
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the `5-Fold Cross Validation` samples;
+  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *5-Fold Cross-Validation* samples;
   
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
   
@@ -288,7 +158,7 @@ The [regularize.test_lambda.UM_effect.cv]() function described below are defined
 ##### [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) Function {#func.regularize.test_lambda.UM_effect.cv}
 \
 
-This function calculates _RMSE_ of the _UME Model_ using _5-Fold Cross Validation_ method for the given $\lambda$ parameter value:
+This function calculates _RMSE_ of the _UME Model_ using _5-Fold Cross-Validation_ method for the given $\lambda$ parameter value:
 ```{r, eval=FALSE}
 regularize.test_lambda.UM_effect.cv <- function(lambda){
   if (is.na(lambda)) {
@@ -321,7 +191,7 @@ cv.UME.preset.result <-
   tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
 
 put_log1("Preliminary regularization set-up of `lambda`s range for the UME Model has been completed
-for the %1-Fold Cross Validation samples.",
+for the %1-Fold Cross-Validation samples.",
 CVFolds_N)
 
 ```

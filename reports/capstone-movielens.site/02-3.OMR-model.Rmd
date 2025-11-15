@@ -1,7 +1,7 @@
 ## Overall Mean Rating (OMR) Model
 \
 
-Let's begin our analysis by evaluating the simplest model described in [Section 24.1 *Case study: recommendation systems / A first model*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model) of the *Course Textbook (New Edition)*[@IDS2_25-1], and then gradually refine it through further research.
+Let's begin our analysis by evaluating the simplest model described in [Section 24.1 *Case study: recommendation systems / A first model*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-first-model) of the *Course Textbook (New Edition)*[@IDS2_24-1], and then gradually refine it through further research.
 
 ### Mathematical Description of the OMR Model
 \
@@ -44,7 +44,7 @@ mu.RMSE
 
 The following custom functions described in [Appendix A: Support Functions], are used in the code snippets above:
 
-  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model Helper Functions]) to compute _Mean Squared Errors_ using _5-Fold Cross Validation_ method;
+  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model Helper Functions]) to compute _Mean Squared Errors_ using _5-Fold Cross-Validation_ method;
 
   - [data.plot](#func.data.plot) (described in section [Data Visualization Functions]) for the _Mean Squared Errors_ data visualization.
 
@@ -65,7 +65,7 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove that by
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model Helper Functions] section of [Appendix A: Support Functions] to calculate *RMSEs* for the sequence of the deviation values.
+In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model Helper Functions] section of [Appendix A: Support Functions] to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
 Let's make a quick investigation of the `deviation.RMSE` result we have just got: 
@@ -89,7 +89,7 @@ print_log1("Is the previously computed RMSE the best for the current model: %1",
 ```
 
 ::: {.noteblock data-latex=""}
-To print the log, we use the custom function [print_log1](#func.print_log1) described in the [Logging Functions] section of [Appendix A: Support Functions].
+To print the log, we use the function [print_log1](#func.print_log1) described in the [Logging Functions] section of [Appendix A: Support Functions].
 :::
 
 ```{r eval=FALSE}
@@ -101,7 +101,7 @@ RMSE_kable(RMSEs.ResultTibble.OMR)
 ```
 
 ::: {.noteblock data-latex=""}
-To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) custom functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
 :::
 
 To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]

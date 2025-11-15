@@ -6,7 +6,7 @@
 
 To improve our model let's now take into consideration user effects as explained in [Section 24.1 *Case study: recommendation systems / User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the *Course Textbook (New Edition)*.
 
-If we visualize the average rating for each user the way the the author shows, we can see that there is substantial variability in the average ratings across users[@IDS2_25-1]: 
+If we visualize the average rating for each user the way the the author shows, we can see that there is substantial variability in the average ratings across users[@IDS2_24-1]: 
 ```{r}
 hist(edx.user_mean_ratings$mean_rating,
      xlab = "User Average Rating",
@@ -25,7 +25,7 @@ $$
 Y_{i,j} = \mu + \alpha_i + \varepsilon_{i,j}
 $$
 
-Statistics textbooks refer to the $\alpha$s as treatment effects. In the Netflix challenge papers, they refer to them as _bias_[@IDS2_25-1; @MFT_RS].
+Statistics textbooks refer to the $\alpha$s as treatment effects. In the Netflix challenge papers, they refer to them as _bias_[@IDS2_24-1; @MFT_RS].
 
 ### UE Model Building
 \
@@ -34,7 +34,7 @@ Statistics textbooks refer to the $\alpha$s as treatment effects. In the Netflix
 The complete source code of the _User Effect_ computation described in this section is available in the [User Effect (UE) Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L210) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L210) script on _GitHub_.
 :::
 
-As it is stated in the [Course Textbook](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects), it can be shown that the least squares estimate $\hat{\alpha}_i$ is just the average of $y_{i,j} - \hat{\mu}$ for each user $i$. So we can compute them this way[@IDS2_25-1]:
+As it is stated in the [Course Textbook](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects), it can be shown that the least squares estimate $\hat{\alpha}_i$ is just the average of $y_{i,j} - \hat{\mu}$ for each user $i$. So we can compute them this way[@IDS2_24-1]:
 ```{r eval=FALSE}
 a <- rowMeans(y - mu, na.rm = TRUE)
 ```
@@ -73,7 +73,7 @@ hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
 str(edx.user_effect)
 ```
 
-Now, we are ready to compute the _Mean Squared Errors_ from the _5-Fold Cross Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A: Support Functions]):
+Now, we are ready to compute the _Mean Squared Errors_ from the _5-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A: Support Functions]):
 ```{r eval=FALSE}
 put_log("Computing the RMSE taking into account user effects...")
 start <- put_start_date()
@@ -97,7 +97,7 @@ data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
 For the _Mean Squared Errors_ data visualization we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Visualization Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions].
 :::
 
-Finally, we calculate the `RMSE` as the _square root_ of the average of the _Mean Squared Errors_ we obtained through the _5-Fold Cross Validation_ above:   
+Finally, we calculate the `RMSE` as the _square root_ of the average of the _Mean Squared Errors_ we obtained through the _5-Fold Cross-Validation_ above:   
 ```{r, eval=FALSE}
 edx.user_effect.RMSE <- sqrt(mean(edx.user_effect.MSEs))
 
@@ -109,8 +109,7 @@ RMSE_kable(RMSEs.ResultTibble.UE)
 ```
 
 ::: {.noteblock data-latex=""}
-The complete source code of the _User Effect Model RMSE_ computation is available in the [Compute RMSE for User Effect Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L341) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L341) script on _GitHub_.
-
+To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
 :::
 
 \newpage

@@ -116,7 +116,63 @@ The source code of the [cmmn_helper_func.tmpl](https://github.com/AzKurban-edX-D
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [cmmn_helper_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L0) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+The source code of the [cmmn_helper_func.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [section](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L0) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+### Regularization
+
+#### [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.cmmn_hlp.rglr.fn.tmpl}
+\
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+cmmn_hlp.rglr.fn.tmpl()
+
+```
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
 :::
 :::
 
