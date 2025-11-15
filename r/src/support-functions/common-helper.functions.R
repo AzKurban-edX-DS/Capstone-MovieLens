@@ -78,18 +78,6 @@ mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
   sums/(N + lambda)
 }
-get_fine_tune.param.endpoints <- function(preset.result) {
-
-  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
-  
-  i <- preset.result.idx["start"]
-  j <- preset.result.idx["end"]
-  best.idx <- preset.result.idx["best"]
-  
-  c(start = preset.result$parameter.value[i], 
-    end = preset.result$parameter.value[j],
-    best = preset.result$parameter.value[best.idx])
-}
 get_fine_tune.param.endpoints.idx <- function(preset.result) {
   best_RMSE <- min(preset.result$RMSE)
   best_RMSE.idx <- which.min(preset.result$RMSE)
@@ -117,6 +105,18 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
   c(start = i, 
     end = j,
     best = best_RMSE.idx)
+}
+get_fine_tune.param.endpoints <- function(preset.result) {
+
+  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+  
+  i <- preset.result.idx["start"]
+  j <- preset.result.idx["end"]
+  best.idx <- preset.result.idx["best"]
+  
+  c(start = preset.result$parameter.value[i], 
+    end = preset.result$parameter.value[j],
+    best = preset.result$parameter.value[best.idx])
 }
 get_best_param.result <- function(param_values, rmses){
   best_pvalue_idx <- which.min(rmses)

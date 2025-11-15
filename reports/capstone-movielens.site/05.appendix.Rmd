@@ -2228,6 +2228,117 @@ The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-Mo
 :::
 :::
 
+#### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.get_fine_tune.param.endpoints.idx}
+\
+
+::: { #func.get_fine_tune.param.endpoints.idx.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+
+```
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.args .sidebar }
+##### Arguments
+\
+
+::: { #func.get_fine_tune.param.endpoints.idx.args. .sidebar }
+  - **preset.result:** ; 
+
+:::
+::: { #func.get_fine_tune.param.endpoints.idx.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.code .sidebar }
+##### Source Code
+\
+
+The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+#### [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.cmmn_hlp.rglr.fn.tmpl}
+\
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+cmmn_hlp.rglr.fn.tmpl()
+
+```
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+
+
+
 #### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
 \
 
@@ -2266,7 +2377,7 @@ tune.model_param <- function(param_values,
 During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
 
 ::: {.noteblock data-latex=""}
-Note that the algorithm assumes that the dependence of the `RMSE` on the input parameter is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed that the function has a single minimum on the given interval.
+The algorithm assumes that the dependence of the `RMSE` on the input parameter is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed that the function has a single minimum on the given interval.
 :::
 
 ::: { #func.tune.model_param.value .sidebar }
