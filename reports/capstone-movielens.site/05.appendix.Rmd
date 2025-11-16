@@ -2339,10 +2339,10 @@ The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-D
 
 
 
-#### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) Function {#func.tune.model_param}
+#### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) Function {#func.tune.model_param}
 \
 
-The function searches for the parameter value corresponding to the minimum value of the `RMSE` from the list of values specified by the `param_values` parameter.
+Implements an algorithm to find a value of the *regularization parameter* $\lambda$ that corresponds to the minimum value of the *Root Mean Squared Error (RMSE)* for the model under test (we call this the *best value of the regularization parameter* or *best value of $\lambda$*) from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
 
 ##### Signature
 \
@@ -2359,41 +2359,67 @@ tune.model_param <- function(param_values,
 }  
 ```
 
+::: { #func.tune.model_param.args .sidebar }
 ##### Arguments
 \
 
-  - **param_values:** A list of values to search for the value corresponding to the minimum value of the `RMSE` ; 
+::: { #func.tune.model_param.args.param_values .sidebar }
+  - **param_values:** Vector containing a sorted list of $\lambda$ values to search for the best one during the model regularization process; 
+
+:::
 
 ::: { #func.tune.model_param.args.fn_tune.test.param_value .sidebar }
-  - **fn_tune.test.param_value:** A helper function that calculates the value of the `RMSE` for a given parameter value.; 
+  - **fn_tune.test.param_value:** Model-specific helper function that validates the model by computing the model's *RMSE* value for a given value of the $\lambda$ parameter; 
 
-:::  
-  - **break.if_min = TRUE:** A Boolean parameter that determines whether the function should terminate after completing the number of steps specified by the parameter `steps.beyond_min`, after the minimum value of the `RMSE` has been found;
-  
-  - **steps.beyond_min = 2:** (takes effect only if `break.if_min` parameter is `TRUE`) Specifies the number of steps after finding the minimum value of the `RMSE`, upon completion of which the function should terminate.
+:::
+
+::: { #func.tune.model_param.args.break.if_min .sidebar }
+  - **break.if_min:** (`TRUE` by default) Boolean value that determines whether the algorithm should terminate after completing the number of steps specified by the [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min) argument from the moment the minimum `RMSE` value is found;
+
+:::
+
+::: { #func.tune.model_param.args.steps.beyond_min .sidebar }
+  - **steps.beyond_min:** (default 2; only takes effect if [break.if_min](func.tune.model_param.args.break.if_min) is `TRUE`) Specifies the number of steps after finding the minimum *RMSE* value after which the algorithm should terminate.
+
+:::
+:::
 
 ##### Details
 \
-During execution, the function uses a helper function specified by the `fn_tune.test.param_value` parameter, which calculates the `RMSE` value for the given parameter from the list determined by the `param_values` parameter.
+The algorithm iterates through the $\lambda$ parameter values from the list passed in the [param_values](#func.tune.model_param.args.param_values) argument, computing the model's *RMSE* for each of them, using the helper function specified by the [fn_tune.test.param_value](#fn_tune.test.param_value) argument.
+
+When the minimum *RMSE* value is reached, the algorithm terminates if [break.if_min](#func.tune.model_param.args.break.if_min) is `FALSE`.
+Otherwise, the algorithm continues iterating and terminates after the number of cycles specified by the [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min) argument.
 
 ::: {.noteblock data-latex=""}
-The algorithm assumes that the dependence of the `RMSE` on the input parameter is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed that the function has a single minimum on the given interval.
+The algorithm assumes that the dependence of *RMSE* on the parameter $\lambda$ is a monotonically decreasing function until a minimum is reached and monotonically increasing thereafter. That is, it is assumed that the function can have only one minimum on a given interval.
 :::
 
 ::: { #func.tune.model_param.value .sidebar }
 ##### Value
 \
-The function returns a data structure containing the found value of the input parameter `param_values` for which the `RMSE` value is minimal, as well as the minimum `RMSE` value itself, along with a sequence of all calculated `RMSE` values:
+
+This function returns a list of two objects:
+
+  - A vector containing a *pair of values*: the found *best value of the regularization parameter* $\lambda$ for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
 ```{r eval=FALSE}
-  list(tuned.result = data.frame(RMSE = RMSEs_tmp,
-                                parameter.value = param_vals_tmp),
-       best_result = param_values.best_result)
+  param_values.best_result <- c(param.best_value, 
+                                best_RMSE)
+```
+
+  - A data frame containing two variables:
+  
+    - *parameter.value*: A vector containing all processed values of the parameter $\lambda$;
+    
+    - *RMSE*: A vector containing the *RMSE* values corresponding to the processed values of $\lambda$.
+```{r eval=FALSE}
+tuned.result = data.frame(RMSE, parameter.value)
 ```
 :::
 
 ##### Source Code
 \
-Below is the most significant part of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function:
+Below is the most significant part of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) function:
 ```{r eval=FALSE}
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
@@ -2453,6 +2479,10 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
        best_result = param_values.best_result)
 }
 ```
+
+::: {.noteblock data-latex=""}
+The source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) script on _GitHub_.
+:::
 
 \newpage
 
