@@ -2363,7 +2363,7 @@ tune.model_param <- function(param_values,
 \
 
 ::: { #func.tune.model_param.args.param_values .sidebar }
-  - **param_values:** Vector containing a sorted list of $\lambda$ values to search for the best one during the model regularization process; 
+  - **param_values:** Numeric vector containing a sorted list of $\lambda$ values to search for the best one during the model regularization process; 
 
 :::
 
@@ -2373,12 +2373,12 @@ tune.model_param <- function(param_values,
 :::
 
 ::: { #func.tune.model_param.args.break.if_min .sidebar }
-  - **break.if_min:** (`TRUE` by default) Boolean value that determines whether the algorithm should terminate after completing the number of steps specified by the [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min) argument from the moment the minimum `RMSE` value is found;
+  - **break.if_min:** (Optional, `TRUE` by default) Boolean value that determines whether the algorithm should terminate after completing the number of steps specified by the [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min) argument from the moment the minimum `RMSE` value is found;
 
 :::
 
 ::: { #func.tune.model_param.args.steps.beyond_min .sidebar }
-  - **steps.beyond_min:** (2 by default; only takes effect if [break.if_min](#func.tune.model_param.args.break.if_min) is `TRUE`) Specifies the number of steps after finding the minimum *RMSE* value after which the algorithm should terminate.
+  - **steps.beyond_min:** (Optional, 2 by default; only takes effect if [break.if_min](#func.tune.model_param.args.break.if_min) is `TRUE`) Specifies the number of steps after finding the minimum *RMSE* value after which the algorithm should terminate.
 
 :::
 :::
@@ -2482,7 +2482,7 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) script on _GitHub_.
+The complete source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) function is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) script on _GitHub_.
 :::
 
 \newpage
@@ -2490,7 +2490,7 @@ The source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Cap
 #### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
 \
 
-The function fine-tunes the model by searching for the best possible value of the input parameter over a given interval for which the corresponding `RMSE` value is minimal.
+Implements an algorithm for fine-tuning the model under test by finding the most precise value possible of the *regularization parameter* $\lambda$ that corresponds to the minimum value of the *Root Mean Squared Error (RMSE)* (we call this the *best value of the regularization parameter* or *best value of $\lambda$*) over a given interval determined by the start and end values of the interval passed in the [loop_starter] argument.
 
 ##### Signature
 \
@@ -2511,73 +2511,82 @@ model.tune.param_range <- function(loop_starter,
 }
 ```
 
-##### **Parameters**
+::: { #func.model.tune.param_range.args .sidebar }
+##### Arguments
 \
 
 ::: { #func.model.tune.param_range.args.loop_starter .sidebar }
 ###### ***loop_starter***
 \
-A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval on which the parameter value that minimizes `RMSE` is sought.
-`dvs` is a divisor for splitting the interval to transform it into a sequence of values among which the value that minimizes `RMSE` is sought.
-For this purpose, the sequence step is calculated as follows:
+A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval over which the value of the parameter $\lambda$ that minimizes *RMSE* has to be found.
+
+The `dvs` is a divisor used to calculate the step size for partitioning the interval into a sequence of $\lambda$ values, among which the value that minimizes *RMSE* has to be found.
+
+So the step size of the sequence is calculated as follows:
 $$
 step = \frac{end - start}{dvs}
 $$  
 
-The sequence obtained as a result of the transformation is equivalent to the one generated by the function `seq` as follows:
+The sequence obtained as a result of the transformation is equivalent to the one generated by the function [base::seq](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq) as follows:
 ```{r eval=FALSE}
 seq(start, end, step)
 ```  
-In fact, the `seq` function is called internally to generate the sequence during the execution of the `model.tune.param_range` function.
+In fact, the `seq` function is called internally to generate the sequence during the execution of the algorithm.
 :::
 
 ::: { #func.model.tune.param_range.args.tune_dir_path .sidebar }
 ###### ***tune_dir_path***
 \
-To improve performance, the algorithm caches intermediate results in the file system. This parameter specifies the path to the directory where the files are cached.
+To improve performance, the algorithm caches intermediate results in the file system. The value passed in *this argument* specifies the path to the directory where the files are cached.
 :::
 
 ::: { #func.model.tune.param_range.args.cache_file_base_name .sidebar }
 ###### ***cache_file_base_name***
 \
-The algorithm generates unique names for cache files based on this and the `loop_starter` parameter, as well as some other intermediate values calculated during the execution.
+The algorithm generates unique names for cache files based on this and the [loop_starter](#func.model.tune.param_range.args.loop_starter) arguments' values, as well as a few other intermediate values calculated at runtime.
 :::
 
 ::: { #func.model.tune.param_range.args.fn_tune.test.param_value .sidebar }
 ###### ***fn_tune.test.param_value***
 \
-This is a helper function name that is passed to the same-named parameter of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during the execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
+Model-specific helper function name to pass to the [same-named argument](#func.tune.model_param.args.fn_tune.test.param_value) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
 :::
 
 ::: { #func.model.tune.param_range.args.max.identical.min_RMSE.count .sidebar }
-###### ***max.identical.min_RMSE.count = 4***
+###### ***max.identical.min_RMSE.count***
 \
-If more than one identical minimum `RMSE` value is calculated during execution, the number of identical minimums is limited by the value of this parameter. When it is reached, the algorithm considers the task execution to be complete.
+(Optional, 4 by default) If more than one identical minimum *RMSE* value is calculated during execution, the number of identical minimums is limited by the value of *this argument*. When it is reached, the algorithm considers the task execution to be complete.
 :::
 
 ::: { #func.model.tune.param_range.args.endpoint.min_diff .sidebar }
-###### ***endpoint.min_diff = 0***
+###### ***endpoint.min_diff***
 \
-Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (for details, see the `Details` section [below](#func.model.tune.param_range.details)).
+(Optional, 0 by default) Defines the sensitivity threshold for determining the neighborhood boundaries of the minimum `RMSE` value (see the [Details](#func.model.tune.param_range.details) section below for more details).
 :::
 
 ::: { #func.model.tune.param_range.args.break.if_min .sidebar }
-###### ***break.if_min = TRUE***
+###### ***break.if_min***
 \
-This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
+(Optional, `TRUE` by default) Boolean value to pass to the [same-named argument](#func.tune.model_param.args.break.if_min) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
 :::
 
 ::: { #func.model.tune.param_range.args.steps.beyond_min .sidebar }
-###### ***steps.beyond_min = 2***
+###### ***steps.beyond_min***
 \
-This is a parameter that is required for the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L116) function that is called internally during execution (see the description of the `tune.model_param` function [above](#func.tune.model_param)). 
+(Optional, 2 by default) Numeric value to pass to the [same-named argument](#func.tune.model_param.args.steps.beyond_min) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
+:::
+:::
 
 ::: { #func.model.tune.param_range.details .sidebar }
 ##### **Details** 
 \
-First, the function generates a sequence of the `input parameter values` based on the `loop_starter` parameter values, as described above (see the [loop_starter](#func.model.tune.param_range.args.loop_starter) parameter description for the details), which is used as one of the input parameters for the helper function [tune.model_param](#func.tune.model_param), which is repeatedly called during the execution, performing fine-tuning of the model.
+During execution, the algorithm performs the following steps:
 
-The `tune.model_param` function returns a range of input parameter values associated with the set of corresponding _Root Mean Squared Errors_ that is also guaranteed to include their minimum value, as described in the [Value](#func.tune.model_param.value) subsection of the [tune.model_param](#func.tune.model_param) function description.
+  1. Creates a vector containing a sequence of $\lambda$ values generated as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above.
+  
+  2. Calls the [tune.model_param](#func.tune.model_param) function, passing the vector created in the previous step to the [param_values](#func.tune.model_param.args.param_values) argument (along with the values of the other arguments) of the `tune.model_param` function.
+
+returns a range of input parameter values associated with the set of corresponding _Root Mean Squared Errors_ that is also guaranteed to include their minimum value, as described in the [Value](#func.tune.model_param.value) subsection of the [tune.model_param](#func.tune.model_param) function description.
 
 Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) (see the description below) and, using one more helper function [get_best_param.result](#func.get_best_param.result)  (see the description below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
 
