@@ -2190,7 +2190,7 @@ $$
 \mu = \frac{1}{N} \sum_{i=1}^{N} x_i
 $$
 
-We call this function internally from the functions that compute the _penalized estimates_  as described in section [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-1].
+We call this function internally from the functions that compute the _penalized estimates_  as described in [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the *Course Textbook (New Edition)*[@IDS2_24-1].
 
 ::: {.noteblock data-latex=""}
 If the [lambda](#func.mean_reg.args.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
@@ -2341,7 +2341,7 @@ The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-D
 #### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) Function {#func.tune.model_param}
 \
 
-Implements an algorithm to find a value of the *regularization parameter* $\lambda$ that corresponds to the minimum value of the *Root Mean Squared Error (RMSE)* for the model under test (we call this the *best value of the regularization parameter* or *best value of $\lambda$*) from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
+Implements an algorithm for selecting the best value of the *regularization parameter* $\lambda$ from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument, using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
 
 
 ##### Signature
@@ -2387,7 +2387,9 @@ tune.model_param <- function(param_values,
 ##### Details
 \
 
-The algorithm iterates through the $\lambda$ parameter values from the list passed in the [param_values](#func.tune.model_param.args.param_values) argument, computing the model's *RMSE* for each of them, using the helper function specified by the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument.
+With the approach used in this algorithm, the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *Root Mean Square Error (RMSE)* for the model being tested.
+
+To find the best value of the $\lambda$ parameter, the algorithm iterates over the values from the list passed in the [param_values](#func.tune.model_param.args.param_values) argument, computing the *RMSE* of the model for each of them, using the helper function specified in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument.
 
 The algorithm continues iterating until the end of the  $\lambda$ parameter values list if [break.if_min](#func.tune.model_param.args.break.if_min) is `FALSE`.
 
@@ -2491,7 +2493,7 @@ The complete source code of the [tune.model_param](https://github.com/AzKurban-e
 #### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
 \
 
-Implements an algorithm for fine-tuning the model under test by finding the most precise value possible of the *regularization parameter* $\lambda$ that corresponds to the minimum value of the *Root Mean Squared Error (RMSE)* (we call this the *best value of the regularization parameter* or *best value of $\lambda$*) over a given interval determined by the start and end values of the interval passed in the [loop_starter] argument.
+Implements an algorithm for fine-tuning the model under test by figuring out the most precise value possible of the *regularization parameter* $\lambda$ over a given interval determined by the start and end values of the interval passed in the [loop_starter] argument, using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
 
 ##### Signature
 \
@@ -2591,7 +2593,10 @@ Model-specific helper function name to pass to the [same-named argument](#func.t
 ::: { #func.model.tune.param_range.details .sidebar }
 ##### **Details** 
 \
-During execution, the algorithm organizes a cycle consisting of the following steps:
+
+With the approach used in this algorithm, the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *Root Mean Square Error (RMSE)* for the model being tested.
+
+During the execution, the algorithm organizes a cycle consisting of the following steps:
 
   1. Calculates the divisor to calculate the step size for partitioning the interval into a sequence of $\lambda$ values as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L240):
 ```{r eval=FALSE}
