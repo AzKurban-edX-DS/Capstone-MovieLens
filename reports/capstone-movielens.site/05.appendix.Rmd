@@ -2343,6 +2343,7 @@ The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-D
 
 Implements an algorithm to find a value of the *regularization parameter* $\lambda$ that corresponds to the minimum value of the *Root Mean Squared Error (RMSE)* for the model under test (we call this the *best value of the regularization parameter* or *best value of $\lambda$*) from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
 
+
 ##### Signature
 \
 ```{r eval=FALSE}
@@ -2533,7 +2534,7 @@ seq(start, end, step)
 ```  
 
 ::: {.noteblock data-latex=""}
-In the function body, the *step size* is stored in the local variable `seq_increment`, and the values of $\start$, $\end$, and $\dvs$ are stored in the local variables `seq_start`, `seq_end`, and `interval_divisor`, respectively.
+In the function body, the *step size* is stored in the local variable `seq_increment`, and the values of $start$, $end$, and $dvs$ are stored in the local variables `seq_start`, `seq_end`, and `interval_divisor`, respectively.
 :::
 
 In fact, the `seq` function is called internally to generate the sequence during the algorithm's execution.
@@ -2597,7 +2598,7 @@ During execution, the algorithm organizes a cycle consisting of the following st
     seq_increment <- (seq_end - seq_start)/interval_divisor 
 ```
 
-  2. Checks if the *step size* of the generated sequence is less than the minimum allowed value (in the current implementation, we use `1e-13`), and if `TRUE`, breaks out of the loop:
+  2. Checks if the *step size* of the generated sequence is less than the minimum allowed value (in the current implementation, we use `1e-13`), and if `TRUE`, breaks out of the loop. Otherwise, the execution continues to the next step:
 ```{r eval=FALSE}
     if (seq_increment < 0.0000000000001) {
       warning("Function `model.tune.param_range`:
@@ -2618,9 +2619,12 @@ Final best RMSE for `parameter value = %1`: %2",
 In the code snippet above, we use the custom function [put_log2](#func.put_log2) described above in the [Logging Functions] section of *This Appendix*.
 :::  
 
-  3. Creates a vector containing a sequence of $\lambda$ values generated as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above.
-  
-  2. Calls the [tune.model_param](#func.tune.model_param) function, passing the vector created in the previous step to the [param_values](#func.tune.model_param.args.param_values) argument (along with the values of the other arguments) of the `tune.model_param` function.
+  3. If the *step size* is no less than the minimum allowed value (`seq_increment >= 1e-13` in our case) creates a vector containing a sequence of $\lambda$ values generated as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above:
+```{r eval=FALSE}
+    test_param_vals <- seq(seq_start, seq_end, seq_increment)
+```
+
+  4. Calls the [tune.model_param](#func.tune.model_param) helper function, passing the vector created in the previous step to the [param_values](#func.tune.model_param.args.param_values) argument (along with the values of the other arguments of the function `tune.model_param`).
 
 returns a range of input parameter values associated with the set of corresponding _Root Mean Squared Errors_ that is also guaranteed to include their minimum value, as described in the [Value](#func.tune.model_param.value) subsection of the [tune.model_param](#func.tune.model_param) function description.
 
