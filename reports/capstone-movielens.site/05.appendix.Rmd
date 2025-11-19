@@ -2231,6 +2231,8 @@ The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.get_fine_tune.param.endpoints.idx}
 \
 
+Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) (see the description below) and, using one more helper function [get_best_param.result](#func.get_best_param.result)  (see the description below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
+
 ::: { #func.get_fine_tune.param.endpoints.idx.usage .sidebar }
 ##### Usage
 \
@@ -2341,7 +2343,7 @@ The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-D
 #### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) Function {#func.tune.model_param}
 \
 
-Implements an algorithm for selecting the best value of the *regularization parameter* $\lambda$ from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument, using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+Implements an algorithm for selecting the best value of the *regularization parameter* $\lambda$ from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument, using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
 
 
 ##### Signature
@@ -2493,7 +2495,7 @@ The complete source code of the [tune.model_param](https://github.com/AzKurban-e
 #### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) Function {#func.model.tune.param_range}
 \
 
-Implements an algorithm for fine-tuning the model under test by figuring out the most precise value possible of the *regularization parameter* $\lambda$ over a given interval determined by the $start$ and $end$ values of the interval passed in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument, using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+Implements an algorithm for fine-tuning the model under test by figuring out the most precise value possible of the *regularization parameter* $\lambda$ over a given interval determined by the $start$ and $end$ values of the interval passed in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument, using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
 
 ##### Signature
 \
@@ -2603,7 +2605,7 @@ During the execution, the algorithm organizes a cycle consisting of the followin
     seq_increment <- (seq_end - seq_start)/interval_divisor 
 ```
 
-  2. Checks if the *step size* of the generated sequence is less than the minimum allowed value (in the current implementation, we use `1e-13`), and if `TRUE`, breaks out of the loop. Otherwise, the execution continues to the next step:
+  2. Checks if the *step size* of the generated sequence is less than the minimum allowed value (in the current implementation, we use `1e-13`), and if so, exits the loop. Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step3):  
 ```{r eval=FALSE}
     if (seq_increment < 0.0000000000001) {
       warning("Function `model.tune.param_range`:
@@ -2624,14 +2626,110 @@ Final best RMSE for `parameter value = %1`: %2",
 In the code snippet above, we use the custom function [put_log2](#func.put_log2) described above in the [Logging Functions] section of *This Appendix*.
 :::  
 
-  3. If the *step size* is no less than the minimum allowed value (`seq_increment >= 1e-13` in our case) creates a vector containing a sequence of $\lambda$ values generated as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above:
+::: { #func.model.tune.param_range.details.step3 .sidebar }
+  3. If the *step size* is no less than the minimum allowed value (`seq_increment >= 1e-13` in our case), creates a vector containing a sequence of $\lambda$ values (as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above) using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L256):
 ```{r eval=FALSE}
     test_param_vals <- seq(seq_start, seq_end, seq_increment)
 ```
 
-  4. Calls the [tune.model_param](#func.tune.model_param) helper function, passing the vector created in the previous step to the [param_values](#func.tune.model_param.args.param_values) argument (along with the values of the other arguments of the function `tune.model_param`).
+:::
+
+::: { #func.model.tune.param_range.details.step4 .sidebar }
+  4. Generates a unique name for the current iteration's cache file based on the values passed in the [cache_file_base_name](#func.model.tune.param_range.args.cache_file_base_name) and [loop_starter](#func.model.tune.param_range.args.loop_starter) arguments, along with the values stored in the local variables `seq_start`, `seq_end`, and `interval_divisor`, concatenates the name with the path passed in the [tune_dir_path](#func.model.tune.param_range.args.tune_dir_path) argument, and stores the value in the local variable `file_path_tmp`:  
+```{r eval=FALSE}
+    file_name_tmp <- cache_file_base_name |>
+      str_c("_") |>
+      str_c(as.character(loop_starter[1])) |>
+      str_c("_") |>
+      str_c(as.character(loop_starter[3])) |>
+      str_c("_") |>
+      str_c(as.character(interval_divisor)) |>
+      str_c(".") |>
+      str_c(as.character(seq_start)) |>
+      str_c("-") |>
+      str_c(as.character(seq_end)) |>
+      str_c(".RData")
+    
+    file_path_tmp <- file.path(tune_dir_path, file_name_tmp)
+    
+    put_log1("Function `model.tune.param_range`:
+File path generated: %1", file_path_tmp)
+```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the custom function [put_log1](#func.put_log2) described above in the [Logging Functions] section of *This Appendix*.
+:::
+:::
+
+5. Checks whether a file with the full name stored in the `file_path_tmp` variable exists, and if so, loads all the necessary information for the current iteration from it and goes to [step 8](#func.model.tune.param_range.details.step8). Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step6):
+```{r eval=FALSE}
+    if (file.exists(file_path_tmp)) {
+      put_log1("Function `model.tune.param_range`:
+Loading tuning data from file: %1...", file_path_tmp)
+      
+      load(file_path_tmp)
+      put_log1("Function `model.tune.param_range`:
+Tuning data has been loaded from file: %1", file_path_tmp)
+      
+      tuned.result <- tuned_result$tuned.result
+    } else {
+      # ...
+    }
+```
+
+
+::: { #func.model.tune.param_range.details.step6 .sidebar }
+  6. Calls the helper function [tune.model_param](#func.tune.model_param), passing the vector created earlier in [step 3](#func.model.tune.param_range.details.step3) to the [param_values](#func.tune.model_param.args.param_values) argument (along with the values of the rest arguments: [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value), [break.if_min](#func.tune.model_param.args.break.if_min), [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min)) of the called function and stores the returned result in the local variable `tuned_result`:
+```{r eval=FALSE}
+      tuned_result <- tune.model_param(test_param_vals, 
+                                        fn_tune.test.param_value,
+                                        break.if_min,
+                                        steps.beyond_min)
+```
+
+:::
+
+::: { #func.model.tune.param_range.details.step7 .sidebar }
+  7. Extracts the internal data frame stored in the variable `tuned_result$tuned.result` from the data returned by the [tune.model_param](#func.tune.model_param) helper function (and saved in the local variable `tuned_result`) in the [previous step](#func.model.tune.param_range.details.step6) and stores it in the local variable `tuned.result`. Then stores `tuned_result` along with the necessary auxiliary information in the cache file with the full name created earlier in [step 4](#func.model.tune.param_range.details.step4):
+```{r eval=FALSE}
+      tuned.result <- tuned_result$tuned.result
+      
+      save(tuned_result,
+           param.best_value,
+           seq_increment,
+           interval_divisor,
+           file = file_path_tmp)
+
+      put_log1("Function `model.tune.param_range`:
+File saved: %1", file_path_tmp)
+```
+:::
+
+
+
+::: { #func.model.tune.param_range.details.step8 .sidebar }
+Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) (see the description below) and, using one more helper function [get_best_param.result](#func.get_best_param.result)  (see the description below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
+
+```{r eval=FALSE}
+```
+:::
+
+
+::: { #func.model.tune.param_range.details.step .sidebar }
+
+```{r eval=FALSE}
+```
+:::
+
+::: { #func.model.tune.param_range.details.step?? .sidebar }
+
+```{r eval=FALSE}
+```
+:::
 
 returns a range of input parameter values associated with the set of corresponding _Root Mean Squared Errors_ that is also guaranteed to include their minimum value, as described in the [Value](#func.tune.model_param.value) subsection of the [tune.model_param](#func.tune.model_param) function description.
+```{r eval=FALSE}
+```
 
 Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) (see the description below) and, using one more helper function [get_best_param.result](#func.get_best_param.result)  (see the description below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
 
@@ -2662,25 +2760,25 @@ model.tune.param_range <- function(loop_starter,
                              tune_dir_path,
                              cache_file_base_name,
                              fn_tune.test.param_value,
+                             # interval_divisor.multiplier = 4,
                              max.identical.min_RMSE.count = 4,
-                             is.cv = TRUE,
                              endpoint.min_diff = 0, #1e-07,
                              break.if_min = TRUE,
                              steps.beyond_min = 2){
 
   seq_start <- loop_starter[1]
   seq_end <- loop_starter[2]
-  interval_divisor <- loop_starter[3]
-  
-  if (interval_divisor < 4) {
-    interval_divisor <- 4
-  }
   
   prm_val.leftmost <- seq_start
   prm_val.rightmost <- seq_end
   
   RMSE.leftmost <- NA
   RMSE.rightmost <- NA
+  
+  interval_divisor <- loop_starter[3]
+  if (interval_divisor < 4) {
+    interval_divisor <- 4
+  }
 
   best_RMSE <- NA
   param.best_value <- 0
@@ -2695,19 +2793,64 @@ model.tune.param_range <- function(loop_starter,
     if (seq_increment < 0.0000000000001) {
       warning("Function `model.tune.param_range`:
 parameter value increment is too small.")
+      
+      put_log2("Function `model.tune.param_range`:
+Final best RMSE for `parameter value = %1`: %2",
+               param_values.best_result["param.best_value"],
+               param_values.best_result["best_RMSE"])
+      
+      put(param_values.best_result)
       break
     }
     
     test_param_vals <- seq(seq_start, seq_end, seq_increment)
     
-    tuned_result <- tune.model_param(test_param_vals, 
-                                  fn_tune.test.param_value,
-                                  break.if_min,
-                                  steps.beyond_min)
+    file_name_tmp <- cache_file_base_name |>
+      str_c("_") |>
+      str_c(as.character(loop_starter[1])) |>
+      str_c("_") |>
+      str_c(as.character(loop_starter[3])) |>
+      str_c("_") |>
+      str_c(as.character(interval_divisor)) |>
+      str_c(".") |>
+      str_c(as.character(seq_start)) |>
+      str_c("-") |>
+      str_c(as.character(seq_end)) |>
+      str_c(".RData")
     
-    tuned.result <- tuned_result$tuned.result
+    file_path_tmp <- file.path(tune_dir_path, file_name_tmp)
+    
+    put_log1("Function `model.tune.param_range`:
+File path generated: %1", file_path_tmp)
+    
+    if (file.exists(file_path_tmp)) {
+      put_log1("Function `model.tune.param_range`:
+Loading tuning data from file: %1...", file_path_tmp)
+      
+      load(file_path_tmp)
+      put_log1("Function `model.tune.param_range`:
+Tuning data has been loaded from file: %1", file_path_tmp)
+      
+      tuned.result <- tuned_result$tuned.result
+    } else {
+      tuned_result <- tune.model_param(test_param_vals, 
+                                        fn_tune.test.param_value,
+                                        break.if_min,
+                                        steps.beyond_min)
+      
+      tuned.result <- tuned_result$tuned.result
+      
+      save(tuned_result,
+           param.best_value,
+           seq_increment,
+           interval_divisor,
+           file = file_path_tmp)
+
+      put_log1("Function `model.tune.param_range`:
+File saved: %1", file_path_tmp)
+    }
+    
     plot(tuned.result$parameter.value, tuned.result$RMSE)
-    
     bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
     start.idx <- bound.idx["start"]
     end.idx <- bound.idx["end"]
@@ -2735,7 +2878,7 @@ parameter value increment is too small.")
       param.best_value <- min_RMSE.prm_val
       best_RMSE <- min_RMSE
     }
-    
+
     if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
       prm_val.leftmost <- prm_val.leftmost.tmp
       RMSE.leftmost <- RMSE.leftmost.tmp
@@ -2748,6 +2891,15 @@ parameter value increment is too small.")
     
     if (end.idx - start.idx <= 0) {
       warning("`tuned.result$parameter.value` sequential start index are the same or greater than end one.")
+      put_log1("Function `model.tune.param_range`:
+Current minimal RMSE: %1", rmse_min)
+      
+      put_log2("Function `model.tune.param_range`:
+Reached minimal RMSE for the test parameter value = %1: %2",
+               param_values.best_result["param.best_value"],
+               param_values.best_result["best_RMSE"])
+      
+      put(param_values.best_result)
       break
     }
     
@@ -2755,18 +2907,37 @@ parameter value increment is too small.")
       warning("Currently computed minimal RMSE equals the previously reached best one: ",
               best_RMSE, "
 Currently computed minial value is: ", min_RMSE)
+      
+      put_log2("Function `model.tune.param_range`:
+Current minimal RMSE for `parameter value = %1`: %2",
+               tuned.result$parameter.value[which.min(tuned.result$RMSE)],
+               min_RMSE)
+      
+      put_log2("Function `model.tune.param_range`:
+So far reached best RMSE for `parameter value = %1`: %2",
+               param_values.best_result["param.best_value"],
+               param_values.best_result["best_RMSE"])
+      
+      put(param_values.best_result)
 
       if (sum(tuned.result$RMSE[tuned.result$RMSE == min_RMSE]) >= max.identical.min_RMSE.count) {
         warning("Minimal `RMSE`identical values count reached it maximum allowed value: ",
                 max.identical.min_RMSE.count)
-
+        put(tuned.result$RMSE)
+        
         param_values.best_result <-
           get_best_param.result(tuned.result$parameter.value,
                                 tuned.result$RMSE)
+        put_log2("Function `model.tune.param_range`:
+      Reached the best RMSE for `parameter value = %1`: %2",
+                 param_values.best_result["param.best_value"],
+                 param_values.best_result["best_RMSE"])
         break
       }
-
     } else if (best_RMSE < min_RMSE) {
+      warning("Current minimal RMSE is greater than previously computed best value: ",
+              best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
       stop("Current minimal RMSE is greater than previously computed best value: ",
            best_RMSE, "
 Currently computed minial value is: ", min_RMSE)
@@ -2778,10 +2949,18 @@ Currently computed minial value is: ", min_RMSE)
     param_values.best_result <- 
       get_best_param.result(tuned.result$parameter.value, 
                           tuned.result$RMSE)
+    
+    put_log2("Function `model.tune.param_range`:
+Currently reached best RMSE for `parameter value = %1`: %2",
+             param_values.best_result["param.best_value"],
+             param_values.best_result["best_RMSE"])
+    
+    put(param_values.best_result)
   }
   # End repeat loop
   
   n <- length(tuned.result$parameter.value)
+  
   parameter.value <- tuned.result$parameter.value
   result.RMSE <- tuned.result$RMSE
   
@@ -2793,7 +2972,6 @@ Currently computed minial value is: ", min_RMSE)
     parameter.value[n+1] <- prm_val.rightmost
     result.RMSE[n+1] <- RMSE.rightmost
   }
-  
   list(best_result = param_values.best_result,
        param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
        tuned.result = data.frame(parameter.value = parameter.value,
