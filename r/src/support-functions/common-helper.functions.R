@@ -298,7 +298,6 @@ Tuning data has been loaded from file: %1", file_path_tmp)
       
       save(tuned_result,
            param.best_value,
-           # best_RMSE,
            seq_increment,
            interval_divisor,
            file = file_path_tmp)

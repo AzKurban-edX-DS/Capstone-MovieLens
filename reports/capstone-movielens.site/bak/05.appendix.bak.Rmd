@@ -2231,7 +2231,7 @@ The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-Mo
 
 \newpage
 
-#### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L81) Function {#func.get_fine_tune.param.endpoints.idx}
+#### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
 \
 
 Implements an algorithm that finds the pair of indices of the nearest neighboring elements with values greater than the minimum to the left and right of the element (or group of elements) with the minimum value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
@@ -2301,7 +2301,7 @@ print(preset.result.idx)
 ##### Source Code
 \
 
-The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L81) function is shown below:
+The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) function is shown below:
 ```{r eval=FALSE}
 get_fine_tune.param.endpoints.idx <- function(preset.result) {
   best_RMSE <- min(preset.result$RMSE)
@@ -2334,10 +2334,6 @@ get_fine_tune.param.endpoints.idx <- function(preset.result) {
 }
 
 ```
-
-::: {.noteblock data-latex=""}
-The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L81) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L81) script on _GitHub_.
-:::
 :::
 
 

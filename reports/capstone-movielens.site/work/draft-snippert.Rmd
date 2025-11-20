@@ -8,6 +8,536 @@ In the code snippet above, we use the custom function [@fn](#func.@fn) described
 :::
 
 
+### Regularization Functions {#appndx_a.CHF.regularization}
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section are available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) script on _GitHub_.
+:::
+
+#### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) Function {#func.mean_reg}
+\
+
+Calculates the arithmetic mean taking into account the _regularization parameter_ $\lambda$ passed in the [lambda](#func.mean_reg.args.lambda) argument. We will call it the _penalized mean_.
+
+::: { #func.mean_reg.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+mean_reg(vals, lambda = 0, na.rm = TRUE)
+
+```
+:::
+
+::: { #func.mean_reg.args .sidebar }
+##### Arguments
+\
+
+::: { #func.mean_reg.args.vals .sidebar }
+  - **vals:** Values (usually a numeric vector) to calculate the _penalized mean_;
+
+:::
+::: { #func.mean_reg.args.lambda .sidebar }
+  - **lambda:** (0 by default) _Regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
+
+:::
+  - **na.rm:** a logical evaluating to TRUE or FALSE indicating whether NA values should be stripped before the computation proceeds.
+
+:::
+
+
+::: { #func.mean_reg.details .sidebar }
+##### Details
+\
+
+The function calculates the _penalized mean_ of the values passed in the [vals](#func.mean_reg.args.vals) argument as follows:
+$$
+\mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
+$$
+
+When the [lambda](#func.mean_reg.args.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean:
+$$
+\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
+$$
+
+We call this function internally from the functions that compute the _penalized estimates_  as described in [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+
+::: {.noteblock data-latex=""}
+If the [lambda](#func.mean_reg.args.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
+:::
+:::
+
+::: { #func.mean_reg.value .sidebar }
+##### Value
+\
+
+The [penalized mean](#func.mean_reg.details) of the values passed in the [vals](#func.mean_reg.args.vals) argument.
+:::
+
+::: { #func.mean_reg.code .sidebar }
+##### Source Code
+\
+
+The soure code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) function is shown below:
+```{r eval=FALSE}
+mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
+  if (is.na(lambda)) {
+    stop("Function: mean_reg
+`lambda` is `NA`")
+  }
+  
+  names(lambda) <- NULL
+  sums <- sum(vals, na.rm = na.rm)
+  N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
+  sums/(N + lambda)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) script on _GitHub_.
+:::
+:::
+
+#### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
+\
+
+Implements an algorithm that finds the pair of indices of the nearest neighboring elements with values greater than the minimum to the left and right of the element (or group of elements) with the minimum value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
+
+::: {.noteblock data-latex=""}
+The algorithm assumes that the set of values in the *RMSE* column is a monotonically non-increasing function of the index until the minimum is reached and monotonically non-decreasing thereafter. That is, it is assumed that the function can have only one minimum on the given set.
+:::
+
+
+::: { #func.get_fine_tune.param.endpoints.idx.usage .sidebar }
+##### Usage
+\
+
+::: {.noteblock data-latex=""}
+The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function described below is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
+:::
+
+The following code snippet shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument:
+```{r eval=FALSE}
+cv.UME.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+
+```
+```{r}
+cv.UME.preset.result$tuned.result |>
+  data.plot(title = "UME Model Regularization",#TeX(r'[UME Model Regularization: $\lambda$ Range Pre-configuration]'),
+              xname = "parameter.value",
+              yname = "RMSE",
+              xlabel = "lambda", #TeX(r'[$\lambda$]'),
+              ylabel = "RMSE")
+
+preset.result <- cv.UME.preset.result$tuned.result
+preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+print(preset.result.idx)
+```
+
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.args .sidebar }
+##### Arguments
+\
+
+::: {#func.get_fine_tune.param.endpoints.idx.args.preset.result .sidebar }
+  - **preset.result:** Any data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in the [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function description below.
+
+:::
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.value .sidebar }
+##### Value
+\
+A vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
+```{r eval=FALSE}
+  c(start, # interval start index
+    end,   # interval end index
+    best)  # index of the best `RMSE`
+```
+
+In the example shown above in the [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section we can see the value return by *this function*:
+```{r}
+print(preset.result.idx)
+```
+
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.code .sidebar }
+##### Source Code
+\
+
+The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) function is shown below:
+```{r eval=FALSE}
+get_fine_tune.param.endpoints.idx <- function(preset.result) {
+  best_RMSE <- min(preset.result$RMSE)
+  best_RMSE.idx <- which.min(preset.result$RMSE)
+  # best_lambda <- preset.result$parameter.value[best_RMSE.idx]
+  
+  preset.result.N <- length(preset.result$RMSE)
+  i <- best_RMSE.idx
+  j <- i
+  
+  while (i > 1) {
+    i <- i - 1
+    
+    if (preset.result$RMSE[i] > best_RMSE) {
+      break
+    }
+  }
+  
+  while (j < preset.result.N) {
+    j <- j + 1
+    
+    if (preset.result$RMSE[j] > best_RMSE) {
+      break
+    }
+  }
+  
+  c(start = i, 
+    end = j,
+    best = best_RMSE.idx)
+}
+
+```
+:::
 
 
 
+#### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) Function {#func.mean_reg}
+\
+
+Calculates the arithmetic mean taking into account the _regularization parameter_ $\lambda$ passed in the [lambda](#func.mean_reg.args.lambda) argument. We will call it the _penalized mean_.
+
+::: { #func.mean_reg.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+mean_reg(vals, lambda = 0, na.rm = TRUE)
+
+```
+:::
+
+::: { #func.mean_reg.args .sidebar }
+##### Arguments
+\
+
+::: { #func.mean_reg.args.vals .sidebar }
+  - **vals:** Values (usually a numeric vector) to calculate the _penalized mean_;
+
+:::
+::: { #func.mean_reg.args.lambda .sidebar }
+  - **lambda:** (0 by default) _Regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
+
+:::
+  - **na.rm:** a logical evaluating to TRUE or FALSE indicating whether NA values should be stripped before the computation proceeds.
+
+:::
+
+
+::: { #func.mean_reg.details .sidebar }
+##### Details
+\
+
+The function calculates the _penalized mean_ of the values passed in the [vals](#func.mean_reg.args.vals) argument as follows:
+$$
+\mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
+$$
+
+When the [lambda](#func.mean_reg.args.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean:
+$$
+\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
+$$
+
+We call this function internally from the functions that compute the _penalized estimates_  as described in [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+
+::: {.noteblock data-latex=""}
+If the [lambda](#func.mean_reg.args.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
+:::
+:::
+
+::: { #func.mean_reg.value .sidebar }
+##### Value
+\
+
+The [penalized mean](#func.mean_reg.details) of the values passed in the [vals](#func.mean_reg.args.vals) argument.
+:::
+
+::: { #func.mean_reg.code .sidebar }
+##### Source Code
+\
+
+The soure code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) function is shown below:
+```{r eval=FALSE}
+mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
+  if (is.na(lambda)) {
+    stop("Function: mean_reg
+`lambda` is `NA`")
+  }
+  
+  names(lambda) <- NULL
+  sums <- sum(vals, na.rm = na.rm)
+  N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
+  sums/(N + lambda)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) script on _GitHub_.
+:::
+:::
+
+#### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) Function {#func.get_fine_tune.param.endpoints.idx}
+\
+
+Implements an algorithm that finds the pair of indices of the nearest neighboring elements with values greater than the minimum to the left and right of the element (or group of elements) with the minimum value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
+
+::: {.noteblock data-latex=""}
+The algorithm assumes that the set of values in the *RMSE* column is a monotonically non-increasing function of the index until the minimum is reached and monotonically non-decreasing thereafter. That is, it is assumed that the function can have only one minimum on the given set.
+:::
+
+
+::: { #func.get_fine_tune.param.endpoints.idx.usage .sidebar }
+##### Usage
+\
+
+::: {.noteblock data-latex=""}
+The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function described below is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
+:::
+
+The following code snippet shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument:
+```{r eval=FALSE}
+cv.UME.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+
+```
+```{r}
+cv.UME.preset.result$tuned.result |>
+  data.plot(title = TeX(r'[UME Model Regularization: $\lambda$ Range Pre-configuration]'),
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = TeX(r'[$\lambda$]'), 
+              ylabel = "RMSE")
+
+preset.result <- cv.UME.preset.result$tuned.result
+preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+print(preset.result.idx)
+```
+
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.args .sidebar }
+##### Arguments
+\
+
+::: {#func.get_fine_tune.param.endpoints.idx.args.preset.result .sidebar }
+  - **preset.result:** Any data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in the [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function description below.
+
+:::
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.value .sidebar }
+##### Value
+\
+A vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
+```{r eval=FALSE}
+  c(start, # interval start index
+    end,   # interval end index
+    best)  # index of the best `RMSE`
+```
+
+In the example shown above in the [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section we can see the value return by *this function*:
+```{r}
+print(preset.result.idx)
+```
+
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.code .sidebar }
+##### Source Code
+\
+
+The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L87) function is shown below:
+```{r eval=FALSE}
+get_fine_tune.param.endpoints.idx <- function(preset.result) {
+  best_RMSE <- min(preset.result$RMSE)
+  best_RMSE.idx <- which.min(preset.result$RMSE)
+  # best_lambda <- preset.result$parameter.value[best_RMSE.idx]
+  
+  preset.result.N <- length(preset.result$RMSE)
+  i <- best_RMSE.idx
+  j <- i
+  
+  while (i > 1) {
+    i <- i - 1
+    
+    if (preset.result$RMSE[i] > best_RMSE) {
+      break
+    }
+  }
+  
+  while (j < preset.result.N) {
+    j <- j + 1
+    
+    if (preset.result$RMSE[j] > best_RMSE) {
+      break
+    }
+  }
+  
+  c(start = i, 
+    end = j,
+    best = best_RMSE.idx)
+}
+
+```
+:::
+
+\newpage
+
+#### [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.cmmn_hlp.rglr.fn.tmpl}
+\
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+cmmn_hlp.rglr.fn.tmpl()
+
+```
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+
+
+
+
+#### [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) Function {#func.mean_reg}
+\
+
+Calculates the arithmetic mean taking into account the _regularization parameter_ $\lambda$ passed in the [lambda](#func.mean_reg.args.lambda) argument. We will call it the _penalized mean_.
+
+::: { #func.mean_reg.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+mean_reg(vals, lambda = 0, na.rm = TRUE)
+
+```
+:::
+
+::: { #func.mean_reg.args .sidebar }
+##### Arguments
+\
+
+::: { #func.mean_reg.args.vals .sidebar }
+  - **vals:** Values (usually a numeric vector) to calculate the _penalized mean_;
+
+:::
+::: { #func.mean_reg.args.lambda .sidebar }
+  - **lambda:** (0 by default) _Regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
+
+:::
+  - **na.rm:** a logical evaluating to TRUE or FALSE indicating whether NA values should be stripped before the computation proceeds.
+
+:::
+
+
+::: { #func.mean_reg.details .sidebar }
+##### Details
+\
+
+The function calculates the _penalized mean_ of the values passed in the [vals](#func.mean_reg.args.vals) argument as follows:
+$$
+\mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
+$$
+
+When the [lambda](#func.mean_reg.args.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean:
+$$
+\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
+$$
+
+We call this function internally from the functions that compute the _penalized estimates_  as described in [Section 24.1 *Case study: recommendation systems / Penalized Least Squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+
+::: {.noteblock data-latex=""}
+If the [lambda](#func.mean_reg.args.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
+:::
+:::
+
+::: { #func.mean_reg.value .sidebar }
+##### Value
+\
+
+The [penalized mean](#func.mean_reg.details) of the values passed in the [vals](#func.mean_reg.args.vals) argument.
+:::
+
+::: { #func.mean_reg.code .sidebar }
+##### Source Code
+\
+
+The soure code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) function is shown below:
+```{r eval=FALSE}
+mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
+  if (is.na(lambda)) {
+    stop("Function: mean_reg
+`lambda` is `NA`")
+  }
+  
+  names(lambda) <- NULL
+  sums <- sum(vals, na.rm = na.rm)
+  N <- ifelse(na.rm, sum(!is.na(vals)), length(vals))
+  sums/(N + lambda)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) script on _GitHub_.
+:::
+:::
+
+### Regularization Functions2 {#appndx_a.CHF.regularization2}
+\
