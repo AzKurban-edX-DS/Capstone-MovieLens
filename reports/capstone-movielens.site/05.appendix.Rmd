@@ -2275,7 +2275,7 @@ print(preset.result.idx)
 \
 
 ::: {#func.get_fine_tune.param.endpoints.idx.args.preset.result .sidebar }
-  - **preset.result:** Any data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in the [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function description below.
+  - **preset.result:** Data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in the [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function description below.
 
 :::
 :::
@@ -2283,7 +2283,7 @@ print(preset.result.idx)
 ::: { #func.get_fine_tune.param.endpoints.idx.value .sidebar }
 ##### Value
 \
-A vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
+Vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
 ```{r eval=FALSE}
   c(start, # interval start index
     end,   # interval end index
@@ -2837,7 +2837,7 @@ File path generated: %1", file_path_tmp)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom function [put_log1](#func.put_log2) described above in the [Logging Functions] section of *This Appendix*.
+In the code snippet above, we use the custom function [put_log1](#func.put_log1) described above in the [Logging Functions] section of *This Appendix*.
 :::
 :::
 
@@ -2859,7 +2859,10 @@ Tuning data has been loaded from file: %1", file_path_tmp)
 
 
 ::: { #func.model.tune.param_range.details.step6 .sidebar }
-  6. Calls the helper function [tune.model_param](#func.tune.model_param), passing the vector created earlier in [step 3](#func.model.tune.param_range.details.step3) to the [param_values](#func.tune.model_param.args.param_values) argument (along with the values of the rest arguments: [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value), [break.if_min](#func.tune.model_param.args.break.if_min), [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min)) of the called function and stores the returned result in the local variable `tuned_result`:
+  6. Calls the helper function [tune.model_param](#func.tune.model_param) and stores the returned result in the local variable `tuned_result`, passing the vector created earlier in [step 3](#func.model.tune.param_range.details.step3) to the argument [param_values](#func.tune.model_param.args.param_values) along with the values of the remaining arguments passed in the following arguments of the same name to *this function*:
+    - [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value);
+    - [break.if_min](#func.model.tune.param_range.args.break.if_min);
+    - [steps.beyond_min](#func.model.tune.param_range.args.steps.beyond_min):
 ```{r eval=FALSE}
       tuned_result <- tune.model_param(test_param_vals, 
                                         fn_tune.test.param_value,
@@ -2870,7 +2873,7 @@ Tuning data has been loaded from file: %1", file_path_tmp)
 :::
 
 ::: { #func.model.tune.param_range.details.step7 .sidebar }
-  7. Extracts the internal data frame stored in the variable `tuned_result$tuned.result` from the data returned by the [tune.model_param](#func.tune.model_param) helper function (and saved in the local variable `tuned_result`) in the [previous step](#func.model.tune.param_range.details.step6) and stores it in the local variable `tuned.result`. Then stores `tuned_result` along with the necessary auxiliary information in the cache file with the full name created earlier in [step 4](#func.model.tune.param_range.details.step4):
+  7. Extracts the data frame element stored in the variable `tuned_result$tuned.result` from the *list object* saved in the local variable `tuned_result` in the [previous step](#func.model.tune.param_range.details.step6) and stores it in the local variable `tuned.result`. Then stores the variable `tuned_result` along with the necessary auxiliary information in the cache file with the full name created earlier in [step 4](#func.model.tune.param_range.details.step4):
 ```{r eval=FALSE}
       tuned.result <- tuned_result$tuned.result
       
@@ -2888,13 +2891,49 @@ File saved: %1", file_path_tmp)
 
 
 ::: { #func.model.tune.param_range.details.step8 .sidebar }
-Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) (see the description below) and, using one more helper function [get_best_param.result](#func.get_best_param.result)  (see the description below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
+8. Determines the endpoints for a new interval of $\lambda$ values in the neighborhood of the minimum *RMSE* value figured out so far, with use of the helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described above, to improve the accuracy of the *RMSE* calculation in the next iteration, and stores them in the `seq_start` and `seq_end` local variables:
+```{r eval=FALSE}
+    bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
+    start.idx <- bound.idx["start"]
+    end.idx <- bound.idx["end"]
+
+    prm_val.leftmost.tmp <- tuned.result$parameter.value[start.idx]
+    RMSE.leftmost.tmp <- tuned.result$RMSE[start.idx]
+
+    prm_val.rightmost.tmp <- tuned.result$parameter.value[end.idx]
+    RMSE.rightmost.tmp <- tuned.result$RMSE[end.idx]
+    
+    min_RMSE <- tuned.result$RMSE[best_RMSE.idx]
+    min_RMSE.prm_val <- tuned.result$parameter.value[best_RMSE.idx]
+
+    seq_start <- prm_val.leftmost.tmp
+    seq_end <- prm_val.rightmost.tmp
+```
+:::
+
+::: { #func.model.tune.param_range.details.step .sidebar }
 
 ```{r eval=FALSE}
+    if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
+      prm_val.leftmost <- prm_val.leftmost.tmp
+      RMSE.leftmost <- RMSE.leftmost.tmp
+      # browser()
+    } 
+    
+    if (RMSE.rightmost.tmp - min_RMSE >= endpoint.min_diff) {
+      prm_val.rightmost <- prm_val.rightmost.tmp
+      RMSE.rightmost <- RMSE.rightmost.tmp
+      # browser()
+    } 
 ```
 :::
 
 
+::: { #func.model.tune.param_range.details.step .sidebar }
+
+```{r eval=FALSE}
+```
+:::
 ::: { #func.model.tune.param_range.details.step .sidebar }
 
 ```{r eval=FALSE}
@@ -2934,6 +2973,7 @@ A data structure containing the minimum `RMSE` value reached during the fine-tun
 ::: {#func.model.tune.param_range.code .sidebar }
 ##### Source Code
 \
+
 Below is the simplified version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) function:
 ```{r eval=FALSE}
 model.tune.param_range <- function(loop_starter,
