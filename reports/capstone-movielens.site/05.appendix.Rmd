@@ -2586,21 +2586,22 @@ The algorithm assumes that the set of the *RMSE* values is a monotonically non-i
 \
 
 This function returns a list of two objects:
-
-  - A vector containing a *pair of values*: the found *best value of the regularization parameter* $\lambda$ for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
 ```{r eval=FALSE}
-  param_values.best_result <- c(param.best_value, 
-                                best_RMSE)
+  list(tuned.result = data.frame(RMSE = RMSEs_tmp,
+                                parameter.value = param_vals_tmp),
+       best_result = param_values.best_result)
 ```
 
-  - A data frame containing two variables:
+The objects comprising the return list are as follows:
+
+  - `best_result`: Vector containing a *pair of values*: the found *best value of the regularization parameter* $\lambda$ for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
+
+  - `tuned.result`: Data frame containing two variables:
   
     - *parameter.value*: A vector containing all processed values of the parameter $\lambda$;
     
     - *RMSE*: A vector containing the *RMSE* values corresponding to the processed values of $\lambda$.
-```{r eval=FALSE}
-tuned.result = data.frame(RMSE, parameter.value)
-```
+
 :::
 
 ##### Source Code
@@ -2772,6 +2773,8 @@ Model-specific helper function name to pass to the [same-named argument](#func.t
 :::
 :::
 
+\newpage
+
 ::: { #func.model.tune.param_range.details .sidebar }
 ##### **Details** 
 \
@@ -2780,7 +2783,7 @@ With the approach used in this algorithm, the best value of the *regularization 
 
 During the execution, the algorithm organizes a cycle consisting of the following steps:
 
-  1. Calculates the divisor to calculate the step size for partitioning the interval into a sequence of $\lambda$ values as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L240):
+  1. Calculates the step size for partitioning the interval into a sequence of $\lambda$ values as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L240):
 ```{r eval=FALSE}
     seq_increment <- (seq_end - seq_start)/interval_divisor 
 ```
@@ -3072,21 +3075,19 @@ Finally, the algorithm initializes the objects to be included in the return list
   # Finalizing execution:
   n <- length(tuned.result$parameter.value)
   
-  # browser()
   parameter.value <- tuned.result$parameter.value
   result.RMSE <- tuned.result$RMSE
   
   if (result.RMSE[1] == best_RMSE) {
     parameter.value[1] <- prm_val.leftmost
     result.RMSE[1] <- RMSE.leftmost
-    # browser()
   }
+  
   if (result.RMSE[n] == best_RMSE) {
     parameter.value[n+1] <- prm_val.rightmost
     result.RMSE[n+1] <- RMSE.rightmost
-    # browser()
   }
-  # browser()
+  
   list(best_result = param_values.best_result,
        param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
        tuned.result = data.frame(parameter.value = parameter.value,
@@ -3094,16 +3095,31 @@ Finally, the algorithm initializes the objects to be included in the return list
 ```
 :::
 
+::: {#func.model.tune.param_range.value .sidebar }
 ##### **Value**
 \
 
-A data structure containing the minimum `RMSE` value reached during the fine-tuning process, the corresponding input parameter value, and information about the final sequence, on which the best output values were found:
+This function returns a list of three objects:
 ```{r eval=FALSE}
   list(best_result = param_values.best_result,
        param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
        tuned.result = data.frame(parameter.value = parameter.value,
                                  RMSE = result.RMSE))
 ```
+
+The objects comprising the return list are as follows:
+
+  - `best_result`: A vector containing a *pair of values*: the found *best value of the regularization parameter* $\lambda$ for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
+
+  - `param_values.endpoints`: Information related to the final interval of the *regularization parameter* $\lambda$ values.;
+
+  - `tuned.result`: A data frame containing two variables:
+  
+    - *parameter.value*: A vector containing all processed values of the parameter $\lambda$;
+    
+    - *RMSE*: A vector containing the *RMSE* values corresponding to the processed values of $\lambda$.
+
+:::
 
 ::: {#func.model.tune.param_range.code .sidebar }
 ##### Source Code
