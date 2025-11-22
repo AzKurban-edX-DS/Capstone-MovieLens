@@ -2785,7 +2785,9 @@ During the execution, the algorithm organizes a cycle consisting of the followin
     seq_increment <- (seq_end - seq_start)/interval_divisor 
 ```
 
-  2. Checks if the *step size* of the generated sequence is less than the minimum allowed value (in the current implementation, we use `1e-13`), and if so, exits the loop. Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step3):  
+  2. Checks if the *step size* of the generated sequence is less than the minimum allowed value (in the current implementation, we use `1e-13`), and if so, exits the loop and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below. 
+  
+  Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step3):  
 ```{r eval=FALSE}
     if (seq_increment < 0.0000000000001) {
       warning("Function `model.tune.param_range`:
@@ -2891,7 +2893,7 @@ File saved: %1", file_path_tmp)
 
 
 ::: { #func.model.tune.param_range.details.step8 .sidebar }
-8. Determines the endpoints for a new interval of $\lambda$ values in the neighborhood of the minimum *RMSE* value figured out so far, with use of the helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described above, to improve the accuracy of the *RMSE* calculation in the next iteration, and stores them in the `seq_start` and `seq_end` local variables:
+  8.Determines endpoints for a new interval of $\lambda$ values in the neighborhood of the minimum *RMSE* value (figured out so far)  with use of the helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described above, to improve the accuracy of the *RMSE* calculation in the next iteration:
 ```{r eval=FALSE}
     bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
     start.idx <- bound.idx["start"]
@@ -2911,52 +2913,185 @@ File saved: %1", file_path_tmp)
 ```
 :::
 
-::: { #func.model.tune.param_range.details.step .sidebar }
+::: { #func.model.tune.param_range.details.step9 .sidebar }
+  9. Checks whether the local variable `best_RMSE` is already initialized, and if not, initializes it to the minimum *RMSE* value for the current iteration, figured out in the [previous step](#func.model.tune.param_range.details.step8), along with local variables intended to store the endpoint values:
+```{r eval=FALSE}
+    if (is.na(best_RMSE)) {
+      prm_val.leftmost <- prm_val.leftmost.tmp
+      RMSE.leftmost <- RMSE.leftmost.tmp
+      
+      prm_val.rightmost <- prm_val.rightmost.tmp
+      RMSE.rightmost <- RMSE.rightmost.tmp
+      
+      param.best_value <- min_RMSE.prm_val
+      best_RMSE <- min_RMSE
+    }
+```
+:::
 
+
+::: { #func.model.tune.param_range.details.step10 .sidebar }
+  10. Checks deviations from the minimum *RMSE* value for the values corresponding to the endpoints of the new interval of the $\lambda$ parameter values figured out in the [step 8](#func.model.tune.param_range.details.step8) and updates in corresponding local variables those endpoint values of $\lambda$ and *RMSE* for which the corresponding deviation reaches the minimum threshold specified by the value passed in the [endpoint.min_diff](#func.model.tune.param_range.args.endpoint.min_diff) argument:
 ```{r eval=FALSE}
     if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
       prm_val.leftmost <- prm_val.leftmost.tmp
       RMSE.leftmost <- RMSE.leftmost.tmp
-      # browser()
     } 
     
     if (RMSE.rightmost.tmp - min_RMSE >= endpoint.min_diff) {
       prm_val.rightmost <- prm_val.rightmost.tmp
       RMSE.rightmost <- RMSE.rightmost.tmp
-      # browser()
     } 
 ```
 :::
 
 
-::: { #func.model.tune.param_range.details.step .sidebar }
-
+::: { #func.model.tune.param_range.details.step11 .sidebar }
+  11. Makes sure that the index of the start endpoint of the interval of the $\lambda$ parameter values figured out in the [step8](#func.model.tune.param_range.details.step8) is less than the index of the end endpoint and, if not, exits the loop with the *warning message* and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below: 
 ```{r eval=FALSE}
+    if (end.idx - start.idx <= 0) {
+      warning("`tuned.result$parameter.value` sequential start index are the same or greater than end one.")
+      put_log1("Function `model.tune.param_range`:
+Current minimal RMSE: %1", rmse_min)
+      
+      put_log2("Function `model.tune.param_range`:
+Reached minimal RMSE for the test parameter value = %1: %2",
+               param_values.best_result["param.best_value"],
+               param_values.best_result["best_RMSE"])
+      
+      put(param_values.best_result)
+      break
+    }
 ```
 :::
-::: { #func.model.tune.param_range.details.step .sidebar }
 
+::: { #func.model.tune.param_range.details.step11 .sidebar }
+  12. Checks if the minimum *RMSE* value determined so far (and stored in the local variable `best_RMSE`) is equal to the minimum *RMSE* value calculated for the current iteration (stored in the `min_RMSE`), and if so, outputs an appropriate warning message and proceeds to the [next step](#func.model.tune.param_range.details.step13). 
+  
+  Otherwise, makes sure that the minimum *RMSE* value determined so far is no less than the minimum *RMSE* value calculated for the current iteration (`best_RMSE >= min_RMSE`) and goes to [step ?](#).
+  
+  Otherwise, **stops execution** with the error message (considers a fatal error!):
 ```{r eval=FALSE}
+    if (best_RMSE == min_RMSE) {
+      warning("Currently computed minimal RMSE equals the previously reached best one: ",
+              best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
+      
+      put_log2("Function `model.tune.param_range`:
+Current minimal RMSE for `parameter value = %1`: %2",
+               tuned.result$parameter.value[which.min(tuned.result$RMSE)],
+               min_RMSE)
+      
+      put_log2("Function `model.tune.param_range`:
+So far reached best RMSE for `parameter value = %1`: %2",
+               param_values.best_result["param.best_value"],
+               param_values.best_result["best_RMSE"])
+      
+      put(param_values.best_result)
+      
+      # goes to the next step of the current iteration
+      # ...
+      
+    } else if (best_RMSE < min_RMSE) {
+      warning("Current minimal RMSE is greater than previously computed best value: ",
+              best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
+      stop("Current minimal RMSE is greater than previously computed best value: ",
+           best_RMSE, "
+Currently computed minial value is: ", min_RMSE)
+    }
 ```
 :::
 
-::: { #func.model.tune.param_range.details.step?? .sidebar }
-
+::: { #func.model.tune.param_range.details.step13 .sidebar }
+  13. (`best_RMSE == min_RMSE`) Checks the number of matches between the minimum *RMSE* value determined so far and the minimum *RMSE* value calculated for the current iteration (`best_RMSE == min_RMSE`), and if it exceeds the value passed in the argument [max.identical.min_RMSE.count](#func.model.tune.param_range.args.max.identical.min_RMSE.count), saves the best results for the $\lambda$ and *RMSE* values figured out in the current iteration in the local variable `param_values.best_result` and exits the loop with an appropriate warning message and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below. 
+  
+  Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step14):
 ```{r eval=FALSE}
+    if (best_RMSE == min_RMSE) {
+      
+      # Outputs an appropriate warning message
+      # ...
+      
+      if (sum(tuned.result$RMSE[tuned.result$RMSE == min_RMSE]) >= max.identical.min_RMSE.count) {
+        warning("Minimal `RMSE`identical values count reached it maximum allowed value: ",
+                max.identical.min_RMSE.count)
+
+        put(tuned.result$RMSE)
+        
+        param_values.best_result <-
+          get_best_param.result(tuned.result$parameter.value,
+                                tuned.result$RMSE)
+
+        put_log2("Function `model.tune.param_range`:
+      Reached the best RMSE for `parameter value = %1`: %2",
+                 param_values.best_result["param.best_value"],
+                 param_values.best_result["best_RMSE"])
+        break
+      }
+    } else if (best_RMSE < min_RMSE) {
+      # Fatal Error! (stops the execution)
+    }
+```
+
+::: {.noteblock data-latex=""}
+To retrieve the best results for the current iteration from the data stored in the local variable `tuned.result`, the helper function [get_best_param.result] described above is used.
+:::
+:::
+
+::: { #func.model.tune.param_range.details.step14 .sidebar }
+  14. Updates the following local variables: `best_RMSE` (wihich stores the current best *RMSE* value) with the minimum *RMSE* value computed for the current iteration (stored in the `min_RMSE`) and `param_values.best_result` with the best results retrieved from the  `tuned.result`, and proceeds to the next iteration from the [step 1]:
+  
+```{r eval=FALSE}
+    # ...
+    
+    best_RMSE <- min_RMSE
+    param.best_value <- min_RMSE.prm_val
+
+    param_values.best_result <- 
+      get_best_param.result(tuned.result$parameter.value, 
+                          tuned.result$RMSE)
+    
+    put_log2("Function `model.tune.param_range`:
+Currently reached best RMSE for `parameter value = %1`: %2",
+             param_values.best_result["param.best_value"],
+             param_values.best_result["best_RMSE"])
+    
+    put(param_values.best_result)
+  }
+  # End repeat loop
 ```
 :::
 
-returns a range of input parameter values associated with the set of corresponding _Root Mean Squared Errors_ that is also guaranteed to include their minimum value, as described in the [Value](#func.tune.model_param.value) subsection of the [tune.model_param](#func.tune.model_param) function description.
+::: { #func.model.tune.param_range.details.finalizing .sidebar }
+###### Finalizing Execution
+\
+
+Finally, the algorithm initializes the objects to be included in the return list with the results obtained during execution and returns the list to the client code:
 ```{r eval=FALSE}
+  # Finalizing execution:
+  n <- length(tuned.result$parameter.value)
+  
+  # browser()
+  parameter.value <- tuned.result$parameter.value
+  result.RMSE <- tuned.result$RMSE
+  
+  if (result.RMSE[1] == best_RMSE) {
+    parameter.value[1] <- prm_val.leftmost
+    result.RMSE[1] <- RMSE.leftmost
+    # browser()
+  }
+  if (result.RMSE[n] == best_RMSE) {
+    parameter.value[n+1] <- prm_val.rightmost
+    result.RMSE[n+1] <- RMSE.rightmost
+    # browser()
+  }
+  # browser()
+  list(best_result = param_values.best_result,
+       param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
+       tuned.result = data.frame(parameter.value = parameter.value,
+                                 RMSE = result.RMSE))
 ```
-
-Next, the function figures out the boundary indices of a range of values from the neighborhood of the minimum `RMSE` by calling internally another helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) (see the description below) and, using one more helper function [get_best_param.result](#func.get_best_param.result)  (see the description below), a pair of values,  corresponding to the best result: minimal  `RMSE` and corresponding input parameter value (which is considered the best).
-
-The found values of the boundary indices are then used as the endpoints of a new interval to regenerate the sequence based on it in the next iteration, just as it was done based on the values of the `loop_starter` parameter at the very beginning of the execution. The value of `step divisor`, used to calculate the step of the generated sequence, remains unchanged during the entire execution (see the description of the [loop_strarter](#func.model.tune.param_range.args.loop_starter) parameter above for details).
-
-Thus, with each subsequent iteration, the minimum `RMSE` value is calculated more accurately, over an ever-decreasing interval, with the boundary values tending to the minimum `RMSE` value, and the sequence generated with an ever-decreasing step.
-
-The calculation is completed when subsequent calculated values of the minimum `RMSE` stop improving and reach the most accurate possible value.
 :::
 
 ##### **Value**
@@ -2974,234 +3109,7 @@ A data structure containing the minimum `RMSE` value reached during the fine-tun
 ##### Source Code
 \
 
-Below is the simplified version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) function:
-```{r eval=FALSE}
-model.tune.param_range <- function(loop_starter,
-                             tune_dir_path,
-                             cache_file_base_name,
-                             fn_tune.test.param_value,
-                             # interval_divisor.multiplier = 4,
-                             max.identical.min_RMSE.count = 4,
-                             endpoint.min_diff = 0, #1e-07,
-                             break.if_min = TRUE,
-                             steps.beyond_min = 2){
-
-  seq_start <- loop_starter[1]
-  seq_end <- loop_starter[2]
-  
-  prm_val.leftmost <- seq_start
-  prm_val.rightmost <- seq_end
-  
-  RMSE.leftmost <- NA
-  RMSE.rightmost <- NA
-  
-  interval_divisor <- loop_starter[3]
-  if (interval_divisor < 4) {
-    interval_divisor <- 4
-  }
-
-  best_RMSE <- NA
-  param.best_value <- 0
-  
-  
-  param_values.best_result <- c(param.best_value = param.best_value, 
-                                best_RMSE = best_RMSE)
-  # Start repeat loop
-  repeat{
-    seq_increment <- (seq_end - seq_start)/interval_divisor 
-    
-    if (seq_increment < 0.0000000000001) {
-      warning("Function `model.tune.param_range`:
-parameter value increment is too small.")
-      
-      put_log2("Function `model.tune.param_range`:
-Final best RMSE for `parameter value = %1`: %2",
-               param_values.best_result["param.best_value"],
-               param_values.best_result["best_RMSE"])
-      
-      put(param_values.best_result)
-      break
-    }
-    
-    test_param_vals <- seq(seq_start, seq_end, seq_increment)
-    
-    file_name_tmp <- cache_file_base_name |>
-      str_c("_") |>
-      str_c(as.character(loop_starter[1])) |>
-      str_c("_") |>
-      str_c(as.character(loop_starter[3])) |>
-      str_c("_") |>
-      str_c(as.character(interval_divisor)) |>
-      str_c(".") |>
-      str_c(as.character(seq_start)) |>
-      str_c("-") |>
-      str_c(as.character(seq_end)) |>
-      str_c(".RData")
-    
-    file_path_tmp <- file.path(tune_dir_path, file_name_tmp)
-    
-    put_log1("Function `model.tune.param_range`:
-File path generated: %1", file_path_tmp)
-    
-    if (file.exists(file_path_tmp)) {
-      put_log1("Function `model.tune.param_range`:
-Loading tuning data from file: %1...", file_path_tmp)
-      
-      load(file_path_tmp)
-      put_log1("Function `model.tune.param_range`:
-Tuning data has been loaded from file: %1", file_path_tmp)
-      
-      tuned.result <- tuned_result$tuned.result
-    } else {
-      tuned_result <- tune.model_param(test_param_vals, 
-                                        fn_tune.test.param_value,
-                                        break.if_min,
-                                        steps.beyond_min)
-      
-      tuned.result <- tuned_result$tuned.result
-      
-      save(tuned_result,
-           param.best_value,
-           seq_increment,
-           interval_divisor,
-           file = file_path_tmp)
-
-      put_log1("Function `model.tune.param_range`:
-File saved: %1", file_path_tmp)
-    }
-    
-    plot(tuned.result$parameter.value, tuned.result$RMSE)
-    bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
-    start.idx <- bound.idx["start"]
-    end.idx <- bound.idx["end"]
-    best_RMSE.idx <- bound.idx["best"]
-    
-    prm_val.leftmost.tmp <- tuned.result$parameter.value[start.idx]
-    RMSE.leftmost.tmp <- tuned.result$RMSE[start.idx]
-
-    prm_val.rightmost.tmp <- tuned.result$parameter.value[end.idx]
-    RMSE.rightmost.tmp <- tuned.result$RMSE[end.idx]
-    
-    min_RMSE <- tuned.result$RMSE[best_RMSE.idx]
-    min_RMSE.prm_val <- tuned.result$parameter.value[best_RMSE.idx]
-
-    seq_start <- prm_val.leftmost.tmp
-    seq_end <- prm_val.rightmost.tmp
-    
-    if (is.na(best_RMSE)) {
-      prm_val.leftmost <- prm_val.leftmost.tmp
-      RMSE.leftmost <- RMSE.leftmost.tmp
-      
-      prm_val.rightmost <- prm_val.rightmost.tmp
-      RMSE.rightmost <- RMSE.rightmost.tmp
-      
-      param.best_value <- min_RMSE.prm_val
-      best_RMSE <- min_RMSE
-    }
-
-    if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
-      prm_val.leftmost <- prm_val.leftmost.tmp
-      RMSE.leftmost <- RMSE.leftmost.tmp
-    } 
-    
-    if (RMSE.rightmost.tmp - min_RMSE >= endpoint.min_diff) {
-      prm_val.rightmost <- prm_val.rightmost.tmp
-      RMSE.rightmost <- RMSE.rightmost.tmp
-    } 
-    
-    if (end.idx - start.idx <= 0) {
-      warning("`tuned.result$parameter.value` sequential start index are the same or greater than end one.")
-      put_log1("Function `model.tune.param_range`:
-Current minimal RMSE: %1", rmse_min)
-      
-      put_log2("Function `model.tune.param_range`:
-Reached minimal RMSE for the test parameter value = %1: %2",
-               param_values.best_result["param.best_value"],
-               param_values.best_result["best_RMSE"])
-      
-      put(param_values.best_result)
-      break
-    }
-    
-    if (best_RMSE == min_RMSE) {
-      warning("Currently computed minimal RMSE equals the previously reached best one: ",
-              best_RMSE, "
-Currently computed minial value is: ", min_RMSE)
-      
-      put_log2("Function `model.tune.param_range`:
-Current minimal RMSE for `parameter value = %1`: %2",
-               tuned.result$parameter.value[which.min(tuned.result$RMSE)],
-               min_RMSE)
-      
-      put_log2("Function `model.tune.param_range`:
-So far reached best RMSE for `parameter value = %1`: %2",
-               param_values.best_result["param.best_value"],
-               param_values.best_result["best_RMSE"])
-      
-      put(param_values.best_result)
-
-      if (sum(tuned.result$RMSE[tuned.result$RMSE == min_RMSE]) >= max.identical.min_RMSE.count) {
-        warning("Minimal `RMSE`identical values count reached it maximum allowed value: ",
-                max.identical.min_RMSE.count)
-        put(tuned.result$RMSE)
-        
-        param_values.best_result <-
-          get_best_param.result(tuned.result$parameter.value,
-                                tuned.result$RMSE)
-        put_log2("Function `model.tune.param_range`:
-      Reached the best RMSE for `parameter value = %1`: %2",
-                 param_values.best_result["param.best_value"],
-                 param_values.best_result["best_RMSE"])
-        break
-      }
-    } else if (best_RMSE < min_RMSE) {
-      warning("Current minimal RMSE is greater than previously computed best value: ",
-              best_RMSE, "
-Currently computed minial value is: ", min_RMSE)
-      stop("Current minimal RMSE is greater than previously computed best value: ",
-           best_RMSE, "
-Currently computed minial value is: ", min_RMSE)
-    }
-
-    best_RMSE <- min_RMSE
-    param.best_value <- min_RMSE.prm_val
-
-    param_values.best_result <- 
-      get_best_param.result(tuned.result$parameter.value, 
-                          tuned.result$RMSE)
-    
-    put_log2("Function `model.tune.param_range`:
-Currently reached best RMSE for `parameter value = %1`: %2",
-             param_values.best_result["param.best_value"],
-             param_values.best_result["best_RMSE"])
-    
-    put(param_values.best_result)
-  }
-  # End repeat loop
-  
-  n <- length(tuned.result$parameter.value)
-  
-  parameter.value <- tuned.result$parameter.value
-  result.RMSE <- tuned.result$RMSE
-  
-  if (result.RMSE[1] == best_RMSE) {
-    parameter.value[1] <- prm_val.leftmost
-    result.RMSE[1] <- RMSE.leftmost
-  }
-  if (result.RMSE[n] == best_RMSE) {
-    parameter.value[n+1] <- prm_val.rightmost
-    result.RMSE[n+1] <- RMSE.rightmost
-  }
-  list(best_result = param_values.best_result,
-       param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
-       tuned.result = data.frame(parameter.value = parameter.value,
-                                 RMSE = result.RMSE))
-}
-```
-
-::: {.noteblock data-latex=""}
-The complete version of the source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L78) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script on _GitHub_.
-:::
+The complete source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) is available in the [Model Tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L78) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L198) script on _GitHub_.
 :::
 
 \newpage
