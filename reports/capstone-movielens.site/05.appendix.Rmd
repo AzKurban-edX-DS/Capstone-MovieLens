@@ -2417,48 +2417,73 @@ get_fine_tune.param.endpoints <- function(preset.result) {
 #### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) Function {#func.get_best_param.result}
 \
 
-##### Signature
+Selects the best values from a pair of matched vectors: a vector of sorted *regularization parameter* $\lambda$ values and a vector of *Root Mean Squared Errors (RMSE)* values passed in the [param_values](#func.tune.model_param.args.param_values) and [RMSEs](#func.get_best_param.result.args.RMSEs) arguments, respectively.
+
+
+::: { #func.get_best_param.result.usage .sidebar }
+##### Usage
 \
+
 ```{r eval=FALSE}
-get_best_param.result <- function(param_values, rmses){
-  # ...
-  
-  c(param.best_value = param_values[best_pvalue_idx], 
-    best_RMSE = rmses[best_pvalue_idx])
-
+        param_values.best_result <-
+          get_best_param.result(tuned.result$parameter.value,
+                                tuned.result$RMSE)
 ```
+:::
 
+::: { #func.get_best_param.result.args .sidebar }
 ##### Arguments
 \
-A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the `RMSE`.
-  
-  - **param_values:** A vector containing the values of the input parameters for tuning;; 
-  - **rmses:** A vector containing values of the corresponding `Root Mean Squared Errors`..
 
+A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the `RMSE`.
+
+::: { #func.get_best_param.result.args.param_values .sidebar }
+  - **param_values:** Numeric vector containing a sorted list of the *regularization parameter* $\lambda$ values to search for the best one during the *Model Regularization* process; 
+
+:::
+::: { #func.get_best_param.result.args.RMSEs .sidebar }
+  - **RMSEs:** *RMSE* values computed during the *Model Regularization* process. 
+
+:::
+:::
+
+::: { #func.get_best_param.result.details .sidebar }
 ##### Details
 \
-Extracts the best values from the input data and returns them as a vector containing a pair of the best _input parameter_ value and the corresponding _minimum `RMSE`_.
 
+This is a *utility function* used to select the *best values* during the *Model Regularization* process utilizing the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+
+With this approach the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *RMSE* for the model being tested.
+
+In *This Project* this function is used internally in the [model.tune.param_range](#func.model.tune.param_range) function described in *This Section* below.
+:::
+
+::: { #func.get_best_param.result.value .sidebar }
 ##### Value
 \
-A vector containing a pair of the best _input parameter_ value and the corresponding _minimum `RMSE`_:
-```{r eval=FALSE}
-c(param.best_value, best_RMSE)
-```
 
+Numeric vector containing a pair of values: the best *regularization parameter* $\lambda$ value and corresponding *minimal RMSE* 
+:::
+
+::: { #func.get_best_param.result.code .sidebar }
 ##### Source Code
 \
+
 The source code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) function is shown below:
 ```{r eval=FALSE}
-get_best_param.result <- function(param_values, rmses){
-  best_pvalue_idx <- which.min(rmses)
+get_best_param.result <- function(param_values, RMSEs){
+  best_pvalue_idx <- which.min(RMSEs)
   c(param.best_value = param_values[best_pvalue_idx], 
-    best_RMSE = rmses[best_pvalue_idx])
+    best_RMSE = RMSEs[best_pvalue_idx])
+}
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) script on _GitHub_.
+The source code of the [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) script on _GitHub_.
 :::
+:::
+
+\newpage
 
 
 #### [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.cmmn_hlp.rglr.fn.tmpl}
@@ -2783,7 +2808,7 @@ With the approach used in this algorithm, the best value of the *regularization 
 
 During the execution, the algorithm organizes a cycle consisting of the following steps:
 
-  1. Calculates the step size for partitioning the interval into a sequence of $\lambda$ values as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L240):
+  1. Calculates the step size for partitioning the interval into a sequence of $\lambda$ values and save it to the local variable `seq_increment` as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L240):
 ```{r eval=FALSE}
     seq_increment <- (seq_end - seq_start)/interval_divisor 
 ```
@@ -2971,9 +2996,9 @@ Reached minimal RMSE for the test parameter value = %1: %2",
 ::: { #func.model.tune.param_range.details.step11 .sidebar }
   12. Checks if the minimum *RMSE* value determined so far (and stored in the local variable `best_RMSE`) is equal to the minimum *RMSE* value calculated for the current iteration (stored in the `min_RMSE`), and if so, outputs an appropriate warning message and proceeds to the [next step](#func.model.tune.param_range.details.step13). 
   
-  Otherwise, makes sure that the minimum *RMSE* value determined so far is no less than the minimum *RMSE* value calculated for the current iteration (`best_RMSE >= min_RMSE`) and goes to [step ?](#).
+  - Otherwise, makes sure that the minimum *RMSE* value determined so far is no less than the minimum *RMSE* value calculated for the current iteration (`best_RMSE >= min_RMSE`) and goes to [step ?](#).
   
-  Otherwise, **stops execution** with the error message (considers a fatal error!):
+  - Otherwise, **stops execution** with the error message (considers a fatal error!):
 ```{r eval=FALSE}
     if (best_RMSE == min_RMSE) {
       warning("Currently computed minimal RMSE equals the previously reached best one: ",
@@ -3009,7 +3034,7 @@ Currently computed minial value is: ", min_RMSE)
 ::: { #func.model.tune.param_range.details.step13 .sidebar }
   13. (`best_RMSE == min_RMSE`) Checks the number of matches between the minimum *RMSE* value determined so far and the minimum *RMSE* value calculated for the current iteration (`best_RMSE == min_RMSE`), and if it exceeds the value passed in the argument [max.identical.min_RMSE.count](#func.model.tune.param_range.args.max.identical.min_RMSE.count), saves the best results for the $\lambda$ and *RMSE* values figured out in the current iteration in the local variable `param_values.best_result` and exits the loop with an appropriate warning message and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below. 
   
-  Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step14):
+  - Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step14):
 ```{r eval=FALSE}
     if (best_RMSE == min_RMSE) {
       
@@ -3038,7 +3063,7 @@ Currently computed minial value is: ", min_RMSE)
 ```
 
 ::: {.noteblock data-latex=""}
-To retrieve the best results for the current iteration from the data stored in the local variable `tuned.result`, the helper function [get_best_param.result] described above is used.
+To retrieve the best results for the current iteration from the data stored in the local variable `tuned.result`, the helper function [get_best_param.result](#func.get_best_param.result) described above is used.
 :::
 :::
 
@@ -3067,10 +3092,10 @@ Currently reached best RMSE for `parameter value = %1`: %2",
 :::
 
 ::: { #func.model.tune.param_range.details.finalizing .sidebar }
-###### Finalizing Execution
+###### ***Finalizing Execution***
 \
 
-Finally, the algorithm initializes the objects to be included in the return list with the results obtained during execution and returns the list to the client code:
+Finally, the algorithm initializes the objects to be included in the return list with the results obtained during execution and returns the *list object* to the client code:
 ```{r eval=FALSE}
   # Finalizing execution:
   n <- length(tuned.result$parameter.value)
@@ -3125,7 +3150,7 @@ The objects comprising the return list are as follows:
 ##### Source Code
 \
 
-The complete source code of the [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) script on _GitHub_.
+The complete source code of the function [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) script on _GitHub_.
 :::
 
 \newpage
