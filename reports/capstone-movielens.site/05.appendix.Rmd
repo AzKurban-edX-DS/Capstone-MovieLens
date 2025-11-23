@@ -2869,7 +2869,7 @@ In the code snippet above, we use the custom function [put_log1](#func.put_log1)
 :::
 :::
 
-5. Checks whether a file with the full name stored in the `file_path_tmp` variable exists, and if so, loads all the necessary information for the current iteration from it and goes to [step 8](#func.model.tune.param_range.details.step8). Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step6):
+  5. Checks whether a file with the full name stored in the `file_path_tmp` variable exists, and if so, loads all the necessary information for the current iteration from it and goes to [step 8](#func.model.tune.param_range.details.step8). Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step6):
 ```{r eval=FALSE}
     if (file.exists(file_path_tmp)) {
       put_log1("Function `model.tune.param_range`:
@@ -2919,7 +2919,7 @@ File saved: %1", file_path_tmp)
 
 
 ::: { #func.model.tune.param_range.details.step8 .sidebar }
-  8.Determines endpoints for a new interval of $\lambda$ values in the neighborhood of the minimum *RMSE* value (figured out so far)  with use of the helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described above, to improve the accuracy of the *RMSE* calculation in the next iteration:
+  8. Determines endpoints for a new interval of $\lambda$ values in the neighborhood of the minimum *RMSE* value (figured out so far)  with use of the helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described above, to improve the accuracy of the *RMSE* calculation in the next iteration:
 ```{r eval=FALSE}
     bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
     start.idx <- bound.idx["start"]
