@@ -4453,11 +4453,11 @@ The source code of the [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Cap
 
 \newpage
 
-### UME Model Utility Functions
+### Utility Functions
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the  [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) script on _GitHub_.
+The complete source code of the functions described in this section is available in the  [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) script on _GitHub_.
 :::
 
 #### [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) Function {#func.train_user_movie_effect}
@@ -4526,7 +4526,7 @@ train_user_movie_effect <- function(train_set, lambda = 0){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) script on _GitHub_.
+The source code of the [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) script on _GitHub_.
 :::
 :::
 
@@ -4603,7 +4603,7 @@ User+Movie Effect list have been computed")
 ```
 
 ::: {.noteblock data-latex=""}
-The complete source code of the [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L19) function is available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L19) script on _GitHub_.
+The complete source code of the [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L19) function is available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L19) script on _GitHub_.
 :::
 :::
 
@@ -4673,7 +4673,7 @@ calc_user_movie_effect_MSE <- function(test_set, um_effect){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L53) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L53) script on _GitHub_.
+The source code of the [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L53) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L53) script on _GitHub_.
 :::
 :::
 
@@ -4748,7 +4748,7 @@ MSE values have been plotted for the %1-Fold Cross-Validation samples.",
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L67) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L67) script on _GitHub_.
+The source code of the [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L67) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L67) script on _GitHub_.
 :::
 :::
 
@@ -4815,7 +4815,7 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L82) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L82) script on _GitHub_.
+The source code of the [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L82) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L3) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L82) script on _GitHub_.
 :::
 :::
 
@@ -4874,7 +4874,7 @@ The source code of the [regularize.test_lambda.UM_effect.cv](https://github.com/
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91) function is also available in the [UME Model Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L90) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91) script on _GitHub_.
+The source code of the [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L90) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91) script on _GitHub_.
 :::
 :::
 

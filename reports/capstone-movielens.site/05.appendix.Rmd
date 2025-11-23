@@ -4466,7 +4466,7 @@ The complete source code of the functions described in this section is available
 #### [train_user_movie_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L4) Function {#func.train_user_movie_effect}
 \
 
-Trains the *(Regularized) User+Movie (UM) Effect Model* using the training dataset passed in the [train_set](#func.train_user_movie_effect.args.train_set) parameter.
+Trains (and optionally *regularizes* if the [lambda](#) argument is non-default) the *User+Movie (UM) Effect Model* using the training dataset passed in the [train_set](#func.train_user_movie_effect.args.train_set) argument.
 
 ::: { #func.train_user_movie_effect.usage .sidebar }
 ##### Usage
@@ -4538,7 +4538,7 @@ The source code of the [train_user_movie_effect](https://github.com/AzKurban-edX
 #### [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L19) Function {#func.train_user_movie_effect.cv}
 \
 
-Trains the *(Regularized) User+Movie (UM) Effect Model* with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Trains the *User+Movie (UM) Effect Model* with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
 
 ::: { #func.train_user_movie_effect.cv.usage .sidebar }
 ##### Usage
@@ -4830,6 +4830,12 @@ The source code of the [calc_user_movie_effect_RMSE.cv](https://github.com/AzKur
 #### [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91) Function {#func.regularize.test_lambda.UM_effect.cv}
 \
 
+Validates the *Regularization Parameter* $\lambda$ passed in the [lambda](#func.regularize.test_lambda.UM_effect.cv.args.lambda) argument for the *User+Movie (UM) Effect Model* with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6] in the *regularization process* using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+
+::: {.noteblock data-latex=""}
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets].
+:::
+
 ::: { #func.regularize.test_lambda.UM_effect.cv.usage .sidebar }
 ##### Usage
 \
@@ -4844,12 +4850,8 @@ UME.lambda_RMSE <- regularize.test_lambda.UM_effect.cv(lambda)
 ##### Arguments
 \
 
-::: { #func.regularize.test_lambda.UM_effect.cv.args. .sidebar }
-  - **:** ; 
-
-:::
-::: { #func.regularize.test_lambda.UM_effect.cv.args. .sidebar }
-  - **:** ; 
+::: { #func.regularize.test_lambda.UM_effect.cv.args.lambda .sidebar }
+  - **lambda:** Regularization parameter. 
 
 :::
 :::
@@ -4858,6 +4860,7 @@ UME.lambda_RMSE <- regularize.test_lambda.UM_effect.cv(lambda)
 ##### Details
 \
 
+This is a helper function that is used to pass as a parameter to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the section *Common Helper Functions /* [Regularization Functions] of *This Appendix*, in the *regularization process* using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1], with use of the *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6],where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
 
 :::
@@ -4865,6 +4868,8 @@ UME.lambda_RMSE <- regularize.test_lambda.UM_effect.cv(lambda)
 ::: { #func.regularize.test_lambda.UM_effect.cv.value .sidebar }
 ##### Value
 \
+
+The *Root Mean Squared Errors (RMSE)* value computed for the UME Model applying the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.test_lambda.UM_effect.cv.args.lambda) argument.
 
 :::
 
@@ -4874,6 +4879,14 @@ UME.lambda_RMSE <- regularize.test_lambda.UM_effect.cv(lambda)
 
 The source code of the [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91) function is shown below:
 ```{r eval=FALSE}
+regularize.test_lambda.UM_effect.cv <- function(lambda){
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.UM_effect.cv
+`lambda` is `NA`")
+  }
+  um_effect <- train_user_movie_effect.cv(lambda)
+  calc_user_movie_effect_RMSE.cv(um_effect)
+}
 ```
 
 ::: {.noteblock data-latex=""}
