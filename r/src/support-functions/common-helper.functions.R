@@ -118,10 +118,10 @@ get_fine_tune.param.endpoints <- function(preset.result) {
     end = preset.result$parameter.value[j],
     best = preset.result$parameter.value[best.idx])
 }
-get_best_param.result <- function(param_values, rmses){
-  best_pvalue_idx <- which.min(rmses)
+get_best_param.result <- function(param_values, RMSEs){
+  best_pvalue_idx <- which.min(RMSEs)
   c(param.best_value = param_values[best_pvalue_idx], 
-    best_RMSE = rmses[best_pvalue_idx])
+    best_RMSE = RMSEs[best_pvalue_idx])
 }
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
