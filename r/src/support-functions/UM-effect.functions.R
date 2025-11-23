@@ -1,6 +1,6 @@
 # User+Movie Effect (UME) Model Support Functions
 
-## UME Model Utility Functions --------------------------------------------------
+## Utility Functions --------------------------------------------------
 train_user_movie_effect <- function(train_set, lambda = 0){
   if (is.na(lambda)) {
     stop("Function: train_user_movie_effect
@@ -87,7 +87,7 @@ calc_user_movie_effect_RMSE.cv <- function(um_effect){
   um_effect_RMSE
 }
 
-## UME Model Regularization ----------------------------------------------------
+## Regularization ----------------------------------------------------
 regularize.test_lambda.UM_effect.cv <- function(lambda){
   if (is.na(lambda)) {
     stop("Function: regularize.test_lambda.UM_effect.cv
