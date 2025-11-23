@@ -2417,7 +2417,7 @@ get_fine_tune.param.endpoints <- function(preset.result) {
 #### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) Function {#func.get_best_param.result}
 \
 
-Selects the best values from a pair of matched vectors: a vector of sorted *regularization parameter* $\lambda$ values and a vector of *Root Mean Squared Errors (RMSE)* values passed in the [param_values](#func.tune.model_param.args.param_values) and [RMSEs](#func.get_best_param.result.args.RMSEs) arguments, respectively.
+Selects the best values from a pair of matched vectors: a vector of sorted *regularization parameter* $\lambda$ values and a vector of corresponding *Root Mean Squared Errors (RMSE)* values passed in the [param_values](#func.tune.model_param.args.param_values) and [RMSEs](#func.get_best_param.result.args.RMSEs) arguments, respectively.
 
 
 ::: { #func.get_best_param.result.usage .sidebar }
@@ -2435,8 +2435,6 @@ Selects the best values from a pair of matched vectors: a vector of sorted *regu
 ##### Arguments
 \
 
-A pair of matched vectors, the first of which contains the values of the input parameters for tuning, and the second, the corresponding values of the `RMSE`.
-
 ::: { #func.get_best_param.result.args.param_values .sidebar }
   - **param_values:** Numeric vector containing a sorted list of the *regularization parameter* $\lambda$ values to search for the best one during the *Model Regularization* process; 
 
@@ -2451,18 +2449,18 @@ A pair of matched vectors, the first of which contains the values of the input p
 ##### Details
 \
 
-This is a *utility function* used to select the *best values* during the *Model Regularization* process utilizing the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+This is a *utility function* used to select the *best values* during the *Model Regularization* process, utilizing the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
 
-With this approach the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *RMSE* for the model being tested.
+With this approach, the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *RMSE* for the model being tested.
 
-In *This Project* this function is used internally in the [model.tune.param_range](#func.model.tune.param_range) function described in *This Section* below.
+In *This Project*, this function is used internally in the [model.tune.param_range](#func.model.tune.param_range) function described in *This Section* below.
 :::
 
 ::: { #func.get_best_param.result.value .sidebar }
 ##### Value
 \
 
-Numeric vector containing a pair of values: the best *regularization parameter* $\lambda$ value and corresponding *minimal RMSE* 
+Numeric vector containing a pair of values: the best *regularization parameter* $\lambda$ value and corresponding *minimal RMSE*. 
 :::
 
 ::: { #func.get_best_param.result.code .sidebar }
@@ -2815,7 +2813,7 @@ During the execution, the algorithm organizes a cycle consisting of the followin
 
   2. Checks if the *step size* of the generated sequence is less than the minimum allowed value (in the current implementation, we use `1e-13`), and if so, exits the loop and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below. 
   
-  Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step3):  
+  - Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step3):  
 ```{r eval=FALSE}
     if (seq_increment < 0.0000000000001) {
       warning("Function `model.tune.param_range`:
@@ -2939,6 +2937,7 @@ File saved: %1", file_path_tmp)
     seq_start <- prm_val.leftmost.tmp
     seq_end <- prm_val.rightmost.tmp
 ```
+
 :::
 
 ::: { #func.model.tune.param_range.details.step9 .sidebar }
@@ -2955,6 +2954,7 @@ File saved: %1", file_path_tmp)
       best_RMSE <- min_RMSE
     }
 ```
+
 :::
 
 
@@ -2971,6 +2971,7 @@ File saved: %1", file_path_tmp)
       RMSE.rightmost <- RMSE.rightmost.tmp
     } 
 ```
+
 :::
 
 
