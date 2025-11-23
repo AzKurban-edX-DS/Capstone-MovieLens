@@ -2806,11 +2806,15 @@ With the approach used in this algorithm, the best value of the *regularization 
 
 During the execution, the algorithm organizes a cycle consisting of the following steps:
 
+::: { #func.model.tune.param_range.details.step1 .sidebar }
   1. Calculates the step size for partitioning the interval into a sequence of $\lambda$ values and save it to the local variable `seq_increment` as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L240):
 ```{r eval=FALSE}
     seq_increment <- (seq_end - seq_start)/interval_divisor 
 ```
 
+:::
+
+::: { #func.model.tune.param_range.details.step2 .sidebar }
   2. Checks if the *step size* of the generated sequence is less than the minimum allowed value (in the current implementation, we use `1e-13`), and if so, exits the loop and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below. 
   
   - Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step3):  
@@ -2829,6 +2833,8 @@ Final best RMSE for `parameter value = %1`: %2",
       break
     }
 ```
+
+:::
 
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the custom function [put_log2](#func.put_log2) described above in the [Logging Functions] section of *This Appendix*.
@@ -3069,7 +3075,7 @@ To retrieve the best results for the current iteration from the data stored in t
 :::
 
 ::: { #func.model.tune.param_range.details.step14 .sidebar }
-  14. Updates the following local variables: `best_RMSE` (wihich stores the current best *RMSE* value) with the minimum *RMSE* value computed for the current iteration (stored in the `min_RMSE`) and `param_values.best_result` with the best results retrieved from the  `tuned.result`, and proceeds to the next iteration from the [step 1]:
+  14. Updates the following local variables: `best_RMSE` (wihich stores the current best *RMSE* value) with the minimum *RMSE* value computed for the current iteration (stored in the `min_RMSE`) and `param_values.best_result` with the best results retrieved from the  `tuned.result`, and proceeds to the next iteration from the [step 1](#func.model.tune.param_range.details.step1):
   
 ```{r eval=FALSE}
     # ...
