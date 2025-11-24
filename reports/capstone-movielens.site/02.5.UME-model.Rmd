@@ -147,35 +147,7 @@ We will implement the _Regularization_ method on our  models (starting from the 
 
 \newpage
 
-#### UME Model Regularization: Support Functions
-\
-
-::: {.noteblock data-latex=""}
-The [regularize.test_lambda.UM_effect.cv]() function described below are defined in the [Regularization]() section of the [UM-effect.functions.R]() script.
-:::
-
-##### [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L96) Function {#func.regularize.test_lambda.UM_effect.cv}
-\
-
-This function calculates _RMSE_ of the _UME Model_ using _5-Fold Cross-Validation_ method for the given $\lambda$ parameter value:
-```{r, eval=FALSE}
-regularize.test_lambda.UM_effect.cv <- function(lambda){
-  if (is.na(lambda)) {
-    stop("Function: regularize.test_lambda.UM_effect.cv
-`lambda` is `NA`")
-  }
-  um_effect <- train_user_movie_effect.cv(lambda)
-  calc_user_movie_effect_RMSE.cv(um_effect)
-}
-```
-
-::: {.noteblock data-latex=""}
-Note that we reuse the function [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) calling it from the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv), but now with the $\lambda$ parameter different from the default ('lambda = 0') value.
-:::
-
-\newpage
-
-#### UME Model Regularization: Pre-configuration
+#### UME Model Regularization: *Pre-configuration*
 \
 
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
