@@ -2404,7 +2404,7 @@ This function internally calls [get_fine_tune.param.endpoints.idx](#func.get_fin
 ##### Value
 \
 
-Vector containing a value equals to minimum `RMSE` value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument, along with the pair of values those equal to the values of the nearest neighboring elements with values greater than the minimum to the left and right of the element (or group of elements) with the minimum value:
+Vector containing the *regularization parameter* $\lambda$ value corresponding to the first element with the minimum `RMSE` value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument, along with the pair of the $\lambda$ values corresponding to the nearest neighboring elements with values greater than the minimum `RMSE` to the left and right of the element (or group of elements) with the minimum `RMSE` value:
 
 In the example shown above in the [Usage](#func.get_fine_tune.param.endpoints.usage) section we can see the value return by *this function*:
 ```{r}
