@@ -2234,7 +2234,7 @@ The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L81) Function {#func.get_fine_tune.param.endpoints.idx}
 \
 
-Implements an algorithm that finds the pair of indices of the nearest neighboring elements with values greater than the minimum to the left and right of the element (or group of elements) with the minimum value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
+Implements an algorithm that finds, in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument, the indices of the nearest neighboring elements with values greater than the minimum to the left and right of the element (or group of elements) with the minimum value.
 
 ::: {.noteblock data-latex=""}
 The algorithm assumes that the set of values in the *RMSE* column is a monotonically non-increasing function of the index until the minimum is reached and monotonically non-decreasing thereafter. That is, it is assumed that the function can have only one minimum on the given set.
@@ -2345,40 +2345,87 @@ The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/Az
 #### [get_fine_tune.param.endpoints](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L80) Function {#func.get_fine_tune.param.endpoints}
 \
 
-The algorithm finds the values of the nearest neighboring elements of the element corresponding to the minimum RMSE value in the given sequence.
+Implements an algorithm that finds, in the *RMSE* column of the data frame passed in the [preset.result](#) argument, the pair of the nearest neighboring elements with values greater than the minimum to the left and right of the element (or group of elements) with the minimum value.
 
-##### Signature
+::: {.noteblock data-latex=""}
+The algorithm assumes that the set of values in the *RMSE* column is a monotonically non-increasing function of the index until the minimum is reached and monotonically non-decreasing thereafter. That is, it is assumed that the function can have only one minimum on the given set.
+:::
+
+
+::: { #func.get_fine_tune.param.endpoints.idx.usage .sidebar }
+##### Usage
 \
+
+::: {.noteblock data-latex=""}
+The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function described below is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
+:::
+
+The following code snippet shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument:
 ```{r eval=FALSE}
-get_fine_tune.param.endpoints <- function(preset.result) {
-  # ...
-  
-  c(start = preset.result$parameter.value[i], 
-    end = preset.result$parameter.value[j],
-    best = preset.result$parameter.value[best.idx])
-}
+cv.UME.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+
+```
+```{r}
+cv.UME.preset.result$tuned.result |>
+  data.plot(title = "UME Model Regularization: `lambda` Range Pre-configuration",
+              xname = "parameter.value",
+              yname = "RMSE",
+              xlabel = "Regularization parameter (`lambda`)",
+              ylabel = "RMSE")
+
+preset.result <- cv.UME.preset.result$tuned.result
+preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+print(preset.result.idx)
 ```
 
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.args .sidebar }
 ##### Arguments
 \
 
-::: {#func.get_fine_tune.param.endpoints.args.preset.result .sidebar }
-###### ***preset.result***
+::: {#func.get_fine_tune.param.endpoints.idx.args.preset.result .sidebar }
+  - **preset.result:** Data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in the [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function description below.
+
+:::
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.value .sidebar }
+##### Value
 \
-A data structure compatible with the `tuned.result` item of the data structure returned by the [tune.model_param](#func.tune.model_param) function (see the [Value](#func.tune.model_param.value) subsection of the `tune.model_param` function description section for more details). Here is a sample of using this parameter in the `model.tune.param_range` function [code](#func.model.tune.param_range.code):
+Vector containing the index of the element corresponding to the minimum `RMSE` value in a given sequence, along with the indices of its nearest neighboring elements:
 ```{r eval=FALSE}
-    tuned_result <- tune.model_param(test_param_vals, 
-                                  fn_tune.test.param_value,
-                                  break.if_min,
-                                  steps.beyond_min)
-    
-    tuned.result <- tuned_result$tuned.result
-    # tuned.result = data.frame(RMSE, parameter.value)
-    # ...
-    bound.idx <- get_fine_tune.param.endpoints(tuned.result)
-    # bounnd.idx =  c(start.index, end.index, min_RMSE.index)
+  c(start, # interval start index
+    end,   # interval end index
+    best)  # index of the best `RMSE`
 ```
-::: 
+
+In the example shown above in the [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section we can see the value return by *this function*:
+```{r}
+print(preset.result.idx)
+```
+
+:::
+
+::: { #func.get_fine_tune.param.endpoints.idx.code .sidebar }
+##### Source Code
+\
+
+The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L81) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L81) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L81) script on _GitHub_.
+:::
+:::
+
+
+
+
+
+
 
 ##### Details
 \
@@ -2392,24 +2439,6 @@ A vector containing the element value corresponding to the minimum `RMSE` in a g
   c(start = preset.result$parameter.value[i], 
     end = preset.result$parameter.value[j],
     best = preset.result$parameter.value[best.idx])
-```
-
-##### Source Code
-\
-The source code of the [get_fine_tune.param.endpoints](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L80) function is provided below:
-```{r eval=FALSE}
-get_fine_tune.param.endpoints <- function(preset.result) {
-
-  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
-  
-  i <- preset.result.idx["start"]
-  j <- preset.result.idx["end"]
-  best.idx <- preset.result.idx["best"]
-  
-  c(start = preset.result$parameter.value[i], 
-    end = preset.result$parameter.value[j],
-    best = preset.result$parameter.value[best.idx])
-}
 ```
 
 \newpage

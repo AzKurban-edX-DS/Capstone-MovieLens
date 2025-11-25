@@ -151,7 +151,7 @@ We will implement the _Regularization_ method on our  models (starting from the 
 \
 
 We need to do some pre-configuration to determine a suitable range of $\lambda$ for subsequent fine-tuning of our current model.
-For this purpose, we will use the helper function [tune.model_param](#func.tune.model_param), passing [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) (another helper function) as the value of its argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value).
+For this purpose, we will use the helper function [tune.model_param](#func.tune.model_param), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) (another helper function) as the value of its argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value).
 
 ::: {.noteblock data-latex=""}
 The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) are described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UME Model Regularization] of [Appendix A: Support Functions], respectively.
@@ -197,8 +197,11 @@ In the code snippet above, we use the custom data visualization function [data.p
 \
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
+For this purpose, we will use the helper function [model.tune.param_range](#func.model.tune.param_range), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function (already mentioned above in the [UME Model Regularization: *Pre-configuration*] section) as the value of its argument [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value).
 
-Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) parameter.
+::: {.noteblock data-latex=""}
+The function [model.tune.param_range](#func.model.tune.param_range) is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
+:::
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
@@ -218,7 +221,6 @@ UME.rglr.fine_tune.results <-
                          UME.rglr.fine_tune.cache.path,
                          UME.rglr.fine_tune.cache.base_name,
                          regularize.test_lambda.UM_effect.cv)
-                         #endpoint.min_diff = 1e-07/4)
 
 UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMSE"]
 ```
