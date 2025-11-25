@@ -4358,7 +4358,7 @@ The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX
 ## Models Training: Support Functions
 \
 
-### OMR Model Helper Functions
+### OMR Model: Helper Functions
 \
 
 ::: {.noteblock data-latex=""}
@@ -4483,7 +4483,7 @@ The source code of the [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Cap
 
 \newpage
 
-### UME Model Utility Functions
+### UME Model: Utility Functions
 \
 
 ::: {.noteblock data-latex=""}
@@ -4851,7 +4851,7 @@ The source code of the [calc_user_movie_effect_RMSE.cv](https://github.com/AzKur
 
 \newpage
 
-### UME Model Regularization
+### UME Model: Regularization
 \
 
 #### [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91) Function {#func.regularize.test_lambda.UM_effect.cv}
