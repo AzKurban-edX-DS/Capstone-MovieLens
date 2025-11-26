@@ -78,7 +78,7 @@ Below, we provide the most significant part of the code for training our model w
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above we use the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function described in the [UME Model: Utility Functions] section of [Appendix A: Support Functions].
+In the code snippet above we use the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function described in the *Models Training: Support Functions /* [UME Model: Utility Functions] section of [Appendix A: Support Functions].
 :::
 
 ```{r}
@@ -213,11 +213,15 @@ UM_effect.loop_starter <- c(endpoints["start"],
                             8)
 UME.rglr.fine_tune.cache.base_name <- "UME.rglr.fine-tune"
 ```
+
+::: {.noteblock data-latex=""}
+The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
+:::
+
 ```{r}
 print(UM_effect.loop_starter)
 print(UME.rglr.fine_tune.cache.path)
 print(UME.rglr.fine_tune.cache.base_name)
-class(regularize.test_lambda.UM_effect.cv)
 ```
 ```{r, eval=FALSE}
 
@@ -231,15 +235,16 @@ UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMS
 ```
 ```{r, echo=FALSE}
 writeLines("*** Fine-tuning results object data structure ***")
+```
+```{r}
 str(UME.rglr.fine_tune.results)
-
+```
+```{r, echo=FALSE}
 writeLines("*** Fine-tuning: best results ***")
+```
+```{r}
 UME.rglr.fine_tune.results$best_result
 ```
-
-::: {.noteblock data-latex=""}
-The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
-:::
 
 Let's visualize the fine-tuning results:
 ```{r}
@@ -253,23 +258,41 @@ UME.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 ```
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section are available in the [Fine-tuning Step of the Regularization Method for the User+Movie Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L607) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L607) script on _GitHub_.
+:::
+
 \newpage
 
 #### UME Model Regularization: Retraining Model with the best $\lambda$
 \
 
-Now, we can calculate the _Regularized User+Movie Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
+Now, we can refine our _User+Movie Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie Effect Model*), for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
 ```{r, eval=FALSE}
   UME.rglr.best_lambda <- best_result["param.best_value"]
   UME.rglr.best_lambda
 
   rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above we use the [train_user_movie_effect](#func.train_user_movie_effect) function described in the *Models Training: Support Functions /* [UME Model: Utility Functions] section of [Appendix A: Support Functions].
+
+Later in this section, we will also use the custom logging function [print_log1](#func.print_log1) described in the [Logging Functions] section of *the same Appendix*.
+:::
+
 ```{r, echo=FALSE}
 writeLines("*** The Best Fine-tuning Results ***")
+```
+```{r}
 UME.rglr.fine_tune.results$best_result
+```
 
+```{r, echo=FALSE}
 writeLines("*** Regularized User+Movie Effect Structure ***")
+```
+```{r}
 str(rglr.UM_effect)
 
 print_log1("Regularized User+Movie Effect Model has been re-trained for the best `lambda`: %1.",
@@ -277,10 +300,10 @@ print_log1("Regularized User+Movie Effect Model has been re-trained for the best
 ```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section are available in the [Re-training Regularized User+Movie Effect Model for the best $\lambda$](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) script on _GitHub_.
+The complete version of the source code provided in this section are available in the [Re-training Regularized Model for the best `lambda`](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L650) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L650) script on _GitHub_.
 :::
 
-We calculate the _Root Mean Squared Error_ for the ultimately computed _User+Movie Effect_ using [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described above as follows:
+We calculate the *RMSE* for the ultimately *Regularized User+Movie Effect Model* using [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function already used above in the [UME Model Building] section:
 ```{r, eval=FALSE}
 UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
 ```
@@ -302,7 +325,7 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UME)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
 :::
 
 \newpage
