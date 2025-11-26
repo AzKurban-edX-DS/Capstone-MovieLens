@@ -105,9 +105,9 @@ RMSE_kable(RMSEs.ResultTibble.UME)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
 
-  - [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) (described in the [UME Model: Utility Functions] section) to calculate the *RMSE* for the *Current Model*;
+  - [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) (described in the *Models Training: Support Functions /* [UME Model: Utility Functions] section) to calculate the *RMSE* for the *Current Model*;
   
-  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the [Result RMSEs Tibble Functions] section) to update and print the table above.
+  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
 
 \newpage
@@ -211,7 +211,6 @@ endpoints <-
 UM_effect.loop_starter <- c(endpoints["start"], 
                             endpoints["end"], 
                             8)
-UME.rglr.fine_tune.cache.base_name <- "UME.rglr.fine-tune"
 ```
 
 ::: {.noteblock data-latex=""}
@@ -219,11 +218,11 @@ The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.en
 :::
 
 ```{r}
-print(UM_effect.loop_starter)
-print(UME.rglr.fine_tune.cache.path)
-print(UME.rglr.fine_tune.cache.base_name)
+UM_effect.loop_starter
+UME.rglr.fine_tune.cache.path
 ```
 ```{r, eval=FALSE}
+UME.rglr.fine_tune.cache.base_name <- "UME.rglr.fine-tune"
 
 UME.rglr.fine_tune.results <- 
   model.tune.param_range(UM_effect.loop_starter,
@@ -244,6 +243,7 @@ writeLines("*** Fine-tuning: best results ***")
 ```
 ```{r}
 UME.rglr.fine_tune.results$best_result
+UME.rglr.fine_tune.RMSE.best
 ```
 
 Let's visualize the fine-tuning results:
@@ -268,12 +268,12 @@ The complete version of the source code provided in this section are available i
 #### UME Model Regularization: Retraining Model with the best $\lambda$
 \
 
-Now, we can refine our _User+Movie Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie Effect Model*), for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
+Now, we can refine our _User+Movie Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie Effect Model*), for the definitive _RMSE_ calculation and use in subsequent models.
 ```{r, eval=FALSE}
-  UME.rglr.best_lambda <- best_result["param.best_value"]
-  UME.rglr.best_lambda
+best_result <- UME.rglr.fine_tune.results$best_result
+UME.rglr.best_lambda <- best_result["param.best_value"]
 
-  rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
+rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
 ```
 
 ::: {.noteblock data-latex=""}
@@ -281,6 +281,9 @@ In the code snippet above we use the [train_user_movie_effect](#func.train_user_
 
 Later in this section, we will also use the custom logging function [print_log1](#func.print_log1) described in the [Logging Functions] section of *the same Appendix*.
 :::
+
+```{r}
+```  
 
 ```{r, echo=FALSE}
 writeLines("*** The Best Fine-tuning Results ***")
@@ -303,7 +306,7 @@ print_log1("Regularized User+Movie Effect Model has been re-trained for the best
 The complete version of the source code provided in this section are available in the [Re-training Regularized Model for the best `lambda`](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L650) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L650) script on _GitHub_.
 :::
 
-We calculate the *RMSE* for the ultimately *Regularized User+Movie Effect Model* using [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function already used above in the [UME Model Building] section:
+We calculate the *RMSE* for the ultimately *Regularized User+Movie Effect Model* using [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function (already used above in the [UME Model Building] section):
 ```{r, eval=FALSE}
 UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
 ```
