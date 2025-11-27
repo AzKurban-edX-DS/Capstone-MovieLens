@@ -1,7 +1,7 @@
 ## User+Movie+Genre Effect (UMGE) Model
 \
 
-As mentioned in [Chapter 23: *Regularization*, Section 23.7: *Exercises*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the *Course Textbook* the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_23-7].
+As mentioned in [Chapter 24: *Regularization*, Section 24.4: *Exercises*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) (*Exercises 9-15*) of the *Course Textbook* the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres)[@IDS2_24-4].
 
 ### Movie Genres Effect Anasysis
 \
@@ -40,35 +40,10 @@ sprintf("The best ratings are for the genre category: %s",
         genre_ratins_grp$genres[which.max(genre_ratins_grp$genres)])
 ```
 
-Another way of visualizing a genre effect is shown in the section [Average rating for each genre](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-for-each-genre) of the article [Movie Recommendation System using R - BEST](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook) mentioned above[@MRS-R-BEST]:
-```{r }
-# For better visibility, we reduce the data for plotting 
-# while keeping the worst and best rating rows:
-plot_ind <- odd(1:nrow(genre_ratins_grp))
-plot_dat <- genre_ratins_grp_sorted[plot_ind,] 
-
-plot_dat |>
-  ggplot(aes(x = rating_avg, y = genres)) +
-  ggtitle("Genre Average Rating") +
-  geom_bar(stat = "identity", width = 0.6, fill = "#8888ff") +
-  xlab("Average ratings") +
-  ylab("Genres") +
-  scale_x_continuous(labels = comma, limits = c(0.0, 5.0)) +
-  theme_economist() +
-  theme(plot.title = element_text(vjust = 3.5),
-        axis.title.x = element_text(vjust = -5, face = "bold"),
-        axis.title.y = element_text(vjust = 10, face = "bold"),
-        axis.text.x = element_text(vjust = 1, hjust = 1, angle = 0),
-        axis.text.y = element_text(vjust = 0.25, hjust = 1, size = 8),
-        plot.margin = margin(0.7, 0.5, 1, 1.2, "cm"))
-```
-
 ### Mathematical Description of the UMGE Model
 \
 
-To account for a _genre effect_ we will use the model suggested in the [Chapter 23: *Regularization*, Section 23.7: *Exercises*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#exercises) of the *Course Textbook*:
-
-If we define a _genre treatment effect_ $g_{i,j}$ for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect[@IDS2_23-7]:
+If we define a _genre treatment effect_ $g_{i,j}$ for user's $i$ rating of movie $j$, we can use the following models to account for the `genre` effect:
 
 \begin{equation}
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \varepsilon_{i,j}

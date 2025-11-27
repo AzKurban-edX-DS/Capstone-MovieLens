@@ -18,7 +18,7 @@ edx.ordered_movie_ratings <- edx |> group_by(movieId, title) |>
   arrange(desc(number_of_ratings))
 ```
 ```{r }
-print(head(edx.ordered_movie_ratings))
+head(edx.ordered_movie_ratings)
 ```
 
 Now, we can figure out the most given ratings in order from most to least:
@@ -28,17 +28,15 @@ edx.rating_groups <- edx |>  group_by(rating) |>
      arrange(desc(count))
 ```
 ```{r, include=TRUE}
-print(edx.rating_groups)
+edx.rating_groups
 ```
-
-\newpage
 
 #### Rating Distribution
 \
 
 The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
 ```{r, include=TRUE}
-print(edx.rating_groups |> arrange(rating))
+edx.rating_groups |> arrange(rating)
 ```
 
 We can visually see that from the following plot:

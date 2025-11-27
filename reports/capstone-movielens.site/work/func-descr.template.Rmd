@@ -120,6 +120,64 @@ The source code of the [cmmn_helper_func.tmpl](https://github.com/AzKurban-edX-D
 :::
 :::
 
+
+#### [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.cmmn_hlp.rglr.fn.tmpl}
+\
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+cmmn_hlp.rglr.fn.tmpl()
+
+```
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.cmmn_hlp.rglr.fn.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+
 ### Regularization
 
 #### [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.cmmn_hlp.rglr.fn.tmpl}
@@ -585,6 +643,78 @@ The source code of the [ume_rglr_helper.tmpl](https://github.com/AzKurban-edX-DS
 :::
 
 \newpage
+
+
+### Matrix Factorization Functions
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R) script on _GitHub_.
+:::
+
+#### [mf_func_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#Lx) Function {#func.mf_func_tmpl}
+\
+
+
+::: { #func.mf_func_tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+
+```
+:::
+
+::: { #func.mf_func_tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.mf_func_tmpl.args.file_name .sidebar }
+  - **file_name:** A name used as a base to generate a unique log file name; 
+
+:::
+:::
+
+::: { #func.mf_func_tmpl.details .sidebar }
+##### Details
+\
+
+
+:::
+
+::: { #func.mf_func_tmpl.value .sidebar }
+##### Value
+\
+
+
+:::
+
+::: { #func.mf_func_tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [mf_func_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#Lx) function is shown below:
+```{r eval=FALSE}
+
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [mf_func_tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#Lx) function is defined in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#Lx) script on _GitHub_.
+:::
+:::
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## General Func Tempates -------------------------------------------------------
