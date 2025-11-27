@@ -44,7 +44,7 @@ mu.RMSE
 
 The following custom functions described in [Appendix A: Support Functions], are used in the code snippets above:
 
-  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model Helper Functions]) to compute _Mean Squared Errors_ using _5-Fold Cross-Validation_ method;
+  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model: Helper Functions]) to compute _Mean Squared Errors_ using _5-Fold Cross-Validation_ method;
 
   - [data.plot](#func.data.plot) (described in section [Data Visualization Functions]) for the _Mean Squared Errors_ data visualization.
 
@@ -65,7 +65,7 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove that by
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model Helper Functions] section of [Appendix A: Support Functions] to calculate *RMSEs* for the sequence of the deviation values.
+In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model: Helper Functions] section of [Appendix A: Support Functions] to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
 Let's make a quick investigation of the `deviation.RMSE` result we have just got: 

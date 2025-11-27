@@ -1,6 +1,6 @@
 # User+Movie+Genre Effect (UMGE) Model Support Functions 
 
-## UMGE Model Utility Functions ------------------------------------------------
+## Utility Functions ------------------------------------------------
 calc_genre_mean_ratings <- function(train_set, min_nratings = 0) {
   genre.min_ratings <- train_set |> 
     mutate(genre_categories = as.factor(genres)) |>
@@ -144,7 +144,7 @@ calc_user_movie_genre_effect_RMSE.cv <- function(umg_effect){
   umg_effect_RMSE
 }
 
-## UMGE Model Regularization ---------------------------------------------------
+## Regularization ---------------------------------------------------
 regularize.test_lambda.UMG_effect.cv <- function(lambda){
   if (is.na(lambda)) {
     stop("Function: regularize.test_lambda.user_movie_genre_effect.cv
