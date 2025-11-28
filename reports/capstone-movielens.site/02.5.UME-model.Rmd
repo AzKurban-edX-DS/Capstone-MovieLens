@@ -194,6 +194,10 @@ In the code snippet above, we use the custom data visualization function [data.p
 #### UME Model Regularization: Fine-tuning
 \
 
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be found in the [UME Model Regularization: Fine-tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L607) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L607) script on _GitHub_.
+:::
+
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 For this purpose, we will use the helper function [model.tune.param_range](#func.model.tune.param_range), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function (already mentioned above in the [UME Model Regularization: *Pre-configuration*] section) as the value of its argument [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value).
 
@@ -258,7 +262,7 @@ UME.rglr.fine_tune.results$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section are available in the [Fine-tuning Step of the Regularization Method for the User+Movie Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L607) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L607) script on _GitHub_.
+Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A: Support Functions]) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that the deviations from the mean of $y$ are used to plot, rather than the $y$ values themselves.
 :::
 
 \newpage

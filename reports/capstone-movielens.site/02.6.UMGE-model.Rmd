@@ -225,11 +225,6 @@ The complete version of the source code provided in this section can be found in
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
-Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) parameter.
-
-We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
-For this purpose, we will use the helper function [model.tune.param_range](#func.model.tune.param_range), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function (already mentioned above in the [UME Model Regularization: *Pre-configuration*] section) as the value of its argument [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value).
-
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
 endpoints <- 
@@ -290,6 +285,11 @@ UMGE.rglr.fine_tune.results$tuned.result |>
                                 ")"),
               normalize = TRUE)
 ```
+
+::: {.noteblock data-latex=""}
+Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A: Support Functions]) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that the deviations from the mean of $y$ are used to plot, rather than the $y$ values themselves.
+:::
+
 \newpage
 
 #### UMGE Model Regularization: Retraining Model with the best $\lambda$

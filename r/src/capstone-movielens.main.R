@@ -604,7 +604,7 @@ cv.UME.preset.result$tuned.result |>
 log_close()
 #### Open log file for `Fine-tuning` step --------------------------------------
 open_logfile(".UME.rg.fine-tuning")
-#### Fine-tuning Step of the Regularization Method for the User+Movie Model ---- 
+#### UME Model Regularization: Fine-tuning ------------------------------------- 
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
 
