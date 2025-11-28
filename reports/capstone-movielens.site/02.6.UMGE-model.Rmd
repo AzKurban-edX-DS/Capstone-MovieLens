@@ -9,7 +9,7 @@ str(edx)
 ### Movie Genres Effect Anasysis
 \
 
-The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 20, 000 ratings).
+The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 40, 000 ratings).
 
 ```{r }
 # Preparing data for plotting:
@@ -77,13 +77,19 @@ as a residual:
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of builing and training the current model is available in the [Model building: User+Movie+Genre Effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1149) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+The complete source code of builing and training the current model is available in the [UMGE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L878) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L878) script on _GitHub_.
 :::
 
 Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
 ```{r, fn.train_user_movie_genre_effect.cv,   eval=FALSE}
 cv.UMG_effect <- train_user_movie_genre_effect.cv()
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above we use the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section of [Appendix A: Support Functions].
+:::
+
+
 ```{r, hist.cv.UMG_effect }
 str(cv.UMG_effect)
   
@@ -94,9 +100,8 @@ hist(cv.UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
 
 \newpage
 
-We can now construct predictors and calculate the _RMSE_ of the current model using the
-[calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) function described above:
-
+We can now construct predictors and calculate the _RMSE_ of the *UMGE Model* using the
+following code:
 ```{r, eval=FALSE}
 cv.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(cv.UMG_effect)
 
@@ -108,7 +113,11 @@ RMSE_kable(RMSEs.ResultTibble.UMGE)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
+
+  - [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) (described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section) to calculate the *RMSE* for the *UMGE Model*;
+  
+  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
 
 Unfortunately, for some reason, we do not see any improvement here yet.
@@ -136,48 +145,32 @@ And the formula \@ref(eq:ME-regularized) for calculating the values of the _trea
 
 where $n_{g}$ is the number of ratings made for genre $g$. 
 
-As stated in the [UME Model Regularization] section, we implement the _Regularization_ method for our models in the following three steps:
+As we decided earlier (and outlined in the [UME Model Regularization] section), we implement the *Regularization method* for our models in the following three steps:
 
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the `5-Fold Cross Validation` samples;
+  1. **Pre-configuration:** Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples;
   
-  2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
-  
-  3. **Retraining:** retraining the model with the best value of the parameter $\lambda$ obtained in the previous step.
+  2. **Fine-tuning:** Figuring out the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* of the model.
 
-
-\newpage
-
-#### UMGE Model Regularization: Support Functions
-\
-
-::: {.noteblock data-latex=""}
-The [regularize.test_lambda.UMG_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L146) function described below are defined in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L145) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L146) script.
-:::
-
-##### [regularize.test_lambda.UMG_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L146) Function {#func.regularize.test_lambda.UMG_effect.cv}
-\
-
-This function calculates _RMSE_ of the _UMGE Model_ using _5-Fold Cross Validation_ method for the given $\lambda$ parameter value:
-```{r, eval=FALSE}
-regularize.test_lambda.UMG_effect.cv <- function(lambda){
-  if (is.na(lambda)) {
-    stop("Function: regularize.test_lambda.user_movie_genre_effect.cv
-`lambda` is `NA`")
-  }
-  
-  umg_effect <- train_user_movie_genre_effect.cv(lambda)
-  calc_user_movie_genre_effect_RMSE.cv(umg_effect)
-}
-```
-
-::: {.noteblock data-latex=""}
-Note that we reuse the function [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) calling it from the [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv), but now with the $\lambda$ parameter different from the default ('lambda = 0') value.
-:::
+  3. **Retraining:** Retraining the model with the best value of $\lambda$ determined in the previous step.
 
 \newpage
 
 #### UMGE Model Regularization: Pre-configuration
 \
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be found in the [UMGE Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L961) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L961) script.
+:::
+
+As we explain earlier in the [UME Model Regularization: *Pre-configuration*], we need to do some pre-configuration to determine a suitable range of $\lambda$ for subsequent fine-tuning of our current model.
+
+Below we provide the most significant part of the code that performs this operation:
+
+::: {.noteblock data-latex=""}
+The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) are described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UMGE Model: Regularization] of [Appendix A: Support Functions], respectively.
+:::
+
+
 
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
@@ -185,15 +178,12 @@ We are going to use the [tune.model_param](#func.tune.model_param) function desc
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
-  put_log1("Preliminary setting-up of `lambda`s range for %1-Fold Cross Validation samples...",
-           CVFolds_N)
-  
-  start <- put_start_date()
-  lambdas <- seq(0, 0.2, 0.01)
-  cv.UMGE.preset.result <- 
-    tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
-  put_end_date(start)
-  put_log1("Preliminary regularization set-up of `lambda`s range for the UMGE Model has been completed
+lambdas <- seq(0, 0.2, 0.01)
+
+cv.UMGE.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
+
+put_log1("Preliminary regularization set-up of `lambda`s range for the UMGE Model has been completed
 for the %1-Fold Cross Validation samples.",
 CVFolds_N)
 ```
@@ -203,7 +193,7 @@ cv.UMGE.preset.result$best_result
 ```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section can be found in the [UMGE Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L814) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script.
+The custom functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UMGE Model: Regularization] of [Appendix A: Support Functions], respectively.
 :::
 
 Now, let's visualize the results of the $\lambda$ range preconfiguration:
@@ -221,7 +211,7 @@ cv.UMGE.preset.result$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions], which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A: Support Functions].
 :::
 
 \newpage
@@ -229,9 +219,16 @@ We use the custom data visualization function [data.plot](#func.data.plot) descr
 #### UMGE Model Regularization: Fine-tuning
 \
 
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be found in the [UMGE Model Regularization: Fine-tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1019) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1019) script on _GitHub_.
+:::
+
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
 Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) parameter.
+
+We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
+For this purpose, we will use the helper function [model.tune.param_range](#func.model.tune.param_range), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function (already mentioned above in the [UME Model Regularization: *Pre-configuration*] section) as the value of its argument [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value).
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
@@ -241,9 +238,17 @@ endpoints <-
 UMG_effect.loop_starter <- c(endpoints["start"], 
                             endpoints["end"], 
                             8)
-UMG_effect.loop_starter
-#> [1] 0.0   0.1   8.0
+```
 
+::: {.noteblock data-latex=""}
+The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
+:::
+
+```{r}
+UMG_effect.loop_starter
+UMGE.rglr.fine_tune.cache.path
+```
+```{r, eval=FALSE}
 UMGE.rglr.fine_tune.cache.base_name <- "UMGE.rglr.fine-tuning"
 
 UMGE.rglr.fine_tune.results <- 
@@ -253,18 +258,25 @@ UMGE.rglr.fine_tune.results <-
                          regularize.test_lambda.UMG_effect.cv)
 
 UMGE.rglr.fine_tune.RMSE.best <- UMGE.rglr.fine_tune.results$best_result["best_RMSE"]
-# best_RMSE 
-#  0.872973 
- 
-```
-```{r}
-str(UMGE.rglr.fine_tune.results)
-UMGE.rglr.fine_tune.results$best_result
 ```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section can be also found in the [Fine-tuning Step of the Regularization Method for the User+Movie Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L867) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UME Model: Regularization] of [Appendix A: Support Functions], respectively.
 :::
+
+```{r, echo=FALSE}
+writeLines("*** Fine-tuning results object data structure ***")
+```
+```{r}
+str(UMGE.rglr.fine_tune.results)
+```
+```{r, echo=FALSE}
+writeLines("*** Fine-tuning: best results ***")
+```
+```{r}
+UMGE.rglr.fine_tune.results$best_result
+UMGE.rglr.fine_tune.RMSE.best
+```
 
 Let's visualize the fine-tuning results:
 ```{r}
