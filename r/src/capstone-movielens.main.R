@@ -523,7 +523,7 @@ put_log("A row has been added to the RMSE Result Tibble for the `User+Movie Effe
 
 #### Close Log -----------------------------------------------------------------
 log_close()
-### Regularizing User+Movie Effect Model  -----
+### UME Model Regularization  -----
 # Reference: the Textbook section "23.6 Penalized least squares"
 # https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares
 

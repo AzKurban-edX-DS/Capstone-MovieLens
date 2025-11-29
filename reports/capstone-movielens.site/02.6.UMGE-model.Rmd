@@ -1,6 +1,10 @@
 ## User+Movie+Genre Effect (UMGE) Model
 \
 
+::: {.noteblock data-latex=""}
+The complete source code of the _User+Movie+Genre Effect_ computation described in this section is available in the [User+Movie+Genre Effect (UMGE) Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L730) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L730) script on _GitHub_.
+:::
+
 As we can see from the `edx` dataset structure, the `Movielens` dataset also has a genres column. This column includes every genre that applies to the movie (some movies fall under several genres):
 ```{r}
 str(edx)
@@ -126,6 +130,10 @@ Unfortunately, for some reason, we do not see any improvement here yet.
 
 ### UMGE Model Regularization
 \
+
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be found in the [UMGE Model Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L948) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L948) script.
+:::
 
 We have already explained the idea of the _Linear Model Regularization_ in the [UME Model Regularization] section above. Let's extend the concept outlined there to our current model.
 
@@ -295,39 +303,48 @@ Note that in the code snippet above, we use the custom data visualization functi
 #### UMGE Model Regularization: Retraining Model with the best $\lambda$
 \
 
-Now, we can calculate the _Regularized UMG Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section are available in the [UMGE Model Regularization: Re-training with the best `lambda`](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1062) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1062) script on _GitHub_.
+:::
+
+Now, we can refine our _User+Movie+Genre Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie+Genre Effect Model* or *Regularized UMGE Model* for short), for the definitive _RMSE_ calculation and use in subsequent models:
 ```{r, eval=FALSE}
   best_result <- UMGE.rglr.fine_tune.results$best_result
-  # param.best_value        best_RMSE 
-  #     0.03554688       0.87297303 
-  
   UMGE.rglr.best_lambda <- best_result["param.best_value"]
-  UMGE.rglr.best_RMSE <- best_result["best_RMSE"]
-  
-  put_log1("Re-training Regularized User+Movie+Genre Effect Model for the best `lambda`: %1...",
-           UMGE.rglr.best_lambda)
+#  UMGE.rglr.best_RMSE <- best_result["best_RMSE"]
   
   rglr.UMG_effect <- edx.sgr |> train_user_movie_genre_effect(UMGE.rglr.best_lambda)
 ```
-```{r}
-str(rglr.UMG_effect)
-```
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section are available in the [Re-training Regularized UMG Effect Model for the best $\lambda$](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L910) script on _GitHub_.
+In the code snippet above we use the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) function described in the *Models Training: Support Functions /* [UME Model: Utility Functions] section of [Appendix A: Support Functions].
 :::
 
-We calculate the _Root Mean Squared Error_ for the ultimately computed _UMG Effect_ using [calc_UMG_effect_RMSE.cv](#func.calc_UMG_effect_RMSE.cv) function described above as follows:
+```{r, echo=FALSE}
+writeLines("*** The Best UMG Effect Fine-tuning Results ***")
+```
+```{r}
+UMGE.rglr.fine_tune.results$best_result
+```
+
+```{r, echo=FALSE}
+writeLines("*** Regularized UMG Effect Structure ***")
+```
+```{r}
+str(rglr.UMG_effect)
+
+print_log1("Regularized UMGE Model has been re-trained for the best `lambda`: %1.",
+         UMGE.rglr.best_lambda)
+```
+
+Finally, we calculate the *RMSE* for the ultimately *Regularized UMGE Model* and add the definitive result to our _Result Table_:
 ```{r, eval=FALSE}
   rglr.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rglr.UMG_effect)
 ```
-```{r, echo=FALSE}
-  print_log2("Regularized User+Movie+Genre Effect RMSE has been computed for the best `lambda = %1`: %2.",
-           UMGE.rglr.best_lambda,
-           rglr.UMG_effect.RMSE)
+```{r}
+print_log1("The best RMSE for the UME Model after being regularized: %1",
+         rglr.UMG_effect.RMSE)
 ```
-
-Finally, we add the definitive result for the current model to our _Result Table_:
 ```{r, eval=FALSE}
 RMSEs.ResultTibble.rglr.UMGE <- RMSEs.ResultTibble.UMGE |> 
   RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
@@ -340,7 +357,11 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UMGE)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
+
+  - [calc_UMG_effect_RMSE.cv](#func.calc_UMG_effect_RMSE.cv) (described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section) to calculate the *RMSE* for the *UMGE Model*;
+  
+  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
 
 As we can see, the current model still does not show much improvement after _regularization_, even though the data analysis we made in the [Movie Genres Effect] section showed strong evidence of a genre effect.
