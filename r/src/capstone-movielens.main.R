@@ -647,7 +647,7 @@ UME.rglr.fine_tune.results$tuned.result |>
 log_close()
 #### Open log file for re-training Regularized Model ---------------------------
 open_logfile(".UME.rg.re-train.best-lambda")
-#### Re-training Regularized Model for the best `lambda` -------
+#### UME Model Regularization: Re-training with the best `lambda` -------
 file_name_tmp <- "2.UME.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UME.regularization.path, file_name_tmp)
 
@@ -1059,7 +1059,7 @@ UMGE.rglr.fine_tune.results$tuned.result |>
 log_close()
 #### Open log for re-training Regularized UMGE Model for the best `lambda` value ----
 open_logfile(".UMGE.rglr.re-train.best-lambda")
-#### Re-train `Regularized UMGE Model` for the best `lambda` value ------------
+#### UMGE Model Regularization: Re-training with the best `lambda` ------------
 file_name_tmp <- "2.UMGE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGE.regularization.path, file_name_tmp)
 
@@ -1317,7 +1317,7 @@ UMGYE.rglr.fine_tune.results$tuned.result |>
 log_close()
 ### Open log for Re-training Regularized Model for the best `lambda` value------
 open_logfile(".UMGYE.rg.re-train.best-lambda")
-### Re-train Regularized UMGYE Model for the best `lambda` ---------------------
+### UMGYE Model Regularization: Re-training with the best `lambda` ---------------------
 file_name_tmp <- "2.UMGYE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGYE.regularization.path, file_name_tmp)
 
@@ -1895,7 +1895,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE2)
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-####  Open log for UMGYDE Tuned Model: Re-training with the Best Rarams --------
+####  Open log for UMGYDE Tuned Model: Re-training with the Best Params --------
 open_logfile(".lss.UMGYDE.re-train.best_degree&span")
 #### UMGYDE Tuned Model: Retraining with the best params -----------------------
 file_name_tmp <- "1.lss.UMGYE.re-train.best-params.RData"
@@ -2145,7 +2145,7 @@ UMGYDE.rglr.fine_tune.results$tuned.result |>
 log_close()
 ####  Open log for Regularized Model: Re-training with the Best Rarams ---------
 open_logfile(".UMGYDE.rg.re-train.best-lambda")
-#### UMGYDE Regularized Model: Retraining with the best params -----------------
+#### UMGYDE Model Regularization: Retraining with the best params -----------------
 file_name_tmp <- "2.UMGYDE.rglr.re-train.best-lambda.RData"
 file_path_tmp <- file.path(UMGYDE.regularization.path, file_name_tmp)
 
