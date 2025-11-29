@@ -416,7 +416,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYE)
 Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
 :::
 
-Now, we have a bit better result than one for the previous model.
+Now, we have a bit better result than one for the previous (*Regularized UMGE*) model.
 
 \newpage
 
