@@ -359,7 +359,7 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UMGE)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
 
-  - [calc_UMG_effect_RMSE.cv](#func.calc_UMG_effect_RMSE.cv) (described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section) to calculate the *RMSE* for the *UMGE Model*;
+  - [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) (described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section) to calculate the *RMSE* for the *UMGE Model*;
   
   - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
