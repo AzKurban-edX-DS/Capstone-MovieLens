@@ -1486,7 +1486,7 @@ The complete source code of the functions described in this section are availabl
 #### [mse](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L5) Function {#func.mse}
 \
 
-Calculates *Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
+Calculates *Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
 
 ::: { #func.mse.usage .sidebar }
 ##### Usage
@@ -1503,7 +1503,7 @@ mse(r)
 \
 
 ::: { #func.mse.args.r .sidebar }
-  - **r:** Numeric vector representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
+  - **r:** Numeric vector representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
 
 :::
 :::
@@ -1527,7 +1527,7 @@ The source code of the [mse](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 #### [mse_cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L6) Function {#func.mse_cv}
 \
 
-Calculates the average value of the *Mean Squared Errors* calculated using the *K-Fold Cross-Validation* method as described in [Section 30.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Calculates the average value of the *Mean Squared Errors* calculated using the *K-Fold Cross-Validation* method as described in [Section 29.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6].
 
 ::: { #func.mse_cv.usage .sidebar }
 ##### Usage
@@ -1544,7 +1544,7 @@ mse_cv(r_list)
 \
 
 ::: { #func.mse_cv.args.r_list .sidebar }
-  - **r_list:** List of numeric vectors, each representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1], calculated in `K`th iteration using the *K-Fold Cross-Validation* method. 
+  - **r_list:** List of numeric vectors, each representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF], calculated in `K`th iteration using the *K-Fold Cross-Validation* method. 
 
 :::
 :::
@@ -1571,7 +1571,7 @@ The source code of the [mse_cv](https://github.com/AzKurban-edX-DS/Capstone-Movi
 #### [rmse](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L10) Function {#func.rmse}
 \
 
-Calculates *Root Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
+Calculates *Root Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
 
 ::: { #func.rmse.usage .sidebar }
 ##### Usage
@@ -1588,7 +1588,7 @@ rmse(r)
 \
 
 ::: { #func.rmse.args.r .sidebar }
-  - **r:** Numeric vector representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
+  - **r:** Numeric vector representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
 
 :::
 :::
@@ -1612,7 +1612,7 @@ The source code of the [rmse](https://github.com/AzKurban-edX-DS/Capstone-MovieL
 #### [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L11) Function {#func.rmse2}
 \
 
-Calculates *Root Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1]. 
+Calculates *Root Mean Squared Error* as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
 
 ::: { #func.rmse2.usage .sidebar }
 ##### Usage
@@ -3596,7 +3596,7 @@ The source code of the [splitByUser](https://github.com/AzKurban-edX-DS/Capstone
 #### [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) Function {#func.sample_train_validation_sets}
 \
 
-Splits the input dataset passed in the [data](#func.sample_train_validation_sets.args.data) argument into *train* and *validation* datasets in the way described in [Section 30.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Splits the input dataset passed in the [data](#func.sample_train_validation_sets.args.data) argument into *train* and *validation* datasets in the way described in [Section 29.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6].
 
 ::: { #func.sample_train_validation_sets.usage .sidebar }
 ##### Usage
@@ -4380,7 +4380,7 @@ The complete source code of the functions described in this section is available
 #### [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L2) Function {#func.naive_model_MSEs}
 \
 
-Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets].
 
@@ -4437,7 +4437,7 @@ The source code of the [naive_model_MSEs](https://github.com/AzKurban-edX-DS/Cap
 
 #### [naive_model_RMSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R#L7) Function {#func.naive_model_RMSE}
 \
-Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.naive_model_RMSE.usage .sidebar }
 ##### Usage
@@ -4577,7 +4577,7 @@ The source code of the [train_user_movie_effect](https://github.com/AzKurban-edX
 #### [train_user_movie_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L19) Function {#func.train_user_movie_effect.cv}
 \
 
-Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effect.args.cv.lambda) argument value is non-default) the *User+Movie Effect (UME) Model* with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effect.args.cv.lambda) argument value is non-default) the *User+Movie Effect (UME) Model* with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.train_user_movie_effect.cv.usage .sidebar }
 ##### Usage
@@ -4724,7 +4724,7 @@ The source code of the [calc_user_movie_effect_MSE](https://github.com/AzKurban-
 #### [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L67) Function {#func.calc_user_movie_effect_MSE.cv}
 \
 
-Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.calc_user_movie_effect_MSE.cv.usage .sidebar }
 ##### Usage
@@ -4799,7 +4799,7 @@ The source code of the [calc_user_movie_effect_MSE.cv](https://github.com/AzKurb
 #### [calc_user_movie_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L82) Function {#func.calc_user_movie_effect_RMSE.cv}
 \
 
-Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.calc_user_movie_effect_RMSE.cv.usage .sidebar }
 ##### Usage
@@ -4904,7 +4904,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 
 The function is used in the *regularization process* of the *UME Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UM_effect.cv.args.lambda) argument) as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
 
-Internally it uses the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) and [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) functions described above to validate the *UME Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6], where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
+Internally it uses the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) and [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) functions described above to validate the *UME Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
 This function is also intended to be passed as a parameter to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *This Appendix*.
@@ -5033,7 +5033,7 @@ The source code of the [train_user_movie_genre_effect](https://github.com/AzKurb
 #### [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L61) Function {#func.train_user_movie_genre_effect.cv}
 \
 
-Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument value is non-default) the *User+Movie+Genre Effect (UMGE) Model* with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument value is non-default) the *User+Movie+Genre Effect (UMGE) Model* with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.train_user_movie_genre_effect.cv.usage .sidebar }
 ##### Usage
@@ -5176,7 +5176,7 @@ The source code of the [calc_user_movie_genre_effect_MSE](https://github.com/AzK
 #### [calc_user_movie_genre_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L124) Function {#func.calc_user_movie_genre_effect_MSE.cv}
 \
 
-Validates the *UMG Effect (UMGE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Validates the *UMG Effect (UMGE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.calc_user_movie_genre_effect_MSE.cv.usage .sidebar }
 ##### Usage
@@ -5242,7 +5242,7 @@ The completed source code of the [calc_user_movie_genre_effect_MSE.cv](https://g
 #### [calc_user_movie_genre_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L138) Function {#func.calc_user_movie_genre_effect_RMSE.cv}
 \
 
-Validates the *UMG Effect (UMGE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6].
+Validates the *UMG Effect (UMGE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.calc_user_movie_genre_effect_RMSE.cv.usage .sidebar }
 ##### Usage
@@ -5342,7 +5342,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 
 The function is used in the *regularization process* of the *UMGE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UMG_effect.cv.args.lambda) argument) as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
 
-Internally it uses the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) and [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) functions described above to validate the *UMGE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6], where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
+Internally it uses the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) and [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) functions described above to validate the *UMGE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
 This function is also intended to be passed as a parameter to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *This Appendix*.
@@ -5534,7 +5534,7 @@ The source code of the [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS
 ## `edx.mx` Matrix Object {#appndx_b.edx.mx}
 \
 
-We use the array representation described in [Section 18.5 *Analysis of variance (ANOVA)*](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova) of the _Course Textbook (New Edition)_, for the training data[@IDS2_18-5]. For this purpose, we will convert the `edx` dataset into a matrix using the [tidyr::pivot_wider](https://www.rdocumentation.org/packages/tidyr/versions/1.3.0/topics/pivot_wider) function:
+We use the array representation described in [Section 17.6 *Analysis of variance (ANOVA)*](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova) of the _Course Textbook (New Edition)_, for the training data[@IDS2_17-6]. For this purpose, we will convert the `edx` dataset into a matrix using the [tidyr::pivot_wider](https://www.rdocumentation.org/packages/tidyr/versions/1.3.0/topics/pivot_wider) function:
 
 ```{r eval=FALSE}
 
@@ -5643,7 +5643,7 @@ To create the `date_days_map` object, the above code snippet is used in the [mak
 \
 
 `edx_CV` object is a list of sample objects we need to perform the *K-Fold Cross-Validation* 
-as explained in [Section 30.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_30-6]:
+as explained in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV]:
 ```{r eval=FALSE}
   start <- put_start_date()
   edx_CV <- lapply(kfold_index,  function(fold_i){

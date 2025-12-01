@@ -6,7 +6,7 @@ $$
 \mbox{RMSE} = \sqrt{\frac{1}{N} \sum_{i,j}^{N} (y_{i,j} - \hat{y}_{i,j})^2}
 $$
 
-with $N$ being the number of user/movie combinations for which we make predictions and the sum occurring over all these combinations[@IDS2_24-1].
+with $N$ being the number of user/movie combinations for which we make predictions and the sum occurring over all these combinations[@IDS2_24-1_LF].
 
 Our goal is to achieve a value of less than 0.86490 (compare with the _Netflix Grand Prize_ requirement: of at least 0.8563[@BigChaosSln]). 
 
