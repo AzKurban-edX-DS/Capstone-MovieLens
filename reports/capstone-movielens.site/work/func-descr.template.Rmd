@@ -645,6 +645,70 @@ The source code of the [ume_rglr_helper.tmpl](https://github.com/AzKurban-edX-DS
 \newpage
 
 
+### UMGYE Model Regularization
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the  [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L3) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L3) script on _GitHub_.
+:::
+
+#### [umgye_rglr_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#LX) Function {#func.umgye_rglr_helper.tmpl}
+\
+
+::: { #func.umgye_rglr_helper.tmpl.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+umgye_rglr_helper.tmpl()
+
+```
+:::
+
+::: { #func.umgye_rglr_helper.tmpl.args .sidebar }
+##### Arguments
+\
+
+::: { #func.umgye_rglr_helper.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+::: { #func.umgye_rglr_helper.tmpl.args. .sidebar }
+  - **:** ; 
+
+:::
+:::
+
+::: { #func.umgye_rglr_helper.tmpl.details .sidebar }
+##### Details
+\
+
+
+
+:::
+
+::: { #func.umgye_rglr_helper.tmpl.value .sidebar }
+##### Value
+\
+
+:::
+
+::: { #func.umgye_rglr_helper.tmpl.code .sidebar }
+##### Source Code
+\
+
+The source code of the [umgye_rglr_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#LX) function is shown below:
+```{r eval=FALSE}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [umgye_rglr_helper.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#LX) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L90) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#LX) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+
 ### Matrix Factorization Functions
 \
 
