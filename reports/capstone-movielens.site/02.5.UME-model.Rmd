@@ -12,7 +12,7 @@ The complete source code of the _User+Movie Effect_ computation described in thi
 \
 
 ::: {#textbook.24.1.movie_effects .sidebar }
-In [Section 24.1 *Case study: recommendation systems / Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#movie-effects) of the *Course Textbook (New Edition)*, the author draws our attention to the fact that some movies are generally rated higher than others[@IDS2_24-1]. 
+In [Section 24.1 *Case study: recommendation systems / Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-movie-effects) of the *Course Textbook (New Edition)*, the author draws our attention to the fact that some movies are generally rated higher than others[@IDS2_24-1_ME]. 
 :::
 
 To prove this fact, we can find out the movies with the highest number of ratings using the following code:
@@ -92,7 +92,7 @@ hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
 ```
 
 
-We can now construct predictors and see how much the `RMSE` improves[@IDS2_23-5]:
+We can now construct predictors and see how much the `RMSE` improves[@IDS2_24-1_ME]:
 ```{r eval=FALSE}
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 
