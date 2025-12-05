@@ -71,40 +71,6 @@ We have already explained that in the [UME Model Regularization] section.
 For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
 
-#### [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L69) Function {#func.calc_UMGY_effect}
-\
-
-This is a helper function that calculates the _UMGY effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_effect](#func.train_UMGY_effect)) described below.
-
-##### Arguments
-\
-
-The function accepts the only parameter `date_general_effect`, which is a data structure returned by any of the following functions described above:
-
-  - [calc_date_general_effect](#func.calc_date_general_effect);
-  - [calc_date_general_effect.cv](#func.calc_date_general_effect.cv).
-
-##### Source Code
-\
-
-The following is the source code of the function:
-```{r eval=FALSE}
-calc_UMGY_effect <- function(date_general_effect){
-  date_general_effect |>
-    group_by(year) |>
-    summarise(ye = mean(de, na.rm = TRUE))
-}
-```
-
-
-::: {.noteblock data-latex=""}
-The source code of the [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L69) function is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L69) script on _GitHub_.
-:::
-
-##### Return
-
-A data structure containing information about _User+Movie+Genre+Year (UMGY) Effect_. 
-
 #### [train_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L74) Function {#func.train_UMGY_effect}
 \
 

@@ -5564,22 +5564,29 @@ The complete source code of the [calc_date_general_effect.cv](https://github.com
 #### [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#LX) Function {#func.calc_UMGY_effect}
 \
 
+Builds the *User+Movie+Genre+Year Effect (UMGYE) Model* based on the *Date General Effect* data structure returned by the [calc_date_general_effect](#func.calc_date_general_effect) or [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_effect.args.date_general_effect) argument.
+
 ::: { #func.calc_UMGY_effect.usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
-calc_UMGY_effect()
-
+  train_set |>
+    calc_date_general_effect(lambda) |>
+    calc_UMGY_effect()
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, the function `calc_UMGY_effect` is called internally from the [train_UMGY_effect](#func.train_UMGY_effect) function described below.
+:::
 :::
 
 ::: { #func.calc_UMGY_effect.args .sidebar }
 ##### Arguments
 \
 
-::: { #func.calc_UMGY_effect.args. .sidebar }
-  - **:** ; 
+::: { #func.calc_UMGY_effect.args.date_general_effect .sidebar }
+  - **date_general_effect:** Data frame representing the *Date General Effect*; 
 
 :::
 :::
@@ -5588,6 +5595,14 @@ calc_UMGY_effect()
 ##### Details
 \
 
+This is a helper function that is intended to be used internally in the following functions (both described below in this section):
+
+  - [train_UMGY_effect](#func.train_UMGY_effect);
+  
+  - [train_UMGY_effect.cv](#func.train_UMGY_effect.cv).
+
+
+An example of using it in the [train_UMGY_effect](#func.train_UMGY_effect) function is shown above in the [Usage](#func.calc_UMGY_effect.usage) section of *This Description*:
 
 
 :::
@@ -5596,6 +5611,7 @@ calc_UMGY_effect()
 ##### Value
 \
 
+Data frame representing the *UMGYE Model*.
 :::
 
 ::: { #func.calc_UMGY_effect.code .sidebar }
@@ -5604,6 +5620,11 @@ calc_UMGY_effect()
 
 The source code of the [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#LX) function is shown below:
 ```{r eval=FALSE}
+calc_UMGY_effect <- function(date_general_effect){
+  date_general_effect |>
+    group_by(year) |>
+    summarise(ye = mean(de, na.rm = TRUE))
+}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -5658,7 +5679,7 @@ The *Regularization technique* (described in section [Section 24.1 *Case study: 
 ##### Value
 \
 
-Data frame representing the trained (and also *regularized* if [lambda](#func.train_UMGY_effect.args.lambda) arg value other than default) *UMG Effect Model*.
+Data frame representing the trained (and also *regularized* if [lambda](#func.train_UMGY_effect.args.lambda) arg value other than default) *UMGY Effect Model*.
 :::
 
 ::: { #func.train_UMGY_effect.code .sidebar }
@@ -5717,7 +5738,7 @@ The *Regularization technique* (described in section [Section 24.1 *Case study: 
 ##### Value
 \
 
-Data frame representing the *UMG Effect Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object]..
+Data frame representing the *UMGY Effect Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object]..
 :::
 
 ::: { #func.train_UMGY_effect.cv.code .sidebar }
@@ -5738,7 +5759,7 @@ The complete source code of the [train_UMGY_effect.cv](https://github.com/AzKurb
 #### [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L112) Function {#func.calc_UMGY_effect_MSE}
 \
 
-Validates the *UMG Effect (UMGYE) Model* produced by the  [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call.
+Validates the *UMGY Effect (UMGYE) Model* produced by the  [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call.
 
 ::: { #func.calc_UMGY_effect_MSE.usage .sidebar }
 ##### Usage
@@ -5757,7 +5778,7 @@ Validates the *UMG Effect (UMGYE) Model* produced by the  [train_user_movie_genr
 
 :::
 ::: { #func.calc_UMGY_effect_MSE.args.umg_effect .sidebar }
-  - **umg_effect:** Data frame representing the *UMG Effect Model*. 
+  - **umg_effect:** Data frame representing the *UMGY Effect Model*. 
 
 :::
 :::
@@ -5796,7 +5817,7 @@ The source code of the [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS
 #### [calc_UMGY_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L124) Function {#func.calc_UMGY_effect_MSE.cv}
 \
 
-Validates the *UMG Effect (UMGYE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+Validates the *UMGY Effect (UMGYE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.calc_UMGY_effect_MSE.cv.usage .sidebar }
 ##### Usage
@@ -5811,7 +5832,7 @@ Validates the *UMG Effect (UMGYE) Model* (produced by the [train_user_movie_genr
 \
 
 ::: { #func.calc_UMGY_effect_MSE.cv.args.umg_effect .sidebar }
-  - **umg_effect:** Data frame representing the *UMG Effect Model*. 
+  - **umg_effect:** Data frame representing the *UMGY Effect Model*. 
 
 :::
 :::
@@ -5833,7 +5854,7 @@ The `K` value for the *K-Fold Cross-Validation* is determined by the length of t
 ##### Value
 \
 
-The *MSE* value calculated for the *UMG Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *MSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
 :::
 
 ::: { #func.calc_UMGY_effect_MSE.cv.code .sidebar }
@@ -5854,7 +5875,7 @@ The completed source code of the [calc_UMGY_effect_MSE.cv](https://github.com/Az
 #### [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L138) Function {#func.calc_UMGY_effect_RMSE.cv}
 \
 
-Validates the *UMG Effect (UMGYE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+Validates the *UMGY Effect (UMGYE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: { #func.calc_UMGY_effect_RMSE.cv.usage .sidebar }
 ##### Usage
@@ -5869,7 +5890,7 @@ Validates the *UMG Effect (UMGYE) Model* (produced by the [train_user_movie_genr
 \
 
 ::: { #func.calc_UMGY_effect_RMSE.cv.args.umg_effect .sidebar }
-  - **umg_effect:** Data frame representing the *UMG Effect Model*. 
+  - **umg_effect:** Data frame representing the *UMGY Effect Model*. 
 
 :::
 :::
@@ -5891,7 +5912,7 @@ The `K` value for the *K-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
-The *RMSE* value calculated for the *UMG Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *RMSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
 :::
 
 ::: { #func.calc_UMGY_effect_RMSE.cv.code .sidebar }
@@ -5904,6 +5925,81 @@ The simplified version of the source code of the [calc_UMGY_effect_RMSE.cv](http
 
 ::: {.noteblock data-latex=""}
 The complete source code of the [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L138) function is available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L3) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L138) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+### UMGYE Model: Regularization
+\
+
+#### [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L148) Function {#func.regularize.test_lambda.UMGY_effect.cv}
+\
+
+Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.test_lambda.UMGY_effect.cv.args.lambda) argument for the *User+Movie+Genre Effect (UMGYE) Model* in the *regularization process* using *penalized approach* with use of *K-Fold Cross-Validation*.
+
+::: { #func.regularize.test_lambda.UMGY_effect.cv.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+lambdas <- seq(0, 0.2, 0.01)
+cv.UMGYE.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UMGY_effect.cv)
+```
+
+::: {.noteblock data-latex=""}
+In the code snippet above this function is used as a parameter to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *This Appendix*.
+
+Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGY_effect.cv.details) section of *This Description* below.
+:::
+:::
+
+::: { #func.regularize.test_lambda.UMGY_effect.cv.args .sidebar }
+##### Arguments
+\
+
+::: { #func.regularize.test_lambda.UMGY_effect.cv.args.lambda .sidebar }
+  - **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
+
+:::
+:::
+
+::: { #func.regularize.test_lambda.UMGY_effect.cv.details .sidebar }
+##### Details
+\
+
+The function is used in the *regularization process* of the *UMGYE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UMGY_effect.cv.args.lambda) argument) as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+
+Internally it uses the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) and [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) functions described above to validate the *UMGYE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
+
+::: {.noteblock data-latex=""}
+This function is also intended to be passed as a parameter to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *This Appendix*.
+:::
+:::
+
+::: { #func.regularize.test_lambda.UMGY_effect.cv.value .sidebar }
+##### Value
+\
+
+The *Root Mean Squared Errors (RMSE)* value computed for the UMGYE Model applying the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.test_lambda.UMGY_effect.cv.args.lambda) argument.
+
+:::
+
+::: { #func.regularize.test_lambda.UMGY_effect.cv.code .sidebar }
+##### Source Code
+\
+
+The simplified version of the source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L148) function is shown below:
+```{r eval=FALSE}
+regularize.test_lambda.UMGY_effect.cv <- function(lambda){
+  umg_effect <- train_user_movie_genre_effect.cv(lambda)
+  calc_user_movie_genre_effect_RMSE.cv(umg_effect)
+}
+```
+
+::: {.noteblock data-latex=""}
+The complete source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L148) function is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L147) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L148) script on _GitHub_.
 :::
 :::
 
