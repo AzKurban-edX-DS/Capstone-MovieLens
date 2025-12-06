@@ -5858,14 +5858,23 @@ The source code of the [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS
 #### [calc_UMGY_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L124) Function {#func.calc_UMGY_effect_MSE.cv}
 \
 
-Validates the *UMGY Effect (UMGYE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+Validates the *UMGY Effect (UMGYE) Model* (produced by the [train_UMGY_effect](#func.train_UMGY_effect) or [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+
+::: {.noteblock data-latex=""}
+This helper function is used internally in the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) function (described below in *This Section*) as shown in the [Usage](#func.calc_UMGY_effect_MSE.cv.usage) subsection of *This Function's Description Section* below.
+:::
 
 ::: { #func.calc_UMGY_effect_MSE.cv.usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
+  UMGY_effect_RMSE <- sqrt(calc_UMGY_effect_MSE.cv(UMGY_effect))
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, the function `calc_UMGY_effect_MSE.cv` is called internally from the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) function described below in *This Section*.
+:::
 :::
 
 ::: { #func.calc_UMGY_effect_MSE.cv.args .sidebar }
@@ -5885,7 +5894,7 @@ Validates the *UMGY Effect (UMGYE) Model* (produced by the [train_user_movie_gen
 The function calculates *MSE* for the *UMGYE Model* passed in the [UMGY_effect](#func.calc_UMGY_effect_MSE.cv.args.UMGY_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
 ::: {.noteblock data-latex=""}
-This function internally calls the [calc_user_movie_genre_effect_MSE](#func.calc_user_movie_genre_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
+This function internally calls the [calc_UMGY_effect_MSE](#func.calc_UMGY_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
 The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object].
 :::
@@ -5904,6 +5913,18 @@ The *MSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross
 
 The simplified version of the source code of the [calc_UMGY_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L124) function is shown below:
 ```{r eval=FALSE}
+calc_UMGY_effect_MSE.cv <- function(UMGY_effect){
+  start <- put_start_date()
+  UMGY_effect_MSEs <- sapply(edx_CV, function(cv_fold_dat){
+    cv_fold_dat$validation_set |> calc_UMGY_effect_MSE(UMGY_effect)
+  })
+  put_end_date(start)
+  put_log1("Function: calc_UMGY_effect_MSE.cv
+Date (Year) Effect MSE values have been computed for the %1-Fold Cross Validation samples.", 
+           CVFolds_N)
+  
+  mean(UMGY_effect_MSEs)
+}
 ```
 
 ::: {.noteblock data-latex=""}
