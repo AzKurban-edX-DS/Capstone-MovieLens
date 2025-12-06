@@ -4535,7 +4535,8 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 ##### Details
 \
 
-The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_effect.args.lambda) argument, is other than default (to be more exact, greater than zero). The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_user_movie_effect.args.lambda) argument, has non-default value (to be more exact, greater than zero).
+The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
 :::
 
 ::: { #func.train_user_movie_effect.value .sidebar }
@@ -4608,7 +4609,7 @@ Under the hood, this function internally calls the [train_user_movie_effect](#fu
 The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
-The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument, is other than default (to be more exact, greater than zero).
+The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument, has non-default value (to be more exact, greater than zero).
 :::
 :::
 
@@ -4986,7 +4987,8 @@ The dataset passed in the [train.sgr](#func.train_user_movie_genre_effect.args.t
 For example, the [`edx.sgr` Object] is an appropriate dataset as the value of the [train.sgr](#func.train_user_movie_genre_effect.args.train.sgr).
 
 ::: {.noteblock data-latex=""}
-The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_genre_effect.args.lambda) argument, is other than default (to be more exact, greater than zero). The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_user_movie_genre_effect.args.lambda) argument, has non-default value (to be more exact, greater than zero).
+The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
 :::
 :::
 
@@ -5067,7 +5069,7 @@ Under the hood, this function internally calls the [train_user_movie_genre_effec
 The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
-The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument, is other than default (to be more exact, greater than zero).
+The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument, has non-default value (to be more exact, greater than zero).
 :::
 :::
 
@@ -5434,7 +5436,8 @@ In the code snippet above, the function `calc_date_general_effect` is called int
 ##### Details
 \
 
-The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the *Date General Effect* calculated by this function only when the *Regularization parameter* value, passed in the [lambda](#func.calc_date_general_effect.args.lambda) argument, is non-default (to be more exact, greater than zero). The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.calc_date_general_effect.args.lambda) argument, has non-default value (to be more exact, greater than zero).
+The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
 :::
 
 ::: { #func.calc_date_general_effect.value .sidebar }
@@ -5513,7 +5516,8 @@ Under the hood, this function internally calls the [calc_date_general_effect](#f
 The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
-The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the *Date General Effect* calculated by this function only when the *Regularization parameter* value, passed in the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument, is non-default (to be more exact, greater than zero). The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument, has non-default value (to be more exact, greater than zero).
+The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
 :::
 :::
 
@@ -5671,7 +5675,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_effect.arg
 Under the hood, this function internally calls the [calc_date_general_effect](#func.calc_date_general_effect) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in *This Section*).
 
 ::: {.noteblock data-latex=""}
-The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_UMGY_effect.args.lambda) argument, is other than default (to be more exact, greater than zero).
+The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_UMGY_effect.args.lambda) argument, has non-default value (to be more exact, greater than zero).
 :::
 :::
 
@@ -5747,7 +5751,7 @@ In the above code snippet, the `train_UMGY_effect.cv` function is called interna
 Under the hood, this function internally calls the [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in *This Section*).
 
 ::: {.noteblock data-latex=""}
-The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_UMGY_effect.cv.args.lambda) argument, is other than default (to be more exact, greater than zero).
+The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_UMGY_effect.cv.args.lambda) argument, has non-default value (to be more exact, greater than zero).
 :::
 :::
 
