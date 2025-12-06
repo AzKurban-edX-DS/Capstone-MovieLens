@@ -4883,7 +4883,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is used as a parameter to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *This Appendix*.
+In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *This Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UM_effect.cv.details) section of *This Description* below.
 :::
@@ -5334,7 +5334,7 @@ cv.UMGE.preset.result <-
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is used as a parameter to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *This Appendix*.
+In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *This Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMG_effect.cv.details) section of *This Description* below.
 :::
@@ -6027,7 +6027,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is used as a parameter to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *This Appendix*.
+In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *This Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGY_effect.cv.details) section of *This Description* below.
 :::
