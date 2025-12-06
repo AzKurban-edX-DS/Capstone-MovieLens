@@ -5934,10 +5934,14 @@ The completed source code of the [calc_UMGY_effect_MSE.cv](https://github.com/Az
 
 \newpage
 
-#### [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L138) Function {#func.calc_UMGY_effect_RMSE.cv}
+#### [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L120) Function {#func.calc_UMGY_effect_RMSE.cv}
 \
 
 Validates the *UMGY Effect (UMGYE) Model* (produced by the [train_UMGY_effect](#func.train_UMGY_effect) or [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+
+::: {.noteblock data-latex=""}
+This helper function is also used internally in the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function described below in section [UMGYE Model: Regularization] of *This Appendix*.
+:::
 
 ::: { #func.calc_UMGY_effect_RMSE.cv.usage .sidebar }
 ##### Usage
@@ -5965,7 +5969,7 @@ cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 The function calculates *Root Squared Error (RMSE)* for the *UMGYE Model* passed in the [UMGY_effect](#func.calc_UMGY_effect_RMSE.cv.args.UMGY_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
 ::: {.noteblock data-latex=""}
-This function internally calls the [calc_user_movie_genre_effect_MSE.cv](#func.calc_user_movie_genre_effect_MSE.cv) function described above, to calculate the *MSE* for the *UMGYE Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
+This function internally calls the [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv) function described above, to calculate the *MSE* for the *UMGYE Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
 
 The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
 :::
@@ -5982,7 +5986,7 @@ The *RMSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cros
 ##### Source Code
 \
 
-The simplified version of the source code of the [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L138) function is shown below:
+The source code of the [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L120) function is shown below:
 ```{r eval=FALSE}
 calc_UMGY_effect_RMSE.cv <- function(UMGY_effect){
   UMGY_effect_RMSE <- sqrt(calc_UMGY_effect_MSE.cv(UMGY_effect))
@@ -5995,7 +5999,7 @@ calc_UMGY_effect_RMSE.cv <- function(UMGY_effect){
 ```
 
 ::: {.noteblock data-latex=""}
-The complete source code of the [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L138) function is available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L3) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L138) script on _GitHub_.
+The source code of the [calc_UMGY_effect_RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L120) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L3) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L120) script on _GitHub_.
 :::
 :::
 
@@ -6004,7 +6008,7 @@ The complete source code of the [calc_UMGY_effect_RMSE.cv](https://github.com/Az
 ### UMGYE Model: Regularization
 \
 
-#### [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L148) Function {#func.regularize.test_lambda.UMGY_effect.cv}
+#### [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) Function {#func.regularize.test_lambda.UMGY_effect.cv}
 \
 
 Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.test_lambda.UMGY_effect.cv.args.lambda) argument for the *User+Movie+Genre+Year Effect (UMGYE) Model* in the *regularization process* using *penalized approach* with use of *K-Fold Cross-Validation*.
@@ -6014,9 +6018,11 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 \
 
 ```{r eval=FALSE}
-lambdas <- seq(0, 0.2, 0.01)
-cv.UMGYE.preset.result <- 
-  tune.model_param(lambdas, regularize.test_lambda.UMGY_effect.cv)
+  lambdas <- seq(0, 512, 32)
+  cv.UMGYE.preset.result <- 
+    tune.model_param(lambdas, 
+                     regularize.test_lambda.UMGY_effect.cv,
+                     steps.beyond_min = 16)
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6061,16 +6067,21 @@ The *Root Mean Squared Errors (RMSE)* value computed for the UMGYE Model applyin
 ##### Source Code
 \
 
-The simplified version of the source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L148) function is shown below:
+The simplified version of the source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) function is shown below:
 ```{r eval=FALSE}
 regularize.test_lambda.UMGY_effect.cv <- function(lambda){
-  umgy_effect <- train_user_movie_genre_effect.cv(lambda)
-  calc_user_movie_genre_effect_RMSE.cv(umgy_effect)
+  if (is.na(lambda)) {
+    stop("Function: regularize.test_lambda.UMGY_effect.cv
+`lambda` is `NA`")
+  }
+  
+  train_UMGY_effect.cv(lambda) |>
+    calc_UMGY_effect_RMSE.cv()
 }
 ```
 
 ::: {.noteblock data-latex=""}
-The complete source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L148) function is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L147) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L148) script on _GitHub_.
+The complete source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) function is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L129) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) script on _GitHub_.
 :::
 :::
 
