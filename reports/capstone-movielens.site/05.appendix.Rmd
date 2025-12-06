@@ -2476,7 +2476,7 @@ Selects the best values from a pair of matched vectors: a vector of sorted *regu
 ##### Details
 \
 
-This is a *utility function* used to select the *best values* during the *Model Regularization* process, utilizing the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+This is a *utility function* used to select the *best values* during the *Model Regularization* process, utilizing the *penalized approach* to regularize predictions as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
 
 With this approach, the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *RMSE* for the model being tested.
 
@@ -2514,7 +2514,7 @@ The source code of the [get_best_param.result](https://github.com/AzKurban-edX-D
 #### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) Function {#func.tune.model_param}
 \
 
-Implements an algorithm for selecting the best value of the *regularization parameter* $\lambda$ from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument, using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+Implements an algorithm for selecting the best value of the *regularization parameter* $\lambda$ from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument, using a simple approach of selecting the *penalty term* as described in [Section 24.3 *Selecting the penalty term*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-selecting-penalty-term)*[@IDS2_24-3].
 
 
 ##### Signature
@@ -2670,7 +2670,8 @@ The complete source code of the [tune.model_param](https://github.com/AzKurban-e
 #### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) Function {#func.model.tune.param_range}
 \
 
-Implements an algorithm for fine-tuning the model under test by figuring out the most precise value possible of the *regularization parameter* $\lambda$ over a given interval determined by the $start$ and $end$ values of the interval passed in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument, using the *penalized approach* to regularize predictions as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+Implements an algorithm for fine-tuning the model under test by figuring out the most precise value possible of the *regularization parameter* $\lambda$ over a given interval determined by the $start$ and $end$ values of the interval passed in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument.
+The algorithm is based on a simple approach of selecting the *penalty term* as described in [Section 24.3 *Selecting the penalty term*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-selecting-penalty-term)*[@IDS2_24-3].
 
 ##### Signature
 \
@@ -4382,7 +4383,7 @@ The complete source code of the functions described in this section is available
 
 Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
 
 
 ::: { #func.naive_model_MSEs.usage .sidebar }
@@ -4410,7 +4411,7 @@ mu.MSEs <- naive_model_MSEs(mu)
 ##### Value
 \
 
-The Mean Squared Error (MSE) values obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the `K` value is determined by the length of the [`edx_CV` Object].
+The Mean Squared Error (MSE) values obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the `K` value is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 
 
 :::
@@ -4463,7 +4464,7 @@ mu.RMSE <- naive_model_RMSE(mu)
 ##### Details
 \
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
 This function internally calls the [naive_model_MSEs](#func.naive_model_MSEs) function described above and then calculates the square root of the mean of the obtained results.
@@ -4474,7 +4475,7 @@ This function internally calls the [naive_model_MSEs](#func.naive_model_MSEs) fu
 ##### Value
 \
 
-The Root Mean Squared Errors (RMSE) value obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the `K` value is determined by the length of the [`edx_CV` Object].
+The Root Mean Squared Errors (RMSE) value obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the `K` value is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.naive_model_RMSE.code .sidebar }
@@ -4604,7 +4605,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 
 Under the hood, this function internally calls the [train_user_movie_effect](#func.train_user_movie_effect) function described above for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in the *Data Helper Functions / [Models Training Functions]* section of this *Appendix* to aggregate the cross-validation results.
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument, is other than default (to be more exact, greater than zero).
@@ -4615,7 +4616,7 @@ The *Regularization technique* (described in [Section 24.2 *Penalized least squa
 ##### Value
 \
 
-Data frame representing the *UM Effect Model* trained (and also *regularized* if the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object]..
+Data frame representing the *UM Effect Model* trained (and also *regularized* if the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.train_user_movie_effect.cv.code .sidebar }
@@ -4755,7 +4756,7 @@ The function calculates *MSE* for the *UME Model* passed in the [um_effect](#fun
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
-The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 :::
 
@@ -4763,7 +4764,7 @@ The `K` value for the *K-Fold Cross-Validation* is determined by the length of t
 ##### Value
 \
 
-The *MSE* value calculated for the *UM Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *MSE* value calculated for the *UM Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.calc_user_movie_effect_MSE.cv.code .sidebar }
@@ -4830,7 +4831,7 @@ The function calculates *Root Squared Error (RMSE)* for the *UME Model* passed i
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) function described above, to calculate the *MSE* for the *UME Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 :::
 
@@ -4838,7 +4839,7 @@ The `K` value for the *K-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
-The *RMSE* value calculated for the *UM Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *RMSE* value calculated for the *UM Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.calc_user_movie_effect_RMSE.cv.code .sidebar }
@@ -4902,7 +4903,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 ##### Details
 \
 
-The function is used in the *regularization process* of the *UME Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UM_effect.cv.args.lambda) argument) as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+The function is used in the *regularization process* of the *UME Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UM_effect.cv.args.lambda) argument) as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
 
 Internally it uses the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) and [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) functions described above to validate the *UME Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
 
@@ -5063,7 +5064,7 @@ umg_effect <- train_user_movie_genre_effect.cv(lambda)
 
 Under the hood, this function internally calls the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) function described above for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in the *Data Helper Functions / [Models Training Functions]* section of this *Appendix* to aggregate the cross-validation results.
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *Regularization parameter* value, passed in the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument, is other than default (to be more exact, greater than zero).
@@ -5074,7 +5075,7 @@ The *Regularization technique* (described in [Section 24.2 *Penalized least squa
 ##### Value
 \
 
-Data frame representing the *UMG Effect Model* trained (and also *regularized* if the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object]..
+Data frame representing the *UMG Effect Model* trained (and also *regularized* if the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.train_user_movie_genre_effect.cv.code .sidebar }
@@ -5219,7 +5220,7 @@ The function calculates *MSE* for the *UMGE Model* passed in the [umg_effect](#f
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_user_movie_genre_effect_MSE](#func.calc_user_movie_genre_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
-The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 :::
 
@@ -5227,7 +5228,7 @@ The `K` value for the *K-Fold Cross-Validation* is determined by the length of t
 ##### Value
 \
 
-The *MSE* value calculated for the *UMG Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *MSE* value calculated for the *UMG Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.calc_user_movie_genre_effect_MSE.cv.code .sidebar }
@@ -5285,7 +5286,7 @@ The function calculates *Root Squared Error (RMSE)* for the *UMGE Model* passed 
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_user_movie_genre_effect_MSE.cv](#func.calc_user_movie_genre_effect_MSE.cv) function described above, to calculate the *MSE* for the *UMGE Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 :::
 
@@ -5293,7 +5294,7 @@ The `K` value for the *K-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
-The *RMSE* value calculated for the *UMG Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *RMSE* value calculated for the *UMG Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.calc_user_movie_genre_effect_RMSE.cv.code .sidebar }
@@ -5353,7 +5354,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 ##### Details
 \
 
-The function is used in the *regularization process* of the *UMGE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UMG_effect.cv.args.lambda) argument) as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+The function is used in the *regularization process* of the *UMGE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UMG_effect.cv.args.lambda) argument) as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
 
 Internally it uses the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) and [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) functions described above to validate the *UMGE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
 
@@ -5509,7 +5510,7 @@ In the above code snippet, the `calc_date_general_effect.cv` function is called 
 
 Under the hood, this function internally calls the [calc_date_general_effect](#func.calc_date_general_effect) function described above for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in the *Data Helper Functions / [Models Training Functions]* section of this *Appendix* to aggregate the cross-validation results.
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the *Date General Effect* calculated by this function only when the *Regularization parameter* value, passed in the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument, is non-default (to be more exact, greater than zero). The regularization is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
@@ -5754,7 +5755,7 @@ The *Regularization technique* (described in [Section 24.2 *Penalized least squa
 ##### Value
 \
 
-Data frame representing the *UMGY Effect Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object]..
+Data frame representing the *UMGY Effect Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.train_UMGY_effect.cv.code .sidebar }
@@ -5896,7 +5897,7 @@ The function calculates *MSE* for the *UMGYE Model* passed in the [UMGY_effect](
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_UMGY_effect_MSE](#func.calc_UMGY_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
-The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 :::
 
@@ -5904,7 +5905,7 @@ The `K` value for the *K-Fold Cross-Validation* is determined by the length of t
 ##### Value
 \
 
-The *MSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *MSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.calc_UMGY_effect_MSE.cv.code .sidebar }
@@ -5971,7 +5972,7 @@ The function calculates *Root Squared Error (RMSE)* for the *UMGYE Model* passed
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv) function described above, to calculate the *MSE* for the *UMGYE Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
 
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object].
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 :::
 
@@ -5979,7 +5980,7 @@ The `K` value for the *K-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
-The *RMSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object].
+The *RMSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (in our project we use `K = 5`).
 :::
 
 ::: { #func.calc_UMGY_effect_RMSE.cv.code .sidebar }
@@ -6046,7 +6047,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 ##### Details
 \
 
-The function is used in the *regularization process* of the *UMGYE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UMGY_effect.cv.args.lambda) argument) as explained in [Section 24.1 *Case study: recommendation systems / A penalized approach*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#a-penalized-approach) of the *Course Textbook (New Edition)*[@IDS2_24-1].
+The function is used in the *regularization process* of the *UMGYE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UMGY_effect.cv.args.lambda) argument) as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
 
 Internally it uses the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) and [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) functions described above to validate the *UMGYE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of `K` is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in our project we use `K = 5`).
 
@@ -6067,7 +6068,7 @@ The *Root Mean Squared Errors (RMSE)* value computed for the UMGYE Model applyin
 ##### Source Code
 \
 
-The simplified version of the source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) function is shown below:
+The source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) function is shown below:
 ```{r eval=FALSE}
 regularize.test_lambda.UMGY_effect.cv <- function(lambda){
   if (is.na(lambda)) {
@@ -6081,7 +6082,7 @@ regularize.test_lambda.UMGY_effect.cv <- function(lambda){
 ```
 
 ::: {.noteblock data-latex=""}
-The complete source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) function is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L129) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) script on _GitHub_.
+The source code of the [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L129) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L130) script on _GitHub_.
 :::
 :::
 

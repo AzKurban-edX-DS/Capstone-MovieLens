@@ -254,7 +254,27 @@ memory systems.},
   urldate      = {2025-10-27},
   langid       = {english},
   langidopts   = {variant=american},
-  annotation   = {},
+  annotation   = {In the previous section, we saw that the largest movie effect estimates came from movies with only one or two ratings. 
+                  These estimates are unstable, and the resulting predictions can be highly inaccurate. 
+                  This is a classic example of overfitting, in which estimates become too large because they rely on too little data.
+                  A common way to address overfitting in linear models is to add a penalty that shrinks large coefficients toward zero. 
+                  This approach is known as penalized least squares, or ridge regression when the penalty is quadratic.},
+}
+
+@book{IDS2_24-3,
+  author       = {Rafael A. Irizarry},
+  title        = {Introduction to Data Science, Part II, Chapter 24: Regularization,  Section 24.3: Selecting the penalty term},
+  date         = {2025-10-27},
+  url          = {https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-selecting-penalty-term},
+  urldate      = {2025-10-27},
+  langid       = {english},
+  langidopts   = {variant=american},
+  annotation   = {The regularization parameter `lambda` controls how strongly we shrink the movie effects. 
+                  If `lambda`is too small, we do not reduce overfitting. 
+                  If it is too large, we shrink too much and lose useful signal.
+                  In `Chapter 29`, we introduce formal methods for choosing tuning parameters. 
+                  Here, we take a simple approach for illustrative purposes: we compute the RMSE for a range of `lambda`
+                  values and pick the one that gives the best performance on our test set.},
 }
 
 @book{IDS2_24-4,

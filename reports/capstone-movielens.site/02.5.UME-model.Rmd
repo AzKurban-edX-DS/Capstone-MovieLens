@@ -74,7 +74,7 @@ b <- colMeans(y - mu - a, na.rm = TRUE)
 The complete source code of the _User+Movie Effect_ computation described in this section is available in the [UME Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L456) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L456) script on _GitHub_.
 :::
 
-Below, we provide the most significant part of the code for training our model with the use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied:
+Below, we provide the most significant part of the code for training our model with the use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in our project we use `K = 5`):
 ```{r eval=FALSE}
   cv.UM_effect <- train_user_movie_effect.cv()
 ```
