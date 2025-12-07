@@ -289,7 +289,7 @@ UMGE.rglr.fine_tune.results$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A: Support Functions]) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that the deviations from the mean of $y$ are used to plot, rather than the $y$ values themselves.
+Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A: Support Functions]) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
 :::
 
 \newpage

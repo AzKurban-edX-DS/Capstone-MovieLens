@@ -185,12 +185,10 @@ In the code snippet above, we use the custom data visualization function [data.p
 \
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section can be found in the [Fine-tuning Step of the Regularization Method for the User+Movie Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L867) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R) script on _GitHub_.
+The complete version of the source code provided in this section can be found in the [UMGYE Model Regularization: Fine-tuning](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1281) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1281) script on _GitHub_.
 :::
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
-
-Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
@@ -200,9 +198,17 @@ endpoints <-
 UMGYE.loop_starter <- c(endpoints["start"], 
                         endpoints["end"], 
                         8)
-UMGYE.loop_starter
-#> [1] 
+```
 
+::: {.noteblock data-latex=""}
+The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
+:::
+
+```{r}
+UMGYE.loop_starter
+UMGYE.rglr.fine_tune.cache.path
+```
+```{r, eval=FALSE}
 cache.base_name <- "UMGYE.rglr.fine-tuning"
 
 UMGYE.rglr.fine_tune.results <- 
@@ -210,15 +216,27 @@ UMGYE.rglr.fine_tune.results <-
                          UMGYE.rglr.fine_tune.cache.path,
                          cache.base_name,
                          regularize.test_lambda.UMGY_effect.cv)
-```
-```{r}
-str(UMGYE.rglr.fine_tune.results)
-UMGYE.rglr.fine_tune.results$best_result
+
+UMGYE.rglr.fine_tune.RMSE.best <- UMGYE.rglr.fine_tune.results$best_result["best_RMSE"]
 ```
 
 ::: {.noteblock data-latex=""}
-Under the hood, this code block internally calls the helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions] to figure out the boundaries of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in as a parameter.
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UMGYE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
+
+```{r, echo=FALSE}
+writeLines("*** Fine-tuning results object data structure ***")
+```
+```{r}
+str(UMGYE.rglr.fine_tune.results)
+```
+```{r, echo=FALSE}
+writeLines("*** Fine-tuning: best results ***")
+```
+```{r}
+UMGYE.rglr.fine_tune.results$best_result
+UMGYE.rglr.fine_tune.RMSE.best
+```
 
 \newpage
 
@@ -236,7 +254,7 @@ UMGYE.rglr.fine_tune.results$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions], which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A: Support Functions]) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
 :::
 
 \newpage

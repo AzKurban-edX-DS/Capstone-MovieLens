@@ -4047,7 +4047,7 @@ data.plot(data,
 
 :::
 ::: { #func.data.plot.args.normalize .sidebar }
-  - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
+- **normalize = FALSE:** If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
