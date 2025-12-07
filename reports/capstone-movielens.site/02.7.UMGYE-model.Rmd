@@ -144,7 +144,7 @@ As with the previous models, we implement the _Regularization_ method for the cu
 
 Let's perform the pre-configuration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
-We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) parameter.
+We are going to use the [tune.model_param](#func.tune.model_param) function described in the *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
