@@ -139,39 +139,10 @@ As with the previous models, we implement the _Regularization_ method for the cu
 
 \newpage
 
-#### UMGYE Model Regularization: Support Functions
-\
-
-::: {.noteblock data-latex=""}
-The [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L128) function described below are defined in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L127) section of the [UM-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L128) script.
-:::
-
-##### [regularize.test_lambda.UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#128) Function {#func.regularize.test_lambda.UMGY_effect.cv}
-\
-
-This function calculates _RMSE_ of the _UMGYE Model_ using _5-Fold Cross Validation_ for the given $\lambda$ parameter value:
-```{r, eval=FALSE}
-regularize.test_lambda.UMGY_effect.cv <- function(lambda){
-  if (is.na(lambda)) {
-    stop("Function: regularize.test_lambda.UMGY_effect.cv
-`lambda` is `NA`")
-  }
-  
-  train_UMGY_effect.cv(lambda) |>
-    calc_UMGY_effect_RMSE.cv()
-}
-```
-
-::: {.noteblock data-latex=""}
-Note that we reuse the function [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) calling it from the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv), but now with the $\lambda$ parameter different from the default ('lambda = 0') value.
-:::
-
-\newpage
-
 #### UMGYE Model Regularization: Pre-configuration
 \
 
-Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
+Let's perform the pre-configuration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
 We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) parameter.
 
