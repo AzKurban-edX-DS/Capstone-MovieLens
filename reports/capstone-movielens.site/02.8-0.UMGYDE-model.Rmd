@@ -4,7 +4,7 @@
 ### Mathematical Description of the UMGYDE Model
 \
 
-If we define $d_{i,j}$ as the _number of days since the earliest record_ in the `edx` dataset for movie $j$ rated by user $i$, then the formula \@ref(eq:UMGYDE-model) describing the _UMGYDE Model_, for the current model, takes the form:
+If we define $d_{i,j}$ as the _number of days since the earliest record_ in the `edx` dataset for movie $j$ rated by user $i$, then the formula \@ref(eq:UMGYE-model) describing the _UMGYDE Model_, for the current model, takes the form:
 
 \begin{equation}
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}) + s(d_{i,j}) + \varepsilon_{i,j}
