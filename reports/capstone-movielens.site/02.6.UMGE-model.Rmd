@@ -170,12 +170,12 @@ As we decided earlier (and outlined in the [UME Model Regularization] section), 
 The complete version of the source code provided in this section can be found in the [UMGE Model Regularization: Pre-configuration](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L961) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L961) script.
 :::
 
-As we explain earlier in the [UME Model Regularization: *Pre-configuration*], we need to do some pre-configuration to determine a suitable range of $\lambda$ for subsequent fine-tuning of our current model.
+As we explained earlier in the [UME Model Regularization: *Pre-configuration*], we need to do some pre-configuration to determine a suitable range of $\lambda$ for subsequent fine-tuning of our current model.
 
 As before, we are going to use the helper function [tune.model_param](#func.tune.model_param), but this time, passing another function as its argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value): the function [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) specifically design for the *UMGE Model*.
 
 ::: {.noteblock data-latex=""}
-The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) are described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UMGE Model: Regularization] of [Appendix A: Support Functions], respectively.
+The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) are described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UMGE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
 Below we provide the most significant part of the code that performs this operation:
