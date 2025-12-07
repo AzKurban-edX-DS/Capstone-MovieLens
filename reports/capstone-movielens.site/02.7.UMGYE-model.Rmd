@@ -263,40 +263,64 @@ Note that in the code snippet above, we use the custom data visualization functi
 \
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section are available in the [Re-train Regularized UMGYE Model for the best `lambda`](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1589) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1589) script on _GitHub_.
+The complete version of the source code provided in this section are available in the [UMGYE Model Regularization: Re-training with the best `lambda`](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1320) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1320) script on _GitHub_.
 :::
 
-Now, we can calculate the _Regularized UMGYE Effect_ by retraining our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we just calculated, for the definitive _Root Mean Squared Error_ calculation and use in subsequent models.
+Now, we can refine our _User+Movie+Genre+Year Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie+Genre+Year Effect Model* or *Regularized UMGYE Model* for short), for the definitive _RMSE_ calculation and use in subsequent models:
 
 ```{r, eval=FALSE}
-  rglr.UMGY_effect <- edx |> train_UMGY_effect(UMGYE.rglr.best_lambda)
+  best_result <- UMGYE.rglr.fine_tune.results$best_result
+  UMGYE.rglr.best_lambda <- best_result["param.best_value"]
 
+  rglr.UMGY_effect <- edx |> train_UMGY_effect(UMGYE.rglr.best_lambda)
 ```
 
 ::: {.noteblock data-latex=""}
-Here we use the helper function [train_UMGY_effect](#func.train_UMGY_effect) described above in the [UMGYE Model Regularization: Support Functions] section.
+In the code snippet above we use the [train_UMGY_effect](#func.train_UMGY_effect) function described in the *Models Training: Support Functions /* [UMGYE Model: Utility Functions] section of [Appendix A: Support Functions].
 :::
 
-We calculate the _Root Mean Squared Error_ for the ultimately computed _UMGYE Effect_ using the helper function [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) described above in the [UMGYE Model Regularization: Support Functions] section as follows:
+```{r, echo=FALSE}
+writeLines("*** The Best UMG Effect Fine-tuning Results ***")
+```
+```{r}
+UMGYE.rglr.fine_tune.results$best_result
+```
+
+```{r, echo=FALSE}
+writeLines("*** Regularized UMG Effect Structure ***")
+```
+```{r}
+str(rglr.UMGY_effect)
+
+print_log1("Regularized UMGE Model has been re-trained for the best `lambda`: %1.",
+         UMGYE.rglr.best_lambda)
+```
+
+Finally, we calculate the *RMSE* for the ultimately *Regularized UMGYE Model* and add the definitive result to our _Result Table_:
 ```{r, eval=FALSE}
   rglr.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(rglr.UMGY_effect)
 ```
-
-Finally, we add the definitive result for the current model to our _Result Table_:
+```{r}
+print_log1("The best RMSE for the UMGYE Model after being regularized: %1",
+         rglr.UMGY_effect.RMSE)
+```
 ```{r, eval=FALSE}
 RMSEs.ResultTibble.rglr.UMGYE <- RMSEs.ResultTibble.UMGYE |> 
   RMSEs.AddRow("Regularized UMGYE Model", 
                rglr.UMGY_effect.RMSE,
                comment = "Computed for `lambda` = %1" |>
                  msg.glue(UMGYE.rglr.best_lambda))
-
 ```
 ```{r}
 RMSE_kable(RMSEs.ResultTibble.rglr.UMGYE)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
+
+  - [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) (described in the *Models Training: Support Functions /* [UMGYE Model: Utility Functions] section) to calculate the *RMSE* for the *UMGYE Model*;
+  
+  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
 
 \newpage
