@@ -207,11 +207,12 @@ The complete version of the source code provided in this section can be found in
 :::
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
-For this purpose, we will use the helper function [model.tune.param_range](#func.model.tune.param_range), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) function (already mentioned above in the [UME Model Regularization: *Pre-configuration*] section) as the value of its argument [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value).
 
-::: {.noteblock data-latex=""}
-The function [model.tune.param_range](#func.model.tune.param_range) is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
-:::
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+For this purpose, we will use the helper function [model.tune.param_range](#func.model.tune.param_range), passing the  function (already mentioned above in the [UME Model Regularization: *Pre-configuration*] section) as the value of its argument [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value).
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
@@ -224,7 +225,7 @@ UM_effect.loop_starter <- c(endpoints["start"],
 ```
 
 ::: {.noteblock data-latex=""}
-The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
+The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in the code snippet above is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
 :::
 
 ```{r}
@@ -242,6 +243,11 @@ UME.rglr.fine_tune.results <-
 
 UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMSE"]
 ```
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UME Model: Regularization], respectively, of [Appendix A: Support Functions].
+:::
+
 ```{r, echo=FALSE}
 writeLines("*** Fine-tuning results object data structure ***")
 ```
