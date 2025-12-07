@@ -71,57 +71,6 @@ We have already explained that in the [UME Model Regularization] section.
 For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
 
-#### [train_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L74) Function {#func.train_UMGY_effect}
-\
-
-This function is used to train the current model using the _Train Set_ dataset passed in the `train_set` parameter.
-The following is the source code of the function:
-```{r eval=FALSE}
-train_UMGY_effect <- function(train_set, lambda = 0){
-  if (is.na(lambda)) {
-    stop("Function: train_UMGY_effect
-`lambda` is `NA`")
-  }
-  
-  train_set |>
-    calc_date_general_effect(lambda) |>
-    calc_UMGY_effect()
-}
-
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [train_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L74) function is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L74) script on _GitHub_.
-:::
-
-##### Return
-
-A data structure containing information about _User+Movie+Genre+Year (UMGY) Effect_. 
-
-#### [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) Function {#func.train_UMGY_effect.cv}
-\
-
-This function is used to train the current model using the _5-Fold Cross Validation_.
-The following is the source code of the function:
-```{r eval=FALSE}
-train_UMGY_effect.cv <- function(lambda = 0){
-  if (is.na(lambda)) {
-    stop("Function: train_UMGY_effect.cv
-`lambda` is `NA`")
-  }
-  
-  calc_date_general_effect.cv(lambda) |> calc_UMGY_effect()  
-}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [train_UMGY_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) function is also available in the [UMGYE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L1) section of the [UMGY-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L84) script on _GitHub_.
-:::
-
-##### Return
-
-A data structure containing information about _User+Movie+Genre+Year (UMGY) Effect_. 
-
 #### [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92) Function {#func.calc_UMGY_effect_MSE}
 \
 
@@ -278,15 +227,20 @@ str(cv.UMGY_effect)
 summary(cv.UMGY_effect)
 ```
 
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function described in section [UMGYE Model: Utility Functions] of [Appendix A: Support Functions] to *This Report*.
-:::
 
-We can now construct predictors and calculate the _RMSE_ of the current model using the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) function described above:
+We can now construct predictors and calculate the *RMSE* of the current model as shown in the code snippet below:
 
 ```{r, eval=FALSE}
 cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 
+```
+
+::: {.noteblock data-latex=""}
+In the code snippets above, we use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) and [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) functions described in the [UMGYE Model: Utility Functions] section of [Appendix A: Support Functions] to *This Report*.
+:::
+
+
+```{r, eval=FALSE}
 RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |> 
   RMSEs.AddRow("UMGYE Model", 
                cv.UMGY_effect.RMSE,
