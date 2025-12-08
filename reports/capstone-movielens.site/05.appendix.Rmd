@@ -6102,7 +6102,7 @@ The complete source code of the functions described in this section is available
 #### [calc_day_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L4) Function {#func.calc_day_general_effect}
 \
 
-This is a helper function that computes the *Day General Effect(hereafter DG Effect or DGI for short)* (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.args.lambda) argument value is non-default) of user ratings on a *given day since the earliest record* in the `edx` dataset, using a *training dataset* passed in the [train_set](#) argument, and is intended for use in other helper functions such as [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (both described below in this section).
+This is a helper function that computes the *Day General Effect(hereafter DG Effect or DGI for short)* (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.args.lambda) argument value is non-default) of user ratings on a *given day since the earliest record* in the `edx` dataset, using a *training dataset* passed in the [train_set](#func.calc_day_general_effect.args.train_set) argument, and is intended for use in other helper functions such as [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (both described below in this section).
 
 ::: { #func.calc_day_general_effect.usage .sidebar }
 ##### Usage
@@ -6114,7 +6114,7 @@ This is a helper function that computes the *Day General Effect(hereafter DG Eff
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the function `calc_day_general_effect` is called internally along with the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function from the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function (both described below).
+In the code snippet above, the function `calc_day_general_effect` is called internally along with the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function from the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function (both described below in this section).
 :::
 :::
 
@@ -6123,11 +6123,11 @@ In the code snippet above, the function `calc_day_general_effect` is called inte
 \
 
 ::: { #func.calc_day_general_effect.args.train_set .sidebar }
-  - **train_set:** Training dataset; 
+  - **train_set:** Training dataset containing data to compute the *DG Effect*; 
 
 :::
 ::: { #func.calc_day_general_effect.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter. 
+  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6144,7 +6144,7 @@ The regularization is committed through the *penalized regression* by computing 
 ##### Value
 \
 
-Data frame representing (*regularized* if [lambda](#func.calc_day_general_effect.args.lambda) argument value is non-default) *Date General Effect*.
+Data frame representing (*regularized* if [lambda](#func.calc_day_general_effect.args.lambda) argument value is non-default) *DG Effect*.
 :::
 
 ::: { #func.calc_day_general_effect.code .sidebar }
@@ -6226,7 +6226,7 @@ The regularization is committed through the *penalized regression* by computing 
 ##### Value
 \
 
-Data frame representing (*regularized* if [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default) *Date General Effect*.
+Data frame representing (*regularized* if [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default) *Day General Effect*.
 :::
 
 ::: { #func.calc_day_general_effect.cv.code .sidebar }
@@ -6270,7 +6270,7 @@ The complete source code of the [calc_day_general_effect.cv](https://github.com/
 #### [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) Function {#func.calc_UMGY_SmoothedDay_effect}
 \
 
-Builds the *User+Movie+Genre+Year Effect (UMGYDE) Model* based on the *Date General Effect* data structure returned by the [calc_date_general_effect](#func.calc_date_general_effect) or [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
+Builds the *User+Movie+Genre+Year Effect (UMGYDE) Model* based on the *Day General Effect* data structure returned by the [calc_date_general_effect](#func.calc_date_general_effect) or [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.usage .sidebar }
 ##### Usage
@@ -6292,7 +6292,7 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
 \
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.date_general_effect .sidebar }
-  - **date_general_effect:** Data frame representing the *Date General Effect*; 
+  - **date_general_effect:** Data frame representing the *Day General Effect*; 
 
 :::
 :::
