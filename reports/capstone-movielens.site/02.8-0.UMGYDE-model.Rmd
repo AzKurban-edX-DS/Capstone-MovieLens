@@ -39,7 +39,7 @@ For now, we omit the `lambda` parameter, implicitly using its default value `lam
 #### [calc_day_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L2) Function {#func.calc_day_general_effect}
 \
 
-This is a helper function that calculates the _Day General Effect_ of user ratings on a _given day since the earliest record_ in the `edx` dataset and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
+This is a helper function that calculates the _Day General Effect_ of user ratings on a _given day since the earliest record_ in the `edx` dataset and is intended to be used in other custom functions (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
 
 ##### Arguments
 \
@@ -84,7 +84,7 @@ A data frame object representing the _Day General Effect_.
 #### [calc_day_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L31) Function {#func.calc_day_general_effect.cv}
 \
 
-This is a helper function that calculates the _Day General Effect_ of user ratings on a _given day since the earliest record_ in the `edx` dataset using the _5-Fold Cross Validation_ and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)) described below.
+This is a helper function that calculates the _Day General Effect_ of user ratings on a _given day since the earliest record_ in the `edx` dataset using the _5-Fold Cross Validation_ and is intended to be used in other custom functions (such as [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)) described below.
 
 ##### Arguments
 \
@@ -129,7 +129,7 @@ A data frame object representing the _Day General Effect_.
 #### [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) Function {#func.loess_de}
 \
 
-This is a helper function that calculates the _Smoothed Day Effect_ of user ratings and is intended to be used in other functions and scripts (such as [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect)) described below.
+This is a helper function that calculates the _Smoothed Day Effect_ of user ratings and is intended to be used in other custom functions (such as [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect)) described below.
 
 ##### Arguments
 \
@@ -182,7 +182,7 @@ An object of class `loess` returned by the internally called function [stats::lo
 #### [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L74) Function {#func.calc_UMGY_SmoothedDay_effect}
 \
 
-This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
+This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other custom functions (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
 
 ##### Arguments
 \
@@ -256,7 +256,7 @@ A data frame object representing the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD
 #### [train_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L97) Function {#func.train_UMGY_SmoothedDay_effect}
 \
 
-This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
+This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other custom functions (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
 
 ##### Arguments
 \
@@ -322,7 +322,7 @@ A data frame object representing the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD
 #### [train_UMGY_SmoothedDay_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L111) Function {#func.train_UMGY_SmoothedDay_effect.cv}
 \
 
-This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)) described below.
+This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other custom functions (such as [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)) described below.
 
 ##### Arguments
 \
