@@ -2158,9 +2158,16 @@ Calculates the arithmetic mean taking into account the _regularization parameter
 \
 
 ```{r eval=FALSE}
-mean_reg(vals, lambda = 0, na.rm = TRUE)
-
+  UM.effect <- train_set |>
+    left_join(edx.user_effect, by = "userId") |>
+    mutate(resid = rating - (mu + a)) |> 
+    group_by(movieId) |>
+    summarise(b = mean_reg(resid, lambda), n = n())
 ```
+
+::: {.noteblock data-latex=""}
+In the sample code snippet above, the `mean_reg` function is called internally from the [train_user_movie_effect](#func.train_user_movie_effect) function described below in section *Models Training: Support Functions \* [UME Model: Utility Functions] of *this Appendix*.
+:::
 :::
 
 ::: { #func.mean_reg.args .sidebar }
@@ -2175,7 +2182,7 @@ mean_reg(vals, lambda = 0, na.rm = TRUE)
   - **lambda:** (0 by default) _Regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
 
 :::
-  - **na.rm:** a logical evaluating to TRUE or FALSE indicating whether NA values should be stripped before the computation proceeds.
+  - **na.rm:** (`TRUE` by default) Logical value indicating whether `NA` values should be stripped before the computation proceeds.
 
 :::
 
@@ -2184,17 +2191,19 @@ mean_reg(vals, lambda = 0, na.rm = TRUE)
 ##### Details
 \
 
-The function calculates the _penalized mean_ of the values passed in the [vals](#func.mean_reg.args.vals) argument as follows:
+This function is used in the *regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) to calculate the _penalized mean_ of the values passed in the [vals](#func.mean_reg.args.vals) argument as follows:
 $$
 \mu(\lambda) = \frac{1}{\lambda + N} \sum_{i=1}^{N} x_i
 $$
+
+::: {.noteblock data-latex=""}
+This is a helper function intended for use in other helper functions that compute *penalized estimates* during the *regularization* process of the models being trained[@IDS2_24-2]. All these functions are described below in section [Models Training: Support Functions] of *this Appendix*.
+:::
 
 When the [lambda](#func.mean_reg.args.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean:
 $$
 \mu = \frac{1}{N} \sum_{i=1}^{N} x_i
 $$
-
-We call this function internally from the functions that compute the _penalized estimates_  as described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the *Course Textbook (New Edition)*[@IDS2_24-2].
 
 ::: {.noteblock data-latex=""}
 If the [lambda](#func.mean_reg.args.lambda) parameter is `0` (the default), the function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean), calling with the parameter `trim = 0` (the default for the `base::mean` function).
@@ -2205,14 +2214,14 @@ If the [lambda](#func.mean_reg.args.lambda) parameter is `0` (the default), the 
 ##### Value
 \
 
-The [penalized mean](#func.mean_reg.details) of the values passed in the [vals](#func.mean_reg.args.vals) argument.
+(Numeric) *Penalized mean* of the values passed in the [vals](#func.mean_reg.args.vals) argument.
 :::
 
 ::: { #func.mean_reg.code .sidebar }
 ##### Source Code
 \
 
-The soure code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) function is shown below:
+The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L70) function is shown below:
 ```{r eval=FALSE}
 mean_reg <- function(vals, lambda = 0, na.rm = TRUE){
   if (is.na(lambda)) {
@@ -6277,9 +6286,6 @@ Builds the *User+Movie+Genre+Year Effect (UMGYDE) Model* based on the *Day Gener
 \
 
 ```{r eval=FALSE}
-  train_set |>
-    calc_date_general_effect(lambda) |>
-    calc_UMGY_SmoothedDay_effect()
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6326,11 +6332,6 @@ Data frame representing the *UMGYDE Model*.
 
 The source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) function is shown below:
 ```{r eval=FALSE}
-calc_UMGY_SmoothedDay_effect <- function(date_general_effect){
-  date_general_effect |>
-    group_by(year) |>
-    summarise(ye = mean(de, na.rm = TRUE))
-}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6488,7 +6489,6 @@ This helper function is used internally in the [UMGY_SmoothedDay_effect.predict.
 \
 
 ```{r eval=FALSE}
-    cv_fold_dat$validation_set |> UMGY_SmoothedDay_effect.predict(UMGYD_effect)
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6530,16 +6530,6 @@ The function calculates *Mean Squared Error (MSE)* for the *UMGYDE Model* passed
 
 The source code of the [UMGY_SmoothedDay_effect.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L125) function is shown below:
 ```{r eval=FALSE}
-UMGY_SmoothedDay_effect.predict <- function(test_set, UMGYD_effect){
-  test_set |>
-    left_join(edx.user_effect, by = "userId") |>
-    left_join(rglr.UM_effect, by = "movieId") |>
-    left_join(rglr.UMG_effect, by = "movieId") |>
-    left_join(date_days_map, by = "timestamp") |>
-    left_join(UMGYD_effect, by='year') |>
-    mutate(resid = rating - clamp(mu + a + b + g + ye)) |> 
-    pull(resid) |> mse()
-}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6563,7 +6553,6 @@ This helper function is used internally in the [calc_UMGY_SmoothedDay_effect.MSE
 \
 
 ```{r eval=FALSE}
-    cv_fold_dat$validation_set |> calc_UMGY_SmoothedDay_effect.MSE(UMGYD_effect)
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6605,16 +6594,6 @@ The function calculates *Mean Squared Error (MSE)* for the *UMGYDE Model* passed
 
 The source code of the [calc_UMGY_SmoothedDay_effect.MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L141) function is shown below:
 ```{r eval=FALSE}
-calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, UMGYD_effect){
-  test_set |>
-    left_join(edx.user_effect, by = "userId") |>
-    left_join(rglr.UM_effect, by = "movieId") |>
-    left_join(rglr.UMG_effect, by = "movieId") |>
-    left_join(date_days_map, by = "timestamp") |>
-    left_join(UMGYD_effect, by='year') |>
-    mutate(resid = rating - clamp(mu + a + b + g + ye)) |> 
-    pull(resid) |> mse()
-}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6638,7 +6617,6 @@ This helper function is used internally in the [calc_UMGY_effect_RMSE.cv](#func.
 \
 
 ```{r eval=FALSE}
-  UMGY_effect_RMSE <- sqrt(calc_UMGY_SmoothedDay_effect.MSE.cv(UMGYD_effect))
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6682,18 +6660,6 @@ The *MSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross
 
 The simplified version of the source code of the [calc_UMGY_SmoothedDay_effect.MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L147) function is shown below:
 ```{r eval=FALSE}
-calc_UMGY_SmoothedDay_effect.MSE.cv <- function(UMGYD_effect){
-  start <- put_start_date()
-  UMGY_effect_MSEs <- sapply(edx_CV, function(cv_fold_dat){
-    cv_fold_dat$validation_set |> calc_UMGY_SmoothedDay_effect.MSE(UMGYD_effect)
-  })
-  put_end_date(start)
-  put_log1("Function: calc_UMGY_SmoothedDay_effect.MSE.cv
-Date (Year) Effect MSE values have been computed for the %1-Fold Cross Validation samples.", 
-           CVFolds_N)
-  
-  mean(UMGY_effect_MSEs)
-}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6717,7 +6683,6 @@ This helper function is also used internally in the [regularize.test_lambda.UMGY
 \
 
 ```{r eval=FALSE}
-cv.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(cv.UMGYD_effect)
 ```
 :::
 
@@ -6757,14 +6722,6 @@ The *RMSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cros
 
 The source code of the [calc_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) function is shown below:
 ```{r eval=FALSE}
-calc_UMGY_SmoothedDay_effect.RMSE.cv <- function(UMGYD_effect){
-  UMGY_effect_RMSE <- sqrt(calc_UMGY_effect_MSE.cv(UMGYD_effect))
-  put_log2("%1-Fold Cross Validation ultimate RMSE: %2", 
-           CVFolds_N, 
-           UMGY_effect_RMSE)
-  
-  UMGY_effect_RMSE
-}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6917,11 +6874,6 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 \
 
 ```{r eval=FALSE}
-  lambdas <- seq(0, 512, 32)
-  cv.UMGYDE.preset.result <- 
-    tune.model_param(lambdas, 
-                     regularize.test_lambda.UMGYD_effect.cv,
-                     steps.beyond_min = 16)
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6968,15 +6920,6 @@ The *Root Mean Squared Errors (RMSE)* value computed for the UMGYDE Model applyi
 
 The source code of the [regularize.test_lambda.UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L130) function is shown below:
 ```{r eval=FALSE}
-regularize.test_lambda.UMGYD_effect.cv <- function(lambda){
-  if (is.na(lambda)) {
-    stop("Function: regularize.test_lambda.UMGYD_effect.cv
-`lambda` is `NA`")
-  }
-  
-  train_UMGY_effect.cv(lambda) |>
-    calc_UMGY_effect_RMSE.cv()
-}
 ```
 
 ::: {.noteblock data-latex=""}
