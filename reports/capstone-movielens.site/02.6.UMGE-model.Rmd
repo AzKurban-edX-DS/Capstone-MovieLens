@@ -84,7 +84,7 @@ as a residual:
 The complete source code of builing and training the current model is available in the [UMGE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L878) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L878) script on _GitHub_.
 :::
 
-Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L902) for training our model using the `K-Fold Cross Validation` method, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use `K = 5`):
+Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L902) for training our model using the *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
 ```{r, fn.train_user_movie_genre_effect.cv,   eval=FALSE}
 cv.UMG_effect <- train_user_movie_genre_effect.cv()
 ```

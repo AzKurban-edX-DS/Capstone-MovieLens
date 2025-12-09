@@ -626,7 +626,7 @@ We are going to use our helper function [train_UMGY_SmoothedDay_effect.cv](#func
 
 We will start by calling the `train_UMGY_SmoothedDay_effect.cv` with default parameters, which means that the `loess` function will be implicitly called with `degree = 1` and `span = 0.75` parameters (the default values for our custom [loess_de](#func.loess_de) function, which, in turn, calls the `loess` under the hood).
 
-Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1495) for training our model using the `K-Fold Cross Validation` method, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use `K = 5`):
+Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1495) for training our model using the *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
 ```{r, eval=FALSE}
   cv.UMGYDE.default_params <- train_UMGY_SmoothedDay_effect.cv()
 ```
@@ -1206,7 +1206,7 @@ where $n_d$ is the number of ratings made on the day $d$.
 
 As with the previous models, we implement the _Regularization_ method for the current model in the following three steps:
 
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the `K-Fold Cross Validation` samples (in *this Project* we use `K = 5`);
+  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *K-Fold Cross Validation* samples (in *this Project* we use $K = 5$);
   
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
   

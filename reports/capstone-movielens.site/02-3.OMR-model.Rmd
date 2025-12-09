@@ -44,7 +44,7 @@ mu.RMSE
 
 The following custom functions described in [Appendix A: Support Functions], are used in the code snippets above:
 
-  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model: Helper Functions]) to compute *Mean Squared Errors* with the use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use `K = 5`);
+  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model: Helper Functions]) to compute *Mean Squared Errors* with the use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
 
   - [data.plot](#func.data.plot) (described in section [Data Visualization Functions]) for the _Mean Squared Errors_ data visualization.
 

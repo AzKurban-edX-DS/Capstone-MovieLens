@@ -76,7 +76,7 @@ str(edx.user_effect)
 Now, we are ready to compute the _Mean Squared Errors_ for samples used in _K-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A](#appndx_a)).
 
 ::: {.noteblock data-latex=""}
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use `K = 5`).
+The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
 :::
 
 The code that performs this operation is shown below:

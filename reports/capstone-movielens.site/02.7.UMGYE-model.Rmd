@@ -69,9 +69,7 @@ takes the following form:
 The complete source code of building and training the current model is available in the [UMGYE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1163) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1163) script on _GitHub_.
 :::
 
-Below, we provide the most significant line of the code for training our model using the `5-Fold Cross Validation` method:
-
-Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1177) for training our model using the `K-Fold Cross Validation` method, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use `K = 5`):
+Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1177) for training our model using the *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
 ```{r, eval=FALSE}
   cv.UMGY_effect <- train_UMGY_effect.cv()
 ```
@@ -132,7 +130,7 @@ where $n_v$ is the number of ratings made in year $v$.
 
 As with the previous models, we implement the _Regularization_ method for the current model in the following three steps:
 
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the `K-Fold Cross Validation` samples (in *this Project* we use `K = 5`);
+  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *K-Fold Cross Validation* samples (in *this Project* we use $K = 5$);
   
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
   
