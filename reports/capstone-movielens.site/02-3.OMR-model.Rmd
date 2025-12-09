@@ -44,7 +44,7 @@ mu.RMSE
 
 The following custom functions described in [Appendix A: Support Functions], are used in the code snippets above:
 
-  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model: Helper Functions]) to compute _Mean Squared Errors_ using _5-Fold Cross-Validation_ method;
+  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model: Helper Functions]) to compute *Mean Squared Errors* with the use of *K-Fold Cross-Validation*, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use `K = 5`);
 
   - [data.plot](#func.data.plot) (described in section [Data Visualization Functions]) for the _Mean Squared Errors_ data visualization.
 
@@ -65,7 +65,7 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove that by
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model: Helper Functions] section of [Appendix A: Support Functions] to calculate *RMSEs* for the sequence of the deviation values.
+In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model: Helper Functions] section of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
 Let's make a quick investigation of the `deviation.RMSE` result we have just got: 
@@ -89,7 +89,7 @@ print_log1("Is the previously computed RMSE the best for the current model: %1",
 ```
 
 ::: {.noteblock data-latex=""}
-To print the log, we use the function [print_log1](#func.print_log1) described in the [Logging Functions] section of [Appendix A: Support Functions].
+To print the log, we use the function [print_log1](#func.print_log1) described in the [Logging Functions] section of [Appendix A](#appndx_a).
 :::
 
 ```{r eval=FALSE}
@@ -101,7 +101,7 @@ RMSE_kable(RMSEs.ResultTibble.OMR)
 ```
 
 ::: {.noteblock data-latex=""}
-To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]

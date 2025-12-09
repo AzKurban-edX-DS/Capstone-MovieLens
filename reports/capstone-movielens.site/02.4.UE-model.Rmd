@@ -73,17 +73,21 @@ hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
 str(edx.user_effect)
 ```
 
-Now, we are ready to compute the _Mean Squared Errors_ from the _5-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A: Support Functions]):
+Now, we are ready to compute the _Mean Squared Errors_ for samples used in _K-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A](#appndx_a)).
+
+::: {.noteblock data-latex=""}
+The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use `K = 5`).
+:::
+
+The code that performs this operation is shown below:
 ```{r eval=FALSE}
 put_log("Computing the RMSE taking into account user effects...")
-start <- put_start_date()
 edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
     left_join(edx.user_effect, by = "userId") |>
     mutate(resid = rating - clamp(mu + a)) |> 
     pull(resid) |> mse()
 })
-put_end_date(start)
 ```
 ```{r}
 data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
@@ -94,7 +98,7 @@ data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
 ```
 
 ::: {.noteblock data-latex=""}
-For the _Mean Squared Errors_ data visualization we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Visualization Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions].
+For the _Mean Squared Errors_ data visualization we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Visualization Functions](#appndx_a.data_helper.functions) section of [Appendix A](#appndx_a).
 :::
 
 Finally, we calculate the `RMSE` as the _square root_ of the average of the _Mean Squared Errors_ we obtained through the _5-Fold Cross-Validation_ above:   
@@ -109,7 +113,7 @@ RMSE_kable(RMSEs.ResultTibble.UE)
 ```
 
 ::: {.noteblock data-latex=""}
-To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+To print the table above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 \newpage

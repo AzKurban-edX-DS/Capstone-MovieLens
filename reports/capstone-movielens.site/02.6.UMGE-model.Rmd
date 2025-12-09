@@ -84,13 +84,13 @@ as a residual:
 The complete source code of builing and training the current model is available in the [UMGE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L878) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L878) script on _GitHub_.
 :::
 
-Below, we provide the most significant part of the code for training our model using the `5-Fold Cross Validation` method:
+Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L902) for training our model using the `K-Fold Cross Validation` method, where the `K` is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use `K = 5`):
 ```{r, fn.train_user_movie_genre_effect.cv,   eval=FALSE}
 cv.UMG_effect <- train_user_movie_genre_effect.cv()
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above we use the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section of [Appendix A: Support Functions].
+In the code snippet above we use the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
 
@@ -213,7 +213,7 @@ cv.UMGE.preset.result$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A: Support Functions].
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -293,7 +293,7 @@ UMGE.rglr.fine_tune.results$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A: Support Functions]) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
+Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A](#appndx_a)) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
 :::
 
 \newpage
@@ -314,7 +314,7 @@ Now, we can refine our _User+Movie+Genre Effect Model_ by retraining on the enti
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above we use the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) function described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section of [Appendix A: Support Functions].
+In the code snippet above we use the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) function described in the *Models Training: Support Functions /* [UMGE Model: Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
 ```{r, echo=FALSE}
