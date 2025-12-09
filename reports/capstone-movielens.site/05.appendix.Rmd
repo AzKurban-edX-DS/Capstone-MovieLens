@@ -2166,7 +2166,7 @@ Calculates the arithmetic mean taking into account the _regularization parameter
 ```
 
 ::: {.noteblock data-latex=""}
-In the sample code snippet above, the `mean_reg` function is called internally from the [train_user_movie_effect](#func.train_user_movie_effect) function described below in section *Models Training: Support Functions \* [UME Model: Utility Functions] of *this Appendix*.
+In the sample code snippet above, the `mean_reg` function is called internally from the [train_user_movie_effect](#func.train_user_movie_effect) function described below in section *Models Training: Support Functions /* [UME Model: Utility Functions] of *this Appendix*.
 :::
 :::
 
@@ -2179,7 +2179,7 @@ In the sample code snippet above, the `mean_reg` function is called internally f
 
 :::
 ::: { #func.mean_reg.args.lambda .sidebar }
-  - **lambda:** (0 by default) _Regularization parameter_ $\lambda$ used in the _Regularization techniques_. 
+  - **lambda:** (0 by default) _Regularization parameter_ $\lambda$. 
 
 :::
   - **na.rm:** (`TRUE` by default) Logical value indicating whether `NA` values should be stripped before the computation proceeds.
