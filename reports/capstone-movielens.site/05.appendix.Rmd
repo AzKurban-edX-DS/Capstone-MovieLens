@@ -6276,7 +6276,7 @@ The complete source code of the [calc_day_general_effect.cv](https://github.com/
 
 \newpage
 
-#### [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) Function {#func.loess_de}
+#### [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) Function {#func.loess_de}
 \
 
 Using local fitting, fits a polynomial surface determined by the *Day General Effect* (hereafter *DG Effect* or *DGE* for short) information passed in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument.
