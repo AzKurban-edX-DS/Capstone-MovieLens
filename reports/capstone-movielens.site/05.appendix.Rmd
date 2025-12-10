@@ -4910,7 +4910,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ::: {.noteblock data-latex=""}
 In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
 
-Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UM_effect.cv.details) section of *This Description* below.
+Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UM_effect.cv.details) section of *this Description* below.
 :::
 :::
 
@@ -5363,7 +5363,7 @@ cv.UMGE.preset.result <-
 ::: {.noteblock data-latex=""}
 In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
 
-Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMG_effect.cv.details) section of *This Description* below.
+Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMG_effect.cv.details) section of *this Description* below.
 :::
 :::
 
@@ -5634,7 +5634,7 @@ This is a helper function that is intended to be used internally in the followin
   - [train_UMGY_effect.cv](#func.train_UMGY_effect.cv).
 
 
-An example of using it in the [train_UMGY_effect](#func.train_UMGY_effect) function is shown above in the [Usage](#func.calc_UMGY_effect.usage) section of *This Description*:
+An example of using it in the [train_UMGY_effect](#func.train_UMGY_effect) function is shown above in the [Usage](#func.calc_UMGY_effect.usage) section of *this Description*:
 
 
 :::
@@ -6061,7 +6061,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ::: {.noteblock data-latex=""}
 In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
 
-Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGY_effect.cv.details) section of *This Description* below.
+Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGY_effect.cv.details) section of *this Description* below.
 :::
 :::
 
@@ -6372,17 +6372,20 @@ The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) Function {#func.calc_UMGY_SmoothedDay_effect}
 \
 
-Builds the *User+Movie+Genre+Year Effect (UMGYDE) Model* based on the *Day General Effect* data structure returned by the [calc_day_general_effect](#func.calc_day_general_effect) or [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
+Builds the *User+Movie+Genre+Year+SmoothedDay Effect (hereafter UMGYDE for short) Model* based on the *Day General Effect* (*DG Effect* for short) data structure returned by the [calc_day_general_effect](#func.calc_day_general_effect) or [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
+  train_set |> 
+    calc_day_general_effect(lambda) |>
+    calc_UMGY_SmoothedDay_effect(degree, span)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called internally from the [train_UMGY_effect](#func.train_UMGY_effect) function described below.
+In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called internally from the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function described below.
 :::
 :::
 
@@ -6391,7 +6394,16 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
 \
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.date_general_effect .sidebar }
-  - **date_general_effect:** Data frame representing the *Day General Effect*; 
+  - **date_general_effect:** Dataframe object representing the *DG Effect* (to pass in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument to the internally called [loess_de](#func.loess_de) described above); 
+
+:::
+
+::: { #func.calc_UMGY_SmoothedDay_effect.args. .sidebar }
+  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to be used (passed in the same-named argument to the internally called [loess_de](#func.loess_de) described above); 
+
+:::
+::: { #func.calc_UMGY_SmoothedDay_effect.args. .sidebar }
+  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$, which controls the degree of smoothing (passed in the same-named argument to the internally called [loess_de](#func.loess_de) described above); 
 
 :::
 :::
@@ -6400,16 +6412,14 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
 ##### Details
 \
 
-This is a helper function that is intended to be used internally in the following functions (both described below in this section):
+This auxiliary function is a wrapper for the [loess_de](#func.loess_de) described above, intended to be used internally in the following helper functions (both described below in this section):
 
-  - [train_UMGY_effect](#func.train_UMGY_effect);
+  - [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect);
   
-  - [train_UMGY_effect.cv](#func.train_UMGY_effect.cv).
+  - [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv).
 
 
-An example of using it in the [train_UMGY_effect](#func.train_UMGY_effect) function is shown above in the [Usage](#func.calc_UMGY_SmoothedDay_effect.usage) section of *This Description*:
-
-
+An example of using it in the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function is shown above in the [Usage](#func.calc_UMGY_SmoothedDay_effect.usage) section of *this Description*:
 :::
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.value .sidebar }
@@ -6423,12 +6433,27 @@ Data frame representing the *UMGYDE Model*.
 ##### Source Code
 \
 
-The source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) function is shown below:
+Below is a slightly simplified version of the source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) function:
 ```{r eval=FALSE}
+calc_UMGY_SmoothedDay_effect <- function(day_gen_effect, 
+                                         degree = NA, 
+                                         span = NA){
+  fit <- day_gen_effect |> loess_de(degree, span)
+  smth_day_effect <- day_gen_effect |> mutate(de_smoothed = fit$fitted)
+  
+  put_log2("Function `calc_UMGY_SmoothedDay_effect`: 
+Model has been trained using `loess` function with the following parameters:
+degree: %1;
+span: %2.",
+           degree,
+           span)
+  
+  smth_day_effect
+}
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) script on _GitHub_.
+The complete source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) function is available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) script on _GitHub_.
 :::
 :::
 
@@ -6438,7 +6463,7 @@ The source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurba
 #### [train_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L99) Function {#func.train_UMGY_SmoothedDay_effect}
 \
 
-Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument value is non-default) the *User+Movie+Genre+Year Effect (UMGYDE) Model* using the training sample of the `Movielens` dataset passed in the [train_set](#func.train_UMGY_SmoothedDay_effect.args.train_set) argument.
+Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument value is non-default) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* using the training sample of the `Movielens` dataset passed in the [train_set](#func.train_UMGY_SmoothedDay_effect.args.train_set) argument.
 
 ::: { #func.train_UMGY_SmoothedDay_effect.usage .sidebar }
 ##### Usage
@@ -6498,7 +6523,7 @@ The source code of the [train_UMGY_SmoothedDay_effect](https://github.com/AzKurb
 #### [train_UMGY_SmoothedDay_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L113) Function {#func.train_UMGY_SmoothedDay_effect.cv}
 \
 
-Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument value is non-default) the *User+Movie+Genre+Year Effect (UMGYDE) Model* with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument value is non-default) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
 This helper function is also used internally in the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function (described below in section [UMGYDE Model: Regularization] of *this Appendix*) as shown in the [Usage](#func.train_UMGY_SmoothedDay_effect.cv.usage) subsection of *This Function's Description Section* below.
@@ -6841,7 +6866,7 @@ The complete source code of the functions described in this section is available
 #### [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L99) Function {#func.regularize.train_UMGYD_effect}
 \
 
-Trains (and optionally *regularizes* if the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument value is non-default) the *User+Movie+Genre+Year Effect (UMGYDE) Model* using the training sample of the `Movielens` dataset passed in the [train_set](#func.regularize.train_UMGYD_effect.args.train_set) argument.
+Trains (and optionally *regularizes* if the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument value is non-default) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* using the training sample of the `Movielens` dataset passed in the [train_set](#func.regularize.train_UMGYD_effect.args.train_set) argument.
 
 ::: { #func.regularize.train_UMGYD_effect.usage .sidebar }
 ##### Usage
@@ -6901,7 +6926,7 @@ The source code of the [regularize.train_UMGYD_effect](https://github.com/AzKurb
 #### [regularize.train_UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L86) Function {#func.regularize.train_UMGYD_effect.cv}
 \
 
-Trains and *regularizes* the *User+Movie+Genre+Year Effect (UMGYDE) Model* with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+Trains and *regularizes* the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
 The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use `K = 5`).
@@ -6967,7 +6992,7 @@ The source code of the [regularize.train_UMGYD_effect.cv](https://github.com/AzK
 #### [regularize.test_lambda.UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L130) Function {#func.regularize.test_lambda.UMGYD_effect.cv}
 \
 
-Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.test_lambda.UMGYD_effect.cv.args.lambda) argument for the *User+Movie+Genre+Year Effect (UMGYDE) Model* in the *regularization process* using *penalized approach* with use of *K-Fold Cross-Validation*.
+Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.test_lambda.UMGYD_effect.cv.args.lambda) argument for the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* in the *regularization process* using *penalized approach* with use of *K-Fold Cross-Validation*.
 
 ::: { #func.regularize.test_lambda.UMGYD_effect.cv.usage .sidebar }
 ##### Usage
@@ -6979,7 +7004,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ::: {.noteblock data-latex=""}
 In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
 
-Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGYD_effect.cv.details) section of *This Description* below.
+Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGYD_effect.cv.details) section of *this Description* below.
 :::
 :::
 
