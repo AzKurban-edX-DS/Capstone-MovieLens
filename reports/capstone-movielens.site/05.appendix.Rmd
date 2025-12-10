@@ -6353,7 +6353,7 @@ Object of class `loess` returned by the internally called function [stats::loess
 ##### Source Code
 \
 
-The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L71) function is shown below:
+The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) function is shown below:
 ```{r eval=FALSE}
 loess_de <- function(de_bias.dat, degree = NA, span = NA){
   if(is.na(degree)) degree = 1
