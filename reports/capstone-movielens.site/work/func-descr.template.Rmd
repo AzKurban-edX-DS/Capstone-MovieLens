@@ -74,8 +74,6 @@ The source code of the [log_func_tmpl](https://github.com/AzKurban-edX-DS/Capsto
 \
 
 ```{r eval=FALSE}
-cmmn_helper_func.tmpl()
-
 ```
 :::
 
@@ -660,8 +658,6 @@ The complete source code of the functions described in this section is available
 \
 
 ```{r eval=FALSE}
-umgye_rglr_helper.tmpl()
-
 ```
 :::
 

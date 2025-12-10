@@ -6276,10 +6276,103 @@ The complete source code of the [calc_day_general_effect.cv](https://github.com/
 
 \newpage
 
+#### [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) Function {#func.loess_de}
+\
+
+Using local fitting, fits a polynomial surface determined by the *Day General Effect* (hereafter *DG Effect* or *DGE* for short) information passed in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument.
+
+::: {.noteblock data-latex=""}
+In *this Project*, the *DGE* data object to be passed in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument is returned by the [calc_day_general_effect](#func.calc_day_general_effect) and [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) functions (both described above).
+:::
+
+::: { #func.loess_de.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+  fit <- day_gen_effect |> loess_de(degree, span)
+```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, the `loess_de` is called internally from the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function described below.
+:::
+:::
+
+::: { #func.loess_de.args .sidebar }
+##### Arguments
+\
+
+::: { #func.loess_de.args.de_bias.dat .sidebar }
+###### ***de_bias.dat***
+\
+
+Dataframe object representing the *Day General Effect* data. 
+
+:::
+::: { #func.loess_de.args.degree .sidebar }
+###### ***degree***
+\
+
+(Integer, $NA$ by default) The degree of the polynomials to be used (passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function).
+
+::: {.noteblock data-latex=""}
+When the value is $NA$ (default), $1$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
+:::
+:::
+::: { #func.loess_de.args.span .sidebar }
+###### ***span***
+\
+
+(Numeric, $NA$ by default ) The parameter $\alpha$, which controls the degree of smoothing (passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function).
+
+::: {.noteblock data-latex=""}
+When the value is $NA$ (default), $0.75$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
+:::
+:::
+:::
+
+::: { #func.loess_de.details .sidebar }
+##### Details
+\
+
+This function is a wrapper for the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `R` function, which is called internally to make a required fit.
+
+::: {.noteblock data-latex=""}
+This is a helper function intended for use in other helper functions, such as the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described below in this section.
+:::
+:::
+
+::: { #func.loess_de.value .sidebar }
+##### Value
+\
+
+Object of class `loess` returned by the internally called function [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess).
+:::
+
+::: { #func.loess_de.code .sidebar }
+##### Source Code
+\
+
+The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L71) function is shown below:
+```{r eval=FALSE}
+loess_de <- function(de_bias.dat, degree = NA, span = NA){
+  if(is.na(degree)) degree = 1
+  if(is.na(span)) span = 0.75
+  loess(de ~ days, span = span, degree = degree, data = de_bias.dat)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) script on _GitHub_.
+:::
+:::
+
+\newpage
+
 #### [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) Function {#func.calc_UMGY_SmoothedDay_effect}
 \
 
-Builds the *User+Movie+Genre+Year Effect (UMGYDE) Model* based on the *Day General Effect* data structure returned by the [calc_date_general_effect](#func.calc_date_general_effect) or [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
+Builds the *User+Movie+Genre+Year Effect (UMGYDE) Model* based on the *Day General Effect* data structure returned by the [calc_day_general_effect](#func.calc_day_general_effect) or [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.usage .sidebar }
 ##### Usage
@@ -6373,7 +6466,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 ##### Details
 \
 
-Under the hood, this function internally calls the [calc_date_general_effect](#func.calc_date_general_effect) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
+Under the hood, this function internally calls the [calc_day_general_effect](#func.calc_day_general_effect) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
@@ -6438,7 +6531,7 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is ca
 \
 
 
-Under the hood, this function internally calls the [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
+Under the hood, this function internally calls the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
@@ -6464,7 +6557,7 @@ train_UMGY_SmoothedDay_effect.cv <- function(lambda = 0){
 `lambda` is `NA`")
   }
   
-  calc_date_general_effect.cv(lambda) |> calc_UMGY_effect()  
+  calc_day_general_effect.cv(lambda) |> calc_UMGY_effect()  
 }
 ```
 
@@ -6731,11 +6824,18 @@ The source code of the [calc_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com
 
 \newpage
 
+### UMGYDE Model: Tuning `loess` Params
+\
+
+::: {.noteblock data-latex=""}
+The complete source code of the functions described in this section is available in the  [Tuning `loess` Parameters](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L172) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L172) script on _GitHub_.
+:::
+
 ### UMGYDE Model: Regularization
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code of the functions described in this section is available in the  [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L224) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) script on _GitHub_.
+The complete source code of the functions described in this section is available in the  [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L224) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L224) script on _GitHub_.
 :::
 
 #### [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L99) Function {#func.regularize.train_UMGYD_effect}
@@ -6769,7 +6869,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.regularize.train_UMGY
 ##### Details
 \
 
-Under the hood, this function internally calls the [calc_date_general_effect](#func.calc_date_general_effect) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
+Under the hood, this function internally calls the [calc_day_general_effect](#func.calc_day_general_effect) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
@@ -6835,7 +6935,7 @@ In the above code snippet, the `regularize.train_UMGYD_effect.cv` function is ca
 
 This is a helper function that is used internally in the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function described below in this section as shown in the [Usage](#func.regularize.train_UMGYD_effect.cv.usage) section of *this Description* above.
 
-Under the hood, it calls internally the [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
+Under the hood, it calls internally the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
 
 ::: {.noteblock data-latex=""}
 For the *regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) to be correctly applied to the model being trained, the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.cv.args.lambda) argument must be greater than zero (when the $\lambda$ is $0$ the *regularization* is disabled).
