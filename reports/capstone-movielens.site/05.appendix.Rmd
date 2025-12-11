@@ -6501,7 +6501,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 ##### Details
 \
 
-Internally, this function calls the helper functions [calc_day_general_effect](#func.calc_day_general_effect) and [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) (both described above in this section), passing the values of the arguments [degree](#func.calc_UMGY_SmoothedDay_effect.args.degree) and [span](#func.calc_UMGY_SmoothedDay_effect.args.span) to the latter function in the same-named arguments.
+Internally, this function calls the helper functions [calc_day_general_effect](#func.calc_day_general_effect) and [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) (both described above in this section), passing the values of the arguments [degree](#func.train_UMGY_SmoothedDay_effect.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.args.span) to the latter function in the same-named arguments.
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
@@ -6589,7 +6589,7 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is ca
 ##### Details
 \
 
-Under the hood, this function internally calls the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) functions (both described above in this section).
+Internally, this function calls the auxiliary functions [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) (both described above in this section), passing the values of the arguments [degree](#func.train_UMGY_SmoothedDay_effect.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.cv.args.span) to the latter function in the same-named arguments..
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
