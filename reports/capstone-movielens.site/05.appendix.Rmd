@@ -6313,7 +6313,7 @@ Dataframe object representing the *Day General Effect* data.
 ###### ***degree***
 \
 
-(Integer, $NA$ by default) The degree of the polynomials to be used (passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function).
+(Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
 
 ::: {.noteblock data-latex=""}
 When the value is $NA$ (default), $1$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
@@ -6323,7 +6323,7 @@ When the value is $NA$ (default), $1$ is passed in the same-named argument to th
 ###### ***span***
 \
 
-(Numeric, $NA$ by default ) The parameter $\alpha$, which controls the degree of smoothing (passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function).
+(Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
 
 ::: {.noteblock data-latex=""}
 When the value is $NA$ (default), $0.75$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
@@ -6398,11 +6398,11 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to be used (passed in the same-named argument to the internally called [loess_de](#func.loess_de) described above); 
+  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above; 
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.span .sidebar }
-  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$, which controls the degree of smoothing (passed in the same-named argument to the internally called [loess_de](#func.loess_de) described above); 
+  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above. 
 
 :::
 :::
@@ -6484,11 +6484,11 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to be used (passed in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above); 
+  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.span .sidebar }
-  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$, which controls the degree of smoothing (passed in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above); 
+  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above. 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.lambda .sidebar }
@@ -6549,7 +6549,7 @@ The source code of the [train_UMGY_SmoothedDay_effect](https://github.com/AzKurb
 Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument value is non-default) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
-This helper function is also used internally in the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function (described below in section [UMGYDE Model: Regularization] of *this Appendix*) as shown in the [Usage](#func.train_UMGY_SmoothedDay_effect.cv.usage) subsection of *This Function's Description Section* below.
+This function is also called within other helper functions, such as the [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) and [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv) function (described below in sections [UMGYDE Model: Tuning `loess` Params] and [UMGYDE Model: Regularization] of *this Appendix*, respectively). The usage in the latter function is shown in the [Usage](#func.train_UMGY_SmoothedDay_effect.cv.usage) section of *this Description* below.
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.usage .sidebar }
@@ -6557,10 +6557,13 @@ This helper function is also used internally in the [regularize.test_lambda.UMGY
 \
 
 ```{r eval=FALSE}
+  train_UMGY_SmoothedDay_effect.cv(best_degree, 
+                                   best_span, 
+                                   lambda)
 ```
 
 ::: {.noteblock data-latex=""}
-In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function, along with the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) function (both described below in [UMGYDE Model: Regularization] section and this section, respectively).
+In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is called internally from the [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv) function described below in section [UMGYDE Model: Regularization] of *this Appendix*.
 :::
 :::
 
@@ -6568,6 +6571,14 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is ca
 ##### Arguments
 \
 
+::: { #func.train_UMGY_SmoothedDay_effect.cv.args.degree .sidebar }
+  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
+
+:::
+::: { #func.train_UMGY_SmoothedDay_effect.cv.args.span .sidebar }
+  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above. 
+
+:::
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.lambda .sidebar }
   - **lambda:** (0 by default) Regularization parameter $\lambda$. 
 
@@ -6578,8 +6589,7 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is ca
 ##### Details
 \
 
-
-Under the hood, this function internally calls the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
+Under the hood, this function internally calls the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) functions (both described above in this section).
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
@@ -6590,7 +6600,7 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 ##### Value
 \
 
-Data frame representing the *UMGYDE Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+Data frame representing the *UMGYDE Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument value is non-default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.code .sidebar }
@@ -6599,13 +6609,16 @@ Data frame representing the *UMGYDE Model* trained (and also *regularized* if th
 
 The source code of the [train_UMGY_SmoothedDay_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L113) function is shown below:
 ```{r eval=FALSE}
-train_UMGY_SmoothedDay_effect.cv <- function(lambda = 0){
+train_UMGY_SmoothedDay_effect.cv <- function(degree = NA, 
+                                             span = NA,
+                                             lambda = 0){
   if (is.na(lambda)) {
     stop("Function: train_UMGY_SmoothedDay_effect.cv
 `lambda` is `NA`")
   }
   
-  calc_day_general_effect.cv(lambda) |> calc_UMGY_effect()  
+  calc_day_general_effect.cv(lambda) |>
+    calc_UMGY_SmoothedDay_effect(degree, span)
 }
 ```
 
