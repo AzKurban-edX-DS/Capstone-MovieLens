@@ -1,7 +1,7 @@
 # Conclusion
 \
 
-In this project, a _Machine Learning Algorithm_ was successfully developed for a _Recommender System_ (hereinafter referred to as _RS MLA_) to predict movie ratings using the [10M version of the MovieLens](http://grouplens.org/datasets/movielens/10m/) dataset. 
+In this project, a _Machine Learning Algorithm_ was successfully developed for a _Recommender System_ (hereafter referred to as _RS MLA_) to predict movie ratings using the [10M version of the MovieLens](http://grouplens.org/datasets/movielens/10m/) dataset. 
 
 Since it was needed to convert the original dataset into a _Data Source_, suitable for processing by the _RS MLA_, a package [edx.capstone.movielens.data], specifically designed for this purpose, was developed and used, providing the _RS MLA_ with the necessary datasets.
 

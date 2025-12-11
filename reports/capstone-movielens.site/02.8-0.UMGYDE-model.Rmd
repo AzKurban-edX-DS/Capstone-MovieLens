@@ -1,9 +1,10 @@
 ## User+Movie+Genre+Year+Day Effect (UMGYDE) Model
 \
+
 ### Mathematical Description of the UMGYDE Model
 \
 
-If we define $d_{i,j}$ as the _number of days since the earliest record_ in the `edx` dataset for movie $j$ rated by user $i$, then the formula \@ref(eq:UMGYDE-model) describing the _UMGYDE Model_, for the current model, takes the form:
+If we define $d_{i,j}$ as the _number of days since the earliest record_ in the `edx` dataset for movie $j$ rated by user $i$, then the formula \@ref(eq:UMGYE-model) describing the _UMGYDE Model_, for the current model, takes the form:
 
 \begin{equation}
 Y_{i,j} = \mu + \alpha_i + \beta_j + g_{i,j} + \gamma(v_{i,j}) + s(d_{i,j}) + \varepsilon_{i,j}
@@ -30,412 +31,10 @@ takes the following form:
 \
 
 ::: {#sec.umgydem.support_functions.note.lambda .noteblock data-latex=""}
-Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call as well, which we will also need for the *Regularization* techniques to apply to our models (for details, see the  [mean_reg](#func.mean_reg) function description in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of [Appendix A: Support Functions]).
+Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call as well, which we will also need for the *Regularization* techniques to apply to our models (for details, see the  [mean_reg](#func.mean_reg) function description in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of [Appendix A](#appndx_a)).
 We have already explained that in the [UME Model Regularization] section. 
 For now, we omit the `lambda` parameter, implicitly using its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
-
-#### [calc_day_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L2) Function {#func.calc_day_general_effect}
-\
-
-This is a helper function that calculates the _Day General Effect_ of user ratings on a _given day since the earliest record_ in the `edx` dataset and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
-
-##### Arguments
-\
-
-###### ***train_set***
-\
-The _Train Set_ dataset.
-
-###### ***lambda***
-\
-As explained [above](#sec.umgydem.support_functions.note.lambda) in this section, this parameter is used for the _Regularization_ techniques. Otherwise, it is omitted, meaning its default (zero) value is used. 
-
-##### Source Code
-\
-
-The following is a simplified version of the function's source code:
-```{r eval=FALSE}
-calc_day_general_effect <- function(train_set, lambda = 0){
-  train_set |> 
-    left_join(edx.user_effect, by = "userId") |>
-    left_join(rglr.UM_effect, by = "movieId") |>
-    left_join(rglr.UMG_effect, by = "movieId") |>
-    left_join(date_days_map, by = "timestamp") |>
-    left_join(rglr.UMGY_effect, by='year') |>
-    mutate(resid = rating - (mu + a + b + g + ye)) |>
-    group_by(days) |>
-    summarise(de = mean_reg(resid, lambda), 
-              year = mean(year))
-}
-```
-
-::: {.noteblock data-latex=""}
-The complete version of the source code of the [calc_day_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L2) function is available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L2) script on _GitHub_.
-:::
-
-##### Return
-\
-A data frame object representing the _Day General Effect_. 
-
-\newpage
-
-#### [calc_day_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L31) Function {#func.calc_day_general_effect.cv}
-\
-
-This is a helper function that calculates the _Day General Effect_ of user ratings on a _given day since the earliest record_ in the `edx` dataset using the _5-Fold Cross Validation_ and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)) described below.
-
-##### Arguments
-\
-
-###### ***lambda***
-\
-As explained [above](#sec.umgydem.support_functions.note.lambda) in this section, this parameter is used for the _Regularization_ techniques. Otherwise, it is omitted, meaning its default (zero) value is used. 
-
-##### Souurce Code
-\
-
-::: {.noteblock data-latex=""}
-The complete version of the source code of the [calc_day_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L31) function is available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L30) script on _GitHub_.
-:::
-
-The following is a simplified version of the function's source code:
-```{r eval=FALSE}
-calc_day_general_effect.cv <- function(lambda = 0){
-  gday_effect_ls <- lapply(edx_CV,  function(cv_fold_dat){
-    cv_fold_dat$train_set |> calc_day_general_effect(lambda)
-  })
-
-  gday_effect_united <- union_cv_results(gday_effect_ls)
-
-  gday_effect_united |>
-    group_by(days) |>
-    summarise(de = mean(de), year = mean(year))
-}
-```
-
-::: {.noteblock data-latex=""}
-Here we use the function call [union_cv_results](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L432) to aggregate the _5-Fold Cross Validation_ results (for details, see the [union_cv_results](#func.union_cv_results) function description in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions]).
-:::
-
-##### Return
-\
-A data frame object representing the _Day General Effect_. 
-
-\newpage
-
-
-#### [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) Function {#func.loess_de}
-\
-
-This is a helper function that calculates the _Smoothed Day Effect_ of user ratings and is intended to be used in other functions and scripts (such as [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect)) described below.
-
-##### Arguments
-\
-
-###### ***de_bias.dat***
-\
-A data frame object representing the _Day General Effect_. It can be returned by the following functions described above:
-
-  - [calc_day_general_effect](#func.calc_day_general_effect);
-  - [calc_day_general_effect.cv](#func.calc_day_general_effect.cv).
-
-
-###### ***degree***
-\
-A parameter to pass to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function (see the [Details](#func.loess_de.details) section below), meaning the degree of the polynomials to be used.
-
-###### ***span***
-\
-A parameter to pass to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function (see the [Details](#func.loess_de.details) section below) to control the degree of smoothing.
-
-::: { #func.loess_de.details .sidebar }
-##### Details
-\
-The function is a wrapper for the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) and calls it under the hood.
-:::
-
-##### Source Code
-\
-
-The following is the source code of the function:
-```{r eval=FALSE}
-loess_de <- function(de_bias.dat, degree = NA, span = NA){
-  if(is.na(degree)) degree = 2
-  if(is.na(span)) span = 0.75
-  loess(de ~ days, span = span, degree = degree, data = de_bias.dat)
-}
-```
-
-
-::: {.noteblock data-latex=""}
-The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) function is also available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L69) script on _GitHub_.
-:::
-
-##### Return
-\
-An object of class `loess` returned by the internally called function [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) (see the [Details](#func.loess_de.details) section above).
-
-\newpage
-
-#### [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L74) Function {#func.calc_UMGY_SmoothedDay_effect}
-\
-
-This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
-
-##### Arguments
-\
-
-::: { #func.calc_UMGY_SmoothedDay_effect.args.day_gen_effect .sidebar }
-###### ***day_gen_effect***
-\
-A data frame object representing the _Day General Effect_. It can be returned by the following functions described above:
-
-  - [calc_day_general_effect](#func.calc_day_general_effect);
-  - [calc_day_general_effect.cv](#func.calc_day_general_effect.cv).
-
-:::
-
-###### ***degree***
-\
-A parameter to pass to the internally called [loess_de](#func.loess_de) function (see the [Details](#func.calc_UMGY_SmoothedDay_effect.details) section below), meaning the degree of the polynomials to be used.
-
-###### ***span***
-\
-A parameter to pass to the internally called [loess_de](#func.loess_de) function (see the [Details](#func.calc_UMGY_SmoothedDay_effect.details) section below) to control the degree of smoothing.
-
-::: { #func.calc_UMGY_SmoothedDay_effect.details .sidebar }
-##### Details
-\
-Under the hood, the function internally calls the [loess_de](#func.loess_de) described above and constructs the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect_ data object based on the object of class `loess` it returns along with the data passed by the [day_gen_effect](#func.calc_UMGY_SmoothedDay_effect.args.day_gen_effect) parameter.
-:::
-
-##### Source Code
-\
-
-The following is the source code of the function:
-```{r eval=FALSE}
-calc_UMGY_SmoothedDay_effect <- function(day_gen_effect, 
-                                         degree = NA, 
-                                         span = NA){
-  put_log2("Function `calc_UMGY_SmoothedDay_effect`: 
-Training model using `loess` function with the following parameters:
-degree: %1;
-span: %2
-...",
-           degree,
-           span)
-  # browser()
-  fit <- day_gen_effect |> loess_de(degree, span)
-  smth_day_effect <- day_gen_effect |> mutate(de_smoothed = fit$fitted)
-  
-  put_log2("Function `calc_UMGY_SmoothedDay_effect`: 
-Model has been trained using `loess` function with the following parameters:
-degree: %1;
-span: %2.",
-           degree,
-           span)
-  
-  smth_day_effect
-}
-
-```
-
-
-::: {.noteblock data-latex=""}
-The source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L74) function is also available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L74) script on _GitHub_.
-:::
-
-##### Return
-\
-A data frame object representing the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect_. 
-
-\newpage
-
-#### [train_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L97) Function {#func.train_UMGY_SmoothedDay_effect}
-\
-
-This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)) described below.
-
-##### Arguments
-\
-
-###### ***train_set***
-\
-The _Train Set_ dataset.
-
-
-::: { #func.train_UMGY_SmoothedDay_effect.args.degree .sidebar }
-###### ***degree***
-\
-A parameter to pass to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function (see the [Details](#func.train_UMGY_SmoothedDay_effect.details) section below), meaning the degree of the polynomials to be used.
-:::
-
-::: { #func.train_UMGY_SmoothedDay_effect.args.span .sidebar }
-###### ***span***
-\
-A parameter to pass to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function (see the [Details](#func.train_UMGY_SmoothedDay_effect.details) section below) to control the degree of smoothing.
-:::
-
-###### ***lambda***
-\
-As explained [above](#sec.umgydem.support_functions.note.lambda) in this section, this parameter is used for the _Regularization_ techniques. Otherwise, it is omitted, meaning its default (zero) value is used. 
-
-::: { #func.train_UMGY_SmoothedDay_effect.details .sidebar }
-##### Details
-\
-Under the hood, the function internally calls the [calc_day_general_effect](#func.calc_day_general_effect) and then [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above, and returns the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect_ data object that the latter inner function returns.
-:::
-
-##### Source Code
-\
-
-The following is the source code of the function:
-```{r eval=FALSE}
-train_UMGY_SmoothedDay_effect <- function(train_set, 
-                                          degree = NA, 
-                                          span = NA,
-                                          lambda = 0){
-  if (is.na(lambda)) {
-    stop("Function: train_UMGY_SmoothedDay_effect
-`lambda` is `NA`")
-  }
-  
-  train_set |> 
-    calc_day_general_effect(lambda) |>
-    train_UMGY_SmoothedDay_effect(degree, span)
-}
-```
-
-
-::: {.noteblock data-latex=""}
-The source code of the [train_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L97) function is also available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L97) script on _GitHub_.
-:::
-
-##### Return
-\
-A data frame object representing the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect_. 
-
-\newpage
-
-#### [train_UMGY_SmoothedDay_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L111) Function {#func.train_UMGY_SmoothedDay_effect.cv}
-\
-
-This is a helper function that calculates the _Smoothed Day Effect_ of the user ratings and is intended to be used in other functions and scripts (such as [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)) described below.
-
-##### Arguments
-\
-
-###### ***degree***
-\
-A parameter to pass to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function (see the [Details](#func.train_UMGY_SmoothedDay_effect.cv.details) section below), meaning the degree of the polynomials to be used.
-
-###### ***span***
-\
-A parameter to pass to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function (see the [Details](#func.train_UMGY_SmoothedDay_effect.cv.details) section below) to control the degree of smoothing.
-
-###### ***lambda***
-\
-As explained [above](#sec.umgydem.support_functions.note.lambda) in this section, this parameter is used for the _Regularization_ techniques. Otherwise, it is omitted, meaning its default (zero) value is used. 
-
-::: { #func.train_UMGY_SmoothedDay_effect.cv.details .sidebar }
-##### Details
-\
-Under the hood, the function internally calls the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and then [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above, and returns the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect_ data object that the latter inner function returns.
-:::
-
-##### Source Code
-\
-
-The following is the source code of the function:
-```{r eval=FALSE}
-train_UMGY_SmoothedDay_effect.cv <- function(degree = NA, 
-                                             span = NA,
-                                             lambda = 0){
-  if (is.na(lambda)) {
-    stop("Function: train_UMGY_SmoothedDay_effect.cv
-`lambda` is `NA`")
-  }
-  
-  calc_day_general_effect.cv.cv(lambda) |>
-    calc_UMGY_SmoothedDay_effect(degree, span)
-}
-
-```
-
-
-::: {.noteblock data-latex=""}
-The source code of the [train_UMGY_SmoothedDay_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L111) function is also available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L111) script on _GitHub_.
-:::
-
-##### Return
-\
-A data frame object representing the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect_. 
-
-#### [UMGY_SmoothedDay_effect.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L123) Function {#func.UMGY_SmoothedDay_effect.predict}
-\
-
-This is a helper function that predicts user rating values on the _Test Set_ passed by the [test_set](#func.UMGY_SmoothedDay_effect.predict.args.test_set) parameter, taking into account the _User+Movie+Genre+Year+(Smoothed)Day (UMGYD) Effect_ passed by the [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect) parameter.
-
-##### Arguments
-\
-
-::: { #func.UMGY_SmoothedDay_effect.predict.args.test_set .sidebar }
-###### ***test_set***
-\
-A _Test Set_ dataset for the _UMGYDE Model_ validation.
-:::
-
-::: { #func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect .sidebar }
-###### ***day_smoothed_effect***
-\
-A data object representing the _UMGYD Effect_, which can be returned by any of the following functions described above:
-
-  - [calc_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect);
-  - [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect);
-  - [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv).
-
-:::
-
-
-
-##### Source Code
-\
-
-Below is the source code of the function:
-```{r eval=FALSE}
-UMGY_SmoothedDay_effect.predict <- function(test_set, day_smoothed_effect) {
-  test_set |>
-    left_join(edx.user_effect, by = "userId") |>
-    left_join(rglr.UM_effect, by = "movieId") |>
-    left_join(rglr.UMG_effect, by = "movieId") |>
-    left_join(date_days_map, by = "timestamp") |>
-    left_join(rglr.UMGY_effect, by='year') |>
-    left_join(day_smoothed_effect, by='days') |>
-    mutate(predicted = clamp(mu + a + b + g + 
-                               ifelse(is.na(ye), 0, ye) +
-                               ifelse(is.na(de_smoothed), 
-                                      0, 
-                                      de_smoothed))) |> 
-    select(userId, movieId, timestamp, rating, predicted)
-}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [UMGY_SmoothedDay_effect.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L123) function is also available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L123) script on _GitHub_.
-:::
-
-##### Return
-\
-
-A data frame object containing predicted values. 
-
-\newpage
-
-
-
-
-
 
 #### [calc_UMGY_SmoothedDay_effect.MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L139) Function {#func.calc_UMGY_SmoothedDay_effect.MSE}
 \
@@ -625,7 +224,7 @@ We are going to use our helper function [train_UMGY_SmoothedDay_effect.cv](#func
 
 We will start by calling the `train_UMGY_SmoothedDay_effect.cv` with default parameters, which means that the `loess` function will be implicitly called with `degree = 1` and `span = 0.75` parameters (the default values for our custom [loess_de](#func.loess_de) function, which, in turn, calls the `loess` under the hood).
 
-Below, we provide the most significant line of the code for training our model using the `5-Fold Cross Validation` method:
+Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1495) for training our model using the *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
 ```{r, eval=FALSE}
   cv.UMGYDE.default_params <- train_UMGY_SmoothedDay_effect.cv()
 ```
@@ -659,7 +258,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 Unfortunately, with the default parameters, we obtained an even worse result than before.
@@ -918,7 +517,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE0)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 #### UMGYDE Model Tuning: Step 2 (`degree = 1`)
@@ -1000,7 +599,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE1)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 #### UMGYDE Model Tuning: Step 3 (`degree = 2`)
@@ -1074,7 +673,7 @@ lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-The custom data visualization function [data.plot.left_detailed](#func.data.plot.left_detailed) we used above is described in the [Data Helper Functions] section of [Appendix A: Support Functions].
+The custom data visualization function [data.plot.left_detailed](#func.data.plot.left_detailed) we used above is described in the [Data Helper Functions] section of [Appendix A](#appndx_a).
 :::
 
 
@@ -1091,7 +690,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE2)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -1174,7 +773,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE.tuned)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 Finally, let's regularize our tuned model as we did with the previous ones.
@@ -1205,7 +804,7 @@ where $n_d$ is the number of ratings made on the day $d$.
 
 As with the previous models, we implement the _Regularization_ method for the current model in the following three steps:
 
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the `5-Fold Cross Validation` samples;
+  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *K-Fold Cross Validation* samples (in *this Project* we use $K = 5$);
   
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
   
@@ -1359,7 +958,7 @@ The complete version of the source code shown in this section is available in th
 
 Let's perform the preconfiguration to determine the appropriate range of $\lambda$ for subsequent fine-tuning of our current model:
 
-We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) parameter.
+We are going to use the [tune.model_param](#func.tune.model_param) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of [Appendix A](#appndx_a), passing the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function as the value of the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
@@ -1383,7 +982,7 @@ cv.UMGYDE.preset.result$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions], which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A](#appndx_a), which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
 :::
 
 \newpage
@@ -1397,7 +996,7 @@ The complete version of the source code shown in this section can be found in th
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
-Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of [Appendix A: Support Functions], passing the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) parameter.
+Here we are going to use the [model.tune.param_range](#func.model.tune.param_range) function described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of [Appendix A](#appndx_a), passing the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function as the value of the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) parameter.
 
 Below we provide the most significant part of the code that performs this operation:
 ```{r, eval=FALSE}
@@ -1422,7 +1021,7 @@ UMGYDE.rglr.fine_tune.results$best_result
 ```
 
 ::: {.noteblock data-latex=""}
-Under the hood, this code block internally calls the helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of [Appendix A: Support Functions] to figure out the boundaries of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in as a parameter.
+Under the hood, this code block internally calls the helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) described in the [Regularization: Common Helper Functions](#appndx_a.rglr.common_helper.functions) section of [Appendix A](#appndx_a) to figure out the boundaries of the range of values from the nearest neighborhood of the value corresponding to the best `RMSE` in the data passed in as a parameter.
 :::
 
 \newpage
@@ -1441,7 +1040,7 @@ UMGYDE.rglr.fine_tune.results$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A: Support Functions], which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+We use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions](#appndx_a.data_helper.functions) section of [Appendix A](#appndx_a), which is defined in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
 :::
 
 \newpage

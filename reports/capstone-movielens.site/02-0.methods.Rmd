@@ -8,7 +8,7 @@ All the source code of the `R` scripts utilized in this project is available on 
 
 We will split the `edx` dataset into a training set, which we will use to build and train our models, and a test set in which we will compute the accuracy of our predictions, the way described in [Section 24.1 *Case study: recommendation systems*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-recommendation-systems) of the _Course Textbook (New Edition)_[@IDS2_24-1].We will also use the *Cross-Validation* method as described in [Section 29.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6].
 
-To prepare datasets for processing, we will use the following functions (described in detail in the [Initializing Input Datasets] section of the [Appendix A: Support Functions] of *This Report*), specifically designed for these operations:
+To prepare datasets for processing, we will use the following functions (described in detail in the [Initializing Input Datasets] section of [Appendix A](#appndx_a)), specifically designed for these operations:
 
   - [make_source_datasets](#func.make_source_datasets);
   
@@ -28,6 +28,6 @@ As a result of executing these functions, we will obtain the following datasets 
 
 
 ::: {.noteblock data-latex=""}
-The `K` value for the *K-Fold Cross-Validation* we use in *This Project* is determined by the length of the list composing the [`edx_CV` Object]. In our case, the length of the `edx_CV` is 5, meaning we use *5-Fold Cross-Validation*.
+The $K$ value for the *K-Fold Cross-Validation* we use in *This Project* is determined by the length of the list composing the [`edx_CV` Object]. In our case, the length of the `edx_CV` is 5, meaning we use *5-Fold Cross-Validation*.
 :::
 
