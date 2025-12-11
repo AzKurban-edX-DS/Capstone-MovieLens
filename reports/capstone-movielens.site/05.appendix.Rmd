@@ -6372,7 +6372,7 @@ The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) Function {#func.calc_UMGY_SmoothedDay_effect}
 \
 
-Builds the *User+Movie+Genre+Year+SmoothedDay Effect (hereafter UMGYDE for short) Model* based on the *Day General Effect* (*DG Effect* for short) data structure returned by the [calc_day_general_effect](#func.calc_day_general_effect) or [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
+Builds the *User+Movie+Genre+Year+SmoothedDay Effect* (hereafter *UMGYDE* for short) *Model* based on the *Day General Effect* (*DG Effect* for short) data structure returned by the [calc_day_general_effect](#func.calc_day_general_effect) or [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.usage .sidebar }
 ##### Usage
@@ -6397,12 +6397,11 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
   - **date_general_effect:** Dataframe object representing the *DG Effect* (to pass in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument to the internally called [loess_de](#func.loess_de) described above); 
 
 :::
-
-::: { #func.calc_UMGY_SmoothedDay_effect.args. .sidebar }
+::: { #func.calc_UMGY_SmoothedDay_effect.args.degree .sidebar }
   - **degree:** (Integer, $NA$ by default) The degree of the polynomials to be used (passed in the same-named argument to the internally called [loess_de](#func.loess_de) described above); 
 
 :::
-::: { #func.calc_UMGY_SmoothedDay_effect.args. .sidebar }
+::: { #func.calc_UMGY_SmoothedDay_effect.args.span .sidebar }
   - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$, which controls the degree of smoothing (passed in the same-named argument to the internally called [loess_de](#func.loess_de) described above); 
 
 :::
@@ -6470,6 +6469,8 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 \
 
 ```{r eval=FALSE}
+  lss.UMGYD_effect <- edx |> 
+    train_UMGY_SmoothedDay_effect(lss.best_degree, lss.best_span)
 ```
 :::
 
@@ -6479,6 +6480,15 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 
 ::: { #func.train_UMGY_SmoothedDay_effect.args.train_set .sidebar }
   - **train_set:** Training sample of the `Movielens` dataset; 
+
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.args.degree .sidebar }
+  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to be used (passed in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above); 
+
+:::
+::: { #func.train_UMGY_SmoothedDay_effect.args.span .sidebar }
+  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$, which controls the degree of smoothing (passed in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above); 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.lambda .sidebar }
@@ -6491,7 +6501,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 ##### Details
 \
 
-Under the hood, this function internally calls the [calc_day_general_effect](#func.calc_day_general_effect) and [calc_UMGY_effect](#func.calc_UMGY_effect) functions (both described above in this section).
+Internally, this function calls the helper functions [calc_day_general_effect](#func.calc_day_general_effect) and [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) (both described above in this section), passing the values of the arguments [degree](#func.calc_UMGY_SmoothedDay_effect.args.degree) and [span](#func.calc_UMGY_SmoothedDay_effect.args.span) to the latter function in the same-named arguments.
 
 ::: {.noteblock data-latex=""}
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
@@ -6502,7 +6512,7 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 ##### Value
 \
 
-Data frame representing the trained (and also *regularized* if [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument value is non-default) *UMGY Effect Model*.
+Data frame representing the trained (and also *regularized* if [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument value is non-default) *UMGYDE Model*.
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.code .sidebar }
@@ -6511,6 +6521,19 @@ Data frame representing the trained (and also *regularized* if [lambda](#func.tr
 
 The source code of the [train_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L99) function is shown below:
 ```{r eval=FALSE}
+train_UMGY_SmoothedDay_effect <- function(train_set, 
+                                          degree = NA, 
+                                          span = NA,
+                                          lambda = 0){
+  if (is.na(lambda)) {
+    stop("Function: train_UMGY_SmoothedDay_effect
+`lambda` is `NA`")
+  }
+  
+  train_set |> 
+    calc_day_general_effect(lambda) |>
+    calc_UMGY_SmoothedDay_effect(degree, span)
+}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -6567,7 +6590,7 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 ##### Value
 \
 
-Data frame representing the *UMGY Effect Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+Data frame representing the *UMGYDE Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.code .sidebar }
@@ -6623,7 +6646,7 @@ In the code snippet above, the function `UMGY_SmoothedDay_effect.predict` is cal
 
 :::
 ::: { #func.UMGY_SmoothedDay_effect.predict.args.UMGYD_effect .sidebar }
-  - **UMGYD_effect:** Data frame representing the *UMGY Effect Model*. 
+  - **UMGYD_effect:** Data frame representing the *UMGYDE Model*. 
 
 :::
 :::
@@ -6687,7 +6710,7 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect.MSE` is ca
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.MSE.args.UMGYD_effect .sidebar }
-  - **UMGYD_effect:** Data frame representing the *UMGY Effect Model*. 
+  - **UMGYD_effect:** Data frame representing the *UMGYDE Model*. 
 
 :::
 :::
@@ -6747,7 +6770,7 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect.MSE.cv` is
 \
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.MSE.cv.args.UMGYD_effect .sidebar }
-  - **UMGYD_effect:** Data frame representing the *UMGY Effect Model*. 
+  - **UMGYD_effect:** Data frame representing the *UMGYDE Model*. 
 
 :::
 :::
@@ -6769,7 +6792,7 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
 ##### Value
 \
 
-The *MSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+The *MSE* value calculated for the *UMGYDE Model* with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.MSE.cv.code .sidebar }
@@ -6809,7 +6832,7 @@ This helper function is also used internally in the [regularize.test_lambda.UMGY
 \
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args.UMGYD_effect .sidebar }
-  - **UMGYD_effect:** Data frame representing the *UMGY Effect Model*. 
+  - **UMGYD_effect:** Data frame representing the *UMGYDE Model*. 
 
 :::
 :::
@@ -6831,7 +6854,7 @@ The $K$ value for the *K-Fold Cross-Validation* method is determined by the leng
 ##### Value
 \
 
-The *RMSE* value calculated for the *UMGY Effect Model* with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+The *RMSE* value calculated for the *UMGYDE Model* with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.RMSE.cv.code .sidebar }
@@ -6905,7 +6928,7 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 ##### Value
 \
 
-Data frame representing the trained (and also *regularized* if [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument value is non-default) *UMGY Effect Model*.
+Data frame representing the trained (and also *regularized* if [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument value is non-default) *UMGYDE Model*.
 :::
 
 ::: { #func.regularize.train_UMGYD_effect.code .sidebar }
@@ -6971,7 +6994,7 @@ For the *regularization technique* (described in [Section 24.2 *Penalized least 
 ##### Value
 \
 
-Data frame representing the *UMGY Effect Model* trained (and also *regularized* if the [lambda](#func.regularize.train_UMGYD_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+Data frame representing the *UMGYDE Model* trained (and also *regularized* if the [lambda](#func.regularize.train_UMGYD_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.regularize.train_UMGYD_effect.cv.code .sidebar }
