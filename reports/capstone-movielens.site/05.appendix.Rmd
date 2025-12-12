@@ -6634,7 +6634,7 @@ The source code of the [train_UMGY_SmoothedDay_effect.cv](https://github.com/AzK
 #### [UMGY_SmoothedDay_effect.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L125) Function {#func.UMGY_SmoothedDay_effect.predict}
 \
 
-Predicts *user rating* values on the *Test dataset* passed in the [test_set](#func.UMGY_SmoothedDay_effect.predict.args.test_set) argument based on the data of the trained *UMGY Effect (UMGYDE) Model* passed in the [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect) argument.
+Predicts *user rating* values on the *test dataset* passed in the [test_set](#func.UMGY_SmoothedDay_effect.predict.args.test_set) argument based on the data of the trained *UMGY Effect (UMGYDE) Model* passed in the [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect) argument.
 
 ::: {.noteblock data-latex=""}
 This function is also called within other helper functions, such as the [calc_UMGY_SmoothedDay_effect.MSE](#func.calc_UMGY_SmoothedDay_effect.MSE) and [UMGYDE_model.predict](#func.UMGYDE_model.predict) described below in this section and [Matrix Factorization Functions] section of *this Appendix*, respectively.
@@ -6659,7 +6659,7 @@ final.UMGYDE.predicted <- final_holdout_test |>
 
 :::
 ::: { #func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect .sidebar }
-  - **day_smoothed_effect:** Data frame representing the *UMGYDE Model*. 
+  - **day_smoothed_effect:** Dataframe object representing the *UMGYDE Model*. 
 
 :::
 :::
@@ -6675,7 +6675,7 @@ This function implements an algorithm for computing the *user rating values* in 
 ##### Value
 \
 
-Dataframe containing *predicted user rating values* based on the *UMGYDE Model*
+Dataframe object containing *predicted user rating* values based on the *UMGYDE Model*
 :::
 
 ::: { #func.UMGY_SmoothedDay_effect.predict.code .sidebar }
