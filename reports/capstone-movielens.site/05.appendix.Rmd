@@ -6963,6 +6963,96 @@ The source code of the [calc_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com
 The complete source code of the functions described in this section is available in the  [Tuning `loess` Parameters](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L172) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L172) script on _GitHub_.
 :::
 
+#### [train_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L173) Function {#func.train_UMGY_SmoothedDay_effect.RMSE.cv}
+\
+
+Trains and validate (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the given parameter values passed in the [degree](#) and [span](#) arguments, with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+  train_UMGY_SmoothedDay_effect.RMSE.cv(degree = 1, span)
+```
+
+::: {.noteblock data-latex=""}
+In the above code snippet, the `train_UMGY_SmoothedDay_effect.RMSE.cv` function is called internally from the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1) function described below in this section.
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args .sidebar }
+##### Arguments
+\
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree .sidebar }
+  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above; 
+
+:::
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span .sidebar }
+  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above. 
+
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.details .sidebar }
+##### Details
+\
+
+This is a wrapper for the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*), which it calls internally, passing the values of the arguments [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) in the same-named arguments.
+
+Unlike the internal function  [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv), this one also validates the *UMGYDE Model* created and trained by that function, for which it calls internally another helper function, [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) (also described above in the [UMGYDE Model: Utility Functions] section), computing *RMSE* for that model.
+
+::: {.noteblock data-latex=""}
+This is an auxiliary  function intended to be called internally from the following helper functions (described below in this section), specifically designed for tuning the `degree` and `span` [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters:  
+
+  - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0): a helper function designed for tuning the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter while keeping the `degree` parameter fixed at $0$;
+  
+  - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1): a helper function designed for tuning the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter while keeping the `degree` parameter fixed at $1$;
+  
+  - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree2](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2): a helper function designed for tuning the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter while keeping the `degree` parameter fixed at $2$;
+
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.value .sidebar }
+##### Value
+\
+
+The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters passed in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) arguments, and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.code .sidebar }
+##### Source Code
+\
+
+The slightly simplified version of the source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L173) function is shown below:
+```{r eval=FALSE}
+train_UMGY_SmoothedDay_effect.RMSE.cv <- function(degree = NA, span = NA) {
+  smth_de.RMSE <- train_UMGY_SmoothedDay_effect.cv(degree, span) |>
+    calc_UMGY_SmoothedDay_effect.RMSE.cv()
+  
+  put_log2("Function `train_UMGY_SmoothedDay_effect.RMSE.cv`:
+RMSE has been computed for the `loess` function parameters: 
+degree = %1, span = %2.", 
+           degree,
+           span)
+  
+  smth_de.RMSE
+}
+```
+
+::: {.noteblock data-latex=""}
+The complete source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L173) function is available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L173) script on _GitHub_.
+:::
+:::
+
+\newpage
+
 ### UMGYDE Model: Regularization
 \
 
