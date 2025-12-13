@@ -6751,7 +6751,7 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect.MSE` is ca
 
 This function commits the *UMGYDE Model* validation by calculating the *Mean Squared Error (MSE)*.
 
-In *this Project*, the *UMGYDE* data object representing the *UMGYDE Model* (and being passed in the [day_smoothed_effect](#func.loess_de.args.de_bias.dat) argument) is created and returned by the following functions described above in *this Section*:
+In *this Project*, the *UMGYDE* data object representing the *UMGYDE Model* (and being passed in the [day_smoothed_effect](#func.loess_de.args.de_bias.dat) argument) is created and returned by the following functions described above in this section:
   
   - [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) 
   
@@ -6834,7 +6834,7 @@ This function internally calls the [calc_UMGY_SmoothedDay_effect.MSE](#func.calc
 The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
-In *this Project*, the *UMGYDE* data object representing the *UMGYDE Model* (and being passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.args.day_smoothed_effect) argument) is created and returned by the following functions described above in *this Section*:
+In *this Project*, the *UMGYDE* data object representing the *UMGYDE Model* (and being passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.args.day_smoothed_effect) argument) is created and returned by the following functions described above in this section:
   
   - [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) 
   
@@ -6915,10 +6915,10 @@ lss.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(lss.UMGYD_effect)
 This function commits the *UMGYDE Model* validation by calculating the *Root Mean Squared Error (RMSE)* on the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
 ::: {.noteblock data-latex=""}
-This function internally calls the [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv) auxiliary function described above in *this Section* to compute the *MSE* for the *UMGYDE Model* and then calculates the *square root* of the obtained result.
+This function internally calls the [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv) auxiliary function described above in this section to compute the *MSE* for the *UMGYDE Model* and then calculates the *square root* of the obtained result.
 :::
 
-In *this Project*, the *UMGYDE* data object representing the *UMGYDE Model* (and being passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args.day_smoothed_effect) argument) is created and returned by the following functions described above in *this Section*:
+In *this Project*, the *UMGYDE* data object representing the *UMGYDE Model* (and being passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args.day_smoothed_effect) argument) is created and returned by the following functions described above in this section:
   
   - [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) 
   
@@ -6947,68 +6947,6 @@ The source code of the [calc_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com
 calc_UMGY_SmoothedDay_effect.RMSE.cv <- function(day_smoothed_effect){
   sqrt(calc_UMGY_SmoothedDay_effect.MSE.cv(day_smoothed_effect))
 }
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [calc_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) script on _GitHub_.
-:::
-:::
-
-\newpage
-
-#### [calc_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) Function {#func.calc_UMGY_SmoothedDay_effect.RMSE.cv}
-\
-
-Validates the *UMGYD Effect (UMGYDE) Model* (produced by the [train_UMGY_effect](#func.train_UMGY_effect) or [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
-
-::: {.noteblock data-latex=""}
-This helper function is also used internally in the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function described below in section [UMGYDE Model: Regularization] of *this Appendix*.
-:::
-
-::: { #func.calc_UMGY_SmoothedDay_effect.RMSE.cv.usage .sidebar }
-##### Usage
-\
-
-```{r eval=FALSE}
-```
-:::
-
-::: { #func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args .sidebar }
-##### Arguments
-\
-
-::: { #func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args.UMGYD_effect .sidebar }
-  - **UMGYD_effect:** Data frame representing the *UMGYDE Model*. 
-
-:::
-:::
-
-::: { #func.calc_UMGY_SmoothedDay_effect.RMSE.cv.details .sidebar }
-##### Details
-\
-
-The function calculates *Root Squared Error (RMSE)* for the *UMGYDE Model* passed in the [UMGYD_effect](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args.UMGYD_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
-
-::: {.noteblock data-latex=""}
-This function internally calls the [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv) function described above, to calculate the *MSE* for the *UMGYDE Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
-
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
-:::
-:::
-
-::: { #func.calc_UMGY_SmoothedDay_effect.RMSE.cv.value .sidebar }
-##### Value
-\
-
-The *RMSE* value calculated for the *UMGYDE Model* with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
-:::
-
-::: { #func.calc_UMGY_SmoothedDay_effect.RMSE.cv.code .sidebar }
-##### Source Code
-\
-
-The source code of the [calc_UMGY_SmoothedDay_effect.RMSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) function is shown below:
-```{r eval=FALSE}
 ```
 
 ::: {.noteblock data-latex=""}
