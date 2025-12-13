@@ -36,52 +36,6 @@ We have already explained that in the [UME Model Regularization] section.
 For now, we omit the `lambda` parameter, implicitly using its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
 
-#### [calc_UMGY_SmoothedDay_effect.MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L139) Function {#func.calc_UMGY_SmoothedDay_effect.MSE}
-\
-
-The function calculates the _Mean Squared Error (MSE)_ of the _UMGYDE Model_ for the given _Test Set_ passed by the [test_set](#func.calc_UMGY_SmoothedDay_effect.MSE.args.test_set) parameter.
-
-##### Arguments
-\
-
-::: { #func.calc_UMGY_SmoothedDay_effect.MSE.args.test_set .sidebar }
-###### ***test_set***
-\
-A _Test Set_ dataset for the _UMGYDE Model_ validation.
-:::
-
-::: { #func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect .sidebar }
-###### ***day_smoothed_effect***
-\
-A data object representing the _UMGYD Effect_, which can be returned by any of the following functions described above:
-
-  - [calc_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect);
-  - [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect);
-  - [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv).
-
-:::
-
-##### Source Code
-\
-
-The source code of the function is provided below:
-```{r eval=FALSE}
-calc_UMGY_SmoothedDay_effect.MSE <- function(test_set, day_smoothed_effect) {
-  test_set |>
-    UMGY_SmoothedDay_effect.predict(day_smoothed_effect) |>
-    mutate(resid = rating - predicted) |> 
-    pull(resid) |> mse()
-}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the function [calc_UMGY_SmoothedDay_effect.MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L139) is also available in the [UMGYDE Model Support Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L1) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L139) script on _GitHub_. 
-:::
-
-##### Return
-\
-The _Mean Squared Error (MSE)_ value of the _UMGYDE Model_ computed on the _Test Set_ passed by the [test_set](#func.calc_UMGY_SmoothedDay_effect.MSE.args.test_set) parameter.
-
 #### [calc_UMGY_SmoothedDay_effect.MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L145) Function {#func.calc_UMGY_SmoothedDay_effect.MSE.cv}
 \
 
