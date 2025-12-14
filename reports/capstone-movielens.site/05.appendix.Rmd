@@ -6313,20 +6313,20 @@ Dataframe object representing the *Day General Effect* data.
 ###### ***degree***
 \
 
-(Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
+(Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
 
 ::: {.noteblock data-latex=""}
-When the value is $NA$ (default), $1$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
+When the value is `NA` (default), $1$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
 :::
 :::
 ::: { #func.loess_de.args.span .sidebar }
 ###### ***span***
 \
 
-(Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
+(Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
 
 ::: {.noteblock data-latex=""}
-When the value is $NA$ (default), $0.75$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
+When the value is `NA` (default), $0.75$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
 :::
 :::
 :::
@@ -6398,11 +6398,11 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above; 
+  - **degree:** (Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above; 
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.span .sidebar }
-  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above. 
+  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above. 
 
 :::
 :::
@@ -6484,11 +6484,11 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
+  - **degree:** (Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.span .sidebar }
-  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above. 
+  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above. 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.lambda .sidebar }
@@ -6572,11 +6572,11 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is ca
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.degree .sidebar }
-  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
+  - **degree:** (Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.span .sidebar }
-  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above. 
+  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above. 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.lambda .sidebar }
@@ -6990,11 +6990,11 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.RMSE.cv` function 
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree .sidebar }
-  - **degree:** (Integer, $NA$ by default) The degree of the polynomials to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above; 
+  - **degree:** (Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span .sidebar }
-  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above. 
+  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above. 
 
 :::
 :::
@@ -7063,6 +7063,8 @@ Trains and validates (without *regularization*) the *User+Movie+Genre+Year+Smoot
 \
 
 ```{r eval=FALSE}
+  lss.UMGYDE.preset.degree0.result <- 
+    tune.model_param(spans, train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
 ```
 
 ::: {.noteblock data-latex=""}
@@ -7075,7 +7077,7 @@ In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree0` fu
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args.span .sidebar }
-  - **span:** (Numeric, $NA$ by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) described above. 
+  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
 
 :::
 :::
@@ -7104,10 +7106,149 @@ The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](
 
 The source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L192) function is shown below:
 ```{r eval=FALSE}
+train_UMGY_SmoothedDay_effect.RMSE.cv.degree0 <- function(span) {
+  train_UMGY_SmoothedDay_effect.RMSE.cv(degree = 0, span)
+}
 ```
 
 ::: {.noteblock data-latex=""}
 The source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L192) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L192) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+#### [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L195) Function {#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1}
+\
+
+Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument and the `degree` parameter equals $0$.
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+lss.UMGYDE.fine_tune.degree1.result <- 
+  model.tune.param_range(lss.fine_tune.loop_starter,
+                         UMGYDE.fine_tune.degree1.data.path,
+                         cache_file.base_name,
+                         train_UMGY_SmoothedDay_effect.RMSE.cv.degree1)
+```
+
+::: {.noteblock data-latex=""}
+In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree1` function is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args .sidebar }
+##### Arguments
+\
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span .sidebar }
+  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
+
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.details .sidebar }
+##### Details
+\
+
+This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) (described above in this section) that it calls internally, passing $0$ to the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument and the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) value to the [same-named argument](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) of the called function.
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.value .sidebar }
+##### Value
+\
+
+The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree = 0` and the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument), and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.code .sidebar }
+##### Source Code
+\
+
+The source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L195) function is shown below:
+```{r eval=FALSE}
+train_UMGY_SmoothedDay_effect.RMSE.cv.degree1 <- function(span) {
+  train_UMGY_SmoothedDay_effect.RMSE.cv(degree = 1, span)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L195) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L195) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+#### [train_UMGY_SmoothedDay_effect.RMSE.cv.degree2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L198) Function {#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2}
+\
+
+Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument and the `degree` parameter equals $0$.
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.usage .sidebar }
+##### Usage
+\
+
+```{r eval=FALSE}
+lss.UMGYDE.fine_tune.degree2.result <- 
+  model.tune.param_range(lss.fine_tune.loop_starter,
+                         UMGYDE.fine_tune.degree2.data.path,
+                         cache_file.base_name,
+                         train_UMGY_SmoothedDay_effect.RMSE.cv.degree2)
+```
+
+::: {.noteblock data-latex=""}
+In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree2` function is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args .sidebar }
+##### Arguments
+\
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span .sidebar }
+  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
+
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.details .sidebar }
+##### Details
+\
+
+This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) (described above in this section) that it calls internally, passing $0$ to the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument and the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) value to the [same-named argument](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) of the called function.
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+:::
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.value .sidebar }
+##### Value
+\
+
+The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree = 0` and the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument), and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+:::
+
+::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.code .sidebar }
+##### Source Code
+\
+
+The source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L198) function is shown below:
+```{r eval=FALSE}
+train_UMGY_SmoothedDay_effect.RMSE.cv.degree2 <- function(span) {
+  train_UMGY_SmoothedDay_effect.RMSE.cv(degree = 2, span)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L198) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L198) script on _GitHub_.
 :::
 :::
 
