@@ -7100,6 +7100,8 @@ This is an auxiliary function intended to be passed in the `fn_tune.test.param_v
 The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree = 0` and the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args.span) argument), and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
+\newpage
+
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.code .sidebar }
 ##### Source Code
 \
@@ -7121,7 +7123,7 @@ The source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](https://g
 #### [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L195) Function {#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1}
 \
 
-Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument and the `degree` parameter equals $0$.
+Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument and the `degree` parameter equals $1$.
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.usage .sidebar }
 ##### Usage
@@ -7154,7 +7156,7 @@ In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree1` fu
 ##### Details
 \
 
-This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) (described above in this section) that it calls internally, passing $0$ to the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument and the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) value to the [same-named argument](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) of the called function.
+This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) (described above in this section) that it calls internally, passing $1$ to the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument and the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) value to the [same-named argument](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) of the called function.
 
 ::: {.noteblock data-latex=""}
 This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
@@ -7165,7 +7167,7 @@ This is an auxiliary function intended to be passed in the `fn_tune.test.param_v
 ##### Value
 \
 
-The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree = 0` and the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument), and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree = 1` and the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument), and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.code .sidebar }
@@ -7189,7 +7191,7 @@ The source code of the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](https://g
 #### [train_UMGY_SmoothedDay_effect.RMSE.cv.degree2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L198) Function {#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2}
 \
 
-Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument and the `degree` parameter equals $0$.
+Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument and the `degree` parameter equals $2$.
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.usage .sidebar }
 ##### Usage
@@ -7222,7 +7224,7 @@ In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree2` fu
 ##### Details
 \
 
-This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) (described above in this section) that it calls internally, passing $0$ to the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument and the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) value to the [same-named argument](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) of the called function.
+This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) (described above in this section) that it calls internally, passing $2$ to the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument and the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) value to the [same-named argument](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) of the called function.
 
 ::: {.noteblock data-latex=""}
 This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
@@ -7233,7 +7235,7 @@ This is an auxiliary function intended to be passed in the `fn_tune.test.param_v
 ##### Value
 \
 
-The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree = 0` and the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument), and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
+The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree = 2` and the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument), and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.code .sidebar }
