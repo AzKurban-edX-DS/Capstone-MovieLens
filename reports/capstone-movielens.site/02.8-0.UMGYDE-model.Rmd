@@ -468,53 +468,6 @@ As with the previous models, we implement the _Regularization_ method for the cu
 
 \newpage
 
-#### UMGYDE Model Regularization: Helper Functions
-\
-
-##### [regularize.test_lambda.UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L240) Function {#func.regularize.test_lambda.UMGYD_effect.cv}
-\
-
-The function calculates _RMSE_ of the _UMGYDE Model_ using _5-Fold Cross Validation_ for the given $\lambda$ parameter value.
-
-::: { #func.regularize.test_lambda.UMGYD_effect.cv.args.lambda .sidebar }
-  - ***lambda:***
-  In accordance with the description in the [UMGYDE Model Regularization: Mathematical Description] section above, this is the _Regularization parameter_ $\lambda$ used for the _UMGYDE Model Regularization_ process.
-
-:::
-
-
-::: { #func.regularize.test_lambda.UMGYD_effect.cv.details .sidebar }
-###### Details
-\
-Under the hood, the function internally calls the [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv) and then [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above, and returns the _RMSE_ value that the latter inner function calculates for the given [lambda](#func.regularize.test_lambda.UMGYD_effect.cv.args.lambda) parameter value passed to the former one.
-:::
-
-
-###### Source Code
-\
-The source code of the function is provided below:
-```{r, eval=FALSE}
-regularize.test_lambda.UMGYD_effect.cv <- function(lambda){
-  if (is.na(lambda)) {
-    stop("Function: regularize.test_lambda.UMGY_effect.cv
-`lambda` is `NA`")
-  }
-  
-  regularize.train_UMGYD_effect.cv(lambda) |>
-    calc_UMGY_SmoothedDay_effect.RMSE.cv()
-}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [regularize.test_lambda.UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L240) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L222) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L240) script on _GitHub_.
-:::
-
-###### Return
-\
-_Root Mean Squared Error (RMSE)_ of the _UMGYD Model_ trained for the given [lambda](#func.regularize.train_UMGYD_effect.cv.args.span) parameter value.
-
-\newpage
-
 #### UMGYDE Model Regularization: Pre-configuration
 \
 
