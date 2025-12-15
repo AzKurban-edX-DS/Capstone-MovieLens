@@ -241,7 +241,7 @@ regularize.train_UMGYD_effect.cv <- function(lambda) {
 }
 regularize.test_lambda.UMGYD_effect.cv <- function(lambda){
   if (is.na(lambda)) {
-    stop("Function: regularize.test_lambda.UMGY_effect.cv
+    stop("Function: regularize.test_lambda.UMGYD_effect.cv
 `lambda` is `NA`")
   }
   
