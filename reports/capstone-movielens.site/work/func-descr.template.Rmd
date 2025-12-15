@@ -299,7 +299,7 @@ Modifies the original _RMSEs Result Tibble_ passed in the [RMSEs](#func.RMSEs.ti
 ##### Details
 \
 
-This function is a wrapper for the [tibble::]() function, which is called internally to modify a data frame representing the original _RMSEs Result Tibble_, which stores the _RMSE_ values for the models used in the project to predict movie ratings.
+This function is a wrapper for the [tibble::]() function, which is called internally to modify a data frame object representing the original _RMSEs Result Tibble_, which stores the _RMSE_ values for the models used in the project to predict movie ratings.
 
 For more information about the _RMSEs Result Tibble_, see the [Details](#func.CreateRMSEs_ResultTibble.details) section of the [CreateRMSEs_ResultTibble](#func.CreateRMSEs_ResultTibble) function description above.
 :::

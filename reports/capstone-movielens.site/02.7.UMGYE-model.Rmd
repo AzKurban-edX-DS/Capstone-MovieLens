@@ -87,7 +87,7 @@ cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippets above, we use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) and [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) functions described in the [UMGYE Model: Utility Functions] section of [Appendix A](#appndx_a) to *This Report*.
+In the code snippets above, we use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) and [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) functions described in the [UMGYE Model: Utility Functions] section of [Appendix A](#appndx_a) to *this Report*.
 :::
 
 
