@@ -112,12 +112,13 @@ str(lss.UMGYDE.preset.degree0.result)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
   
-  - [tune.model_param](#func.tune.model_param) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Regularization Functions](#appndx_a.CHF.regularization) section) to update and print the table above.
+  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to to select the best value of the *tuning parameter* from the given sequence of the *parameter values* (passed in the [param_values](#func.tune.model_param.args.param_values) argument).
 
-  - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0) (described in the *Models Training: Support Functions /* [UMGYDE Model: Tuning `loess` Params] section) to calculate the *RMSE* for the *UMGE Model*;
+  - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0) (described in the *Models Training: Support Functions /* [UMGYDE Model: Tuning `loess` Params] section) used as an auxiliary function passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument of the [tune.model_param](#func.tune.model_param) to test the *UMGYDE Model* with the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `degree` parameter set to $0$.
+  
 :::
 
-Below is the visual representation of the `span` parameter values range we have figured out in this step of tuning:
+Below is a visual representation of the dependence of the *RMSE* value on the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter value over the selected interval, with the parameter `degree = 0`, as we have figured out in this step of tuning:
 ```{r}
 plt.title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 0`"
 lss.UMGYDE.preset.degree0.result$tuned.result |>
@@ -129,7 +130,9 @@ lss.UMGYDE.preset.degree0.result$tuned.result |>
 rm(plt.title)
 ```
 
-
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A](#appndx_a).
+:::
 
 ##### UMGYDE Model Fine-tuning (`degree = 0`)
 \
