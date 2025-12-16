@@ -112,7 +112,7 @@ str(lss.UMGYDE.preset.degree0.result)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
   
-  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to to select the best value of the *tuning parameter* from the given sequence of the *parameter values* (passed in the [param_values](#func.tune.model_param.args.param_values) argument).
+  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to select the best value of the *tuning parameter* from the given sequence of the *parameter values* (passed in the [param_values](#func.tune.model_param.args.param_values) argument).
 
   - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0) (described in the *Models Training: Support Functions /* [UMGYDE Model: Tuning `loess` Params] section) used as an auxiliary function passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument of the [tune.model_param](#func.tune.model_param) to test the *UMGYDE Model* with the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `degree` parameter set to $0$.
   
@@ -133,6 +133,8 @@ rm(plt.title)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A](#appndx_a).
 :::
+
+\newpage
 
 ##### UMGYDE Model Fine-tuning (`degree = 0`)
 \
