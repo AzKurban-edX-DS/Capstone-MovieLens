@@ -99,7 +99,7 @@ Since the `degree` parameter can only take three discrete values, 0, 1, and 2, w
 The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning: Pre-configuration (`degree = 0`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1558) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1558) script on _GitHub_.
 :::
 
-Below is the [lines of code]() that determines the optimal range of `span` for the further model tuning when `degree = 0`:
+Below is the [lines of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1578) that determines the optimal range of `span` for the further model tuning when `degree = 0`:
 ```{r, eval=FALSE}
   spans <- seq(0.0005, 1, 0.001)
   lss.UMGYDE.preset.degree0.result <- 
@@ -117,6 +117,8 @@ In the code snippet above, we use the following functions described in [Appendix
   - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0) (described in the *Models Training: Support Functions /* [UMGYDE Model: Tuning `loess` Params] section) used as an auxiliary function passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument of the [tune.model_param](#func.tune.model_param) to test the *UMGYDE Model* with the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `degree` parameter set to $0$.
   
 :::
+
+\newpage
 
 Below is a visual representation of the dependence of the *RMSE* value on the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter value over the selected interval, with the parameter `degree = 0`, as we have figured out in this step of tuning:
 ```{r}
@@ -184,7 +186,7 @@ In the code snippet above, we use the custom data visualization function [data.p
 
 \newpage
 
-Now, we can add the best *RMSE* figured out for the *UMGYDE Fine-tuned Model* with the [loess] `degree = 0` (let's call it *Tuned UMGYDE.d0 Model*) to our *Result Table*:
+Now, we can add the best *RMSE* figured out for the *UMGYDE Fine-tuned Model* with the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `degree = 0` (let's call it *Tuned UMGYDE.d0 Model*) to our *Result Table*:
 ```{r, eval=FALSE}
 RMSEs.ResultTibble.UMGYDE0 <- RMSEs.ResultTibble.UMGYDE |> 
   RMSEs.AddRow("Tuned UMGYDE.d0 Model", 
@@ -199,6 +201,8 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE0)
 ::: {.noteblock data-latex=""}
 In the code snippet above we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section *Common Helper Functions /* [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
+
+\newpage
 
 #### UMGYDE Model Tuning: Step 2 (`degree = 1`)
 \
