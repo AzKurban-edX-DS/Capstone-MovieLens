@@ -4003,7 +4003,7 @@ lss.UMGYDE.preset.degree2.result$tuned.result |>
 
 :::
 ::: { #func.data.plot.args.line_col .sidebar }
-  - **line_col:** (Character string, \textcolor{blue}{blue} by default) Line color. 
+  - **line_col:** (Character string, ***\textcolor{blue}{blue}*** by default) Line color. 
 
 :::
 ::: { #func.data.plot.args.normalize .sidebar }
@@ -4144,7 +4144,7 @@ In the code snippet above, the function `data.plot.left.n` is called internally 
 
 :::
 ::: { #func.data.plot.left.n.args.line_col .sidebar }
-  - **line_col:** (Character string, \textcolor{red}{red} by default) Line color. 
+  - **line_col:** (Character string, ***\textcolor{red}{red}*** by default) Line color. 
 
 :::
 ::: { #func.data.plot.left.n.args.normalize .sidebar }
@@ -4271,11 +4271,11 @@ The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is 
 
 :::
 ::: { #func.data.plot.left_detailed.args.line_col .sidebar }
-  - **line_col1** (Character string, \textcolor{blue}{blue} by default) The line color (main graqh). 
+  - **line_col1** (Character string, ***\textcolor{blue}{blue}*** by default) The line color (main graqh). 
 
 :::
 ::: { #func.data.plot.left_detailed.args.line_col .sidebar }
-  - **line_col2** (Character string, \textcolor{red}{red} by default) The line color (second graph: the left part of the main graph, which is shown on an enlarged scale). 
+  - **line_col2** (Character string, ***\textcolor{red}{red}*** by default) The line color (second graph: the left part of the main graph, which is shown on an enlarged scale). 
 
 :::
 ::: { #func.data.plot.left_detailed.args.normalize .sidebar }
