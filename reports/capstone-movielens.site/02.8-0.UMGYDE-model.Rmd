@@ -92,11 +92,7 @@ Since the `degree` parameter can only take three discrete values, 0, 1, and 2, w
 #### UMGYDE Model Tuning: Step 1 (`degree = 0`)
 \
 
-::: {.noteblock data-latex=""}
-The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning: Step 1 (`degree = 0`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1554) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1554) script on _GitHub_.
-:::
-
-##### Pre-configuration: `span` Optimal `span` Range Determination (`degree = 0`)
+##### Pre-configuration: Optimal `span` Range Determination (`degree = 0`)
 \
 
 ::: {.noteblock data-latex=""}
@@ -116,7 +112,7 @@ str(lss.UMGYDE.preset.degree0.result)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
   
-  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to select the best value of the *tuning parameter* from the given sequence of the *parameter values* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
+  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to select the best value of the *tuning parameter* (`span` in our case) from the given sequence of the *parameter values* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
 
   - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0) (described in the *Models Training: Support Functions /* [UMGYDE Model: Tuning `loess` Params] section) used as an auxiliary function passed (in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument) to the [tune.model_param](#func.tune.model_param) to test the *UMGYDE Model* with the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `degree` parameter set to $0$.
   
@@ -220,10 +216,6 @@ In the code snippet above we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMS
 #### UMGYDE Model Tuning: Step 2 (`degree = 1`)
 \
 
-::: {.noteblock data-latex=""}
-The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning: Step 2 (`degree = 1`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1671) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1671) script on _GitHub_.
-:::
-
 ##### Pre-configuration: Optimal `span` Range Determination (`degree = 1`)
 \
 
@@ -244,7 +236,7 @@ str(lss.UMGYDE.preset.degree1.result)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
   
-  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to select the best value of the *tuning parameter* from the given sequence of the *parameter values* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
+  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to select the best value of the *tuning parameter* (`span` in our case) from the given sequence of the *parameter values* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
 
   - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1) (described in the *Models Training: Support Functions /* [UMGYDE Model: Tuning `loess` Params] section) used as an auxiliary function passed (in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument) to the [tune.model_param](#func.tune.model_param) to test the *UMGYDE Model* with the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `degree` parameter set to $1$.
   
@@ -339,12 +331,10 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE1)
 In the code snippet above we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section *Common Helper Functions /* [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
+\newpage
+
 #### UMGYDE Model Tuning: Step 3 (`degree = 2`)
 \
-
-::: {.noteblock data-latex=""}
-The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning: Step 3 (`degree = 2`)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1783) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1783) script on _GitHub_.
-:::
 
 ##### Pre-configuration: Optimal `span` Range Determination (`degree = 2`)
 \
@@ -367,7 +357,7 @@ str(lss.UMGYDE.preset.degree2.result)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
   
-  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to select the best value of the *tuning parameter* from the given sequence of the *parameter values* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
+  - [tune.model_param](#func.tune.model_param) (described in the *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) section) to select the best value of the *tuning parameter* (`span` in our case) from the given sequence of the *parameter values* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
 
   - [train_UMGY_SmoothedDay_effect.RMSE.cv.degree2](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2) (described in the *Models Training: Support Functions /* [UMGYDE Model: Tuning `loess` Params] section) used as an auxiliary function passed (in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument) to the [tune.model_param](#func.tune.model_param) to test the *UMGYDE Model* with the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `degree` parameter set to $2$.
   
@@ -429,7 +419,8 @@ In the code snippet above, we use the following functions described in [Appendix
 
 \newpage
 
-Below is a visual representation of the dependence of the *RMSE* value on the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter value over the neighborhood of its *best value* (when the parameter `degree = 2`), which we have determined in this (*fine-tuning*) step:
+Below is a visual representation of the dependence of the *RMSE* value on the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `span` parameter value over the neighborhood of its *best value* (when the parameter `degree = 2`), which we have determined in this (*fine-tuning*) step. 
+Since the left endpoint value of the *RMSE* range has much smaller deviation from the minimum than the value of the right endpoint, for visual clarity, we plot the left part of the graph once more on an *enlarged scale* (below the main graph):
 ```{r}
 lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
   data.plot.left_detailed(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 2`", 
@@ -442,7 +433,7 @@ lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the custom data visualization function [data.plot.left_detailed](#func.data.plot.left_detailed) described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A](#appndx_a).
 :::
 
 \newpage
