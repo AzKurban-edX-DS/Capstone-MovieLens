@@ -48,7 +48,7 @@ str(cv.UMGYDE.default_params)
 
 \newpage
 
-Below is the visual representation of the UMGYD Effect data we have just computed:
+Below is the visual representation of the *Smoothed Day Effect* data we have just computed:
 
 ```{r}
 cv.UMGYDE.default_params |>
@@ -460,13 +460,14 @@ In the code snippet above we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMS
 \
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code provided in this section are available in the [UMGYDE Tuned Model: Retraining with the best params](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#2169) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2169) script on _GitHub_.
+The complete version of the source code provided in this section are available in the [UMGYDE Tuned Model: Retraining with the best params](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1900) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1900) script on _GitHub_.
 :::
 
-Now, we can calculate the _Regularized UMGYDE Effect_ by retraining our model on the entire `edx` dataset with the best values of the `degree` and `span` parameters we figured out above, for the definitive _Root Mean Squared Error_ calculation and use in subsequent processing.
+Now, we can refine our *User+Movie+Genre+Year+SmoothedDay Effect Model* by retraining on the entire `edx` dataset with the best values of the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters `degree` and `span` we just figured out (let's call it *Tuned UMGYDE Best Model*), for the definitive _RMSE_ calculation and use in subsequent models:
 
-The most significant part of the code that performs this operation is shown below:
+The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1913) performs this operation:
 ```{r, eval=FALSE}
+# The Best Parameters and RMSE Value 
 lss.best_results <- data.frame(degree = degree, 
                          span = c(lss.UMGYDE.fine_tune.degree0.result.best_span,
                                   lss.UMGYDE.fine_tune.degree1.result.best_span,
@@ -501,10 +502,10 @@ str(lss.UMGYD_effect)
 
 
 ::: {.noteblock data-latex=""}
-Here we use the helper function [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) described above in the [UMGYDE Model: Helper Functions] section.
+In the code snippet above we use the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function described in the *Models Training: Support Functions /* [UMGYDE Model: Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
-Let's now visualize final Smoothed Day effect we have obtained:
+Let's now visualize the final *Smoothed Day Effect* we have just obtained:
 ```{r}
 lss.UMGYD_effect |>
   ggplot(aes(x = days)) +
@@ -513,17 +514,13 @@ lss.UMGYD_effect |>
 ```
 
 ::: {.noteblock data-latex=""}
-It should be noted, however, that the graph above is not as smooth as before, although the data now provides better results.
+It should be noted, however, that the graph above is not as smooth as when training the model with default [loess] parameters (`degree` and `span`), although we have now obtained a better (*RMSE*) result.
 :::
 
-
-We calculate the _Root Mean Squared Error_ for the ultimately computed _UMGYDE Effect_ using the helper function [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above in the [UMGYDE Model: Helper Functions] section above as follows:
+Now, we are ready to calculate the *RMSE* for the ultimately *Tuned UMGYDE Best Model* and add the definitive result to our *Result Table*:
 ```{r, eval=FALSE}
 lss.UMGYD_effect.RMSE <- calc_UMGY_SmoothedDay_effect.RMSE.cv(lss.UMGYD_effect)
-```
 
-Finally, we add the definitive result for the current model to our _Result Table_:
-```{r, eval=FALSE}
 RMSEs.ResultTibble.UMGYDE.tuned <- RMSEs.ResultTibble.UMGYDE2 |> 
   RMSEs.AddRow("Tuned UMGYDE Best Model", 
                lss.UMGYD_effect.RMSE,
@@ -534,10 +531,14 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE.tuned)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
+
+  - [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) (described in the *Models Training: Support Functions /* [UMGYDE Model: Utility Functions] section) to calculate the *RMSE* for the *UMGYDE Model*;
+  
+  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
 
-Finally, let's regularize our tuned model as we did with the previous ones.
+Finally, let's *regularize* the tuned *UMGYDE Model* as we did above with the previous models.
 
 \newpage
 
