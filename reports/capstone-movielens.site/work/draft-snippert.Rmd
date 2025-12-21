@@ -11,7 +11,7 @@ In the code snippet above, we use the custom function [@fn](#func.@fn) described
 \
 
 ::: {.noteblock data-latex=""}
-Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call as well, which we will also need for the *Regularization* techniques to apply to our models (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Common Helper Functions: Regularization](#appndx_a.CHF.regularization) section of [Appendix A: Support Functions]).
+Some of the functions described in this section accepts the `lambda` parameter, which we will need later for the _Model Regularization_ method. We use the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L63) function call as well, which we will also need for the *Regularization* techniques to apply to our models (for details, see the  [mean_reg](#func.mean_reg) function description in the Section [Common Helper Functions: Regularization](#appndx_a.CHF.model_tuning_utils) section of [Appendix A: Support Functions]).
 We have already explained that in the [UME Model Regularization] section. 
 For now, we omit the `lambda` parameter, accepting its default value `lambda = 0`. Let's recall that in this case, the [mean_reg](#func.mean_reg) function is equivalent to the standard R function [base::mean](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mean).
 :::
@@ -168,7 +168,7 @@ calc_user_movie_genre_effect_RMSE.cv <- function(umg_effect){
 
 
 
-### Regularization Functions {#appndx_a.CHF.regularization}
+### Regularization Functions {#appndx_a.CHF.model_tuning_utils}
 \
 
 ::: {.noteblock data-latex=""}
@@ -699,5 +699,5 @@ The source code of the [mean_reg](https://github.com/AzKurban-edX-DS/Capstone-Mo
 :::
 :::
 
-### Regularization Functions2 {#appndx_a.CHF.regularization2}
+### Regularization Functions2 {#appndx_a.CHF.model_tuning_utils2}
 \

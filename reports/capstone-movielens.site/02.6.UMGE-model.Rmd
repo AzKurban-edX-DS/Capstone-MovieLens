@@ -135,6 +135,9 @@ Unfortunately, for some reason, we do not see any improvement here yet.
 The complete version of the source code provided in this section can be found in the [UMGE Model Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L948) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L948) script.
 :::
 
+#### UMGE Model Regularization: Mathematical Description
+\
+
 We have already explained the idea of the _Linear Model Regularization_ in the [UME Model Regularization] section above. Let's extend the concept outlined there to our current model.
 
 In this case, the formula \@ref(eq:ME-penalty) for adding a penalty takes the form:
@@ -155,7 +158,7 @@ where $n_{g}$ is the number of ratings made for genre $g$.
 
 As we decided earlier (and outlined in the [UME Model Regularization] section), we implement the *Regularization method* for our models in the following three steps:
 
-  1. **Pre-configuration:** Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples;
+  1. **Pre-configuration:** Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
   
   2. **Fine-tuning:** Figuring out the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* of the model.
 
@@ -175,13 +178,12 @@ As we explained earlier in the [UME Model Regularization: *Pre-configuration*], 
 As before, we are going to use the helper function [tune.model_param](#func.tune.model_param), but this time, passing another function as its argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value): the function [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) specifically design for the *UMGE Model*.
 
 ::: {.noteblock data-latex=""}
-The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) are described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UMGE Model: Regularization], respectively, of [Appendix A: Support Functions].
+The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) are described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  *Models Training: Support Functions /* [UMGE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
-Below we provide the most significant part of the code that performs this operation:
+The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L978) performs this operation:
 ```{r, eval=FALSE}
 lambdas <- seq(0, 0.2, 0.01)
-
 cv.UMGE.preset.result <- 
   tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
 
@@ -195,7 +197,7 @@ cv.UMGE.preset.result$best_result
 ```
 
 ::: {.noteblock data-latex=""}
-The custom functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UMGE Model: Regularization] of [Appendix A: Support Functions], respectively.
+The custom functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  *Models Training: Support Functions /* [UMGE Model: Regularization] of [Appendix A: Support Functions], respectively.
 :::
 
 Now, let's visualize the results of the $\lambda$ range preconfiguration:
@@ -227,7 +229,7 @@ The complete version of the source code provided in this section can be found in
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
-Below we provide the most significant part of the code that performs this operation:
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1020) prepares the interval of values for the $\lambda$ parameter, over which the operation has to be done:
 ```{r, eval=FALSE}
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGE.preset.result$tuned.result)
@@ -236,15 +238,15 @@ UMG_effect.loop_starter <- c(endpoints["start"],
                             endpoints["end"], 
                             8)
 ```
-
-::: {.noteblock data-latex=""}
-The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [ Regularization Functions](#appndx_a.CHF.regularization) of [Appendix A: Support Functions].
-:::
-
 ```{r}
 UMG_effect.loop_starter
-UMGE.rglr.fine_tune.cache.path
 ```
+
+::: {.noteblock data-latex=""}
+The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) of [Appendix A: Support Functions].
+:::
+
+And the next [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1029) below accomplishes the task of *fine-tuning* the model:
 ```{r, eval=FALSE}
 UMGE.rglr.fine_tune.cache.base_name <- "UMGE.rglr.fine-tuning"
 
@@ -258,11 +260,19 @@ UMGE.rglr.fine_tune.RMSE.best <- UMGE.rglr.fine_tune.results$best_result["best_R
 ```
 
 ::: {.noteblock data-latex=""}
-The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Regularization Functions](#appndx_a.CHF.regularization) and  *Models Training: Support Functions /* [UMGE Model: Regularization], respectively, of [Appendix A: Support Functions].
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  *Models Training: Support Functions /* [UMGE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
 \newpage
 
+Below are the results of fine-tuning the *UMGYE Model*:
+
+```{r, echo=FALSE}
+writeLines("*** Path to the cache directory for intermediate fine-tuning results ***")
+```
+```{r}
+UMGE.rglr.fine_tune.cache.path
+```
 ```{r, echo=FALSE}
 writeLines("*** Fine-tuning results object data structure ***")
 ```

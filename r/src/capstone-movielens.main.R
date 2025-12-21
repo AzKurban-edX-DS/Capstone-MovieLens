@@ -2036,7 +2036,7 @@ using `loess` function call with the best degree & span values.")
 
 #### Close Log -----------------------------------------------------------------
 log_close()
-### UMGDYE Model Regularization ------------------------------------------------
+### UMGYDE Model Regularization ------------------------------------------------
 #### Open log for Pre-configuration step ----------------------------------
 open_logfile(".rglr.UMGYD-effect.pre-set-lambdas")
 #### UMGYDE Model Regularization Directory Paths -------------------------------

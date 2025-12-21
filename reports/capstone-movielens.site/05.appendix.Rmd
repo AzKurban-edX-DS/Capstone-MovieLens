@@ -2141,7 +2141,7 @@ The source code of the [RMSE.Total_kable](https://github.com/AzKurban-edX-DS/Cap
 
 \newpage
 
-### Regularization Functions {#appndx_a.CHF.regularization}
+### Model Tuning Utils {#appndx_a.CHF.model_tuning_utils}
 \
 
 ::: {.noteblock data-latex=""}
@@ -2457,7 +2457,7 @@ The source code of the [get_fine_tune.param.endpoints](https://github.com/AzKurb
 #### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) Function {#func.get_best_param.result}
 \
 
-Selects the best values from a pair of matched vectors: a vector of sorted *regularization parameter* $\lambda$ values and a vector of corresponding *Root Mean Squared Errors (RMSE)* values passed in the [param_values](#func.tune.model_param.args.param_values) and [RMSEs](#func.get_best_param.result.args.RMSEs) arguments, respectively.
+Selects the best values from a pair of matched vectors: a vector of sorted *tuning parameter* values and a vector of corresponding *Root Mean Squared Errors (RMSE)* values passed in the [param_values](#func.tune.model_param.args.param_values) and [RMSEs](#func.get_best_param.result.args.RMSEs) arguments, respectively.
 
 
 ::: { #func.get_best_param.result.usage .sidebar }
@@ -2476,7 +2476,7 @@ Selects the best values from a pair of matched vectors: a vector of sorted *regu
 \
 
 ::: { #func.get_best_param.result.args.param_values .sidebar }
-  - **param_values:** Numeric vector containing a sorted list of the *regularization parameter* $\lambda$ values to search for the best one during the *Model Regularization* process; 
+  - **param_values:** Numeric vector containing a sorted list of the *tuning parameter* values to search for the best one during the *Model Regularization* process; 
 
 :::
 ::: { #func.get_best_param.result.args.RMSEs .sidebar }
@@ -2489,9 +2489,9 @@ Selects the best values from a pair of matched vectors: a vector of sorted *regu
 ##### Details
 \
 
-This is a *utility function* used to select the *best values* during the *Model Regularization* process, utilizing the *penalized approach* to regularize predictions as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
+This is a *utility function* used to select the *best values* during the *Model Parameter Tuning* process (including the *Model Regularization* procedure that utilizes the *penalized approach* to regularize predictions as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]).
 
-With this approach, the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *RMSE* for the model being tested.
+With this approach, the best value of the *tuning parameter* is considered to be the value corresponding to the minimum value of the *RMSE* for the model being tested.
 
 In *This Project*, this function is used internally in the [model.tune.param_range](#func.model.tune.param_range) function described below in this section.
 :::
@@ -2500,7 +2500,7 @@ In *This Project*, this function is used internally in the [model.tune.param_ran
 ##### Value
 \
 
-Numeric vector containing a pair of values: the best *regularization parameter* $\lambda$ value and corresponding *minimal RMSE*. 
+Numeric vector containing a pair of values: the best *tuning parameter* value and corresponding *minimal RMSE*. 
 :::
 
 ::: { #func.get_best_param.result.code .sidebar }
@@ -2527,8 +2527,7 @@ The source code of the [get_best_param.result](https://github.com/AzKurban-edX-D
 #### [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) Function {#func.tune.model_param}
 \
 
-Implements an algorithm for selecting the best value of the *regularization parameter* $\lambda$ from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument, using a simple approach of selecting the *penalty term* as described in [Section 24.3 *Selecting the penalty term*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-selecting-penalty-term)*[@IDS2_24-3].
-
+Implements an algorithm for selecting the best value of the *tuning parameter* from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
 
 ##### Signature
 \
@@ -2551,12 +2550,12 @@ tune.model_param <- function(param_values,
 \
 
 ::: { #func.tune.model_param.args.param_values .sidebar }
-  - **param_values:** Numeric vector containing a sorted list of $\lambda$ values to search for the best one during the model regularization process; 
+  - **param_values:** Numeric vector containing a sorted list of parameter values to search for the best one during the model regularization process; 
 
 :::
 
 ::: { #func.tune.model_param.args.fn_tune.test.param_value .sidebar }
-  - **fn_tune.test.param_value:** Model-specific helper function that validates the model by computing the model's *RMSE* value for a given value of the $\lambda$ parameter; 
+  - **fn_tune.test.param_value:** Model-specific helper function that validates the model by computing the model's *RMSE* value for a given parameter value; 
 
 :::
 
@@ -2575,16 +2574,16 @@ tune.model_param <- function(param_values,
 ##### Details
 \
 
-With the approach used in this algorithm, the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *Root Mean Square Error (RMSE)* for the model being tested.
+With the approach used in this algorithm, the best value of the *tuning parameter* is considered to be the value corresponding to the minimum value of the *Root Mean Square Error (RMSE)* for the model being tested.
 
-To find the best value of the $\lambda$ parameter, the algorithm iterates over the values from the list passed in the [param_values](#func.tune.model_param.args.param_values) argument, computing the *RMSE* of the model for each of them, using the helper function specified in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument.
+To find the best value, the algorithm iterates over the values from the list passed in the [param_values](#func.tune.model_param.args.param_values) argument, computing the *RMSE* of the model for each of them, using the helper function specified in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument.
 
-The algorithm continues iterating until the end of the  $\lambda$ parameter values list if [break.if_min](#func.tune.model_param.args.break.if_min) is `FALSE`.
+The algorithm continues iterating until the end of the parameter values list if [break.if_min](#func.tune.model_param.args.break.if_min) is `FALSE`.
 
 Otherwise, the algorithm terminates after the number of cycles specified by the argument [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min) has completed since the minimum *RMSE* value was reached.
 
 ::: {.noteblock data-latex=""}
-The algorithm assumes that the set of the *RMSE* values is a monotonically non-increasing function of the *regularization parameter* $\lambda$ until the minimum is reached and monotonically non-decreasing thereafter. That is, it is assumed that the function can have only one minimum on the given set.
+The algorithm assumes that the set of the *RMSE* values is a monotonically non-increasing function of the *tuning parameter* until the minimum is reached and monotonically non-decreasing thereafter. That is, it is assumed that the function can have only one minimum on the given set.
 :::
 :::
 
@@ -2601,13 +2600,13 @@ This function returns a list of two objects:
 
 The objects comprising the return list are as follows:
 
-  - `best_result`: Vector containing a *pair of values*: the found *best value of the regularization parameter* $\lambda$ for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
+  - `best_result`: Vector containing a *pair of values*: the found *best value of the tuning parameter* for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
 
   - `tuned.result`: Data frame containing two variables:
   
-    - *parameter.value*: A vector containing all processed values of the parameter $\lambda$;
+    - *parameter.value*: A vector containing all processed values of the *tuning parameter*;
     
-    - *RMSE*: A vector containing the *RMSE* values corresponding to the processed values of $\lambda$.
+    - *RMSE*: A vector containing the *RMSE* values corresponding to the processed values of the *tuning parameter*.
 
 :::
 
@@ -2683,8 +2682,7 @@ The complete source code of the [tune.model_param](https://github.com/AzKurban-e
 #### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) Function {#func.model.tune.param_range}
 \
 
-Implements an algorithm for fine-tuning the model under test by figuring out the most precise value possible of the *regularization parameter* $\lambda$ over a given interval determined by the $start$ and $end$ values of the interval passed in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument.
-The algorithm is based on a simple approach of selecting the *penalty term* as described in [Section 24.3 *Selecting the penalty term*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-selecting-penalty-term)*[@IDS2_24-3].
+Implements an algorithm for fine-tuning the model under test by figuring out the most precise value possible of the *tuning parameter* over a given interval determined by the $start$ and $end$ values of the interval passed in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument.
 
 ##### Signature
 \
@@ -2712,9 +2710,9 @@ model.tune.param_range <- function(loop_starter,
 ::: { #func.model.tune.param_range.args.loop_starter .sidebar }
 ###### ***loop_starter***
 \
-A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval over which the value of the parameter $\lambda$ that minimizes *RMSE* has to be found.
+A numeric vector of the form `c(start, end, dvs)`, where `start` and `end` are the endpoints of the interval over which the value of the *tuning parameter* that minimizes *RMSE* has to be found.
 
-The `dvs` is a divisor used to calculate the *step size* for partitioning the interval into a sequence of $\lambda$ values, among which the value that minimizes *RMSE* has to be found.
+The `dvs` is a divisor used to calculate the *step size* for partitioning the interval into a sequence of parameter values, among which the value that minimizes *RMSE* has to be found.
 
 So the *step size* of the sequence is calculated as follows:
 $$
@@ -2730,9 +2728,7 @@ seq(start, end, step)
 In the function body, the *step size* is stored in the local variable `seq_increment`, and the values of $start$, $end$, and $dvs$ are stored in the local variables `seq_start`, `seq_end`, and `interval_divisor`, respectively.
 :::
 
-In fact, the `seq` function is called internally to generate the sequence during the algorithm's execution.
-
-Thus, the sequence is generated by the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L256):
+In fact, the [seq](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq) function is called internally to generate the sequence during the algorithm's execution by the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L256):
 ```{r eval=FALSE}
     test_param_vals <- seq(seq_start, seq_end, seq_increment)
 ```
@@ -2741,19 +2737,22 @@ Thus, the sequence is generated by the following [line of code](https://github.c
 ::: { #func.model.tune.param_range.args.tune_dir_path .sidebar }
 ###### ***tune_dir_path***
 \
+
 To improve performance, the algorithm caches intermediate results in the file system. The value passed in *this argument* specifies the path to the directory where the files are cached.
 :::
 
 ::: { #func.model.tune.param_range.args.cache_file_base_name .sidebar }
 ###### ***cache_file_base_name***
 \
+
 The algorithm generates unique names for cache files based on this and the [loop_starter](#func.model.tune.param_range.args.loop_starter) arguments' values, as well as a few other intermediate values calculated at runtime.
 :::
 
 ::: { #func.model.tune.param_range.args.fn_tune.test.param_value .sidebar }
 ###### ***fn_tune.test.param_value***
 \
-Model-specific helper function name to pass to the [same-named argument](#func.tune.model_param.args.fn_tune.test.param_value) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
+
+Name of a model-specific helper function to pass to the [same-named argument](#func.tune.model_param.args.fn_tune.test.param_value) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
 :::
 
 ::: { #func.model.tune.param_range.args.max.identical.min_RMSE.count .sidebar }
@@ -2787,12 +2786,12 @@ Model-specific helper function name to pass to the [same-named argument](#func.t
 ##### **Details** 
 \
 
-With the approach used in this algorithm, the best value of the *regularization parameter* $\lambda$ (we call this the *best value of the regularization parameter* or the *best value of $\lambda$*) is considered to be the value corresponding to the minimum value of the *Root Mean Square Error (RMSE)* for the model being tested.
+With the approach used in this algorithm, the best value of the *tuning parameter* (we call this the *best value of the tuning parameter*) is considered to be the value corresponding to the minimum value of the *Root Mean Square Error (RMSE)* for the model being tested.
 
 During the execution, the algorithm organizes a cycle consisting of the following steps:
 
 ::: { #func.model.tune.param_range.details.step1 .sidebar }
-  1. Calculates the step size for partitioning the interval into a sequence of $\lambda$ values and save it to the local variable `seq_increment` as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L240):
+  1. Calculates the step size for partitioning the interval into a sequence of values and save it to the local variable `seq_increment` as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L240):
 ```{r eval=FALSE}
     seq_increment <- (seq_end - seq_start)/interval_divisor 
 ```
@@ -2826,7 +2825,7 @@ In the code snippet above, we use the custom function [put_log2](#func.put_log2)
 :::  
 
 ::: { #func.model.tune.param_range.details.step3 .sidebar }
-  3. If the *step size* is no less than the minimum allowed value (`seq_increment >= 1e-13` in our case), creates a vector containing a sequence of $\lambda$ values (as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above) using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L256):
+  3. If the *step size* is no less than the minimum allowed value (`seq_increment >= 1e-13` in our case), creates a vector containing a sequence of parameter values (as described in the [loop_starter](#func.model.tune.param_range.args.loop_starter) argument description above) using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L256):
 ```{r eval=FALSE}
     test_param_vals <- seq(seq_start, seq_end, seq_increment)
 ```
@@ -2910,7 +2909,7 @@ File saved: %1", file_path_tmp)
 
 
 ::: { #func.model.tune.param_range.details.step8 .sidebar }
-  8. Determines endpoints for a new interval of $\lambda$ values in the neighborhood of the minimum *RMSE* value (figured out so far)  with use of the helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described above, to improve the accuracy of the *RMSE* calculation in the next iteration:
+  8. Determines endpoints for a new interval of the *tuning parameter* values in the neighborhood of the minimum *RMSE* value (figured out so far)  with use of the helper function [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) described above, to improve the accuracy of the *RMSE* calculation in the next iteration:
 ```{r eval=FALSE}
     bound.idx <- get_fine_tune.param.endpoints.idx(tuned.result)
     start.idx <- bound.idx["start"]
@@ -2950,7 +2949,7 @@ File saved: %1", file_path_tmp)
 
 
 ::: { #func.model.tune.param_range.details.step10 .sidebar }
-  10. Checks deviations from the minimum *RMSE* value for the values corresponding to the endpoints of the new interval of the $\lambda$ parameter values figured out in the [step 8](#func.model.tune.param_range.details.step8) and updates in corresponding local variables those endpoint values of $\lambda$ and *RMSE* for which the corresponding deviation reaches the minimum threshold specified by the value passed in the [endpoint.min_diff](#func.model.tune.param_range.args.endpoint.min_diff) argument:
+  10. Checks the deviations from the minimum *RMSE* value for the values corresponding to the endpoints of the new interval of the *tuning parameter* values figured out in the [step 8](#func.model.tune.param_range.details.step8), and updates in corresponding local variables those parameter endpoint and correspondinng *RMSE* values, for which the corresponding deviation reaches the minimum threshold specified by the value passed in the [endpoint.min_diff](#func.model.tune.param_range.args.endpoint.min_diff) argument:  
 ```{r eval=FALSE}
     if (RMSE.leftmost.tmp - min_RMSE >= endpoint.min_diff) {
       prm_val.leftmost <- prm_val.leftmost.tmp
@@ -2967,7 +2966,7 @@ File saved: %1", file_path_tmp)
 
 
 ::: { #func.model.tune.param_range.details.step11 .sidebar }
-  11. Makes sure that the index of the start endpoint of the interval of the $\lambda$ parameter values figured out in the [step8](#func.model.tune.param_range.details.step8) is less than the index of the end endpoint and, if not, exits the loop with the *warning message* and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below: 
+  11. Makes sure that the index of the start endpoint of the parameter interval figured out in the [step8](#func.model.tune.param_range.details.step8) is less than the index of the end endpoint and, if not, exits the loop with the *warning message* and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below: 
 ```{r eval=FALSE}
     if (end.idx - start.idx <= 0) {
       warning("`tuned.result$parameter.value` sequential start index are the same or greater than end one.")
@@ -3024,7 +3023,7 @@ Currently computed minial value is: ", min_RMSE)
 :::
 
 ::: { #func.model.tune.param_range.details.step13 .sidebar }
-  13. (`best_RMSE == min_RMSE`) Checks the number of matches between the minimum *RMSE* value determined so far and the minimum *RMSE* value calculated for the current iteration (`best_RMSE == min_RMSE`), and if it exceeds the value passed in the argument [max.identical.min_RMSE.count](#func.model.tune.param_range.args.max.identical.min_RMSE.count), saves the best results for the $\lambda$ and *RMSE* values figured out in the current iteration in the local variable `param_values.best_result` and exits the loop with an appropriate warning message and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below. 
+  13. (`best_RMSE == min_RMSE`) Checks the number of matches between the minimum *RMSE* value determined so far and the minimum *RMSE* value calculated for the current iteration (`best_RMSE == min_RMSE`), and if it exceeds the value passed in the argument [max.identical.min_RMSE.count](#func.model.tune.param_range.args.max.identical.min_RMSE.count), saves the best results for the *tuning parameter* and corresponding *RMSE* values figured out in the current iteration in the local variable `param_values.best_result` and exits the loop with an appropriate warning message and goes to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described in the [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection below. 
   
   - Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step14):
 ```{r eval=FALSE}
@@ -3126,15 +3125,15 @@ This function returns a list of three objects:
 
 The objects comprising the return list are as follows:
 
-  - `best_result`: A vector containing a *pair of values*: the found *best value of the regularization parameter* $\lambda$ for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
+  - `best_result`: A vector containing a *pair of values*: the found *best value of the tuning parameter* for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
 
-  - `param_values.endpoints`: Information related to the final interval of the *regularization parameter* $\lambda$ values.;
+  - `param_values.endpoints`: Information related to the final interval of the *tuning parameter* values;
 
   - `tuned.result`: A data frame containing two variables:
   
-    - *parameter.value*: A vector containing all processed values of the parameter $\lambda$;
+    - *parameter.value*: A vector containing all processed values of the *tuning parameter*;
     
-    - *RMSE*: A vector containing the *RMSE* values corresponding to the processed values of $\lambda$.
+    - *RMSE*: A vector containing the *RMSE* values corresponding to the processed *tuning parameter* values.
 
 :::
 
@@ -3143,62 +3142,6 @@ The objects comprising the return list are as follows:
 \
 
 The complete source code of the function [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) script on _GitHub_.
-:::
-
-\newpage
-
-#### [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) Function {#func.cmmn_hlp.rglr.fn.tmpl}
-\
-
-::: { #func.cmmn_hlp.rglr.fn.tmpl.usage .sidebar }
-##### Usage
-\
-
-```{r eval=FALSE}
-cmmn_hlp.rglr.fn.tmpl()
-
-```
-:::
-
-::: { #func.cmmn_hlp.rglr.fn.tmpl.args .sidebar }
-##### Arguments
-\
-
-::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
-  - **:** ; 
-
-:::
-::: { #func.cmmn_hlp.rglr.fn.tmpl.args. .sidebar }
-  - **:** ; 
-
-:::
-:::
-
-::: { #func.cmmn_hlp.rglr.fn.tmpl.details .sidebar }
-##### Details
-\
-
-
-
-:::
-
-::: { #func.cmmn_hlp.rglr.fn.tmpl.value .sidebar }
-##### Value
-\
-
-:::
-
-::: { #func.cmmn_hlp.rglr.fn.tmpl.code .sidebar }
-##### Source Code
-\
-
-The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is shown below:
-```{r eval=FALSE}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [cmmn_hlp.rglr.fn.tmpl](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#LX) script on _GitHub_.
-:::
 :::
 
 \newpage
@@ -4012,7 +3955,7 @@ The source code of the [get_best_param.result](https://github.com/AzKurban-edX-D
 
 ### Data Visualization Functions
 
-#### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) Function {#func.data.plot}
+#### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L580) Function {#func.data.plot}
 \
 
 Plots a graph based on the dataset passed in the [data](#func.data.plot.args.data) parameter, using both points and a line.
@@ -4022,14 +3965,12 @@ Plots a graph based on the dataset passed in the [data](#func.data.plot.args.dat
 \
 
 ```{r eval=FALSE}
-data.plot(data, 
-          title, 
-          xname, 
-          yname, 
-          xlabel = NULL, 
-          ylabel = NULL,
-          line_col = "blue",
-          normalize = FALSE)
+lss.UMGYDE.preset.degree2.result$tuned.result |>
+  data.plot(title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 2`",
+              xname = "parameter.value", 
+              yname = "RMSE", 
+              xlabel = "spans", 
+              ylabel = "RMSE")
 ```
 :::
 
@@ -4054,19 +3995,19 @@ data.plot(data,
 
 :::
 ::: { #func.data.plot.args.xlabel .sidebar }
-  - **xlabel = NULL:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+  - **xlabelL:** (Character string, `NULL` by default) The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
 
 :::
 ::: { #func.data.plot.args.ylabel .sidebar }
-  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+  - **ylabel:** (Character string, `NULL` by default) The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
 
 :::
 ::: { #func.data.plot.args.line_col .sidebar }
-  - **line_col = blue:** The line color; 
+  - **line_col:** (Character string, ***\textcolor{blue}{blue}*** by default) Line color. 
 
 :::
 ::: { #func.data.plot.args.normalize .sidebar }
-- **normalize = FALSE:** If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
+- **normalize:** (Boolean, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
@@ -4075,7 +4016,7 @@ data.plot(data,
 ##### Details
 \
 
-The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function and is a simple and convenient tool for visualizing the data of this project.
+The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function and is a simple and convenient tool for visualizing the data of *this Project*.
 
 :::
 
@@ -4083,7 +4024,7 @@ The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.or
 ##### Source Code
 \
 
-The soure code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) function is shown below:
+The soure code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L580) function is shown below:
 ```{r eval=FALSE}
 data.plot <- function(data, 
                       title, 
@@ -4119,11 +4060,11 @@ data.plot <- function(data,
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L592) script on _GitHub_.
+The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L580) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L435) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L580) script on _GitHub_.
 :::
 :::
 
-#### [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) Function {#func.data.plot.left.n}
+#### [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L481) Function {#func.data.plot.left.n}
 \
 
 Plots a graph based on the first $n$ rows (the $n$ is specified by the [left.n](#func.data.plot.left.n.args.left.n) parameter) of the dataset passed in the [data](#func.data.plot.left.n.args.data) parameter, using both points and a line.
@@ -4137,16 +4078,37 @@ The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is 
 \
 
 ```{r eval=FALSE}
-data.plot.left.n <- function(data, 
-                             left.n = 0,
-                             title, 
-                             xname, 
-                             yname, 
-                             xlabel, 
-                             ylabel,
-                             line_col = "red",
-                             normalize = FALSE)
+data.plot.left_detailed <- function(data, 
+                                    left.n = 0,
+                                    title = NULL,
+                                    title.left = NULL,
+                                    xname, 
+                                    yname, 
+                                    xlabel1 = NULL, 
+                                    xlabel2 = NULL, 
+                                    ylabel1 = NULL,
+                                    ylabel2 = NULL,
+                                    line_col1 = "blue",
+                                    line_col2 = "red",
+                                    normalize = FALSE) {
+# ...
+
+  p2 <- data |>
+    data.plot.left.n(left.n = left.n,
+                     title = title.left,
+                     xname = xname, 
+                     yname = yname, 
+                     xlabel = xlabel2, 
+                     ylabel = ylabel2,
+                     line_col = line_col2,
+                     normalize = normalize)
+  grid.arrange(p1, p2)
+}
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, the function `data.plot.left.n` is called internally from the [data.plot.left_detailed](#func.data.plot.left_detailed) function described below in this section.
+:::
 :::
 
 ::: { #func.data.plot.left.n.args .sidebar }
@@ -4158,7 +4120,7 @@ data.plot.left.n <- function(data,
 
 :::
 ::: { #func.data.plot.left.n.args.left.n .sidebar }
-  - **left.n:** If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
+  - **left.n:** (Integer, $0$ by default)If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
 
 :::
 ::: { #func.data.plot.left.n.args.title .sidebar }
@@ -4174,19 +4136,19 @@ data.plot.left.n <- function(data,
 
 :::
 ::: { #func.data.plot.left.n.args.xlabel .sidebar }
-  - *xlabel = NULL*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label. 
+  - *xlabel*:** The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left.n.args.ylabel .sidebar }
-  - **ylabel = NULL:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label. 
+  - **ylabel:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left.n.args.line_col .sidebar }
-  - **line_col = blue:** The line color. 
+  - **line_col:** (Character string, ***\textcolor{red}{red}*** by default) Line color. 
 
 :::
 ::: { #func.data.plot.left.n.args.normalize .sidebar }
-  - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
+  - **normalize:** (Boolean, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
@@ -4196,13 +4158,17 @@ data.plot.left.n <- function(data,
 \
 
 The function is a wrapper for the [data.plot](#func.data.plot) function described above and is a simple and convenient tool for more detailed visualization of the left part of the graph, initially built based on the entire data set passed in the [data](#func.data.plot.left.n.args.data) parameter.
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function that is used internally in the [data.plot.left_detailed](#func.data.plot.left_detailed) function (described below in this section) as shown above in the [Usage](#func.data.plot.left.n.usage) section of *this Description*.
+:::
 :::
 
 ::: { #func.data.plot.left.n.code .sidebar }
 ##### Source Code
 \
 
-The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) function is shown below:
+The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L481) function is shown below:
 ```{r eval=FALSE}
 data.plot.left.n <- function(data, 
                              left.n = 0,
@@ -4236,14 +4202,14 @@ data.plot.left.n <- function(data,
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L493) script on _GitHub_.
+The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L481) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L435) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L481) script on _GitHub_.
 :::
 :::
 
-#### [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) Function {#func.data.plot.left_detailed}
+#### [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L536) Function {#func.data.plot.left_detailed}
 \
 
-Combines two graphs plotted by the internally called helper functions in a grid: the first is a standard graph plotted by the [data.plot](#func.data.plot) function described above, the second is a graph based on the first $n$ rows (the $n$ is specified by the [left.n](#func.data.plot.left.n.args.left.n) parameter) of the dataset plotted by the [data.plot.left.n](#func.data.plot.left.n) function also described above (The data for both graphs is passed in the [data]).(#func.data.plot.left.n.args.data) parameter).
+Plots two graphs, placing them vertically one above the other: the first one at the top is the *main graph* plotted by the internally called auxiliary function [data.plot](#func.data.plot) (described above in this section) based on the data passed in the [data](#func.data.plot.left_detailed.args.data) argument, and the second one is the left part of the *main graph*, based on the first $n$ rows of the data used for the *main graph*, and plotted on an *enlarged scale* (the $n$ value is passed in the [left.n](#func.data.plot.left.n.args.left.n) argument).
 
 ::: {.noteblock data-latex=""}
 The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is assumed to be sorted by the column used for the $x$ axis (specified by the column name passed in the [xname](#func.data.plot.left.n.args.xname) parameter).
@@ -4254,19 +4220,13 @@ The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is 
 \
 
 ```{r eval=FALSE}
-data.plot.left_detailed <- function(data, 
-                                    left.n = 0,
-                                    title = NULL,
-                                    title.left = NULL,
-                                    xname, 
-                                    yname, 
-                                    xlabel1 = NULL, 
-                                    xlabel2 = NULL, 
-                                    ylabel1 = NULL,
-                                    ylabel2 = NULL,
-                                    line_col1 = "blue",
-                                    line_col2 = "red",
-                                    normalize = FALSE)
+  data.plot.left_detailed(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 2`", 
+                             title.left = "Left Part of the Chart Above (Zoomed in)",
+                             left.n = 8,
+                             xname = "parameter.value", 
+                             yname = "RMSE", 
+                             xlabel1 = "spans", 
+                             ylabel1 = "RMSE")
 ```
 :::
 
@@ -4295,27 +4255,31 @@ data.plot.left_detailed <- function(data,
 
 :::
 ::: { #func.data.plot.left_detailed.args.xlabel1 .sidebar }
-  - *xlabel1 = NULL*:** The $x$ axis label for the first plot. If `NULL`, the value of the `xname` parameter is used for the label. 
+  - **xlabel1:** (Character string, `NULL` by default) The $x$ axis label for the first plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.xlabel2 .sidebar }
-  - *xlabel2 = NULL*:** The $x$ axis label for the second plot. If `NULL`, the value of the `xname` parameter is used for the label. 
+  - **xlabel2:** (Character string, `NULL` by default) The $x$ axis label for the second plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.ylabel1 .sidebar }
-  - **ylabel1 = NULL:** The $y$ axis label for the first plot. If `NULL`, the value of the `yname` parameter is used for the label. 
+  - **ylabel1:** (Character string, `NULL` by default) The $y$ axis label for the first plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.ylabel2 .sidebar }
-  - **ylabel2 = NULL:** The $y$ axis label for the second plot. If `NULL`, the value of the `yname` parameter is used for the label. 
+  - **ylabel2:** (Character string, `NULL` by default) The $y$ axis label for the second plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.line_col .sidebar }
-  - **line_col = blue:** The line color. 
+  - **line_col1** (Character string, ***\textcolor{blue}{blue}*** by default) The line color (main graqh). 
+
+:::
+::: { #func.data.plot.left_detailed.args.line_col .sidebar }
+  - **line_col2** (Character string, ***\textcolor{red}{red}*** by default) The line color (second graph: the left part of the main graph, which is shown on an enlarged scale). 
 
 :::
 ::: { #func.data.plot.left_detailed.args.normalize .sidebar }
-  - **normalize = FALSE:** If `TRUE`, the deviation of $y$ from its mean is used to plot, rather than $y$ values. Otherwise, the value of $y$ is used.
+  - **normalize:** (Boolean, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
@@ -4324,14 +4288,14 @@ data.plot.left_detailed <- function(data,
 ##### Details
 \
 
-Under the hood, the function calls internally the [data.plot](#func.data.plot) and [data.plot.left.n](#func.data.plot.left.n) functions (described above) to build two graphs and combines them into a grid.
+Internally, this function calls the [data.plot](#func.data.plot) and [data.plot.left.n](#func.data.plot.left.n) functions (the both described above in this section) to build two graphs, which it then combines into a grid using [gridExtra::grid.arrange](https://www.rdocumentation.org/packages/gridExtra/versions/2.3/topics/arrangeGrob) `R` function.
 :::
 
 ::: { #func.data.plot.left_detailed.code .sidebar }
 ##### Source Code
 \
 
-The soure code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) function is shown below:
+The soure code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L536) function is shown below:
 ```{r eval=FALSE}
 data.plot.left_detailed <- function(data, 
                                     left.n = 0,
@@ -4381,7 +4345,7 @@ data.plot.left_detailed <- function(data,
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L447) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L448) script on _GitHub_.
+The source code of the [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L536) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L435) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L536) script on _GitHub_.
 :::
 :::
 
@@ -4558,7 +4522,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_user_movie_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
 
 ::: {.noteblock data-latex=""}
-*Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+*Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -4908,7 +4872,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Model Tuning Utils] of *this Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UM_effect.cv.details) section of *this Description* below.
 :::
@@ -4933,7 +4897,7 @@ The function is used in the *regularization process* of the *UME Model* using th
 Internally it uses the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) and [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) functions described above to validate the *UME Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
-This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -5013,7 +4977,7 @@ For example, the [`edx.sgr` Object] is an appropriate dataset as the value of th
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_user_movie_genre_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
 
 ::: {.noteblock data-latex=""}
-*Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+*Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -5361,7 +5325,7 @@ cv.UMGE.preset.result <-
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Model Tuning Utils] of *this Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMG_effect.cv.details) section of *this Description* below.
 :::
@@ -5386,7 +5350,7 @@ The function is used in the *regularization process* of the *UMGE Model* using t
 Internally it uses the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) and [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) functions described above to validate the *UMGE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
-This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -5464,7 +5428,7 @@ In the code snippet above, the function `calc_date_general_effect` is called int
 The *Regularization technique* (described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]) is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.calc_date_general_effect.args.lambda) argument, has non-default value (to be more exact, greater than zero).
 
 ::: {.noteblock data-latex=""}
-*Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+*Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 ::: {.noteblock data-latex=""}
 :::
 
@@ -6059,7 +6023,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Model Tuning Utils] of *this Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGY_effect.cv.details) section of *this Description* below.
 :::
@@ -6084,7 +6048,7 @@ The function is used in the *regularization process* of the *UMGYE Model* using 
 Internally it uses the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) and [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) functions described above to validate the *UMGYE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
-This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -6169,7 +6133,7 @@ This is a helper function that is intended for use in other helper functions suc
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.calc_day_general_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
 
 ::: {.noteblock data-latex=""}
-*Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+*Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -7068,7 +7032,7 @@ Trains and validates (without *regularization*) the *User+Movie+Genre+Year+Smoot
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree0` function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree0` function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section *Common Helper Functions /* [Model Tuning Utils] of *this Appendix*.
 :::
 :::
 
@@ -7093,7 +7057,7 @@ This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.
   - The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args.span) argument value (of this function) in the same-named argument [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span).
 
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -7142,7 +7106,7 @@ lss.UMGYDE.fine_tune.degree1.result <-
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree1` function is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree1` function is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in the section *Common Helper Functions /* [Model Tuning Utils] of *this Appendix*.
 :::
 :::
 
@@ -7167,7 +7131,7 @@ This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.
   - The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument value (of this function) in the same-named argument [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span).
 
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -7214,7 +7178,7 @@ lss.UMGYDE.fine_tune.degree2.result <-
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree2` function is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+In the code snippet above the `train_UMGY_SmoothedDay_effect.RMSE.cv.degree2` function is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in the section *Common Helper Functions /* [Model Tuning Utils] of *this Appendix*.
 :::
 :::
 
@@ -7239,7 +7203,7 @@ This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.RMSE.
   - The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument value (of this function) in the same-named argument [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span).
 
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+This is an auxiliary function intended to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
@@ -7440,7 +7404,7 @@ UMGYDE.rglr.fine_tune.results <-
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in the section *Common Helper Functions /* [Regularization Functions] of *this Appendix*.
+In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in the section *Common Helper Functions /* [Model Tuning Utils] of *this Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGYD_effect.cv.details) section of *this Description* below.
 :::
@@ -7465,7 +7429,7 @@ The function is used in the *regularization process* of the *UMGYDE Model* using
 Internally it uses the [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv) (described above in this section) and [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) functions (described in section [UMGYDE Model: Utility Functions] above) to validate the *UMGYDE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
-This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Regularization Functions] section of *this Appendix*.
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in the *Common Helper Functions /* [Model Tuning Utils] section of *this Appendix*.
 :::
 :::
 
