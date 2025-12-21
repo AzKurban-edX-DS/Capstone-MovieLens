@@ -112,6 +112,13 @@ Now, we have a bit better result than one for the previous (*Regularized UMGE*) 
 ### UMGYE Model Regularization
 \
 
+::: {.noteblock data-latex=""}
+The complete version of the source code provided in this section can be found in the [UMGYE Model Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1210) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1210) script.
+:::
+
+#### UMGYE Model Regularization: Mathematical Description
+\
+
 We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] section above. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_. For the current model, this formula takes the form:
 
 \begin{equation}
@@ -119,7 +126,7 @@ We have already explained the idea of _Linear Model Regularization_ in the [UME 
 (\#eq:YE-penalty)
 \end{equation}
 
-And the formula \@ref(eq:ME-regularized) for calculating the values of the _treatment effect_ that minimizes the equation will take the form:
+And the formula \@ref(eq:GE-regularized) for calculating the values of the _treatment effect_ that minimizes the equation will take the form:
 
 \begin{equation}
 \hat{\gamma}(v_{i,j}, \lambda) = \frac{1}{\lambda + n_v} \sum_{r=1}^{n_v} \left(Y_{i,j} - \mu - \alpha_i - \beta_j - g_{i,j}\right)
@@ -130,7 +137,7 @@ where $n_v$ is the number of ratings made in year $v$.
 
 As with the previous models, we implement the _Regularization_ method for the current model in the following three steps:
 
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *K-Fold Cross Validation* samples (in *this Project* we use $K = 5$);
+  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *K-Fold Cross Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
   
   2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
   
@@ -152,7 +159,7 @@ As for previous models, we will use the function [tune.model_param](#func.tune.m
 The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) are described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  *Models Training: Support Functions /* [UMGYE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
-Below we provide the most significant part of the code that performs this operation:
+The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1241) performs this operation:
 ```{r, eval=FALSE}
   lambdas <- seq(0, 512, 32)
   cv.UMGYE.preset.result <- 
@@ -165,7 +172,7 @@ str(cv.UMGYE.preset.result)
 cv.UMGYE.preset.result$best_result
 ```
 
-Now, let's visualize the results of the $\lambda$ range preconfiguration:
+Now, let's visualize the results of the $\lambda$ range pre-configuration:
 ``` {r}
 cv.UMGYE.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UMGYE Model Regularization: $\lambda$ Range Pre-configuration]'),
@@ -190,7 +197,7 @@ The complete version of the source code provided in this section can be found in
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
-Below we provide the most significant part of the code that performs this operation:
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1282) prepares the interval of values for the $\lambda$ parameter, over which the operation has to be done:
 ```{r, eval=FALSE}
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGYE.preset.result$tuned.result)
@@ -199,15 +206,15 @@ UMGYE.loop_starter <- c(endpoints["start"],
                         endpoints["end"], 
                         8)
 ```
+```{r}
+UMGYE.loop_starter
+```
 
 ::: {.noteblock data-latex=""}
 The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) of [Appendix A: Support Functions].
 :::
 
-```{r}
-UMGYE.loop_starter
-UMGYE.rglr.fine_tune.cache.path
-```
+And the next [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1291) below accomplishes the task of *fine-tuning* the model:
 ```{r, eval=FALSE}
 cache.base_name <- "UMGYE.rglr.fine-tuning"
 
@@ -224,6 +231,14 @@ UMGYE.rglr.fine_tune.RMSE.best <- UMGYE.rglr.fine_tune.results$best_result["best
 The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  *Models Training: Support Functions /* [UMGYE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
+Below are the results of fine-tuning the *UMGYE Model*:
+
+```{r, echo=FALSE}
+writeLines("*** Path to the cache directory for intermediate fine-tuning results ***")
+```
+```{r}
+UMGYE.rglr.fine_tune.cache.path
+```
 ```{r, echo=FALSE}
 writeLines("*** Fine-tuning results object data structure ***")
 ```
