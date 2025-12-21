@@ -206,6 +206,9 @@ UMGYE.loop_starter <- c(endpoints["start"],
                         endpoints["end"], 
                         8)
 ```
+```{r, echo=FALSE}
+writeLines("*** Values of the endpoints and the divisor for the interval of `lambda` values ***")
+```
 ```{r}
 UMGYE.loop_starter
 ```

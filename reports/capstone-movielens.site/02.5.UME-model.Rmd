@@ -219,6 +219,9 @@ UM_effect.loop_starter <- c(endpoints["start"],
                             endpoints["end"], 
                             8)
 ```
+```{r, echo=FALSE}
+writeLines("*** Values of the endpoints and the divisor for the interval of `lambda` values ***")
+```
 ```{r}
 UM_effect.loop_starter
 ```
@@ -246,7 +249,7 @@ The custom functions [model.tune.param_range](#func.model.tune.param_range) and 
 
 \newpage
 
-Below are the results of fine-tuning the *UMGYE Model*:
+Below are the results of fine-tuning the *UME Model*:
 
 ```{r, echo=FALSE}
 writeLines("*** Path to the cache directory for intermediate fine-tuning results ***")
