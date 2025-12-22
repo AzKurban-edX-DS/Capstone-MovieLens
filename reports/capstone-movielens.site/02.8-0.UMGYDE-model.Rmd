@@ -638,6 +638,9 @@ UMGYDE.loop_starter <- c(endpoints["start"],
                         endpoints["end"], 
                         8)
 ```
+```{r, echo=FALSE}
+writeLines("*** Values of the endpoints and the divisor for the interval of `lambda` values ***")
+```
 ```{r}
 UMGYDE.loop_starter
 ```
@@ -707,35 +710,48 @@ Note that in the code snippet above, we use the custom data visualization functi
 
 \newpage
 
-#### UMGYDE Model Regularization: Retraining Model with the best $\lambda$
+#### UMGYDE Model Regularization: Retraining the Model with the best $\lambda$
 \
 
 ::: {.noteblock data-latex=""}
-The complete version of the source code shown in this section is available in the [UMGYDE Regularized Model: Retraining with the best params](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2417) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2417) script on _GitHub_.
+The complete version of the source code shown in this section is available in the [UMGYDE Model Regularization: Retraining with the best params](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2148) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2148) script on _GitHub_.
 :::
 
-Now, we can compute the _Regularized UMGYDE Effect_ by re-training our model on the entire `edx` dataset with the best value of the $\lambda$ parameter we have just figured out and use it in subsequent analysis.
+Now, we can refine our *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie+Genre+Year+SmoothedDay Effect Model* or *Regularized UMGYDE Model* for short), for the definitive *RMSE* calculation and use in subsequent models:
 
-The most significant part of the code for this operation is shown below: 
+The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2161) performs this operation:
 ```{r, eval=FALSE}
-  best_result <- UMGYDE.rglr.fine_tune.results$best_result
-  UMGYDE.rglr.best_lambda <- best_result["param.best_value"]
-  UMGYDE.rglr.best_RMSE <- best_result["best_RMSE"]
-  
-  put_log1("Re-training Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best `lambda`: %1...",
-           UMGYDE.rglr.best_lambda)
-  
-  rglr.UMGYD_effect <- edx |> 
-    regularize.train_UMGYD_effect(UMGYDE.rglr.best_lambda)
+best_result <- UMGYDE.rglr.fine_tune.results$best_result
+UMGYDE.rglr.best_lambda <- best_result["param.best_value"]
+
+put_log1("Re-training Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model for the best `lambda`: %1...",
+         UMGYDE.rglr.best_lambda)
+
+rglr.UMGYD_effect <- edx |> 
+  regularize.train_UMGYD_effect(UMGYDE.rglr.best_lambda)
+```
+
+::: {.noteblock data-latex=""}
+In the code snippet above we use the [regularize.train_UMGYD_effect](#func.regularize.train_UMGYD_effect) function described in the *Models Training: Support Functions /* [UMGYDE Model: Regularization] section of [Appendix A](#appndx_a).
+:::
+
+```{r, echo=FALSE}
+writeLines("*** The Best UMGYD Effect Fine-tuning Results ***")
+```
+```{r}
+UMGYDE.rglr.fine_tune.results$best_result
+```
+
+```{r, echo=FALSE}
+writeLines("*** Regularized UMGYD Effect Structure ***")
 ```
 ```{r}
   str(rglr.UMGYD_effect)
+
+print_log1("Regularized UMGYDE Model has been re-trained for the best `lambda`: %1.",
+         UMGYDE.rglr.best_lambda)
 ```
 
-
-::: {.noteblock data-latex=""}
-Here we use the helper function [regularize.train_UMGYD_effect](#func.regularize.train_UMGYD_effect) described above in the [UMGYDE Model: Helper Functions] section.
-:::
 
 We calculate the _Root Mean Squared Error_ for the ultimately computed _Regularized UMGYDE Effect_ using the helper function [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above in the [UMGYDE Model: Helper Functions] section as follows:
 ```{r, eval=FALSE}

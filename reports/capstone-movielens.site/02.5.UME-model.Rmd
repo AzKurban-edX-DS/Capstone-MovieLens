@@ -92,10 +92,19 @@ hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
 ```
 
 
-We can now construct predictors and see how much the `RMSE` improves[@IDS2_24-1_ME]:
+We can now construct predictors and see how much the `RMSE` improves[@IDS2_24-1_ME].
+
+The following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L513) allows us to perform this task:
 ```{r eval=FALSE}
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
+```
 
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described in the *Models Training: Support Functions /* [UME Model: Utility Functions] section of [Appendix A](#appndx_a). 
+:::
+
+Finally, we add the obtained result to our *Result Table* and print the table using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L):
+```{r eval=FALSE}
 RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |> 
   RMSEs.AddRow("User+Movie Effect Model", cv.UM_effect.RMSE)
 
@@ -107,7 +116,7 @@ RMSE_kable(RMSEs.ResultTibble.UME)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
 
-  - [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) (described in the *Models Training: Support Functions /* [UME Model: Utility Functions] section) to calculate the *RMSE* for the *Current Model*;
+  -  to calculate the *RMSE* for the *Current Model*;
   
   - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
@@ -219,6 +228,9 @@ UM_effect.loop_starter <- c(endpoints["start"],
                             endpoints["end"], 
                             8)
 ```
+```{r, echo=FALSE}
+writeLines("*** Values of the endpoints and the divisor for the interval of `lambda` values ***")
+```
 ```{r}
 UM_effect.loop_starter
 ```
@@ -246,7 +258,7 @@ The custom functions [model.tune.param_range](#func.model.tune.param_range) and 
 
 \newpage
 
-Below are the results of fine-tuning the *UMGYE Model*:
+Below are the results of fine-tuning the *UME Model*:
 
 ```{r, echo=FALSE}
 writeLines("*** Path to the cache directory for intermediate fine-tuning results ***")
@@ -289,17 +301,22 @@ Note that in the code snippet above, we use the custom data visualization functi
 
 \newpage
 
-#### UME Model Regularization: Retraining Model with the best $\lambda$
+#### UME Model Regularization: Retraining the Model with the best $\lambda$
 \
 
 ::: {.noteblock data-latex=""}
 The complete version of the source code provided in this section are available in the [UME Model Regularization: Re-training with the best `lambda`](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L650) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L650) script on _GitHub_.
 :::
 
-Now, we can refine our _User+Movie Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie Effect Model* or *Regularized UME Model* for short), for the definitive _RMSE_ calculation and use in subsequent models:
+Now, we can refine our _User+Movie Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie Effect Model* or *Regularized UME Model* for short), for the definitive _RMSE_ calculation and use in subsequent models.
+
+The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L664) performs this operation:
 ```{r, eval=FALSE}
 best_result <- UME.rglr.fine_tune.results$best_result
 UME.rglr.best_lambda <- best_result["param.best_value"]
+
+put_log1("Re-training Regularized User+Movie Effect Model for the best `lambda`: %1...",
+         UME.rglr.best_lambda)
 
 rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
 ```
