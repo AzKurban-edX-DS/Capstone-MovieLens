@@ -22,7 +22,7 @@ The complete source code of the *Overall Mean Rating* computation described in t
 :::
 
 We know that the estimate that minimizes the RMSE is the least squares estimate of $\mu$ and, in this case, is the average of all ratings. We calculate this using the folowing [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L106):
-```{{r main-script-l106, echo=TRUE, }
+```{r main-script-l106, echo=TRUE }
 mu <- mean(edx$rating)
 mu
 ```
@@ -67,7 +67,7 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove this wi
 In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model: Helper Functions] section of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
-Let's quickly analyze the resulting `deviation.RMSE` vector we have just got. The following [data visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L189) code will help us with this:
+Let's quickly analyze the resulting `deviation.RMSE` vector we have just got. The following [data visualization code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L189) will help us with this:
 ```{r main-script-l189}
 data.frame(delta = deviation, 
            delta.RMSE = deviation.RMSE) |> 
