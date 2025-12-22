@@ -2189,6 +2189,7 @@ if (file.exists(file_path_tmp)) {
        rglr.UMGY_effect,
        rglr.UMGYD_effect,
        rglr.UMGYD_effect.RMSE,
+       UMGYDE.rglr.best_lambda,
        file = file_path_tmp)
   put_end_date(start)
   put_log1("User+Movie+Genre+Year+(Smoothed)Day Effect Model data has been saved to file: %1", 
