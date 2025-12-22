@@ -27,9 +27,15 @@ mu <- mean(edx$rating)
 mu
 ```
 
-If we predict all unknown ratings with $\hat{\mu}$, we can obtain *RMSE* using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L108): 
-```{r main-script-l08 }
+If we predict all unknown ratings with $\hat{\mu}$, we can obtain *RMSE* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L108): 
+```{r main-script@L108 }
 mu.MSEs <- naive_model_MSEs(mu)
+```
+
+\newpage
+
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L110) provides a visual representation of the results we have just obtained:
+```{r main-script@L110 }
 data.frame(fold_No = 1:5, MSE = mu.MSEs) |>
   data.plot(title = "MSE resuls of the 5-fold CV method applied to the Overall Mean Rating Model",
               xname = "fold_No", 
@@ -55,7 +61,7 @@ The following custom functions described in [Appendix A: Support Functions], are
 \
 
 If we plug in any other number, we will get a higher *RMSE*. Let's prove this with a small experiment using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L155):
-```{r main-script-l155 }
+```{r main-script@l155 }
   deviation <- seq(0, 6, 0.1) - 3
 
   deviation.RMSE <- sapply(deviation, function(delta){
@@ -67,8 +73,10 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove this wi
 In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model: Helper Functions] section of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
+\newpage
+
 Let's quickly analyze the resulting `deviation.RMSE` vector we have just got. The following [data visualization code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L189) will help us with this:
-```{r main-script-l189}
+```{r main-script@l189}
 data.frame(delta = deviation, 
            delta.RMSE = deviation.RMSE) |> 
 data.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Overall Mean Rating ($\hat{mu}$)]'),
@@ -76,7 +84,12 @@ data.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Ove
               yname = "delta.RMSE", 
               xlabel = TeX(r'[$\delta$]'), 
               ylabel = "RMSE")
+```
 
+\newpage
+
+The piece of code below prints a quick recap of the results:
+```{r main-script@l189.recap}
 which_min_deviation <- deviation[which.min(deviation.RMSE)]
 min_rmse = min(deviation.RMSE)
 
@@ -92,7 +105,7 @@ To print the log, we use the function [print_log1](#func.print_log1) described i
 :::
 
 Finally, we add the *RMSE* value calculated for the *OMR Model* to our *Result Table* and print the table using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L200):
-```{r main-script-l200, eval=FALSE}
+```{r main-script@l200, eval=FALSE}
 RMSEs.ResultTibble.OMR <- RMSEs.ResultTibble |> 
   RMSEs.AddRow("Overall Mean Rating Model", mu.RMSE)
 ```
