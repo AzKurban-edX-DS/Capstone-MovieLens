@@ -76,7 +76,7 @@ hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
 
 ```
 
-Now, we are ready to compute the *Mean Squared Errors (MSEs)* for the samples used in _K-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A](#appndx_a)).
+Now, we are ready to compute the *Mean Squared Errors (MSEs)* for the samples used in _K-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function described in the [Common Helper Functions]/[Utility Functions] section of [Appendix A](#appndx_a)).
 
 ::: {.noteblock data-latex=""}
 The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
@@ -94,7 +94,7 @@ edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the user-defined function [mse](#func.mse) described in the [Common Helper Functions]/[(Root) Mean Squared Error Calculation] section of [Appendix A](#appndx_a).
+In the code snippet above, we also use the user-defined function [mse](#func.mse) described in the [Common Helper Functions]/[(Root) Mean Squared Error Calculation] section of [Appendix A](#appndx_a).
 :::
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L355) visualizes the results obtained above:
