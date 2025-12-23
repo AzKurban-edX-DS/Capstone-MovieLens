@@ -51,7 +51,7 @@ In the code snippet above, we use the custom data visualization function [data.p
 :::
 
 We can now calculate the *Root Mean Squared Error (RMSE)* for the current model as a *square root* of the average of the *MSE* values we obtained above, using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L117):
-```{r main-script@l110 }
+```{r main-script@l117 }
 mu.RMSE <- sqrt(mean(mu.MSEs))
 mu.RMSE
 ```
