@@ -27,10 +27,14 @@ mu <- mean(edx$rating)
 mu
 ```
 
-If we predict all unknown ratings with $\hat{\mu}$, we can obtain *RMSE* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L108): 
+If we predict all unknown ratings with $\hat{\mu}$, we can use the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L108)  to compute *Mean Squared Errors* (hereafter *MSE* for short) with the use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$): 
 ```{r main-script@L108 }
 mu.MSEs <- naive_model_MSEs(mu)
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the user-defined function [naive_model_MSEs](#func.naive_model_MSEs) described in the [OMR Model: Helper Functions] section of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
+:::
 
 \newpage
 
@@ -46,13 +50,7 @@ mu.RMSE
 ```
 
 ::: {.noteblock data-latex=""}
-
-The following custom functions described in [Appendix A: Support Functions], are used in the code snippets above:
-
-  - [naive_model_MSEs](#func.naive_model_MSEs) (described in section [OMR Model: Helper Functions]) to compute *Mean Squared Errors* (hereafter *MSE* for short) with the use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
-
-  - [data.plot](#func.data.plot) (described in section [Data Visualization Functions]) for the *MSE* data visualization.
-
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions] / [Data Visualization Functions] section of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -70,7 +68,7 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove this wi
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model: Helper Functions] section of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
+In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [Models Training: Support Functions] / [OMR Model: Helper Functions] section of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
 \newpage
@@ -85,6 +83,10 @@ data.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Ove
               xlabel = TeX(r'[$\delta$]'), 
               ylabel = "RMSE")
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions] / [Data Visualization Functions] section of [Appendix A](#appndx_a).
+:::
 
 \newpage
 
