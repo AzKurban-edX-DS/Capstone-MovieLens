@@ -56,10 +56,6 @@ mu.RMSE <- sqrt(mean(mu.MSEs))
 mu.RMSE
 ```
 
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a).
-:::
-
 \newpage
 
 ### OMR Value Is the Best for the Current Model
@@ -97,7 +93,7 @@ In the code snippet above, we use the custom data visualization function [data.p
 
 \newpage
 
-The [piece of code] below prints a quick recap of the results:
+The [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L177) below prints a quick recap of the results:
 ```{r main-script@l177}
 which_min_deviation <- deviation[which.min(deviation.RMSE)]
 min_rmse = min(deviation.RMSE)
@@ -110,7 +106,7 @@ print_log1("Is the previously computed RMSE the best for the current model: %1",
 ```
 
 ::: {.noteblock data-latex=""}
-To print the log, we use the function [print_log1](#func.print_log1) described in the [Logging Functions] section of [Appendix A](#appndx_a).
+To print the log, we use the function [print_log1](#func.print_log1) described in the [Common Helper Functions]/[Logging Functions] section of [Appendix A](#appndx_a).
 :::
 
 Finally, we add the *RMSE* value calculated for the *OMR Model* to our *Result Table* and print the table using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L200):

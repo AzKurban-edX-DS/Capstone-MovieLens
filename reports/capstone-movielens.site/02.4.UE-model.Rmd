@@ -39,7 +39,7 @@ As it is stated in the [Course Textbook](https://rafalab.dfci.harvard.edu/dsbook
 a <- rowMeans(y - mu, na.rm = TRUE)
 ```
 
-These considerations allow us to compute a _User Mean Ratings_ using the following [piece code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231):
+These considerations allow us to compute a _User Mean Ratings_ using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231):
 ```{r  main-script@l1231, eval=FALSE}
 put_log("Computing Average Ratings per User (User Mean Ratings)...")
 user.mean_ratings <- rowMeans(edx.mx, na.rm = TRUE)
@@ -68,7 +68,7 @@ edx.user_effect <- edx.user_mean_ratings |>
 str(edx.user_effect)
 ```
 
-The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L336) plots a histogram that provides a visual representation of the *User Effect* data object we have just obtained:
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L336) plots a histogram that provides a visual representation of the variability of the *User Effect* across users in the *data frame object* we have just obtained:
 ```{r main-script@l336}
 par(cex = 0.7)
 hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
@@ -76,7 +76,7 @@ hist(edx.user_effect$a, 30, xlab = TeX(r'[$\hat{alpha}_{i}$]'),
 
 ```
 
-Now, we are ready to compute the *Mean Squared Errors (MSE)* for samples used in _K-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A](#appndx_a)).
+Now, we are ready to compute the *Mean Squared Errors (MSEs)* for the samples used in _K-Fold Cross-Validation_ (additionally using the [clamp](#func.clamp) helper function (described in the [Utility Functions] section of [Appendix A](#appndx_a)).
 
 ::: {.noteblock data-latex=""}
 The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
@@ -106,12 +106,12 @@ data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
 In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a).
 :::
 
+\newpage
+
 We can now calculate the *RMSE* for the current model as a *square root* of the average of the *MSE* values we obtained above, using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L364):
 ```{r main-script@l364, eval=FALSE}
 edx.user_effect.RMSE <- sqrt(mean(edx.user_effect.MSEs))
 ```
-
-\newpage
 
 Finally, we add the *RMSE* value calculated for the *UE Model* to our *Result Table* and print the table using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L372):
 ```{r main-script@l372, eval=FALSE}
