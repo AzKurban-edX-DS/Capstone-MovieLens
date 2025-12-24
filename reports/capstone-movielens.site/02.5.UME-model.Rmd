@@ -31,24 +31,26 @@ edx.rating_groups <- edx |>  group_by(rating) |>
      summarise(count = n()) |>
      arrange(desc(count))
 ```
-```{r, include=TRUE}
-edx.rating_groups
+```{r}
+print(edx.rating_groups)
 ```
+
+\newpage
 
 #### Rating Distribution
 \
 
-The following code allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
-```{r, include=TRUE}
-edx.rating_groups |> arrange(rating)
+The following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L430) allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
+```{r  main-script@l430, include=TRUE}
+print(edx |> group_by(rating) |> summarize(count = n()))
 ```
 
-We can visualize this using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L433) to plot the data:
+We can give even more visibility for the *rating distribution* by plotting the data for the *rating groups* (the `edx.rating_groups` object) we obtained above using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L433):
+
 ```{r  main-script@l433}
 edx.rating_groups |>
   ggplot(aes(x = rating, y = count)) +
   geom_line() 
-
 ```
 
 \newpage
