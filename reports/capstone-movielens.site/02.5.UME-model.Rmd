@@ -89,8 +89,8 @@ In the code snippet above we use the [train_user_movie_effect.cv](#func.train_us
 str(cv.UM_effect)
 ```
 
-The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L508) plots a histogram that provides a visual representation of the variability of the *UM Effect* across movies in the *data frame object* we have just obtained:
-```{r  main-script@l508}
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L507) plots a histogram that provides a visual representation of the variability of the *UM Effect* across movies in the *data frame object* we have just obtained:
+```{r  main-script@l507}
 par(cex = 0.7)
 hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
@@ -116,6 +116,8 @@ cv.UM_effect.RMSE
 In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described in the [Models Training: Support Functions]/[UME Model: Utility Functions] section of [Appendix A](#appndx_a). 
 :::
 
+\newpage
+
 Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L516):
 ```{r  main-script@l516, eval=FALSE}
 RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |> 
@@ -139,6 +141,17 @@ In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RM
 ::: {.noteblock data-latex=""}
 The complete version of the source code provided in this section can be found in the [UME Model Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L526) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L526) script.
 :::
+
+We begin this section with the concept's mathematical description presented below in the subsection [UME Model Regularization: Mathematical Description].
+
+Next, we will implement the *UME Model Regularization* in the following three steps:
+
+  1. **Pre-configuration:** (Described in subsection [UME Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  
+2. **Fine-tuning:** (Described in the subsection [UME Model Regularization: Fine-tuning]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+
+  3. **Retraining:** (Described in subsection [UME Model Regularization: Retraining the Model with the best $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
+
 
 #### UME Model Regularization: Mathematical Description
 \
@@ -164,14 +177,6 @@ The first term is just the sum of squares and the second is a penalty that gets 
 where $n_j$ is the number of ratings made for movie $j$. 
 
 This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_24-1].
-
-We will implement the _Regularization_ method on our  models (starting from the current model) in following three steps:
-
-  1. **Pre-configuration:** Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
-  
-  2. **Fine-tuning:** Figuring out the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* of the model.
-
-  3. **Retraining:** Retraining the model with the best value of $\lambda$ determined in the previous step.
 
 \newpage
 
