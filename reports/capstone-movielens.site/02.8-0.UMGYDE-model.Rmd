@@ -89,9 +89,9 @@ Let's tune the current model by adjusting the `degree` and `span` parameters and
 The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning by `span` & `degree` parameters](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1553) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1553) script on _GitHub_.
 :::
 
-Since the `degree` parameter can only take three discrete values, 0, 1, and 2, we will perform the tuning in three stages - one for each possible value of the `degree`.
+Since the `degree` parameter can only take three discrete values, 0, 1, and 2, we will perform the tuning in three stages - one for each value.
 
-For each value of the `degree` parameter, we will divide each stage into the following two steps for tuning the model by the `span` parameter:
+In addition, we will divide each stage into the following two steps for tuning the model by the `span` parameter:
 
   1. **Pre-configuration:**  Preliminary determination of the optimal range of the `span` parameter values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
   
