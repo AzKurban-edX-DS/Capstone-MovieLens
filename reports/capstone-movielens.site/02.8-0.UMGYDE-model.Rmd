@@ -549,7 +549,17 @@ Finally, let's *regularize* the tuned *UMGYDE Model* as we did above with the pr
 The complete version of the source code provided in this section can be found in the [UMGYDE Model Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1239) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1239) script.
 :::
 
-#### UMGYDE Model Regularization: Mathematical Description
+We begin this section with the concept's mathematical description presented below in the subsection [UMGYDE Model Regularization: *Mathematical Description*].
+
+Next, we will implement the *UME Model Regularization* in the following three steps:
+
+  1. **Pre-configuration:** (Described in subsection [UMGYDE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  
+2. **Fine-tuning:** (Described in the subsection [UMGYDE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+
+  3. **Retraining:** (Described in subsection [UMGYDE Model Regularization: *Retraining the Model with the best* $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
+
+#### UMGYDE Model Regularization: *Mathematical Description*
 \
 
 We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] section above. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_ and then into the formula \@ref(eq:YE-penalty) for the _UMGYE Model_. For the current model, this formula takes the form:
@@ -568,17 +578,9 @@ And the formula \@ref(eq:YE-regularized) for calculating the values of the _trea
 
 where $n_d$ is the number of ratings made on the day $d$. 
 
-As with the previous models, we implement the _Regularization_ method for the current model in the following three steps:
-
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *K-Fold Cross Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
-  
-  2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
-  
-  3. **Retraining:** retraining the model with the best value of the parameter $\lambda$ obtained in the previous step.
-
 \newpage
 
-#### UMGYDE Model Regularization: Pre-configuration
+#### UMGYDE Model Regularization: *Pre-configuration*
 \
 
 ::: {.noteblock data-latex=""}
@@ -618,7 +620,7 @@ In the code snippet above, we use the custom data visualization function [data.p
 
 \newpage
 
-#### UMGYDE Model Regularization: Fine-tuning
+#### UMGYDE Model Regularization: *Fine-tuning*
 \
 
 ::: {.noteblock data-latex=""}
@@ -710,7 +712,7 @@ Note that in the code snippet above, we use the custom data visualization functi
 
 \newpage
 
-#### UMGYDE Model Regularization: Retraining the Model with the best $\lambda$
+#### UMGYDE Model Regularization: *Retraining the Model with the best* $\lambda$
 \
 
 ::: {.noteblock data-latex=""}
