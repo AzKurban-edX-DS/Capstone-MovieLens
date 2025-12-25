@@ -80,16 +80,26 @@ In the code snippet above we also use the [RMSEs.AddRow](#func.RMSEs.AddRow) and
 Unfortunately, with the default parameters, we obtained an even worse result than before.
 Let's tune the current model by adjusting the `degree` and `span` parameters and see what we get.
 
-::: {.noteblock data-latex=""}
-Since the `degree` parameter can only take three discrete values, 0, 1, and 2, we will perform the tuning in three steps - one for each possible value of the `degree`.
-:::
-
 \newpage
 
 ### UMGYDE Model Tuning by `degree` and `span` Parameters
 \
 
-#### UMGYDE Model Tuning: Step 1 (`degree = 0`)
+::: {.noteblock data-latex=""}
+The complete source code of the solution described in this section is available in the [UMGYDE Model Tuning by `span` & `degree` parameters](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1553) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1553) script on _GitHub_.
+:::
+
+Since the `degree` parameter can only take three discrete values, 0, 1, and 2, we will perform the tuning in three stages - one for each possible value of the `degree`.
+
+For each value of the `degree` parameter, we will divide each stage into the following two steps for tuning the model by the `span` parameter:
+
+  1. **Pre-configuration:**  Preliminary determination of the optimal range of the `span` parameter values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  
+  2. **Fine-tuning:** Determining the best value of the `span` parameter with the highest possible accuracy that minimizes the *RMSE* score for the model.
+
+Finally, we will retrain the model with the best `degree` and `span` values determined by the tuning result.
+
+#### UMGYDE Model Tuning: Stage 1 (`degree = 0`)
 \
 
 ##### Pre-configuration: Optimal `span` Range Determination (`degree = 0`)
@@ -213,7 +223,7 @@ In the code snippet above we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMS
 
 \newpage
 
-#### UMGYDE Model Tuning: Step 2 (`degree = 1`)
+#### UMGYDE Model Tuning: Stage 2 (`degree = 1`)
 \
 
 ##### Pre-configuration: Optimal `span` Range Determination (`degree = 1`)
@@ -333,7 +343,7 @@ In the code snippet above we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMS
 
 \newpage
 
-#### UMGYDE Model Tuning: Step 3 (`degree = 2`)
+#### UMGYDE Model Tuning: Stage 3 (`degree = 2`)
 \
 
 ##### Pre-configuration: Optimal `span` Range Determination (`degree = 2`)
@@ -555,7 +565,7 @@ Next, we will implement the *UME Model Regularization* in the following three st
 
   1. **Pre-configuration:** (Described in subsection [UMGYDE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
   
-2. **Fine-tuning:** (Described in the subsection [UMGYDE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+  2. **Fine-tuning:** (Described in the subsection [UMGYDE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
 
   3. **Retraining:** (Described in subsection [UMGYDE Model Regularization: *Retraining the Model with the best* $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
 
