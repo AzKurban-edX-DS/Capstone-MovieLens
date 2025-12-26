@@ -69,28 +69,33 @@ takes the following form:
 The complete source code of building and training the current model is available in the [UMGYE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1163) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1163) script on _GitHub_.
 :::
 
-Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1177) for training our model using the *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
+Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1177) that trains our model with the use of *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
 ```{r  main-script@l1177, eval=FALSE}
   cv.UMGY_effect <- train_UMGY_effect.cv()
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above we use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) user-defined function described in the [Models Training: Support Functions]/[UMGE Model: Utility Functions] section of [Appendix A](#appndx_a).
+:::
+
 ```{r}
 str(cv.UMGY_effect)
-summary(cv.UMGY_effect)
 ```
 
-
-We can now validate the current model by computing the *RMSE* for the *UMGY* Effect using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1195): 
-```{r  main-script@l1195, eval=FALSE}
+We can now construct predictors and calculate the *RMSE* score for the *UMGYE Model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1195): 
+```{r main-script@l1195, eval=FALSE}
 cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
-
+```
+```{r}
+cv.UMGY_effect.RMSE
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippets above, we use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) and [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) functions described in the [UMGYE Model: Utility Functions] section of [Appendix A](#appndx_a) to *this Report*.
+In the code snippets above, we use the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) user-defined function described in the [Models Training: Support Functions]/[UMGYE Model: Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
-
-```{r, eval=FALSE}
+Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1199):
+```{r main-script@l1199, eval=FALSE}
 RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |> 
   RMSEs.AddRow("UMGYE Model", 
                cv.UMGY_effect.RMSE,
@@ -172,7 +177,7 @@ str(cv.UMGYE.preset.result)
 cv.UMGYE.preset.result$best_result
 ```
 
-Now, let's visualize the results of the $\lambda$ range pre-configuration:
+Now, let's visualize the results of the $\lambda$ range pre-configuration using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1270):
 ``` {r}
 cv.UMGYE.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UMGYE Model Regularization: $\lambda$ Range Pre-configuration]'),

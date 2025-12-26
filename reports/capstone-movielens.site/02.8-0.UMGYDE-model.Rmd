@@ -38,8 +38,8 @@ We are going to use the helper function ([train_UMGY_SmoothedDay_effect.cv](#fun
 
 We will start by calling the [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) with default parameters, which means that the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function will be implicitly called with `degree = 1` and `span = 0.75` arguments - the default values for the auxiliary function [loess_de](#func.loess_de) (described in section [Models Training: Support Functions]/[UMGYDE Model: Utility Functions] section of [Appendix A](#appndx_a)) included in the call chain that actually, calls the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
 
-Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1495) that trains our model with the default `degree` and `span` parameter values using *K-Fold Cross Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
-```{r, eval=FALSE}
+Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1495) that trains our model with the default `degree` and `span` parameter values with the use of *K-Fold Cross Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
+```{r main-script@l1495, eval=FALSE}
   cv.UMGYDE.default_params <- train_UMGY_SmoothedDay_effect.cv()
 ```
 ```{r}
@@ -48,21 +48,29 @@ str(cv.UMGYDE.default_params)
 
 \newpage
 
-Below is the visual representation of the *Smoothed Day Effect* data we have just computed:
-
-```{r}
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1521) provides a visual representation of the *Smoothed Day Effect* data we have just computed:
+```{r main-script@l1521}
 cv.UMGYDE.default_params |>
   ggplot(aes(x = days)) +
   geom_point(aes(y = de), size = 3, alpha = .5, color = "grey") + 
   geom_line(aes(y = de_smoothed), color = "red")
 ```
 
-Let's calculate the _RMSE_ of the current model using the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) helper function described in section [Models Training: Support Functions]/[UMGYDE Model: Utility Functions] section of [Appendix A](#appndx_a):
-
-```{r, eval=FALSE}
+Now, let's construct predictors and calculate the *RMSE* score for the *current model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1195): 
+```{r main-script@l1195, eval=FALSE}
 cv.UMGYDE.default_params.RMSE <- cv.UMGYDE.default_params |>
   calc_UMGY_SmoothedDay_effect.RMSE.cv()
+```
+```{r}
+cv.UMGYDE.default_params.RMSE
+```
 
+::: {.noteblock data-latex=""}
+In the code snippets above, we use the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) user-defined described in the [Models Training: Support Functions]/[UMGYDE Model: Utility Functions] section of [Appendix A](#appndx_a).
+:::
+
+Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1199):
+```{r main-script@l1199, eval=FALSE}
 RMSEs.ResultTibble.UMGYDE <- RMSEs.ResultTibble.rglr.UMGYE |> 
   RMSEs.AddRow("UMGYDE (Default) Model", 
                cv.UMGYDE.default_params.RMSE,
@@ -614,7 +622,7 @@ str(cv.UMGYDE.preset.result)
 cv.UMGYDE.preset.result$best_result
 ```
 
-Now, let's visualize the results of the $\lambda$ range pre-configuration:
+Now, let's visualize the results of the $\lambda$ range pre-configuration using the following [code snippet]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2098):
 ``` {r}
 cv.UMGYDE.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UMGYDE Model Regularization: $\lambda$ Range Pre-configuration]'),
