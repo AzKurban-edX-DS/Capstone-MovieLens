@@ -56,8 +56,8 @@ cv.UMGYDE.default_params |>
   geom_line(aes(y = de_smoothed), color = "red")
 ```
 
-Now, let's construct predictors and calculate the *RMSE* score for the *current model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1195): 
-```{r main-script@l1195, eval=FALSE}
+Now, let's construct predictors and calculate the *RMSE* score for the *current model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1531): 
+```{r main-script@l1531, eval=FALSE}
 cv.UMGYDE.default_params.RMSE <- cv.UMGYDE.default_params |>
   calc_UMGY_SmoothedDay_effect.RMSE.cv()
 ```
