@@ -209,7 +209,7 @@ cv.UME.preset.result$best_result
 ```
 
 Now, let's visualize the results of the $\lambda$ range pre-configuration using the following [code snippet]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L596):
-``` {r  main-script@l}
+``` {r  main-script@l596}
 cv.UME.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UME Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
@@ -234,7 +234,7 @@ The complete version of the source code provided in this section can be found in
 We are now ready to perform the *fine-tuning step* of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L608) prepares the interval of values for the $\lambda$ parameter, over which the operation has to be done:
-```{r, eval=FALSE}
+```{r  main-script@l608, eval=FALSE}
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
 
@@ -254,7 +254,7 @@ The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.en
 :::
 
 And the next [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L617) below accomplishes the task of *fine-tuning* the model:
-```{r, eval=FALSE}
+```{r  main-script@l617, eval=FALSE}
 UME.rglr.fine_tune.cache.base_name <- "UME.rglr.fine-tune"
 
 UME.rglr.fine_tune.results <- 
@@ -296,8 +296,8 @@ UME.rglr.fine_tune.RMSE.best
 
 \newpage
 
-Let's visualize the fine-tuning results:
-```{r}
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L636) provides a visual representation of the *fine-tuning results* we have just computed:
+```{r  main-script@l636}
 UME.rglr.fine_tune.results$tuned.result |>
   data.plot(title = "UME Model Regularization: Fine-tuned result",
               xname = "parameter.value",
@@ -315,7 +315,7 @@ Note that in the code snippet above, we use the custom data visualization functi
 
 \newpage
 
-#### UME Model Regularization: *Retraining the Model with the best* $\lambda$
+#### UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$
 \
 
 ::: {.noteblock data-latex=""}
@@ -324,8 +324,8 @@ The complete version of the source code provided in this section are available i
 
 Now, we can refine our _User+Movie Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie Effect Model* or *Regularized UME Model* for short), for the definitive _RMSE_ calculation and use in subsequent models.
 
-The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L664) performs this operation:
-```{r, eval=FALSE}
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L664) performs this operation:
+```{r  main-script@l664, eval=FALSE}
 best_result <- UME.rglr.fine_tune.results$best_result
 UME.rglr.best_lambda <- best_result["param.best_value"]
 
@@ -356,16 +356,21 @@ print_log1("Regularized UME Model has been re-trained for the best `lambda`: %1.
          UME.rglr.best_lambda)
 ```
 
-
-Finally, we calculate the *RMSE* for the ultimately *Regularized UME Model* and add the definitive result to our _Result Table_:
-```{r, eval=FALSE}
+Now, we are ready to construct predictors and calculate the *RMSE* score for the ultimately *Regularized UME Model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L712): 
+```{r  main-script@l712, eval=FALSE}
 UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
 ```
 ```{r}
 print_log1("The best RMSE for the UME Model after being regularized: %1",
          UME.rglr.retrain.RMSE)
 ```
-```{r, eval=FALSE}
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described in the [Models Training: Support Functions]/[UME Model: Utility Functions] section of [Appendix A](#appndx_a). 
+:::
+
+Finally, we add the definitive *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L720):
+```{r  main-script@l720, eval=FALSE}
 RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
                UME.rglr.retrain.RMSE,
@@ -377,11 +382,7 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UME)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
-
-  - [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) (described in the [Models Training: Support Functions]/[UME Model: Utility Functions] section) to calculate the *RMSE* for the *UME Model*;
-  
-  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section) to update and print the table above.
+In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 \newpage

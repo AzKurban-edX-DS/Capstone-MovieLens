@@ -474,7 +474,7 @@ In the code snippet above we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMS
 
 \newpage
 
-#### UMGYDE Model Tuning: Re-training with the Best `degree` & `span` Parameters
+#### UMGYDE Model Tuning: Re-training on the `edx` with the Best Params
 \
 
 ::: {.noteblock data-latex=""}
