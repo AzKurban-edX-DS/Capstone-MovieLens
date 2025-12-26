@@ -69,28 +69,33 @@ takes the following form:
 The complete source code of building and training the current model is available in the [UMGYE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1163) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1163) script on _GitHub_.
 :::
 
-Below, we provide the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1177) for training our model using the *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
-```{r, eval=FALSE}
+Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1177) that trains our model with the use of *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
+```{r  main-script@l1177, eval=FALSE}
   cv.UMGY_effect <- train_UMGY_effect.cv()
-```
-```{r}
-str(cv.UMGY_effect)
-summary(cv.UMGY_effect)
-```
-
-
-We can now validate the current model by computing the *RMSE* for the *UMGY* Effect using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L): 
-```{r, eval=FALSE}
-cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
-
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippets above, we use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) and [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) functions described in the [UMGYE Model: Utility Functions] section of [Appendix A](#appndx_a) to *this Report*.
+In the code snippet above we use the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) user-defined function described in the [Models Training: Support Functions]/[UMGE Model: Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
+```{r}
+str(cv.UMGY_effect)
+```
 
-```{r, eval=FALSE}
+We can now construct predictors and calculate the *RMSE* score for the *UMGYE Model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1195): 
+```{r main-script@l1195, eval=FALSE}
+cv.UMGY_effect.RMSE <- calc_UMGY_effect_RMSE.cv(cv.UMGY_effect)
+```
+```{r}
+cv.UMGY_effect.RMSE
+```
+
+::: {.noteblock data-latex=""}
+In the code snippets above, we use the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) user-defined function described in the [Models Training: Support Functions]/[UMGYE Model: Utility Functions] section of [Appendix A](#appndx_a).
+:::
+
+Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1199):
+```{r main-script@l1199, eval=FALSE}
 RMSEs.ResultTibble.UMGYE <- RMSEs.ResultTibble.rglr.UMGE |> 
   RMSEs.AddRow("UMGYE Model", 
                cv.UMGY_effect.RMSE,
@@ -115,7 +120,17 @@ Now, we have a bit better result than one for the previous (*Regularized UMGE*) 
 The complete version of the source code provided in this section can be found in the [UMGYE Model Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1210) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1210) script.
 :::
 
-#### UMGYE Model Regularization: Mathematical Description
+We begin this section with the concept's mathematical description presented below in the subsection [UMGYE Model Regularization: *Mathematical Description*].
+
+Next, we will implement the *UME Model Regularization* in the following three steps:
+
+  1. **Pre-configuration:** (Described in subsection [UMGYE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  
+  2. **Fine-tuning:** (Described in the subsection [UMGYE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+
+  3. **Retraining:** (Described in subsection [UMGYE Model Regularization: *Retraining the Model with the best* $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
+
+#### UMGYE Model Regularization: *Mathematical Description*
 \
 
 We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] section above. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_. For the current model, this formula takes the form:
@@ -134,18 +149,9 @@ And the formula \@ref(eq:GE-regularized) for calculating the values of the _trea
 
 where $n_v$ is the number of ratings made in year $v$. 
 
-As with the previous models, we implement the _Regularization_ method for the current model in the following three steps:
-
-  1. **Pre-configuration:** Preliminary determination of the optimal range of $\lambda$ values for the *K-Fold Cross Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
-  
-  2. **Fine-tuning:** figuring out the value of $\lambda$ that minimizes the model's RMSE.
-  
-  3. **Retraining:** retraining the model with the best value of the parameter $\lambda$ obtained in the previous step.
-
-
 \newpage
 
-#### UMGYE Model Regularization: Pre-configuration
+#### UMGYE Model Regularization: *Pre-configuration*
 \
 
 ::: {.noteblock data-latex=""}
@@ -155,11 +161,11 @@ The complete version of the source code provided in this section can be found in
 As for previous models, we will use the function [tune.model_param](#func.tune.model_param) passing in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument the model-specific helper function (this time designed for the *UMGYE Model*): [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv).
 
 ::: {.noteblock data-latex=""}
-The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) are described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  *Models Training: Support Functions /* [UMGYE Model: Regularization], respectively, of [Appendix A: Support Functions].
+The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) are described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [Models Training: Support Functions]/[UMGYE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
 The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1241) performs this operation:
-```{r, eval=FALSE}
+```{r  main-script@l1241, eval=FALSE}
   lambdas <- seq(0, 512, 32)
   cv.UMGYE.preset.result <- 
     tune.model_param(lambdas, 
@@ -171,7 +177,7 @@ str(cv.UMGYE.preset.result)
 cv.UMGYE.preset.result$best_result
 ```
 
-Now, let's visualize the results of the $\lambda$ range pre-configuration:
+Now, let's visualize the results of the $\lambda$ range pre-configuration using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1270):
 ``` {r}
 cv.UMGYE.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UMGYE Model Regularization: $\lambda$ Range Pre-configuration]'),
@@ -182,12 +188,12 @@ cv.UMGYE.preset.result$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a).
 :::
 
 \newpage
 
-#### UMGYE Model Regularization: Fine-tuning
+#### UMGYE Model Regularization: *Fine-tuning*
 \
 
 ::: {.noteblock data-latex=""}
@@ -213,7 +219,7 @@ UMGYE.loop_starter
 ```
 
 ::: {.noteblock data-latex=""}
-The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) of [Appendix A: Support Functions].
+The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) of [Appendix A: Support Functions].
 :::
 
 And the next [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1291) below accomplishes the task of *fine-tuning* the model:
@@ -230,7 +236,7 @@ UMGYE.rglr.fine_tune.RMSE.best <- UMGYE.rglr.fine_tune.results$best_result["best
 ```
 
 ::: {.noteblock data-latex=""}
-The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) used in the code snippet above are described in the sections *Common Helper Functions /* [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  *Models Training: Support Functions /* [UMGYE Model: Regularization], respectively, of [Appendix A: Support Functions].
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) used in the code snippet above are described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [Models Training: Support Functions]/[UMGYE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
 Below are the results of fine-tuning the *UMGYE Model*:
@@ -271,12 +277,12 @@ UMGYE.rglr.fine_tune.results$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the *Data Helper Functions /* [Data Visualization Functions] section of [Appendix A](#appndx_a)) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
+Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a)) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
 :::
 
 \newpage
 
-#### UMGYE Model Regularization: Retraining the Model with the best $\lambda$
+#### UMGYE Model Regularization: *Retraining the Model with the best* $\lambda$
 \
 
 ::: {.noteblock data-latex=""}
@@ -297,7 +303,7 @@ rglr.UMGY_effect <- edx |> train_UMGY_effect(UMGYE.rglr.best_lambda)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above we use the [train_UMGY_effect](#func.train_UMGY_effect) function described in the *Models Training: Support Functions /* [UMGYE Model: Utility Functions] section of [Appendix A](#appndx_a).
+In the code snippet above we use the [train_UMGY_effect](#func.train_UMGY_effect) function described in the [Models Training: Support Functions]/[UMGYE Model: Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
 ```{r, echo=FALSE}
@@ -339,9 +345,9 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UMGYE)
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the following functions described in [Appendix A: Support Functions]: 
 
-  - [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) (described in the *Models Training: Support Functions /* [UMGYE Model: Utility Functions] section) to calculate the *RMSE* for the *UMGYE Model*;
+  - [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) (described in the [Models Training: Support Functions]/[UMGYE Model: Utility Functions] section) to calculate the *RMSE* for the *UMGYE Model*;
   
-  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the *Common Helper Functions /* [Result RMSEs Tibble Functions] section) to update and print the table above.
+  - [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) (described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section) to update and print the table above.
 :::
 
 \newpage

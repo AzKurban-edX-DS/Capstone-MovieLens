@@ -1606,7 +1606,7 @@ put(lss.UMGYDE.preset.degree0.result$best_result)
 #          0.00150          0.85762 
 
 ###### UMGYDE (Rough) Tuned Model Plot (`degree = 0`) --------------------------
-plt.title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 0`"
+plt.title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 0`"
 
 lss.UMGYDE.preset.degree0.result$tuned.result |>
   data.plot(plt.title,
@@ -1724,7 +1724,7 @@ put(lss.UMGYDE.preset.degree1.result$best_result)
 
 ###### UMGYDE (Rough) Tuned Model Plot (`degree = 1`) --------------------------
 lss.UMGYDE.preset.degree1.result$tuned.result |>
-  data.plot(title = "Preliminary set-up for tuning UMGY+(Smoothed)Day Effect Model using `loess` with parameter `degree = 1`",
+  data.plot(title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 1`",
               xname = "parameter.value", 
               yname = "RMSE", 
               xlabel = "spans", 
