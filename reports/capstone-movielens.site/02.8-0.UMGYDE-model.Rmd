@@ -69,8 +69,8 @@ cv.UMGYDE.default_params.RMSE
 In the code snippets above, we use the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) user-defined described in the [Models Training: Support Functions]/[UMGYDE Model: Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
-Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1199):
-```{r main-script@l1199, eval=FALSE}
+Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1542):
+```{r main-script@l1542, eval=FALSE}
 RMSEs.ResultTibble.UMGYDE <- RMSEs.ResultTibble.rglr.UMGYE |> 
   RMSEs.AddRow("UMGYDE (Default) Model", 
                cv.UMGYDE.default_params.RMSE,
