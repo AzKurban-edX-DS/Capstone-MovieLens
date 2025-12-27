@@ -208,7 +208,7 @@ str(cv.UME.preset.result)
 cv.UME.preset.result$best_result
 ```
 
-Now, let's visualize the results of the $\lambda$ range pre-configuration using the following [code snippet]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L596):
+Now, let's visualize the results of the $\lambda$ range pre-configuration using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L596):
 ``` {r  main-script@l596}
 cv.UME.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UME Model Regularization: $\lambda$ Range Pre-configuration]'),
@@ -313,7 +313,7 @@ UME.rglr.fine_tune.results$tuned.result |>
 Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a)) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
 :::
 
-\newpage
+\newpage 
 
 #### UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$
 \
@@ -355,6 +355,8 @@ str(rglr.UM_effect)
 print_log1("Regularized UME Model has been re-trained for the best `lambda`: %1.",
          UME.rglr.best_lambda)
 ```
+
+\newpage
 
 Now, we are ready to construct predictors and calculate the *RMSE* score for the ultimately *Regularized UME Model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L712): 
 ```{r  main-script@l712, eval=FALSE}
