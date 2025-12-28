@@ -16,7 +16,7 @@ In [Section 24.1 *Case study: recommendation systems / Movie effects*](https://r
 :::
 
 To prove this fact, we can find out the movies with the highest number of ratings using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L413):
-```{r  main-script@l413, eval=FALSE}
+```{r main-script@l413, eval=FALSE}
 edx.ordered_movie_ratings <- edx |> group_by(movieId, title) |>
   summarize(number_of_ratings = n()) |>
   arrange(desc(number_of_ratings))
@@ -26,7 +26,7 @@ head(edx.ordered_movie_ratings)
 ```
 
 Now, we can figure out the most given ratings in order from most to least. The [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L422) below performs this operation:
-```{r  main-script@l422, eval=FALSE}
+```{r main-script@l422, eval=FALSE}
 edx.rating_groups <- edx |>  group_by(rating) |>
      summarise(count = n()) |>
      arrange(desc(count))
@@ -41,13 +41,13 @@ print(edx.rating_groups)
 \
 
 The following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L430) allows us to summarize that in general, half-star ratings are less common than whole-star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.):
-```{r  main-script@l430, include=TRUE}
+```{r main-script@l430, include=TRUE}
 print(edx |> group_by(rating) |> summarize(count = n()))
 ```
 
 We can give even more visibility for the *rating distribution* by plotting the data for the *rating groups* (the `edx.rating_groups` object) we obtained above using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L433):
 
-```{r  main-script@l433}
+```{r main-script@l433}
 edx.rating_groups |>
   ggplot(aes(x = rating, y = count)) +
   geom_line() 
@@ -77,7 +77,7 @@ The complete source code of the _User+Movie (UM) Effect_ computation described i
 :::
 
 Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472) that trains our model with the use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
-```{r  main-script@l472, eval=FALSE}
+```{r main-script@l472, eval=FALSE}
   cv.UM_effect <- train_user_movie_effect.cv()
 ```
 
@@ -90,7 +90,7 @@ str(cv.UM_effect)
 ```
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L507) plots a histogram that provides a visual representation of the variability of the *UM Effect* across movies in the *data frame object* we have just obtained:
-```{r  main-script@l507}
+```{r main-script@l507}
 par(cex = 0.7)
 hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
@@ -105,7 +105,7 @@ In *this Project*, we use $K = 5$.
 :::
 
 The following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L513) validates our model by computing the *RMSE* score for the predictors constructed based on the *UM Effect*:
-```{r  main-script@l513, eval=FALSE}
+```{r main-script@l513, eval=FALSE}
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 ```
 ```{r}
@@ -119,7 +119,7 @@ In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.cal
 \newpage
 
 Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L516):
-```{r  main-script@l516, eval=FALSE}
+```{r main-script@l516, eval=FALSE}
 RMSEs.ResultTibble.UME <- RMSEs.ResultTibble.UE |> 
   RMSEs.AddRow("UME Model", 
                cv.UM_effect.RMSE,
@@ -193,8 +193,8 @@ For this purpose, we will use the helper function [tune.model_param](#func.tune.
 The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) are described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [Models Training: Support Functions]/[UME Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
-The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) performs this operation:
-```{r  main-script@l571, eval=FALSE}
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) performs this operation:
+```{r main-script@l571, eval=FALSE}
 lambdas <- seq(0, 1, 0.1)
 cv.UME.preset.result <- 
   tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
@@ -208,8 +208,10 @@ str(cv.UME.preset.result)
 cv.UME.preset.result$best_result
 ```
 
+\newpage
+
 Now, let's visualize the results of the $\lambda$ range pre-configuration using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L596):
-``` {r  main-script@l596}
+``` {r main-script@l596}
 cv.UME.preset.result$tuned.result |>
   data.plot(title = TeX(r'[UME Model Regularization: $\lambda$ Range Pre-configuration]'),
               xname = "parameter.value", 
@@ -233,8 +235,8 @@ The complete version of the source code provided in this section can be found in
 
 We are now ready to perform the *fine-tuning step* of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
-The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L608) prepares the interval of values for the $\lambda$ parameter, over which the operation has to be done:
-```{r  main-script@l608, eval=FALSE}
+The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L608) prepares the interval of values for the $\lambda$ parameter, over which the operation has to be done:
+```{r main-script@l608, eval=FALSE}
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
 
@@ -253,8 +255,8 @@ UM_effect.loop_starter
 The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in the code snippet above is described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) of [Appendix A: Support Functions].
 :::
 
-And the next [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L617) below accomplishes the task of *fine-tuning* the model:
-```{r  main-script@l617, eval=FALSE}
+And the next [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L617) below accomplishes the task of *fine-tuning* the model:
+```{r main-script@l617, eval=FALSE}
 UME.rglr.fine_tune.cache.base_name <- "UME.rglr.fine-tune"
 
 UME.rglr.fine_tune.results <- 
@@ -297,7 +299,7 @@ UME.rglr.fine_tune.RMSE.best
 \newpage
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L636) provides a visual representation of the *fine-tuning results* we have just computed:
-```{r  main-script@l636}
+```{r main-script@l636}
 UME.rglr.fine_tune.results$tuned.result |>
   data.plot(title = "UME Model Regularization: Fine-tuned result",
               xname = "parameter.value",
@@ -325,7 +327,7 @@ The complete version of the source code provided in this section are available i
 Now, we can refine our _User+Movie Effect Model_ by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie Effect Model* or *Regularized UME Model* for short), for the definitive _RMSE_ calculation and use in subsequent models.
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L664) performs this operation:
-```{r  main-script@l664, eval=FALSE}
+```{r main-script@l664, eval=FALSE}
 best_result <- UME.rglr.fine_tune.results$best_result
 UME.rglr.best_lambda <- best_result["param.best_value"]
 
@@ -359,7 +361,7 @@ print_log1("Regularized UME Model has been re-trained for the best `lambda`: %1.
 \newpage
 
 Now, we are ready to construct predictors and calculate the *RMSE* score for the ultimately *Regularized UME Model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L712): 
-```{r  main-script@l712, eval=FALSE}
+```{r main-script@l712, eval=FALSE}
 UME.rglr.retrain.RMSE <- calc_user_movie_effect_RMSE.cv(rglr.UM_effect)
 ```
 ```{r}
@@ -372,7 +374,7 @@ In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.cal
 :::
 
 Finally, we add the definitive *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L720):
-```{r  main-script@l720, eval=FALSE}
+```{r main-script@l720, eval=FALSE}
 RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |> 
   RMSEs.AddRow("Regularized User+Movie Effect Model", 
                UME.rglr.retrain.RMSE,

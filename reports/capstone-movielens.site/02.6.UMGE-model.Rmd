@@ -85,7 +85,7 @@ The complete source code of builing and training the current model is available 
 :::
 
 Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L902) that trains our model with the use of *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
-```{r  main-script@l902, fn.train_user_movie_genre_effect.cv,   eval=FALSE}
+```{r main-script@l902, fn.train_user_movie_genre_effect.cv,   eval=FALSE}
 cv.UMG_effect <- train_user_movie_genre_effect.cv()
 ```
 
@@ -100,7 +100,7 @@ str(cv.UMG_effect)
 \newpage
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L925) plots a histogram that provides a visual representation of the variability of the *UMG Effect* across movies in the *data frame object* we have just obtained:
-```{r  main-script@l925}
+```{r main-script@l925}
 par(cex = 0.7)
 hist(cv.UMG_effect$g, 30, xlab = TeX(r'[$\hat{g}_{i,j}$]'),
      main = TeX(r'[Histogram of $\hat{g}_{i,j}$]'))
@@ -196,7 +196,7 @@ As before, we are going to use the helper function [tune.model_param](#func.tune
 The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) are described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [Models Training: Support Functions]/[UMGE Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
-The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L978) performs this operation:
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L978) performs this operation:
 ```{r main-script@l978, eval=FALSE}
 lambdas <- seq(0, 0.2, 0.01)
 cv.UMGE.preset.result <- 
@@ -242,7 +242,7 @@ The complete version of the source code provided in this section can be found in
 
 We are now ready to perform the fine-tuning step of our model _regularization_ process to determine the best value for the $\lambda$ parameter.
 
-The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1020) prepares the interval of values for the $\lambda$ parameter, over which the operation has to be done:
+The following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1020) prepares the interval of values for the $\lambda$ parameter, over which the operation has to be done:
 ```{r main-script@l1020, eval=FALSE}
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UMGE.preset.result$tuned.result)
@@ -262,7 +262,7 @@ UMG_effect.loop_starter
 The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in code snippet above is described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) of [Appendix A: Support Functions].
 :::
 
-And the next [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1029) below accomplishes the task of *fine-tuning* the model:
+And the next [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1029) below accomplishes the task of *fine-tuning* the model:
 ```{r main-script@l1029, eval=FALSE}
 UMGE.rglr.fine_tune.cache.base_name <- "UMGE.rglr.fine-tuning"
 
@@ -334,7 +334,7 @@ The complete version of the source code provided in this section are available i
 Now, we can refine our *User+Movie+Genre Effect (UMGE) Model* by retraining on the entire `edx` dataset with the best value of the $\lambda$ parameter we just figured out (let's call it *Regularized User+Movie+Genre Effect Model* or *Regularized UMGE Model* for short), for the definitive *RMSE* calculation and use in subsequent models.
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1076) performs this operation:
-```{r  main-script@l1076, eval=FALSE}
+```{r main-script@l1076, eval=FALSE}
 best_result <- UMGE.rglr.fine_tune.results$best_result
 UMGE.rglr.best_lambda <- best_result["param.best_value"]
 
@@ -368,7 +368,7 @@ print_log1("Regularized UMGE Model has been re-trained for the best `lambda`: %1
 \newpage
 
 Now, we are ready to construct predictors and calculate the *RMSE* score for the ultimately *Regularized UMGE Model* using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1087): 
-```{r  main-script@l1087, eval=FALSE}
+```{r main-script@l1087, eval=FALSE}
   rglr.UMG_effect.RMSE <- calc_user_movie_genre_effect_RMSE.cv(rglr.UMG_effect)
 ```
 ```{r}
@@ -381,7 +381,7 @@ In the code snippet above, we use the [calc_user_movie_genre_effect_RMSE.cv](#fu
 :::
 
 Finally, we add the definitive *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1114):
-```{r  main-script@l1114, eval=FALSE}
+```{r main-script@l1114, eval=FALSE}
 RMSEs.ResultTibble.rglr.UMGE <- RMSEs.ResultTibble.UMGE |> 
   RMSEs.AddRow("Regularized User+Movie+Genre Effect Model", 
                rglr.UMG_effect.RMSE,
