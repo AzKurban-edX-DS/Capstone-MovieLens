@@ -124,7 +124,7 @@ The complete version of the source code provided in this section can be found in
 
 We begin this section with the concept's mathematical description presented below in the subsection [UMGYE Model Regularization: *Mathematical Description*].
 
-Next, we will implement the *UME Model Regularization* in the following three steps:
+Next, we will implement the *UMGYE Model Regularization* in the following three steps:
 
   1. **Pre-configuration:** (Described in subsection [UMGYE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
   
