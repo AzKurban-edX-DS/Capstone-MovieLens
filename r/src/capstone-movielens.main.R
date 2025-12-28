@@ -2227,7 +2227,7 @@ for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-### UMGYDE Model: Final Holdout Test  ------------------------------------------
+### UMGYDE Model: Final Holdout Test (Preliminary Assessment)  ------------------------------------------
 
 final.UMGYDE.predicted <- final_holdout_test |>
   UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
@@ -2385,7 +2385,7 @@ final.MF.RMSEs.ResultTibble <- final.RMSEs.ResultTibble.UMGYDE.rglr.tuned |>
 RMSE_kable(final.MF.RMSEs.ResultTibble)
 put_log("A row has been added to the RMSE Result Tibble 
 for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
-### Total Results Tibbe --------------------------------------------------------
+### Total Results Tibble --------------------------------------------------------
 total.RMSEs.ResultTibble <- RMSEs.AddDiffColumn(final.MF.RMSEs.ResultTibble)
 RMSE.Total_kable(total.RMSEs.ResultTibble)
 ### Close Log -----------------------------------------------------------------

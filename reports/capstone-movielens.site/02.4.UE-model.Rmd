@@ -40,7 +40,7 @@ a <- rowMeans(y - mu, na.rm = TRUE)
 ```
 
 These considerations allow us to compute a _User Mean Ratings_ using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231):
-```{r  main-script@l1231, eval=FALSE}
+```{r main-script@l1231, eval=FALSE}
 put_log("Computing Average Ratings per User (User Mean Ratings)...")
 user.mean_ratings <- rowMeans(edx.mx, na.rm = TRUE)
 user_ratings.n <- rowSums(!is.na(edx.mx))
