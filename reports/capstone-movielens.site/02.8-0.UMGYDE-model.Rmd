@@ -1,4 +1,4 @@
-## User+Movie+Genre+Year+Day Effect (UMGYDE) Model
+## User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model
 \
 
 ### Mathematical Description of the UMGYDE Model

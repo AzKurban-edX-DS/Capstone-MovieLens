@@ -49,6 +49,93 @@ where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v
 
 \newpage
 
+### MF: Helper Functions
+
+#### [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L1) Function {#func.mf.residual.dataframe}
+\
+
+::: { #func.mf.residual.dataframe.args.description .sidebar }
+##### Description
+\
+
+Computes residuals, defined as the difference between the observed and predicted values of the fully trained _UMGYDE Model_ as described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section.
+
+##### Arguments
+\
+
+###### ***train_set***
+\
+
+::: { #func.mf.residual.dataframe.args.train_set .sidebar }
+The dataset to be trained.
+:::
+
+##### Source Code
+\
+
+The folowing is the source code of the function:
+```{r eval=FALSE}
+mf.residual.dataframe <- function(train_set){
+  train_set |> 
+    left_join(edx.user_effect, by = "userId") |>
+    left_join(rglr.UM_effect, by = "movieId") |>
+    left_join(rglr.UMG_effect, by = "movieId") |>
+    left_join(date_days_map, by = "timestamp") |>
+    left_join(rglr.UMGY_effect, by='year') |>
+    left_join(rglr.UMGYD_effect, by='days') |>
+    mutate(rsdl = rating - (mu + a + b + g + ye + de_smoothed)) |>
+    select(userId, movieId, rsdl)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L1) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L1) script on _GitHub_.
+:::
+
+##### Return
+\
+
+A data frame object containing the residuals (see the [Description](#func.mf.residual.dataframe.args.description) above for the details). 
+
+\newpage
+
+#### [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) Function {#func.UMGYDE_model.predict}
+\
+
+This is a wrapper for the [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) function described in the [UMGYDE Model: Helper Functions] section above with the fixed [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect) parameter value obtained after the _UMGYDE Model_ (described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section)  has been fully trained.
+
+##### Arguments
+\
+
+::: { #func.UMGYDE_model.predict.args.test_set .sidebar }
+###### ***test_set***
+\
+
+The dataset for testing the _UMGYDE Model_ after it has been fully trained.
+:::
+
+##### Source Code
+\
+
+The following is the source code of the function:
+```{r eval=FALSE}
+UMGYDE_model.predict <- function(test_set) {
+  test_set |>
+    UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) script on _GitHub_.
+:::
+
+##### Return
+\
+
+A data frame object containing predicted values. 
+
+\newpage
+
 ### MF: Model Building
 
 ::: {.noteblock data-latex=""}
@@ -66,7 +153,7 @@ First, we will obtain residuals from the _UMGYDE Model_ prediction values using 
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined described in the [Models Training: Support Functions]/[UMGYDE Model: Matrix Factorization] section of [Appendix A](#appndx_a).
+In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined described in the [Models Training: Support Functions]/[UMGYDE Model: Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
 ```{r}
@@ -76,7 +163,7 @@ In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual
 #### MF: Transforming Input Data to Be Compatible With the `recosystem` Package
 \
 
-Next, we convert the residuals data and `final_holdout_test` dataset to the input data objects compatible with the [recosystem](https://cran.r-project.org/web/packages/recosystem/index.html) package using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2319):
+Next, we convert the residuals data and `final_holdout_test` dataset to the input data compatible with the [recosystem](https://cran.r-project.org/web/packages/recosystem/index.html) package using the following [conde snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2319):
 ```{r main-script@l2319, eval=FALSE}
   set.seed(5430)
   mf.edx.residual.reco <- with(mf.edx.residual, 
@@ -97,8 +184,8 @@ str(final_holdout_test.reco)
 #### MF: Creating and Tuning the `Reco` Object
 \
 
-Now we can create a `reco` object of the `Reco` class and tune it using the `reco$tune` method, passing the residual data prepared in the previous step in the `train_data` argument using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2332):
-```{r main-script@l2332, eval=FALSE}
+We then create a `reco` object of the `Reco` class and tune it using the `reco$tune` method, passing to it as a `train_data` parameter residual data prepared in the previous step:
+```{r, eval=FALSE}
   reco <- Reco()
   
   reco.tuned <- reco$tune(mf.edx.residual.reco, opts = list(dim = c(10, 20, 30),
@@ -115,8 +202,8 @@ str(reco.tuned)
 #### MF: Final Training
 \
 
-Finally, we train the model for the last time using the `reco$train` method, passing the same residual data we used for the tuning, in the train_data` argument, using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2342):
-```{r main-script@l2342, eval=FALSE}
+Finally, we train the model for the last time using the `reco$train` method, passing to it as a `train_data` parameter the same residual data we used for the tuning:
+```{r, eval=FALSE}
   reco$train(mf.edx.residual.reco, opts = c(reco.tuned$min,
                                        niter = 20, 
                                        nthread = 4)) 
@@ -125,10 +212,11 @@ Finally, we train the model for the last time using the `reco$train` method, pas
 #### MF: Final Holdout Test
 \
 
-From now on, we will work with the `final_holdout_test` dataset for the final testing of our model, including obtaining final predictions and computing the final *RMSE* score.
+From now on, we will work with the `final_holdout_test` dataset for the final testing of our model, obtaining final predictions, and computing the _Root Mean Squared Error_.
 
-Now, let's compute the final predictions, combining the predicted residuals from the `reco` objects and predicted values we lastly get from the _UMGYDE Model_ as described in the [UMGYDE Model: Final Holdout Test (Preliminary Assessment)] section, using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2346):
-```{r main-script@l2346, eval=FALSE}
+
+First, we get the final predictions combining the predicted residuals from the `reco` objects and predicted values we lastly get from the _UMGYDE Model_ as described in the [UMGYDE Model: Final Holdout Test (Preliminary Assessment)] section:
+```{r, eval=FALSE}
   mf.reco.residual <- reco$predict(final_holdout_test.reco, out_memory())
 
   mf.predicted_ratings <- 
@@ -138,19 +226,18 @@ Now, let's compute the final predictions, combining the predicted residuals from
 str(mf.reco.residual)
 str(mf.predicted_ratings)
 ```
-
-And ultimately, we are ready to compute the  final *RMSE* score using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2374):
-```{r main-script@l2374, eval=FALSE}
+Next, we compute the _RMSE_ using the [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) custom helper function, already mentioned above in the [UMGYDE Model: Final Holdout Test (Preliminary Assessment)] section:
+```{r, eval=FALSE}
 final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
                                      mf.predicted_ratings)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [rmse2](#func.rmse2) user-defined function described in the [Common Helper Functions]/[(Root) Mean Squared Error Calculation] section of [Appendix A](#appndx_a).
+The function [rmse2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) is defined in the  [(R)MSE-related functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L18) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L28) script on _GitHub_.
 :::
 
-Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2380):
-```{r main-script@l2380, eval=FALSE}
+And add the result to our _Result Table_:
+```{r, eval=FALSE}
 final.MF.RMSEs.ResultTibble <- final.RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
   RMSEs.AddRow("MF (Final Test)", 
                final_holdout_test.RMSE,
@@ -161,10 +248,9 @@ RMSE_kable(final.MF.RMSEs.ResultTibble)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+Finally, we have reached our ultimate goal, since the _Root Mean Squared Error_ we obtained has achieved the required _Project Objective_.
 :::
 
-Eventually, we have reached our ultimate goal, as the *RMSE* we obtained has achieved the required Project Objective.
 
 \newpage
 

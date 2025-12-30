@@ -7465,7 +7465,7 @@ The source code of the [regularize.test_lambda.UMGYD_effect.cv](https://github.c
 
 \newpage
 
-### Matrix Factorization Functions
+### UMGYDE Model: Matrix Factorization
 \
 
 ::: {.noteblock data-latex=""}
@@ -7475,13 +7475,14 @@ The complete source code of the functions described in this section is available
 #### [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) Function {#func.mf.residual.dataframe}
 \
 
+Computes residuals, defined as the difference between the observed and predicted values of the fully trained _UMGYDE Model_ as described in the [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model] section.
 
 ::: { #func.mf.residual.dataframe.usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
-
+  mf.edx.residual <- mf.residual.dataframe(edx)
 ```
 :::
 
@@ -7489,8 +7490,8 @@ The complete source code of the functions described in this section is available
 ##### Arguments
 \
 
-::: { #func.mf.residual.dataframe.args.file_name .sidebar }
-  - **train_set:** ; 
+::: { #func.mf.residual.dataframe.args.train_set .sidebar }
+  - **train_set:** Training dataset; 
 
 :::
 :::
@@ -7499,13 +7500,20 @@ The complete source code of the functions described in this section is available
 ##### Details
 \
 
-
+This function calculates the residuals on the *training dataset* passed as the [train_set](#func.mf.residual.dataframe.args.train_set) argument, taking into account all the effects of the previously trained models, and creates a new data frame that includes the results as a calculated column `rsdsl`, along with the `movieId` and `userId` columns selected from the training dataset.
 :::
 
 ::: { #func.mf.residual.dataframe.value .sidebar }
 ##### Value
 \
 
+Data frame containing the following three variables:
+
+  - *rsdl*: (Numeric)Calculated column containing results of the function computation;
+  
+  - *userId*: (Integer) User Identifier;
+  
+  - *movieId* (Integer) Movie Identifier.
 
 :::
 
@@ -7529,93 +7537,9 @@ mf.residual.dataframe <- function(train_set){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) function is defined in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) script on _GitHub_.
+The source code of the [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) script on _GitHub_.
 :::
 :::
-
-#### [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L14) Function {#func.UMGYDE_model.predict}
-\
-
-
-::: { #func.UMGYDE_model.predict.usage .sidebar }
-##### Usage
-\
-
-```{r eval=FALSE}
-
-```
-:::
-
-::: { #func.UMGYDE_model.predict.args .sidebar }
-##### Arguments
-\
-
-::: { #func.UMGYDE_model.predict.args.file_name .sidebar }
-  - **test_set:** ; 
-
-:::
-:::
-
-::: { #func.UMGYDE_model.predict.details .sidebar }
-##### Details
-\
-
-
-:::
-
-::: { #func.UMGYDE_model.predict.value .sidebar }
-##### Value
-\
-
-
-:::
-
-::: { #func.UMGYDE_model.predict.code .sidebar }
-##### Source Code
-\
-
-The source code of the [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L14) function is shown below:
-```{r eval=FALSE}
-UMGYDE_model.predict <- function(test_set) {
-  test_set |>
-    UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
-}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L14) function is defined in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L14) script on _GitHub_.
-:::
-:::
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Appendix B: Models Training Datasets {#appndx_b}
 \
