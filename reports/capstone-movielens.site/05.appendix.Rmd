@@ -7509,13 +7509,15 @@ This function calculates the residuals on the *training dataset* passed as the [
 
 Data frame containing the following three variables:
 
-  - *rsdl*: (Numeric)Calculated column containing results of the function computation;
+  - *rsdl*: (Numeric) Calculated column containing results of the function computation;
   
   - *userId*: (Integer) User Identifier;
   
   - *movieId* (Integer) Movie Identifier.
 
 :::
+
+\newpage
 
 ::: { #func.mf.residual.dataframe.code .sidebar }
 ##### Source Code
@@ -7540,6 +7542,8 @@ mf.residual.dataframe <- function(train_set){
 The source code of the [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 # Appendix B: Models Training Datasets {#appndx_b}
 \

@@ -134,6 +134,11 @@ Now, let's compute the final predictions, combining the predicted residuals from
   mf.predicted_ratings <- 
     clamp(final.UMGYDE.predicted$predicted + mf.reco.residual)
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the [clamp](#func.clamp) user-defined function described in the [Common Helper Functions]/[Utility Functions] section of [Appendix A](#appndx_a).
+:::
+
 ```{r}
 str(mf.reco.residual)
 str(mf.predicted_ratings)
