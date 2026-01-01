@@ -2056,11 +2056,7 @@ It is assumed that the tibble has the following four columns:
 \
 
 ```{r eval=FALSE}
-RMSE.Total_kable(RMSEs,
-                 col1width = 15,
-                 col2width = 7,
-                 col3width = 5,
-                 col4width = 25)
+RMSE.Total_kable(total.RMSEs.ResultTibble)
 ```
 :::
 
@@ -2074,22 +2070,22 @@ RMSE.Total_kable(RMSEs,
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col1width:*** Width of the first column (15 by default);
+  - ***col1width:*** (Optional, 15 by default) Width of the first column (15 by default);
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col2width:*** Width of the second column (7 by default);
+  - ***col2width:*** (Optional, 7 by default) Width of the second column (7 by default);
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col3width:*** Width of the third column(5 by default);
+  - ***col3width:*** (Optional, 5 by default) Width of the third column(5 by default);
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col4width:*** Width of the fourth column (25 by default);
+  - ***col4width:*** (Optional, 25 by default) Width of the fourth column (25 by default);
 
 :::
 :::

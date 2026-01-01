@@ -877,8 +877,8 @@ In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RM
 
 As expected, we have not yet achieved a result that meets our Project Objective. Let's see what else we can do to achieve our ultimate goal.
 
-As explained in the [Chapter 24 `Matrix Factorization`](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/matrix-factorization.html) of the _Course Textbook_, so far our models _"ignore an important source of information related to the fact that groups of movies have similar rating patterns and groups of users have similar rating patterns as well..."_ [@IDS2_24]
+As explained in [Section 33.11 `Matrix Factorization`](https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#matrix-factorization) of the *Course Textbook (First Edition)*, so far our models ignore _"an important source of variation related to the fact that groups of movies have similar rating patterns and groups of users have similar rating patterns as well..."_ [@IDS_E1_33-11]
 
-Then the author shows that in this case, the _Matrix Factorization_ method can considerably improve our results. In the next section, we will apply this method to our current model and see what we get.
+The author shows that in this case, the *Matrix Factorization* method can significantly improve our results. In the next section, we will apply this method to our latest model and see what results we achieve.
 
 \newpage

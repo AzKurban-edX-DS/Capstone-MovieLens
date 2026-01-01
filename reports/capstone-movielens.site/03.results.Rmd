@@ -1,19 +1,16 @@
 # Results
 \
 
-The *Result Summary Table* constructed below shows in detail the progress of our *Recommender System* improvement:
+The *Result Summary Table* below, constructed using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2389), shows in detail the progress of our *Recommender System* improvement:
 
-```{r, eval=FALSE}
+```{r main-script@l2389, eval=FALSE}
 total.RMSEs.ResultTibble <- RMSEs.AddDiffColumn(final.MF.RMSEs.ResultTibble)
-```
 ```{r}
 RMSE.Total_kable(total.RMSEs.ResultTibble)
 ```
 
 ::: {.noteblock data-latex=""}
-Here use the [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn) and [RMSE.Total_kable](#func.RMSE.Total_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A: Support Functions].
+In the code snippet above, we use the [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn) and [RMSE.Total_kable](#func.RMSE.Total_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
-
 \newpage
-
