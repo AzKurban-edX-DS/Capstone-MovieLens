@@ -2056,11 +2056,7 @@ It is assumed that the tibble has the following four columns:
 \
 
 ```{r eval=FALSE}
-RMSE.Total_kable(RMSEs,
-                 col1width = 15,
-                 col2width = 7,
-                 col3width = 5,
-                 col4width = 25)
+RMSE.Total_kable(total.RMSEs.ResultTibble)
 ```
 :::
 
@@ -2074,22 +2070,22 @@ RMSE.Total_kable(RMSEs,
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col1width:*** Width of the first column (15 by default);
+  - ***col1width:*** (Optional, 15 by default) Width of the first column (15 by default);
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col2width:*** Width of the second column (7 by default);
+  - ***col2width:*** (Optional, 7 by default) Width of the second column (7 by default);
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col3width:*** Width of the third column(5 by default);
+  - ***col3width:*** (Optional, 5 by default) Width of the third column(5 by default);
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col4width:*** Width of the fourth column (25 by default);
+  - ***col4width:*** (Optional, 25 by default) Width of the fourth column (25 by default);
 
 :::
 :::
@@ -7509,13 +7505,15 @@ This function calculates the residuals on the *training dataset* passed as the [
 
 Data frame containing the following three variables:
 
-  - *rsdl*: (Numeric)Calculated column containing results of the function computation;
+  - *rsdl*: (Numeric) Calculated column containing results of the function computation;
   
   - *userId*: (Integer) User Identifier;
   
   - *movieId* (Integer) Movie Identifier.
 
 :::
+
+\newpage
 
 ::: { #func.mf.residual.dataframe.code .sidebar }
 ##### Source Code
@@ -7540,6 +7538,8 @@ mf.residual.dataframe <- function(train_set){
 The source code of the [mf.residual.dataframe](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L3) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 # Appendix B: Models Training Datasets {#appndx_b}
 \

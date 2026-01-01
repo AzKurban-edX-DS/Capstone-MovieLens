@@ -3,7 +3,7 @@
 
 In this project, a _Machine Learning Algorithm_ was successfully developed for a _Recommender System_ (hereafter referred to as _RS MLA_) to predict movie ratings using the [10M version of the MovieLens](http://grouplens.org/datasets/movielens/10m/) dataset. 
 
-Since it was needed to convert the original dataset into a _Data Source_, suitable for processing by the _RS MLA_, a package [edx.capstone.movielens.data], specifically designed for this purpose, was developed and used, providing the _RS MLA_ with the necessary datasets.
+Since it was needed to convert the original dataset into a _Data Source_, suitable for processing by the _RS MLA_, a package [edx.capstone.movielens.data](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/README.md), specifically designed for this purpose, was developed and used, providing the _RS MLA_ with the necessary datasets.
 
 Following the Netflix Grand Prize Contest requirements, the _Root Mean Squared Error (RMSE)_ metric was used to evaluate the accuracy of our models.
 
@@ -17,19 +17,13 @@ The following effects were taken into account:
   - ***User:*** based on which the _User Effect (UE) Model_ described in the [User Effect (UE) Model] section was built (significantly improved the _RMSE_ compared to the baseline model);
   - ***Movie:*** based on which (and the _User Effect_) the _Regularized User+Movie Effect (UME) Model_ described in the [User+Movie Effect (UME) Model] section was eventually built (even better improved the _RMSE_ compared to the previous (*UE*) model);
   - ***Genre:*** based on which (and the previous effects) the _Regularized User+Movie+Genre Effect (UMGE) Model_ described in the [User+Movie+Genre Effect (UMGE) Model] section was built (even after _regularization_ it showed very little improvement in _RMSE_ compared to the previous (*UME*) model; before regularization, for some reason, there was no improvement at all);
-  - ***Year:*** based on which (and the previous effects) the _Regularized User+Movie+Genre+Year Effect (UMGYE) Model_ described in the [User+Movie+Genre+Year Effect (UMGYE) Model] section was built (provided a much better improvement in _RMSE_ compared to the previous (*UMGE*) model but still two orders of magnitude less than the *UE* and *UME* models showed);
-  - ***Day*** based on which (and the previous effects) the _Regularized (and Tuned) User+Movie+Genre+Year+Day Effect (UMGYDE) Model_ described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section was built (showed almost twice better improvement than the previous (*UMGYE*) model but still not good enough to meet the *Project Objective*);.
-  - ***Day (Matrix Factorization):*** (described in the [UMGYDE Model: Matrix Factorization (MF)] section) *Matrix Factorization* method performed on the _Regularized UMGYDE Model_ provided substantial improvement comparable to that shown by the *UE* and *UME* models, and finally permitted to reach the *Project Objective*. 
+  - ***Year:*** based on which (and the previous effects) the _Regularized User+Movie+Genre+Year Effect (UMGYE) Model_ described in the [User+Movie+Genre+Year Effect (UMGYE) Model] section was built (provided a much better improvement in _RMSE_ compared to the previous model but still two orders of magnitude less than the *UE* and *UME* models showed);
+  - ***Smoothed Day*** based on which (and the previous effects) the _Regularized (and Tuned) User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model_ described in the [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model] section was built (showed almost twice better improvement than the previous (*UMGYE*) model but still not good enough to meet the *Project Objective*);.
+  - ***Smoothed Day (Matrix Factorization):*** (described in the [UMGYDE Model: Matrix Factorization (MF)] section) *Matrix Factorization* method performed on the _Regularized UMGYDE Model_ provided substantial improvement comparable to that shown by the *UE* and *UME* models, and ultimately allowed us to reach the *Project Objective*. 
 
-The *Result Summary Table* constructed below shows in detail the progress of our *Recommender System* improvement:
+The *Result Summary Table* provided above in section [Results] shows in detail the progress of our *Recommender System* improvement.
 
-```{r, eval=FALSE}
-total.RMSEs.ResultTibble <- RMSEs.AddDiffColumn(final.MF.RMSEs.ResultTibble)
-```
-```{r}
-RMSE.Total_kable(total.RMSEs.ResultTibble)
-```
-
+Although the *Project Objective* was achieved, further research could explore the use of other methods, such as advanced algorithms described in *Part V Advanced Algorithms* of the *Recommender Systems Handbook* (written by *Francesco Ricci,  Lior Rokach, Bracha Shapira, and Paul B. Kantor*)[@RRSK_RS_HB], or *Deep Learning Models* as described in article [Advanced Deep Learning Models for Improving Movie Rating Predictions: A Benchmarking Study](https://www.sciencedirect.com/science/article/pii/S2772485925000134#:~:text=In%20this%20work%2C%20the%20authors,capturing%20user%20preferences%20over%20time.)[@MVRM_DL].
 
 \newpage
 

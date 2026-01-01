@@ -89,6 +89,12 @@ Next, we convert the residuals data and `final_holdout_test` dataset to the inpu
                                       item_index = movieId, 
                                       rating = rating))
 ```
+
+\newpage
+
+```{r, echo=FALSE}
+writeLines("*** `Reco` input data objects structure ***")
+```
 ```{r}
 str(mf.edx.residual.reco)
 str(final_holdout_test.reco)
@@ -107,15 +113,31 @@ Now we can create a `reco` object of the `Reco` class and tune it using the `rec
                                                 niter    = 10,
                                                 verbose  = TRUE))
 ```
+
+\newpage
+
+```{r, echo=FALSE}
+writeLines("*** `Reco` object structure ***")
+```
 ```{r}
 str(reco)
+```
+
+\newpage
+
+```{r, echo=FALSE}
+writeLines("*** Tuned `Reco` object structure ***")
+```
+```{r}
 str(reco.tuned)
 ```
+
+\newpage
 
 #### MF: Final Training
 \
 
-Finally, we train the model for the last time using the `reco$train` method, passing the same residual data we used for the tuning, in the train_data` argument, using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2342):
+Finally, we train the model for the last time using the `reco$train` method, passing the same residual data we used for the tuning, in the `train_data` argument, using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2342):
 ```{r main-script@l2342, eval=FALSE}
   reco$train(mf.edx.residual.reco, opts = c(reco.tuned$min,
                                        niter = 20, 
@@ -134,6 +156,11 @@ Now, let's compute the final predictions, combining the predicted residuals from
   mf.predicted_ratings <- 
     clamp(final.UMGYDE.predicted$predicted + mf.reco.residual)
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the [clamp](#func.clamp) user-defined function described in the [Common Helper Functions]/[Utility Functions] section of [Appendix A](#appndx_a).
+:::
+
 ```{r}
 str(mf.reco.residual)
 str(mf.predicted_ratings)
@@ -148,6 +175,8 @@ final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the [rmse2](#func.rmse2) user-defined function described in the [Common Helper Functions]/[(Root) Mean Squared Error Calculation] section of [Appendix A](#appndx_a).
 :::
+
+\newpage
 
 Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2380):
 ```{r main-script@l2380, eval=FALSE}
