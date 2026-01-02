@@ -8,6 +8,7 @@ rmd_render.script_path <- file.path(startup.path, "3.rmd.render.R")
 
 ## Run Scripts -----------------------------------------------------------------
 
+### Installing Packages and/or Loading External Libraries
 source(setup.script_path, 
        catch.aborts = TRUE,
        echo = TRUE,
@@ -15,6 +16,7 @@ source(setup.script_path,
        verbose = TRUE,
        keep.source = TRUE)
 
+### Initializing Project Datasets and Loading Core Helper Functions
 source(init.script_path, 
        catch.aborts = TRUE,
        echo = TRUE,
@@ -22,6 +24,7 @@ source(init.script_path,
        verbose = TRUE,
        keep.source = TRUE)
 
+### Launching the *Main `R` Script*
 source(run_main.script_path,
        catch.aborts = TRUE,
        echo = TRUE,
@@ -29,6 +32,7 @@ source(run_main.script_path,
        verbose = TRUE,
        keep.source = TRUE)
 
+### Rendering the Capstone PDF Report
 source(rmd_render.script_path,
        catch.aborts = TRUE,
        echo = TRUE,

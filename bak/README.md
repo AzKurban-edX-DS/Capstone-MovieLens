@@ -76,4 +76,4 @@ script, which in turn is a launcher for the following four scripts:
     PDF Report*.
 
 > [!NOTE] 
-> Execution of the [__run-all.R](r/_startup/__run-all.R) script, the very first time, can take a few hours.
+> The very first execution of the script [__run-all.R](r/_startup/__run-all.R) may take several hours.
