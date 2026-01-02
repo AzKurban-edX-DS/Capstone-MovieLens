@@ -84,8 +84,8 @@ script, which in turn is a launcher for the following four scripts:
 4.  [3.rmd.render.R](r/_startup/3.rmd.render.R): Renders the *Capstone
     PDF Report*.
 
-> \[!NOTE\] The very first execution of the script
-> [\_\_run-all.R](r/_startup/__run-all.R) may take several hours.
+> [!NOTE]
+> The very first execution of the script [__run-all.R](r/_startup/__run-all.R) may take several hours.
 
 Subsequent executions of the project scripts will be significantly
 faster, as the data stored in the cache during the initial run will not
