@@ -79,11 +79,11 @@ script, which in turn is a launcher for the following four scripts:
 2. [1.init.R](r/_startup/1.init.R): Initializes all the required
     datasets and loads the general-purpose and data helper functions
     from the following scripts:
-  - [logging-functions.R](r/src/support-functions/logging-functions.R):
+    - [logging-functions.R](r/src/support-functions/logging-functions.R):
     User-defined *logging functions*;
-  - [common-helper.functions.R](r/src/support-functions/common-helper.functions.R):
+    - [common-helper.functions.R](r/src/support-functions/common-helper.functions.R):
     User-defined *common helper functions*;
-  - [data.helper.functions.R](r/src/support-functions/data.helper.functions.R):
+    - [data.helper.functions.R](r/src/support-functions/data.helper.functions.R):
     User-defined *data helper functions*.
 3. [2.run-main-script.R](r/_startup/2.run-main-script.R): The script is
     a launcher for the
