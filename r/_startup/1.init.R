@@ -108,25 +108,6 @@ log_close()
 
 ### Open log: `Init Project Data Log`-------------------------------------------
 open_logfile(".init-project-data")
-### Load Source Datasets from Specially Designed Package -----------------------
-if(!require(edx.capstone.movielens.data)) {
-  start <- put_start_date()
-  pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
-  put_end_date(start)
-}
-
-put_log("Dataset loaded from `edx.capstone.movielens.data` package: edx")
-put(str(edx))
-sum(is.na(edx$rating))
-#> [1] 0
-put(summary(edx))
-
-put_log1("Dataset loaded from `edx.capstone.movielens.data` package: final_holdout_test:
-%1", str(final_holdout_test))
-sum(is.na(final_holdout_test$rating))
-#> [1] 0
-put(summary(final_holdout_test))
-
 ### Support Functions ---------------------------------------------------------
 Data.Helper.functions.file_path <- file.path(support_functions.path, 
                                              "data.helper.functions.R")

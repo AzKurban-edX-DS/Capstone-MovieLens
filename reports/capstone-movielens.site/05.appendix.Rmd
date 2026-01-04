@@ -2609,7 +2609,7 @@ The objects comprising the return list are as follows:
 ##### Source Code
 \
 Below is the most significant part of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) function:
-```{r eval=FALSE}
+```{r func.tune.model_param@l126, eval=FALSE}
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
                              break.if_min = TRUE,
@@ -2809,7 +2809,6 @@ Final best RMSE for `parameter value = %1`: %2",
                param_values.best_result["best_RMSE"])
       
       put(param_values.best_result)
-      # browser()
       break
     }
 ```

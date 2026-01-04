@@ -20,21 +20,39 @@ To start with we have to generate two datasets derived from the _MovieLens_ data
 
 For this purpose, a dedicated package, [edx.capstone.movielens.data](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/README.md), has been developed by the author of this report. The source code of the package is available on [GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data) (the main `R` script that prepares the necessary datasets is located in the file [init-movielens-data.R](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/data-raw/init-movielens-data.R))[@edx_capstone_movielens_data].
 
-Let's install the development version of this package from the _GitHub repository_ and attach the correspondent library to the global environment:
-```{r}
-if(!require(edx.capstone.movielens.data)) pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
+We install the development version of this package from the _GitHub repository_ and attach the correspondent library to the global environment using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/_startup/1.init.R#L16):
+```{r init@l16, eval=FALSE}
+## Load Source Datasets from Specially Designed Package ------------------------
+if(!require(edx.capstone.movielens.data)) {
+  start <- put_start_date()
+  pak::pak("AzKurban-edX-DS/edx.capstone.movielens.data")
+  put_end_date(start)
+}
 
-library(edx.capstone.movielens.data)
-edx <- edx.capstone.movielens.data::edx
-final_holdout_test <- edx.capstone.movielens.data::final_holdout_test
+put_log("Dataset loaded from `edx.capstone.movielens.data` package: edx")
 ```
 
-Now, we have the datasets listed above:
-```{r }
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the user-defined helper function [put_log](#func.put_log) described above in the [Logging Functions] section of *this Appendix*.
+:::  
+
+Next, we attach the correspondent library to the global environment using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L235):
+```{r data.helper.func@l235, eval=FALSE}
+library(edx.capstone.movielens.data)
+```
+
+::: {.noteblock data-latex=""}
+The line of code above is used in the [make_source_datasets](#func.make_source_datasets) user-defined helper function described in detail in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
+:::
+
+Finally, we have the datasets listed above:
+```{r}
+str(edx)
 summary(edx)
 ```
 
 ```{r }
+str(final_holdout_test)
 summary(final_holdout_test)
 ```
 \newpage
@@ -46,7 +64,7 @@ Let's look into the details of the `edx` dataset:
 str(edx)
 ```
 Note that we have 9000055 rows and six columns in there:  
-```{r }
+```{r}
 dim_edx <- dim(edx)
 print(dim_edx)
 ```
