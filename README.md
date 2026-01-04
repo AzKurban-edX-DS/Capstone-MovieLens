@@ -5,10 +5,13 @@
 
 *A movie recommendation system using the MovieLens dataset*
 
-This is the ***MovieLens*** project as part of the [edX HarvardX
+This is the ***Capstone MovieLens*** Project as part of the [edX HarvardX
 PH125.9x Data Science Capstone
 Course](https://pll.harvard.edu/course/data-science-capstone) to build a
 *Movie Recommendation System* according to the course requirements.
+
+> [!NOTE]
+> This project is implemented as [RStudio Project](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects).
 
 The goal of the project is to build a Recommendation System using
 datasets derived from a [10M version of the MovieLens
@@ -23,6 +26,10 @@ that provides all required data after being installed as an *R package*
 ## Essential Directories and Files
 
 The following are essential directories and files of the project:
+
+- [Capstone-MovieLens.Rproj](Capstone-MovieLens.Rproj): The [RStudio
+  Project](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects)
+  file;
 
 - [capstone-movielens.main.R](r/src/capstone-movielens.main.R): The
   *Main `R` Script*;
@@ -39,14 +46,22 @@ The following are essential directories and files of the project:
 - [capstone-movielens.site](reports/capstone-movielens.site): Folder for
   the *RMD-Report* files;
 
-\_
-[capstone-movielens.report.pdf](reports/capstone-movielens.site/final-pdf/capstone-movielens.report.pdf):
-Ultimately rendered *PDF-Report*;
+- [capstone-movielens.report.pdf](reports/capstone-movielens.site/final-pdf/capstone-movielens.report.pdf):
+  Ultimately rendered *PDF-Report*;
 
 - `data` folder: (automatically created if it does not exist, during the
   *Main `R` Script* execution) Directory for cache files, intended for
   storing intermediate results and required datasets used by the project
   scripts;
+
+## Working Environment
+
+Since this project is an [RStudio
+Project](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects),
+it is recommended to work with the project in *RStudio IDE*. As
+mentioned above in section [Essential Directories and
+Files](#essential-directories-and-files), the *RStudio Project* file is
+[Capstone-MovieLens.Rproj](Capstone-MovieLens.Rproj).
 
 ## Running the project
 
@@ -57,31 +72,25 @@ located in the [\_startup](r/_startup) folder.
 This script is a runner for the [\_starter.R](r/_startup/_starter.R)
 script, which in turn is a launcher for the following four scripts:
 
-1.  [0.setup.R](r/_startup/0.setup.R): The script is a launcher for the
+1. [0.setup.R](r/_startup/0.setup.R): The script is a launcher for the
     [setup.R](r/src/support-scripts/setup.R) script mentioned above in
     the [Essential Directories and
     Files](#essential-directories-and-files) section.
-
-2.  [1.init.R](r/_startup/1.init.R): Initializes all the required
+2. [1.init.R](r/_startup/1.init.R): Initializes all the required
     datasets and loads the general-purpose and data helper functions
     from the following scripts:
-
-- [logging-functions.R](r/src/support-functions/logging-functions.R):
-  User-defined *logging functions*;
-
-- [common-helper.functions.R](r/src/support-functions/common-helper.functions.R):
-  User-defined *common helper functions*;
-
-- [data.helper.functions.R](r/src/support-functions/data.helper.functions.R):
-  User-defined *data helper functions*.
-
-3.  [2.run-main-script.R](r/_startup/2.run-main-script.R): The script is
+    - [logging-functions.R](r/src/support-functions/logging-functions.R):
+    User-defined *logging functions*;
+    - [common-helper.functions.R](r/src/support-functions/common-helper.functions.R):
+    User-defined *common helper functions*;
+    - [data.helper.functions.R](r/src/support-functions/data.helper.functions.R):
+    User-defined *data helper functions*.
+3. [2.run-main-script.R](r/_startup/2.run-main-script.R): The script is
     a launcher for the
     [capstone-movielens.main.R](r/src/capstone-movielens.main.R) script
     mentioned above in the [Essential Directories and
     Files](#essential-directories-and-files) section.
-
-4.  [3.rmd.render.R](r/_startup/3.rmd.render.R): Renders the *Capstone
+4. [3.rmd.render.R](r/_startup/3.rmd.render.R): Renders the *Capstone
     PDF Report*.
 
 > [!NOTE]
@@ -129,6 +138,7 @@ be launched by the following [code snippet](r/_startup/_starter.R#L11)
 provided in the script [\_starter.R](r/_startup/_starter.R#L11):
 
 ``` r
+### Installing Packages and/or Loading External Libraries
 source(setup.script_path, 
        catch.aborts = TRUE,
        echo = TRUE,
@@ -142,10 +152,11 @@ source(setup.script_path,
 As mentioned above in *this section*, the script
 [1.init.R](r/_startup/1.init.R) initializes all the required datasets
 and loads the general-purpose and data helper functions. It can also be
-launched by the following [code snippet](r/_startup/_starter.R#L20)
-provided in the script [\_starter.R](r/_startup/_starter.R#L20):
+launched by the following [code snippet](r/_startup/_starter.R#L19)
+provided in the script [\_starter.R](r/_startup/_starter.R#L19):
 
 ``` r
+### Initializing Project Datasets and Loading Core Helper Functions
 source(init.script_path, 
        catch.aborts = TRUE,
        echo = TRUE,
@@ -164,6 +175,7 @@ Files](#essential-directories-and-files), the script
 [\_starter.R](r/_startup/_starter.R#L27):
 
 ``` r
+### Launching the *Main `R` Script*
 source(run_main.script_path,
        catch.aborts = TRUE,
        echo = TRUE,
@@ -181,6 +193,7 @@ snippet](r/_startup/_starter.R#L35) provided in the script
 [\_starter.R](r/_startup/_starter.R#L35):
 
 ``` r
+### Rendering the Capstone PDF Report
 source(rmd_render.script_path,
        catch.aborts = TRUE,
        echo = TRUE,
