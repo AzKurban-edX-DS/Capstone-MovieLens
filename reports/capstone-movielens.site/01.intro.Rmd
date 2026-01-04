@@ -20,7 +20,7 @@ To start with we have to generate two datasets derived from the _MovieLens_ data
 
 For this purpose, a dedicated package, [edx.capstone.movielens.data](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/README.md), has been developed by the author of this report. The source code of the package is available on [GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data) (the main `R` script that prepares the necessary datasets is located in the file [init-movielens-data.R](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/data-raw/init-movielens-data.R))[@edx_capstone_movielens_data].
 
-We install the development version of this package from the _GitHub repository_ and attach the correspondent library to the global environment using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/_startup/1.init.R#L16):
+We install the development version of this package from the _GitHub repository_ using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/_startup/1.init.R#L16):
 ```{r init@l16, eval=FALSE}
 ## Load Source Datasets from Specially Designed Package ------------------------
 if(!require(edx.capstone.movielens.data)) {

@@ -328,8 +328,7 @@ This function internally calls [stringr::str_glue](https://www.rdocumentation.or
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) 
-
+A [glue object](https://glue.tidyverse.org/reference/glue.html), as created by [glue::as_glue()](https://glue.tidyverse.org/reference/as_glue.html) 
 :::
 
 ::: { #func.print_log.code .sidebar }
