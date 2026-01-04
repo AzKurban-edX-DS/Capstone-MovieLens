@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *A movie recommendation system using the MovieLens dataset*
 
-This is the _**MovieLens**_ project as part of the [edX HarvardX PH125.9x Data Science Capstone Course](https://pll.harvard.edu/course/data-science-capstone) to build a _Movie Recommendation System_ according to the course requirements.
+This is the _**Capstone MovieLens**_ Project as part of the [edX HarvardX PH125.9x Data Science Capstone Course](https://pll.harvard.edu/course/data-science-capstone) to build a _Movie Recommendation System_ according to the course requirements.
 
 > [!NOTE]
 > This project is implemented as [RStudio Project](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects).

@@ -5,7 +5,7 @@
 
 *A movie recommendation system using the MovieLens dataset*
 
-This is the ***MovieLens*** project as part of the [edX HarvardX
+This is the ***Capstone MovieLens*** Project as part of the [edX HarvardX
 PH125.9x Data Science Capstone
 Course](https://pll.harvard.edu/course/data-science-capstone) to build a
 *Movie Recommendation System* according to the course requirements.
