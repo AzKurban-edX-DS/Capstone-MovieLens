@@ -3336,7 +3336,7 @@ The source code of the [make_source_datasets](https://github.com/AzKurban-edX-DS
 #### [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L211) Function {#func.init_source_datasets}
 \
 
-Creates the major input datasets used throughout the project. 
+Creates or loads from the correspondant *cache file* the major input datasets used throughout the project. 
 
 ::: { #func.init_source_datasets.usage .sidebar }
 ##### Usage
@@ -3351,10 +3351,9 @@ movielens_datasets <- init_source_datasets()
 ##### Details
 \
 
-The function checks whether the required source datasets are cached on the hard disk and, if so, loads them from the cache file internally calling the [load_movielens_data_from_file](#func.load_movielens_data_from_file) user-defined helper function described below in section [Data Processing Functions] of *this Appendix*.
+The function checks whether the required source datasets are cached on the hard disk, calling the [base::file.exists](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/files) `R` function, and, if so, loads them from the *cache file* calling the [load_movielens_data_from_file](#func.load_movielens_data_from_file) user-defined auxiliary function described below in section [Data Processing Functions] of *this Appendix*.
 
-Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function described above, which creates all the necessary datasets using the `edx` as the original dataset.
-
+Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function described above in *this section*, which creates all the necessary datasets using the `edx` as the original dataset, saves the result datasets in a dedicated cache file using the [base::save](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/save) 'R' function, and returns the datasets to the client code.
 :::
 
 ::: { #func.init_source_datasets.value .sidebar }
@@ -3450,7 +3449,7 @@ The complete source code of the functions described in this section is available
 #### [load_movielens_data_from_file](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) Function {#func.load_movielens_data_from_file}
 \
 
-Reload *Movielens* datasets from the cach file written with the function [base::save](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/save) using the path passed in the [file_path](#func.load_movielens_data_from_file.args.file_path) argument.
+Reloads *Movielens* datasets from the cache file (previously created by the function [init_source_datasets](#func.init_source_datasets) described above in section [Initializing Input Datasets] to *this Appendix*) using the path passed in the [file_path](#func.load_movielens_data_from_file.args.file_path) argument.
 
 ::: { #func.load_movielens_data_from_file.usage .sidebar }
 ##### Usage
