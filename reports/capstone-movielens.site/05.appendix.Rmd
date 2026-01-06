@@ -36,11 +36,11 @@ open_logfile(file_name)
 
 This function is a wrapper for the [logr::log_open](https://www.rdocumentation.org/packages/logr/versions/1.3.9/topics/log_open) function. It also calls internally the following functions to generate a unique file name based on the [file_name](#func.open_logfile.args.file_name) argument and _system time_:
 
-  - [Sys.time](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Sys.time);
-  
-  - [stringr::str_replace](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace);
-  
-  - [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace)
+- [Sys.time](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Sys.time);
+
+- [stringr::str_replace](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace);
+
+- [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace)
 
 For more information on the _inner functions_ listed above, see the [R Documentation](https://www.rdocumentation.org/).
 
@@ -328,7 +328,7 @@ This function internally calls [stringr::str_glue](https://www.rdocumentation.or
 ##### Value
 \
 
-A [glue object](https://glue.tidyverse.org/reference/glue.html), as created by [glue::as_glue()](https://glue.tidyverse.org/reference/as_glue.html) 
+A [glue object](https://glue.tidyverse.org/reference/glue.html), as created by [glue::as_glue()](https://glue.tidyverse.org/reference/as_glue.html). 
 :::
 
 ::: { #func.print_log.code .sidebar }
@@ -385,8 +385,7 @@ The function works similarly to the [print_log](#func.print_log) function descri
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) 
-
+A [glue object](https://glue.tidyverse.org/reference/glue.html), as created by [glue::as_glue()](https://glue.tidyverse.org/reference/as_glue.html).
 :::
 
 ::: { #func.put_log.code .sidebar }
@@ -3332,6 +3331,8 @@ The source code of the [make_source_datasets](https://github.com/AzKurban-edX-DS
 :::
 :::
 
+\newpage
+
 #### [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L211) Function {#func.init_source_datasets}
 \
 
@@ -3350,9 +3351,9 @@ movielens_datasets <- init_source_datasets()
 ##### Details
 \
 
-The function checks whether the required source datasets are cached on the hard disk and, if so, loads them from the cache file.
+The function checks whether the required source datasets are cached on the hard disk and, if so, loads them from the cache file internally calling the [load_movielens_data_from_file](#func.load_movielens_data_from_file) user-defined helper function described below in section [Data Processing Functions] of *this Appendix*.
 
-Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function, which creates all the necessary datasets using the `edx` as the original dataset.
+Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function described above, which creates all the necessary datasets using the `edx` as the original dataset.
 
 :::
 
@@ -3362,17 +3363,14 @@ Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) funct
 
 The list of the following datasets (described in detail in [Appendix B: Models Training Datasets]) is returned to the client code:
 
-  - [`edx.mx` Matrix Object];
-  
-  - [`edx.sgr` Object];
-
-  - [`movie_map` Object];
-  
-  - [`date_days_map` Object];
-
-  - [`edx_CV` Object].
-
+- [`edx.mx` Matrix Object];
+- [`edx.sgr` Object];
+- [`movie_map` Object];
+- [`date_days_map` Object];
+- [`edx_CV` Object].
 :::
+
+\newpage
 
 ::: { #func.init_source_datasets.code .sidebar }
 ##### Source Code
@@ -3441,6 +3439,8 @@ The complete source code of the [init_source_datasets](https://github.com/AzKurb
 :::
 :::
 
+\newpage
+
 ### Data Processing Functions
 
 ::: {.noteblock data-latex=""}
@@ -3450,12 +3450,19 @@ The complete source code of the functions described in this section is available
 #### [load_movielens_data_from_file](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) Function {#func.load_movielens_data_from_file}
 \
 
+Reload *Movielens* datasets from the cach file written with the function [base::save](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/save) using the path passed in the [file_path](#func.load_movielens_data_from_file.args.file_path) argument.
+
 ::: { #func.load_movielens_data_from_file.usage .sidebar }
 ##### Usage
 \
 
 ```{r eval=FALSE}
+    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, the function `load_movielens_data_from_file` is called internally from the [init_source_datasets](#func.init_source_datasets) function described above in section [Initializing Input Datasets] of *this Appendix*.
+:::
 :::
 
 ::: { #func.load_movielens_data_from_file.args .sidebar }
@@ -3463,8 +3470,8 @@ The complete source code of the functions described in this section is available
 \
 
 :::
-::: { #func.load_movielens_data_from_file.args.seed .sidebar }
-  - **file_path:** Data file full path. 
+::: { #func.load_movielens_data_from_file.args.file_path .sidebar }
+  - **file_path:** Full path to the *cache file*. 
 
 :::
 :::
@@ -3473,14 +3480,28 @@ The complete source code of the functions described in this section is available
 ##### Details
 \
 
+This function is a wrapper for the [base::load](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/load) `R` function. It also calls internally auxiliary `R` function [base::file.exists](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/files), as well as the following user-defined logging functions described in section [Logging Functions] of *this Appendix*:
 
+* [put_log1](#func.put_log1)
+* [put_start_date](#func.put_start_date)
+* [put_end_date](#func.put_end_date)
 
+::: {.noteblock data-latex=""}
+This is an auxiliary function that is used internally in the [init_source_datasets](#func.init_source_datasets) function (described above in section [Initializing Input Datasets] to *this Appendix*) as shown above in the [Usage](#func.load_movielens_data_from_file.usage) section of *this Description*.
+:::
 :::
 
 ::: { #func.load_movielens_data_from_file.value .sidebar }
 ##### Value
 \
 
+The list of the following datasets (described in detail in [Appendix B: Models Training Datasets]) is returned to the client code:
+
+- [`edx.mx` Matrix Object];
+- [`edx.sgr` Object];
+- [`movie_map` Object];
+- [`date_days_map` Object];
+- [`edx_CV` Object].
 :::
 
 ::: { #func.load_movielens_data_from_file.code .sidebar }
@@ -3489,6 +3510,16 @@ The complete source code of the functions described in this section is available
 
 The source code of the [load_movielens_data_from_file](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) function is shown below:
 ```{r eval=FALSE}
+load_movielens_data_from_file <- function(file_path){
+  put_log1("Loading MovieLens datasets from file: %1...", 
+           file_path)
+  start <- put_start_date()
+  load(file_path)
+  put_end_date(start)
+  put_log1("MoviLens datasets have been loaded from file: %s.", 
+           file_path)
+  movielens_datasets
+}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -7727,3 +7758,4 @@ str(edx_CV)
 ```
 
 \newpage
+

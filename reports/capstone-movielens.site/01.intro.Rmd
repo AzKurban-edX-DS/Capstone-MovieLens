@@ -42,17 +42,15 @@ library(edx.capstone.movielens.data)
 ```
 
 ::: {.noteblock data-latex=""}
-The line of code above is used in the [make_source_datasets](#func.make_source_datasets) user-defined helper function described in detail in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
+The line of code above is used in the [init_source_datasets](#func.init_source_datasets) user-defined helper function described in detail in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
 :::
 
 Finally, we have the datasets listed above:
 ```{r}
-str(edx)
 summary(edx)
 ```
 
 ```{r }
-str(final_holdout_test)
 summary(final_holdout_test)
 ```
 \newpage
