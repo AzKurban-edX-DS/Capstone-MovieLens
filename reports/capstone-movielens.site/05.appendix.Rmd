@@ -3540,7 +3540,7 @@ Divides the set of *row indices* of the dataset passed in the [data](#func.split
 ##### Usage
 \
 
-```{r data-helper.func@l21 eval=FALSE}
+```{r data-helper.func@l21, eval=FALSE}
     sapply(splitByUser(data),
            function(i) sample(i, ceiling(length(i)*.2))) |> 
     unlist() |> 
@@ -3577,7 +3577,7 @@ This is an auxiliary function intended for use in the [sample_train_validation_s
 ##### Value
 \
 
- List of vectors containing the values (corresponding *row indices* of the dataset passed in the [data](#)) for the `.$userId` groups. The components of the list are named by the values of the `.$userId` (after converting to a factor). For more details, please refer to the documentation of the [base::split], which internally forms the return value. 
+ List of vectors containing the values (corresponding *row indices* of the dataset passed in the [data](#)) for the `.$userId` groups. The components of the list are named by the values of the `.$userId` (after converting to a factor). For more details, please refer to the documentation of the [base::split](https://www.rdocumentation.org/packages/base/versions/3.3/topics/split), which internally forms the return value. 
 :::
 
 ::: { #func.splitByUser.code .sidebar }
@@ -3605,13 +3605,13 @@ Implements an algorithm to split the input dataset passed in the [data](#func.sa
 ##### Usage
 \
 
-```{r data-helper.func@l153 eval=FALSE}
+```{r data-helper.func@l153, eval=FALSE}
 split_sets <- edx |>
   sample_train_validation_sets(fold_i*1000)
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L153) above, the function `sample_train_validation_sets` is called internally from the [make_source_datasets](#func.make_source_datasets) function described below in *this Section*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L153) above, the function `sample_train_validation_sets` is called internally from the [make_source_datasets](#func.make_source_datasets) function described above in section [Initializing Input Datasets] of *this Appendix*.
 :::
 :::
 
@@ -3634,7 +3634,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended for use in the [make_source_datasets](#func.make_source_datasets) function as shown in the [Usage](#) section above of the *current Description*.
+This is an auxiliary function intended for use in the [make_source_datasets](#func.make_source_datasets) function as shown in the [Usage](#func.sample_train_validation_sets.usage) section above of the *current Description*.
 :::
 
 To split the dataset passed in the [data](#func.sample_train_validation_sets.args.data) argument, the algorithm first takes a sample of 20% of the size of the set of its *row indices* for each user and sorts them by their corresponding `.$userId` value.
@@ -3652,7 +3652,7 @@ During its execution, the algorithm internally calls the user-defined helper fun
 ##### Value
 \
 
-List of size 2, consisting of the Training and Testing datasets created during the algorithm execution.
+List of size 2, consisting of the *Training* and *Testing* datasets created during the algorithm execution.
 :::
 
 ::: { #func.sample_train_validation_sets.code .sidebar }
