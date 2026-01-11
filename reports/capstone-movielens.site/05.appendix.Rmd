@@ -3173,16 +3173,18 @@ This function produces datasets listed in the [Value](#func.make_source_datasets
 The function calls internally the following user-defined helper functions: 
 
 * The *data helper functions* described below in section [Data Processing Functions] of *this Appendix*:
-  - [splitGenreRows](#func.splitGenreRows) to create the [`edx.sgr` Object];
-  - [sample_train_validation_sets](#func.sample_train_validation_sets) to create *Train* and *Validation* sets of the *inner datasets* of the [`edx_CV` Object].
+  * [splitGenreRows](#func.splitGenreRows) to create the [`edx.sgr` Object];
+  * [sample_train_validation_sets](#func.sample_train_validation_sets) to create *Train* and *Validation* sets of the *inner datasets* of the [`edx_CV` Object].
 * The *custom logging functions* described above in section [Logging Functions] of *this Appendix*:
-  - [put_log](#func.put_log)
-  - [put_log1](#func.put_log1)
-  - [put_start_date](#func.put_start_date)
-  - [put_end_date](#func.put_end_date)
+  * [put_log](#func.put_log)
+  * [put_log1](#func.put_log1)
+  * [put_start_date](#func.put_start_date)
+  * [put_end_date](#func.put_end_date)
 
 :::
 :::
+
+\newpage
 
 ::: { #func.make_source_datasets.value .sidebar }
 ##### Value
@@ -3531,6 +3533,8 @@ The source code of the [load_movielens_data_from_file](https://github.com/AzKurb
 :::
 :::
 
+\newpage
+
 #### [splitByUser](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) Function {#func.splitByUser}
 \
 
@@ -3595,6 +3599,8 @@ splitByUser <- function(data){
 The source code of the [splitByUser](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 #### [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) Function {#func.sample_train_validation_sets}
 \
@@ -3714,54 +3720,6 @@ Below are the data consistency verification results")
 
 ::: {.noteblock data-latex=""}
 The source code of the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) script on _GitHub_.
-:::
-:::
-
-#### [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) Function {#func.mutateDateTimeAndDays}
-\
-
-::: { #func.mutateDateTimeAndDays.usage .sidebar }
-##### Usage
-\
-
-```{r eval=FALSE}
-```
-:::
-
-::: { #func.mutateDateTimeAndDays.args .sidebar }
-##### Arguments
-\
-
-::: { #func.mutateDateTimeAndDays.args.data .sidebar }
-  - **data:** ; 
-
-:::
-:::
-
-::: { #func.mutateDateTimeAndDays.details .sidebar }
-##### Details
-\
-
-
-
-:::
-
-::: { #func.mutateDateTimeAndDays.value .sidebar }
-##### Value
-\
-
-:::
-
-::: { #func.mutateDateTimeAndDays.code .sidebar }
-##### Source Code
-\
-
-The source code of the [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) function is shown below:
-```{r eval=FALSE}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) script on _GitHub_.
 :::
 :::
 

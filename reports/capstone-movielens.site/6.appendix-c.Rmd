@@ -6,13 +6,13 @@
 * [load_movielens_data_from_file](#func.load_movielens_data_from_file):
 * [Appendix B: Models Training Datasets]
 * [Overview and Executive Summary]
+* [make_source_datasets](#func.make_source_datasets): Low priority
 
 
 ## Done
 
 * [print_log](#func.print_log)
 * [put_log](#func.put_log)
-* [make_source_datasets](#func.make_source_datasets)
 * [](#func.)
 * [](#func.)
 * [](#func.)
