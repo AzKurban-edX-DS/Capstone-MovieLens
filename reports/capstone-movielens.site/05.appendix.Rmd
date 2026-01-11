@@ -3376,8 +3376,6 @@ The list of the following datasets (described in detail in [Appendix B: Models T
 - [`edx_CV` Object].
 :::
 
-\newpage
-
 ::: { #func.init_source_datasets.code .sidebar }
 ##### Source Code
 \
@@ -3396,6 +3394,9 @@ Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...")
     
     unzip(movielens_datasets_zip, movielens_datasets_file_path)
     
+    
+    
+    # Ensuring that the unzipped file has been successfully saved in the file system...
     if(!file.exists(movielens_datasets_file_path)) {
       put_log("Method `init_source_datasets`: 
 File does not exists: {movielens_datasets_file}.")
@@ -3782,58 +3783,6 @@ splitGenreRows <- function(data){
 
 ::: {.noteblock data-latex=""}
 The source code of the [splitGenreRows](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) script on _GitHub_.
-:::
-:::
-
-#### [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) Function {#func.filter_noMore_nratings}
-\
-
-::: { #func.filter_noMore_nratings.usage .sidebar }
-##### Usage
-\
-
-```{r eval=FALSE}
-```
-:::
-
-::: { #func.filter_noMore_nratings.args .sidebar }
-##### Arguments
-\
-
-::: { #func.filter_noMore_nratings.args.data .sidebar }
-  - **data:** ; 
-
-:::
-::: { #func.filter_noMore_nratings.args.seed .sidebar }
-  - **seed:** ; 
-
-:::
-:::
-
-::: { #func.filter_noMore_nratings.details .sidebar }
-##### Details
-\
-
-
-
-:::
-
-::: { #func.filter_noMore_nratings.value .sidebar }
-##### Value
-\
-
-:::
-
-::: { #func.filter_noMore_nratings.code .sidebar }
-##### Source Code
-\
-
-The source code of the [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) function is shown below:
-```{r eval=FALSE}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) script on _GitHub_.
 :::
 :::
 
