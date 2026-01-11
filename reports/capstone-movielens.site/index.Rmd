@@ -129,4 +129,6 @@ source(setup_script.file_path,
 ```{r child = '05.appendix.Rmd'}
 ```
 
+```{r child = '6.appendix-c.Rmd'}
+```
 

@@ -36,11 +36,11 @@ open_logfile(file_name)
 
 This function is a wrapper for the [logr::log_open](https://www.rdocumentation.org/packages/logr/versions/1.3.9/topics/log_open) function. It also calls internally the following functions to generate a unique file name based on the [file_name](#func.open_logfile.args.file_name) argument and _system time_:
 
-  - [Sys.time](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Sys.time);
-  
-  - [stringr::str_replace](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace);
-  
-  - [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace)
+- [Sys.time](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Sys.time);
+
+- [stringr::str_replace](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace);
+
+- [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace)
 
 For more information on the _inner functions_ listed above, see the [R Documentation](https://www.rdocumentation.org/).
 
@@ -328,8 +328,7 @@ This function internally calls [stringr::str_glue](https://www.rdocumentation.or
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) 
-
+A [glue object](https://glue.tidyverse.org/reference/glue.html), as created by [glue::as_glue()](https://glue.tidyverse.org/reference/as_glue.html). 
 :::
 
 ::: { #func.print_log.code .sidebar }
@@ -386,8 +385,7 @@ The function works similarly to the [print_log](#func.print_log) function descri
 ##### Value
 \
 
-A glue object, as created by [glue::as_glue()](https://glue.tidyverse.org/reference/glue.html) 
-
+A [glue object](https://glue.tidyverse.org/reference/glue.html), as created by [glue::as_glue()](https://glue.tidyverse.org/reference/as_glue.html).
 :::
 
 ::: { #func.put_log.code .sidebar }
@@ -2609,7 +2607,7 @@ The objects comprising the return list are as follows:
 ##### Source Code
 \
 Below is the most significant part of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) function:
-```{r eval=FALSE}
+```{r func.tune.model_param@l126, eval=FALSE}
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
                              break.if_min = TRUE,
@@ -2809,7 +2807,6 @@ Final best RMSE for `parameter value = %1`: %2",
                param_values.best_result["best_RMSE"])
       
       put(param_values.best_result)
-      # browser()
       break
     }
 ```
@@ -3154,38 +3151,49 @@ The complete source code of the functions described in this section is available
 #### [make_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L89) Function {#func.make_source_datasets}
 \
 
-Creates the major input datasets used throughout the project. 
+Creates the major input datasets (*Movielens Datasets*) used throughout the project. 
 
 ::: { #func.make_source_datasets.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r data-helper.func@l240, eval=FALSE}
 movielens_datasets <- make_source_datasets()
-
 ```
+
+::: {.noteblock data-latex=""}
+The above [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L240) creates the *Movielens Datasets* using the function `make_source_datasets`, which is called internally from the function [init_source_datasets](#func.init_source_datasets) mentioned above in the *current Description*.
+:::
 :::
 
 ::: { #func.make_source_datasets.details .sidebar }
 ##### Details
 \
 
-This function produces datasets listed in the [Value](#func.make_source_datasets.value) section below and described in detail in [Appendix B: Models Training Datasets], using the `edx` as the original dataset.
+To produce the *Movielens Datasets* (listed in the [Value](#func.make_source_datasets.value) section of *this Appendix* below), the function uses the `edx` as the original dataset, and, during the execution, it calls internally the following *user-defined data helper functions* described below in section [Data Processing Functions] of *this Appendix*:
+
+* [splitGenreRows](#func.splitGenreRows) to create the [`edx.sgr` Object];
+* [sample_train_validation_sets](#func.sample_train_validation_sets) to create *Train* and *Validation* sets of the *inner datasets* of the [`edx_CV` Object].
+
+Additionally, it also calls the following *custom logging functions* described above in section [Logging Functions] of *this Appendix*:
+
+* [put_start_date](#func.put_start_date);
+* [put_end_date](#func.put_end_date);
+* [put_log](#func.put_log);
+* [put_log1](#func.put_log1).
 
 ::: {.noteblock data-latex=""}
-The function calls internally the following functions described below:
-
-  - [splitGenreRows](#) to create the [`edx.sgr` Object];
-  - [sample_train_validation_sets](#) to create *train* and *validation* sets of the inner datasets of the [`edx_CV` Object].
-
+This is a helper function and is used internally in the [init_source_datasets](#func.init_source_datasets) function as shown above in the [Usage](#func.make_source_datasets.usage) section of *this Description*.
 :::
 :::
+
+\newpage
 
 ::: { #func.make_source_datasets.value .sidebar }
 ##### Value
 \
 
-The list of the following datasets are returned to the client code:
+The list of the following datasets (described in detail in [Appendix B: Models Training Datasets]) are returned to the client code:
 
   - [`edx.mx` Matrix Object];
   
@@ -3237,7 +3245,6 @@ Matrix created: `edx.mx` of the following dimentions:")
     select(timestamp, date_time, date, year, days) |>
     distinct(timestamp, .keep_all = TRUE)
   
-  str(date_days_map)
   put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
   put(summary(date_days_map))
   
@@ -3334,13 +3341,15 @@ The source code of the [make_source_datasets](https://github.com/AzKurban-edX-DS
 :::
 :::
 
+\newpage
+
 #### [init_source_datasets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L211) Function {#func.init_source_datasets}
 \
 
-Creates the major input datasets used throughout the project. 
+Creates or loads from the *Local Cache* file the major input datasets used throughout the project. 
 
 ::: { #func.init_source_datasets.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/_startup/1.init.R#L132)
 \
 
 ```{r eval=FALSE}
@@ -3352,10 +3361,9 @@ movielens_datasets <- init_source_datasets()
 ##### Details
 \
 
-The function checks whether the required source datasets are cached on the hard disk and, if so, loads them from the cache file.
+The function checks whether the *Movielens Datasets* are cached on the hard disk, calling the [base::file.exists](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/files) `R` function, and, if so, loads them from the *Local Cache* file calling the [load_movielens_data_from_file](#func.load_movielens_data_from_file) user-defined auxiliary function described below in section [Data Processing Functions] of *this Appendix*.
 
-Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function, which creates all the necessary datasets using the `edx` as the original dataset.
-
+Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) function described above in *this Section*, which creates all the necessary datasets using the `edx` as the original dataset, saves the result datasets in a dedicated cache file using the [base::save](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/save) 'R' function, and returns the datasets to the client code.
 :::
 
 ::: { #func.init_source_datasets.value .sidebar }
@@ -3364,16 +3372,11 @@ Otherwise, it calls the [make_source_datasets](#func.make_source_datasets) funct
 
 The list of the following datasets (described in detail in [Appendix B: Models Training Datasets]) is returned to the client code:
 
-  - [`edx.mx` Matrix Object];
-  
-  - [`edx.sgr` Object];
-
-  - [`movie_map` Object];
-  
-  - [`date_days_map` Object];
-
-  - [`edx_CV` Object].
-
+- [`edx.mx` Matrix Object];
+- [`edx.sgr` Object];
+- [`movie_map` Object];
+- [`date_days_map` Object];
+- [`edx_CV` Object].
 :::
 
 ::: { #func.init_source_datasets.code .sidebar }
@@ -3394,6 +3397,9 @@ Unzipping MovieLens data file from zip-archive: {movielens_datasets_zip}...")
     
     unzip(movielens_datasets_zip, movielens_datasets_file_path)
     
+    
+    
+    # Ensuring that the unzipped file has been successfully saved in the file system...
     if(!file.exists(movielens_datasets_file_path)) {
       put_log("Method `init_source_datasets`: 
 File does not exists: {movielens_datasets_file}.")
@@ -3443,6 +3449,8 @@ The complete source code of the [init_source_datasets](https://github.com/AzKurb
 :::
 :::
 
+\newpage
+
 ### Data Processing Functions
 
 ::: {.noteblock data-latex=""}
@@ -3452,12 +3460,19 @@ The complete source code of the functions described in this section is available
 #### [load_movielens_data_from_file](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) Function {#func.load_movielens_data_from_file}
 \
 
+Reloads *Movielens* datasets from the cache file (previously created by the user-defined helper function [init_source_datasets](#func.init_source_datasets) described above in section [Initializing Input Datasets] to *this Appendix*) using the path passed in the [file_path](#func.load_movielens_data_from_file.args.file_path) argument.
+
 ::: { #func.load_movielens_data_from_file.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r data-helper.func@l216, eval=FALSE}
+    movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
 ```
+
+::: {.noteblock data-latex=""}
+The above [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L216) loads the *Movielens Datasets* using the function `load_movielens_data_from_file`, which is called internally from the function [init_source_datasets](#func.init_source_datasets) mentioned above in the *current Description*.
+:::
 :::
 
 ::: { #func.load_movielens_data_from_file.args .sidebar }
@@ -3465,8 +3480,8 @@ The complete source code of the functions described in this section is available
 \
 
 :::
-::: { #func.load_movielens_data_from_file.args.seed .sidebar }
-  - **file_path:** Data file full path. 
+::: { #func.load_movielens_data_from_file.args.file_path .sidebar }
+  - **file_path:** Full path to the *cache file*. 
 
 :::
 :::
@@ -3475,14 +3490,28 @@ The complete source code of the functions described in this section is available
 ##### Details
 \
 
+This function is a wrapper for the `R` function [base::load](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/load). It also internally calls the auxiliary `R` function [base::file.exists](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/files) to check for the existence of the *cache file* at the path specified by the [file_path](#func.load_movielens_data_from_file.args.file_path) argument, as well as the following custom logging functions described in the [Logging Functions] section of *this Appendix*:
 
+* [put_log1](#func.put_log1);
+* [put_start_date](#func.put_start_date);
+* [put_end_date](#func.put_end_date).
 
+::: {.noteblock data-latex=""}
+This is an auxiliary function that is used internally in the [init_source_datasets](#func.init_source_datasets) function as shown above in the [Usage](#func.load_movielens_data_from_file.usage) section of *this Description*.
+:::
 :::
 
 ::: { #func.load_movielens_data_from_file.value .sidebar }
 ##### Value
 \
 
+The list of the following datasets (described in detail in [Appendix B: Models Training Datasets]) is returned to the client code:
+
+- [`edx.mx` Matrix Object];
+- [`edx.sgr` Object];
+- [`movie_map` Object];
+- [`date_days_map` Object];
+- [`edx_CV` Object].
 :::
 
 ::: { #func.load_movielens_data_from_file.code .sidebar }
@@ -3491,6 +3520,16 @@ The complete source code of the functions described in this section is available
 
 The source code of the [load_movielens_data_from_file](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L4) function is shown below:
 ```{r eval=FALSE}
+load_movielens_data_from_file <- function(file_path){
+  put_log1("Loading MovieLens datasets from file: %1...", 
+           file_path)
+  start <- put_start_date()
+  load(file_path)
+  put_end_date(start)
+  put_log1("MoviLens datasets have been loaded from file: %s.", 
+           file_path)
+  movielens_datasets
+}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -3498,15 +3537,27 @@ The source code of the [load_movielens_data_from_file](https://github.com/AzKurb
 :::
 :::
 
+\newpage
+
 #### [splitByUser](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) Function {#func.splitByUser}
 \
+
+Divides the set of *row indices* of the dataset passed in the [data](#func.splitByUser.args.data) argument into the groups defined by the `.$userId` variable in that dataset.
 
 ::: { #func.splitByUser.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r data-helper.func@l21, eval=FALSE}
+    sapply(splitByUser(data),
+           function(i) sample(i, ceiling(length(i)*.2))) |> 
+    unlist() |> 
+    sort()
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L21) above, the function `splitByUser` is called internally from the [sample_train_validation_sets](#func.sample_train_validation_sets) function described below in *this Section*.
+:::
 :::
 
 ::: { #func.splitByUser.args .sidebar }
@@ -3514,7 +3565,7 @@ The source code of the [load_movielens_data_from_file](https://github.com/AzKurb
 \
 
 ::: { #func.splitByUser.args.data .sidebar }
-  - **data:** ; 
+* **data:** Dataset to *split by user*; 
 
 :::
 :::
@@ -3523,14 +3574,18 @@ The source code of the [load_movielens_data_from_file](https://github.com/AzKurb
 ##### Details
 \
 
+This function is a wrapper for the [base::split](https://www.rdocumentation.org/packages/base/versions/3.3/topics/split) `R` function, which is called internally to divide the *set of row indices* of the *dataset* passed in the [data](#func.splitByUser.args.data) argument into the groups defined by the variable `.$userId`.
 
-
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended for use in the [sample_train_validation_sets](#func.sample_train_validation_sets) function as shown in the [Usage](#func.splitByUser.usage) section above of the *current Description*.
+:::
 :::
 
 ::: { #func.splitByUser.value .sidebar }
 ##### Value
 \
 
+ List of vectors containing the values (corresponding *row indices* of the dataset passed in the [data](#)) for the `.$userId` groups. The components of the list are named by the values of the `.$userId` (after converting to a factor). For more details, please refer to the documentation of the [base::split](https://www.rdocumentation.org/packages/base/versions/3.3/topics/split), which internally forms the return value. 
 :::
 
 ::: { #func.splitByUser.code .sidebar }
@@ -3539,6 +3594,9 @@ The source code of the [load_movielens_data_from_file](https://github.com/AzKurb
 
 The source code of the [splitByUser](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L14) function is shown below:
 ```{r eval=FALSE}
+splitByUser <- function(data){
+  split(1:nrow(data), data$userId)
+}
 ```
 
 ::: {.noteblock data-latex=""}
@@ -3546,19 +3604,25 @@ The source code of the [splitByUser](https://github.com/AzKurban-edX-DS/Capstone
 :::
 :::
 
+\newpage
+
 #### [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) Function {#func.sample_train_validation_sets}
 \
 
-Splits the input dataset passed in the [data](#func.sample_train_validation_sets.args.data) argument into *train* and *validation* datasets in the way described in [Section 29.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6].
+Implements an algorithm to split the input dataset passed in the [data](#func.sample_train_validation_sets.args.data) argument into *Train* and *Validation* sets in the way described in [Section 29.6 *Cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6].
 
 ::: { #func.sample_train_validation_sets.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
-split_sets <- data |>
-      sample_train_validation_sets(seed)
+```{r data-helper.func@l153, eval=FALSE}
+split_sets <- edx |>
+  sample_train_validation_sets(fold_i*1000)
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L153) above, the function `sample_train_validation_sets` is called internally from the [make_source_datasets](#func.make_source_datasets) function described above in section [Initializing Input Datasets] of *this Appendix*.
+:::
 :::
 
 ::: { #func.sample_train_validation_sets.args .sidebar }
@@ -3566,11 +3630,11 @@ split_sets <- data |>
 \
 
 ::: { #func.sample_train_validation_sets.args.data .sidebar }
-  - **data:** Input dataset to split; 
+- **data:** Input dataset to split; 
 
 :::
 ::: { #func.sample_train_validation_sets.args.seed .sidebar }
-  - **seed:** Seed value; 
+- **seed:** Seed value; 
 
 :::
 :::
@@ -3579,14 +3643,26 @@ split_sets <- data |>
 ##### Details
 \
 
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended for use in the [make_source_datasets](#func.make_source_datasets) function as shown in the [Usage](#func.sample_train_validation_sets.usage) section above of the *current Description*.
+:::
 
+To split the dataset passed in the [data](#func.sample_train_validation_sets.args.data) argument, the algorithm first takes a sample of 20% of the size of the set of its *row indices* for each user and sorts them by their corresponding `.$userId` value.
 
+Next, the algorithm creates a *Train Set* from the rows with indices that *IS NOT* in the *set of samples* taken in the previous step.
+
+Finally, it creates a *Validation Set* from the remaining data, including *ONLY THOSE ROWS* that have `.$userId` and `.$movieId` contained in the *Train Set*.
+
+::: {.noteblock data-latex=""}
+During its execution, the algorithm internally calls the user-defined helper function [splitByUser](#func.splitByUser) described above in *this Section*, as well as the custom logging function [put_log](#func.put_log) described above in section [Logging Functions] of *this Appendix*.
+:::
 :::
 
 ::: { #func.sample_train_validation_sets.value .sidebar }
 ##### Value
 \
 
+List of size 2, consisting of the *Training* and *Testing* datasets created during the algorithm execution.
 :::
 
 ::: { #func.sample_train_validation_sets.code .sidebar }
@@ -3651,54 +3727,6 @@ The source code of the [sample_train_validation_sets](https://github.com/AzKurba
 :::
 :::
 
-#### [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) Function {#func.mutateDateTimeAndDays}
-\
-
-::: { #func.mutateDateTimeAndDays.usage .sidebar }
-##### Usage
-\
-
-```{r eval=FALSE}
-```
-:::
-
-::: { #func.mutateDateTimeAndDays.args .sidebar }
-##### Arguments
-\
-
-::: { #func.mutateDateTimeAndDays.args.data .sidebar }
-  - **data:** ; 
-
-:::
-:::
-
-::: { #func.mutateDateTimeAndDays.details .sidebar }
-##### Details
-\
-
-
-
-:::
-
-::: { #func.mutateDateTimeAndDays.value .sidebar }
-##### Value
-\
-
-:::
-
-::: { #func.mutateDateTimeAndDays.code .sidebar }
-##### Source Code
-\
-
-The source code of the [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) function is shown below:
-```{r eval=FALSE}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [mutateDateTimeAndDays](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L66) script on _GitHub_.
-:::
-:::
-
 #### [splitGenreRows](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) Function {#func.splitGenreRows}
 \
 Splits rows of the original dataset passed in the [data](#func.splitGenreRows.args.data) argument for movies that belong to multiple genres.
@@ -3758,58 +3786,6 @@ splitGenreRows <- function(data){
 
 ::: {.noteblock data-latex=""}
 The source code of the [splitGenreRows](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) script on _GitHub_.
-:::
-:::
-
-#### [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) Function {#func.filter_noMore_nratings}
-\
-
-::: { #func.filter_noMore_nratings.usage .sidebar }
-##### Usage
-\
-
-```{r eval=FALSE}
-```
-:::
-
-::: { #func.filter_noMore_nratings.args .sidebar }
-##### Arguments
-\
-
-::: { #func.filter_noMore_nratings.args.data .sidebar }
-  - **data:** ; 
-
-:::
-::: { #func.filter_noMore_nratings.args.seed .sidebar }
-  - **seed:** ; 
-
-:::
-:::
-
-::: { #func.filter_noMore_nratings.details .sidebar }
-##### Details
-\
-
-
-
-:::
-
-::: { #func.filter_noMore_nratings.value .sidebar }
-##### Value
-\
-
-:::
-
-::: { #func.filter_noMore_nratings.code .sidebar }
-##### Source Code
-\
-
-The source code of the [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) function is shown below:
-```{r eval=FALSE}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [filter_noMore_nratings](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L82) script on _GitHub_.
 :::
 :::
 
@@ -6254,7 +6230,7 @@ In *this Project*, the *DGE* data object to be passed in the [de_bias.dat](#func
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the `loess_de` is called internally from the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function described below.
+In the code snippet above, the `loess_de` is called internally from the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function described below in *this Section*.
 :::
 :::
 
@@ -7729,3 +7705,4 @@ str(edx_CV)
 ```
 
 \newpage
+

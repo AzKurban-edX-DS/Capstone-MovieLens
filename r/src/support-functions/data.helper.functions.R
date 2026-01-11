@@ -118,7 +118,7 @@ Matrix created: `edx.mx` of the following dimentions:")
     select(timestamp, date_time, date, year, days) |>
     distinct(timestamp, .keep_all = TRUE)
   
-  str(date_days_map)
+  # str(date_days_map)
   put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
   put(summary(date_days_map))
   
