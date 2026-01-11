@@ -3157,30 +3157,33 @@ Creates the major input datasets (*Movielens Datasets*) used throughout the proj
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r data-helper.func@l240, eval=FALSE}
 movielens_datasets <- make_source_datasets()
-
 ```
+
+::: {.noteblock data-latex=""}
+The above [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L240) creates the *Movielens Datasets* using the function `make_source_datasets`, which is called internally from the function [init_source_datasets](#func.init_source_datasets) mentioned above in the *current Description*.
+:::
 :::
 
 ::: { #func.make_source_datasets.details .sidebar }
 ##### Details
 \
 
-This function produces datasets listed in the [Value](#func.make_source_datasets.value) section below and described in detail in [Appendix B: Models Training Datasets], using the `edx` as the original dataset.
+To produce the *Movielens Datasets* (listed in the [Value](#func.make_source_datasets.value) section of *this Appendix* below), the function uses the `edx` as the original dataset, and, during the execution, it calls internally the following *user-defined data helper functions* described below in section [Data Processing Functions] of *this Appendix*:
+
+* [splitGenreRows](#func.splitGenreRows) to create the [`edx.sgr` Object];
+* [sample_train_validation_sets](#func.sample_train_validation_sets) to create *Train* and *Validation* sets of the *inner datasets* of the [`edx_CV` Object].
+
+Additionally, it also calls the following *custom logging functions* described above in section [Logging Functions] of *this Appendix*:
+
+* [put_start_date](#func.put_start_date);
+* [put_end_date](#func.put_end_date);
+* [put_log](#func.put_log);
+* [put_log1](#func.put_log1).
 
 ::: {.noteblock data-latex=""}
-The function calls internally the following user-defined helper functions: 
-
-* The *data helper functions* described below in section [Data Processing Functions] of *this Appendix*:
-  * [splitGenreRows](#func.splitGenreRows) to create the [`edx.sgr` Object];
-  * [sample_train_validation_sets](#func.sample_train_validation_sets) to create *Train* and *Validation* sets of the *inner datasets* of the [`edx_CV` Object].
-* The *custom logging functions* described above in section [Logging Functions] of *this Appendix*:
-  * [put_log](#func.put_log)
-  * [put_log1](#func.put_log1)
-  * [put_start_date](#func.put_start_date)
-  * [put_end_date](#func.put_end_date)
-
+This is a helper function and is used internally in the [init_source_datasets](#func.init_source_datasets) function as shown above in the [Usage](#func.make_source_datasets.usage) section of *this Description*.
 :::
 :::
 
@@ -3190,7 +3193,7 @@ The function calls internally the following user-defined helper functions:
 ##### Value
 \
 
-The list of the following datasets are returned to the client code:
+The list of the following datasets (described in detail in [Appendix B: Models Training Datasets]) are returned to the client code:
 
   - [`edx.mx` Matrix Object];
   
@@ -3463,7 +3466,7 @@ Reloads *Movielens* datasets from the cache file (previously created by the user
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r data-helper.func@l216, eval=FALSE}
     movielens_datasets <- load_movielens_data_from_file(movielens_datasets_file_path)
 ```
 
