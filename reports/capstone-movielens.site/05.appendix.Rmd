@@ -3735,9 +3735,13 @@ Splits rows of the original dataset passed in the [data](#func.splitGenreRows.ar
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r data-helper.func@l128, eval=FALSE}
 edx.sgr <- splitGenreRows(edx)
 ```
+
+::: {.noteblock data-latex=""}
+The above [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L128) splits rows of the `edx` dataset using the function `splitGenreRows`, which is called internally from the function [make_source_datasets](#func.make_source_datasets) mentioned above in the *current Description*.
+:::
 :::
 
 ::: { #func.splitGenreRows.args .sidebar }
@@ -3753,10 +3757,10 @@ edx.sgr <- splitGenreRows(edx)
 ::: { #func.splitGenreRows.details .sidebar }
 ##### Details
 \
-This function is a wrapper for the [tidyr::separate_rows](https://www.rdocumentation.org/packages/tidyr/versions/1.3.0/topics/separate_rows) `R` function used in *This Project* to split rows belonging to multiple genres of a dataset containing a `genres` column, which is passed in the [data](#func.splitGenreRows.args.data) argument.
+The function is a wrapper for the [tidyr::separate_rows](https://www.rdocumentation.org/packages/tidyr/versions/1.3.0/topics/separate_rows) `R` function used in *This Project* to split rows belonging to multiple genres of a dataset containing a `genres` column, which is passed in the [data](#func.splitGenreRows.args.data) argument.
 
 ::: {.noteblock data-latex=""}
-The `splitGenreRows` function is used internally in the [make_source_datasets](#func.make_source_datasets) function described above in the [Initializing Input Datasets] section to create the `edx.sgr` dataset described below in the [`edx.sgr` Object] section of the [Appendix B: Models Training Datasets].
+This is an auxiliary function intended for use in the [make_source_datasets](#func.make_source_datasets) function as shown in the [Usage](#func.splitByUser.usage) section above of *this Description*.
 :::
 :::
 
@@ -3764,7 +3768,7 @@ The `splitGenreRows` function is used internally in the [make_source_datasets](#
 ##### Value
 \
 
-Dataset with the same structure as the one passed in the [data](#func.splitGenreRows.args.data) argument, but with rows that belong to multiple genres split.
+Dataset object with split rows (those belong to multiple genres) described in detail below in the [`edx.sgr` Object] section of the [Appendix B: Models Training Datasets].
 :::
 
 ::: { #func.splitGenreRows.code .sidebar }
