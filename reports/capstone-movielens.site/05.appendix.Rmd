@@ -3760,7 +3760,7 @@ The above [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/b
 The function is a wrapper for the [tidyr::separate_rows](https://www.rdocumentation.org/packages/tidyr/versions/1.3.0/topics/separate_rows) `R` function, which is called internally to operate.
 
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended for use in the [make_source_datasets](#func.make_source_datasets) function as shown in the [Usage](#func.splitByUser.usage) section above of *this Description*.
+This is an auxiliary function intended for use in the [make_source_datasets](#func.make_source_datasets) function as shown in the [Usage](#func.splitGenreRows.usage) section above of *this Description*.
 :::
 :::
 
@@ -7323,7 +7323,7 @@ In the above code snippet, the `regularize.train_UMGYD_effect.cv` function is ca
 ##### Details
 \
 
-This is an auxiliary function intended to be called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function (described below in this section) as shown in the [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.usage) section of *this Description* above.
+This is an auxiliary function intended to be called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function (described below in this section) as shown in the [Usage](#func.regularize.train_UMGYD_effect.cv.usage) section of *this Description* above.
 
 The function is a wrapper for the [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*) that it calls internally, passing it the best values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters `degree` and `span` in the corresponding arguments ([degree](#func.train_UMGY_SmoothedDay_effect.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.cv.args.span), respectively)
 
