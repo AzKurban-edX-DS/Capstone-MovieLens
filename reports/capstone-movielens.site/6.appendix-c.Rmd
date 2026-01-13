@@ -2,9 +2,22 @@
 
 ## TODO List
 
-* [Appendix B: Models Training Datasets]
-* [Overview and Executive Summary]
+### [Overview and Executive Summary]
+#### [Datasets Overview]
 
+Fix lines:
+
+* 21;
+* 36;
+* 45.
+
+##### [`edx` Dataset]
+
+Fix lines:
+
+* 90;
+* 108;
+* 143
 
 ## Done
 
@@ -19,3 +32,11 @@
 * [](#func.)
 * [](#func.)
 * [](#func.)
+
+### [Appendix B: Models Training Datasets]
+
+* [`edx.mx` Matrix Object];
+* [`edx.sgr` Object];
+* [`movie_map` Object];
+* [`date_days_map` Object]
+* [`edx_CV` Object]
