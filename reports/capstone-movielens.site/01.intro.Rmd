@@ -142,7 +142,7 @@ gridExtra::grid.arrange(p2, p1, ncol = 2)
 
 \newpage
 
-Finally, the following code snippet shows that no movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments:
+Finally, the following code snippet demonstrates that no movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments:
 ```{r }
 #library(dplyr)
 s <- edx |> group_by(rating) |>

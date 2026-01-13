@@ -2,6 +2,11 @@
 
 ## TODO List
 
+## [Methods and Analysis]
+
+
+## Done
+
 ### [Overview and Executive Summary]
 #### [Datasets Overview]
 
@@ -17,9 +22,11 @@ Fix lines:
 
 * 90;
 * 108;
-* 143
+* 124;
+* 145.
 
-## Done
+
+### [Appendix A: Support Functions]
 
 * [init_source_datasets](#func.init_source_datasets)
 * [load_movielens_data_from_file](#func.load_movielens_data_from_file):
