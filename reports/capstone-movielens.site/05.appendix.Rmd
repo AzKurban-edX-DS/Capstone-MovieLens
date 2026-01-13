@@ -3183,7 +3183,7 @@ Additionally, it also calls the following *custom logging functions* described a
 * [put_log1](#func.put_log1).
 
 ::: {.noteblock data-latex=""}
-This is a helper function and is used internally in the [init_source_datasets](#func.init_source_datasets) function as shown above in the [Usage](#func.make_source_datasets.usage) section of *this Description*.
+The function being described is a utility and is used internally in the [init_source_datasets](#func.init_source_datasets) function as shown above in the [Usage](#func.make_source_datasets.usage) section of *this Description*.
 :::
 :::
 
@@ -3492,9 +3492,9 @@ The above [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/b
 
 This function is a wrapper for the `R` function [base::load](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/load). It also internally calls the auxiliary `R` function [base::file.exists](https://www.rdocumentation.org/packages/base/versions/3.3.0/topics/files) to check for the existence of the *cache file* at the path specified by the [file_path](#func.load_movielens_data_from_file.args.file_path) argument, as well as the following custom logging functions described in the [Logging Functions] section of *this Appendix*:
 
-* [put_log1](#func.put_log1);
 * [put_start_date](#func.put_start_date);
 * [put_end_date](#func.put_end_date).
+* [put_log1](#func.put_log1);
 
 ::: {.noteblock data-latex=""}
 This is an auxiliary function that is used internally in the [init_source_datasets](#func.init_source_datasets) function as shown above in the [Usage](#func.load_movielens_data_from_file.usage) section of *this Description*.
@@ -3585,7 +3585,7 @@ This is an auxiliary function intended for use in the [sample_train_validation_s
 ##### Value
 \
 
- List of vectors containing the values (corresponding *row indices* of the dataset passed in the [data](#)) for the `.$userId` groups. The components of the list are named by the values of the `.$userId` (after converting to a factor). For more details, please refer to the documentation of the [base::split](https://www.rdocumentation.org/packages/base/versions/3.3/topics/split), which internally forms the return value. 
+ List of vectors containing the values (corresponding *row indices* of the dataset passed in the [data](#)) for the `.$userId` groups. The components of the list are named by the values of the `.$userId` (after converting to a factor). For more details, please refer to the documentation of the [base::split](https://www.rdocumentation.org/packages/base/versions/3.3/topics/split) function, which, in fact, forms the return value. 
 :::
 
 ::: { #func.splitByUser.code .sidebar }
@@ -7529,7 +7529,7 @@ The source code of the [mf.residual.dataframe](https://github.com/AzKurban-edX-D
 
 We use the array representation described in [Section 17.6 *Analysis of variance (ANOVA)*](https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/treatment-effect-models.html#sec-anova) of the _Course Textbook (New Edition)_, for the training data[@IDS2_17-6]. For this purpose, we will convert the `edx` dataset into a matrix using the [tidyr::pivot_wider](https://www.rdocumentation.org/packages/tidyr/versions/1.3.0/topics/pivot_wider) function:
 
-```{r eval=FALSE}
+```{r data-helper.func@l92, eval=FALSE}
 
   put_log("Function: `make_source_datasets`: Creating Rating Matrix from `edx` dataset...")
   edx.mx <- edx |> 
@@ -7545,8 +7545,10 @@ Matrix created: `edx.mx` of the following dimentions:")
   put(dim(edx.mx))
 ```
 
+To create the `edx.mx` object, the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L92) is used in the [make_source_datasets](#func.make_source_datasets) function described in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
+
 ::: {.noteblock data-latex=""}
-To create the `edx.mx` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+The *code snippet* above uses *custom logging function* [put_log](#func.put_log) described in section [Logging Functions] of [Appendix A](#appndx_a).
 :::
 
 ```{r}
@@ -7559,17 +7561,17 @@ To create the `edx.mx` object, the above code snippet is used in the [make_sourc
 \
 
 To account for the Movie Genre Effect more accurately, we need a dataset with split rows for movies belonging to multiple genres:
-```{r eval=FALSE}
+```{r data-helper.func@l125, eval=FALSE}
   put_log("Function: `make_source_datasets`: 
 To account for the Movie Genre Effect, we need a dataset with split rows 
 for movies belonging to multiple genres.")
   edx.sgr <- splitGenreRows(edx)
 ```
 
-::: {.noteblock data-latex=""}
-To create the `edx.sgr` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+To create the `edx.sgr` object, the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L125) is used in the [make_source_datasets](#func.make_source_datasets) function described in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
 
-The custom function [splitGenreRows](#func.splitGenreRows) used in the code snippet to split the rows of the original dataset (`edx` in this case) is described in the [Data Processing Functions] section of [Appendix A: Support Functions].
+::: {.noteblock data-latex=""}
+The *code snippet* above uses the *user-defined helper function*  [splitGenreRows](#func.splitGenreRows) (described in [Data Processing Functions] section) to split the rows of the original dataset (`edx` in this case), as well as the *custom logging function* [put_log](#func.put_log) described in section [Logging Functions] of [Appendix A](#appndx_a).
 :::
 
 ```{r}
@@ -7582,16 +7584,18 @@ summary(edx.sgr)
 ## `movie_map` Object {#appndx_b.movie_map}
 \
 
-To be able to map movie IDs to titles we create the following lookup table:
-```{r eval=FALSE}
+To be able to map movie IDs to titles, we create the following lookup table:
+```{r data-helper.func@l106, eval=FALSE}
 movie_map <- edx |> select(movieId, title, genres) |> 
     distinct(movieId, .keep_all = TRUE)
   
   put_log("Function: `make_source_datasets`: Dataset created: movie_map")
 ```
 
+To create the `movie_map` object, the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L106) is used in the [make_source_datasets](#func.make_source_datasets) function described in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
+
 ::: {.noteblock data-latex=""}
-To create the `movie_map` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+The *code snippet* above uses *custom logging function* [put_log](#func.put_log) described in section [Logging Functions] of [Appendix A](#appndx_a).
 :::
 
 ```{r}
@@ -7608,7 +7612,7 @@ Note that titles cannot be considered unique, so we cannot use them as IDs[@IDS2
 
 We have a `timestamp` field in the `edx` dataset.
 To be able to map the date, year, and number of days since the earliest record in the `edx` dataset with the corresponding value in this field, we create the following lookup table:
-```{r eval=FALSE}
+```{r data-helper.func@l112, eval=FALSE}
   put_log("Function: `make_source_datasets`: Creating Date-Days Map dataset...")
   date_days_map <- edx |>
     mutate(date_time = as_datetime(timestamp)) |>
@@ -7621,8 +7625,10 @@ To be able to map the date, year, and number of days since the earliest record i
   put_log("Function: `make_source_datasets`: Dataset created: date_days_map")
 ```
 
+To create the `date_days_map` object, the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L112) is used in the [make_source_datasets](#func.make_source_datasets) function described in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
+
 ::: {.noteblock data-latex=""}
-To create the `date_days_map` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+The *code snippet* above uses *custom logging function* [put_log](#func.put_log) described in section [Logging Functions] of [Appendix A](#appndx_a).
 :::
 
 ``` {r}
@@ -7637,7 +7643,7 @@ To create the `date_days_map` object, the above code snippet is used in the [mak
 
 `edx_CV` object is a list of sample objects we need to perform the *K-Fold Cross-Validation* 
 as explained in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV]:
-```{r eval=FALSE}
+```{r data-helper.func@l141, eval=FALSE}
   start <- put_start_date()
   edx_CV <- lapply(kfold_index,  function(fold_i){
     
@@ -7696,12 +7702,18 @@ Matrix created: `train_mx` of the following dimentions:")
 Set of K-Fold Cross-Validation datasets created: edx_CV")
 ```
 
-To create the `edx_CV` object, the above code snippet is used in the [make_source_datasets](#func.make_source_datasets) function described in the [Initializing Input Datasets] section of [Appendix A: Support Functions].
+To create the `edx_CV` object, the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L141) is used in the [make_source_datasets](#func.make_source_datasets) function described in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
 
 The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the list composing the `edx_CV` object. In *this Project*, we choose $K = 5$.
 
 ::: {.noteblock data-latex=""}
-The custom function [sample_train_validation_sets](#func.sample_train_validation_sets) used in the code snippet to split the original dataset (`edx` in this case) into *train* and *validation* datasets, is described in the [Data Processing Functions] section of [Appendix A: Support Functions].
+The *code snippet* above uses the *user-defined helper function*  [sample_train_validation_sets](#func.sample_train_validation_sets) (described in [Data Processing Functions] section) to split the original dataset (`edx` in this case) into *Train* and *Validation* datasets, as well as the following *custom logging function* described in section [Logging Functions] of [Appendix A](#appndx_a):
+
+* [put_start_date](#func.put_start_date);
+* [put_end_date](#func.put_end_date);
+* [put_log](#func.put_log);
+* [put_log1](#func.put_log1).
+
 :::
 
 ```{r}

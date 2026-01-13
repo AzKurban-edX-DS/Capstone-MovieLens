@@ -2,20 +2,20 @@
 
 ## TODO List
 
-* [init_source_datasets](#func.init_source_datasets)
-* [load_movielens_data_from_file](#func.load_movielens_data_from_file):
 * [Appendix B: Models Training Datasets]
 * [Overview and Executive Summary]
-* [make_source_datasets](#func.make_source_datasets): Low priority
 
 
 ## Done
 
+* [init_source_datasets](#func.init_source_datasets)
+* [load_movielens_data_from_file](#func.load_movielens_data_from_file):
+* [make_source_datasets](#func.make_source_datasets)
 * [print_log](#func.print_log)
 * [put_log](#func.put_log)
-* [](#func.)
-* [](#func.)
-* [](#func.)
+* [splitGenreRows](#func.splitGenreRows)
+* [sample_train_validation_sets](#func.sample_train_validation_sets)
+* [splitByUser](#func.splitByUser)
 * [](#func.)
 * [](#func.)
 * [](#func.)
