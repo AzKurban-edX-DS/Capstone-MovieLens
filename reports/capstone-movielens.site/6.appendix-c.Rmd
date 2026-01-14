@@ -6,56 +6,50 @@
 
 #### [Preparing train and set datasets]
 
-Fix lines:
-
-* 23.
-
 #### [Overall Mean Rating (OMR) Model]
 
 ##### [OMR Model Building]
 
 Fix lines:
 
-* 36;
+* 50;
 * 
 
+##### [ OMR Value Is the Best for the Current Model]
+
+Fix lines:
+
+* 74: we use the function [naive_model_RMSE](#func.naive_model_RMSE);
+* 
 
 ### [Appendix A: Support Functions]
+
+#### [Common Helper Functions]
+
+##### [Logging Functions]
+
+##### [(Root) Mean Squared Error Calculation]
+
+#### [Data Helper Functions]
+
+##### [Data Visualization Functions]
+
+* [data.plot](#func.data.plot)
+  * 3944 [Usage];
+  * 3978 [Arguments]: xlabel;
+
+
+* [](#func.)
+
 
 #### [Models Training: Support Functions]
 
 ##### [OMR Model: Helper Functions]
 
-* [naive_model_MSEs](#func.naive_model_MSEs)
-  * 4350;
-  * 4354: [Usage]
-  * 4369: [Arguments]
-  * 4375: Add subsection [Details]: reference the [mse](#func.mse) function;
-  * 4385: Amend subsection [Value]
-
-* [mse](#func.mse): fix lines:
-  * 1490: [Usage];
-  * 1508: [Arguments]
-
 * [naive_model_RMSE](#func.naive_model_RMSE): fix lines:
 
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
-* [](#func.)
 
-
+\newpage
 
 ## Done
 
@@ -81,12 +75,19 @@ Fix lines:
 
 #### [Preparing train and set datasets]
 
+Fixed lines:
+
+* 23.
+
 #### [Overall Mean Rating (OMR) Model]
 
 ##### [Mathematical Description of the OMR Model]
 
 ##### [OMR Model Building]
 
+Fixed lines:
+
+* 36;
 
 
 
@@ -99,6 +100,7 @@ Fix lines:
 * [print_log](#func.print_log)
 * [put_log](#func.put_log)
 
+##### (Root) Mean Squared Error Calculation
 
 
 #### [Data Helper Functions]
@@ -115,6 +117,24 @@ Fix lines:
 * [sample_train_validation_sets](#func.sample_train_validation_sets)
 * [splitByUser](#func.splitByUser)
 
+##### [Data Visualization Functions]
+
+
+#### [Models Training: Support Functions]
+
+##### [OMR Model: Helper Functions]
+
+* [mse](#func.mse): fix lines:
+  * 1490: [Usage];
+  * 1508: [Arguments]
+
+* [naive_model_MSEs](#func.naive_model_MSEs)
+  * 4350;
+  * 4354: [Usage]
+  * 4369: [Arguments]
+  * 4375: Add subsection [Details]: reference the [mse](#func.mse) function;
+  * 4385: Amend subsection [Value]
+
 ### [Appendix B: Models Training Datasets]
 
 * [`edx.mx` Matrix Object];
@@ -122,3 +142,24 @@ Fix lines:
 * [`movie_map` Object];
 * [`date_days_map` Object]
 * [`edx_CV` Object]
+
+-------------------------------------------------------
+
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+
+
+

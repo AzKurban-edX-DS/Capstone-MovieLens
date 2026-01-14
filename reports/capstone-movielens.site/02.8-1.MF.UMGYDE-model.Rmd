@@ -158,7 +158,7 @@ Now, let's compute the final predictions, combining the predicted residuals from
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [clamp](#func.clamp) user-defined function described in the [Common Helper Functions]/[Utility Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [clamp](#func.clamp) user-defined function described in the [Utility Functions] section of [Appendix A](#appndx_a).
 :::
 
 ```{r}
@@ -173,7 +173,7 @@ final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [rmse2](#func.rmse2) user-defined function described in the [Common Helper Functions]/[(Root) Mean Squared Error Calculation] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [rmse2](#func.rmse2) user-defined function described in the [(Root) Mean Squared Error Calculation] section of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -190,7 +190,7 @@ RMSE_kable(final.MF.RMSEs.ResultTibble)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
 :::
 
 Eventually, we have reached our ultimate goal, as the *RMSE* we obtained has achieved the required Project Objective.
