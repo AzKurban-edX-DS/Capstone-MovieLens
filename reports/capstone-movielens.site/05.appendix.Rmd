@@ -1484,15 +1484,19 @@ The complete source code of the functions described in this section are availabl
 #### [mse](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L5) Function {#func.mse}
 \
 
-Calculates *Mean Squared Error* of the set of *residuals* (passed in the [r](func.mse.args.r) argument) as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
+Calculates *Mean Squared Error* of the set of *residuals* (passed in the [r](#func.mse.args.r) argument) as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
 
 ::: { #func.mse.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L347)
 \
 
-```{r eval=FALSE}
-mse(r)
-
+```{r main-script@l347u, eval=FALSE}
+edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
+  cv_fold_dat$validation_set |>
+    left_join(edx.user_effect, by = "userId") |>
+    mutate(resid = rating - clamp(mu + a)) |> 
+    pull(resid) |> mse()
+})
 ```
 :::
 
@@ -1501,7 +1505,7 @@ mse(r)
 \
 
 ::: { #func.mse.args.r .sidebar }
-  - **r:** Numeric vector representing a set of *residuals*. 
+  - **r:** Numeric vector representing a set of *residuals* (for example of computing a *residuals* vector, see section [Usage](#func.mse.usage) of *this Description*. 
 
 :::
 :::
@@ -4343,14 +4347,14 @@ The complete source code of the functions described in this section is available
 Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
+The $K$ value for the $K$*-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in the [Appendix B: Models Training Datasets] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.naive_model_MSEs.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L106)
 \
 
-```{r eval=FALSE}
+```{r main-script@l106u, eval=FALSE}
 mu <- mean(edx$rating)
 mu.MSEs <- naive_model_MSEs(mu)
 
@@ -4362,18 +4366,23 @@ mu.MSEs <- naive_model_MSEs(mu)
 \
 
 ::: { #func.naive_model_MSEs.args. .sidebar }
-  - **mu:** The overall mean rating value. 
+  - **mu:** The *Overall Mean Rating (OMR)* value. 
 
 :::
+:::
+
+::: { #func.naive_model_MSEs.details .sidebar }
+##### Details
+\
+
+The function iterates through the [`edx_CV` Object] items internally calling the user-defined helper function [mse](#func.mse) (described above in section [(Root) Mean Squared Error Calculation] of *this Appendix*)  for each iteration.
 :::
 
 ::: { #func.naive_model_MSEs.value .sidebar }
 ##### Value
 \
 
-The Mean Squared Error (MSE) values obtained from applying the *K-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the $K$ value is determined by the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
-
-
+Numeric vector of size $K$ containing the Mean Squared Error (MSE) values obtained from applying the $K$*-Fold Cross-Validation* method to the *Overall Average Rating (OMR) Model*, where the $K$ value is determined by the length of the [`edx_CV` Object] (in *this Project* we use $K = 5$).
 :::
 
 ::: { #func.naive_model_MSEs.code .sidebar }

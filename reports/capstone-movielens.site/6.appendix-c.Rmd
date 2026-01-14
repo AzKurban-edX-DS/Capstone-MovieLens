@@ -2,7 +2,59 @@
 
 ## TODO List
 
-## [Methods and Analysis]
+### [Methods and Analysis]
+
+#### [Preparing train and set datasets]
+
+Fix lines:
+
+* 23.
+
+#### [Overall Mean Rating (OMR) Model]
+
+##### [OMR Model Building]
+
+Fix lines:
+
+* 36;
+* 
+
+
+### [Appendix A: Support Functions]
+
+#### [Models Training: Support Functions]
+
+##### [OMR Model: Helper Functions]
+
+* [naive_model_MSEs](#func.naive_model_MSEs)
+  * 4350;
+  * 4354: [Usage]
+  * 4369: [Arguments]
+  * 4375: Add subsection [Details]: reference the [mse](#func.mse) function;
+  * 4385: Amend subsection [Value]
+
+* [mse](#func.mse): fix lines:
+  * 1490: [Usage];
+  * 1508: [Arguments]
+
+* [naive_model_RMSE](#func.naive_model_RMSE): fix lines:
+
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+
 
 
 ## Done
@@ -25,20 +77,43 @@ Fix lines:
 * 124;
 * 145.
 
+### [Methods and Analysis]
+
+#### [Preparing train and set datasets]
+
+#### [Overall Mean Rating (OMR) Model]
+
+##### [Mathematical Description of the OMR Model]
+
+##### [OMR Model Building]
+
+
+
 
 ### [Appendix A: Support Functions]
 
-* [init_source_datasets](#func.init_source_datasets)
-* [load_movielens_data_from_file](#func.load_movielens_data_from_file):
-* [make_source_datasets](#func.make_source_datasets)
+#### [Common Helper Functions]
+
+##### [Logging Functions]
+
 * [print_log](#func.print_log)
 * [put_log](#func.put_log)
+
+
+
+#### [Data Helper Functions]
+
+##### [Initializing Input Datasets]
+
+* [init_source_datasets](#func.init_source_datasets)
+* [make_source_datasets](#func.make_source_datasets)
+
+##### [Data Processing Functions]
+
+* [load_movielens_data_from_file](#func.load_movielens_data_from_file):
 * [splitGenreRows](#func.splitGenreRows)
 * [sample_train_validation_sets](#func.sample_train_validation_sets)
 * [splitByUser](#func.splitByUser)
-* [](#func.)
-* [](#func.)
-* [](#func.)
 
 ### [Appendix B: Models Training Datasets]
 

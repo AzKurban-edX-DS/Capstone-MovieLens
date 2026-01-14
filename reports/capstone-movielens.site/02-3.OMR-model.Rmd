@@ -33,7 +33,7 @@ mu.MSEs <- naive_model_MSEs(mu)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the user-defined function [naive_model_MSEs](#func.naive_model_MSEs) described in the [Models Training: Support Functions]/[OMR Model: Helper Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the user-defined function [naive_model_MSEs](#func.naive_model_MSEs) described in section [OMR Model: Helper Functions] of [Appendix A](#appndx_a).
 :::
 
 \newpage
