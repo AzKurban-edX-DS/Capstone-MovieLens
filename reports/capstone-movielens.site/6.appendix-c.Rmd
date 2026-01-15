@@ -29,14 +29,16 @@
 
 ##### [OMR Model: Helper Functions]
 
+------------------------------------------------------------------
+
 \newpage
 
-
-------------------------------------------------------------------
 ## Done
 
 ### [Overview and Executive Summary]
+
 #### [Datasets Overview]
+\
 
 Fix lines:
 
@@ -45,6 +47,7 @@ Fix lines:
 * 45.
 
 ##### [`edx` Dataset]
+\
 
 Fix lines:
 
@@ -56,6 +59,7 @@ Fix lines:
 ### [Methods and Analysis]
 
 #### [Preparing train and set datasets]
+\
 
 Fixed lines:
 
@@ -66,6 +70,7 @@ Fixed lines:
 ##### [Mathematical Description of the OMR Model]
 
 ##### [OMR Model Building]
+\
 
 Fixed lines:
 
@@ -74,6 +79,7 @@ Fixed lines:
 * 50: described in section [Data Visualization Functions]...;
 
 ##### [OMR Value Is the Best for the Current Model]
+\
 
 Fixed lines:
 
@@ -91,7 +97,7 @@ Fixed lines:
 * [print_log](#func.print_log)
 * [put_log](#func.put_log)
 
-##### (Root) Mean Squared Error Calculation
+##### [(Root) Mean Squared Error Calculation]
 
 
 #### [Data Helper Functions]
