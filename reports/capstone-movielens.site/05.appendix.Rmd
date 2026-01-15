@@ -3944,7 +3944,7 @@ Plots a graph based on the dataset passed in the [data](#func.data.plot.args.dat
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1838)
 \
 
-```{r main-script@l1838u eval=FALSE}
+```{r main-script@l1838u, eval=FALSE}
 lss.UMGYDE.preset.degree2.result$tuned.result |>
   data.plot(title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 2`",
               xname = "parameter.value", 
