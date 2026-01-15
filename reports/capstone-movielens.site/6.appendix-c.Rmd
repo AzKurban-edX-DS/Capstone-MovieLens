@@ -12,15 +12,17 @@
 
 Fix lines:
 
-* 50;
+* 24: using the following [line of code]...
+* 50: described in section [Data Visualization Functions]...;
 * 
 
-##### [ OMR Value Is the Best for the Current Model]
+##### [OMR Value Is the Best for the Current Model]
 
 Fix lines:
 
-* 74: we use the function [naive_model_RMSE](#func.naive_model_RMSE);
-* 
+* 74: described in section [OMR Model: Helper Functions]...;
+* 91: described in section [Data Visualization Functions]...
+
 
 ### [Appendix A: Support Functions]
 
@@ -47,6 +49,7 @@ Fix lines:
 ##### [OMR Model: Helper Functions]
 
 * [naive_model_RMSE](#func.naive_model_RMSE): fix lines:
+  * 4413: [Usage]
 
 
 \newpage

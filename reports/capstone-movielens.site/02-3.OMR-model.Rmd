@@ -47,7 +47,7 @@ data.frame(fold_No = 1:5, MSE = mu.MSEs) |>
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Visualization Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of [Appendix A](#appndx_a).
 :::
 
 We can now calculate the *Root Mean Squared Error (RMSE)* for the current model as a *square root* of the average of the *MSE* values we obtained above, using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L117):
@@ -71,7 +71,7 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove this wi
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [OMR Model: Helper Functions] section of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
+In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in section [OMR Model: Helper Functions] of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
 \newpage
@@ -88,7 +88,7 @@ data.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Ove
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Visualization Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -106,7 +106,7 @@ print_log1("Is the previously computed RMSE the best for the current model: %1",
 ```
 
 ::: {.noteblock data-latex=""}
-To print the log, we use the function [print_log1](#func.print_log1) described in the [Logging Functions] section of [Appendix A](#appndx_a).
+To print the log, we use the function [print_log1](#func.print_log1) described in section [Logging Functions] of [Appendix A](#appndx_a).
 :::
 
 Finally, we add the *RMSE* value calculated for the *OMR Model* to our *Result Table* and print the table using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L200):
@@ -121,7 +121,7 @@ RMSE_kable(RMSEs.ResultTibble.OMR)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
 To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]
