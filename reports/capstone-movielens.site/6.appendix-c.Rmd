@@ -10,21 +10,10 @@
 
 ##### [OMR Model Building]
 
-Fix lines:
-
-* 24: using the following [line of code]...
-* 50: described in section [Data Visualization Functions]...;
-* 
-
 ##### [OMR Value Is the Best for the Current Model]
 
-Fix lines:
-
-* 74: described in section [OMR Model: Helper Functions]...;
-* 91: described in section [Data Visualization Functions]...
-
-
 ### [Appendix A: Support Functions]
+* [](#func.)
 
 #### [Common Helper Functions]
 
@@ -36,24 +25,14 @@ Fix lines:
 
 ##### [Data Visualization Functions]
 
-* [data.plot](#func.data.plot)
-  * 3944 [Usage];
-  * 3978 [Arguments]: xlabel;
-
-
-* [](#func.)
-
-
 #### [Models Training: Support Functions]
 
 ##### [OMR Model: Helper Functions]
 
-* [naive_model_RMSE](#func.naive_model_RMSE): fix lines:
-  * 4413: [Usage]
-
-
 \newpage
 
+
+------------------------------------------------------------------
 ## Done
 
 ### [Overview and Executive Summary]
@@ -90,9 +69,16 @@ Fixed lines:
 
 Fixed lines:
 
+* 24: using the following [line of code]...
 * 36;
+* 50: described in section [Data Visualization Functions]...;
 
+##### [OMR Value Is the Best for the Current Model]
 
+Fixed lines:
+
+* 74: described in section [OMR Model: Helper Functions]...;
+* 91: described in section [Data Visualization Functions]...
 
 ### [Appendix A: Support Functions]
 
@@ -122,6 +108,10 @@ Fixed lines:
 
 ##### [Data Visualization Functions]
 
+* [data.plot](#func.data.plot)
+  * 3944 [Usage];
+  * 3978 [Arguments]: xlabel;
+
 
 #### [Models Training: Support Functions]
 
@@ -138,6 +128,10 @@ Fixed lines:
   * 4375: Add subsection [Details]: reference the [mse](#func.mse) function;
   * 4385: Amend subsection [Value]
 
+
+* [naive_model_RMSE](#func.naive_model_RMSE): fix lines:
+  * 4413: [Usage]
+  
 ### [Appendix B: Models Training Datasets]
 
 * [`edx.mx` Matrix Object];
