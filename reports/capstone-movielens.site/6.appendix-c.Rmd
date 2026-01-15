@@ -18,7 +18,23 @@
 #### [Common Helper Functions]
 
 ##### [Logging Functions]
+\
 
+* [open_logfile](#func.open_logfile)
+  * 15 [Usage](#func.open_logfile.usage)
+  
+  
+* [get_log1](#func.get_log1)
+  * 416: [Usage](#func.get_log1.usage)
+  * 448: [Details](#func.get_log1.details): This is an auxiliary function intended for use in other custom logging functions...
+
+
+* [print_log1](#func.print_log1)
+  * 473 [Usage](#func.print_log1.usage)
+  
+* [put_log1](#func.put_log1)
+  * 556 [Usage](#func.put_log1.usage)
+  
 ##### [(Root) Mean Squared Error Calculation]
 
 #### [Data Helper Functions]

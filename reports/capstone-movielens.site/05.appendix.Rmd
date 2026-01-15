@@ -12,11 +12,11 @@ The full source code of the functions described in this section is available in 
 A function to initialize the log file.
 
 ::: { #func.open_logfile.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L5)
 \
 
-```{r eval=FALSE}
-open_logfile(file_name)
+```{r main-script@l5u, eval=FALSE}
+open_logfile(".data-analysis")
 ```
 :::
 
@@ -413,9 +413,15 @@ Creates a character vector from the template passed in the [msg_template](#func.
 ##### Usage
 \
 
-```{r eval=FALSE}
-get_log1(msg_template, arg1)
+```{r logging-functions@l39u, eval=FALSE}
+  print(get_log1(msg_template, arg1))
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L39) above, the function `get_log1` is called internally from the [print_log1](#func.print_log1) function described below in *this Section*.
+:::
+
+
 :::
 
 ::: { #func.get_log1.args .sidebar }
@@ -438,6 +444,11 @@ get_log1(msg_template, arg1)
 \
 
 This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1)  argument to replace all the occurrences of the pattern `%1` found in the template.
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended for use in other custom logging functions, such as the [print_log1](#func.print_log1) (as shown in section [Usage](#func.get_log1.usage) of *this Description*) and [put_log1](#func.put_log1) described below in *this Section*.
+:::
+
 
 :::
 
@@ -473,11 +484,18 @@ The source code of the [get_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 Prints a log created from the template passed in the [msg_template](#func.print_log1.args.msg_template) argument, using the value specified by the [arg1](#func.print_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
 
 ::: { #func.print_log1.usage .sidebar }
-##### Usage
+##### [Usage](#chunk.main-script@l177m)
 \
 
-```{r eval=FALSE}
-print_log1(msg_template, arg1)
+```{r chunk.main-script@l177m}
+which_min_deviation <- deviation[which.min(deviation.RMSE)]
+min_rmse = min(deviation.RMSE)
+
+print_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
+         which_min_deviation)
+
+print_log1("Is the previously computed RMSE the best for the current model: %1",
+         mu.RMSE == min_rmse)
 ```
 :::
 
@@ -535,11 +553,18 @@ The source code of the [print_log1](https://github.com/AzKurban-edX-DS/Capstone-
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log1.args.msg_template) argument, using the value specified by the [arg1](#func.put_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
 
 ::: { #func.put_log1.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L177)
 \
 
-```{r eval=FALSE}
-put_log1(msg_template, arg1)
+```{r main-script@l177u, eval=FALSE}
+which_min_deviation <- deviation[which.min(deviation.RMSE)]
+min_rmse = min(deviation.RMSE)
+
+put_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
+         which_min_deviation)
+
+put_log1("Is the previously computed RMSE the best for the current model: %1",
+         mu.RMSE == min_rmse)
 ```
 :::
 
