@@ -20,22 +20,10 @@
 ##### [Logging Functions]
 \
 
-* [open_logfile](#func.open_logfile)
-  * 15 [Usage](#func.open_logfile.usage)
-  
-  
-* [get_log1](#func.get_log1)
-  * 416: [Usage](#func.get_log1.usage)
-  * 448: [Details](#func.get_log1.details): This is an auxiliary function intended for use in other custom logging functions...
-
-
-* [print_log1](#func.print_log1)
-  * 473 [Usage](#func.print_log1.usage)
-  
-* [put_log1](#func.put_log1)
-  * 556 [Usage](#func.put_log1.usage)
-  
 ##### [(Root) Mean Squared Error Calculation]
+
+##### [Result RMSEs Tibble Functions]
+\
 
 #### [Data Helper Functions]
 
@@ -110,11 +98,36 @@ Fixed lines:
 
 ##### [Logging Functions]
 
+* [open_logfile](#func.open_logfile)
+  * 15 [Usage](#func.open_logfile.usage)
+* [get_log1](#func.get_log1)
+  * 416: [Usage](#func.get_log1.usage)
+  * 448: [Details](#func.get_log1.details): This is an auxiliary function intended for use in other custom logging functions...
 * [print_log](#func.print_log)
 * [put_log](#func.put_log)
+* [print_log1](#func.print_log1)
+  * 473 [Usage](#func.print_log1.usage)
+* [put_log1](#func.put_log1)
+  * 556 [Usage](#func.put_log1.usage)
+  
 
 ##### [(Root) Mean Squared Error Calculation]
+\
 
+* [mse](#func.mse): fix lines:
+  * 1490: [Usage];
+  * 1508: [Arguments]
+
+##### [Result RMSEs Tibble Functions]
+\
+
+* [CreateRMSEs_ResultTibble](#func.CreateRMSEs_ResultTibble)
+  * 1704 [Usage](#func.CreateRMSEs_ResultTibble.usage)
+* [RMSEs.AddRow](#func.RMSEs.AddRow)
+  * 1759 [Usage](#func.RMSEs.AddRow.usage)
+  * 1772 [Arguments](#func.RMSEs.AddRow.args)
+    * [comment](#func.RMSEs.AddRow.args.comment)
+    * [before](#func.RMSEs.AddRow.args.before)
 
 #### [Data Helper Functions]
 
@@ -140,10 +153,6 @@ Fixed lines:
 #### [Models Training: Support Functions]
 
 ##### [OMR Model: Helper Functions]
-
-* [mse](#func.mse): fix lines:
-  * 1490: [Usage];
-  * 1508: [Arguments]
 
 * [naive_model_MSEs](#func.naive_model_MSEs)
   * 4350;

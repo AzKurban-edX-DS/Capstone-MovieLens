@@ -484,7 +484,7 @@ The source code of the [get_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 Prints a log created from the template passed in the [msg_template](#func.print_log1.args.msg_template) argument, using the value specified by the [arg1](#func.print_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
 
 ::: { #func.print_log1.usage .sidebar }
-##### [Usage](#chunk.main-script@l177m)
+##### [Usage](#chunk.main_script.l177m)
 \
 
 ```{r chunk.main-script@l177m}
@@ -1701,10 +1701,11 @@ The complete source code of the functions described in this section are availabl
 Creates a _RMSEs Result Tibble_ of type *data frame*.
 
 ::: { #func.CreateRMSEs_ResultTibble.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L87)
 \
 
-```{r eval=FALSE}
+```{r main-script@l87u, eval=FALSE}
+# Create the table and add a first row for the Project Objective
 RMSEs.ResultTibble <- CreateRMSEs_ResultTibble()
 ```
 :::
@@ -1756,15 +1757,15 @@ The source code of the [CreateRMSEs_ResultTibble](https://github.com/AzKurban-ed
 Adds a row to the original _RMSEs Result Tibble_ passed in the [RMSEs](#func.RMSEs.AddRow.args.RMSEs) argument.
 
 ::: { #func.RMSEs.AddRow.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L199)
 \
 
-```{r eval=FALSE}
-RMSEs.AddRow(RMSEs, 
-             method, 
-             value, 
-             comment = "", 
-             before = NULL)
+```{r main-script@l199u, eval=FALSE}
+### Add a row to the RMSE Result Tibble ---------------------------------------- 
+RMSEs.ResultTibble.OMR <- RMSEs.ResultTibble |> 
+  RMSEs.AddRow("OMR Model", 
+               mu.RMSE,
+               comment = "Overall Mean Rating (OMR) Model")
 ```
 :::
 
@@ -1788,12 +1789,12 @@ RMSEs.AddRow(RMSEs,
 :::
 
 ::: { #func.RMSEs.AddRow.args.comment .sidebar }
-  - ***comment:*** Detailed information about the record or any other comment (if needed);
+  - ***comment:*** (Optional, *Empty string* by default) Detailed information about the record or any other comment (if needed);
 
 :::
 
 ::: { #func.RMSEs.AddRow.args.before .sidebar }
-  - ***before:*** One-based row index where to add the new rows, if NULL (default): after last row;
+  - ***before:*** (Optional, `NULL` by default) One-based row index where to add the new rows, if NULL (default): after last row;
 
 :::
 :::

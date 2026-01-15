@@ -93,7 +93,7 @@ In the code snippet above, we use the custom data visualization function [data.p
 
 \newpage
 
-::: { #chunk.main-script@l177m .sidebar }
+::: { #chunk.main_script.l177m .sidebar }
 The [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L177) below prints a quick recap of the results:
 ```{r main-script@l177m}
 which_min_deviation <- deviation[which.min(deviation.RMSE)]
