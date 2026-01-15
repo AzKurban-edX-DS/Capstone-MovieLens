@@ -124,6 +124,6 @@ RMSE_kable(RMSEs.ResultTibble.OMR)
 In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
-To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]
+To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS_E1_33-7-4]
 
 \newpage

@@ -12,6 +12,8 @@
 
 ##### [OMR Value Is the Best for the Current Model]
 
+* 127: So we can definitely do better![@IDS_E1_33-7-4]
+
 ### [Appendix A: Support Functions]
 * [](#func.)
 
