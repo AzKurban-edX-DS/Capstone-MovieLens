@@ -407,7 +407,7 @@ The source code of the [put_log](https://github.com/AzKurban-edX-DS/Capstone-Mov
 #### [get_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L35) Function {#func.get_log1}
 \
 
-Creates a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
+Creates a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1) argument to replace all the occurrences of the pattern *"%1"* found in the template.
 
 ::: { #func.get_log1.usage .sidebar }
 ##### Usage
@@ -429,12 +429,12 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.get_log1.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern `%1` to be replaced by the value specified by the [arg1](#func.get_log1.args.arg1) argument. 
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.get_log1.args.arg1) argument. 
 
 :::
 
 ::: { #func.get_log1.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the pattern `%1` in the message template passed in the [msg_template](#func.get_log1.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.get_log1.args.msg_template) argument. 
 
 :::
 :::
@@ -443,7 +443,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 ##### Details
 \
 
-This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1)  argument to replace all the occurrences of the pattern `%1` found in the template.
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1)  argument to replace all the occurrences of the pattern *"%1"* found in the template.
 
 ::: {.noteblock data-latex=""}
 This is an auxiliary function intended for use in other custom logging functions, such as the [print_log1](#func.print_log1) (as shown in the [Usage](#func.get_log1.usage) section of *this Description*) and [put_log1](#func.put_log1) described below in *this Section*.
@@ -481,7 +481,7 @@ The source code of the [get_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [print_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L38) Function {#func.print_log1}
 \
 
-Prints a log created from the template passed in the [msg_template](#func.print_log1.args.msg_template) argument, using the value specified by the [arg1](#func.print_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
+Prints a log created from the template passed in the [msg_template](#func.print_log1.args.msg_template) argument, using the value specified by the [arg1](#func.print_log1.args.arg1) argument to replace all the occurrences of the pattern *"%1"* found in the template.
 
 ::: { #func.print_log1.usage .sidebar }
 ##### [Usage](#chunk.main_script.l177m)
@@ -504,12 +504,12 @@ print_log1("Is the previously computed RMSE the best for the current model: %1",
 \
 
 ::: { #func.print_log1.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern `%1` to be replaced by the value specified by the [arg1](#func.print_log1.args.arg1) argument. 
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.print_log1.args.arg1) argument. 
 
 :::
 
 ::: { #func.print_log1.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the pattern `%1` in the message template passed in the [msg_template](#func.print_log1.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.print_log1.args.msg_template) argument. 
 
 :::
 :::
@@ -550,7 +550,7 @@ The source code of the [print_log1](https://github.com/AzKurban-edX-DS/Capstone-
 #### [put_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L41) Function {#func.put_log1}
 \
 
-Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log1.args.msg_template) argument, using the value specified by the [arg1](#func.put_log1.args.arg1) argument to replace all the occurrences of the pattern `%1` found in the template.
+Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log1.args.msg_template) argument, using the value specified by the [arg1](#func.put_log1.args.arg1) argument to replace all the occurrences of the pattern *"%1"* found in the template.
 
 ::: { #func.put_log1.usage .sidebar }
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L177)
@@ -573,12 +573,12 @@ put_log1("Is the previously computed RMSE the best for the current model: %1",
 \
 
 ::: { #func.put_log1.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern `%1` to be replaced by the value specified by the [arg1](#func.put_log1.args.arg1) argument. 
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.put_log1.args.arg1) argument. 
 
 :::
 
 ::: { #func.put_log1.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the pattern `%1` in the message template passed in the [msg_template](#func.put_log1.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.put_log1.args.msg_template) argument. 
 
 :::
 :::
@@ -622,7 +622,7 @@ The source code of the [put_log1](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [get_log2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L45) Function {#func.get_log2}
 \
 
-Creates a character vector from the template passed in the [msg_template](#func.get_log2.args.msg_template) argument, using the values specified by the [arg1](#func.get_log2.args.arg1) and [arg2](#func.get_log2.args.arg2) arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
+Creates a character vector from the template passed in the [msg_template](#func.get_log2.args.msg_template) argument, using the values specified by the [arg1](#func.get_log2.args.arg1) and [arg2](#func.get_log2.args.arg2) arguments to replace all the occurrences of the placeholders *"%1"* and *"%2"*, respectively, found in the template.
 
 ::: { #func.get_log2.usage .sidebar }
 ##### Usage
@@ -638,17 +638,17 @@ get_log2(msg_template, arg1, arg2)
 \
 
 ::: { #func.get_log2.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1` and `%2`, to be replaced by the values specified by the [arg1](#func.get_log2.args.arg1) and  [arg2](#func.get_log2.args.arg2) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.get_log2.args.arg1) and  [arg2](#func.get_log2.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.get_log2.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.get_log2.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log2.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log2.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.get_log2.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log2.args.msg_template) argument. 
 
 :::
 :::
@@ -657,7 +657,7 @@ get_log2(msg_template, arg1, arg2)
 ##### Details
 \
 
-This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log2.args.msg_template) argument, using the values specified by the [arg1](#func.get_log2.args.arg1) and [arg2](#func.get_log2.args.arg2)  arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log2.args.msg_template) argument, using the values specified by the [arg1](#func.get_log2.args.arg1) and [arg2](#func.get_log2.args.arg2)  arguments to replace all the occurrences of the placeholders *"%1"* and *"%2"*, respectively, found in the template.
 
 :::
 
@@ -693,7 +693,7 @@ The source code of the [get_log2](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [print_log2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L51) Function {#func.print_log2}
 \
 
-Prints a log created from the template passed in the [msg_template](#func.print_log2.args.msg_template) argument, using the values specified by the [arg1](#func.print_log2.args.arg1) and [arg2](#func.print_log2.args.arg2) arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
+Prints a log created from the template passed in the [msg_template](#func.print_log2.args.msg_template) argument, using the values specified by the [arg1](#func.print_log2.args.arg1) and [arg2](#func.print_log2.args.arg2) arguments to replace all the occurrences of the placeholders *"%1"* and *"%2"*, respectively, found in the template.
 
 ::: { #func.print_log2.usage .sidebar }
 ##### Usage
@@ -709,17 +709,17 @@ print_log2(msg_template, arg1, arg2)
 \
 
 ::: { #func.print_log2.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1` and `%2`, to be replaced by the values specified by the [arg1](#func.print_log2.args.arg1) and  [arg2](#func.print_log2.args.arg2) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.print_log2.args.arg1) and  [arg2](#func.print_log2.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.print_log2.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.print_log2.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log2.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log2.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.print_log2.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log2.args.msg_template) argument. 
 
 :::
 :::
@@ -761,7 +761,7 @@ The source code of the [print_log2](https://github.com/AzKurban-edX-DS/Capstone-
 #### [put_log2](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L54) Function {#func.put_log2}
 \
 
-Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log2.args.msg_template) argument, using the values specified by the [arg1](#func.put_log2.args.arg1) and [arg2](#func.put_log2.args.arg2) arguments to replace all the occurrences of the placeholders `%1` and `%2`, respectively, found in the template.
+Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log2.args.msg_template) argument, using the values specified by the [arg1](#func.put_log2.args.arg1) and [arg2](#func.put_log2.args.arg2) arguments to replace all the occurrences of the placeholders *"%1"* and *"%2"*, respectively, found in the template.
 
 ::: { #func.put_log2.usage .sidebar }
 ##### Usage
@@ -777,17 +777,17 @@ put_log2(msg_template, arg1, arg2)
 \
 
 ::: { #func.put_log2.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1` and `%2`, to be replaced by the values specified by the [arg1](#func.put_log2.args.arg1) and  [arg2](#func.put_log2.args.arg2) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.put_log2.args.arg1) and  [arg2](#func.put_log2.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.put_log2.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.put_log2.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log2.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log2.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.put_log2.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log2.args.msg_template) argument. 
 
 :::
 :::
@@ -830,7 +830,7 @@ The source code of the [put_log2](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [get_log3](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L58) Function {#func.get_log3}
 \
 
-Creates a character vector from the template passed in the [msg_template](#func.get_log3.args.msg_template) argument, using the values specified by the [arg1](#func.get_log3.args.arg1), [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3) arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
+Creates a character vector from the template passed in the [msg_template](#func.get_log3.args.msg_template) argument, using the values specified by the [arg1](#func.get_log3.args.arg1), [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, and *"%3"*, respectively, found in the template.
 
 ::: { #func.get_log3.usage .sidebar }
 ##### Usage
@@ -846,22 +846,22 @@ get_log3(msg_template, arg1, arg2, arg3)
 \
 
 ::: { #func.get_log3.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, and `%3` to be replaced by the values specified by the [arg1](#func.get_log3.args.arg1),  [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.get_log3.args.arg1),  [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3) arguments, respectively.
 
 :::
 
 ::: { #func.get_log3.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log3.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log3.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
+  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 :::
@@ -870,7 +870,7 @@ get_log3(msg_template, arg1, arg2, arg3)
 ##### Details
 \
 
-This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log3.args.msg_template) argument, using the values specified by the [arg1](#func.get_log3.args.arg1), [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3)  arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log3.args.msg_template) argument, using the values specified by the [arg1](#func.get_log3.args.arg1), [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3)  arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, and *"%3"*, respectively, found in the template.
 
 :::
 
@@ -907,7 +907,7 @@ The source code of the [get_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [print_log3](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L65) Function {#func.print_log3}
 \
 
-Prints a log created from the template passed in the [msg_template](#func.print_log3.args.msg_template) argument, using the values specified by the [arg1](#func.print_log3.args.arg1), [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
+Prints a log created from the template passed in the [msg_template](#func.print_log3.args.msg_template) argument, using the values specified by the [arg1](#func.print_log3.args.arg1), [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, and *"%3"*, respectively, found in the template.
 
 ::: { #func.print_log3.usage .sidebar }
 ##### Usage
@@ -923,22 +923,22 @@ print_log3(msg_template, arg1, arg2, arg3)
 \
 
 ::: { #func.print_log3.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, and `%3` to be replaced by the values specified by the [arg1](#func.print_log3.args.arg1),  [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.print_log3.args.arg1),  [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments, respectively.
 
 :::
 
 ::: { #func.print_log3.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log3.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log3.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
+  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 :::
@@ -980,7 +980,7 @@ The source code of the [print_log3](https://github.com/AzKurban-edX-DS/Capstone-
 #### [put_log3](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L68) Function {#func.put_log3}
 \
 
-Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log3.args.msg_template) argument, using the values specified by the [arg1](#func.put_log3.args.arg1), [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments to replace all the occurrences of the placeholders `%1`, `%2`, and `%3`, respectively, found in the template.
+Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log3.args.msg_template) argument, using the values specified by the [arg1](#func.put_log3.args.arg1), [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, and *"%3"*, respectively, found in the template.
 
 ::: { #func.put_log3.usage .sidebar }
 ##### Usage
@@ -996,22 +996,22 @@ put_log3(msg_template, arg1, arg2, arg3)
 \
 
 ::: { #func.put_log3.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, and `%3` to be replaced by the values specified by the [arg1](#func.put_log3.args.arg1),  [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.put_log3.args.arg1),  [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments, respectively.
 
 :::
 
 ::: { #func.put_log3.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log3.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log3.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
+  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 :::
@@ -1055,7 +1055,7 @@ The source code of the [put_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [get_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L72) Function {#func.get_log4}
 \
 
-Creates a character vector from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument, using the values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
+Creates a character vector from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument, using the values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
 ::: { #func.get_log4.usage .sidebar }
 ##### Usage
@@ -1071,27 +1071,27 @@ get_log4(msg_template, arg1, arg2, arg3, arg4)
 \
 
 ::: { #func.get_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, `%3`, and `%4` to be replaced by the values specified by the [arg1](#func.get_log4.args.arg1),  [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.get_log4.args.arg1),  [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments, respectively.
 
 :::
 
 ::: { #func.get_log4.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log4.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log4.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
+  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log4.args.arg4 .sidebar }
-  - **arg4:** Value to replace all occurrences of the placeholder `%4` in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
+  - **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
 
 :::
 :::
@@ -1100,7 +1100,7 @@ get_log4(msg_template, arg1, arg2, arg3, arg4)
 ##### Details
 \
 
-This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument, using the values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
+This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument, using the values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
 :::
 
@@ -1138,7 +1138,7 @@ The source code of the [get_log4](https://github.com/AzKurban-edX-DS/Capstone-Mo
 #### [print_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L80) Function {#func.print_log4}
 \
 
-Prints a log created from the template passed in the [msg_template](#func.print_log4.args.msg_template) argument, using the values specified by the [arg1](#func.print_log4.args.arg1), [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
+Prints a log created from the template passed in the [msg_template](#func.print_log4.args.msg_template) argument, using the values specified by the [arg1](#func.print_log4.args.arg1), [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
 ::: { #func.print_log4.usage .sidebar }
 ##### Usage
@@ -1154,27 +1154,27 @@ print_log4(msg_template, arg1, arg2, arg3, arg4)
 \
 
 ::: { #func.print_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, `%3`, and `%4` to be replaced by the values specified by the [arg1](#func.print_log4.args.arg1),  [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.print_log4.args.arg1),  [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments, respectively.
 
 :::
 
 ::: { #func.print_log4.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log4.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log4.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
+  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log4.args.arg4 .sidebar }
-  - **arg4:** Value to replace all occurrences of the placeholder `%4` in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
+  - **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
 
 :::
 :::
@@ -1216,7 +1216,7 @@ The source code of the [print_log4](https://github.com/AzKurban-edX-DS/Capstone-
 #### [put_log4](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L83) Function {#func.put_log4}
 \
 
-Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log4.args.msg_template) argument, using the values specified by the [arg1](#func.put_log4.args.arg1), [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments to replace all the occurrences of the placeholders `%1`, `%2`, `%3`, and `%4`, respectively, found in the template.
+Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log4.args.msg_template) argument, using the values specified by the [arg1](#func.put_log4.args.arg1), [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
 ::: { #func.put_log4.usage .sidebar }
 ##### Usage
@@ -1232,27 +1232,27 @@ put_log4(msg_template, arg1, arg2, arg3, arg4)
 \
 
 ::: { #func.put_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders `%1`, `%2`, `%3`, and `%4` to be replaced by the values specified by the [arg1](#func.put_log4.args.arg1),  [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments, respectively.
+  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.put_log4.args.arg1),  [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments, respectively.
 
 :::
 
 ::: { #func.put_log4.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder `%1` in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
+  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log4.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder `%2` in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
+  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log4.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder `%3` in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
+  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log4.args.arg4 .sidebar }
-  - **arg4:** Value to replace all occurrences of the placeholder `%4` in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
+  - **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
 
 :::
 :::
@@ -1363,7 +1363,7 @@ The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-Movie
 :::
 :::
 
-#### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453) Function {#func.msg.set_arg}
+#### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) Function {#func.msg.set_arg}
 \
 
 Creates a character vector from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument, using the value specified by the [arg](#func.msg.set_arg.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument found in the template.
@@ -1372,9 +1372,15 @@ Creates a character vector from the template passed in the [msg_template](#func.
 ##### Usage
 \
 
-```{r eval=FALSE}
-msg.set_arg(msg_template, arg, arg.name = "%1")
+```{r 458, eval=FALSE}
+  msg_template |>
+    msg.set_arg(arg, arg.name) |>
+    str_glue()
 ```
+
+::: {.noteblock data-latex=""}
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L458), the `msg.set_arg` function is called internally from the [msg.glue](#func.msg.glue) function described below in *this Section*.
+:::
 :::
 
 ::: { #func.msg.set_arg.args .sidebar }
@@ -1387,7 +1393,7 @@ msg.set_arg(msg_template, arg, arg.name = "%1")
 :::
 
 ::: { #func.msg.set_arg.args.arg.name .sidebar }
-  - **arg.name:** (*Optional: `%1` by default*) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
+  - **arg.name:** (Optional, *"%1"* by default) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
 
 :::
 
@@ -1402,6 +1408,11 @@ msg.set_arg(msg_template, arg, arg.name = "%1")
 \
 
 This function is a wrapper for the [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` function, which is called internally to replace all occurrences of the pattern (placeholder) specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (*"%1"* by default), in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended to be called internally from the [msg.glue](#func.msg.glue) function (described below in *this Section*) as shown above in the [Usage](#func.msg.set_arg.usage) section of *this Description*.
+:::
+
 :::
 
 ::: { #func.msg.set_arg.value .sidebar }
@@ -1415,7 +1426,7 @@ The character vector returned by the internally called [stringr::str_replace_all
 ##### Source Code
 \
 
-The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453) function is shown below:
+The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) function is shown below:
 ```{r eval=FALSE}
 msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
   msg_template |> 
@@ -1424,7 +1435,7 @@ msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453) script on _GitHub_.
+The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) script on _GitHub_.
 :::
 :::
 
@@ -1459,7 +1470,7 @@ RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |>
 :::
 
 ::: { #func.msg.glue.args.arg.name .sidebar }
-  - **arg.name:** (*Optional: "%1" by default*) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.glue.args.arg) argument.
+  - **arg.name:** (Optional, *"%1"* by default) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.glue.args.arg) argument.
 
 :::
 
@@ -7352,13 +7363,13 @@ The `K` value for the *K-Fold Cross-Validation* method is determined by the leng
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r UMGYD-effect.func@l248u, eval=FALSE}
   regularize.train_UMGYD_effect.cv(lambda) |>
     calc_UMGY_SmoothedDay_effect.RMSE.cv()
 ```
 
 ::: {.noteblock data-latex=""}
-In the above code snippet, the `regularize.train_UMGYD_effect.cv` function is called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function described below in this section, along with the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) function described above in section [UMGYDE Model: Utility Functions].
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L248), the `regularize.train_UMGYD_effect.cv` function is called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function described below in *this Section*, along with the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) function described above in section [UMGYDE Model: Utility Functions].
 :::
 :::
 

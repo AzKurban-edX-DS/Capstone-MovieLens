@@ -20,31 +20,13 @@
 ##### [Logging Functions]
 \
 
+##### [Utility Functions]
+\
+
 ##### [(Root) Mean Squared Error Calculation]
 
 ##### [Result RMSEs Tibble Functions]
 \
-
-* [RMSE.Total_kable](#func.RMSE.Total_kable)
-  * 2083 It is assumed that the tibble has the following four columns:
-  * 2093 [Usage](#func.RMSE.Total_kableusage)
-* [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn)
-  * 1853 [Usage](#func.RMSEs.AddDiffColumn.usage)
-* [msg.set_arg](#func.msg.set_arg)
-  * 1366 [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453)
-  * 1401 [Details](#func.msg.set_arg.details)
-    * 1404 ...specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (*"%1"* by default)...
-  * 1418 [Source Code](#func.msg.set_arg.code)
-    * 1427 [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449)
-    * [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453)
-  
-* [msg.glue](#func.msg.glue)
-  * 1433 [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457)
-  * 1473 [Details](#func.msg.glue.details) ... described above in *this Section*.
-  * 1489 [Source Code](#func.msg.glue.code)
-    * [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457)
-    * [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449)
-  
 
 #### [Data Helper Functions]
 
@@ -118,6 +100,7 @@ Fixed lines:
 #### [Common Helper Functions]
 
 ##### [Logging Functions]
+\
 
 * [open_logfile](#func.open_logfile)
   * 15 [Usage](#func.open_logfile.usage)
@@ -131,6 +114,24 @@ Fixed lines:
 * [put_log1](#func.put_log1)
   * 556 [Usage](#func.put_log1.usage)
   
+##### [Utility Functions]
+\
+
+* [msg.set_arg](#func.msg.set_arg)
+  * 1366 [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453)
+  * 1372 [Usage]
+  * 1401 [Details](#func.msg.set_arg.details)
+    * 1404 ...specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (*"%1"* by default)...
+  * 1418 [Source Code](#func.msg.set_arg.code)
+    * 1427 [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449)
+    * [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453)
+* [msg.glue](#func.msg.glue)
+  * 1433 [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457)
+  * 1473 [Details](#func.msg.glue.details) ... described above in *this Section*.
+  * 1489 [Source Code](#func.msg.glue.code)
+    * [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457)
+    * [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449)
+
 
 ##### [(Root) Mean Squared Error Calculation]
 \
@@ -142,6 +143,11 @@ Fixed lines:
 ##### [Result RMSEs Tibble Functions]
 \
 
+* [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn)
+  * 1853 [Usage](#func.RMSEs.AddDiffColumn.usage)
+* [RMSE.Total_kable](#func.RMSE.Total_kable)
+  * 2083 It is assumed that the tibble has the following four columns:
+  * 2093 [Usage](#func.RMSE.Total_kableusage)
 * [CreateRMSEs_ResultTibble](#func.CreateRMSEs_ResultTibble)
   * 1704 [Usage](#func.CreateRMSEs_ResultTibble.usage)
 * [RMSEs.AddRow](#func.RMSEs.AddRow)
