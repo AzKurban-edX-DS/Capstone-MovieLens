@@ -446,7 +446,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1)  argument to replace all the occurrences of the pattern `%1` found in the template.
 
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended for use in other custom logging functions, such as the [print_log1](#func.print_log1) (as shown in section [Usage](#func.get_log1.usage) of *this Description*) and [put_log1](#func.put_log1) described below in *this Section*.
+This is an auxiliary function intended for use in other custom logging functions, such as the [print_log1](#func.print_log1) (as shown in the [Usage](#func.get_log1.usage) section of *this Description*) and [put_log1](#func.put_log1) described below in *this Section*.
 :::
 
 
@@ -1363,7 +1363,7 @@ The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-Movie
 :::
 :::
 
-#### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) Function {#func.msg.set_arg}
+#### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453) Function {#func.msg.set_arg}
 \
 
 Creates a character vector from the template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument, using the value specified by the [arg](#func.msg.set_arg.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.set_arg.args.arg.name) argument found in the template.
@@ -1401,7 +1401,7 @@ msg.set_arg(msg_template, arg, arg.name = "%1")
 ##### Details
 \
 
-This function is a wrapper for the [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` function, which is called internally to replace all occurrences of the pattern (placeholder) specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (`%1` by default), in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
+This function is a wrapper for the [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` function, which is called internally to replace all occurrences of the pattern (placeholder) specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (*"%1"* by default), in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
 :::
 
 ::: { #func.msg.set_arg.value .sidebar }
@@ -1415,7 +1415,7 @@ The character vector returned by the internally called [stringr::str_replace_all
 ##### Source Code
 \
 
-The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) function is shown below:
+The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453) function is shown below:
 ```{r eval=FALSE}
 msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
   msg_template |> 
@@ -1424,23 +1424,28 @@ msg.set_arg <- function(msg_template, arg, arg.name = "%1") {
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L445) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) script on _GitHub_.
+The source code of the [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453) script on _GitHub_.
 :::
 :::
 
 \newpage
 
-#### [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) Function {#func.msg.glue}
+#### [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457) Function {#func.msg.glue}
 \
 
 Creates a [glue::glue](https://glue.tidyverse.org/reference/glue.html) object from the template passed in the [msg_template](#func.msg.glue.args.msg_template) argument, using the value specified by the [arg](#func.msg.glue.args.arg) argument to replace all the occurrences of the placeholder passed in the [arg.name](#func.msg.glue.args.arg.name) argument found in the template.
   
 ::: { #func.msg.glue.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L719)
 \
 
-```{r eval=FALSE}
-msg.glue(msg_template, arg, arg, arg.name = "%1")
+```{r main-script@l719u, eval=FALSE}
+#### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
+RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |> 
+  RMSEs.AddRow("Regularized UME Model", 
+               UME.rglr.retrain.RMSE,
+               comment = "Computed for `lambda` = %1" |>
+                 msg.glue(UME.rglr.best_lambda))
 ```
 :::
 
@@ -1454,7 +1459,7 @@ msg.glue(msg_template, arg, arg, arg.name = "%1")
 :::
 
 ::: { #func.msg.glue.args.arg.name .sidebar }
-  - **arg.name:** (*Optional: `%1` by default*) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.glue.args.arg) argument.
+  - **arg.name:** (*Optional: "%1" by default*) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.glue.args.arg) argument.
 
 :::
 
@@ -1468,7 +1473,7 @@ msg.glue(msg_template, arg, arg, arg.name = "%1")
 ##### Details
 \
 
-This function internally calls the [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) `R` function to format the character vector returned by the (also called internally) [msg.set_arg](#func.msg.set_arg) function described above.
+This function internally calls the [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) `R` function to format the character vector returned by the (also called internally) [msg.set_arg](#func.msg.set_arg) function described above in *this Section*.
 
 :::
 
@@ -1484,7 +1489,7 @@ A [glue::glue](https://glue.tidyverse.org/reference/glue.html) object created fr
 ##### Source Code
 \
 
-The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) function is shown below:
+The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457) function is shown below:
 ```{r eval=FALSE}
 msg.glue <- function(msg_template, arg, arg.name = "%1"){
   msg_template |>
@@ -1494,7 +1499,7 @@ msg.glue <- function(msg_template, arg, arg.name = "%1"){
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L445) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) script on _GitHub_.
+The source code of the [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457) script on _GitHub_.
 :::
 :::
 
@@ -1850,11 +1855,11 @@ The source code of the [RMSEs.AddRow](https://github.com/AzKurban-edX-DS/Capston
 Adds a calculated column named _Diff_ to the _RMSEs Result Tibble_ (passed in the [RMSEs](#func.RMSEs.AddDiffColumn.args.RMSEs) argument) that contains, for each row, the difference between the value of the _RMSE_ column for the previous row and the value of the same column for the current row. This is true for each row except the first, for which the value is always zero.
 
 ::: { #func.RMSEs.AddDiffColumn.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2389)
 \
 
-```{r eval=FALSE}
-RMSEs.ModifiedTable <- RMSEs.AddDiffColumn(RMSEs)
+```{r main-script@l2389u, eval=FALSE}
+total.RMSEs.ResultTibble <- RMSEs.AddDiffColumn(final.MF.RMSEs.ResultTibble)
 ```
 :::
 
@@ -1918,9 +1923,18 @@ Converts the _RMSEs Result Tibble_ column width value passed in argument [x](#fu
 ##### Usage
 \
 
-```{r eval=FALSE}
-width_em <- RSME.tibble.col_width(x)
+```{r common-helper.func@l66u, eval=FALSE}
+  RMSEs |>
+    kable(align='lcl', booktabs = T, padding = 5) |> 
+    row_spec(0, bold = T) |>
+    column_spec(column = 1, width = RSME.tibble.col_width(col1width)) |>
+    column_spec(column = 2, width = RSME.tibble.col_width(col2width)) |>
+    column_spec(column = 3, width = RSME.tibble.col_width(col3width)) 
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L66) above, the function `RSME.tibble.col_width` is called internally from the [RMSE_kable](#func.RMSE_kable) function described below in *this Section*.
+:::
 :::
 
 ::: { #func.RSME.tibble.col_width.args .sidebar }
@@ -1937,7 +1951,11 @@ width_em <- RSME.tibble.col_width(x)
 ##### Details
 \
 
-This is a utility function, a wrapper for the [msg.glue](#func.msg.glue) function described above, which is called internally to format the value passed in argument [x](#func.RSME.tibble.col_width.args.x) for subsequent passing to the function [kableExtra::column_spec](https://www.rdocumentation.org/packages/kableExtra/versions/1.3.4/topics/column_spec) as a value of the `width` argument.
+This is a utility function, a wrapper for the [msg.glue](#func.msg.glue) function described in section [Utility Functions] of *this Appendix*, which is called internally to format the value passed in argument [x](#func.RSME.tibble.col_width.args.x) for subsequent passing to the function [kableExtra::column_spec](https://www.rdocumentation.org/packages/kableExtra/versions/1.3.4/topics/column_spec) as a value of the `width` argument.
+
+::: {.noteblock data-latex=""}
+As a utility, this function is intended for use in other user-defined functions, such as the [RMSE_kable](#func.RMSE_kable) (as shown above in the [Usage](#func.get_log1.usage) section of *this Description*) and [RMSE.Total_kable](#func.RMSE.Total_kable) described below in *this Section*.
+:::
 :::
 
 ::: { #func.RSME.tibble.col_width.value .sidebar }
@@ -1981,14 +1999,11 @@ It is assumed that the tibble has the following three columns:
 :::
 
 ::: { #func.RMSE_kable.usage .sidebar }
-##### Usage
+##### [Usage]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L205)
 \
 
-```{r eval=FALSE}
-RMSE_kable(RMSEs,
-           col1width = 15,
-           col2width = 5,
-           col3width = 30)
+```{r main-script@l205u, eval=FALSE}
+RMSE_kable(RMSEs.ResultTibble.OMR)
 ```
 :::
 
@@ -2002,17 +2017,17 @@ RMSE_kable(RMSEs,
 :::
 
 ::: { #func.RMSE_kable.args.col1width .sidebar }
-  - ***col1width:*** Width of the first column (15 by default);
+  - ***col1width:*** Width of the first column (Optional, 15 by default);
 
 :::
 
 ::: { #func.RMSE_kable.args.col2width .sidebar }
-  - ***col2width:*** Width of the second column (5 by default);
+  - ***col2width:*** Width of the second column (Optional, 5 by default);
 
 :::
 
 ::: { #func.RMSE_kable.args.col3width .sidebar }
-  - ***col3width:*** Width of the third column (30 by default).
+  - ***col3width:*** Width of the third column (Optional, 30 by default).
 
 :::
 :::
@@ -2072,18 +2087,18 @@ Prints the _Final RMSEs Result Tibble_.
 ::: {.noteblock data-latex=""}
 It is assumed that the tibble has the following four columns:
   
-  1. *Method*;
-  2. *RMSE*;
-  3. *Diff*;
-  4. *Comment*;
+1. *Method*;
+2. *RMSE*;
+3. *Diff*;
+4. *Comment*;
   
 :::
 
 ::: { #func.RMSE.Total_kableusage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2390)
 \
 
-```{r eval=FALSE}
+```{r main-script@l2390u, eval=FALSE}
 RMSE.Total_kable(total.RMSEs.ResultTibble)
 ```
 :::
