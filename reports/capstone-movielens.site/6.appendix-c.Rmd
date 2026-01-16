@@ -25,15 +25,6 @@
 ##### [Result RMSEs Tibble Functions]
 \
 
-* [RMSE_kable](#func.RMSE_kable)
-  * 1984 [Usage](#func.RMSE_kable.usage)
-  * 1996 [Arguments](#func.RMSE_kable.args)
-    * 2005 [colwidth](#func.RMSE_kable.args.col1width) (Optional, 15 by default) ...
-    * 2010 [col2width](#func.RMSE_kable.args.col12width) (Optional, 5 by default) ...
-    * 2015 [col3width](#func.RMSE_kable.args.col13width) (Optional, 30 by default) ...
-* [RSME.tibble.col_width](#func.RSME.tibble.col_width)
-  * 1918 [Usage](#func.RSME.tibble.col_width.usage)
-  * 1946 [Details](#func.RSME.tibble.col_width.details)
 * [RMSE.Total_kable](#func.RMSE.Total_kable)
   * 2083 It is assumed that the tibble has the following four columns:
   * 2093 [Usage](#func.RMSE.Total_kableusage)
@@ -41,7 +32,8 @@
   * 1853 [Usage](#func.RMSEs.AddDiffColumn.usage)
 * [msg.set_arg](#func.msg.set_arg)
   * 1366 [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453)
-  * [Details](#)
+  * 1401 [Details](#func.msg.set_arg.details)
+    * 1404 ...specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (*"%1"* by default)...
   * 1418 [Source Code](#func.msg.set_arg.code)
     * 1427 [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449)
     * [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functionsR#L453)
@@ -157,6 +149,16 @@ Fixed lines:
   * 1772 [Arguments](#func.RMSEs.AddRow.args)
     * [comment](#func.RMSEs.AddRow.args.comment)
     * [before](#func.RMSEs.AddRow.args.before)
+* [RSME.tibble.col_width](#func.RSME.tibble.col_width)
+  * 1918 [Usage](#func.RSME.tibble.col_width.usage)
+  * 1946 [Details](#func.RSME.tibble.col_width.details)
+
+* [RMSE_kable](#func.RMSE_kable)
+  * 1984 [Usage](#func.RMSE_kable.usage)
+  * 1996 [Arguments](#func.RMSE_kable.args)
+    * 2005 [colwidth](#func.RMSE_kable.args.col1width) (Optional, 15 by default) ...
+    * 2010 [col2width](#func.RMSE_kable.args.col12width) (Optional, 5 by default) ...
+    * 2015 [col3width](#func.RMSE_kable.args.col13width) (Optional, 30 by default) ...
 
 #### [Data Helper Functions]
 
