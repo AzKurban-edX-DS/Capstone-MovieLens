@@ -40,13 +40,13 @@ print(head(edx.ordered_movie_ratings))
 ```
 
 
-###### [Mathematical Description of the UME Model]
+##### [Mathematical Description of the UME Model]
 \
 
-* 61 As explained in the [Section 24.1, Subsection *Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-movie-effects) ...
+* 62 As explained in the [Section 24.1, Subsection *Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-movie-effects) ...
 * 66 The author then gives us an idea of how to use...
 
-###### [UME Model Building]
+##### [UME Model Building]
 \
 
 * 96 We can now construct predictors and calculate the *RMSE* score.
