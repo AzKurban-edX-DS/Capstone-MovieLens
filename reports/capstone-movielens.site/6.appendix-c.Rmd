@@ -12,6 +12,18 @@
 
 ##### [OMR Value Is the Best for the Current Model]
 
+#### [User Effect (UE) Model]
+\
+
+##### [User Effect Anasysis]
+\
+
+* 9 Let's start our analysis by...
+* In the code snippet above, we use the [`edx.mx` Matrix Object] (described in detail in [Appendix B: Models Training Datasets]), which, in fact, is the `edx` dataset converted to a matrix as described earlier in section [Preparing train and set datasets] of *this Report*.
+* 27 ... average ratings across users[@IDS2_24-1_UE]
+* 35 The [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L263) below visualizes...
+
+
 ### [Appendix A: Support Functions]
 * [](#func.)
 

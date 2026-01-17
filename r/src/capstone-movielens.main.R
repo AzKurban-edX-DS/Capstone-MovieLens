@@ -229,10 +229,10 @@ if (file.exists(file_path_tmp)) {
   
 } else {
   put_log("Computing Average Ratings per User (User Mean Ratings)...")
-  start <- put_start_date()
+  # start <- put_start_date()
   user.mean_ratings <- rowMeans(edx.mx, na.rm = TRUE)
   user_ratings.n <- rowSums(!is.na(edx.mx))
-  
+  # put_end_date(start)
   
   edx.user_mean_ratings <- 
     data.frame(userId = names(user.mean_ratings), 
