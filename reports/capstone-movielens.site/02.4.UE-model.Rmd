@@ -1,7 +1,7 @@
 ## User Effect (UE) Model
 \
 
-### User Effect Anasysis
+### User Effect Analysis {#sec.user_effect_analysis}
 \
 
 To improve our model let's now take into consideration user effects as explained in [Section 24.1 *Case study: recommendation systems / User effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the *Course Textbook (New Edition)*[@IDS2_24-1_UE].
@@ -41,8 +41,7 @@ hist(edx.user_mean_ratings$mean_rating,
 ### Mathematical Description of the UE Model
 \
 
-Following the *Course Textbook* author's [further explanation](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects), to account for this variability, we will use a linear model with a _treatment effect_  $\alpha_i$ for each user. The sum $\mu+\alpha_i$ can be interpreted as the typical rating user $i$ gives to movies. So we write the model as follows:
-
+Following the further explanation provided in [Section 24.1](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects) of the *Course Textbook* (mentioned above in the [previous Section](#sec.user_effect_analysis)), to account for this variability, we use a linear model with a _treatment effect_  $\alpha_i$ for each user. The sum $\mu+\alpha_i$ can be interpreted as the typical rating user $i$ gives to movies. So we write the model as follows:
 $$
 Y_{i,j} = \mu + \alpha_i + \varepsilon_{i,j}
 $$
@@ -56,12 +55,12 @@ Statistics textbooks refer to the $\alpha$s as treatment effects. In the Netflix
 The complete source code of the _User Effect_ computation described in this section is available in the [User Effect (UE) Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L210) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L210) script on _GitHub_.
 :::
 
-As it is stated in the [Course Textbook](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#user-effects), it can be shown that the least squares estimate $\hat{\alpha}_i$ is just the average of $y_{i,j} - \hat{\mu}$ for each user $i$. So we can compute them this way[@IDS2_24-1]:
+As it is stated in [Section 33.7.6: *User effects*](https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#user-effects) of the *Course Textbook (First Edition)*, it can be shown that the least squares estimate $\hat{\alpha}_i$ is just the average of $y_{i,j} - \hat{\mu}$ for each user $i$. So we can compute them this way[@IDS_E1_33-7-6]:
 ```{r eval=FALSE}
 a <- rowMeans(y - mu, na.rm = TRUE)
 ```
 
-These considerations allow us to compute a _User Mean Ratings_ using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231):
+These considerations allow us to compute a _User Mean Ratings_ using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231):
 ```{r main-script@l1231, eval=FALSE}
 put_log("Computing Average Ratings per User (User Mean Ratings)...")
 user.mean_ratings <- rowMeans(edx.mx, na.rm = TRUE)

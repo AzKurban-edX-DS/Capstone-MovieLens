@@ -15,13 +15,17 @@
 #### [User Effect (UE) Model]
 \
 
-##### [User Effect Anasysis]
+##### [User Effect Analysis]
 \
 
-* 9 Let's start our analysis by...
-* In the code snippet above, we use the [`edx.mx` Matrix Object] (described in detail in [Appendix B: Models Training Datasets]), which, in fact, is the `edx` dataset converted to a matrix as described earlier in section [Preparing train and set datasets] of *this Report*.
-* 27 ... average ratings across users[@IDS2_24-1_UE]
-* 35 The [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L263) below visualizes...
+##### [Mathematical Description of the UE Model]
+\
+
+##### [UE Model Building]
+\
+
+
+
 
 
 ### [Appendix A: Support Functions]
@@ -31,6 +35,13 @@
 
 ##### [Logging Functions]
 \
+
+* [print_log](#func.print_log)
+  * 301 [Usage](#func.print_log.usage)
+
+* [put_log](#func.put_log)
+  * 356 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231)
+  
 
 ##### [Utility Functions]
 \
@@ -105,6 +116,31 @@ Fixed lines:
 * 74: described in section [OMR Model: Helper Functions]...;
 * 91: described in section [Data Visualization Functions]...
 * 127: So we can definitely do better![@IDS_E1_33-7-4]
+
+##### [User Effect Analysis]
+\
+
+* 9 Let's start our analysis by...
+* In the code snippet above, we use the [`edx.mx` Matrix Object] (described in detail in [Appendix B: Models Training Datasets]), which, in fact, is the `edx` dataset converted to a matrix as described earlier in section [Preparing train and set datasets] of *this Report*.
+* 31 The [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L263) below visualizes... average ratings across users[@IDS2_24-1_UE].
+
+
+##### [Mathematical Description of the UE Model]
+\
+
+* 44 Following the further explanation provided in [Section 24.1](#sec.user_effect_analysis)...
+
+##### [UE Model Building]
+\
+
+* 58 As it is stated in [Section 33.7.6: *User effects*](https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#user-effects) of the *Course Textbook (First Edition)*...
+
+----------------------------------------------------------------------------
+
+
+
+
+
 
 
 ### [Appendix A: Support Functions]

@@ -302,7 +302,7 @@ Prints a multiline string specified by the [msg](#func.print_log.args.msg) argum
 \
 
 ```{r eval=FALSE}
-print_log(msg)
+print_log("Hello World!")
 ```
 :::
 
@@ -353,11 +353,11 @@ The source code of the [print_log](https://github.com/AzKurban-edX-DS/Capstone-M
 Outputs a multiline string specified by the [msg](#func.put_log.args.msg) argument to the currently opened log (using the [open_logfile](#func.open_logfile) function described above).
 
 ::: { #func.put_log.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231)
 \
 
-```{r eval=FALSE}
-put_log(msg)
+```{r main-script@l1231u, eval=FALSE}
+put_log("Computing Average Ratings per User (User Mean Ratings)...")
 ```
 :::
 
