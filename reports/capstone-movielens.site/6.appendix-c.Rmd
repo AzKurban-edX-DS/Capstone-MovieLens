@@ -59,6 +59,13 @@
 \
 
 #### [Data Helper Functions]
+##### [Models Training Functions]
+\
+
+* [union_cv_results](#func.union_cv_results) ...R#L425
+  * [Usage](#func.union_cv_results.usage)
+  * [Details](#func.union_cv_results.details)
+  * [Source Code](#func.union_cv_results.code) ...R#L425
 
 ##### [Data Visualization Functions]
 
@@ -69,10 +76,6 @@
 
 ##### [UME Model: Utility Functions]
 \
-
-* [train_user_movie_effect.cv](#func.train_user_movie_effect.cv)
-  * 4612 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472)
-  * 4656 [Source Code](#) The simplified version of the source code of the [train_user_movie_effect.cv]...
 
 * [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
   * 4835 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L513)
@@ -291,6 +294,15 @@ print(head(edx.ordered_movie_ratings))
 * [naive_model_RMSE](#func.naive_model_RMSE): fix lines:
   * 4413: [Usage]
   
+##### [UME Model: Utility Functions]
+\
+
+* [train_user_movie_effect.cv](#func.train_user_movie_effect.cv)
+  * 4612 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472)
+  * 4656 [Source Code](#) The simplified version of the source code of the [train_user_movie_effect.cv]...
+
+
+
 ### [Appendix B: Models Training Datasets]
 
 * [`edx.mx` Matrix Object];

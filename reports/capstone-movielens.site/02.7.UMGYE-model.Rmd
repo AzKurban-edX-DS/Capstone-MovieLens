@@ -69,7 +69,7 @@ takes the following form:
 The complete source code of building and training the current model is available in the [UMGYE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1163) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1163) script on _GitHub_.
 :::
 
-Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1177) that trains our model with the use of *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
+Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1177) that trains our model with the use of *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$):
 ```{r main-script@l1177, eval=FALSE}
   cv.UMGY_effect <- train_UMGY_effect.cv()
 ```
@@ -126,7 +126,7 @@ We begin this section with the concept's mathematical description presented belo
 
 Next, we will implement the *UMGYE Model Regularization* in the following three steps:
 
-  1. **Pre-configuration:** (Described in subsection [UMGYE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  1. **Pre-configuration:** (Described in subsection [UMGYE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
   
   2. **Fine-tuning:** (Described in the subsection [UMGYE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
 

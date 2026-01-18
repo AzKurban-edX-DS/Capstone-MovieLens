@@ -38,7 +38,7 @@ We are going to use the helper function ([train_UMGY_SmoothedDay_effect.cv](#fun
 
 We will start by calling the [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) with default parameters, which means that the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function will be implicitly called with `degree = 1` and `span = 0.75` arguments - the default values for the auxiliary function [loess_de](#func.loess_de) (described in section [UMGYDE Model: Utility Functions] of [Appendix A](#appndx_a)) included in the call chain that actually, calls the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
 
-Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1495) that trains our model with the default `degree` and `span` parameter values with the use of *K-Fold Cross Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
+Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1495) that trains our model with the default `degree` and `span` parameter values with the use of *K-Fold Cross Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$):
 ```{r main-script@l1495, eval=FALSE}
   cv.UMGYDE.default_params <- train_UMGY_SmoothedDay_effect.cv()
 ```
@@ -103,7 +103,7 @@ Since the `degree` parameter can only take three discrete values, 0, 1, and 2, w
 
 In addition, we will divide each stage into the following two steps for tuning the model by the `span` parameter:
 
-  1. **Pre-configuration:**  Preliminary determination of the optimal range of the `span` parameter values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  1. **Pre-configuration:**  Preliminary determination of the optimal range of the `span` parameter values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
   
   2. **Fine-tuning:** Determining the best value of the `span` parameter with the highest possible accuracy that minimizes the *RMSE* score for the model.
 
@@ -591,7 +591,7 @@ We begin this section with the concept's mathematical description presented belo
 
 Next, we will implement the *UMGYDE Model Regularization* in the following three steps:
 
-  1. **Pre-configuration:** (Described in subsection [UMGYDE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  1. **Pre-configuration:** (Described in subsection [UMGYDE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
   
   2. **Fine-tuning:** (Described in the subsection [UMGYDE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
 

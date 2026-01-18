@@ -84,7 +84,7 @@ as a residual:
 The complete source code of builing and training the current model is available in the [UMGE Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L878) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L878) script on _GitHub_.
 :::
 
-Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L902) that trains our model with the use of *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
+Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L902) that trains our model with the use of *K-Fold Cross Validation* method, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$):
 ```{r main-script@l902, fn.train_user_movie_genre_effect.cv,   eval=FALSE}
 cv.UMG_effect <- train_user_movie_genre_effect.cv()
 ```
@@ -151,7 +151,7 @@ We begin this section with the concept's mathematical description presented belo
 
 Next, we will implement the *UMGE Model Regularization* in the following three steps:
 
-  1. **Pre-configuration:** (Described in subsection [UMGE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  1. **Pre-configuration:** (Described in subsection [UMGE Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
   
   2. **Fine-tuning:** (Described in the subsection [UMGE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
 
