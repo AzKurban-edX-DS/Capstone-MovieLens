@@ -2229,13 +2229,16 @@ In the sample code snippet above, the `mean_reg` function is called internally f
 
 :::
 ::: { #func.mean_reg.args.lambda .sidebar }
-  - **lambda:** (0 by default) _Regularization parameter_ $\lambda$. 
+  - **lambda:** (Optional, 0 by default) _Regularization parameter_ $\lambda$. 
 
 :::
-  - **na.rm:** (`TRUE` by default) Logical value indicating whether `NA` values should be stripped before the computation proceeds.
+::: { #func.mean_reg.args.na.rm .sidebar }
+  - **na.rm:** (Optional, `TRUE` by default) Logical value indicating whether `NA` values should be stripped before the computation proceeds.
 
 :::
+:::
 
+\newpage
 
 ::: { #func.mean_reg.details .sidebar }
 ##### Details
@@ -4114,7 +4117,7 @@ The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is 
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r data.helper.func@l470, eval=FALSE}
 data.plot.left_detailed <- function(data, 
                                     left.n = 0,
                                     title = NULL,
@@ -4144,7 +4147,7 @@ data.plot.left_detailed <- function(data,
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the function `data.plot.left.n` is called internally from the [data.plot.left_detailed](#func.data.plot.left_detailed) function described below in this section.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above, the function `data.plot.left.n` is called internally from the [data.plot.left_detailed](#func.data.plot.left_detailed) function described below in this section.
 :::
 :::
 
@@ -4578,6 +4581,8 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 Data frame object representing the trained (and also *regularized* if [lambda](#func.train_user_movie_effect.args.lambda) arg value other than default) *UM Effect Model*.
 :::
 
+\newpage
+
 ::: { #func.train_user_movie_effect.code .sidebar }
 ##### Source Code
 \
@@ -4653,6 +4658,8 @@ The $K$ value for the *K-Fold Cross-Validation* method is determined by the leng
 Data frame object representing the *UM Effect Model* trained (and also *regularized* if the [lambda](#func.train_user_movie_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 
+\newpage
+
 ::: { #func.train_user_movie_effect.cv.code .sidebar }
 ##### Source Code
 \
@@ -4695,10 +4702,16 @@ Validates the *UM Effect (UME) Model* produced by the  [train_user_movie_effect]
 ##### Usage
 \
 
-```{r eval=FALSE}
-mse <- test_set |> calc_user_movie_effect_MSE(um_effect)
+```{r UM-effect.func@l71, eval=FALSE}
+  user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
+    cv_fold_dat$validation_set |> calc_user_movie_effect_MSE(um_effect)
+  })
 
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L71) above, the function `calc_user_movie_effect_MSE` is called internally from the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) function (described below in *this Section*) for each iteration of the *K-Fold Cross-Validation*, to calculate the *MSE* for the corresponding validation dataset of the [`edx_CV` Object] (described in [Appendix B: Models Training Datasets]).
+:::
 :::
 
 ::: { #func.calc_user_movie_effect_MSE.args .sidebar }
@@ -4721,7 +4734,9 @@ mse <- test_set |> calc_user_movie_effect_MSE(um_effect)
 
 The function calculates *Mean Squared Error (MSE)* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_MSE.args.um_effect) argument using the validation dataset passed in the [test_set](#func.calc_user_movie_effect_MSE.args.test_set) arg. 
 
-
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) as shown in the [Usage](#func.calc_user_movie_effect_MSE.usage) section above of *this Description*.
+:::
 :::
 
 ::: { #func.calc_user_movie_effect_MSE.value .sidebar }
@@ -4730,6 +4745,8 @@ The function calculates *Mean Squared Error (MSE)* for the *UME Model* passed in
 
 *MSE* value calculated for the *UME Model*.
 :::
+
+\newpage
 
 ::: { #func.calc_user_movie_effect_MSE.code .sidebar }
 ##### Source Code
@@ -4765,10 +4782,13 @@ Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect]
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r UM-effect.func@l83, eval=FALSE}
 user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
-
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L83) above, the function `calc_user_movie_effect_MSE.cv` is called internally from the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described below in *this Section*.
+:::
 :::
 
 ::: { #func.calc_user_movie_effect_MSE.cv.args .sidebar }
@@ -4785,12 +4805,14 @@ user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
 ##### Details
 \
 
-The function calculates *MSE* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_MSE.cv.args.um_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
+This function calculates *Mean Squared Error (MSE)* for the *UME Model* passed in the [um_effect](#func.calc_user_movie_effect_MSE.cv.args.um_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
-::: {.noteblock data-latex=""}
-This function internally calls the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
+It calls internally the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
 The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) as shown in the [Usage](#func.calc_user_movie_effect_MSE.cv.usage) section above of *this Description*.
 :::
 :::
 
@@ -4800,6 +4822,8 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
 
 The *MSE* value calculated for the *UM Effect Model* with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
+
+\newpage
 
 ::: { #func.calc_user_movie_effect_MSE.cv.code .sidebar }
 ##### Source Code
@@ -4876,6 +4900,8 @@ The $K$ value for the *K-Fold Cross-Validation* method is determined by the leng
 The *RMSE* value calculated for the *UM Effect Model* with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 
+\newpage
+
 ::: { #func.calc_user_movie_effect_RMSE.cv.code .sidebar }
 ##### Source Code
 \
@@ -4910,14 +4936,14 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r main-script@l571u, eval=FALSE}
   lambdas <- seq(0, 1, 0.1)
   cv.UME.preset.result <- 
     tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section [Model Tuning Utils] of *this Appendix*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section [Model Tuning Utils] of *this Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UM_effect.cv.details) section of *this Description* below.
 :::
@@ -5363,14 +5389,14 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r main-script@l978u, eval=FALSE}
 lambdas <- seq(0, 0.2, 0.01)
 cv.UMGE.preset.result <- 
   tune.model_param(lambdas, regularize.test_lambda.UMG_effect.cv)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section [Model Tuning Utils] of *this Appendix*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L978) above this function is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in the section [Model Tuning Utils] of *this Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMG_effect.cv.details) section of *this Description* below.
 :::

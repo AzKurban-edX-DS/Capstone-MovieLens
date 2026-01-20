@@ -1,6 +1,9 @@
 # Appendix C
 
 ## TODO List
+\
+
+* In the code snippet above ... 
 
 ### [Methods and Analysis]
 
@@ -58,16 +61,17 @@
 ##### [Result RMSEs Tibble Functions]
 \
 
+##### [Model Tuning Utils]
+\
+
 #### [Data Helper Functions]
 ##### [Models Training Functions]
 \
 
-* [union_cv_results](#func.union_cv_results) ...R#L425
-  * [Usage](#func.union_cv_results.usage)
-  * [Details](#func.union_cv_results.details)
-  * [Source Code](#func.union_cv_results.code) ...R#L425
-
 ##### [Data Visualization Functions]
+  * [data.plot.left.n](#func.data.plot.left.n)
+    * [Usage]
+      * 4150 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above... 
 
 #### [Models Training: Support Functions]
 
@@ -77,9 +81,38 @@
 ##### [UME Model: Utility Functions]
 \
 
+* [train_user_movie_effect.cv](#func.train_user_movie_effect.cv)
+  * [Value](#func.train_user_movie_effect.cv.value)
+    * 4661 \\newpage
+    
+* [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE)
+  * [Usage](#func.calc_user_movie_effect_MSE.usage)
+    * 4713 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L71) above...
+    * [Details](#func.calc_user_movie_effect_MSE.details)
+      * 4738 This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) as shown above...
+      * 4749 \\newpage
+
+
+* [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv)
+  * [Usage](#func.calc_user_movie_effect_MSE.cv.usage)
+    * 4781 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L83) above...
+  * [Details](#func.calc_user_movie_effect_MSE.cv.details)
+    * 4800 It calls internally the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function...    
+    * 4805 This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)...
+  * [Value](#)
+    * 4816 \\newpage
+
 * [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
-  * 4835 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L513)
-  * 4855 [Details](#func.calc_user_movie_effect_RMSE.cv.details): ...described in [Appendix B: Models Training Datasets] 
+  * [Value](#func.calc_user_movie_effect_RMSE.cv.value)
+    * 4886 \\newpage
+
+##### [UME Model: Regularization]
+\
+
+* [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91)
+  * [Usage](#func.regularize.test_lambda.UM_effect.cv.usage)
+    * 4934 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) above...
+  
 
 ------------------------------------------------------------------
 
@@ -258,6 +291,14 @@ print(head(edx.ordered_movie_ratings))
     * 2010 [col2width](#func.RMSE_kable.args.col12width) (Optional, 5 by default) ...
     * 2015 [col3width](#func.RMSE_kable.args.col13width) (Optional, 30 by default) ...
 
+##### [Model Tuning Utils]
+\
+
+* [mean_reg](func.mean_reg)
+  * 2232 [lambda](#func.mean_reg.args.lambda) (Optional, 0 by default)...
+  * 2235 [na.rm](#func.mean_reg.args.na.rm) (Optional, `TRUE` by default)...
+  * 2241 [Details](#func.mean_reg.details) \\newpage
+
 #### [Data Helper Functions]
 
 ##### [Initializing Input Datasets]
@@ -266,12 +307,21 @@ print(head(edx.ordered_movie_ratings))
 * [make_source_datasets](#func.make_source_datasets)
 
 ##### [Data Processing Functions]
+\
 
 * [load_movielens_data_from_file](#func.load_movielens_data_from_file):
 * [splitGenreRows](#func.splitGenreRows)
 * [sample_train_validation_sets](#func.sample_train_validation_sets)
 * [splitByUser](#func.splitByUser)
 
+##### [Models Training Functions]
+\
+
+* [union_cv_results](#func.union_cv_results) ...R#L425
+  * [Usage](#func.union_cv_results.usage)
+  * [Details](#func.union_cv_results.details)
+  * [Source Code](#func.union_cv_results.code) ...R#L425
+  
 ##### [Data Visualization Functions]
 
 * [data.plot](#func.data.plot)
@@ -297,10 +347,17 @@ print(head(edx.ordered_movie_ratings))
 ##### [UME Model: Utility Functions]
 \
 
-* [train_user_movie_effect.cv](#func.train_user_movie_effect.cv)
+* [train_user_movie_effect](#func.train_user_movie_effect) 
+    * [Value](func.train_user_movie_effect.value) 
+      * 4584 \\newpage
+* [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) {#refs...}
   * 4612 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472)
   * 4656 [Source Code](#) The simplified version of the source code of the [train_user_movie_effect.cv]...
 
+* [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
+  * 4847 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L513)
+  * [Details](#func.calc_user_movie_effect_RMSE.cv.details): 
+    * 4870 ...described in [Appendix B: Models Training Datasets] 
 
 
 ### [Appendix B: Models Training Datasets]

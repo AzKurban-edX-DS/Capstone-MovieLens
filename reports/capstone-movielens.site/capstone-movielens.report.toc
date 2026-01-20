@@ -1,685 +1,689 @@
-\contentsline {section}{\numberline {1}Overview and Executive Summary}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Datasets Overview}{2}{subsection.1.1}%
-\contentsline {subsubsection}{\numberline {1.1.1}\texttt {edx} Dataset}{4}{subsubsection.1.1.1}%
-\contentsline {section}{\numberline {2}Methods and Analysis}{8}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Preparing train and set datasets}{8}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Overall Mean Rating (OMR) Model}{9}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}Mathematical Description of the OMR Model}{9}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}OMR Model Building}{9}{subsubsection.2.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.3}OMR Value Is the Best for the Current Model}{11}{subsubsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.3}User Effect (UE) Model}{14}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}User Effect Analysis}{14}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2}Mathematical Description of the UE Model}{16}{subsubsection.2.3.2}%
-\contentsline {subsubsection}{\numberline {2.3.3}UE Model Building}{16}{subsubsection.2.3.3}%
-\contentsline {subsection}{\numberline {2.4}User+Movie Effect (UME) Model}{20}{subsection.2.4}%
-\contentsline {subsubsection}{\numberline {2.4.1}Movie Effect Analysis}{20}{subsubsection.2.4.1}%
-\contentsline {paragraph}{\numberline {2.4.1.1}Movies' Popularity}{20}{paragraph.2.4.1.1}%
-\contentsline {paragraph}{\numberline {2.4.1.2}Rating Distribution}{22}{paragraph.2.4.1.2}%
-\contentsline {subsubsection}{\numberline {2.4.2}Mathematical Description of the UME Model}{23}{subsubsection.2.4.2}%
-\contentsline {subsubsection}{\numberline {2.4.3}UME Model Building}{23}{subsubsection.2.4.3}%
-\contentsline {subsubsection}{\numberline {2.4.4}UME Model Regularization}{26}{subsubsection.2.4.4}%
-\contentsline {paragraph}{\numberline {2.4.4.1}UME Model Regularization: \emph {Mathematical Description}}{26}{paragraph.2.4.4.1}%
-\contentsline {paragraph}{\numberline {2.4.4.2}UME Model Regularization: \emph {Pre-configuration}}{27}{paragraph.2.4.4.2}%
-\contentsline {paragraph}{\numberline {2.4.4.3}UME Model Regularization: \emph {Fine-tuning}}{29}{paragraph.2.4.4.3}%
-\contentsline {paragraph}{\numberline {2.4.4.4}UME Model Regularization: \emph {Re-training on the \texttt {edx} with the best} \(\lambda \)}{32}{paragraph.2.4.4.4}%
-\contentsline {subsection}{\numberline {2.5}User+Movie+Genre Effect (UMGE) Model}{34}{subsection.2.5}%
-\contentsline {subsubsection}{\numberline {2.5.1}Movie Genres Effect Anasysis}{34}{subsubsection.2.5.1}%
-\contentsline {subsubsection}{\numberline {2.5.2}Mathematical Description of the UMGE Model}{35}{subsubsection.2.5.2}%
-\contentsline {subsubsection}{\numberline {2.5.3}UMGE Model Building}{36}{subsubsection.2.5.3}%
-\contentsline {subsubsection}{\numberline {2.5.4}UMGE Model Regularization}{39}{subsubsection.2.5.4}%
-\contentsline {paragraph}{\numberline {2.5.4.1}UMGE Model Regularization: \emph {Mathematical Description}}{39}{paragraph.2.5.4.1}%
-\contentsline {paragraph}{\numberline {2.5.4.2}UMGE Model Regularization: \emph {Pre-configuration}}{40}{paragraph.2.5.4.2}%
-\contentsline {paragraph}{\numberline {2.5.4.3}UMGE Model Regularization: \emph {Fine-tuning}}{42}{paragraph.2.5.4.3}%
-\contentsline {paragraph}{\numberline {2.5.4.4}UMGE Model Regularization: \emph {Retraining the Model with the best} \(\lambda \)}{45}{paragraph.2.5.4.4}%
-\contentsline {subsection}{\numberline {2.6}User+Movie+Genre+Year Effect (UMGYE) Model}{47}{subsection.2.6}%
-\contentsline {subsubsection}{\numberline {2.6.1}Year Effect Analysis}{47}{subsubsection.2.6.1}%
-\contentsline {paragraph}{\numberline {2.6.1.1}Yearly rating count\blx@tocontentsinit {0}\autocite {MRS-R-BEST}}{47}{paragraph.2.6.1.1}%
-\contentsline {paragraph}{\numberline {2.6.1.2}Average rating per year plot\blx@tocontentsinit {0}\autocite {MRS-R-BEST}}{47}{paragraph.2.6.1.2}%
-\contentsline {subsubsection}{\numberline {2.6.2}Mathematical Description of the UMGYE Model}{49}{subsubsection.2.6.2}%
-\contentsline {subsubsection}{\numberline {2.6.3}UMGYE Model Building}{50}{subsubsection.2.6.3}%
-\contentsline {subsubsection}{\numberline {2.6.4}UMGYE Model Regularization}{52}{subsubsection.2.6.4}%
-\contentsline {paragraph}{\numberline {2.6.4.1}UMGYE Model Regularization: \emph {Mathematical Description}}{52}{paragraph.2.6.4.1}%
-\contentsline {paragraph}{\numberline {2.6.4.2}UMGYE Model Regularization: \emph {Pre-configuration}}{53}{paragraph.2.6.4.2}%
-\contentsline {paragraph}{\numberline {2.6.4.3}UMGYE Model Regularization: \emph {Fine-tuning}}{55}{paragraph.2.6.4.3}%
-\contentsline {paragraph}{\numberline {2.6.4.4}UMGYE Model Regularization: \emph {Retraining the Model with the best} \(\lambda \)}{58}{paragraph.2.6.4.4}%
-\contentsline {subsection}{\numberline {2.7}User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model}{60}{subsection.2.7}%
-\contentsline {subsubsection}{\numberline {2.7.1}Mathematical Description of the UMGYDE Model}{60}{subsubsection.2.7.1}%
-\contentsline {subsubsection}{\numberline {2.7.2}UMGYDE Model Building With Default Parameters}{61}{subsubsection.2.7.2}%
-\contentsline {subsubsection}{\numberline {2.7.3}UMGYDE Model Tuning by \texttt {degree} and \texttt {span} Parameters}{64}{subsubsection.2.7.3}%
-\contentsline {paragraph}{\numberline {2.7.3.1}UMGYDE Model Tuning: Stage 1 (\texttt {degree\ =\ 0})}{65}{paragraph.2.7.3.1}%
-\contentsline {subparagraph}{\numberline {2.7.3.1.1}Pre-configuration: Optimal \texttt {span} Range Determination (\texttt {degree\ =\ 0})}{65}{subparagraph.2.7.3.1.1}%
-\contentsline {subparagraph}{\numberline {2.7.3.1.2}UMGYDE Model Fine-tuning (\texttt {degree\ =\ 0})}{67}{subparagraph.2.7.3.1.2}%
-\contentsline {paragraph}{\numberline {2.7.3.2}UMGYDE Model Tuning: Stage 2 (\texttt {degree\ =\ 1})}{70}{paragraph.2.7.3.2}%
-\contentsline {subparagraph}{\numberline {2.7.3.2.1}Pre-configuration: Optimal \texttt {span} Range Determination (\texttt {degree\ =\ 1})}{70}{subparagraph.2.7.3.2.1}%
-\contentsline {subparagraph}{\numberline {2.7.3.2.2}UMGYDE Model Fine-tuning (\texttt {degree\ =\ 1})}{72}{subparagraph.2.7.3.2.2}%
-\contentsline {paragraph}{\numberline {2.7.3.3}UMGYDE Model Tuning: Stage 3 (\texttt {degree\ =\ 2})}{75}{paragraph.2.7.3.3}%
-\contentsline {subparagraph}{\numberline {2.7.3.3.1}Pre-configuration: Optimal \texttt {span} Range Determination (\texttt {degree\ =\ 2})}{75}{subparagraph.2.7.3.3.1}%
-\contentsline {subparagraph}{\numberline {2.7.3.3.2}UMGYDE Model Fine-tuning (\texttt {degree\ =\ 2})}{77}{subparagraph.2.7.3.3.2}%
-\contentsline {paragraph}{\numberline {2.7.3.4}UMGYDE Model Tuning: Re-training on the \texttt {edx} with the Best Params}{80}{paragraph.2.7.3.4}%
-\contentsline {subsubsection}{\numberline {2.7.4}UMGYDE Model Regularization}{83}{subsubsection.2.7.4}%
-\contentsline {paragraph}{\numberline {2.7.4.1}UMGYDE Model Regularization: \emph {Mathematical Description}}{83}{paragraph.2.7.4.1}%
-\contentsline {paragraph}{\numberline {2.7.4.2}UMGYDE Model Regularization: \emph {Pre-configuration}}{84}{paragraph.2.7.4.2}%
-\contentsline {paragraph}{\numberline {2.7.4.3}UMGYDE Model Regularization: \emph {Fine-tuning}}{86}{paragraph.2.7.4.3}%
-\contentsline {paragraph}{\numberline {2.7.4.4}UMGYDE Model Regularization: \emph {Retraining the Model with the best} \(\lambda \)}{89}{paragraph.2.7.4.4}%
-\contentsline {paragraph}{\numberline {2.7.4.5}UMGYDE Model: Final Holdout Test (Preliminary Assessment)}{91}{paragraph.2.7.4.5}%
-\contentsline {subsection}{\numberline {2.8}UMGYDE Model: Matrix Factorization (MF)}{93}{subsection.2.8}%
-\contentsline {subsubsection}{\numberline {2.8.1}MF: Matematical Description}{93}{subsubsection.2.8.1}%
-\contentsline {subsubsection}{\numberline {2.8.2}MF: Model Building}{94}{subsubsection.2.8.2}%
-\contentsline {paragraph}{\numberline {2.8.2.1}MF: Getting Residuals From the UMGYDE Model Prediction Values}{94}{paragraph.2.8.2.1}%
-\contentsline {paragraph}{\numberline {2.8.2.2}MF: Transforming Input Data to Be Compatible With the \texttt {recosystem} Package}{94}{paragraph.2.8.2.2}%
-\contentsline {paragraph}{\numberline {2.8.2.3}MF: Creating and Tuning the \texttt {Reco} Object}{95}{paragraph.2.8.2.3}%
-\contentsline {paragraph}{\numberline {2.8.2.4}MF: Final Training}{98}{paragraph.2.8.2.4}%
-\contentsline {paragraph}{\numberline {2.8.2.5}MF: Final Holdout Test}{98}{paragraph.2.8.2.5}%
-\contentsline {section}{\numberline {3}Results}{100}{section.3}%
-\contentsline {section}{\numberline {4}Conclusion}{101}{section.4}%
-\contentsline {section}{\numberline {5}Appendix A: Support Functions}{102}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Common Helper Functions}{102}{subsection.5.1}%
-\contentsline {subsubsection}{\numberline {5.1.1}Logging Functions}{102}{subsubsection.5.1.1}%
-\contentsline {paragraph}{\numberline {5.1.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L3}{open\_logfile} Function}{102}{paragraph.5.1.1.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L5}{Usage}}{102}{subparagraph.5.1.1.1.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.1.2}Arguments}{102}{subparagraph.5.1.1.1.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.1.3}Details}{102}{subparagraph.5.1.1.1.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.1.4}Value}{102}{subparagraph.5.1.1.1.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.1.5}Source Code}{102}{subparagraph.5.1.1.1.5}%
-\contentsline {paragraph}{\numberline {5.1.1.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L11}{print\_start\_date} Function}{103}{paragraph.5.1.1.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.2.1}Usage}{103}{subparagraph.5.1.1.2.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.2.2}Details}{103}{subparagraph.5.1.1.2.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.2.3}Value}{103}{subparagraph.5.1.1.2.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.2.4}Source Code}{103}{subparagraph.5.1.1.2.4}%
-\contentsline {paragraph}{\numberline {5.1.1.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L15}{put\_start\_date} Function}{104}{paragraph.5.1.1.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.3.1}Usage}{104}{subparagraph.5.1.1.3.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.3.2}Details}{104}{subparagraph.5.1.1.3.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.3.3}Value}{104}{subparagraph.5.1.1.3.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.3.4}Source Code}{104}{subparagraph.5.1.1.3.4}%
-\contentsline {paragraph}{\numberline {5.1.1.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L19}{print\_end\_date} Function}{104}{paragraph.5.1.1.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.4.1}Usage}{104}{subparagraph.5.1.1.4.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.4.2}Arguments}{105}{subparagraph.5.1.1.4.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.4.3}Details}{105}{subparagraph.5.1.1.4.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.4.4}Value}{105}{subparagraph.5.1.1.4.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.4.5}Source Code}{105}{subparagraph.5.1.1.4.5}%
-\contentsline {paragraph}{\numberline {5.1.1.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L23}{put\_end\_date} Function}{105}{paragraph.5.1.1.5}%
-\contentsline {subparagraph}{\numberline {5.1.1.5.1}Usage}{105}{subparagraph.5.1.1.5.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.5.2}Arguments}{105}{subparagraph.5.1.1.5.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.5.3}Details}{106}{subparagraph.5.1.1.5.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.5.4}Value}{106}{subparagraph.5.1.1.5.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.5.5}Source Code}{106}{subparagraph.5.1.1.5.5}%
-\contentsline {paragraph}{\numberline {5.1.1.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L28}{print\_log} Function}{106}{paragraph.5.1.1.6}%
-\contentsline {subparagraph}{\numberline {5.1.1.6.1}Usage}{106}{subparagraph.5.1.1.6.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.6.2}Arguments}{106}{subparagraph.5.1.1.6.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.6.3}Details}{106}{subparagraph.5.1.1.6.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.6.4}Value}{106}{subparagraph.5.1.1.6.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.6.5}Source Code}{107}{subparagraph.5.1.1.6.5}%
-\contentsline {paragraph}{\numberline {5.1.1.7}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L31}{put\_log} Function}{107}{paragraph.5.1.1.7}%
-\contentsline {subparagraph}{\numberline {5.1.1.7.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L231}{Usage}}{107}{subparagraph.5.1.1.7.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.7.2}Arguments}{107}{subparagraph.5.1.1.7.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.7.3}Details}{107}{subparagraph.5.1.1.7.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.7.4}Value}{107}{subparagraph.5.1.1.7.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.7.5}Source Code}{107}{subparagraph.5.1.1.7.5}%
-\contentsline {paragraph}{\numberline {5.1.1.8}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L35}{get\_log1} Function}{108}{paragraph.5.1.1.8}%
-\contentsline {subparagraph}{\numberline {5.1.1.8.1}Usage}{108}{subparagraph.5.1.1.8.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.8.2}Arguments}{108}{subparagraph.5.1.1.8.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.8.3}Details}{108}{subparagraph.5.1.1.8.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.8.4}Value}{108}{subparagraph.5.1.1.8.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.8.5}Source Code}{109}{subparagraph.5.1.1.8.5}%
-\contentsline {paragraph}{\numberline {5.1.1.9}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L38}{print\_log1} Function}{110}{paragraph.5.1.1.9}%
-\contentsline {subparagraph}{\numberline {5.1.1.9.1}\hyperref [chunk.main_script.l177m]{Usage}}{110}{subparagraph.5.1.1.9.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.9.2}Arguments}{110}{subparagraph.5.1.1.9.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.9.3}Details}{110}{subparagraph.5.1.1.9.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.9.4}Value}{110}{subparagraph.5.1.1.9.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.9.5}Source Code}{110}{subparagraph.5.1.1.9.5}%
-\contentsline {paragraph}{\numberline {5.1.1.10}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L41}{put\_log1} Function}{112}{paragraph.5.1.1.10}%
-\contentsline {subparagraph}{\numberline {5.1.1.10.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L177}{Usage}}{112}{subparagraph.5.1.1.10.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.10.2}Arguments}{112}{subparagraph.5.1.1.10.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.10.3}Details}{112}{subparagraph.5.1.1.10.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.10.4}Value}{112}{subparagraph.5.1.1.10.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.10.5}Source Code}{112}{subparagraph.5.1.1.10.5}%
-\contentsline {paragraph}{\numberline {5.1.1.11}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L45}{get\_log2} Function}{114}{paragraph.5.1.1.11}%
-\contentsline {subparagraph}{\numberline {5.1.1.11.1}Usage}{114}{subparagraph.5.1.1.11.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.11.2}Arguments}{114}{subparagraph.5.1.1.11.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.11.3}Details}{114}{subparagraph.5.1.1.11.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.11.4}Value}{114}{subparagraph.5.1.1.11.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.11.5}Source Code}{114}{subparagraph.5.1.1.11.5}%
-\contentsline {paragraph}{\numberline {5.1.1.12}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L51}{print\_log2} Function}{116}{paragraph.5.1.1.12}%
-\contentsline {subparagraph}{\numberline {5.1.1.12.1}Usage}{116}{subparagraph.5.1.1.12.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.12.2}Arguments}{116}{subparagraph.5.1.1.12.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.12.3}Details}{116}{subparagraph.5.1.1.12.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.12.4}Value}{116}{subparagraph.5.1.1.12.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.12.5}Source Code}{116}{subparagraph.5.1.1.12.5}%
-\contentsline {paragraph}{\numberline {5.1.1.13}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L54}{put\_log2} Function}{117}{paragraph.5.1.1.13}%
-\contentsline {subparagraph}{\numberline {5.1.1.13.1}Usage}{117}{subparagraph.5.1.1.13.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.13.2}Arguments}{117}{subparagraph.5.1.1.13.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.13.3}Details}{117}{subparagraph.5.1.1.13.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.13.4}Value}{117}{subparagraph.5.1.1.13.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.13.5}Source Code}{117}{subparagraph.5.1.1.13.5}%
-\contentsline {paragraph}{\numberline {5.1.1.14}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L58}{get\_log3} Function}{118}{paragraph.5.1.1.14}%
-\contentsline {subparagraph}{\numberline {5.1.1.14.1}Usage}{118}{subparagraph.5.1.1.14.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.14.2}Arguments}{118}{subparagraph.5.1.1.14.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.14.3}Details}{118}{subparagraph.5.1.1.14.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.14.4}Value}{118}{subparagraph.5.1.1.14.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.14.5}Source Code}{118}{subparagraph.5.1.1.14.5}%
-\contentsline {paragraph}{\numberline {5.1.1.15}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L65}{print\_log3} Function}{120}{paragraph.5.1.1.15}%
-\contentsline {subparagraph}{\numberline {5.1.1.15.1}Usage}{120}{subparagraph.5.1.1.15.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.15.2}Arguments}{120}{subparagraph.5.1.1.15.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.15.3}Details}{120}{subparagraph.5.1.1.15.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.15.4}Value}{120}{subparagraph.5.1.1.15.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.15.5}Source Code}{120}{subparagraph.5.1.1.15.5}%
-\contentsline {paragraph}{\numberline {5.1.1.16}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L68}{put\_log3} Function}{122}{paragraph.5.1.1.16}%
-\contentsline {subparagraph}{\numberline {5.1.1.16.1}Usage}{122}{subparagraph.5.1.1.16.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.16.2}Arguments}{122}{subparagraph.5.1.1.16.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.16.3}Details}{122}{subparagraph.5.1.1.16.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.16.4}Value}{122}{subparagraph.5.1.1.16.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.16.5}Source Code}{122}{subparagraph.5.1.1.16.5}%
-\contentsline {paragraph}{\numberline {5.1.1.17}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L72}{get\_log4} Function}{124}{paragraph.5.1.1.17}%
-\contentsline {subparagraph}{\numberline {5.1.1.17.1}Usage}{124}{subparagraph.5.1.1.17.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.17.2}Arguments}{124}{subparagraph.5.1.1.17.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.17.3}Details}{124}{subparagraph.5.1.1.17.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.17.4}Value}{124}{subparagraph.5.1.1.17.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.17.5}Source Code}{125}{subparagraph.5.1.1.17.5}%
-\contentsline {paragraph}{\numberline {5.1.1.18}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L80}{print\_log4} Function}{126}{paragraph.5.1.1.18}%
-\contentsline {subparagraph}{\numberline {5.1.1.18.1}Usage}{126}{subparagraph.5.1.1.18.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.18.2}Arguments}{126}{subparagraph.5.1.1.18.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.18.3}Details}{126}{subparagraph.5.1.1.18.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.18.4}Value}{126}{subparagraph.5.1.1.18.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.18.5}Source Code}{126}{subparagraph.5.1.1.18.5}%
-\contentsline {paragraph}{\numberline {5.1.1.19}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L83}{put\_log4} Function}{128}{paragraph.5.1.1.19}%
-\contentsline {subparagraph}{\numberline {5.1.1.19.1}Usage}{128}{subparagraph.5.1.1.19.1}%
-\contentsline {subparagraph}{\numberline {5.1.1.19.2}Arguments}{128}{subparagraph.5.1.1.19.2}%
-\contentsline {subparagraph}{\numberline {5.1.1.19.3}Details}{128}{subparagraph.5.1.1.19.3}%
-\contentsline {subparagraph}{\numberline {5.1.1.19.4}Value}{128}{subparagraph.5.1.1.19.4}%
-\contentsline {subparagraph}{\numberline {5.1.1.19.5}Source Code}{129}{subparagraph.5.1.1.19.5}%
-\contentsline {subsubsection}{\numberline {5.1.2}Utility Functions}{130}{subsubsection.5.1.2}%
-\contentsline {paragraph}{\numberline {5.1.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L448}{clamp} Function}{130}{paragraph.5.1.2.1}%
-\contentsline {subparagraph}{\numberline {5.1.2.1.1}Usage}{130}{subparagraph.5.1.2.1.1}%
-\contentsline {subparagraph}{\numberline {5.1.2.1.2}Arguments}{130}{subparagraph.5.1.2.1.2}%
-\contentsline {subparagraph}{\numberline {5.1.2.1.3}Details}{130}{subparagraph.5.1.2.1.3}%
-\contentsline {subparagraph}{\numberline {5.1.2.1.4}Value}{130}{subparagraph.5.1.2.1.4}%
-\contentsline {subparagraph}{\numberline {5.1.2.1.5}Source Code}{130}{subparagraph.5.1.2.1.5}%
-\contentsline {paragraph}{\numberline {5.1.2.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L453}{msg.set\_arg} Function}{131}{paragraph.5.1.2.2}%
-\contentsline {subparagraph}{\numberline {5.1.2.2.1}Usage}{131}{subparagraph.5.1.2.2.1}%
-\contentsline {subparagraph}{\numberline {5.1.2.2.2}Arguments}{131}{subparagraph.5.1.2.2.2}%
-\contentsline {subparagraph}{\numberline {5.1.2.2.3}Details}{131}{subparagraph.5.1.2.2.3}%
-\contentsline {subparagraph}{\numberline {5.1.2.2.4}Value}{132}{subparagraph.5.1.2.2.4}%
-\contentsline {subparagraph}{\numberline {5.1.2.2.5}Source Code}{132}{subparagraph.5.1.2.2.5}%
-\contentsline {paragraph}{\numberline {5.1.2.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L457}{msg.glue} Function}{133}{paragraph.5.1.2.3}%
-\contentsline {subparagraph}{\numberline {5.1.2.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L719}{Usage}}{133}{subparagraph.5.1.2.3.1}%
-\contentsline {subparagraph}{\numberline {5.1.2.3.2}Arguments}{133}{subparagraph.5.1.2.3.2}%
-\contentsline {subparagraph}{\numberline {5.1.2.3.3}Details}{133}{subparagraph.5.1.2.3.3}%
-\contentsline {subparagraph}{\numberline {5.1.2.3.4}Value}{133}{subparagraph.5.1.2.3.4}%
-\contentsline {subparagraph}{\numberline {5.1.2.3.5}Source Code}{133}{subparagraph.5.1.2.3.5}%
-\contentsline {subsubsection}{\numberline {5.1.3}(Root) Mean Squared Error Calculation}{135}{subsubsection.5.1.3}%
-\contentsline {paragraph}{\numberline {5.1.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L5}{mse} Function}{135}{paragraph.5.1.3.1}%
-\contentsline {subparagraph}{\numberline {5.1.3.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L347}{Usage}}{135}{subparagraph.5.1.3.1.1}%
-\contentsline {subparagraph}{\numberline {5.1.3.1.2}Arguments}{135}{subparagraph.5.1.3.1.2}%
-\contentsline {subparagraph}{\numberline {5.1.3.1.3}Source Code}{135}{subparagraph.5.1.3.1.3}%
-\contentsline {paragraph}{\numberline {5.1.3.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L6}{mse\_cv} Function}{136}{paragraph.5.1.3.2}%
-\contentsline {subparagraph}{\numberline {5.1.3.2.1}Usage}{136}{subparagraph.5.1.3.2.1}%
-\contentsline {subparagraph}{\numberline {5.1.3.2.2}Arguments}{136}{subparagraph.5.1.3.2.2}%
-\contentsline {subparagraph}{\numberline {5.1.3.2.3}Source Code}{136}{subparagraph.5.1.3.2.3}%
-\contentsline {paragraph}{\numberline {5.1.3.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L10}{rmse} Function}{137}{paragraph.5.1.3.3}%
-\contentsline {subparagraph}{\numberline {5.1.3.3.1}Usage}{137}{subparagraph.5.1.3.3.1}%
-\contentsline {subparagraph}{\numberline {5.1.3.3.2}Arguments}{137}{subparagraph.5.1.3.3.2}%
-\contentsline {subparagraph}{\numberline {5.1.3.3.3}Source Code}{137}{subparagraph.5.1.3.3.3}%
-\contentsline {paragraph}{\numberline {5.1.3.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L11}{rmse2} Function}{138}{paragraph.5.1.3.4}%
-\contentsline {subparagraph}{\numberline {5.1.3.4.1}Usage}{138}{subparagraph.5.1.3.4.1}%
-\contentsline {subparagraph}{\numberline {5.1.3.4.2}Arguments}{138}{subparagraph.5.1.3.4.2}%
-\contentsline {subparagraph}{\numberline {5.1.3.4.3}Source Code}{138}{subparagraph.5.1.3.4.3}%
-\contentsline {subsubsection}{\numberline {5.1.4}Result RMSEs Tibble Functions}{139}{subsubsection.5.1.4}%
-\contentsline {paragraph}{\numberline {5.1.4.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L16}{CreateRMSEs\_ResultTibble} Function}{139}{paragraph.5.1.4.1}%
-\contentsline {subparagraph}{\numberline {5.1.4.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L87}{Usage}}{139}{subparagraph.5.1.4.1.1}%
-\contentsline {subparagraph}{\numberline {5.1.4.1.2}Details}{139}{subparagraph.5.1.4.1.2}%
-\contentsline {subparagraph}{\numberline {5.1.4.1.3}Value}{139}{subparagraph.5.1.4.1.3}%
-\contentsline {subparagraph}{\numberline {5.1.4.1.4}Source Code}{139}{subparagraph.5.1.4.1.4}%
-\contentsline {paragraph}{\numberline {5.1.4.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L21}{RMSEs.AddRow} Function}{140}{paragraph.5.1.4.2}%
-\contentsline {subparagraph}{\numberline {5.1.4.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L199}{Usage}}{140}{subparagraph.5.1.4.2.1}%
-\contentsline {subparagraph}{\numberline {5.1.4.2.2}Arguments}{140}{subparagraph.5.1.4.2.2}%
-\contentsline {subparagraph}{\numberline {5.1.4.2.3}Details}{140}{subparagraph.5.1.4.2.3}%
-\contentsline {subparagraph}{\numberline {5.1.4.2.4}Value}{140}{subparagraph.5.1.4.2.4}%
-\contentsline {subparagraph}{\numberline {5.1.4.2.5}Source Code}{140}{subparagraph.5.1.4.2.5}%
-\contentsline {paragraph}{\numberline {5.1.4.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L32}{RMSEs.AddDiffColumn} Function}{142}{paragraph.5.1.4.3}%
-\contentsline {subparagraph}{\numberline {5.1.4.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2389}{Usage}}{142}{subparagraph.5.1.4.3.1}%
-\contentsline {subparagraph}{\numberline {5.1.4.3.2}Arguments}{142}{subparagraph.5.1.4.3.2}%
-\contentsline {subparagraph}{\numberline {5.1.4.3.3}Details}{142}{subparagraph.5.1.4.3.3}%
-\contentsline {subparagraph}{\numberline {5.1.4.3.4}Value}{142}{subparagraph.5.1.4.3.4}%
-\contentsline {subparagraph}{\numberline {5.1.4.3.5}Source Code}{142}{subparagraph.5.1.4.3.5}%
-\contentsline {paragraph}{\numberline {5.1.4.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L66}{RSME.tibble.col\_width} Function}{143}{paragraph.5.1.4.4}%
-\contentsline {subparagraph}{\numberline {5.1.4.4.1}Usage}{143}{subparagraph.5.1.4.4.1}%
-\contentsline {subparagraph}{\numberline {5.1.4.4.2}Arguments}{143}{subparagraph.5.1.4.4.2}%
-\contentsline {subparagraph}{\numberline {5.1.4.4.3}Details}{143}{subparagraph.5.1.4.4.3}%
-\contentsline {subparagraph}{\numberline {5.1.4.4.4}Value}{143}{subparagraph.5.1.4.4.4}%
-\contentsline {subparagraph}{\numberline {5.1.4.4.5}Source Code}{143}{subparagraph.5.1.4.4.5}%
-\contentsline {paragraph}{\numberline {5.1.4.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L43}{RMSE\_kable} Function}{145}{paragraph.5.1.4.5}%
-\contentsline {subparagraph}{\numberline {5.1.4.5.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L205}{Usage}}{145}{subparagraph.5.1.4.5.1}%
-\contentsline {subparagraph}{\numberline {5.1.4.5.2}Arguments}{145}{subparagraph.5.1.4.5.2}%
-\contentsline {subparagraph}{\numberline {5.1.4.5.3}Details}{145}{subparagraph.5.1.4.5.3}%
-\contentsline {subparagraph}{\numberline {5.1.4.5.4}Value}{145}{subparagraph.5.1.4.5.4}%
-\contentsline {subparagraph}{\numberline {5.1.4.5.5}Source Code}{145}{subparagraph.5.1.4.5.5}%
-\contentsline {paragraph}{\numberline {5.1.4.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L54}{RMSE.Total\_kable} Function}{147}{paragraph.5.1.4.6}%
-\contentsline {subparagraph}{\numberline {5.1.4.6.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2390}{Usage}}{147}{subparagraph.5.1.4.6.1}%
-\contentsline {subparagraph}{\numberline {5.1.4.6.2}Arguments}{147}{subparagraph.5.1.4.6.2}%
-\contentsline {subparagraph}{\numberline {5.1.4.6.3}Details}{147}{subparagraph.5.1.4.6.3}%
-\contentsline {subparagraph}{\numberline {5.1.4.6.4}Value}{147}{subparagraph.5.1.4.6.4}%
-\contentsline {subparagraph}{\numberline {5.1.4.6.5}Source Code}{148}{subparagraph.5.1.4.6.5}%
-\contentsline {subsubsection}{\numberline {5.1.5}Model Tuning Utils}{149}{subsubsection.5.1.5}%
-\contentsline {paragraph}{\numberline {5.1.5.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L70}{mean\_reg} Function}{149}{paragraph.5.1.5.1}%
-\contentsline {subparagraph}{\numberline {5.1.5.1.1}Usage}{149}{subparagraph.5.1.5.1.1}%
-\contentsline {subparagraph}{\numberline {5.1.5.1.2}Arguments}{149}{subparagraph.5.1.5.1.2}%
-\contentsline {subparagraph}{\numberline {5.1.5.1.3}Details}{149}{subparagraph.5.1.5.1.3}%
-\contentsline {subparagraph}{\numberline {5.1.5.1.4}Value}{150}{subparagraph.5.1.5.1.4}%
-\contentsline {subparagraph}{\numberline {5.1.5.1.5}Source Code}{150}{subparagraph.5.1.5.1.5}%
-\contentsline {paragraph}{\numberline {5.1.5.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L81}{get\_fine\_tune.param.endpoints.idx} Function}{151}{paragraph.5.1.5.2}%
-\contentsline {subparagraph}{\numberline {5.1.5.2.1}Usage}{151}{subparagraph.5.1.5.2.1}%
-\contentsline {subparagraph}{\numberline {5.1.5.2.2}Arguments}{152}{subparagraph.5.1.5.2.2}%
-\contentsline {subparagraph}{\numberline {5.1.5.2.3}Value}{152}{subparagraph.5.1.5.2.3}%
-\contentsline {subparagraph}{\numberline {5.1.5.2.4}Source Code}{153}{subparagraph.5.1.5.2.4}%
-\contentsline {paragraph}{\numberline {5.1.5.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L109}{get\_fine\_tune.param.endpoints} Function}{154}{paragraph.5.1.5.3}%
-\contentsline {subparagraph}{\numberline {5.1.5.3.1}Usage}{154}{subparagraph.5.1.5.3.1}%
-\contentsline {subparagraph}{\numberline {5.1.5.3.2}Arguments}{155}{subparagraph.5.1.5.3.2}%
-\contentsline {subparagraph}{\numberline {5.1.5.3.3}Details}{155}{subparagraph.5.1.5.3.3}%
-\contentsline {subparagraph}{\numberline {5.1.5.3.4}Value}{155}{subparagraph.5.1.5.3.4}%
-\contentsline {subparagraph}{\numberline {5.1.5.3.5}Source Code}{156}{subparagraph.5.1.5.3.5}%
-\contentsline {paragraph}{\numberline {5.1.5.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L121}{get\_best\_param.result} Function}{157}{paragraph.5.1.5.4}%
-\contentsline {subparagraph}{\numberline {5.1.5.4.1}Usage}{157}{subparagraph.5.1.5.4.1}%
-\contentsline {subparagraph}{\numberline {5.1.5.4.2}Arguments}{157}{subparagraph.5.1.5.4.2}%
-\contentsline {subparagraph}{\numberline {5.1.5.4.3}Details}{157}{subparagraph.5.1.5.4.3}%
-\contentsline {subparagraph}{\numberline {5.1.5.4.4}Value}{157}{subparagraph.5.1.5.4.4}%
-\contentsline {subparagraph}{\numberline {5.1.5.4.5}Source Code}{157}{subparagraph.5.1.5.4.5}%
-\contentsline {paragraph}{\numberline {5.1.5.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L126}{tune.model\_param} Function}{159}{paragraph.5.1.5.5}%
-\contentsline {subparagraph}{\numberline {5.1.5.5.1}Signature}{159}{subparagraph.5.1.5.5.1}%
-\contentsline {subparagraph}{\numberline {5.1.5.5.2}Arguments}{159}{subparagraph.5.1.5.5.2}%
-\contentsline {subparagraph}{\numberline {5.1.5.5.3}Details}{159}{subparagraph.5.1.5.5.3}%
-\contentsline {subparagraph}{\numberline {5.1.5.5.4}Value}{160}{subparagraph.5.1.5.5.4}%
-\contentsline {subparagraph}{\numberline {5.1.5.5.5}Source Code}{160}{subparagraph.5.1.5.5.5}%
-\contentsline {paragraph}{\numberline {5.1.5.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L208}{model.tune.param\_range} Function}{162}{paragraph.5.1.5.6}%
-\contentsline {subparagraph}{\numberline {5.1.5.6.1}Signature}{162}{subparagraph.5.1.5.6.1}%
-\contentsline {subparagraph}{\numberline {5.1.5.6.2}Arguments}{162}{subparagraph.5.1.5.6.2}%
-\contentsline {subparagraph}{\numberline {5.1.5.6.3}\textbf {Details}}{164}{subparagraph.5.1.5.6.3}%
-\contentsline {subparagraph}{\numberline {5.1.5.6.4}\textbf {Value}}{170}{subparagraph.5.1.5.6.4}%
-\contentsline {subparagraph}{\numberline {5.1.5.6.5}Source Code}{170}{subparagraph.5.1.5.6.5}%
-\contentsline {subsection}{\numberline {5.2}Data Helper Functions}{171}{subsection.5.2}%
-\contentsline {subsubsection}{\numberline {5.2.1}Initializing Input Datasets}{171}{subsubsection.5.2.1}%
-\contentsline {paragraph}{\numberline {5.2.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L89}{make\_source\_datasets} Function}{171}{paragraph.5.2.1.1}%
-\contentsline {subparagraph}{\numberline {5.2.1.1.1}Usage}{171}{subparagraph.5.2.1.1.1}%
-\contentsline {subparagraph}{\numberline {5.2.1.1.2}Details}{171}{subparagraph.5.2.1.1.2}%
-\contentsline {subparagraph}{\numberline {5.2.1.1.3}Value}{172}{subparagraph.5.2.1.1.3}%
-\contentsline {subparagraph}{\numberline {5.2.1.1.4}Source Code}{172}{subparagraph.5.2.1.1.4}%
-\contentsline {paragraph}{\numberline {5.2.1.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L211}{init\_source\_datasets} Function}{175}{paragraph.5.2.1.2}%
-\contentsline {subparagraph}{\numberline {5.2.1.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/_startup/1.init.R\#L132}{Usage}}{175}{subparagraph.5.2.1.2.1}%
-\contentsline {subparagraph}{\numberline {5.2.1.2.2}Details}{175}{subparagraph.5.2.1.2.2}%
-\contentsline {subparagraph}{\numberline {5.2.1.2.3}Value}{175}{subparagraph.5.2.1.2.3}%
-\contentsline {subparagraph}{\numberline {5.2.1.2.4}Source Code}{175}{subparagraph.5.2.1.2.4}%
-\contentsline {subsubsection}{\numberline {5.2.2}Data Processing Functions}{177}{subsubsection.5.2.2}%
-\contentsline {paragraph}{\numberline {5.2.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L4}{load\_movielens\_data\_from\_file} Function}{177}{paragraph.5.2.2.1}%
-\contentsline {subparagraph}{\numberline {5.2.2.1.1}Usage}{177}{subparagraph.5.2.2.1.1}%
-\contentsline {subparagraph}{\numberline {5.2.2.1.2}Arguments}{177}{subparagraph.5.2.2.1.2}%
-\contentsline {subparagraph}{\numberline {5.2.2.1.3}Details}{177}{subparagraph.5.2.2.1.3}%
-\contentsline {subparagraph}{\numberline {5.2.2.1.4}Value}{178}{subparagraph.5.2.2.1.4}%
-\contentsline {subparagraph}{\numberline {5.2.2.1.5}Source Code}{178}{subparagraph.5.2.2.1.5}%
-\contentsline {paragraph}{\numberline {5.2.2.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L14}{splitByUser} Function}{179}{paragraph.5.2.2.2}%
-\contentsline {subparagraph}{\numberline {5.2.2.2.1}Usage}{179}{subparagraph.5.2.2.2.1}%
-\contentsline {subparagraph}{\numberline {5.2.2.2.2}Arguments}{179}{subparagraph.5.2.2.2.2}%
-\contentsline {subparagraph}{\numberline {5.2.2.2.3}Details}{179}{subparagraph.5.2.2.2.3}%
-\contentsline {subparagraph}{\numberline {5.2.2.2.4}Value}{179}{subparagraph.5.2.2.2.4}%
-\contentsline {subparagraph}{\numberline {5.2.2.2.5}Source Code}{179}{subparagraph.5.2.2.2.5}%
-\contentsline {paragraph}{\numberline {5.2.2.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L17}{sample\_train\_validation\_sets} Function}{181}{paragraph.5.2.2.3}%
-\contentsline {subparagraph}{\numberline {5.2.2.3.1}Usage}{181}{subparagraph.5.2.2.3.1}%
-\contentsline {subparagraph}{\numberline {5.2.2.3.2}Arguments}{181}{subparagraph.5.2.2.3.2}%
-\contentsline {subparagraph}{\numberline {5.2.2.3.3}Details}{181}{subparagraph.5.2.2.3.3}%
-\contentsline {subparagraph}{\numberline {5.2.2.3.4}Value}{181}{subparagraph.5.2.2.3.4}%
-\contentsline {subparagraph}{\numberline {5.2.2.3.5}Source Code}{182}{subparagraph.5.2.2.3.5}%
-\contentsline {paragraph}{\numberline {5.2.2.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L73}{splitGenreRows} Function}{183}{paragraph.5.2.2.4}%
-\contentsline {subparagraph}{\numberline {5.2.2.4.1}Usage}{183}{subparagraph.5.2.2.4.1}%
-\contentsline {subparagraph}{\numberline {5.2.2.4.2}Arguments}{183}{subparagraph.5.2.2.4.2}%
-\contentsline {subparagraph}{\numberline {5.2.2.4.3}Details}{183}{subparagraph.5.2.2.4.3}%
-\contentsline {subparagraph}{\numberline {5.2.2.4.4}Value}{183}{subparagraph.5.2.2.4.4}%
-\contentsline {subparagraph}{\numberline {5.2.2.4.5}Source Code}{183}{subparagraph.5.2.2.4.5}%
-\contentsline {subsubsection}{\numberline {5.2.3}Models Training Functions}{184}{subsubsection.5.2.3}%
-\contentsline {paragraph}{\numberline {5.2.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L432}{union\_cv\_results} Function}{184}{paragraph.5.2.3.1}%
-\contentsline {subparagraph}{\numberline {5.2.3.1.1}Usage}{184}{subparagraph.5.2.3.1.1}%
-\contentsline {subparagraph}{\numberline {5.2.3.1.2}Arguments}{184}{subparagraph.5.2.3.1.2}%
-\contentsline {subparagraph}{\numberline {5.2.3.1.3}Details}{184}{subparagraph.5.2.3.1.3}%
-\contentsline {subparagraph}{\numberline {5.2.3.1.4}Value}{184}{subparagraph.5.2.3.1.4}%
-\contentsline {subparagraph}{\numberline {5.2.3.1.5}Source Code}{185}{subparagraph.5.2.3.1.5}%
-\contentsline {paragraph}{\numberline {5.2.3.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} Function}{185}{paragraph.5.2.3.2}%
-\contentsline {subparagraph}{\numberline {5.2.3.2.1}Usage}{185}{subparagraph.5.2.3.2.1}%
-\contentsline {subparagraph}{\numberline {5.2.3.2.2}Arguments}{185}{subparagraph.5.2.3.2.2}%
-\contentsline {subparagraph}{\numberline {5.2.3.2.3}Details}{185}{subparagraph.5.2.3.2.3}%
-\contentsline {subparagraph}{\numberline {5.2.3.2.4}Value}{185}{subparagraph.5.2.3.2.4}%
-\contentsline {subparagraph}{\numberline {5.2.3.2.5}Source Code}{186}{subparagraph.5.2.3.2.5}%
-\contentsline {subsubsection}{\numberline {5.2.4}Data Visualization Functions}{186}{subsubsection.5.2.4}%
-\contentsline {paragraph}{\numberline {5.2.4.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L580}{data.plot} Function}{186}{paragraph.5.2.4.1}%
-\contentsline {subparagraph}{\numberline {5.2.4.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1838}{Usage}}{186}{subparagraph.5.2.4.1.1}%
-\contentsline {subparagraph}{\numberline {5.2.4.1.2}Arguments}{186}{subparagraph.5.2.4.1.2}%
-\contentsline {subparagraph}{\numberline {5.2.4.1.3}Details}{187}{subparagraph.5.2.4.1.3}%
-\contentsline {subparagraph}{\numberline {5.2.4.1.4}Source Code}{187}{subparagraph.5.2.4.1.4}%
-\contentsline {paragraph}{\numberline {5.2.4.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L481}{data.plot.left.n} Function}{188}{paragraph.5.2.4.2}%
-\contentsline {subparagraph}{\numberline {5.2.4.2.1}Usage}{188}{subparagraph.5.2.4.2.1}%
-\contentsline {subparagraph}{\numberline {5.2.4.2.2}Arguments}{188}{subparagraph.5.2.4.2.2}%
-\contentsline {subparagraph}{\numberline {5.2.4.2.3}Details}{189}{subparagraph.5.2.4.2.3}%
-\contentsline {subparagraph}{\numberline {5.2.4.2.4}Source Code}{189}{subparagraph.5.2.4.2.4}%
-\contentsline {paragraph}{\numberline {5.2.4.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L536}{data.plot.left\_detailed} Function}{190}{paragraph.5.2.4.3}%
-\contentsline {subparagraph}{\numberline {5.2.4.3.1}Usage}{190}{subparagraph.5.2.4.3.1}%
-\contentsline {subparagraph}{\numberline {5.2.4.3.2}Arguments}{190}{subparagraph.5.2.4.3.2}%
-\contentsline {subparagraph}{\numberline {5.2.4.3.3}Details}{191}{subparagraph.5.2.4.3.3}%
-\contentsline {subparagraph}{\numberline {5.2.4.3.4}Source Code}{191}{subparagraph.5.2.4.3.4}%
-\contentsline {subsection}{\numberline {5.3}Models Training: Support Functions}{193}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}OMR Model: Helper Functions}{193}{subsubsection.5.3.1}%
-\contentsline {paragraph}{\numberline {5.3.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R\#L2}{naive\_model\_MSEs} Function}{193}{paragraph.5.3.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.1.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L106}{Usage}}{193}{subparagraph.5.3.1.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.1.1.2}Arguments}{193}{subparagraph.5.3.1.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.1.1.3}Details}{193}{subparagraph.5.3.1.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.1.1.4}Value}{193}{subparagraph.5.3.1.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.1.1.5}Source Code}{194}{subparagraph.5.3.1.1.5}%
-\contentsline {paragraph}{\numberline {5.3.1.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R\#L7}{naive\_model\_RMSE} Function}{195}{paragraph.5.3.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.1.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L155}{Usage}}{195}{subparagraph.5.3.1.2.1}%
-\contentsline {subparagraph}{\numberline {5.3.1.2.2}Arguments}{195}{subparagraph.5.3.1.2.2}%
-\contentsline {subparagraph}{\numberline {5.3.1.2.3}Details}{195}{subparagraph.5.3.1.2.3}%
-\contentsline {subparagraph}{\numberline {5.3.1.2.4}Value}{195}{subparagraph.5.3.1.2.4}%
-\contentsline {subparagraph}{\numberline {5.3.1.2.5}Source Code}{195}{subparagraph.5.3.1.2.5}%
-\contentsline {subsubsection}{\numberline {5.3.2}UME Model: Utility Functions}{196}{subsubsection.5.3.2}%
-\contentsline {paragraph}{\numberline {5.3.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L4}{train\_user\_movie\_effect} Function}{196}{paragraph.5.3.2.1}%
-\contentsline {subparagraph}{\numberline {5.3.2.1.1}Usage}{196}{subparagraph.5.3.2.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.2.1.2}Arguments}{196}{subparagraph.5.3.2.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.2.1.3}Details}{196}{subparagraph.5.3.2.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.2.1.4}Value}{196}{subparagraph.5.3.2.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.2.1.5}Source Code}{196}{subparagraph.5.3.2.1.5}%
-\contentsline {paragraph}{\numberline {5.3.2.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L19}{train\_user\_movie\_effect.cv} Function}{198}{paragraph.5.3.2.2}%
-\contentsline {subparagraph}{\numberline {5.3.2.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L472}{Usage}}{198}{subparagraph.5.3.2.2.1}%
-\contentsline {subparagraph}{\numberline {5.3.2.2.2}Arguments}{198}{subparagraph.5.3.2.2.2}%
-\contentsline {subparagraph}{\numberline {5.3.2.2.3}Details}{198}{subparagraph.5.3.2.2.3}%
-\contentsline {subparagraph}{\numberline {5.3.2.2.4}Value}{198}{subparagraph.5.3.2.2.4}%
-\contentsline {subparagraph}{\numberline {5.3.2.2.5}Source Code}{198}{subparagraph.5.3.2.2.5}%
-\contentsline {paragraph}{\numberline {5.3.2.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L53}{calc\_user\_movie\_effect\_MSE} Function}{200}{paragraph.5.3.2.3}%
-\contentsline {subparagraph}{\numberline {5.3.2.3.1}Usage}{200}{subparagraph.5.3.2.3.1}%
-\contentsline {subparagraph}{\numberline {5.3.2.3.2}Arguments}{200}{subparagraph.5.3.2.3.2}%
-\contentsline {subparagraph}{\numberline {5.3.2.3.3}Details}{200}{subparagraph.5.3.2.3.3}%
-\contentsline {subparagraph}{\numberline {5.3.2.3.4}Value}{200}{subparagraph.5.3.2.3.4}%
-\contentsline {subparagraph}{\numberline {5.3.2.3.5}Source Code}{200}{subparagraph.5.3.2.3.5}%
-\contentsline {paragraph}{\numberline {5.3.2.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L67}{calc\_user\_movie\_effect\_MSE.cv} Function}{201}{paragraph.5.3.2.4}%
-\contentsline {subparagraph}{\numberline {5.3.2.4.1}Usage}{201}{subparagraph.5.3.2.4.1}%
-\contentsline {subparagraph}{\numberline {5.3.2.4.2}Arguments}{201}{subparagraph.5.3.2.4.2}%
-\contentsline {subparagraph}{\numberline {5.3.2.4.3}Details}{201}{subparagraph.5.3.2.4.3}%
-\contentsline {subparagraph}{\numberline {5.3.2.4.4}Value}{201}{subparagraph.5.3.2.4.4}%
-\contentsline {subparagraph}{\numberline {5.3.2.4.5}Source Code}{201}{subparagraph.5.3.2.4.5}%
-\contentsline {paragraph}{\numberline {5.3.2.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L82}{calc\_user\_movie\_effect\_RMSE.cv} Function}{203}{paragraph.5.3.2.5}%
-\contentsline {subparagraph}{\numberline {5.3.2.5.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L513}{Usage}}{203}{subparagraph.5.3.2.5.1}%
-\contentsline {subparagraph}{\numberline {5.3.2.5.2}Arguments}{203}{subparagraph.5.3.2.5.2}%
-\contentsline {subparagraph}{\numberline {5.3.2.5.3}Details}{203}{subparagraph.5.3.2.5.3}%
-\contentsline {subparagraph}{\numberline {5.3.2.5.4}Value}{203}{subparagraph.5.3.2.5.4}%
-\contentsline {subparagraph}{\numberline {5.3.2.5.5}Source Code}{203}{subparagraph.5.3.2.5.5}%
-\contentsline {subsubsection}{\numberline {5.3.3}UME Model: Regularization}{205}{subsubsection.5.3.3}%
-\contentsline {paragraph}{\numberline {5.3.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L91}{regularize.test\_lambda.UM\_effect.cv} Function}{205}{paragraph.5.3.3.1}%
-\contentsline {subparagraph}{\numberline {5.3.3.1.1}Usage}{205}{subparagraph.5.3.3.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.3.1.2}Arguments}{205}{subparagraph.5.3.3.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.3.1.3}Details}{205}{subparagraph.5.3.3.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.3.1.4}Value}{206}{subparagraph.5.3.3.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.3.1.5}Source Code}{206}{subparagraph.5.3.3.1.5}%
-\contentsline {subsubsection}{\numberline {5.3.4}UMGE Model: Utility Functions}{207}{subsubsection.5.3.4}%
-\contentsline {paragraph}{\numberline {5.3.4.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L42}{train\_user\_movie\_genre\_effect} Function}{207}{paragraph.5.3.4.1}%
-\contentsline {subparagraph}{\numberline {5.3.4.1.1}Usage}{207}{subparagraph.5.3.4.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.4.1.2}Arguments}{207}{subparagraph.5.3.4.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.4.1.3}Details}{207}{subparagraph.5.3.4.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.4.1.4}Value}{207}{subparagraph.5.3.4.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.4.1.5}Source Code}{208}{subparagraph.5.3.4.1.5}%
-\contentsline {paragraph}{\numberline {5.3.4.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L61}{train\_user\_movie\_genre\_effect.cv} Function}{209}{paragraph.5.3.4.2}%
-\contentsline {subparagraph}{\numberline {5.3.4.2.1}Usage}{209}{subparagraph.5.3.4.2.1}%
-\contentsline {subparagraph}{\numberline {5.3.4.2.2}Arguments}{209}{subparagraph.5.3.4.2.2}%
-\contentsline {subparagraph}{\numberline {5.3.4.2.3}Details}{209}{subparagraph.5.3.4.2.3}%
-\contentsline {subparagraph}{\numberline {5.3.4.2.4}Value}{209}{subparagraph.5.3.4.2.4}%
-\contentsline {subparagraph}{\numberline {5.3.4.2.5}Source Code}{209}{subparagraph.5.3.4.2.5}%
-\contentsline {paragraph}{\numberline {5.3.4.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L112}{calc\_user\_movie\_genre\_effect\_MSE} Function}{211}{paragraph.5.3.4.3}%
-\contentsline {subparagraph}{\numberline {5.3.4.3.1}Usage}{211}{subparagraph.5.3.4.3.1}%
-\contentsline {subparagraph}{\numberline {5.3.4.3.2}Arguments}{211}{subparagraph.5.3.4.3.2}%
-\contentsline {subparagraph}{\numberline {5.3.4.3.3}Details}{211}{subparagraph.5.3.4.3.3}%
-\contentsline {subparagraph}{\numberline {5.3.4.3.4}Value}{211}{subparagraph.5.3.4.3.4}%
-\contentsline {subparagraph}{\numberline {5.3.4.3.5}Source Code}{211}{subparagraph.5.3.4.3.5}%
-\contentsline {paragraph}{\numberline {5.3.4.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L124}{calc\_user\_movie\_genre\_effect\_MSE.cv} Function}{212}{paragraph.5.3.4.4}%
-\contentsline {subparagraph}{\numberline {5.3.4.4.1}Usage}{212}{subparagraph.5.3.4.4.1}%
-\contentsline {subparagraph}{\numberline {5.3.4.4.2}Arguments}{212}{subparagraph.5.3.4.4.2}%
-\contentsline {subparagraph}{\numberline {5.3.4.4.3}Details}{212}{subparagraph.5.3.4.4.3}%
-\contentsline {subparagraph}{\numberline {5.3.4.4.4}Value}{212}{subparagraph.5.3.4.4.4}%
-\contentsline {subparagraph}{\numberline {5.3.4.4.5}Source Code}{212}{subparagraph.5.3.4.4.5}%
-\contentsline {paragraph}{\numberline {5.3.4.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L138}{calc\_user\_movie\_genre\_effect\_RMSE.cv} Function}{214}{paragraph.5.3.4.5}%
-\contentsline {subparagraph}{\numberline {5.3.4.5.1}Usage}{214}{subparagraph.5.3.4.5.1}%
-\contentsline {subparagraph}{\numberline {5.3.4.5.2}Arguments}{214}{subparagraph.5.3.4.5.2}%
-\contentsline {subparagraph}{\numberline {5.3.4.5.3}Details}{214}{subparagraph.5.3.4.5.3}%
-\contentsline {subparagraph}{\numberline {5.3.4.5.4}Value}{214}{subparagraph.5.3.4.5.4}%
-\contentsline {subparagraph}{\numberline {5.3.4.5.5}Source Code}{214}{subparagraph.5.3.4.5.5}%
-\contentsline {subsubsection}{\numberline {5.3.5}UMGE Model: Regularization}{215}{subsubsection.5.3.5}%
-\contentsline {paragraph}{\numberline {5.3.5.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L148}{regularize.test\_lambda.UMG\_effect.cv} Function}{215}{paragraph.5.3.5.1}%
-\contentsline {subparagraph}{\numberline {5.3.5.1.1}Usage}{215}{subparagraph.5.3.5.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.5.1.2}Arguments}{215}{subparagraph.5.3.5.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.5.1.3}Details}{215}{subparagraph.5.3.5.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.5.1.4}Value}{216}{subparagraph.5.3.5.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.5.1.5}Source Code}{216}{subparagraph.5.3.5.1.5}%
-\contentsline {subsubsection}{\numberline {5.3.6}UMGYE Model: Utility Functions}{217}{subsubsection.5.3.6}%
-\contentsline {paragraph}{\numberline {5.3.6.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L4}{calc\_date\_general\_effect} Function}{217}{paragraph.5.3.6.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.1.1}Usage}{217}{subparagraph.5.3.6.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.1.2}Arguments}{217}{subparagraph.5.3.6.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.1.3}Details}{217}{subparagraph.5.3.6.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.1.4}Value}{217}{subparagraph.5.3.6.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.1.5}Source Code}{218}{subparagraph.5.3.6.1.5}%
-\contentsline {paragraph}{\numberline {5.3.6.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L32}{calc\_date\_general\_effect.cv} Function}{219}{paragraph.5.3.6.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.2.1}Usage}{219}{subparagraph.5.3.6.2.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.2.2}Arguments}{219}{subparagraph.5.3.6.2.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.2.3}Details}{219}{subparagraph.5.3.6.2.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.2.4}Value}{219}{subparagraph.5.3.6.2.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.2.5}Source Code}{219}{subparagraph.5.3.6.2.5}%
-\contentsline {paragraph}{\numberline {5.3.6.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L71}{calc\_UMGY\_effect} Function}{221}{paragraph.5.3.6.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.3.1}Usage}{221}{subparagraph.5.3.6.3.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.3.2}Arguments}{221}{subparagraph.5.3.6.3.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.3.3}Details}{221}{subparagraph.5.3.6.3.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.3.4}Value}{221}{subparagraph.5.3.6.3.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.3.5}Source Code}{221}{subparagraph.5.3.6.3.5}%
-\contentsline {paragraph}{\numberline {5.3.6.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L76}{train\_UMGY\_effect} Function}{223}{paragraph.5.3.6.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.4.1}Usage}{223}{subparagraph.5.3.6.4.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.4.2}Arguments}{223}{subparagraph.5.3.6.4.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.4.3}Details}{223}{subparagraph.5.3.6.4.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.4.4}Value}{223}{subparagraph.5.3.6.4.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.4.5}Source Code}{223}{subparagraph.5.3.6.4.5}%
-\contentsline {paragraph}{\numberline {5.3.6.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L86}{train\_UMGY\_effect.cv} Function}{225}{paragraph.5.3.6.5}%
-\contentsline {subparagraph}{\numberline {5.3.6.5.1}Usage}{225}{subparagraph.5.3.6.5.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.5.2}Arguments}{225}{subparagraph.5.3.6.5.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.5.3}Details}{225}{subparagraph.5.3.6.5.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.5.4}Value}{225}{subparagraph.5.3.6.5.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.5.5}Source Code}{226}{subparagraph.5.3.6.5.5}%
-\contentsline {paragraph}{\numberline {5.3.6.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L94}{calc\_UMGY\_effect\_MSE} Function}{227}{paragraph.5.3.6.6}%
-\contentsline {subparagraph}{\numberline {5.3.6.6.1}Usage}{227}{subparagraph.5.3.6.6.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.6.2}Arguments}{227}{subparagraph.5.3.6.6.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.6.3}Details}{227}{subparagraph.5.3.6.6.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.6.4}Value}{227}{subparagraph.5.3.6.6.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.6.5}Source Code}{227}{subparagraph.5.3.6.6.5}%
-\contentsline {paragraph}{\numberline {5.3.6.7}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L104}{calc\_UMGY\_effect\_MSE.cv} Function}{229}{paragraph.5.3.6.7}%
-\contentsline {subparagraph}{\numberline {5.3.6.7.1}Usage}{229}{subparagraph.5.3.6.7.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.7.2}Arguments}{229}{subparagraph.5.3.6.7.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.7.3}Details}{229}{subparagraph.5.3.6.7.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.7.4}Value}{229}{subparagraph.5.3.6.7.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.7.5}Source Code}{230}{subparagraph.5.3.6.7.5}%
-\contentsline {paragraph}{\numberline {5.3.6.8}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L120}{calc\_UMGY\_effect\_RMSE.cv} Function}{231}{paragraph.5.3.6.8}%
-\contentsline {subparagraph}{\numberline {5.3.6.8.1}Usage}{231}{subparagraph.5.3.6.8.1}%
-\contentsline {subparagraph}{\numberline {5.3.6.8.2}Arguments}{231}{subparagraph.5.3.6.8.2}%
-\contentsline {subparagraph}{\numberline {5.3.6.8.3}Details}{231}{subparagraph.5.3.6.8.3}%
-\contentsline {subparagraph}{\numberline {5.3.6.8.4}Value}{231}{subparagraph.5.3.6.8.4}%
-\contentsline {subparagraph}{\numberline {5.3.6.8.5}Source Code}{231}{subparagraph.5.3.6.8.5}%
-\contentsline {subsubsection}{\numberline {5.3.7}UMGYE Model: Regularization}{233}{subsubsection.5.3.7}%
-\contentsline {paragraph}{\numberline {5.3.7.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L130}{regularize.test\_lambda.UMGY\_effect.cv} Function}{233}{paragraph.5.3.7.1}%
-\contentsline {subparagraph}{\numberline {5.3.7.1.1}Usage}{233}{subparagraph.5.3.7.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.7.1.2}Arguments}{233}{subparagraph.5.3.7.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.7.1.3}Details}{233}{subparagraph.5.3.7.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.7.1.4}Value}{234}{subparagraph.5.3.7.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.7.1.5}Source Code}{234}{subparagraph.5.3.7.1.5}%
-\contentsline {subsubsection}{\numberline {5.3.8}UMGYDE Model: Utility Functions}{235}{subsubsection.5.3.8}%
-\contentsline {paragraph}{\numberline {5.3.8.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L4}{calc\_day\_general\_effect} Function}{235}{paragraph.5.3.8.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.1.1}Usage}{235}{subparagraph.5.3.8.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.1.2}Arguments}{235}{subparagraph.5.3.8.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.1.3}Details}{235}{subparagraph.5.3.8.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.1.4}Value}{236}{subparagraph.5.3.8.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.1.5}Source Code}{236}{subparagraph.5.3.8.1.5}%
-\contentsline {paragraph}{\numberline {5.3.8.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L33}{calc\_day\_general\_effect.cv} Function}{237}{paragraph.5.3.8.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.2.1}Usage}{237}{subparagraph.5.3.8.2.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.2.2}Arguments}{237}{subparagraph.5.3.8.2.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.2.3}Details}{237}{subparagraph.5.3.8.2.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.2.4}Value}{237}{subparagraph.5.3.8.2.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.2.5}Source Code}{237}{subparagraph.5.3.8.2.5}%
-\contentsline {paragraph}{\numberline {5.3.8.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L71}{loess\_de} Function}{238}{paragraph.5.3.8.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.3.1}Usage}{238}{subparagraph.5.3.8.3.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.3.2}Arguments}{238}{subparagraph.5.3.8.3.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.3.3}Details}{239}{subparagraph.5.3.8.3.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.3.4}Value}{239}{subparagraph.5.3.8.3.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.3.5}Source Code}{239}{subparagraph.5.3.8.3.5}%
-\contentsline {paragraph}{\numberline {5.3.8.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L76}{calc\_UMGY\_SmoothedDay\_effect} Function}{240}{paragraph.5.3.8.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.4.1}Usage}{240}{subparagraph.5.3.8.4.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.4.2}Arguments}{240}{subparagraph.5.3.8.4.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.4.3}Details}{240}{subparagraph.5.3.8.4.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.4.4}Value}{240}{subparagraph.5.3.8.4.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.4.5}Source Code}{241}{subparagraph.5.3.8.4.5}%
-\contentsline {paragraph}{\numberline {5.3.8.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L99}{train\_UMGY\_SmoothedDay\_effect} Function}{242}{paragraph.5.3.8.5}%
-\contentsline {subparagraph}{\numberline {5.3.8.5.1}Usage}{242}{subparagraph.5.3.8.5.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.5.2}Arguments}{242}{subparagraph.5.3.8.5.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.5.3}Details}{242}{subparagraph.5.3.8.5.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.5.4}Value}{242}{subparagraph.5.3.8.5.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.5.5}Source Code}{243}{subparagraph.5.3.8.5.5}%
-\contentsline {paragraph}{\numberline {5.3.8.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L113}{train\_UMGY\_SmoothedDay\_effect.cv} Function}{244}{paragraph.5.3.8.6}%
-\contentsline {subparagraph}{\numberline {5.3.8.6.1}Usage}{244}{subparagraph.5.3.8.6.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.6.2}Arguments}{244}{subparagraph.5.3.8.6.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.6.3}Details}{244}{subparagraph.5.3.8.6.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.6.4}Value}{245}{subparagraph.5.3.8.6.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.6.5}Source Code}{245}{subparagraph.5.3.8.6.5}%
-\contentsline {paragraph}{\numberline {5.3.8.7}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L125}{UMGY\_SmoothedDay\_effect.predict} Function}{246}{paragraph.5.3.8.7}%
-\contentsline {subparagraph}{\numberline {5.3.8.7.1}Usage}{246}{subparagraph.5.3.8.7.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.7.2}Arguments}{246}{subparagraph.5.3.8.7.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.7.3}Details}{246}{subparagraph.5.3.8.7.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.7.4}Value}{246}{subparagraph.5.3.8.7.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.7.5}Source Code}{247}{subparagraph.5.3.8.7.5}%
-\contentsline {paragraph}{\numberline {5.3.8.8}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L141}{calc\_UMGY\_SmoothedDay\_effect.MSE} Function}{248}{paragraph.5.3.8.8}%
-\contentsline {subparagraph}{\numberline {5.3.8.8.1}Usage}{248}{subparagraph.5.3.8.8.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.8.2}Arguments}{248}{subparagraph.5.3.8.8.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.8.3}Details}{248}{subparagraph.5.3.8.8.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.8.4}Value}{248}{subparagraph.5.3.8.8.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.8.5}Source Code}{249}{subparagraph.5.3.8.8.5}%
-\contentsline {paragraph}{\numberline {5.3.8.9}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L147}{calc\_UMGY\_SmoothedDay\_effect.MSE.cv} Function}{250}{paragraph.5.3.8.9}%
-\contentsline {subparagraph}{\numberline {5.3.8.9.1}Usage}{250}{subparagraph.5.3.8.9.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.9.2}Arguments}{250}{subparagraph.5.3.8.9.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.9.3}Details}{250}{subparagraph.5.3.8.9.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.9.4}Value}{251}{subparagraph.5.3.8.9.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.9.5}Source Code}{251}{subparagraph.5.3.8.9.5}%
-\contentsline {paragraph}{\numberline {5.3.8.10}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L169}{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} Function}{252}{paragraph.5.3.8.10}%
-\contentsline {subparagraph}{\numberline {5.3.8.10.1}Usage}{252}{subparagraph.5.3.8.10.1}%
-\contentsline {subparagraph}{\numberline {5.3.8.10.2}Arguments}{252}{subparagraph.5.3.8.10.2}%
-\contentsline {subparagraph}{\numberline {5.3.8.10.3}Details}{252}{subparagraph.5.3.8.10.3}%
-\contentsline {subparagraph}{\numberline {5.3.8.10.4}Value}{253}{subparagraph.5.3.8.10.4}%
-\contentsline {subparagraph}{\numberline {5.3.8.10.5}Source Code}{253}{subparagraph.5.3.8.10.5}%
-\contentsline {subsubsection}{\numberline {5.3.9}UMGYDE Model: Tuning \texttt {loess} Params}{254}{subsubsection.5.3.9}%
-\contentsline {paragraph}{\numberline {5.3.9.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L173}{train\_UMGY\_SmoothedDay\_effect.RMSE.cv} Function}{254}{paragraph.5.3.9.1}%
-\contentsline {subparagraph}{\numberline {5.3.9.1.1}Usage}{254}{subparagraph.5.3.9.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.9.1.2}Arguments}{254}{subparagraph.5.3.9.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.9.1.3}Details}{254}{subparagraph.5.3.9.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.9.1.4}Value}{255}{subparagraph.5.3.9.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.9.1.5}Source Code}{255}{subparagraph.5.3.9.1.5}%
-\contentsline {paragraph}{\numberline {5.3.9.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L192}{train\_UMGY\_SmoothedDay\_effect.RMSE.cv.degree0} Function}{256}{paragraph.5.3.9.2}%
-\contentsline {subparagraph}{\numberline {5.3.9.2.1}Usage}{256}{subparagraph.5.3.9.2.1}%
-\contentsline {subparagraph}{\numberline {5.3.9.2.2}Arguments}{256}{subparagraph.5.3.9.2.2}%
-\contentsline {subparagraph}{\numberline {5.3.9.2.3}Details}{256}{subparagraph.5.3.9.2.3}%
-\contentsline {subparagraph}{\numberline {5.3.9.2.4}Value}{256}{subparagraph.5.3.9.2.4}%
-\contentsline {subparagraph}{\numberline {5.3.9.2.5}Source Code}{257}{subparagraph.5.3.9.2.5}%
-\contentsline {paragraph}{\numberline {5.3.9.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L195}{train\_UMGY\_SmoothedDay\_effect.RMSE.cv.degree1} Function}{258}{paragraph.5.3.9.3}%
-\contentsline {subparagraph}{\numberline {5.3.9.3.1}Usage}{258}{subparagraph.5.3.9.3.1}%
-\contentsline {subparagraph}{\numberline {5.3.9.3.2}Arguments}{258}{subparagraph.5.3.9.3.2}%
-\contentsline {subparagraph}{\numberline {5.3.9.3.3}Details}{258}{subparagraph.5.3.9.3.3}%
-\contentsline {subparagraph}{\numberline {5.3.9.3.4}Value}{258}{subparagraph.5.3.9.3.4}%
-\contentsline {subparagraph}{\numberline {5.3.9.3.5}Source Code}{259}{subparagraph.5.3.9.3.5}%
-\contentsline {paragraph}{\numberline {5.3.9.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L198}{train\_UMGY\_SmoothedDay\_effect.RMSE.cv.degree2} Function}{260}{paragraph.5.3.9.4}%
-\contentsline {subparagraph}{\numberline {5.3.9.4.1}Usage}{260}{subparagraph.5.3.9.4.1}%
-\contentsline {subparagraph}{\numberline {5.3.9.4.2}Arguments}{260}{subparagraph.5.3.9.4.2}%
-\contentsline {subparagraph}{\numberline {5.3.9.4.3}Details}{260}{subparagraph.5.3.9.4.3}%
-\contentsline {subparagraph}{\numberline {5.3.9.4.4}Value}{260}{subparagraph.5.3.9.4.4}%
-\contentsline {subparagraph}{\numberline {5.3.9.4.5}Source Code}{261}{subparagraph.5.3.9.4.5}%
-\contentsline {subsubsection}{\numberline {5.3.10}UMGYDE Model: Regularization}{262}{subsubsection.5.3.10}%
-\contentsline {paragraph}{\numberline {5.3.10.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L225}{regularize.train\_UMGYD\_effect} Function}{262}{paragraph.5.3.10.1}%
-\contentsline {subparagraph}{\numberline {5.3.10.1.1}Usage}{262}{subparagraph.5.3.10.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.10.1.2}Arguments}{262}{subparagraph.5.3.10.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.10.1.3}Details}{262}{subparagraph.5.3.10.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.10.1.4}Value}{262}{subparagraph.5.3.10.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.10.1.5}Source Code}{263}{subparagraph.5.3.10.1.5}%
-\contentsline {paragraph}{\numberline {5.3.10.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L234}{regularize.train\_UMGYD\_effect.cv} Function}{264}{paragraph.5.3.10.2}%
-\contentsline {subparagraph}{\numberline {5.3.10.2.1}Usage}{264}{subparagraph.5.3.10.2.1}%
-\contentsline {subparagraph}{\numberline {5.3.10.2.2}Arguments}{264}{subparagraph.5.3.10.2.2}%
-\contentsline {subparagraph}{\numberline {5.3.10.2.3}Details}{264}{subparagraph.5.3.10.2.3}%
-\contentsline {subparagraph}{\numberline {5.3.10.2.4}Value}{265}{subparagraph.5.3.10.2.4}%
-\contentsline {subparagraph}{\numberline {5.3.10.2.5}Source Code}{265}{subparagraph.5.3.10.2.5}%
-\contentsline {paragraph}{\numberline {5.3.10.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L242}{regularize.test\_lambda.UMGYD\_effect.cv} Function}{266}{paragraph.5.3.10.3}%
-\contentsline {subparagraph}{\numberline {5.3.10.3.1}Usage}{266}{subparagraph.5.3.10.3.1}%
-\contentsline {subparagraph}{\numberline {5.3.10.3.2}Arguments}{266}{subparagraph.5.3.10.3.2}%
-\contentsline {subparagraph}{\numberline {5.3.10.3.3}Details}{266}{subparagraph.5.3.10.3.3}%
-\contentsline {subparagraph}{\numberline {5.3.10.3.4}Value}{266}{subparagraph.5.3.10.3.4}%
-\contentsline {subparagraph}{\numberline {5.3.10.3.5}Source Code}{267}{subparagraph.5.3.10.3.5}%
-\contentsline {subsubsection}{\numberline {5.3.11}UMGYDE Model: Matrix Factorization}{268}{subsubsection.5.3.11}%
-\contentsline {paragraph}{\numberline {5.3.11.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R\#L3}{mf.residual.dataframe} Function}{268}{paragraph.5.3.11.1}%
-\contentsline {subparagraph}{\numberline {5.3.11.1.1}Usage}{268}{subparagraph.5.3.11.1.1}%
-\contentsline {subparagraph}{\numberline {5.3.11.1.2}Arguments}{268}{subparagraph.5.3.11.1.2}%
-\contentsline {subparagraph}{\numberline {5.3.11.1.3}Details}{268}{subparagraph.5.3.11.1.3}%
-\contentsline {subparagraph}{\numberline {5.3.11.1.4}Value}{268}{subparagraph.5.3.11.1.4}%
-\contentsline {subparagraph}{\numberline {5.3.11.1.5}Source Code}{269}{subparagraph.5.3.11.1.5}%
-\contentsline {section}{\numberline {6}Appendix B: Models Training Datasets}{270}{section.6}%
-\contentsline {subsection}{\numberline {6.1}\texttt {edx.mx} Matrix Object}{270}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}\texttt {edx.sgr} Object}{271}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}\texttt {movie\_map} Object}{272}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}\texttt {date\_days\_map} Object}{273}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}\texttt {edx\_CV} Object}{274}{subsection.6.5}%
-\contentsline {section}{\numberline {7}Appendix C}{278}{section.7}%
-\contentsline {subsection}{\numberline {7.1}TODO List}{278}{subsection.7.1}%
-\contentsline {subsubsection}{\numberline {7.1.1}\hyperref [methods-and-analysis]{Methods and Analysis}}{278}{subsubsection.7.1.1}%
-\contentsline {paragraph}{\numberline {7.1.1.1}\hyperref [preparing-train-and-set-datasets]{Preparing train and set datasets}}{278}{paragraph.7.1.1.1}%
-\contentsline {paragraph}{\numberline {7.1.1.2}\hyperref [overall-mean-rating-omr-model]{Overall Mean Rating (OMR) Model}}{278}{paragraph.7.1.1.2}%
-\contentsline {subparagraph}{\numberline {7.1.1.2.1}\hyperref [omr-model-building]{OMR Model Building}}{278}{subparagraph.7.1.1.2.1}%
-\contentsline {subparagraph}{\numberline {7.1.1.2.2}\hyperref [omr-value-is-the-best-for-the-current-model]{OMR Value Is the Best for the Current Model}}{278}{subparagraph.7.1.1.2.2}%
-\contentsline {paragraph}{\numberline {7.1.1.3}\hyperref [user-effect-ue-model]{User Effect (UE) Model}}{278}{paragraph.7.1.1.3}%
-\contentsline {subparagraph}{\numberline {7.1.1.3.1}\hyperref [sec.user_effect_analysis]{User Effect Analysis}}{278}{subparagraph.7.1.1.3.1}%
-\contentsline {subparagraph}{\numberline {7.1.1.3.2}\hyperref [mathematical-description-of-the-ue-model]{Mathematical Description of the UE Model}}{278}{subparagraph.7.1.1.3.2}%
-\contentsline {subparagraph}{\numberline {7.1.1.3.3}\hyperref [ue-model-building]{UE Model Building}}{278}{subparagraph.7.1.1.3.3}%
-\contentsline {paragraph}{\numberline {7.1.1.4}\hyperref [usermovie-effect-ume-model]{User+Movie Effect (UME) Model}}{278}{paragraph.7.1.1.4}%
-\contentsline {subparagraph}{\numberline {7.1.1.4.1}Movie Effect Analysis}{278}{subparagraph.7.1.1.4.1}%
-\contentsline {subparagraph}{\numberline {7.1.1.4.2}\hyperref [mathematical-description-of-the-ume-model]{Mathematical Description of the UME Model}}{278}{subparagraph.7.1.1.4.2}%
-\contentsline {subparagraph}{\numberline {7.1.1.4.3}\hyperref [ume-model-building]{UME Model Building}}{278}{subparagraph.7.1.1.4.3}%
-\contentsline {subsubsection}{\numberline {7.1.2}\hyperref [appndx_a]{Appendix A: Support Functions}}{279}{subsubsection.7.1.2}%
-\contentsline {paragraph}{\numberline {7.1.2.1}\hyperref [common-helper-functions]{Common Helper Functions}}{279}{paragraph.7.1.2.1}%
-\contentsline {subparagraph}{\numberline {7.1.2.1.1}\hyperref [appndx_a.CHF.logging-funcs]{Logging Functions}}{279}{subparagraph.7.1.2.1.1}%
-\contentsline {subparagraph}{\numberline {7.1.2.1.2}\hyperref [appndx_a.CHF.utility_funcs]{Utility Functions}}{279}{subparagraph.7.1.2.1.2}%
-\contentsline {subparagraph}{\numberline {7.1.2.1.3}\hyperref [root-mean-squared-error-calculation]{(Root) Mean Squared Error Calculation}}{279}{subparagraph.7.1.2.1.3}%
-\contentsline {subparagraph}{\numberline {7.1.2.1.4}\hyperref [result-rmses-tibble-functions]{Result RMSEs Tibble Functions}}{279}{subparagraph.7.1.2.1.4}%
-\contentsline {paragraph}{\numberline {7.1.2.2}\hyperref [appndx_a.data_helper.functions]{Data Helper Functions}}{279}{paragraph.7.1.2.2}%
-\contentsline {subparagraph}{\numberline {7.1.2.2.1}\hyperref [models-training-functions]{Models Training Functions}}{279}{subparagraph.7.1.2.2.1}%
-\contentsline {subparagraph}{\numberline {7.1.2.2.2}\hyperref [data-visualization-functions]{Data Visualization Functions}}{279}{subparagraph.7.1.2.2.2}%
-\contentsline {paragraph}{\numberline {7.1.2.3}\hyperref [models-training-support-functions]{Models Training: Support Functions}}{279}{paragraph.7.1.2.3}%
-\contentsline {subparagraph}{\numberline {7.1.2.3.1}\hyperref [omr-model-helper-functions]{OMR Model: Helper Functions}}{279}{subparagraph.7.1.2.3.1}%
-\contentsline {subparagraph}{\numberline {7.1.2.3.2}\hyperref [ume-model-utility-functions]{UME Model: Utility Functions}}{279}{subparagraph.7.1.2.3.2}%
-\contentsline {subsection}{\numberline {7.2}Done}{280}{subsection.7.2}%
-\contentsline {subsubsection}{\numberline {7.2.1}\hyperref [intro]{Overview and Executive Summary}}{280}{subsubsection.7.2.1}%
-\contentsline {paragraph}{\numberline {7.2.1.1}\hyperref [datasets-overview]{Datasets Overview}}{280}{paragraph.7.2.1.1}%
-\contentsline {subparagraph}{\numberline {7.2.1.1.1}\hyperref [edx-dataset]{\texttt {edx} Dataset}}{280}{subparagraph.7.2.1.1.1}%
-\contentsline {subsubsection}{\numberline {7.2.2}\hyperref [methods-and-analysis]{Methods and Analysis}}{280}{subsubsection.7.2.2}%
-\contentsline {paragraph}{\numberline {7.2.2.1}\hyperref [preparing-train-and-set-datasets]{Preparing train and set datasets}}{280}{paragraph.7.2.2.1}%
-\contentsline {paragraph}{\numberline {7.2.2.2}\hyperref [overall-mean-rating-omr-model]{Overall Mean Rating (OMR) Model}}{280}{paragraph.7.2.2.2}%
-\contentsline {subparagraph}{\numberline {7.2.2.2.1}\hyperref [mathematical-description-of-the-omr-model]{Mathematical Description of the OMR Model}}{280}{subparagraph.7.2.2.2.1}%
-\contentsline {subparagraph}{\numberline {7.2.2.2.2}\hyperref [omr-model-building]{OMR Model Building}}{280}{subparagraph.7.2.2.2.2}%
-\contentsline {subparagraph}{\numberline {7.2.2.2.3}\hyperref [omr-value-is-the-best-for-the-current-model]{OMR Value Is the Best for the Current Model}}{280}{subparagraph.7.2.2.2.3}%
-\contentsline {subparagraph}{\numberline {7.2.2.2.4}\hyperref [sec.user_effect_analysis]{User Effect Analysis}}{281}{subparagraph.7.2.2.2.4}%
-\contentsline {subparagraph}{\numberline {7.2.2.2.5}\hyperref [mathematical-description-of-the-ue-model]{Mathematical Description of the UE Model}}{281}{subparagraph.7.2.2.2.5}%
-\contentsline {subparagraph}{\numberline {7.2.2.2.6}\hyperref [ue-model-building]{UE Model Building}}{281}{subparagraph.7.2.2.2.6}%
-\contentsline {paragraph}{\numberline {7.2.2.3}\hyperref [usermovie-effect-ume-model]{User+Movie Effect (UME) Model}}{281}{paragraph.7.2.2.3}%
-\contentsline {subparagraph}{\numberline {7.2.2.3.1}Movie Effect Analysis}{281}{subparagraph.7.2.2.3.1}%
-\contentsline {subparagraph}{\numberline {7.2.2.3.2}\hyperref [mathematical-description-of-the-ume-model]{Mathematical Description of the UME Model}}{281}{subparagraph.7.2.2.3.2}%
-\contentsline {subparagraph}{\numberline {7.2.2.3.3}\hyperref [ume-model-building]{UME Model Building}}{282}{subparagraph.7.2.2.3.3}%
-\contentsline {subsubsection}{\numberline {7.2.3}\hyperref [appndx_a]{Appendix A: Support Functions}}{282}{subsubsection.7.2.3}%
-\contentsline {paragraph}{\numberline {7.2.3.1}\hyperref [common-helper-functions]{Common Helper Functions}}{282}{paragraph.7.2.3.1}%
-\contentsline {subparagraph}{\numberline {7.2.3.1.1}\hyperref [appndx_a.CHF.logging-funcs]{Logging Functions}}{282}{subparagraph.7.2.3.1.1}%
-\contentsline {subparagraph}{\numberline {7.2.3.1.2}\hyperref [appndx_a.CHF.utility_funcs]{Utility Functions}}{282}{subparagraph.7.2.3.1.2}%
-\contentsline {subparagraph}{\numberline {7.2.3.1.3}\hyperref [root-mean-squared-error-calculation]{(Root) Mean Squared Error Calculation}}{283}{subparagraph.7.2.3.1.3}%
-\contentsline {subparagraph}{\numberline {7.2.3.1.4}\hyperref [result-rmses-tibble-functions]{Result RMSEs Tibble Functions}}{283}{subparagraph.7.2.3.1.4}%
-\contentsline {paragraph}{\numberline {7.2.3.2}\hyperref [appndx_a.data_helper.functions]{Data Helper Functions}}{283}{paragraph.7.2.3.2}%
-\contentsline {subparagraph}{\numberline {7.2.3.2.1}\hyperref [initializing-input-datasets]{Initializing Input Datasets}}{283}{subparagraph.7.2.3.2.1}%
-\contentsline {subparagraph}{\numberline {7.2.3.2.2}\hyperref [data-processing-functions]{Data Processing Functions}}{283}{subparagraph.7.2.3.2.2}%
-\contentsline {subparagraph}{\numberline {7.2.3.2.3}\hyperref [data-visualization-functions]{Data Visualization Functions}}{284}{subparagraph.7.2.3.2.3}%
-\contentsline {paragraph}{\numberline {7.2.3.3}\hyperref [models-training-support-functions]{Models Training: Support Functions}}{284}{paragraph.7.2.3.3}%
-\contentsline {subparagraph}{\numberline {7.2.3.3.1}\hyperref [omr-model-helper-functions]{OMR Model: Helper Functions}}{284}{subparagraph.7.2.3.3.1}%
-\contentsline {subparagraph}{\numberline {7.2.3.3.2}\hyperref [ume-model-utility-functions]{UME Model: Utility Functions}}{284}{subparagraph.7.2.3.3.2}%
-\contentsline {subsubsection}{\numberline {7.2.4}\hyperref [appndx_b]{Appendix B: Models Training Datasets}}{284}{subsubsection.7.2.4}%
+\contentsline {section}{\numberline {1}Overview and Executive Summary}{8}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Datasets Overview}{8}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}\texttt {edx} Dataset}{10}{subsubsection.1.1.1}%
+\contentsline {section}{\numberline {2}Methods and Analysis}{14}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Preparing train and set datasets}{14}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Overall Mean Rating (OMR) Model}{15}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Mathematical Description of the OMR Model}{15}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}OMR Model Building}{15}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}OMR Value Is the Best for the Current Model}{17}{subsubsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.3}User Effect (UE) Model}{20}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}User Effect Analysis}{20}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Mathematical Description of the UE Model}{22}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}UE Model Building}{22}{subsubsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.4}User+Movie Effect (UME) Model}{26}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}Movie Effect Analysis}{26}{subsubsection.2.4.1}%
+\contentsline {paragraph}{\numberline {2.4.1.1}Movies' Popularity}{26}{paragraph.2.4.1.1}%
+\contentsline {paragraph}{\numberline {2.4.1.2}Rating Distribution}{28}{paragraph.2.4.1.2}%
+\contentsline {subsubsection}{\numberline {2.4.2}Mathematical Description of the UME Model}{29}{subsubsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.3}UME Model Building}{29}{subsubsection.2.4.3}%
+\contentsline {subsubsection}{\numberline {2.4.4}UME Model Regularization}{32}{subsubsection.2.4.4}%
+\contentsline {paragraph}{\numberline {2.4.4.1}UME Model Regularization: \emph {Mathematical Description}}{32}{paragraph.2.4.4.1}%
+\contentsline {paragraph}{\numberline {2.4.4.2}UME Model Regularization: \emph {Pre-configuration}}{33}{paragraph.2.4.4.2}%
+\contentsline {paragraph}{\numberline {2.4.4.3}UME Model Regularization: \emph {Fine-tuning}}{35}{paragraph.2.4.4.3}%
+\contentsline {paragraph}{\numberline {2.4.4.4}UME Model Regularization: \emph {Re-training on the \texttt {edx} with the best} \(\lambda \)}{38}{paragraph.2.4.4.4}%
+\contentsline {subsection}{\numberline {2.5}User+Movie+Genre Effect (UMGE) Model}{40}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1}Movie Genres Effect Anasysis}{40}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.2}Mathematical Description of the UMGE Model}{41}{subsubsection.2.5.2}%
+\contentsline {subsubsection}{\numberline {2.5.3}UMGE Model Building}{42}{subsubsection.2.5.3}%
+\contentsline {subsubsection}{\numberline {2.5.4}UMGE Model Regularization}{45}{subsubsection.2.5.4}%
+\contentsline {paragraph}{\numberline {2.5.4.1}UMGE Model Regularization: \emph {Mathematical Description}}{45}{paragraph.2.5.4.1}%
+\contentsline {paragraph}{\numberline {2.5.4.2}UMGE Model Regularization: \emph {Pre-configuration}}{46}{paragraph.2.5.4.2}%
+\contentsline {paragraph}{\numberline {2.5.4.3}UMGE Model Regularization: \emph {Fine-tuning}}{48}{paragraph.2.5.4.3}%
+\contentsline {paragraph}{\numberline {2.5.4.4}UMGE Model Regularization: \emph {Retraining the Model with the best} \(\lambda \)}{51}{paragraph.2.5.4.4}%
+\contentsline {subsection}{\numberline {2.6}User+Movie+Genre+Year Effect (UMGYE) Model}{53}{subsection.2.6}%
+\contentsline {subsubsection}{\numberline {2.6.1}Year Effect Analysis}{53}{subsubsection.2.6.1}%
+\contentsline {paragraph}{\numberline {2.6.1.1}Yearly rating count\blx@tocontentsinit {0}\autocite {MRS-R-BEST}}{53}{paragraph.2.6.1.1}%
+\contentsline {paragraph}{\numberline {2.6.1.2}Average rating per year plot\blx@tocontentsinit {0}\autocite {MRS-R-BEST}}{53}{paragraph.2.6.1.2}%
+\contentsline {subsubsection}{\numberline {2.6.2}Mathematical Description of the UMGYE Model}{55}{subsubsection.2.6.2}%
+\contentsline {subsubsection}{\numberline {2.6.3}UMGYE Model Building}{56}{subsubsection.2.6.3}%
+\contentsline {subsubsection}{\numberline {2.6.4}UMGYE Model Regularization}{58}{subsubsection.2.6.4}%
+\contentsline {paragraph}{\numberline {2.6.4.1}UMGYE Model Regularization: \emph {Mathematical Description}}{58}{paragraph.2.6.4.1}%
+\contentsline {paragraph}{\numberline {2.6.4.2}UMGYE Model Regularization: \emph {Pre-configuration}}{59}{paragraph.2.6.4.2}%
+\contentsline {paragraph}{\numberline {2.6.4.3}UMGYE Model Regularization: \emph {Fine-tuning}}{61}{paragraph.2.6.4.3}%
+\contentsline {paragraph}{\numberline {2.6.4.4}UMGYE Model Regularization: \emph {Retraining the Model with the best} \(\lambda \)}{64}{paragraph.2.6.4.4}%
+\contentsline {subsection}{\numberline {2.7}User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model}{66}{subsection.2.7}%
+\contentsline {subsubsection}{\numberline {2.7.1}Mathematical Description of the UMGYDE Model}{66}{subsubsection.2.7.1}%
+\contentsline {subsubsection}{\numberline {2.7.2}UMGYDE Model Building With Default Parameters}{67}{subsubsection.2.7.2}%
+\contentsline {subsubsection}{\numberline {2.7.3}UMGYDE Model Tuning by \texttt {degree} and \texttt {span} Parameters}{70}{subsubsection.2.7.3}%
+\contentsline {paragraph}{\numberline {2.7.3.1}UMGYDE Model Tuning: Stage 1 (\texttt {degree\ =\ 0})}{71}{paragraph.2.7.3.1}%
+\contentsline {subparagraph}{\numberline {2.7.3.1.1}Pre-configuration: Optimal \texttt {span} Range Determination (\texttt {degree\ =\ 0})}{71}{subparagraph.2.7.3.1.1}%
+\contentsline {subparagraph}{\numberline {2.7.3.1.2}UMGYDE Model Fine-tuning (\texttt {degree\ =\ 0})}{73}{subparagraph.2.7.3.1.2}%
+\contentsline {paragraph}{\numberline {2.7.3.2}UMGYDE Model Tuning: Stage 2 (\texttt {degree\ =\ 1})}{76}{paragraph.2.7.3.2}%
+\contentsline {subparagraph}{\numberline {2.7.3.2.1}Pre-configuration: Optimal \texttt {span} Range Determination (\texttt {degree\ =\ 1})}{76}{subparagraph.2.7.3.2.1}%
+\contentsline {subparagraph}{\numberline {2.7.3.2.2}UMGYDE Model Fine-tuning (\texttt {degree\ =\ 1})}{78}{subparagraph.2.7.3.2.2}%
+\contentsline {paragraph}{\numberline {2.7.3.3}UMGYDE Model Tuning: Stage 3 (\texttt {degree\ =\ 2})}{81}{paragraph.2.7.3.3}%
+\contentsline {subparagraph}{\numberline {2.7.3.3.1}Pre-configuration: Optimal \texttt {span} Range Determination (\texttt {degree\ =\ 2})}{81}{subparagraph.2.7.3.3.1}%
+\contentsline {subparagraph}{\numberline {2.7.3.3.2}UMGYDE Model Fine-tuning (\texttt {degree\ =\ 2})}{83}{subparagraph.2.7.3.3.2}%
+\contentsline {paragraph}{\numberline {2.7.3.4}UMGYDE Model Tuning: Re-training on the \texttt {edx} with the Best Params}{86}{paragraph.2.7.3.4}%
+\contentsline {subsubsection}{\numberline {2.7.4}UMGYDE Model Regularization}{89}{subsubsection.2.7.4}%
+\contentsline {paragraph}{\numberline {2.7.4.1}UMGYDE Model Regularization: \emph {Mathematical Description}}{89}{paragraph.2.7.4.1}%
+\contentsline {paragraph}{\numberline {2.7.4.2}UMGYDE Model Regularization: \emph {Pre-configuration}}{90}{paragraph.2.7.4.2}%
+\contentsline {paragraph}{\numberline {2.7.4.3}UMGYDE Model Regularization: \emph {Fine-tuning}}{92}{paragraph.2.7.4.3}%
+\contentsline {paragraph}{\numberline {2.7.4.4}UMGYDE Model Regularization: \emph {Retraining the Model with the best} \(\lambda \)}{95}{paragraph.2.7.4.4}%
+\contentsline {paragraph}{\numberline {2.7.4.5}UMGYDE Model: Final Holdout Test (Preliminary Assessment)}{97}{paragraph.2.7.4.5}%
+\contentsline {subsection}{\numberline {2.8}UMGYDE Model: Matrix Factorization (MF)}{99}{subsection.2.8}%
+\contentsline {subsubsection}{\numberline {2.8.1}MF: Matematical Description}{99}{subsubsection.2.8.1}%
+\contentsline {subsubsection}{\numberline {2.8.2}MF: Model Building}{100}{subsubsection.2.8.2}%
+\contentsline {paragraph}{\numberline {2.8.2.1}MF: Getting Residuals From the UMGYDE Model Prediction Values}{100}{paragraph.2.8.2.1}%
+\contentsline {paragraph}{\numberline {2.8.2.2}MF: Transforming Input Data to Be Compatible With the \texttt {recosystem} Package}{100}{paragraph.2.8.2.2}%
+\contentsline {paragraph}{\numberline {2.8.2.3}MF: Creating and Tuning the \texttt {Reco} Object}{101}{paragraph.2.8.2.3}%
+\contentsline {paragraph}{\numberline {2.8.2.4}MF: Final Training}{104}{paragraph.2.8.2.4}%
+\contentsline {paragraph}{\numberline {2.8.2.5}MF: Final Holdout Test}{104}{paragraph.2.8.2.5}%
+\contentsline {section}{\numberline {3}Results}{106}{section.3}%
+\contentsline {section}{\numberline {4}Conclusion}{107}{section.4}%
+\contentsline {section}{\numberline {5}Appendix A: Support Functions}{108}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Common Helper Functions}{108}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Logging Functions}{108}{subsubsection.5.1.1}%
+\contentsline {paragraph}{\numberline {5.1.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L3}{open\_logfile} Function}{108}{paragraph.5.1.1.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L5}{Usage}}{108}{subparagraph.5.1.1.1.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.1.2}Arguments}{108}{subparagraph.5.1.1.1.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.1.3}Details}{108}{subparagraph.5.1.1.1.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.1.4}Value}{108}{subparagraph.5.1.1.1.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.1.5}Source Code}{108}{subparagraph.5.1.1.1.5}%
+\contentsline {paragraph}{\numberline {5.1.1.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L11}{print\_start\_date} Function}{109}{paragraph.5.1.1.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.2.1}Usage}{109}{subparagraph.5.1.1.2.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.2.2}Details}{109}{subparagraph.5.1.1.2.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.2.3}Value}{109}{subparagraph.5.1.1.2.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.2.4}Source Code}{109}{subparagraph.5.1.1.2.4}%
+\contentsline {paragraph}{\numberline {5.1.1.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L15}{put\_start\_date} Function}{110}{paragraph.5.1.1.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.3.1}Usage}{110}{subparagraph.5.1.1.3.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.3.2}Details}{110}{subparagraph.5.1.1.3.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.3.3}Value}{110}{subparagraph.5.1.1.3.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.3.4}Source Code}{110}{subparagraph.5.1.1.3.4}%
+\contentsline {paragraph}{\numberline {5.1.1.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L19}{print\_end\_date} Function}{110}{paragraph.5.1.1.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.4.1}Usage}{110}{subparagraph.5.1.1.4.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.4.2}Arguments}{111}{subparagraph.5.1.1.4.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.4.3}Details}{111}{subparagraph.5.1.1.4.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.4.4}Value}{111}{subparagraph.5.1.1.4.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.4.5}Source Code}{111}{subparagraph.5.1.1.4.5}%
+\contentsline {paragraph}{\numberline {5.1.1.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L23}{put\_end\_date} Function}{111}{paragraph.5.1.1.5}%
+\contentsline {subparagraph}{\numberline {5.1.1.5.1}Usage}{111}{subparagraph.5.1.1.5.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.5.2}Arguments}{111}{subparagraph.5.1.1.5.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.5.3}Details}{112}{subparagraph.5.1.1.5.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.5.4}Value}{112}{subparagraph.5.1.1.5.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.5.5}Source Code}{112}{subparagraph.5.1.1.5.5}%
+\contentsline {paragraph}{\numberline {5.1.1.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L28}{print\_log} Function}{112}{paragraph.5.1.1.6}%
+\contentsline {subparagraph}{\numberline {5.1.1.6.1}Usage}{112}{subparagraph.5.1.1.6.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.6.2}Arguments}{112}{subparagraph.5.1.1.6.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.6.3}Details}{112}{subparagraph.5.1.1.6.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.6.4}Value}{112}{subparagraph.5.1.1.6.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.6.5}Source Code}{113}{subparagraph.5.1.1.6.5}%
+\contentsline {paragraph}{\numberline {5.1.1.7}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L31}{put\_log} Function}{113}{paragraph.5.1.1.7}%
+\contentsline {subparagraph}{\numberline {5.1.1.7.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L231}{Usage}}{113}{subparagraph.5.1.1.7.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.7.2}Arguments}{113}{subparagraph.5.1.1.7.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.7.3}Details}{113}{subparagraph.5.1.1.7.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.7.4}Value}{113}{subparagraph.5.1.1.7.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.7.5}Source Code}{113}{subparagraph.5.1.1.7.5}%
+\contentsline {paragraph}{\numberline {5.1.1.8}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L35}{get\_log1} Function}{114}{paragraph.5.1.1.8}%
+\contentsline {subparagraph}{\numberline {5.1.1.8.1}Usage}{114}{subparagraph.5.1.1.8.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.8.2}Arguments}{114}{subparagraph.5.1.1.8.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.8.3}Details}{114}{subparagraph.5.1.1.8.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.8.4}Value}{114}{subparagraph.5.1.1.8.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.8.5}Source Code}{115}{subparagraph.5.1.1.8.5}%
+\contentsline {paragraph}{\numberline {5.1.1.9}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L38}{print\_log1} Function}{116}{paragraph.5.1.1.9}%
+\contentsline {subparagraph}{\numberline {5.1.1.9.1}\hyperref [chunk.main_script.l177m]{Usage}}{116}{subparagraph.5.1.1.9.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.9.2}Arguments}{116}{subparagraph.5.1.1.9.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.9.3}Details}{116}{subparagraph.5.1.1.9.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.9.4}Value}{116}{subparagraph.5.1.1.9.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.9.5}Source Code}{116}{subparagraph.5.1.1.9.5}%
+\contentsline {paragraph}{\numberline {5.1.1.10}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L41}{put\_log1} Function}{118}{paragraph.5.1.1.10}%
+\contentsline {subparagraph}{\numberline {5.1.1.10.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L177}{Usage}}{118}{subparagraph.5.1.1.10.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.10.2}Arguments}{118}{subparagraph.5.1.1.10.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.10.3}Details}{118}{subparagraph.5.1.1.10.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.10.4}Value}{118}{subparagraph.5.1.1.10.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.10.5}Source Code}{118}{subparagraph.5.1.1.10.5}%
+\contentsline {paragraph}{\numberline {5.1.1.11}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L45}{get\_log2} Function}{120}{paragraph.5.1.1.11}%
+\contentsline {subparagraph}{\numberline {5.1.1.11.1}Usage}{120}{subparagraph.5.1.1.11.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.11.2}Arguments}{120}{subparagraph.5.1.1.11.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.11.3}Details}{120}{subparagraph.5.1.1.11.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.11.4}Value}{120}{subparagraph.5.1.1.11.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.11.5}Source Code}{120}{subparagraph.5.1.1.11.5}%
+\contentsline {paragraph}{\numberline {5.1.1.12}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L51}{print\_log2} Function}{122}{paragraph.5.1.1.12}%
+\contentsline {subparagraph}{\numberline {5.1.1.12.1}Usage}{122}{subparagraph.5.1.1.12.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.12.2}Arguments}{122}{subparagraph.5.1.1.12.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.12.3}Details}{122}{subparagraph.5.1.1.12.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.12.4}Value}{122}{subparagraph.5.1.1.12.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.12.5}Source Code}{122}{subparagraph.5.1.1.12.5}%
+\contentsline {paragraph}{\numberline {5.1.1.13}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L54}{put\_log2} Function}{123}{paragraph.5.1.1.13}%
+\contentsline {subparagraph}{\numberline {5.1.1.13.1}Usage}{123}{subparagraph.5.1.1.13.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.13.2}Arguments}{123}{subparagraph.5.1.1.13.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.13.3}Details}{123}{subparagraph.5.1.1.13.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.13.4}Value}{123}{subparagraph.5.1.1.13.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.13.5}Source Code}{123}{subparagraph.5.1.1.13.5}%
+\contentsline {paragraph}{\numberline {5.1.1.14}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L58}{get\_log3} Function}{124}{paragraph.5.1.1.14}%
+\contentsline {subparagraph}{\numberline {5.1.1.14.1}Usage}{124}{subparagraph.5.1.1.14.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.14.2}Arguments}{124}{subparagraph.5.1.1.14.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.14.3}Details}{124}{subparagraph.5.1.1.14.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.14.4}Value}{124}{subparagraph.5.1.1.14.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.14.5}Source Code}{124}{subparagraph.5.1.1.14.5}%
+\contentsline {paragraph}{\numberline {5.1.1.15}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L65}{print\_log3} Function}{126}{paragraph.5.1.1.15}%
+\contentsline {subparagraph}{\numberline {5.1.1.15.1}Usage}{126}{subparagraph.5.1.1.15.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.15.2}Arguments}{126}{subparagraph.5.1.1.15.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.15.3}Details}{126}{subparagraph.5.1.1.15.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.15.4}Value}{126}{subparagraph.5.1.1.15.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.15.5}Source Code}{126}{subparagraph.5.1.1.15.5}%
+\contentsline {paragraph}{\numberline {5.1.1.16}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L68}{put\_log3} Function}{128}{paragraph.5.1.1.16}%
+\contentsline {subparagraph}{\numberline {5.1.1.16.1}Usage}{128}{subparagraph.5.1.1.16.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.16.2}Arguments}{128}{subparagraph.5.1.1.16.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.16.3}Details}{128}{subparagraph.5.1.1.16.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.16.4}Value}{128}{subparagraph.5.1.1.16.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.16.5}Source Code}{128}{subparagraph.5.1.1.16.5}%
+\contentsline {paragraph}{\numberline {5.1.1.17}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L72}{get\_log4} Function}{130}{paragraph.5.1.1.17}%
+\contentsline {subparagraph}{\numberline {5.1.1.17.1}Usage}{130}{subparagraph.5.1.1.17.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.17.2}Arguments}{130}{subparagraph.5.1.1.17.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.17.3}Details}{130}{subparagraph.5.1.1.17.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.17.4}Value}{130}{subparagraph.5.1.1.17.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.17.5}Source Code}{131}{subparagraph.5.1.1.17.5}%
+\contentsline {paragraph}{\numberline {5.1.1.18}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L80}{print\_log4} Function}{132}{paragraph.5.1.1.18}%
+\contentsline {subparagraph}{\numberline {5.1.1.18.1}Usage}{132}{subparagraph.5.1.1.18.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.18.2}Arguments}{132}{subparagraph.5.1.1.18.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.18.3}Details}{132}{subparagraph.5.1.1.18.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.18.4}Value}{132}{subparagraph.5.1.1.18.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.18.5}Source Code}{132}{subparagraph.5.1.1.18.5}%
+\contentsline {paragraph}{\numberline {5.1.1.19}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R\#L83}{put\_log4} Function}{134}{paragraph.5.1.1.19}%
+\contentsline {subparagraph}{\numberline {5.1.1.19.1}Usage}{134}{subparagraph.5.1.1.19.1}%
+\contentsline {subparagraph}{\numberline {5.1.1.19.2}Arguments}{134}{subparagraph.5.1.1.19.2}%
+\contentsline {subparagraph}{\numberline {5.1.1.19.3}Details}{134}{subparagraph.5.1.1.19.3}%
+\contentsline {subparagraph}{\numberline {5.1.1.19.4}Value}{134}{subparagraph.5.1.1.19.4}%
+\contentsline {subparagraph}{\numberline {5.1.1.19.5}Source Code}{135}{subparagraph.5.1.1.19.5}%
+\contentsline {subsubsection}{\numberline {5.1.2}Utility Functions}{136}{subsubsection.5.1.2}%
+\contentsline {paragraph}{\numberline {5.1.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L448}{clamp} Function}{136}{paragraph.5.1.2.1}%
+\contentsline {subparagraph}{\numberline {5.1.2.1.1}Usage}{136}{subparagraph.5.1.2.1.1}%
+\contentsline {subparagraph}{\numberline {5.1.2.1.2}Arguments}{136}{subparagraph.5.1.2.1.2}%
+\contentsline {subparagraph}{\numberline {5.1.2.1.3}Details}{136}{subparagraph.5.1.2.1.3}%
+\contentsline {subparagraph}{\numberline {5.1.2.1.4}Value}{136}{subparagraph.5.1.2.1.4}%
+\contentsline {subparagraph}{\numberline {5.1.2.1.5}Source Code}{136}{subparagraph.5.1.2.1.5}%
+\contentsline {paragraph}{\numberline {5.1.2.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L453}{msg.set\_arg} Function}{137}{paragraph.5.1.2.2}%
+\contentsline {subparagraph}{\numberline {5.1.2.2.1}Usage}{137}{subparagraph.5.1.2.2.1}%
+\contentsline {subparagraph}{\numberline {5.1.2.2.2}Arguments}{137}{subparagraph.5.1.2.2.2}%
+\contentsline {subparagraph}{\numberline {5.1.2.2.3}Details}{137}{subparagraph.5.1.2.2.3}%
+\contentsline {subparagraph}{\numberline {5.1.2.2.4}Value}{138}{subparagraph.5.1.2.2.4}%
+\contentsline {subparagraph}{\numberline {5.1.2.2.5}Source Code}{138}{subparagraph.5.1.2.2.5}%
+\contentsline {paragraph}{\numberline {5.1.2.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L457}{msg.glue} Function}{139}{paragraph.5.1.2.3}%
+\contentsline {subparagraph}{\numberline {5.1.2.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L719}{Usage}}{139}{subparagraph.5.1.2.3.1}%
+\contentsline {subparagraph}{\numberline {5.1.2.3.2}Arguments}{139}{subparagraph.5.1.2.3.2}%
+\contentsline {subparagraph}{\numberline {5.1.2.3.3}Details}{139}{subparagraph.5.1.2.3.3}%
+\contentsline {subparagraph}{\numberline {5.1.2.3.4}Value}{139}{subparagraph.5.1.2.3.4}%
+\contentsline {subparagraph}{\numberline {5.1.2.3.5}Source Code}{139}{subparagraph.5.1.2.3.5}%
+\contentsline {subsubsection}{\numberline {5.1.3}(Root) Mean Squared Error Calculation}{141}{subsubsection.5.1.3}%
+\contentsline {paragraph}{\numberline {5.1.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L5}{mse} Function}{141}{paragraph.5.1.3.1}%
+\contentsline {subparagraph}{\numberline {5.1.3.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L347}{Usage}}{141}{subparagraph.5.1.3.1.1}%
+\contentsline {subparagraph}{\numberline {5.1.3.1.2}Arguments}{141}{subparagraph.5.1.3.1.2}%
+\contentsline {subparagraph}{\numberline {5.1.3.1.3}Source Code}{141}{subparagraph.5.1.3.1.3}%
+\contentsline {paragraph}{\numberline {5.1.3.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L6}{mse\_cv} Function}{142}{paragraph.5.1.3.2}%
+\contentsline {subparagraph}{\numberline {5.1.3.2.1}Usage}{142}{subparagraph.5.1.3.2.1}%
+\contentsline {subparagraph}{\numberline {5.1.3.2.2}Arguments}{142}{subparagraph.5.1.3.2.2}%
+\contentsline {subparagraph}{\numberline {5.1.3.2.3}Source Code}{142}{subparagraph.5.1.3.2.3}%
+\contentsline {paragraph}{\numberline {5.1.3.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L10}{rmse} Function}{143}{paragraph.5.1.3.3}%
+\contentsline {subparagraph}{\numberline {5.1.3.3.1}Usage}{143}{subparagraph.5.1.3.3.1}%
+\contentsline {subparagraph}{\numberline {5.1.3.3.2}Arguments}{143}{subparagraph.5.1.3.3.2}%
+\contentsline {subparagraph}{\numberline {5.1.3.3.3}Source Code}{143}{subparagraph.5.1.3.3.3}%
+\contentsline {paragraph}{\numberline {5.1.3.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L11}{rmse2} Function}{144}{paragraph.5.1.3.4}%
+\contentsline {subparagraph}{\numberline {5.1.3.4.1}Usage}{144}{subparagraph.5.1.3.4.1}%
+\contentsline {subparagraph}{\numberline {5.1.3.4.2}Arguments}{144}{subparagraph.5.1.3.4.2}%
+\contentsline {subparagraph}{\numberline {5.1.3.4.3}Source Code}{144}{subparagraph.5.1.3.4.3}%
+\contentsline {subsubsection}{\numberline {5.1.4}Result RMSEs Tibble Functions}{145}{subsubsection.5.1.4}%
+\contentsline {paragraph}{\numberline {5.1.4.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L16}{CreateRMSEs\_ResultTibble} Function}{145}{paragraph.5.1.4.1}%
+\contentsline {subparagraph}{\numberline {5.1.4.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L87}{Usage}}{145}{subparagraph.5.1.4.1.1}%
+\contentsline {subparagraph}{\numberline {5.1.4.1.2}Details}{145}{subparagraph.5.1.4.1.2}%
+\contentsline {subparagraph}{\numberline {5.1.4.1.3}Value}{145}{subparagraph.5.1.4.1.3}%
+\contentsline {subparagraph}{\numberline {5.1.4.1.4}Source Code}{145}{subparagraph.5.1.4.1.4}%
+\contentsline {paragraph}{\numberline {5.1.4.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L21}{RMSEs.AddRow} Function}{146}{paragraph.5.1.4.2}%
+\contentsline {subparagraph}{\numberline {5.1.4.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L199}{Usage}}{146}{subparagraph.5.1.4.2.1}%
+\contentsline {subparagraph}{\numberline {5.1.4.2.2}Arguments}{146}{subparagraph.5.1.4.2.2}%
+\contentsline {subparagraph}{\numberline {5.1.4.2.3}Details}{146}{subparagraph.5.1.4.2.3}%
+\contentsline {subparagraph}{\numberline {5.1.4.2.4}Value}{146}{subparagraph.5.1.4.2.4}%
+\contentsline {subparagraph}{\numberline {5.1.4.2.5}Source Code}{146}{subparagraph.5.1.4.2.5}%
+\contentsline {paragraph}{\numberline {5.1.4.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L32}{RMSEs.AddDiffColumn} Function}{148}{paragraph.5.1.4.3}%
+\contentsline {subparagraph}{\numberline {5.1.4.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2389}{Usage}}{148}{subparagraph.5.1.4.3.1}%
+\contentsline {subparagraph}{\numberline {5.1.4.3.2}Arguments}{148}{subparagraph.5.1.4.3.2}%
+\contentsline {subparagraph}{\numberline {5.1.4.3.3}Details}{148}{subparagraph.5.1.4.3.3}%
+\contentsline {subparagraph}{\numberline {5.1.4.3.4}Value}{148}{subparagraph.5.1.4.3.4}%
+\contentsline {subparagraph}{\numberline {5.1.4.3.5}Source Code}{148}{subparagraph.5.1.4.3.5}%
+\contentsline {paragraph}{\numberline {5.1.4.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L66}{RSME.tibble.col\_width} Function}{149}{paragraph.5.1.4.4}%
+\contentsline {subparagraph}{\numberline {5.1.4.4.1}Usage}{149}{subparagraph.5.1.4.4.1}%
+\contentsline {subparagraph}{\numberline {5.1.4.4.2}Arguments}{149}{subparagraph.5.1.4.4.2}%
+\contentsline {subparagraph}{\numberline {5.1.4.4.3}Details}{149}{subparagraph.5.1.4.4.3}%
+\contentsline {subparagraph}{\numberline {5.1.4.4.4}Value}{149}{subparagraph.5.1.4.4.4}%
+\contentsline {subparagraph}{\numberline {5.1.4.4.5}Source Code}{149}{subparagraph.5.1.4.4.5}%
+\contentsline {paragraph}{\numberline {5.1.4.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L43}{RMSE\_kable} Function}{151}{paragraph.5.1.4.5}%
+\contentsline {subparagraph}{\numberline {5.1.4.5.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L205}{Usage}}{151}{subparagraph.5.1.4.5.1}%
+\contentsline {subparagraph}{\numberline {5.1.4.5.2}Arguments}{151}{subparagraph.5.1.4.5.2}%
+\contentsline {subparagraph}{\numberline {5.1.4.5.3}Details}{151}{subparagraph.5.1.4.5.3}%
+\contentsline {subparagraph}{\numberline {5.1.4.5.4}Value}{151}{subparagraph.5.1.4.5.4}%
+\contentsline {subparagraph}{\numberline {5.1.4.5.5}Source Code}{151}{subparagraph.5.1.4.5.5}%
+\contentsline {paragraph}{\numberline {5.1.4.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L54}{RMSE.Total\_kable} Function}{153}{paragraph.5.1.4.6}%
+\contentsline {subparagraph}{\numberline {5.1.4.6.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2390}{Usage}}{153}{subparagraph.5.1.4.6.1}%
+\contentsline {subparagraph}{\numberline {5.1.4.6.2}Arguments}{153}{subparagraph.5.1.4.6.2}%
+\contentsline {subparagraph}{\numberline {5.1.4.6.3}Details}{153}{subparagraph.5.1.4.6.3}%
+\contentsline {subparagraph}{\numberline {5.1.4.6.4}Value}{153}{subparagraph.5.1.4.6.4}%
+\contentsline {subparagraph}{\numberline {5.1.4.6.5}Source Code}{154}{subparagraph.5.1.4.6.5}%
+\contentsline {subsubsection}{\numberline {5.1.5}Model Tuning Utils}{155}{subsubsection.5.1.5}%
+\contentsline {paragraph}{\numberline {5.1.5.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L70}{mean\_reg} Function}{155}{paragraph.5.1.5.1}%
+\contentsline {subparagraph}{\numberline {5.1.5.1.1}Usage}{155}{subparagraph.5.1.5.1.1}%
+\contentsline {subparagraph}{\numberline {5.1.5.1.2}Arguments}{155}{subparagraph.5.1.5.1.2}%
+\contentsline {subparagraph}{\numberline {5.1.5.1.3}Details}{156}{subparagraph.5.1.5.1.3}%
+\contentsline {subparagraph}{\numberline {5.1.5.1.4}Value}{156}{subparagraph.5.1.5.1.4}%
+\contentsline {subparagraph}{\numberline {5.1.5.1.5}Source Code}{156}{subparagraph.5.1.5.1.5}%
+\contentsline {paragraph}{\numberline {5.1.5.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L81}{get\_fine\_tune.param.endpoints.idx} Function}{157}{paragraph.5.1.5.2}%
+\contentsline {subparagraph}{\numberline {5.1.5.2.1}Usage}{157}{subparagraph.5.1.5.2.1}%
+\contentsline {subparagraph}{\numberline {5.1.5.2.2}Arguments}{158}{subparagraph.5.1.5.2.2}%
+\contentsline {subparagraph}{\numberline {5.1.5.2.3}Value}{158}{subparagraph.5.1.5.2.3}%
+\contentsline {subparagraph}{\numberline {5.1.5.2.4}Source Code}{159}{subparagraph.5.1.5.2.4}%
+\contentsline {paragraph}{\numberline {5.1.5.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L109}{get\_fine\_tune.param.endpoints} Function}{160}{paragraph.5.1.5.3}%
+\contentsline {subparagraph}{\numberline {5.1.5.3.1}Usage}{160}{subparagraph.5.1.5.3.1}%
+\contentsline {subparagraph}{\numberline {5.1.5.3.2}Arguments}{161}{subparagraph.5.1.5.3.2}%
+\contentsline {subparagraph}{\numberline {5.1.5.3.3}Details}{161}{subparagraph.5.1.5.3.3}%
+\contentsline {subparagraph}{\numberline {5.1.5.3.4}Value}{161}{subparagraph.5.1.5.3.4}%
+\contentsline {subparagraph}{\numberline {5.1.5.3.5}Source Code}{162}{subparagraph.5.1.5.3.5}%
+\contentsline {paragraph}{\numberline {5.1.5.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L121}{get\_best\_param.result} Function}{163}{paragraph.5.1.5.4}%
+\contentsline {subparagraph}{\numberline {5.1.5.4.1}Usage}{163}{subparagraph.5.1.5.4.1}%
+\contentsline {subparagraph}{\numberline {5.1.5.4.2}Arguments}{163}{subparagraph.5.1.5.4.2}%
+\contentsline {subparagraph}{\numberline {5.1.5.4.3}Details}{163}{subparagraph.5.1.5.4.3}%
+\contentsline {subparagraph}{\numberline {5.1.5.4.4}Value}{163}{subparagraph.5.1.5.4.4}%
+\contentsline {subparagraph}{\numberline {5.1.5.4.5}Source Code}{163}{subparagraph.5.1.5.4.5}%
+\contentsline {paragraph}{\numberline {5.1.5.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L126}{tune.model\_param} Function}{165}{paragraph.5.1.5.5}%
+\contentsline {subparagraph}{\numberline {5.1.5.5.1}Signature}{165}{subparagraph.5.1.5.5.1}%
+\contentsline {subparagraph}{\numberline {5.1.5.5.2}Arguments}{165}{subparagraph.5.1.5.5.2}%
+\contentsline {subparagraph}{\numberline {5.1.5.5.3}Details}{165}{subparagraph.5.1.5.5.3}%
+\contentsline {subparagraph}{\numberline {5.1.5.5.4}Value}{166}{subparagraph.5.1.5.5.4}%
+\contentsline {subparagraph}{\numberline {5.1.5.5.5}Source Code}{166}{subparagraph.5.1.5.5.5}%
+\contentsline {paragraph}{\numberline {5.1.5.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R\#L208}{model.tune.param\_range} Function}{168}{paragraph.5.1.5.6}%
+\contentsline {subparagraph}{\numberline {5.1.5.6.1}Signature}{168}{subparagraph.5.1.5.6.1}%
+\contentsline {subparagraph}{\numberline {5.1.5.6.2}Arguments}{168}{subparagraph.5.1.5.6.2}%
+\contentsline {subparagraph}{\numberline {5.1.5.6.3}\textbf {Details}}{170}{subparagraph.5.1.5.6.3}%
+\contentsline {subparagraph}{\numberline {5.1.5.6.4}\textbf {Value}}{176}{subparagraph.5.1.5.6.4}%
+\contentsline {subparagraph}{\numberline {5.1.5.6.5}Source Code}{176}{subparagraph.5.1.5.6.5}%
+\contentsline {subsection}{\numberline {5.2}Data Helper Functions}{177}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Initializing Input Datasets}{177}{subsubsection.5.2.1}%
+\contentsline {paragraph}{\numberline {5.2.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L89}{make\_source\_datasets} Function}{177}{paragraph.5.2.1.1}%
+\contentsline {subparagraph}{\numberline {5.2.1.1.1}Usage}{177}{subparagraph.5.2.1.1.1}%
+\contentsline {subparagraph}{\numberline {5.2.1.1.2}Details}{177}{subparagraph.5.2.1.1.2}%
+\contentsline {subparagraph}{\numberline {5.2.1.1.3}Value}{178}{subparagraph.5.2.1.1.3}%
+\contentsline {subparagraph}{\numberline {5.2.1.1.4}Source Code}{178}{subparagraph.5.2.1.1.4}%
+\contentsline {paragraph}{\numberline {5.2.1.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L211}{init\_source\_datasets} Function}{181}{paragraph.5.2.1.2}%
+\contentsline {subparagraph}{\numberline {5.2.1.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/_startup/1.init.R\#L132}{Usage}}{181}{subparagraph.5.2.1.2.1}%
+\contentsline {subparagraph}{\numberline {5.2.1.2.2}Details}{181}{subparagraph.5.2.1.2.2}%
+\contentsline {subparagraph}{\numberline {5.2.1.2.3}Value}{181}{subparagraph.5.2.1.2.3}%
+\contentsline {subparagraph}{\numberline {5.2.1.2.4}Source Code}{181}{subparagraph.5.2.1.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.2}Data Processing Functions}{183}{subsubsection.5.2.2}%
+\contentsline {paragraph}{\numberline {5.2.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L4}{load\_movielens\_data\_from\_file} Function}{183}{paragraph.5.2.2.1}%
+\contentsline {subparagraph}{\numberline {5.2.2.1.1}Usage}{183}{subparagraph.5.2.2.1.1}%
+\contentsline {subparagraph}{\numberline {5.2.2.1.2}Arguments}{183}{subparagraph.5.2.2.1.2}%
+\contentsline {subparagraph}{\numberline {5.2.2.1.3}Details}{183}{subparagraph.5.2.2.1.3}%
+\contentsline {subparagraph}{\numberline {5.2.2.1.4}Value}{184}{subparagraph.5.2.2.1.4}%
+\contentsline {subparagraph}{\numberline {5.2.2.1.5}Source Code}{184}{subparagraph.5.2.2.1.5}%
+\contentsline {paragraph}{\numberline {5.2.2.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L14}{splitByUser} Function}{185}{paragraph.5.2.2.2}%
+\contentsline {subparagraph}{\numberline {5.2.2.2.1}Usage}{185}{subparagraph.5.2.2.2.1}%
+\contentsline {subparagraph}{\numberline {5.2.2.2.2}Arguments}{185}{subparagraph.5.2.2.2.2}%
+\contentsline {subparagraph}{\numberline {5.2.2.2.3}Details}{185}{subparagraph.5.2.2.2.3}%
+\contentsline {subparagraph}{\numberline {5.2.2.2.4}Value}{185}{subparagraph.5.2.2.2.4}%
+\contentsline {subparagraph}{\numberline {5.2.2.2.5}Source Code}{185}{subparagraph.5.2.2.2.5}%
+\contentsline {paragraph}{\numberline {5.2.2.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L17}{sample\_train\_validation\_sets} Function}{187}{paragraph.5.2.2.3}%
+\contentsline {subparagraph}{\numberline {5.2.2.3.1}Usage}{187}{subparagraph.5.2.2.3.1}%
+\contentsline {subparagraph}{\numberline {5.2.2.3.2}Arguments}{187}{subparagraph.5.2.2.3.2}%
+\contentsline {subparagraph}{\numberline {5.2.2.3.3}Details}{187}{subparagraph.5.2.2.3.3}%
+\contentsline {subparagraph}{\numberline {5.2.2.3.4}Value}{187}{subparagraph.5.2.2.3.4}%
+\contentsline {subparagraph}{\numberline {5.2.2.3.5}Source Code}{188}{subparagraph.5.2.2.3.5}%
+\contentsline {paragraph}{\numberline {5.2.2.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L73}{splitGenreRows} Function}{189}{paragraph.5.2.2.4}%
+\contentsline {subparagraph}{\numberline {5.2.2.4.1}Usage}{189}{subparagraph.5.2.2.4.1}%
+\contentsline {subparagraph}{\numberline {5.2.2.4.2}Arguments}{189}{subparagraph.5.2.2.4.2}%
+\contentsline {subparagraph}{\numberline {5.2.2.4.3}Details}{189}{subparagraph.5.2.2.4.3}%
+\contentsline {subparagraph}{\numberline {5.2.2.4.4}Value}{189}{subparagraph.5.2.2.4.4}%
+\contentsline {subparagraph}{\numberline {5.2.2.4.5}Source Code}{189}{subparagraph.5.2.2.4.5}%
+\contentsline {subsubsection}{\numberline {5.2.3}Models Training Functions}{190}{subsubsection.5.2.3}%
+\contentsline {paragraph}{\numberline {5.2.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L425}{union\_cv\_results} Function}{190}{paragraph.5.2.3.1}%
+\contentsline {subparagraph}{\numberline {5.2.3.1.1}Usage}{190}{subparagraph.5.2.3.1.1}%
+\contentsline {subparagraph}{\numberline {5.2.3.1.2}Arguments}{190}{subparagraph.5.2.3.1.2}%
+\contentsline {subparagraph}{\numberline {5.2.3.1.3}Details}{190}{subparagraph.5.2.3.1.3}%
+\contentsline {subparagraph}{\numberline {5.2.3.1.4}Value}{190}{subparagraph.5.2.3.1.4}%
+\contentsline {subparagraph}{\numberline {5.2.3.1.5}Source Code}{191}{subparagraph.5.2.3.1.5}%
+\contentsline {paragraph}{\numberline {5.2.3.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L442}{get\_best\_param.result} Function}{191}{paragraph.5.2.3.2}%
+\contentsline {subparagraph}{\numberline {5.2.3.2.1}Usage}{191}{subparagraph.5.2.3.2.1}%
+\contentsline {subparagraph}{\numberline {5.2.3.2.2}Arguments}{191}{subparagraph.5.2.3.2.2}%
+\contentsline {subparagraph}{\numberline {5.2.3.2.3}Details}{191}{subparagraph.5.2.3.2.3}%
+\contentsline {subparagraph}{\numberline {5.2.3.2.4}Value}{191}{subparagraph.5.2.3.2.4}%
+\contentsline {subparagraph}{\numberline {5.2.3.2.5}Source Code}{192}{subparagraph.5.2.3.2.5}%
+\contentsline {subsubsection}{\numberline {5.2.4}Data Visualization Functions}{192}{subsubsection.5.2.4}%
+\contentsline {paragraph}{\numberline {5.2.4.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L580}{data.plot} Function}{192}{paragraph.5.2.4.1}%
+\contentsline {subparagraph}{\numberline {5.2.4.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1838}{Usage}}{192}{subparagraph.5.2.4.1.1}%
+\contentsline {subparagraph}{\numberline {5.2.4.1.2}Arguments}{192}{subparagraph.5.2.4.1.2}%
+\contentsline {subparagraph}{\numberline {5.2.4.1.3}Details}{193}{subparagraph.5.2.4.1.3}%
+\contentsline {subparagraph}{\numberline {5.2.4.1.4}Source Code}{193}{subparagraph.5.2.4.1.4}%
+\contentsline {paragraph}{\numberline {5.2.4.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L481}{data.plot.left.n} Function}{194}{paragraph.5.2.4.2}%
+\contentsline {subparagraph}{\numberline {5.2.4.2.1}Usage}{194}{subparagraph.5.2.4.2.1}%
+\contentsline {subparagraph}{\numberline {5.2.4.2.2}Arguments}{194}{subparagraph.5.2.4.2.2}%
+\contentsline {subparagraph}{\numberline {5.2.4.2.3}Details}{195}{subparagraph.5.2.4.2.3}%
+\contentsline {subparagraph}{\numberline {5.2.4.2.4}Source Code}{195}{subparagraph.5.2.4.2.4}%
+\contentsline {paragraph}{\numberline {5.2.4.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R\#L536}{data.plot.left\_detailed} Function}{196}{paragraph.5.2.4.3}%
+\contentsline {subparagraph}{\numberline {5.2.4.3.1}Usage}{196}{subparagraph.5.2.4.3.1}%
+\contentsline {subparagraph}{\numberline {5.2.4.3.2}Arguments}{196}{subparagraph.5.2.4.3.2}%
+\contentsline {subparagraph}{\numberline {5.2.4.3.3}Details}{197}{subparagraph.5.2.4.3.3}%
+\contentsline {subparagraph}{\numberline {5.2.4.3.4}Source Code}{197}{subparagraph.5.2.4.3.4}%
+\contentsline {subsection}{\numberline {5.3}Models Training: Support Functions}{199}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}OMR Model: Helper Functions}{199}{subsubsection.5.3.1}%
+\contentsline {paragraph}{\numberline {5.3.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R\#L2}{naive\_model\_MSEs} Function}{199}{paragraph.5.3.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.1.1.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L106}{Usage}}{199}{subparagraph.5.3.1.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.1.1.2}Arguments}{199}{subparagraph.5.3.1.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.1.1.3}Details}{199}{subparagraph.5.3.1.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.1.1.4}Value}{199}{subparagraph.5.3.1.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.1.1.5}Source Code}{200}{subparagraph.5.3.1.1.5}%
+\contentsline {paragraph}{\numberline {5.3.1.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/OMR-model.functions.R\#L7}{naive\_model\_RMSE} Function}{201}{paragraph.5.3.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.1.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L155}{Usage}}{201}{subparagraph.5.3.1.2.1}%
+\contentsline {subparagraph}{\numberline {5.3.1.2.2}Arguments}{201}{subparagraph.5.3.1.2.2}%
+\contentsline {subparagraph}{\numberline {5.3.1.2.3}Details}{201}{subparagraph.5.3.1.2.3}%
+\contentsline {subparagraph}{\numberline {5.3.1.2.4}Value}{201}{subparagraph.5.3.1.2.4}%
+\contentsline {subparagraph}{\numberline {5.3.1.2.5}Source Code}{201}{subparagraph.5.3.1.2.5}%
+\contentsline {subsubsection}{\numberline {5.3.2}UME Model: Utility Functions}{202}{subsubsection.5.3.2}%
+\contentsline {paragraph}{\numberline {5.3.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L4}{train\_user\_movie\_effect} Function}{202}{paragraph.5.3.2.1}%
+\contentsline {subparagraph}{\numberline {5.3.2.1.1}Usage}{202}{subparagraph.5.3.2.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.2.1.2}Arguments}{202}{subparagraph.5.3.2.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.2.1.3}Details}{202}{subparagraph.5.3.2.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.2.1.4}Value}{202}{subparagraph.5.3.2.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.2.1.5}Source Code}{203}{subparagraph.5.3.2.1.5}%
+\contentsline {paragraph}{\numberline {5.3.2.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L19}{train\_user\_movie\_effect.cv} Function}{204}{paragraph.5.3.2.2}%
+\contentsline {subparagraph}{\numberline {5.3.2.2.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L472}{Usage}}{204}{subparagraph.5.3.2.2.1}%
+\contentsline {subparagraph}{\numberline {5.3.2.2.2}Arguments}{204}{subparagraph.5.3.2.2.2}%
+\contentsline {subparagraph}{\numberline {5.3.2.2.3}Details}{204}{subparagraph.5.3.2.2.3}%
+\contentsline {subparagraph}{\numberline {5.3.2.2.4}Value}{204}{subparagraph.5.3.2.2.4}%
+\contentsline {subparagraph}{\numberline {5.3.2.2.5}Source Code}{205}{subparagraph.5.3.2.2.5}%
+\contentsline {paragraph}{\numberline {5.3.2.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L53}{calc\_user\_movie\_effect\_MSE} Function}{206}{paragraph.5.3.2.3}%
+\contentsline {subparagraph}{\numberline {5.3.2.3.1}Usage}{206}{subparagraph.5.3.2.3.1}%
+\contentsline {subparagraph}{\numberline {5.3.2.3.2}Arguments}{206}{subparagraph.5.3.2.3.2}%
+\contentsline {subparagraph}{\numberline {5.3.2.3.3}Details}{206}{subparagraph.5.3.2.3.3}%
+\contentsline {subparagraph}{\numberline {5.3.2.3.4}Value}{206}{subparagraph.5.3.2.3.4}%
+\contentsline {subparagraph}{\numberline {5.3.2.3.5}Source Code}{207}{subparagraph.5.3.2.3.5}%
+\contentsline {paragraph}{\numberline {5.3.2.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L67}{calc\_user\_movie\_effect\_MSE.cv} Function}{208}{paragraph.5.3.2.4}%
+\contentsline {subparagraph}{\numberline {5.3.2.4.1}Usage}{208}{subparagraph.5.3.2.4.1}%
+\contentsline {subparagraph}{\numberline {5.3.2.4.2}Arguments}{208}{subparagraph.5.3.2.4.2}%
+\contentsline {subparagraph}{\numberline {5.3.2.4.3}Details}{208}{subparagraph.5.3.2.4.3}%
+\contentsline {subparagraph}{\numberline {5.3.2.4.4}Value}{208}{subparagraph.5.3.2.4.4}%
+\contentsline {subparagraph}{\numberline {5.3.2.4.5}Source Code}{209}{subparagraph.5.3.2.4.5}%
+\contentsline {paragraph}{\numberline {5.3.2.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L82}{calc\_user\_movie\_effect\_RMSE.cv} Function}{210}{paragraph.5.3.2.5}%
+\contentsline {subparagraph}{\numberline {5.3.2.5.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L513}{Usage}}{210}{subparagraph.5.3.2.5.1}%
+\contentsline {subparagraph}{\numberline {5.3.2.5.2}Arguments}{210}{subparagraph.5.3.2.5.2}%
+\contentsline {subparagraph}{\numberline {5.3.2.5.3}Details}{210}{subparagraph.5.3.2.5.3}%
+\contentsline {subparagraph}{\numberline {5.3.2.5.4}Value}{210}{subparagraph.5.3.2.5.4}%
+\contentsline {subparagraph}{\numberline {5.3.2.5.5}Source Code}{211}{subparagraph.5.3.2.5.5}%
+\contentsline {subsubsection}{\numberline {5.3.3}UME Model: Regularization}{212}{subsubsection.5.3.3}%
+\contentsline {paragraph}{\numberline {5.3.3.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R\#L91}{regularize.test\_lambda.UM\_effect.cv} Function}{212}{paragraph.5.3.3.1}%
+\contentsline {subparagraph}{\numberline {5.3.3.1.1}Usage}{212}{subparagraph.5.3.3.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.3.1.2}Arguments}{212}{subparagraph.5.3.3.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.3.1.3}Details}{212}{subparagraph.5.3.3.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.3.1.4}Value}{213}{subparagraph.5.3.3.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.3.1.5}Source Code}{213}{subparagraph.5.3.3.1.5}%
+\contentsline {subsubsection}{\numberline {5.3.4}UMGE Model: Utility Functions}{214}{subsubsection.5.3.4}%
+\contentsline {paragraph}{\numberline {5.3.4.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L42}{train\_user\_movie\_genre\_effect} Function}{214}{paragraph.5.3.4.1}%
+\contentsline {subparagraph}{\numberline {5.3.4.1.1}Usage}{214}{subparagraph.5.3.4.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.4.1.2}Arguments}{214}{subparagraph.5.3.4.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.4.1.3}Details}{214}{subparagraph.5.3.4.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.4.1.4}Value}{214}{subparagraph.5.3.4.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.4.1.5}Source Code}{215}{subparagraph.5.3.4.1.5}%
+\contentsline {paragraph}{\numberline {5.3.4.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L61}{train\_user\_movie\_genre\_effect.cv} Function}{216}{paragraph.5.3.4.2}%
+\contentsline {subparagraph}{\numberline {5.3.4.2.1}Usage}{216}{subparagraph.5.3.4.2.1}%
+\contentsline {subparagraph}{\numberline {5.3.4.2.2}Arguments}{216}{subparagraph.5.3.4.2.2}%
+\contentsline {subparagraph}{\numberline {5.3.4.2.3}Details}{216}{subparagraph.5.3.4.2.3}%
+\contentsline {subparagraph}{\numberline {5.3.4.2.4}Value}{216}{subparagraph.5.3.4.2.4}%
+\contentsline {subparagraph}{\numberline {5.3.4.2.5}Source Code}{216}{subparagraph.5.3.4.2.5}%
+\contentsline {paragraph}{\numberline {5.3.4.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L112}{calc\_user\_movie\_genre\_effect\_MSE} Function}{218}{paragraph.5.3.4.3}%
+\contentsline {subparagraph}{\numberline {5.3.4.3.1}Usage}{218}{subparagraph.5.3.4.3.1}%
+\contentsline {subparagraph}{\numberline {5.3.4.3.2}Arguments}{218}{subparagraph.5.3.4.3.2}%
+\contentsline {subparagraph}{\numberline {5.3.4.3.3}Details}{218}{subparagraph.5.3.4.3.3}%
+\contentsline {subparagraph}{\numberline {5.3.4.3.4}Value}{218}{subparagraph.5.3.4.3.4}%
+\contentsline {subparagraph}{\numberline {5.3.4.3.5}Source Code}{218}{subparagraph.5.3.4.3.5}%
+\contentsline {paragraph}{\numberline {5.3.4.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L124}{calc\_user\_movie\_genre\_effect\_MSE.cv} Function}{219}{paragraph.5.3.4.4}%
+\contentsline {subparagraph}{\numberline {5.3.4.4.1}Usage}{219}{subparagraph.5.3.4.4.1}%
+\contentsline {subparagraph}{\numberline {5.3.4.4.2}Arguments}{219}{subparagraph.5.3.4.4.2}%
+\contentsline {subparagraph}{\numberline {5.3.4.4.3}Details}{219}{subparagraph.5.3.4.4.3}%
+\contentsline {subparagraph}{\numberline {5.3.4.4.4}Value}{219}{subparagraph.5.3.4.4.4}%
+\contentsline {subparagraph}{\numberline {5.3.4.4.5}Source Code}{219}{subparagraph.5.3.4.4.5}%
+\contentsline {paragraph}{\numberline {5.3.4.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L138}{calc\_user\_movie\_genre\_effect\_RMSE.cv} Function}{221}{paragraph.5.3.4.5}%
+\contentsline {subparagraph}{\numberline {5.3.4.5.1}Usage}{221}{subparagraph.5.3.4.5.1}%
+\contentsline {subparagraph}{\numberline {5.3.4.5.2}Arguments}{221}{subparagraph.5.3.4.5.2}%
+\contentsline {subparagraph}{\numberline {5.3.4.5.3}Details}{221}{subparagraph.5.3.4.5.3}%
+\contentsline {subparagraph}{\numberline {5.3.4.5.4}Value}{221}{subparagraph.5.3.4.5.4}%
+\contentsline {subparagraph}{\numberline {5.3.4.5.5}Source Code}{221}{subparagraph.5.3.4.5.5}%
+\contentsline {subsubsection}{\numberline {5.3.5}UMGE Model: Regularization}{222}{subsubsection.5.3.5}%
+\contentsline {paragraph}{\numberline {5.3.5.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R\#L148}{regularize.test\_lambda.UMG\_effect.cv} Function}{222}{paragraph.5.3.5.1}%
+\contentsline {subparagraph}{\numberline {5.3.5.1.1}Usage}{222}{subparagraph.5.3.5.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.5.1.2}Arguments}{222}{subparagraph.5.3.5.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.5.1.3}Details}{222}{subparagraph.5.3.5.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.5.1.4}Value}{223}{subparagraph.5.3.5.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.5.1.5}Source Code}{223}{subparagraph.5.3.5.1.5}%
+\contentsline {subsubsection}{\numberline {5.3.6}UMGYE Model: Utility Functions}{224}{subsubsection.5.3.6}%
+\contentsline {paragraph}{\numberline {5.3.6.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L4}{calc\_date\_general\_effect} Function}{224}{paragraph.5.3.6.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.1.1}Usage}{224}{subparagraph.5.3.6.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.1.2}Arguments}{224}{subparagraph.5.3.6.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.1.3}Details}{224}{subparagraph.5.3.6.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.1.4}Value}{224}{subparagraph.5.3.6.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.1.5}Source Code}{225}{subparagraph.5.3.6.1.5}%
+\contentsline {paragraph}{\numberline {5.3.6.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L32}{calc\_date\_general\_effect.cv} Function}{226}{paragraph.5.3.6.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.2.1}Usage}{226}{subparagraph.5.3.6.2.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.2.2}Arguments}{226}{subparagraph.5.3.6.2.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.2.3}Details}{226}{subparagraph.5.3.6.2.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.2.4}Value}{226}{subparagraph.5.3.6.2.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.2.5}Source Code}{226}{subparagraph.5.3.6.2.5}%
+\contentsline {paragraph}{\numberline {5.3.6.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L71}{calc\_UMGY\_effect} Function}{228}{paragraph.5.3.6.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.3.1}Usage}{228}{subparagraph.5.3.6.3.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.3.2}Arguments}{228}{subparagraph.5.3.6.3.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.3.3}Details}{228}{subparagraph.5.3.6.3.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.3.4}Value}{228}{subparagraph.5.3.6.3.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.3.5}Source Code}{228}{subparagraph.5.3.6.3.5}%
+\contentsline {paragraph}{\numberline {5.3.6.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L76}{train\_UMGY\_effect} Function}{230}{paragraph.5.3.6.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.4.1}Usage}{230}{subparagraph.5.3.6.4.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.4.2}Arguments}{230}{subparagraph.5.3.6.4.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.4.3}Details}{230}{subparagraph.5.3.6.4.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.4.4}Value}{230}{subparagraph.5.3.6.4.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.4.5}Source Code}{230}{subparagraph.5.3.6.4.5}%
+\contentsline {paragraph}{\numberline {5.3.6.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L86}{train\_UMGY\_effect.cv} Function}{232}{paragraph.5.3.6.5}%
+\contentsline {subparagraph}{\numberline {5.3.6.5.1}Usage}{232}{subparagraph.5.3.6.5.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.5.2}Arguments}{232}{subparagraph.5.3.6.5.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.5.3}Details}{232}{subparagraph.5.3.6.5.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.5.4}Value}{232}{subparagraph.5.3.6.5.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.5.5}Source Code}{233}{subparagraph.5.3.6.5.5}%
+\contentsline {paragraph}{\numberline {5.3.6.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L94}{calc\_UMGY\_effect\_MSE} Function}{234}{paragraph.5.3.6.6}%
+\contentsline {subparagraph}{\numberline {5.3.6.6.1}Usage}{234}{subparagraph.5.3.6.6.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.6.2}Arguments}{234}{subparagraph.5.3.6.6.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.6.3}Details}{234}{subparagraph.5.3.6.6.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.6.4}Value}{234}{subparagraph.5.3.6.6.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.6.5}Source Code}{234}{subparagraph.5.3.6.6.5}%
+\contentsline {paragraph}{\numberline {5.3.6.7}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L104}{calc\_UMGY\_effect\_MSE.cv} Function}{236}{paragraph.5.3.6.7}%
+\contentsline {subparagraph}{\numberline {5.3.6.7.1}Usage}{236}{subparagraph.5.3.6.7.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.7.2}Arguments}{236}{subparagraph.5.3.6.7.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.7.3}Details}{236}{subparagraph.5.3.6.7.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.7.4}Value}{236}{subparagraph.5.3.6.7.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.7.5}Source Code}{237}{subparagraph.5.3.6.7.5}%
+\contentsline {paragraph}{\numberline {5.3.6.8}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L120}{calc\_UMGY\_effect\_RMSE.cv} Function}{238}{paragraph.5.3.6.8}%
+\contentsline {subparagraph}{\numberline {5.3.6.8.1}Usage}{238}{subparagraph.5.3.6.8.1}%
+\contentsline {subparagraph}{\numberline {5.3.6.8.2}Arguments}{238}{subparagraph.5.3.6.8.2}%
+\contentsline {subparagraph}{\numberline {5.3.6.8.3}Details}{238}{subparagraph.5.3.6.8.3}%
+\contentsline {subparagraph}{\numberline {5.3.6.8.4}Value}{238}{subparagraph.5.3.6.8.4}%
+\contentsline {subparagraph}{\numberline {5.3.6.8.5}Source Code}{238}{subparagraph.5.3.6.8.5}%
+\contentsline {subsubsection}{\numberline {5.3.7}UMGYE Model: Regularization}{240}{subsubsection.5.3.7}%
+\contentsline {paragraph}{\numberline {5.3.7.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R\#L130}{regularize.test\_lambda.UMGY\_effect.cv} Function}{240}{paragraph.5.3.7.1}%
+\contentsline {subparagraph}{\numberline {5.3.7.1.1}Usage}{240}{subparagraph.5.3.7.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.7.1.2}Arguments}{240}{subparagraph.5.3.7.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.7.1.3}Details}{240}{subparagraph.5.3.7.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.7.1.4}Value}{241}{subparagraph.5.3.7.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.7.1.5}Source Code}{241}{subparagraph.5.3.7.1.5}%
+\contentsline {subsubsection}{\numberline {5.3.8}UMGYDE Model: Utility Functions}{242}{subsubsection.5.3.8}%
+\contentsline {paragraph}{\numberline {5.3.8.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L4}{calc\_day\_general\_effect} Function}{242}{paragraph.5.3.8.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.1.1}Usage}{242}{subparagraph.5.3.8.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.1.2}Arguments}{242}{subparagraph.5.3.8.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.1.3}Details}{242}{subparagraph.5.3.8.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.1.4}Value}{243}{subparagraph.5.3.8.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.1.5}Source Code}{243}{subparagraph.5.3.8.1.5}%
+\contentsline {paragraph}{\numberline {5.3.8.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L33}{calc\_day\_general\_effect.cv} Function}{244}{paragraph.5.3.8.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.2.1}Usage}{244}{subparagraph.5.3.8.2.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.2.2}Arguments}{244}{subparagraph.5.3.8.2.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.2.3}Details}{244}{subparagraph.5.3.8.2.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.2.4}Value}{244}{subparagraph.5.3.8.2.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.2.5}Source Code}{244}{subparagraph.5.3.8.2.5}%
+\contentsline {paragraph}{\numberline {5.3.8.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L71}{loess\_de} Function}{245}{paragraph.5.3.8.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.3.1}Usage}{245}{subparagraph.5.3.8.3.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.3.2}Arguments}{245}{subparagraph.5.3.8.3.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.3.3}Details}{246}{subparagraph.5.3.8.3.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.3.4}Value}{246}{subparagraph.5.3.8.3.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.3.5}Source Code}{246}{subparagraph.5.3.8.3.5}%
+\contentsline {paragraph}{\numberline {5.3.8.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L76}{calc\_UMGY\_SmoothedDay\_effect} Function}{247}{paragraph.5.3.8.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.4.1}Usage}{247}{subparagraph.5.3.8.4.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.4.2}Arguments}{247}{subparagraph.5.3.8.4.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.4.3}Details}{247}{subparagraph.5.3.8.4.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.4.4}Value}{247}{subparagraph.5.3.8.4.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.4.5}Source Code}{248}{subparagraph.5.3.8.4.5}%
+\contentsline {paragraph}{\numberline {5.3.8.5}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L99}{train\_UMGY\_SmoothedDay\_effect} Function}{249}{paragraph.5.3.8.5}%
+\contentsline {subparagraph}{\numberline {5.3.8.5.1}Usage}{249}{subparagraph.5.3.8.5.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.5.2}Arguments}{249}{subparagraph.5.3.8.5.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.5.3}Details}{249}{subparagraph.5.3.8.5.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.5.4}Value}{249}{subparagraph.5.3.8.5.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.5.5}Source Code}{250}{subparagraph.5.3.8.5.5}%
+\contentsline {paragraph}{\numberline {5.3.8.6}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L113}{train\_UMGY\_SmoothedDay\_effect.cv} Function}{251}{paragraph.5.3.8.6}%
+\contentsline {subparagraph}{\numberline {5.3.8.6.1}Usage}{251}{subparagraph.5.3.8.6.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.6.2}Arguments}{251}{subparagraph.5.3.8.6.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.6.3}Details}{251}{subparagraph.5.3.8.6.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.6.4}Value}{252}{subparagraph.5.3.8.6.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.6.5}Source Code}{252}{subparagraph.5.3.8.6.5}%
+\contentsline {paragraph}{\numberline {5.3.8.7}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L125}{UMGY\_SmoothedDay\_effect.predict} Function}{253}{paragraph.5.3.8.7}%
+\contentsline {subparagraph}{\numberline {5.3.8.7.1}Usage}{253}{subparagraph.5.3.8.7.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.7.2}Arguments}{253}{subparagraph.5.3.8.7.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.7.3}Details}{253}{subparagraph.5.3.8.7.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.7.4}Value}{253}{subparagraph.5.3.8.7.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.7.5}Source Code}{254}{subparagraph.5.3.8.7.5}%
+\contentsline {paragraph}{\numberline {5.3.8.8}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L141}{calc\_UMGY\_SmoothedDay\_effect.MSE} Function}{255}{paragraph.5.3.8.8}%
+\contentsline {subparagraph}{\numberline {5.3.8.8.1}Usage}{255}{subparagraph.5.3.8.8.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.8.2}Arguments}{255}{subparagraph.5.3.8.8.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.8.3}Details}{255}{subparagraph.5.3.8.8.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.8.4}Value}{255}{subparagraph.5.3.8.8.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.8.5}Source Code}{256}{subparagraph.5.3.8.8.5}%
+\contentsline {paragraph}{\numberline {5.3.8.9}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L147}{calc\_UMGY\_SmoothedDay\_effect.MSE.cv} Function}{257}{paragraph.5.3.8.9}%
+\contentsline {subparagraph}{\numberline {5.3.8.9.1}Usage}{257}{subparagraph.5.3.8.9.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.9.2}Arguments}{257}{subparagraph.5.3.8.9.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.9.3}Details}{257}{subparagraph.5.3.8.9.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.9.4}Value}{258}{subparagraph.5.3.8.9.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.9.5}Source Code}{258}{subparagraph.5.3.8.9.5}%
+\contentsline {paragraph}{\numberline {5.3.8.10}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L169}{calc\_UMGY\_SmoothedDay\_effect.RMSE.cv} Function}{259}{paragraph.5.3.8.10}%
+\contentsline {subparagraph}{\numberline {5.3.8.10.1}Usage}{259}{subparagraph.5.3.8.10.1}%
+\contentsline {subparagraph}{\numberline {5.3.8.10.2}Arguments}{259}{subparagraph.5.3.8.10.2}%
+\contentsline {subparagraph}{\numberline {5.3.8.10.3}Details}{259}{subparagraph.5.3.8.10.3}%
+\contentsline {subparagraph}{\numberline {5.3.8.10.4}Value}{260}{subparagraph.5.3.8.10.4}%
+\contentsline {subparagraph}{\numberline {5.3.8.10.5}Source Code}{260}{subparagraph.5.3.8.10.5}%
+\contentsline {subsubsection}{\numberline {5.3.9}UMGYDE Model: Tuning \texttt {loess} Params}{261}{subsubsection.5.3.9}%
+\contentsline {paragraph}{\numberline {5.3.9.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L173}{train\_UMGY\_SmoothedDay\_effect.RMSE.cv} Function}{261}{paragraph.5.3.9.1}%
+\contentsline {subparagraph}{\numberline {5.3.9.1.1}Usage}{261}{subparagraph.5.3.9.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.9.1.2}Arguments}{261}{subparagraph.5.3.9.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.9.1.3}Details}{261}{subparagraph.5.3.9.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.9.1.4}Value}{262}{subparagraph.5.3.9.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.9.1.5}Source Code}{262}{subparagraph.5.3.9.1.5}%
+\contentsline {paragraph}{\numberline {5.3.9.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L192}{train\_UMGY\_SmoothedDay\_effect.RMSE.cv.degree0} Function}{263}{paragraph.5.3.9.2}%
+\contentsline {subparagraph}{\numberline {5.3.9.2.1}Usage}{263}{subparagraph.5.3.9.2.1}%
+\contentsline {subparagraph}{\numberline {5.3.9.2.2}Arguments}{263}{subparagraph.5.3.9.2.2}%
+\contentsline {subparagraph}{\numberline {5.3.9.2.3}Details}{263}{subparagraph.5.3.9.2.3}%
+\contentsline {subparagraph}{\numberline {5.3.9.2.4}Value}{263}{subparagraph.5.3.9.2.4}%
+\contentsline {subparagraph}{\numberline {5.3.9.2.5}Source Code}{264}{subparagraph.5.3.9.2.5}%
+\contentsline {paragraph}{\numberline {5.3.9.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L195}{train\_UMGY\_SmoothedDay\_effect.RMSE.cv.degree1} Function}{265}{paragraph.5.3.9.3}%
+\contentsline {subparagraph}{\numberline {5.3.9.3.1}Usage}{265}{subparagraph.5.3.9.3.1}%
+\contentsline {subparagraph}{\numberline {5.3.9.3.2}Arguments}{265}{subparagraph.5.3.9.3.2}%
+\contentsline {subparagraph}{\numberline {5.3.9.3.3}Details}{265}{subparagraph.5.3.9.3.3}%
+\contentsline {subparagraph}{\numberline {5.3.9.3.4}Value}{265}{subparagraph.5.3.9.3.4}%
+\contentsline {subparagraph}{\numberline {5.3.9.3.5}Source Code}{266}{subparagraph.5.3.9.3.5}%
+\contentsline {paragraph}{\numberline {5.3.9.4}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L198}{train\_UMGY\_SmoothedDay\_effect.RMSE.cv.degree2} Function}{267}{paragraph.5.3.9.4}%
+\contentsline {subparagraph}{\numberline {5.3.9.4.1}Usage}{267}{subparagraph.5.3.9.4.1}%
+\contentsline {subparagraph}{\numberline {5.3.9.4.2}Arguments}{267}{subparagraph.5.3.9.4.2}%
+\contentsline {subparagraph}{\numberline {5.3.9.4.3}Details}{267}{subparagraph.5.3.9.4.3}%
+\contentsline {subparagraph}{\numberline {5.3.9.4.4}Value}{267}{subparagraph.5.3.9.4.4}%
+\contentsline {subparagraph}{\numberline {5.3.9.4.5}Source Code}{268}{subparagraph.5.3.9.4.5}%
+\contentsline {subsubsection}{\numberline {5.3.10}UMGYDE Model: Regularization}{269}{subsubsection.5.3.10}%
+\contentsline {paragraph}{\numberline {5.3.10.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L225}{regularize.train\_UMGYD\_effect} Function}{269}{paragraph.5.3.10.1}%
+\contentsline {subparagraph}{\numberline {5.3.10.1.1}Usage}{269}{subparagraph.5.3.10.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.10.1.2}Arguments}{269}{subparagraph.5.3.10.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.10.1.3}Details}{269}{subparagraph.5.3.10.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.10.1.4}Value}{269}{subparagraph.5.3.10.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.10.1.5}Source Code}{270}{subparagraph.5.3.10.1.5}%
+\contentsline {paragraph}{\numberline {5.3.10.2}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L234}{regularize.train\_UMGYD\_effect.cv} Function}{271}{paragraph.5.3.10.2}%
+\contentsline {subparagraph}{\numberline {5.3.10.2.1}Usage}{271}{subparagraph.5.3.10.2.1}%
+\contentsline {subparagraph}{\numberline {5.3.10.2.2}Arguments}{271}{subparagraph.5.3.10.2.2}%
+\contentsline {subparagraph}{\numberline {5.3.10.2.3}Details}{271}{subparagraph.5.3.10.2.3}%
+\contentsline {subparagraph}{\numberline {5.3.10.2.4}Value}{272}{subparagraph.5.3.10.2.4}%
+\contentsline {subparagraph}{\numberline {5.3.10.2.5}Source Code}{272}{subparagraph.5.3.10.2.5}%
+\contentsline {paragraph}{\numberline {5.3.10.3}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R\#L242}{regularize.test\_lambda.UMGYD\_effect.cv} Function}{273}{paragraph.5.3.10.3}%
+\contentsline {subparagraph}{\numberline {5.3.10.3.1}Usage}{273}{subparagraph.5.3.10.3.1}%
+\contentsline {subparagraph}{\numberline {5.3.10.3.2}Arguments}{273}{subparagraph.5.3.10.3.2}%
+\contentsline {subparagraph}{\numberline {5.3.10.3.3}Details}{273}{subparagraph.5.3.10.3.3}%
+\contentsline {subparagraph}{\numberline {5.3.10.3.4}Value}{273}{subparagraph.5.3.10.3.4}%
+\contentsline {subparagraph}{\numberline {5.3.10.3.5}Source Code}{274}{subparagraph.5.3.10.3.5}%
+\contentsline {subsubsection}{\numberline {5.3.11}UMGYDE Model: Matrix Factorization}{275}{subsubsection.5.3.11}%
+\contentsline {paragraph}{\numberline {5.3.11.1}\href {https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R\#L3}{mf.residual.dataframe} Function}{275}{paragraph.5.3.11.1}%
+\contentsline {subparagraph}{\numberline {5.3.11.1.1}Usage}{275}{subparagraph.5.3.11.1.1}%
+\contentsline {subparagraph}{\numberline {5.3.11.1.2}Arguments}{275}{subparagraph.5.3.11.1.2}%
+\contentsline {subparagraph}{\numberline {5.3.11.1.3}Details}{275}{subparagraph.5.3.11.1.3}%
+\contentsline {subparagraph}{\numberline {5.3.11.1.4}Value}{275}{subparagraph.5.3.11.1.4}%
+\contentsline {subparagraph}{\numberline {5.3.11.1.5}Source Code}{276}{subparagraph.5.3.11.1.5}%
+\contentsline {section}{\numberline {6}Appendix B: Models Training Datasets}{277}{section.6}%
+\contentsline {subsection}{\numberline {6.1}\texttt {edx.mx} Matrix Object}{277}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}\texttt {edx.sgr} Object}{278}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}\texttt {movie\_map} Object}{279}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}\texttt {date\_days\_map} Object}{280}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}\texttt {edx\_CV} Object}{281}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Appendix C}{285}{section.7}%
+\contentsline {subsection}{\numberline {7.1}TODO List}{285}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}\hyperref [methods-and-analysis]{Methods and Analysis}}{285}{subsubsection.7.1.1}%
+\contentsline {paragraph}{\numberline {7.1.1.1}\hyperref [preparing-train-and-set-datasets]{Preparing train and set datasets}}{285}{paragraph.7.1.1.1}%
+\contentsline {paragraph}{\numberline {7.1.1.2}\hyperref [overall-mean-rating-omr-model]{Overall Mean Rating (OMR) Model}}{285}{paragraph.7.1.1.2}%
+\contentsline {subparagraph}{\numberline {7.1.1.2.1}\hyperref [omr-model-building]{OMR Model Building}}{285}{subparagraph.7.1.1.2.1}%
+\contentsline {subparagraph}{\numberline {7.1.1.2.2}\hyperref [omr-value-is-the-best-for-the-current-model]{OMR Value Is the Best for the Current Model}}{285}{subparagraph.7.1.1.2.2}%
+\contentsline {paragraph}{\numberline {7.1.1.3}\hyperref [user-effect-ue-model]{User Effect (UE) Model}}{285}{paragraph.7.1.1.3}%
+\contentsline {subparagraph}{\numberline {7.1.1.3.1}\hyperref [sec.user_effect_analysis]{User Effect Analysis}}{285}{subparagraph.7.1.1.3.1}%
+\contentsline {subparagraph}{\numberline {7.1.1.3.2}\hyperref [mathematical-description-of-the-ue-model]{Mathematical Description of the UE Model}}{285}{subparagraph.7.1.1.3.2}%
+\contentsline {subparagraph}{\numberline {7.1.1.3.3}\hyperref [ue-model-building]{UE Model Building}}{285}{subparagraph.7.1.1.3.3}%
+\contentsline {paragraph}{\numberline {7.1.1.4}\hyperref [usermovie-effect-ume-model]{User+Movie Effect (UME) Model}}{285}{paragraph.7.1.1.4}%
+\contentsline {subparagraph}{\numberline {7.1.1.4.1}Movie Effect Analysis}{285}{subparagraph.7.1.1.4.1}%
+\contentsline {subparagraph}{\numberline {7.1.1.4.2}\hyperref [mathematical-description-of-the-ume-model]{Mathematical Description of the UME Model}}{285}{subparagraph.7.1.1.4.2}%
+\contentsline {subparagraph}{\numberline {7.1.1.4.3}\hyperref [ume-model-building]{UME Model Building}}{286}{subparagraph.7.1.1.4.3}%
+\contentsline {subsubsection}{\numberline {7.1.2}\hyperref [appndx_a]{Appendix A: Support Functions}}{286}{subsubsection.7.1.2}%
+\contentsline {paragraph}{\numberline {7.1.2.1}\hyperref [common-helper-functions]{Common Helper Functions}}{286}{paragraph.7.1.2.1}%
+\contentsline {subparagraph}{\numberline {7.1.2.1.1}\hyperref [appndx_a.CHF.logging-funcs]{Logging Functions}}{286}{subparagraph.7.1.2.1.1}%
+\contentsline {subparagraph}{\numberline {7.1.2.1.2}\hyperref [appndx_a.CHF.utility_funcs]{Utility Functions}}{286}{subparagraph.7.1.2.1.2}%
+\contentsline {subparagraph}{\numberline {7.1.2.1.3}\hyperref [root-mean-squared-error-calculation]{(Root) Mean Squared Error Calculation}}{286}{subparagraph.7.1.2.1.3}%
+\contentsline {subparagraph}{\numberline {7.1.2.1.4}\hyperref [result-rmses-tibble-functions]{Result RMSEs Tibble Functions}}{286}{subparagraph.7.1.2.1.4}%
+\contentsline {subparagraph}{\numberline {7.1.2.1.5}\hyperref [appndx_a.CHF.model_tuning_utils]{Model Tuning Utils}}{286}{subparagraph.7.1.2.1.5}%
+\contentsline {paragraph}{\numberline {7.1.2.2}\hyperref [appndx_a.data_helper.functions]{Data Helper Functions}}{286}{paragraph.7.1.2.2}%
+\contentsline {subparagraph}{\numberline {7.1.2.2.1}\hyperref [models-training-functions]{Models Training Functions}}{286}{subparagraph.7.1.2.2.1}%
+\contentsline {subparagraph}{\numberline {7.1.2.2.2}\hyperref [data-visualization-functions]{Data Visualization Functions}}{286}{subparagraph.7.1.2.2.2}%
+\contentsline {paragraph}{\numberline {7.1.2.3}\hyperref [models-training-support-functions]{Models Training: Support Functions}}{286}{paragraph.7.1.2.3}%
+\contentsline {subparagraph}{\numberline {7.1.2.3.1}\hyperref [omr-model-helper-functions]{OMR Model: Helper Functions}}{286}{subparagraph.7.1.2.3.1}%
+\contentsline {subparagraph}{\numberline {7.1.2.3.2}\hyperref [ume-model-utility-functions]{UME Model: Utility Functions}}{287}{subparagraph.7.1.2.3.2}%
+\contentsline {subparagraph}{\numberline {7.1.2.3.3}\hyperref [ume-model-regularization-1]{UME Model: Regularization}}{287}{subparagraph.7.1.2.3.3}%
+\contentsline {subsection}{\numberline {7.2}Done}{288}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}\hyperref [intro]{Overview and Executive Summary}}{288}{subsubsection.7.2.1}%
+\contentsline {paragraph}{\numberline {7.2.1.1}\hyperref [datasets-overview]{Datasets Overview}}{288}{paragraph.7.2.1.1}%
+\contentsline {subparagraph}{\numberline {7.2.1.1.1}\hyperref [edx-dataset]{\texttt {edx} Dataset}}{288}{subparagraph.7.2.1.1.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}\hyperref [methods-and-analysis]{Methods and Analysis}}{288}{subsubsection.7.2.2}%
+\contentsline {paragraph}{\numberline {7.2.2.1}\hyperref [preparing-train-and-set-datasets]{Preparing train and set datasets}}{288}{paragraph.7.2.2.1}%
+\contentsline {paragraph}{\numberline {7.2.2.2}\hyperref [overall-mean-rating-omr-model]{Overall Mean Rating (OMR) Model}}{288}{paragraph.7.2.2.2}%
+\contentsline {subparagraph}{\numberline {7.2.2.2.1}\hyperref [mathematical-description-of-the-omr-model]{Mathematical Description of the OMR Model}}{288}{subparagraph.7.2.2.2.1}%
+\contentsline {subparagraph}{\numberline {7.2.2.2.2}\hyperref [omr-model-building]{OMR Model Building}}{288}{subparagraph.7.2.2.2.2}%
+\contentsline {subparagraph}{\numberline {7.2.2.2.3}\hyperref [omr-value-is-the-best-for-the-current-model]{OMR Value Is the Best for the Current Model}}{288}{subparagraph.7.2.2.2.3}%
+\contentsline {subparagraph}{\numberline {7.2.2.2.4}\hyperref [sec.user_effect_analysis]{User Effect Analysis}}{289}{subparagraph.7.2.2.2.4}%
+\contentsline {subparagraph}{\numberline {7.2.2.2.5}\hyperref [mathematical-description-of-the-ue-model]{Mathematical Description of the UE Model}}{289}{subparagraph.7.2.2.2.5}%
+\contentsline {subparagraph}{\numberline {7.2.2.2.6}\hyperref [ue-model-building]{UE Model Building}}{289}{subparagraph.7.2.2.2.6}%
+\contentsline {paragraph}{\numberline {7.2.2.3}\hyperref [usermovie-effect-ume-model]{User+Movie Effect (UME) Model}}{289}{paragraph.7.2.2.3}%
+\contentsline {subparagraph}{\numberline {7.2.2.3.1}Movie Effect Analysis}{289}{subparagraph.7.2.2.3.1}%
+\contentsline {subparagraph}{\numberline {7.2.2.3.2}\hyperref [mathematical-description-of-the-ume-model]{Mathematical Description of the UME Model}}{289}{subparagraph.7.2.2.3.2}%
+\contentsline {subparagraph}{\numberline {7.2.2.3.3}\hyperref [ume-model-building]{UME Model Building}}{290}{subparagraph.7.2.2.3.3}%
+\contentsline {subsubsection}{\numberline {7.2.3}\hyperref [appndx_a]{Appendix A: Support Functions}}{290}{subsubsection.7.2.3}%
+\contentsline {paragraph}{\numberline {7.2.3.1}\hyperref [common-helper-functions]{Common Helper Functions}}{290}{paragraph.7.2.3.1}%
+\contentsline {subparagraph}{\numberline {7.2.3.1.1}\hyperref [appndx_a.CHF.logging-funcs]{Logging Functions}}{290}{subparagraph.7.2.3.1.1}%
+\contentsline {subparagraph}{\numberline {7.2.3.1.2}\hyperref [appndx_a.CHF.utility_funcs]{Utility Functions}}{290}{subparagraph.7.2.3.1.2}%
+\contentsline {subparagraph}{\numberline {7.2.3.1.3}\hyperref [root-mean-squared-error-calculation]{(Root) Mean Squared Error Calculation}}{291}{subparagraph.7.2.3.1.3}%
+\contentsline {subparagraph}{\numberline {7.2.3.1.4}\hyperref [result-rmses-tibble-functions]{Result RMSEs Tibble Functions}}{291}{subparagraph.7.2.3.1.4}%
+\contentsline {subparagraph}{\numberline {7.2.3.1.5}\hyperref [appndx_a.CHF.model_tuning_utils]{Model Tuning Utils}}{291}{subparagraph.7.2.3.1.5}%
+\contentsline {paragraph}{\numberline {7.2.3.2}\hyperref [appndx_a.data_helper.functions]{Data Helper Functions}}{291}{paragraph.7.2.3.2}%
+\contentsline {subparagraph}{\numberline {7.2.3.2.1}\hyperref [initializing-input-datasets]{Initializing Input Datasets}}{291}{subparagraph.7.2.3.2.1}%
+\contentsline {subparagraph}{\numberline {7.2.3.2.2}\hyperref [data-processing-functions]{Data Processing Functions}}{292}{subparagraph.7.2.3.2.2}%
+\contentsline {subparagraph}{\numberline {7.2.3.2.3}\hyperref [models-training-functions]{Models Training Functions}}{292}{subparagraph.7.2.3.2.3}%
+\contentsline {subparagraph}{\numberline {7.2.3.2.4}\hyperref [data-visualization-functions]{Data Visualization Functions}}{292}{subparagraph.7.2.3.2.4}%
+\contentsline {paragraph}{\numberline {7.2.3.3}\hyperref [models-training-support-functions]{Models Training: Support Functions}}{292}{paragraph.7.2.3.3}%
+\contentsline {subparagraph}{\numberline {7.2.3.3.1}\hyperref [omr-model-helper-functions]{OMR Model: Helper Functions}}{292}{subparagraph.7.2.3.3.1}%
+\contentsline {subparagraph}{\numberline {7.2.3.3.2}\hyperref [ume-model-utility-functions]{UME Model: Utility Functions}}{292}{subparagraph.7.2.3.3.2}%
+\contentsline {subsubsection}{\numberline {7.2.4}\hyperref [appndx_b]{Appendix B: Models Training Datasets}}{293}{subsubsection.7.2.4}%
