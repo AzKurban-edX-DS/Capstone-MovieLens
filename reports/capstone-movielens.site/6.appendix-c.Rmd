@@ -69,9 +69,18 @@
 \
 
 ##### [Data Visualization Functions]
+  * [data.plot.left_detailed](#func.data.plot.left_detailed)
+    * [Usage]
   * [data.plot.left.n](#func.data.plot.left.n)
     * [Usage]
-      * 4150 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above... 
+      * 4150 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above...
+      * 4154 
+    * [Arguments](#func.data.plot.left.n.args)
+      * ... (Optional, ...) ...
+    * [Details]
+      * 4211 \\newpage
+    * [Source Code]
+      * 4209 \\newpage
 
 #### [Models Training: Support Functions]
 

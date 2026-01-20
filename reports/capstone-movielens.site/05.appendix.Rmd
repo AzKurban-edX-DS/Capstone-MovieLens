@@ -4151,6 +4151,8 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 :::
 :::
 
+\newpage
+
 ::: { #func.data.plot.left.n.args .sidebar }
 ##### Arguments
 \
@@ -4160,7 +4162,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 
 :::
 ::: { #func.data.plot.left.n.args.left.n .sidebar }
-  - **left.n:** (Integer, $0$ by default)If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
+  - **left.n:** (Optional, *Integer*, $0$ by default)If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
 
 :::
 ::: { #func.data.plot.left.n.args.title .sidebar }
@@ -4184,11 +4186,11 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 
 :::
 ::: { #func.data.plot.left.n.args.line_col .sidebar }
-  - **line_col:** (Character string, ***\textcolor{red}{red}*** by default) Line color. 
+  - **line_col:** (Optional, *Character string*, ***\textcolor{red}{red}*** by default) Line color. 
 
 :::
 ::: { #func.data.plot.left.n.args.normalize .sidebar }
-  - **normalize:** (Boolean, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
+  - **normalize:** (Optional, *Boolean*, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
@@ -4203,6 +4205,8 @@ The function is a wrapper for the [data.plot](#func.data.plot) function describe
 This is an auxiliary function that is used internally in the [data.plot.left_detailed](#func.data.plot.left_detailed) function (described below in this section) as shown above in the [Usage](#func.data.plot.left.n.usage) section of *this Description*.
 :::
 :::
+
+\newpage
 
 ::: { #func.data.plot.left.n.code .sidebar }
 ##### Source Code
@@ -4245,6 +4249,8 @@ data.plot.left.n <- function(data,
 The source code of the [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L481) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L435) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L481) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 #### [data.plot.left_detailed](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L536) Function {#func.data.plot.left_detailed}
 \
