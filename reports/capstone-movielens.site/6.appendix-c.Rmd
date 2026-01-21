@@ -61,12 +61,42 @@
 ##### [Logging Functions]
 \
 
+* [get_log1](#func.get_log1)
+  * [Value](#func.get_log1.value)
+    * 469 \\newfile
+* [print_log1](#func.print_log1)
+  * [Value](#func.print_log1.value)
+    * 540 \\newfile
+* [put_log1](#func.put_log1)
+  * [Value](#func.put_log1.value)
+    * 613 \\newfile
+    
+
+* [print_log3](#func.print_log3)
+  * [Value](#func.print_log3.value)
+    *  986 \\newfile
+* [put_log3](#func.put_log3)
+  * [Value](#func.put_log3.value)
+    * 1062 \\newfile
+
+* [print_log4](#func.print_log4)
+  * [Value](#func.print_log4.value)
+    *  1231 \\newfile
+
 * [](#func.)
-  * [Usage](#func..usage)
-  * [Arguments](#func..args)
-  * [Details](#func..details)
   * [Value](#func..value)
-  * [Source Code](#func..code)
+    * \\newfile
+
+* [](#func.)
+  * [Value](#func..value)
+    * \\newfile
+
+* [](#func.)
+  * [Value](#func..value)
+    * \\newfile
+
+* [](#func.)
+  * [Value](#func..value)
     * \\newfile
 
 * [](#func.)

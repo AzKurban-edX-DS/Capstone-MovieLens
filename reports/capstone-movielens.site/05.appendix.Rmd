@@ -464,8 +464,9 @@ This is an auxiliary function intended for use in other custom logging functions
 \
 
 A glue object, returned by the internally called [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) function, created from the character vector returned by the (also internally called) function [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace).
-
 :::
+
+\newpage
 
 ::: { #func.get_log1.code .sidebar }
 ##### Source Code
@@ -536,6 +537,8 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 A glue object, returned by the internally called function [get_log1](#func.get_log1) described above.
 :::
 
+\newpage
+
 ::: { #func.print_log1.code .sidebar }
 ##### Source Code
 \
@@ -605,8 +608,9 @@ The function works similarly to the [print_log1](#func.print_log1) function desc
 \
 
 A glue object, returned by the internally called function [get_log1](#func.get_log1) described above.
-
 :::
+
+\newpage
 
 ::: { #func.put_log1.code .sidebar }
 ##### Source Code
@@ -977,8 +981,9 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 \
 
 A glue object, returned by the internally called function [get_log3](#func.get_log3) described above.
-
 :::
+
+\newpage
 
 ::: { #func.print_log3.code .sidebar }
 ##### Source Code
@@ -1052,8 +1057,9 @@ The function works similarly to the [print_log3](#func.print_log3) function desc
 \
 
 A glue object, returned by the internally called function [get_log3](#func.get_log3) described above.
-
 :::
+
+\newpage
 
 ::: { #func.put_log3.code .sidebar }
 ##### Source Code
@@ -1220,8 +1226,9 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 \
 
 A glue object, returned by the internally called function [get_log4](#func.get_log4) described above.
-
 :::
+
+\newpage
 
 ::: { #func.print_log4.code .sidebar }
 ##### Source Code
