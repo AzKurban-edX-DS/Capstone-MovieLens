@@ -46,13 +46,13 @@
 ----------------------------------------------------------------------------
 
 ### [Appendix A: Support Functions]
-* [](#func.)
-* [](#func.)
-  * [Usage](#func..usage)
-  * [Arguments](#func..args)
-  * [Details](#func..details)
-  * [Value](#func..value)
-  * [Source Code](#func..code)
+* [%](#func.%)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
     * \\newfile
 
 
@@ -61,9 +61,7 @@
 ##### [Logging Functions]
 \
 
-* [](#func.)
-  * [Value](#func..value)
-    * \\newfile
+---
 
 * [](#func.)
   * [Value](#func..value)
@@ -78,11 +76,7 @@
     * \\newfile
 
 * [](#func.)
-  * [Usage](#func..usage)
-  * [Arguments](#func..args)
-  * [Details](#func..details)
   * [Value](#func..value)
-  * [Source Code](#func..code)
     * \\newfile
 
 * [](#func.)
@@ -100,6 +94,53 @@
   * [Value](#func..value)
   * [Source Code](#func..code)
     * \\newfile
+
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+
+---
+
+* [print_log2](#func.print_log2)
+  * [Usage](#func.print_log2.usage)
+
+* [put_log2](#func.put_log2)
+  * [Usage](#func.put_log2.usage)
+
+* [print_log3](#func.print_log3)
+  * [Usage](#func.print_log3.usage)
+
+* [put_log3](#func.put_log3)
+  * [Usage](#func.put_log3.usage)
+
+* [print_log4](#func.print_log4)
+  * [Usage](#func.print_log4.usage)
+
+* [put_log4](#func.put_log4)
+  * [Usage](#func.put_log4.usage)
 
 
 
@@ -288,11 +329,24 @@ print(head(edx.ordered_movie_ratings))
 ##### [Logging Functions]
 \
 
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+
 * [open_logfile](#func.open_logfile)
   * [Usage](#func.open_logfile.usage)
     * 15
   * [Value](#func.open_logfile.value)
     * 57 \\newfile
+
+* [print_start_date](#func.print_start_date)
+  * [Usage](#func.print_start_date.usage)
+* [print_end_date](#func.print_end_date)
+  * [Usage](#func.print_end_date.usage)
+
+
+
+
 
 * [put_end_date](#func.)
   * [Source Code](#func.put_end_date.code)
@@ -343,7 +397,6 @@ print(head(edx.ordered_movie_ratings))
   * [Value](#func.print_log4.value)
     *  1231 \\newfile
 
-  
 ##### [Utility Functions]
 \
 

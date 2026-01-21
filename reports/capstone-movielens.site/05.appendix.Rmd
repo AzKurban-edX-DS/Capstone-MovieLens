@@ -566,14 +566,22 @@ Outputs a log to the currently open log file (using the [open_logfile](#func.ope
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L177)
 \
 
-```{r main-script@l177u, eval=FALSE}
+```{r main-script@l177u}
 which_min_deviation <- deviation[which.min(deviation.RMSE)]
 min_rmse = min(deviation.RMSE)
-
+```
+```{r eval=FALSE}
 put_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
          which_min_deviation)
 
 put_log1("Is the previously computed RMSE the best for the current model: %1",
+         mu.RMSE == min_rmse)
+```
+```{r echo=FALSE}
+print_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
+         which_min_deviation)
+
+print_log1("Is the previously computed RMSE the best for the current model: %1",
          mu.RMSE == min_rmse)
 ```
 :::
@@ -714,11 +722,11 @@ The source code of the [get_log2](https://github.com/AzKurban-edX-DS/Capstone-Mo
 Prints a log created from the template passed in the [msg_template](#func.print_log2.args.msg_template) argument, using the values specified by the [arg1](#func.print_log2.args.arg1) and [arg2](#func.print_log2.args.arg2) arguments to replace all the occurrences of the placeholders *"%1"* and *"%2"*, respectively, found in the template.
 
 ::: { #func.print_log2.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L119)
 \
 
-```{r eval=FALSE}
-print_log2(msg_template, arg1, arg2)
+```{r main-script@l119um}
+  print_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, mu.RMSE)
 ```
 :::
 
@@ -782,11 +790,14 @@ The source code of the [print_log2](https://github.com/AzKurban-edX-DS/Capstone-
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log2.args.msg_template) argument, using the values specified by the [arg1](#func.put_log2.args.arg1) and [arg2](#func.put_log2.args.arg2) arguments to replace all the occurrences of the placeholders *"%1"* and *"%2"*, respectively, found in the template.
 
 ::: { #func.put_log2.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L119)
 \
 
-```{r eval=FALSE}
-put_log2(msg_template, arg1, arg2)
+```{r main-script@l119u, eval=FALSE}
+  put_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, mu.RMSE)
+```
+```{r echo=FALSE}
+  print_log2("%1-Fold Cross Validation ultimate RMSE: %2", CVFolds_N, mu.RMSE)
 ```
 :::
 
@@ -935,11 +946,17 @@ The source code of the [get_log3](https://github.com/AzKurban-edX-DS/Capstone-Mo
 Prints a log created from the template passed in the [msg_template](#func.print_log3.args.msg_template) argument, using the values specified by the [arg1](#func.print_log3.args.arg1), [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, and *"%3"*, respectively, found in the template.
 
 ::: { #func.print_log3.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2009)
 \
 
-```{r eval=FALSE}
-print_log3(msg_template, arg1, arg2, arg3)
+```{r main-script@l2009um}
+print_log3("RMSE value has been computed using `loess` function 
+with the best parameters for the %1-Fold Cross Validation samples:
+degree = %2;
+span = %3.",
+        CVFolds_N,
+        lss.best_degree,
+        lss.best_span)
 ```
 :::
 
@@ -1009,11 +1026,26 @@ The source code of the [print_log3](https://github.com/AzKurban-edX-DS/Capstone-
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log3.args.msg_template) argument, using the values specified by the [arg1](#func.put_log3.args.arg1), [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, and *"%3"*, respectively, found in the template.
 
 ::: { #func.put_log3.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#2009)
 \
 
-```{r eval=FALSE}
-put_log3(msg_template, arg1, arg2, arg3)
+```{r main-script@l2009u, eval=FALSE}
+put_log3("RMSE value has been computed using `loess` function 
+with the best parameters for the %1-Fold Cross Validation samples:
+degree = %2;
+span = %3.",
+        CVFolds_N,
+        lss.best_degree,
+        lss.best_span)
+```
+```{r, echo=FALSE}
+print_log3("RMSE value has been computed using `loess` function 
+with the best parameters for the %1-Fold Cross Validation samples:
+degree = %2;
+span = %3.",
+        CVFolds_N,
+        lss.best_degree,
+        lss.best_span)
 ```
 :::
 
@@ -1175,10 +1207,21 @@ The source code of the [get_log4](https://github.com/AzKurban-edX-DS/Capstone-Mo
 Prints a log created from the template passed in the [msg_template](#func.print_log4.args.msg_template) argument, using the values specified by the [arg1](#func.print_log4.args.arg1), [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
 ::: { #func.print_log4.usage .sidebar }
-##### Usage
+##### [Usage](https://www.pragmaticinstitute.com/resources/articles/data/4-important-aspects-of-data-science/)
 \
 
-```{r eval=FALSE}
+```{r print_log4@example1, eval=FALSE}
+arg1 <- "Data Collection"
+arg2 <- "Data Cleaning and Transformation"
+arg3 <- "Statistical Analysis"
+arg4 <- "Data Visualization"
+
+msg_template <- "The 4 Important Aspects of Data Science are as follows:
+  1. %1;
+  2. %2;
+  3. %3;
+  4. %4."
+
 print_log4(msg_template, arg1, arg2, arg3, arg4)
 ```
 :::
@@ -1254,11 +1297,26 @@ The source code of the [print_log4](https://github.com/AzKurban-edX-DS/Capstone-
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log4.args.msg_template) argument, using the values specified by the [arg1](#func.put_log4.args.arg1), [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
 ::: { #func.put_log4.usage .sidebar }
-##### Usage
+##### [Usage](https://www.pragmaticinstitute.com/resources/articles/data/4-important-aspects-of-data-science/)
 \
 
+```{r put_log4@example1}
+arg1 <- "Data Collection"
+arg2 <- "Data Cleaning and Transformation"
+arg3 <- "Statistical Analysis"
+arg4 <- "Data Visualization"
+
+msg_template <- "The 4 Important Aspects of Data Science are as follows:
+  1. %1;
+  2. %2;
+  3. %3;
+  4. %4."
+```
 ```{r eval=FALSE}
 put_log4(msg_template, arg1, arg2, arg3, arg4)
+```
+```{r, echo=FALSE}
+print_log4(msg_template, arg1, arg2, arg3, arg4)
 ```
 :::
 
