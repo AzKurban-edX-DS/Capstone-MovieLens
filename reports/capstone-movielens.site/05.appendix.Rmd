@@ -4294,7 +4294,7 @@ The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is 
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1877)
 \
 
-```{r main-script@l1877}
+```{r main-script@l1877u}
 lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
   data.plot.left_detailed(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 2`", 
                              title.left = "Left Part of the Chart Above (Zoomed in)",

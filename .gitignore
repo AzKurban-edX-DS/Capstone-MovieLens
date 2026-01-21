@@ -36,3 +36,5 @@ reports/capstone-movielens.site/capstone-movielens.report.tex
 *.RDataTmp3
 reports/capstone-movielens.site/bak/capstone-movielens.report.pdf
 reports/capstone-movielens.site/work/
+reports/capstone-movielens.site/capstone-movielens.report.aux
+reports/capstone-movielens.site/capstone-movielens.report.toc
