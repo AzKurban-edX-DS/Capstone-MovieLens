@@ -53,6 +53,19 @@
 ##### [Logging Functions]
 \
 
+* [get_log1](#func.get_log1)
+  * [Usage](#)
+  * [Details](#)
+* [get_log2](#func.get_log2)
+  * [Usage](#)
+  * [Details](#)
+* [get_log3](#func.get_log3)
+  * [Usage](#)
+  * [Details](#)
+* [get_log4](#func.get_log4)
+  * [Usage](#)
+  * [Details](#)
+
 ##### [Utility Functions]
 \
 
@@ -69,19 +82,23 @@
 \
 
 ##### [Data Visualization Functions]
+  * [data.plot](#func.data.plot)
+    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1838)
+      * chunk: main-script@l1838u
+      * 4019 \\newpage
+    * [Arguments](#)
+      * ... (Optional, ... by default)
+    * [Details](#)
+      * 4066 \\newpage
+    
   * [data.plot.left_detailed](#func.data.plot.left_detailed)
-    * [Usage]
-  * [data.plot.left.n](#func.data.plot.left.n)
-    * [Usage]
-      * 4150 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above...
-      * 4154 
-    * [Arguments](#func.data.plot.left.n.args)
-      * ... (Optional, ...) ...
-    * [Details]
-      * 4211 \\newpage
-    * [Source Code]
-      * 4209 \\newpage
-
+    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1877)
+      * 4287 \\newpage
+    * [Arguments](#)
+      * **xlabel1:** (Optional, *Character string*, `NULL` by default)
+      * **xlabel2:** (Optional, *Character string*, `NULL` by default)
+      * ... (Optional, ... by default)
+      
 #### [Models Training: Support Functions]
 
 ##### [OMR Model: Helper Functions]
@@ -330,12 +347,27 @@ print(head(edx.ordered_movie_ratings))
   * [Usage](#func.union_cv_results.usage)
   * [Details](#func.union_cv_results.details)
   * [Source Code](#func.union_cv_results.code) ...R#L425
-  
+
+* 3996 \\newpage
+
 ##### [Data Visualization Functions]
 
 * [data.plot](#func.data.plot)
   * 3944 [Usage];
   * 3978 [Arguments]: xlabel;
+  
+  * [data.plot.left.n](#func.data.plot.left.n)
+    * [Usage]
+      * 4152 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above...
+      * 4156 \\newpage
+      
+    * [Arguments](#func.data.plot.left.n.args)
+      * ... (Optional, ...) ...
+    * [Details](#)
+      * 4211 \\newpage
+    * [Source Code](#)
+      * 4255 \\newpage
+  
 
 
 #### [Models Training: Support Functions]

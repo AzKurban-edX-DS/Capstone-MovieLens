@@ -87,8 +87,9 @@ Prints the system date and time at the time the function is called and returns t
 ##### Usage
 \
 
-```{r eval=FALSE}
-print_start_date()
+```{r}
+start_date <- print_start_date()
+start_date
 ```
 :::
 
@@ -132,11 +133,11 @@ The source code of the [print_start_date](https://github.com/AzKurban-edX-DS/Cap
 Outputs the system date and time to the currently opened log (using the [open_logfile](#func.open_logfile) function described above) at the time the function is called and returns the system's idea of the current date and time.
 
 ::: { #func.put_start_date.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L99)
 \
 
-```{r eval=FALSE}
-put_start_date()
+```{r main-script@l99u, eval=FALSE}
+  start <- put_start_date()
 ```
 :::
 
@@ -183,8 +184,10 @@ Prints the system date and time at the time the function is called, and then the
 ##### Usage
 \
 
-```{r eval=FALSE}
-print_end_date(start)
+```{r}
+start_date <- print_start_date()
+Sys.sleep(3)
+print_end_date(start_date)
 ```
 :::
 
@@ -241,10 +244,10 @@ Outputs the system date and time to the currently open log (using the [open_logf
 The first value in the output is the system date and time at the time the function is called, and the second value is the time elapsed since the date and time specified by the [start](#func.put_end_date.args.start) argument.
 
 ::: { #func.put_end_date.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L101)
 \
 
-```{r eval=FALSE}
+```{r main-script@l101u, eval=FALSE}
 put_end_date(start)
 ```
 :::
@@ -301,7 +304,7 @@ Prints a multiline string specified by the [msg](#func.print_log.args.msg) argum
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r}
 print_log("Hello World!")
 ```
 :::
@@ -413,15 +416,13 @@ Creates a character vector from the template passed in the [msg_template](#func.
 ##### Usage
 \
 
-```{r logging-functions@l39u, eval=FALSE}
-  print(get_log1(msg_template, arg1))
+```{r logging-functions@l42u, eval=FALSE}
+  put(get_log1(msg_template, arg1))
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L39) above, the function `get_log1` is called internally from the [print_log1](#func.print_log1) function described below in *this Section*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L42) above, the function `get_log1` is called internally from the [put_log1](#func.print_log1) function described below in *this Section*.
 :::
-
-
 :::
 
 ::: { #func.get_log1.args .sidebar }
@@ -446,10 +447,8 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log1.args.msg_template) argument, using the value specified by the [arg1](#func.get_log1.args.arg1)  argument to replace all the occurrences of the pattern *"%1"* found in the template.
 
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended for use in other custom logging functions, such as the [print_log1](#func.print_log1) (as shown in the [Usage](#func.get_log1.usage) section of *this Description*) and [put_log1](#func.put_log1) described below in *this Section*.
+This is an auxiliary function intended for use in other custom logging functions, such as the [put_log1](#func.put_log1) (as shown in the [Usage](#func.get_log1.usage) section of *this Description*) and [print_log1](#func.print_log1) described below in *this Section*.
 :::
-
-
 :::
 
 ::: { #func.get_log1.value .sidebar }
@@ -628,9 +627,13 @@ Creates a character vector from the template passed in the [msg_template](#func.
 ##### Usage
 \
 
-```{r eval=FALSE}
-get_log2(msg_template, arg1, arg2)
+```{r logging-func@l55, eval=FALSE}
+  put(get_log2(msg_template, arg1, arg2))
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#55) above, the function `get_log2` is called internally from the [put_log2](#func.put_log2) function described below in *this Section*.
+:::
 :::
 
 ::: { #func.get_log2.args .sidebar }
@@ -659,6 +662,9 @@ get_log2(msg_template, arg1, arg2)
 
 This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log2.args.msg_template) argument, using the values specified by the [arg1](#func.get_log2.args.arg1) and [arg2](#func.get_log2.args.arg2)  arguments to replace all the occurrences of the placeholders *"%1"* and *"%2"*, respectively, found in the template.
 
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended for use in other custom logging functions, such as the [put_log2](#func.put_log2) (as shown in the [Usage](#func.get_log2.usage) section of *this Description*) and [print_log2](#func.print_log2) described below in *this Section*.
+:::
 :::
 
 ::: { #func.get_log2.value .sidebar }
@@ -836,9 +842,13 @@ Creates a character vector from the template passed in the [msg_template](#func.
 ##### Usage
 \
 
-```{r eval=FALSE}
-get_log3(msg_template, arg1, arg2, arg3)
+```{r logging-func@l69, eval=FALSE}
+  put(get_log3(msg_template, arg1, arg2, arg3))
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L69) above, the function `get_log3` is called internally from the [put_log3](#func.put_log3) function described below in *this Section*.
+:::
 :::
 
 ::: { #func.get_log3.args .sidebar }
@@ -872,6 +882,9 @@ get_log3(msg_template, arg1, arg2, arg3)
 
 This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log3.args.msg_template) argument, using the values specified by the [arg1](#func.get_log3.args.arg1), [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3)  arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, and *"%3"*, respectively, found in the template.
 
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended for use in other custom logging functions, such as the [put_log3](#func.put_log3) (as shown in the [Usage](#func.get_log3.usage) section of *this Description*) and [print_log3](#func.print_log3) described below in *this Section*.
+:::
 :::
 
 ::: { #func.get_log3.value .sidebar }
@@ -1061,9 +1074,13 @@ Creates a character vector from the template passed in the [msg_template](#func.
 ##### Usage
 \
 
-```{r eval=FALSE}
-get_log4(msg_template, arg1, arg2, arg3, arg4)
+```{r logging-func@l84, eval=FALSE}
+  put(get_log4(msg_template, arg1, arg2, arg3, arg4))
 ```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L84) above, the function `get_log4` is called internally from the [put_log4](#func.put_log4) function described below in *this Section*.
+:::
 :::
 
 ::: { #func.get_log4.args .sidebar }
@@ -1102,6 +1119,9 @@ get_log4(msg_template, arg1, arg2, arg3, arg4)
 
 This function internally calls [stringr::str_glue](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_glue) and [stringr::str_replace_all](https://www.rdocumentation.org/packages/stringr/versions/1.5.0/topics/str_replace) `R` functions to form a character vector from the template passed in the [msg_template](#func.get_log4.args.msg_template) argument, using the values specified by the [arg1](#func.get_log4.args.arg1), [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended for use in other custom logging functions, such as the [put_log4](#func.put_log4) (as shown in the [Usage](#func.get_log4.usage) section of *this Description*) and [print_log4](#func.print_log4) described below in *this Section*.
+:::
 :::
 
 ::: { #func.get_log4.value .sidebar }
@@ -1321,12 +1341,12 @@ r_clamped <- clamp(r, min = 0.5, max = 5)
 
 :::
 ::: { #func.clamp.args.min .sidebar }
-  - **min:** Minimum allowed value (0.5 by default); 
+  - **min:** (Optional, 0.5 by default) Minimum allowed value; 
 
 :::
 :::
 ::: { #func.clamp.args.max .sidebar }
-  - **max:** Maximum allowed value (5 by default); 
+  - **max:** (Optional, 5 by default) Maximum allowed value; 
 
 :::
 :::
@@ -1810,7 +1830,7 @@ RMSEs.ResultTibble.OMR <- RMSEs.ResultTibble |>
 :::
 
 ::: { #func.RMSEs.AddRow.args.before .sidebar }
-  - ***before:*** (Optional, `NULL` by default) One-based row index where to add the new rows, if NULL (default): after last row;
+  - ***before:*** (Optional, *Integer*, `NULL` by default) One-based row index where to add the new rows, if NULL (default): after last row;
 
 :::
 :::
@@ -2013,7 +2033,7 @@ It is assumed that the tibble has the following three columns:
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L205)
 \
 
-```{r main-script@l205u, eval=FALSE}
+```{r main-script@l205u}
 RMSE_kable(RMSEs.ResultTibble.OMR)
 ```
 :::
@@ -2109,10 +2129,12 @@ It is assumed that the tibble has the following four columns:
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2390)
 \
 
-```{r main-script@l2390u, eval=FALSE}
+```{r main-script@l2390u}
 RMSE.Total_kable(total.RMSEs.ResultTibble)
 ```
 :::
+
+\newpage
 
 ::: { #func.RMSE.Total_kable.args .sidebar }
 ##### Arguments
@@ -2124,22 +2146,22 @@ RMSE.Total_kable(total.RMSEs.ResultTibble)
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col1width:*** (Optional, 15 by default) Width of the first column (15 by default);
+  - ***col1width:*** (Optional, 15 by default) Width of the first column;
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col2width:*** (Optional, 7 by default) Width of the second column (7 by default);
+  - ***col2width:*** (Optional, 7 by default) Width of the second column;
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col3width:*** (Optional, 5 by default) Width of the third column(5 by default);
+  - ***col3width:*** (Optional, 5 by default) Width of the third column;
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col4width:*** (Optional, 25 by default) Width of the fourth column (25 by default);
+  - ***col4width:*** (Optional, 25 by default) Width of the fourth column;
 
 :::
 :::
@@ -2229,11 +2251,11 @@ In the sample code snippet above, the `mean_reg` function is called internally f
 
 :::
 ::: { #func.mean_reg.args.lambda .sidebar }
-  - **lambda:** (Optional, 0 by default) _Regularization parameter_ $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, 0 by default) _Regularization parameter_ $\lambda$. 
 
 :::
 ::: { #func.mean_reg.args.na.rm .sidebar }
-  - **na.rm:** (Optional, `TRUE` by default) Logical value indicating whether `NA` values should be stripped before the computation proceeds.
+  - **na.rm:** (Optional, *Boolean*, `TRUE` by default) Logical value indicating whether `NA` values should be stripped before the computation proceeds.
 
 :::
 :::
@@ -3993,6 +4015,8 @@ The source code of the [get_best_param.result](https://github.com/AzKurban-edX-D
 :::
 :::
 
+\newpage
+
 ### Data Visualization Functions
 
 #### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L580) Function {#func.data.plot}
@@ -4004,7 +4028,7 @@ Plots a graph based on the dataset passed in the [data](#func.data.plot.args.dat
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1838)
 \
 
-```{r main-script@l1838u, eval=FALSE}
+```{r main-script@l1838u}
 lss.UMGYDE.preset.degree2.result$tuned.result |>
   data.plot(title = "UMGYDE Model, `loess` function args: range of `span` values for `degree = 2`",
               xname = "parameter.value", 
@@ -4013,6 +4037,8 @@ lss.UMGYDE.preset.degree2.result$tuned.result |>
               ylabel = "RMSE")
 ```
 :::
+
+\newpage
 
 ::: { #func.data.plot.args .sidebar }
 ##### Arguments
@@ -4035,19 +4061,19 @@ lss.UMGYDE.preset.degree2.result$tuned.result |>
 
 :::
 ::: { #func.data.plot.args.xlabel .sidebar }
-  - **xlabel:** (Character string, `NULL` by default) The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+  - **xlabel:** (Optional, *Character string*, `NULL` by default) The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
 
 :::
 ::: { #func.data.plot.args.ylabel .sidebar }
-  - **ylabel:** (Character string, `NULL` by default) The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+  - **ylabel:** (Optional, *Character string*, `NULL` by default) The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
 
 :::
 ::: { #func.data.plot.args.line_col .sidebar }
-  - **line_col:** (Character string, ***\textcolor{blue}{blue}*** by default) Line color. 
+  - **line_col:** (Optional, *Character string*, ***\textcolor{blue}{blue}*** by default) Line color. 
 
 :::
 ::: { #func.data.plot.args.normalize .sidebar }
-- **normalize:** (Boolean, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
+- **normalize:** (Optional, *Boolean*, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
@@ -4057,8 +4083,9 @@ lss.UMGYDE.preset.degree2.result$tuned.result |>
 \
 
 The function is a wrapper for the [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function and is a simple and convenient tool for visualizing the data of *this Project*.
-
 :::
+
+\newpage
 
 ::: { #func.data.plot.code .sidebar }
 ##### Source Code
@@ -4103,6 +4130,8 @@ data.plot <- function(data,
 The source code of the [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L580) is also available in the [Data Visualization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L435) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L580) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 #### [data.plot.left.n](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L481) Function {#func.data.plot.left.n}
 \
@@ -4262,10 +4291,11 @@ The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is 
 :::
 
 ::: { #func.data.plot.left_detailed.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1877)
 \
 
-```{r eval=FALSE}
+```{r main-script@l1877}
+lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
   data.plot.left_detailed(title = "Fine-tuned UMGYDE Model with `loess` parameter: `degree = 2`", 
                              title.left = "Left Part of the Chart Above (Zoomed in)",
                              left.n = 8,
@@ -4275,6 +4305,8 @@ The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is 
                              ylabel1 = "RMSE")
 ```
 :::
+
+\newpage
 
 ::: { #func.data.plot.left_detailed.args .sidebar }
 ##### Arguments
@@ -4301,31 +4333,31 @@ The dataset passed in the [data](#func.data.plot.left.n.args.data) parameter is 
 
 :::
 ::: { #func.data.plot.left_detailed.args.xlabel1 .sidebar }
-  - **xlabel1:** (Character string, `NULL` by default) The $x$ axis label for the first plot. If `NULL`, the value of the `xname` parameter is used for the label. 
+  - **xlabel1:** (Optional, *Character string*, `NULL` by default) The $x$ axis label for the first plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.xlabel2 .sidebar }
-  - **xlabel2:** (Character string, `NULL` by default) The $x$ axis label for the second plot. If `NULL`, the value of the `xname` parameter is used for the label. 
+  - **xlabel2:** (Optional, *Character string*, `NULL` by default) The $x$ axis label for the second plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.ylabel1 .sidebar }
-  - **ylabel1:** (Character string, `NULL` by default) The $y$ axis label for the first plot. If `NULL`, the value of the `yname` parameter is used for the label. 
+  - **ylabel1:** (Optional, *Character string*, `NULL` by default) The $y$ axis label for the first plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.ylabel2 .sidebar }
-  - **ylabel2:** (Character string, `NULL` by default) The $y$ axis label for the second plot. If `NULL`, the value of the `yname` parameter is used for the label. 
+  - **ylabel2:** (Optional, *Character string*, `NULL` by default) The $y$ axis label for the second plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.line_col .sidebar }
-  - **line_col1** (Character string, ***\textcolor{blue}{blue}*** by default) The line color (main graqh). 
+  - **line_col1** (Optional, *Character string*, ***\textcolor{blue}{blue}*** by default) The line color (main graqh). 
 
 :::
 ::: { #func.data.plot.left_detailed.args.line_col .sidebar }
-  - **line_col2** (Character string, ***\textcolor{red}{red}*** by default) The line color (second graph: the left part of the main graph, which is shown on an enlarged scale). 
+  - **line_col2** (Optional, *Character string*, ***\textcolor{red}{red}*** by default) The line color (second graph: the left part of the main graph, which is shown on an enlarged scale). 
 
 :::
 ::: { #func.data.plot.left_detailed.args.normalize .sidebar }
-  - **normalize:** (Boolean, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
+  - **normalize:** (Optional, *Boolean*, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
@@ -4564,7 +4596,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 
 :::
 ::: { #func.train_user_movie_effect.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -4638,7 +4670,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 \
 
 ::: { #func.train_user_movie_effect.cv.args.lambda .sidebar }
-  - **lambda:** (Optional, $0$ by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5039,7 +5071,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_genr
 
 :::
 ::: { #func.train_user_movie_genre_effect.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5121,7 +5153,7 @@ umg_effect <- train_user_movie_genre_effect.cv(lambda)
 \
 
 ::: { #func.train_user_movie_genre_effect.cv.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5493,7 +5525,7 @@ In the code snippet above, the function `calc_date_general_effect` is called int
 
 :::
 ::: { #func.calc_date_general_effect.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5571,7 +5603,7 @@ In the above code snippet, the `calc_date_general_effect.cv` function is called 
 \
 
 ::: { #func.calc_date_general_effect.cv.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5731,7 +5763,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_effect.arg
 
 :::
 ::: { #func.train_UMGY_effect.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5807,7 +5839,7 @@ In the above code snippet, the `train_UMGY_effect.cv` function is called interna
 \
 
 ::: { #func.train_UMGY_effect.cv.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6196,7 +6228,7 @@ In the code snippet above, the function `calc_day_general_effect` is called inte
 
 :::
 ::: { #func.calc_day_general_effect.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6276,7 +6308,7 @@ In the above code snippet, the `calc_day_general_effect.cv` function is called i
 \
 
 ::: { #func.calc_day_general_effect.cv.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6354,7 +6386,7 @@ Data frame object representing the *Day General Effect* data.
 ###### ***degree***
 \
 
-(Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
+(Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
 
 ::: {.noteblock data-latex=""}
 When the value is `NA` (default), $1$ is passed in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function. 
@@ -6439,7 +6471,7 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above; 
+  - **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above; 
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.span .sidebar }
@@ -6525,7 +6557,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
+  - **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.span .sidebar }
@@ -6533,7 +6565,7 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6613,7 +6645,7 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is ca
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.degree .sidebar }
-  - **degree:** (Integer, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
+  - **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.span .sidebar }
@@ -6621,7 +6653,7 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.cv` function is ca
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.lambda .sidebar }
-  - **lambda:** (0 by default) Regularization parameter $\lambda$. 
+  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -7031,7 +7063,7 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.RMSE.cv` function 
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree .sidebar }
-  - **degree:** (Integer, `NA` by default) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the degree of the polynomials to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above; 
+  - **degree:** (Optional, *Integer*, `NA` by default) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the degree of the polynomials to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span .sidebar }
