@@ -421,7 +421,7 @@ Creates a character vector from the template passed in the [msg_template](#func.
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L42) above, the function `get_log1` is called internally from the [put_log1](#func.print_log1) function described below in *this Section*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L42) above, the function `get_log1` is called internally from the [put_log1](#func.put_log1) function described below in *this Section*.
 :::
 :::
 
