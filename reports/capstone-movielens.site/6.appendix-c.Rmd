@@ -47,24 +47,53 @@
 
 ### [Appendix A: Support Functions]
 * [](#func.)
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
 
 #### [Common Helper Functions]
 
 ##### [Logging Functions]
 \
 
-* [get_log1](#func.get_log1)
-  * [Usage](#)
-  * [Details](#)
-* [get_log2](#func.get_log2)
-  * [Usage](#)
-  * [Details](#)
-* [get_log3](#func.get_log3)
-  * [Usage](#)
-  * [Details](#)
-* [get_log4](#func.get_log4)
-  * [Usage](#)
-  * [Details](#)
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
+
 
 ##### [Utility Functions]
 \
@@ -252,18 +281,44 @@ print(head(edx.ordered_movie_ratings))
 \
 
 * [open_logfile](#func.open_logfile)
-  * 15 [Usage](#func.open_logfile.usage)
+  * [Usage](#func.open_logfile.usage)
+    * 15
+  * [Value](#func.open_logfile.value)
+    * 57 \\newfile
+
+* [put_end_date](#func.)
+  * [Source Code](#func.put_end_date.code)
+    * 300 \\newfile
+
+* [put_log](#func.)
+
+
+* [print_log](#func.print_log)
+  * [Usage](#func.print_log.usage)
+  * [Source Code](#func.print_log.code)
+    * 357 \\newfile
+* [put_log](#func.put_log)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231)
+  * [Source Code](#func.put_log.code)
+    * 416 \\newfile
 * [get_log1](#func.get_log1)
   * 416: [Usage](#func.get_log1.usage)
   * 448: [Details](#func.get_log1.details): This is an auxiliary function intended for use in other custom logging functions...
-* [print_log](#func.print_log)
-  * 301 [Usage](#func.print_log.usage)
-* [put_log](#func.put_log)
-  * 356 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231)
 * [print_log1](#func.print_log1)
   * 473 [Usage](#func.print_log1.usage)
 * [put_log1](#func.put_log1)
   * 556 [Usage](#func.put_log1.usage)
+
+* [get_log2](#func.get_log2)
+  * [Usage](#)
+  * [Details](#)
+* [get_log3](#func.get_log3)
+  * [Usage](#)
+  * [Details](#)
+* [get_log4](#func.get_log4)
+  * [Usage](#)
+  * [Details](#)
+
   
 ##### [Utility Functions]
 \

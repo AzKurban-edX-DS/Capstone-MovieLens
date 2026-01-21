@@ -54,6 +54,8 @@ The path of the log.
 
 :::
 
+\newpage
+
 ::: { #func.open_logfile.code .sidebar }
 ##### Source Code
 \
@@ -295,6 +297,8 @@ The source code of the [put_end_date](https://github.com/AzKurban-edX-DS/Capston
 :::
 :::
 
+\newpage
+
 #### [print_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L28) Function {#func.print_log}
 \
 
@@ -349,6 +353,8 @@ print_log <- function(msg){
 The source code of the [print_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L28) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L28) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 #### [put_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L31) Function {#func.put_log}
 \
@@ -406,6 +412,8 @@ put_log <- function(msg){
 The source code of the [put_log](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L31) function is defined in the [logging-functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L31) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 #### [get_log1](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L35) Function {#func.get_log1}
 \
@@ -632,7 +640,7 @@ Creates a character vector from the template passed in the [msg_template](#func.
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#55) above, the function `get_log2` is called internally from the [put_log2](#func.put_log2) function described below in *this Section*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/logging-functions.R#L55) above, the function `get_log2` is called internally from the [put_log2](#func.put_log2) function described below in *this Section*.
 :::
 :::
 
