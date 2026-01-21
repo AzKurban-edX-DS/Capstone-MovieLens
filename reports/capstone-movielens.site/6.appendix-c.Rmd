@@ -61,28 +61,6 @@
 ##### [Logging Functions]
 \
 
-* [get_log1](#func.get_log1)
-  * [Value](#func.get_log1.value)
-    * 469 \\newfile
-* [print_log1](#func.print_log1)
-  * [Value](#func.print_log1.value)
-    * 540 \\newfile
-* [put_log1](#func.put_log1)
-  * [Value](#func.put_log1.value)
-    * 613 \\newfile
-    
-
-* [print_log3](#func.print_log3)
-  * [Value](#func.print_log3.value)
-    *  986 \\newfile
-* [put_log3](#func.put_log3)
-  * [Value](#func.put_log3.value)
-    * 1062 \\newfile
-
-* [print_log4](#func.print_log4)
-  * [Value](#func.print_log4.value)
-    *  1231 \\newfile
-
 * [](#func.)
   * [Value](#func..value)
     * \\newfile
@@ -320,9 +298,6 @@ print(head(edx.ordered_movie_ratings))
   * [Source Code](#func.put_end_date.code)
     * 300 \\newfile
 
-* [put_log](#func.)
-
-
 * [print_log](#func.print_log)
   * [Usage](#func.print_log.usage)
   * [Source Code](#func.print_log.code)
@@ -331,23 +306,42 @@ print(head(edx.ordered_movie_ratings))
   * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231)
   * [Source Code](#func.put_log.code)
     * 416 \\newfile
+
 * [get_log1](#func.get_log1)
   * 416: [Usage](#func.get_log1.usage)
   * 448: [Details](#func.get_log1.details): This is an auxiliary function intended for use in other custom logging functions...
+  * [Value](#func.get_log1.value)
+    * 469 \\newfile
 * [print_log1](#func.print_log1)
-  * 473 [Usage](#func.print_log1.usage)
+  * [Usage](#func.print_log1.usage)
+    * 473
+  * [Value](#func.print_log1.value)
+    * 540 \\newfile
 * [put_log1](#func.put_log1)
   * 556 [Usage](#func.put_log1.usage)
+  * [Value](#func.put_log1.value)
+    * 613 \\newfile
 
 * [get_log2](#func.get_log2)
   * [Usage](#)
   * [Details](#)
+
 * [get_log3](#func.get_log3)
   * [Usage](#)
   * [Details](#)
+* [print_log3](#func.print_log3)
+  * [Value](#func.print_log3.value)
+    *  986 \\newfile
+* [put_log3](#func.put_log3)
+  * [Value](#func.put_log3.value)
+    * 1062 \\newfile
+
 * [get_log4](#func.get_log4)
   * [Usage](#)
   * [Details](#)
+* [print_log4](#func.print_log4)
+  * [Value](#func.print_log4.value)
+    *  1231 \\newfile
 
   
 ##### [Utility Functions]
