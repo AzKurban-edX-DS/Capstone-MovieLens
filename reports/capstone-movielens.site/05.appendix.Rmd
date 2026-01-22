@@ -368,6 +368,9 @@ Outputs a multiline string specified by the [msg](#func.put_log.args.msg) argume
 ```{r main-script@l1231u, eval=FALSE}
 put_log("Computing Average Ratings per User (User Mean Ratings)...")
 ```
+```{r, echo=FALSE}
+print_log("Computing Average Ratings per User (User Mean Ratings)...")
+```
 :::
 
 ::: { #func.put_log.args .sidebar }
@@ -1207,10 +1210,10 @@ The source code of the [get_log4](https://github.com/AzKurban-edX-DS/Capstone-Mo
 Prints a log created from the template passed in the [msg_template](#func.print_log4.args.msg_template) argument, using the values specified by the [arg1](#func.print_log4.args.arg1), [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
 ::: { #func.print_log4.usage .sidebar }
-##### [Usage](https://www.pragmaticinstitute.com/resources/articles/data/4-important-aspects-of-data-science/)
+##### [Usage](https://www.pragmaticinstitute.com/resources/articles/data/4-important-aspects-of-data-science/)[@IADS_4]
 \
 
-```{r print_log4@example1, eval=FALSE}
+```{r print_log4@example1}
 arg1 <- "Data Collection"
 arg2 <- "Data Cleaning and Transformation"
 arg3 <- "Statistical Analysis"
@@ -1297,7 +1300,7 @@ The source code of the [print_log4](https://github.com/AzKurban-edX-DS/Capstone-
 Outputs a log to the currently open log file (using the [open_logfile](#func.open_logfile) function described above), created from the template passed in the [msg_template](#func.put_log4.args.msg_template) argument, using the values specified by the [arg1](#func.put_log4.args.arg1), [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments to replace all the occurrences of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"*, respectively, found in the template.
 
 ::: { #func.put_log4.usage .sidebar }
-##### [Usage](https://www.pragmaticinstitute.com/resources/articles/data/4-important-aspects-of-data-science/)
+##### [Usage](https://www.pragmaticinstitute.com/resources/articles/data/4-important-aspects-of-data-science/)[@IADS_4]
 \
 
 ```{r put_log4@example1}
