@@ -124,25 +124,6 @@
 
 ---
 
-* [print_log2](#func.print_log2)
-  * [Usage](#func.print_log2.usage)
-
-* [put_log2](#func.put_log2)
-  * [Usage](#func.put_log2.usage)
-
-* [print_log3](#func.print_log3)
-  * [Usage](#func.print_log3.usage)
-
-* [put_log3](#func.put_log3)
-  * [Usage](#func.put_log3.usage)
-
-* [print_log4](#func.print_log4)
-  * [Usage](#func.print_log4.usage)
-
-* [put_log4](#func.put_log4)
-  * [Usage](#func.put_log4.usage)
-
-
 
 ##### [Utility Functions]
 \
@@ -324,14 +305,13 @@ print(head(edx.ordered_movie_ratings))
 
 ### [Appendix A: Support Functions]
 
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
 #### [Common Helper Functions]
 
 ##### [Logging Functions]
 \
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
 
 * [open_logfile](#func.open_logfile)
   * [Usage](#func.open_logfile.usage)
@@ -343,11 +323,6 @@ print(head(edx.ordered_movie_ratings))
   * [Usage](#func.print_start_date.usage)
 * [print_end_date](#func.print_end_date)
   * [Usage](#func.print_end_date.usage)
-
-
-
-
-
 * [put_end_date](#func.)
   * [Source Code](#func.put_end_date.code)
     * 300 \\newfile
@@ -379,21 +354,30 @@ print(head(edx.ordered_movie_ratings))
 * [get_log2](#func.get_log2)
   * [Usage](#)
   * [Details](#)
+* [print_log2](#func.print_log2)
+  * [Usage](#func.print_log2.usage)
+* [put_log2](#func.put_log2)
+  * [Usage](#func.put_log2.usage)
 
 * [get_log3](#func.get_log3)
   * [Usage](#)
   * [Details](#)
 * [print_log3](#func.print_log3)
+  * [Usage](#func.print_log3.usage)
   * [Value](#func.print_log3.value)
-    *  986 \\newfile
 * [put_log3](#func.put_log3)
+  * [Usage](#func.put_log3.usage)
   * [Value](#func.put_log3.value)
 
 * [get_log4](#func.get_log4)
   * [Usage](#)
   * [Details](#)
 * [print_log4](#func.print_log4)
+  * [Usage](#func.print_log4.usage)
   * [Value](#func.print_log4.value)
+* [put_log4](#func.put_log4)
+  * [Usage](#func.put_log4.usage)
+
 
 ##### [Utility Functions]
 \
@@ -497,7 +481,6 @@ print(head(edx.ordered_movie_ratings))
       * 4211 \\newpage
     * [Source Code](#)
       * 4255 \\newpage
-  
 
 
 #### [Models Training: Support Functions]
