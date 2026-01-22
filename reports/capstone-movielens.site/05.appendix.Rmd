@@ -841,6 +841,8 @@ The function works similarly to the [print_log2](#func.print_log2) function desc
 A glue object, returned by the internally called function [get_log2](#func.get_log2) described above.
 :::
 
+\newpage
+
 ::: { #func.put_log2.code .sidebar }
 ##### Source Code
 \
@@ -1094,8 +1096,6 @@ The function works similarly to the [print_log3](#func.print_log3) function desc
 A glue object, returned by the internally called function [get_log3](#func.get_log3) described above.
 :::
 
-\newpage
-
 ::: { #func.put_log3.code .sidebar }
 ##### Source Code
 \
@@ -1273,8 +1273,6 @@ This function internally calls the [base::print](https://www.rdocumentation.org/
 
 A glue object, returned by the internally called function [get_log4](#func.get_log4) described above.
 :::
-
-\newpage
 
 ::: { #func.print_log4.code .sidebar }
 ##### Source Code

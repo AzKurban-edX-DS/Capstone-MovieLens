@@ -388,14 +388,12 @@ print(head(edx.ordered_movie_ratings))
     *  986 \\newfile
 * [put_log3](#func.put_log3)
   * [Value](#func.put_log3.value)
-    * 1062 \\newfile
 
 * [get_log4](#func.get_log4)
   * [Usage](#)
   * [Details](#)
 * [print_log4](#func.print_log4)
   * [Value](#func.print_log4.value)
-    *  1231 \\newfile
 
 ##### [Utility Functions]
 \
