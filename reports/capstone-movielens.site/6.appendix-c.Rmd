@@ -47,7 +47,6 @@
 
 ### [Appendix A: Support Functions]
 * [%](#func.%)
-* [%](#func.%)
   * [Usage](#func.%.usage)
   * [Arguments](#func.%.args)
   * [Details](#func.%.details)
@@ -127,6 +126,16 @@
 
 ##### [Utility Functions]
 \
+
+* [clamp](#func.clamp)
+  * [Usage](#func.clamp.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
 
 ##### [(Root) Mean Squared Error Calculation]
 

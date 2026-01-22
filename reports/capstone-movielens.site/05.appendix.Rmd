@@ -1398,12 +1398,27 @@ The complete source code of the functions described in this section are availabl
 Clamps the input value passed in [r](#func.clamp.args.r) argument between the values passed in [min](#func.clamp.args.min) and [max](#func.clamp.args.max) arguments. 
 
 ::: { #func.clamp.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L347)
 \
 
-```{r eval=FALSE}
-r_clamped <- clamp(r, min = 0.5, max = 5)
+```{r main-script@l347u, eval=FALSE}
+edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
+  cv_fold_dat$validation_set |>
+    left_join(edx.user_effect, by = "userId") |>
+    mutate(resid = rating - clamp(mu + a)) |> 
+    pull(resid) |> mse()
+})
 ```
+```{r}
+data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
+  data.plot(title = "MSE resuls of the 5-fold CV method applied to the User Effect Model",
+            xname = "fold_No", 
+            yname = "MSE")
+```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L355) above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
+:::
 :::
 
 ::: { #func.clamp.args .sidebar }
