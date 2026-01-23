@@ -5111,7 +5111,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ##### Usage
 \
 
-```{r main-script@l571u, eval=FALSE}
+```{r main-script@l571u_2, eval=FALSE}
   lambdas <- seq(0, 1, 0.1)
   cv.UME.preset.result <- 
     tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
