@@ -127,37 +127,56 @@
 ##### [Utility Functions]
 \
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
-
 ##### [(Root) Mean Squared Error Calculation]
 \
 
 ##### [Result RMSEs Tibble Functions]
 \
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
 ##### [Model Tuning Utils]
 \
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+
+---
+
+* [mean_reg](#func.mean_reg)
+  * [Usage](#func.mean_reg.usage)
+  * [Details](#func.mean_reg.details)
+  
+* [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
+  * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.idx.details)
+  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+  
+  
 
 #### [Data Helper Functions]
 ##### [Models Training Functions]
