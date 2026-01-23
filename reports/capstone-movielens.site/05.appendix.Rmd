@@ -2351,7 +2351,7 @@ Calculates the arithmetic mean taking into account the _regularization parameter
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r UM-effect.func@l10, eval=FALSE}
   UM.effect <- train_set |>
     left_join(edx.user_effect, by = "userId") |>
     mutate(resid = rating - (mu + a)) |> 
@@ -2360,7 +2360,7 @@ Calculates the arithmetic mean taking into account the _regularization parameter
 ```
 
 ::: {.noteblock data-latex=""}
-In the sample code snippet above, the `mean_reg` function is called internally from the [train_user_movie_effect](#func.train_user_movie_effect) function described below in section [Models Training: Support Functions]/[UME Model: Utility Functions] of *this Appendix*.
+In the [sample code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L10) above, the `mean_reg` function is called internally from the [train_user_movie_effect](#func.train_user_movie_effect) function described below in section [Models Training: Support Functions]/[UME Model: Utility Functions] of *this Appendix*.
 :::
 :::
 
@@ -2394,7 +2394,7 @@ $$
 $$
 
 ::: {.noteblock data-latex=""}
-This is a helper function intended for use in other helper functions that compute *penalized estimates* during the *regularization* process of the models being trained[@IDS2_24-2]. All these functions are described below in section [Models Training: Support Functions] of *this Appendix*.
+This is a helper function intended for use in other helper functions (such as, for instance, [train_user_movie_effect](#func.train_user_movie_effect) as shown above in the [Usage](#func.get_log.usage) section of *this Description*) that compute *penalized estimates* during the *regularization* process of the models being trained[@IDS2_24-2]. All these functions are described below in section [Models Training: Support Functions] of *this Appendix*.
 :::
 
 When the [lambda](#func.mean_reg.args.lambda) parameter is `0` (meaning the $\lambda = 0$), the function calculates the simple arithmetic mean:
