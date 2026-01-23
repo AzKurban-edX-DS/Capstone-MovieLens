@@ -2526,6 +2526,8 @@ print(preset.result.idx)
 
 :::
 
+\newpage
+
 ::: { #func.get_fine_tune.param.endpoints.idx.code .sidebar }
 ##### Source Code
 \
@@ -2569,7 +2571,7 @@ The source code of the [get_fine_tune.param.endpoints.idx](https://github.com/Az
 :::
 :::
 
-
+\newpage
 
 #### [get_fine_tune.param.endpoints](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L109) Function {#func.get_fine_tune.param.endpoints}
 \
