@@ -129,8 +129,9 @@
 
 * [clamp](#func.clamp)
   * [Usage](#func.clamp.usage)
-* [%](#func.%)
-  * [Usage](#func.%.usage)
+  * [Source Code](#func.%.code)
+    * \\newpage
+    
 * [%](#func.%)
   * [Usage](#func.%.usage)
 * [%](#func.%)
@@ -138,6 +139,10 @@
 
 
 ##### [(Root) Mean Squared Error Calculation]
+\
+
+* [mse](#func.mse)
+  * [Usage](#func.mse.usage)
 
 ##### [Result RMSEs Tibble Functions]
 \

@@ -1472,6 +1472,8 @@ The source code of the [clamp](https://github.com/AzKurban-edX-DS/Capstone-Movie
 :::
 :::
 
+\newpage
+
 #### [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453) Function {#func.msg.set_arg}
 \
 
