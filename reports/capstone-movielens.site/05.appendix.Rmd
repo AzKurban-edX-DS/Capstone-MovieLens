@@ -1401,7 +1401,7 @@ Clamps the input value passed in [r](#func.clamp.args.r) argument between the va
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L347)
 \
 
-```{r main-script@l347u, eval=FALSE}
+```{r main-script@l347u_clamp, eval=FALSE}
 edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
     left_join(edx.user_effect, by = "userId") |>
@@ -1640,7 +1640,7 @@ Calculates *Mean Squared Error* of the set of *residuals* (passed in the [r](#fu
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L347)
 \
 
-```{r main-script@l347u, eval=FALSE}
+```{r main-script@l347u_mse, eval=FALSE}
 edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
   cv_fold_dat$validation_set |>
     left_join(edx.user_effect, by = "userId") |>
@@ -1648,6 +1648,16 @@ edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
     pull(resid) |> mse()
 })
 ```
+```{r}
+data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
+  data.plot(title = "MSE resuls of the 5-fold CV method applied to the User Effect Model",
+            xname = "fold_No", 
+            yname = "MSE")
+```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L355) above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
+:::
 :::
 
 ::: { #func.mse.args .sidebar }
