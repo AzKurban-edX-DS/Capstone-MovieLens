@@ -138,17 +138,9 @@
 ##### [(Root) Mean Squared Error Calculation]
 \
 
-* [mse](#func.mse)
-  * [Usage](#func.mse.usage)
-
 ##### [Result RMSEs Tibble Functions]
 \
 
-* [RMSEs.AddRow](#func.RMSEs.AddRow)
-  * [Usage](#func.RMSEs.AddRow.usage)
-* [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn)
-  * [Usage](#func.RMSEs.AddDiffColumn.usage)
-  
 * [%](#func.%)
   * [Usage](#func.%.usage)
 * [%](#func.%)
@@ -436,36 +428,39 @@ print(head(edx.ordered_movie_ratings))
 
 ##### [(Root) Mean Squared Error Calculation]
 \
-
 * [mse](#func.mse): fix lines:
+  * [Usage](#func.mse.usage)
   * 1490: [Usage];
   * 1508: [Arguments]
 
 ##### [Result RMSEs Tibble Functions]
 \
 
-* [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn)
-  * 1853 [Usage](#func.RMSEs.AddDiffColumn.usage)
-* [RMSE.Total_kable](#func.RMSE.Total_kable)
-  * 2083 It is assumed that the tibble has the following four columns:
-  * 2093 [Usage](#func.RMSE.Total_kableusage)
 * [CreateRMSEs_ResultTibble](#func.CreateRMSEs_ResultTibble)
   * 1704 [Usage](#func.CreateRMSEs_ResultTibble.usage)
 * [RMSEs.AddRow](#func.RMSEs.AddRow)
-  * 1759 [Usage](#func.RMSEs.AddRow.usage)
-  * 1772 [Arguments](#func.RMSEs.AddRow.args)
+  * [Usage](#func.RMSEs.AddRow.usage)
+    * 1759
+  * [Arguments](#func.RMSEs.AddRow.args)
+    * 1772
     * [comment](#func.RMSEs.AddRow.args.comment)
     * [before](#func.RMSEs.AddRow.args.before)
+* [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn)
+  * [Usage](#func.RMSEs.AddDiffColumn.usage)
+    * 1853
 * [RSME.tibble.col_width](#func.RSME.tibble.col_width)
   * 1918 [Usage](#func.RSME.tibble.col_width.usage)
   * 1946 [Details](#func.RSME.tibble.col_width.details)
-
 * [RMSE_kable](#func.RMSE_kable)
   * 1984 [Usage](#func.RMSE_kable.usage)
   * 1996 [Arguments](#func.RMSE_kable.args)
     * 2005 [colwidth](#func.RMSE_kable.args.col1width) (Optional, 15 by default) ...
     * 2010 [col2width](#func.RMSE_kable.args.col12width) (Optional, 5 by default) ...
     * 2015 [col3width](#func.RMSE_kable.args.col13width) (Optional, 30 by default) ...
+* [RMSE.Total_kable](#func.RMSE.Total_kable)
+  * 2083 It is assumed that the tibble has the following four columns:
+  * 2093 [Usage](#func.RMSE.Total_kableusage)
+
 
 ##### [Model Tuning Utils]
 \
