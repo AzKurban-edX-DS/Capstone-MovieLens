@@ -127,14 +127,6 @@
 ##### [Utility Functions]
 \
 
-* [clamp](#func.clamp)
-  * [Usage](#func.clamp.usage)
-  * [Source Code](#func.clamp.code)
-    * \\newpage
-    
-* [msg.glue](#func.msg.glue)
-  * [Usage](#func.msg.glue.usage)
-
 * [%](#func.%)
   * [Usage](#func.%.usage)
 * [%](#func.%)
@@ -151,6 +143,26 @@
 
 ##### [Result RMSEs Tibble Functions]
 \
+
+* [RMSEs.AddRow](#func.RMSEs.AddRow)
+  * [Usage](#func.RMSEs.AddRow.usage)
+* [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn)
+  * [Usage](#func.RMSEs.AddDiffColumn.usage)
+  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
 
 ##### [Model Tuning Utils]
 \
@@ -401,6 +413,10 @@ print(head(edx.ordered_movie_ratings))
 ##### [Utility Functions]
 \
 
+* [clamp](#func.clamp)
+  * [Usage](#func.clamp.usage)
+  * [Source Code](#func.clamp.code)
+    * \\newpage
 * [msg.set_arg](#func.msg.set_arg)
   * 1366 [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453)
   * 1372 [Usage]
@@ -411,6 +427,7 @@ print(head(edx.ordered_movie_ratings))
     * [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453)
 * [msg.glue](#func.msg.glue)
   * 1433 [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457)
+  * [Usage](#func.msg.glue.usage)
   * 1473 [Details](#func.msg.glue.details) ... described above in *this Section*.
   * 1489 [Source Code](#func.msg.glue.code)
     * [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457)

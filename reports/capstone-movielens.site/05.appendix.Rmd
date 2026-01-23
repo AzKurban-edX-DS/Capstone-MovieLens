@@ -1574,7 +1574,7 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UME)
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L725) above, we also use the [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of *this Appendix*.
+In the *code snippet* above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of *this Appendix*.
 :::
 :::
 
@@ -1911,6 +1911,13 @@ RMSEs.ResultTibble.OMR <- RMSEs.ResultTibble |>
                mu.RMSE,
                comment = "Overall Mean Rating (OMR) Model")
 ```
+```{r main-script@l205u.add_row}
+RMSE_kable(RMSEs.ResultTibble.OMR)
+```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L205) above, we use the [RMSE_kable](#func.RMSE_kable) functions described below in *this Section*.
+:::
 :::
 
 ::: { #func.RMSEs.AddRow.args .sidebar }
@@ -2000,6 +2007,13 @@ Adds a calculated column named _Diff_ to the _RMSEs Result Tibble_ (passed in th
 ```{r main-script@l2389u, eval=FALSE}
 total.RMSEs.ResultTibble <- RMSEs.AddDiffColumn(final.MF.RMSEs.ResultTibble)
 ```
+```{r main-script@l2390u.add_diff_column}
+RMSE.Total_kable(total.RMSEs.ResultTibble)
+```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2390) above, we use the [RMSE.Total_kable](#func.RMSE.Total_kable) functions described below in *this Section*.
+:::
 :::
 
 ::: { #func.RMSEs.AddDiffColumn.args .sidebar }
