@@ -1409,7 +1409,7 @@ edx.user_effect.MSEs <- sapply(edx_CV, function(cv_fold_dat){
     pull(resid) |> mse()
 })
 ```
-```{r}
+```{r main-script@l355u_clamp}
 data.frame(fold_No = 1:5, MSE = edx.user_effect.MSEs) |>
   data.plot(title = "MSE resuls of the 5-fold CV method applied to the User Effect Model",
             xname = "fold_No", 
@@ -1561,7 +1561,7 @@ Creates a [glue::glue](https://glue.tidyverse.org/reference/glue.html) object fr
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L719)
 \
 
-```{r main-script@l719u, eval=FALSE}
+```{r main-script@l719u_msg.glue, eval=FALSE}
 #### Add a row to the RMSE Result Table for the Regularized User+Movie Effect Model --------
 RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |> 
   RMSEs.AddRow("Regularized UME Model", 
@@ -1569,6 +1569,13 @@ RMSEs.ResultTibble.rglr.UME <- RMSEs.ResultTibble.UME |>
                comment = "Computed for `lambda` = %1" |>
                  msg.glue(UME.rglr.best_lambda))
 ```
+```{r main-script@l725u_msg.glue}
+RMSE_kable(RMSEs.ResultTibble.rglr.UME)
+```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L725) above, we also use the [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of *this Appendix*.
+:::
 :::
 
 ::: { #func.msg.glue.args .sidebar }

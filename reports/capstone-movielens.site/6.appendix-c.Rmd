@@ -129,9 +129,14 @@
 
 * [clamp](#func.clamp)
   * [Usage](#func.clamp.usage)
-  * [Source Code](#func.%.code)
+  * [Source Code](#func.clamp.code)
     * \\newpage
     
+* [msg.glue](#func.msg.glue)
+  * [Usage](#func.msg.glue.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
 * [%](#func.%)
   * [Usage](#func.%.usage)
 * [%](#func.%)
