@@ -2507,6 +2507,8 @@ print(preset.result.idx)
 ```
 :::
 
+\newpage
+
 ::: { #func.get_fine_tune.param.endpoints.idx.value .sidebar }
 ##### Value
 \

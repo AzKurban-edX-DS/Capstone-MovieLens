@@ -147,15 +147,6 @@
 
 ---
 
-* [mean_reg](#func.mean_reg)
-  * [Usage](#func.mean_reg.usage)
-  * [Details](#func.mean_reg.details)
-  
-* [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
-  * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
-  * [Details](#func.get_fine_tune.param.endpoints.idx.details)
-    * 2488 \\newpage
-  
 * [%](#func.%)
   * [Usage](#func.%.usage)
   * [Details](#func.%.details)
@@ -448,10 +439,15 @@ print(head(edx.ordered_movie_ratings))
 
 ##### [(Root) Mean Squared Error Calculation]
 \
-* [mse](#func.mse): fix lines:
-  * [Usage](#func.mse.usage)
-  * 1490: [Usage];
-  * 1508: [Arguments]
+* [mean_reg](#func.mean_reg)
+  * [Usage](#func.mean_reg.usage)
+  * [Details](#func.mean_reg.details)
+  
+* [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
+  * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.idx.details)
+    * 2488 \\newpage
+  
 
 ##### [Result RMSEs Tibble Functions]
 \
