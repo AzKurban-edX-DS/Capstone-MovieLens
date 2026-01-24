@@ -2505,6 +2505,10 @@ preset.result <- cv.UME.preset.result$tuned.result
 preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
 print(preset.result.idx)
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
+:::
 :::
 
 \newpage
@@ -2586,30 +2590,12 @@ The algorithm assumes that the set of values in the *RMSE* column is a monotonic
 
 
 ::: { #func.get_fine_tune.param.endpoints.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L608)
 \
 
-::: {.noteblock data-latex=""}
-The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function described below is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument.
-:::
-
-The following code snippet shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument:
-```{r eval=FALSE}
-cv.UME.preset.result <- 
-  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
-
-```
-```{r}
-cv.UME.preset.result$tuned.result |>
-  data.plot(title = "UME Model Regularization: `lambda` Range Pre-configuration",
-              xname = "parameter.value",
-              yname = "RMSE",
-              xlabel = "Regularization parameter (`lambda`)",
-              ylabel = "RMSE")
-
-preset.result <- cv.UME.preset.result$tuned.result
-fine_tune.param.endpoints <- get_fine_tune.param.endpoints(preset.result)
-print(fine_tune.param.endpoints)
+```{r main-script@l608, eval=FALSE}
+endpoints <- 
+  get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
 ```
 
 :::
@@ -2629,6 +2615,34 @@ print(fine_tune.param.endpoints)
 \
 
 This function internally calls [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) function described above to figure out the indices of the elements, the values of which have to be determined.
+
+::: {.noteblock data-latex=""}
+The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function described below is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument.
+:::
+
+The following code snippet shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument:
+```{r main-script@l571u.ft_param_endpoints, eval=FALSE}
+lambdas <- seq(0, 1, 0.1)
+cv.UME.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+
+```
+```{r main-script@l596u.ft_param_endpoints}
+cv.UME.preset.result$tuned.result |>
+  data.plot(title = "UME Model Regularization: `lambda` Range Pre-configuration",
+              xname = "parameter.value",
+              yname = "RMSE",
+              xlabel = "Regularization parameter (`lambda`)",
+              ylabel = "RMSE")
+
+preset.result <- cv.UME.preset.result$tuned.result
+fine_tune.param.endpoints <- get_fine_tune.param.endpoints(preset.result)
+print(fine_tune.param.endpoints)
+```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
+:::
 :::
 
 ::: { #func.get_fine_tune.param.endpoints.value .sidebar }

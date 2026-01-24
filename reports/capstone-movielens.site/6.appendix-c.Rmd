@@ -147,9 +147,9 @@
 
 ---
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
+* [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints)
+  * [Usage](#func.get_fine_tune.param.endpoints.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.details)
   
 * [%](#func.%)
   * [Usage](#func.%.usage)
@@ -439,15 +439,6 @@ print(head(edx.ordered_movie_ratings))
 
 ##### [(Root) Mean Squared Error Calculation]
 \
-* [mean_reg](#func.mean_reg)
-  * [Usage](#func.mean_reg.usage)
-  * [Details](#func.mean_reg.details)
-  
-* [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
-  * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
-  * [Details](#func.get_fine_tune.param.endpoints.idx.details)
-    * 2488 \\newpage
-  
 
 ##### [Result RMSEs Tibble Functions]
 \
@@ -481,10 +472,18 @@ print(head(edx.ordered_movie_ratings))
 ##### [Model Tuning Utils]
 \
 
-* [mean_reg](func.mean_reg)
-  * 2232 [lambda](#func.mean_reg.args.lambda) (Optional, 0 by default)...
-  * 2235 [na.rm](#func.mean_reg.args.na.rm) (Optional, `TRUE` by default)...
-  * 2241 [Details](#func.mean_reg.details) \\newpage
+* [mean_reg](#func.mean_reg)
+  * [Usage](#func.mean_reg.usage)
+  * [Arguments](func.mean_reg.args)
+    * [lambda](#func.mean_reg.args.lambda) (Optional, 0 by default)...
+    * [na.rm](#func.mean_reg.args.na.rm) (Optional, `TRUE` by default)...
+  * [Details](#func.mean_reg.details)
+  
+* [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
+  * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.idx.details)
+    * 2488 \\newpage
+  
 
 #### [Data Helper Functions]
 
