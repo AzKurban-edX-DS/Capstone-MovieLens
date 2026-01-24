@@ -2614,13 +2614,13 @@ endpoints <-
 ##### Details
 \
 
-This function internally calls [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) function described above to figure out the indices of the elements, the values of which have to be determined.
+This function internally calls [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) function described above in *this Section* to figure out the indices of the elements, the values of which have to be determined.
 
 ::: {.noteblock data-latex=""}
-The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function described below is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument.
+The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function (described below *in this Section*) is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument.
 :::
 
-The following code snippet shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument:
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument:
 ```{r main-script@l571u.ft_param_endpoints, eval=FALSE}
 lambdas <- seq(0, 1, 0.1)
 cv.UME.preset.result <- 
@@ -2644,6 +2644,8 @@ print(fine_tune.param.endpoints)
 In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
 :::
 :::
+
+\newpage
 
 ::: { #func.get_fine_tune.param.endpoints.value .sidebar }
 ##### Value
