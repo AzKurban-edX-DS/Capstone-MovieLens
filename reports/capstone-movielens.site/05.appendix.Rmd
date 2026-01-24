@@ -2593,7 +2593,7 @@ The algorithm assumes that the set of values in the *RMSE* column is a monotonic
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L608)
 \
 
-```{r main-script@l608, eval=FALSE}
+```{r main-script@l608u, eval=FALSE}
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
 ```
