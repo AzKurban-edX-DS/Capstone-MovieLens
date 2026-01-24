@@ -2691,18 +2691,28 @@ The source code of the [get_fine_tune.param.endpoints](https://github.com/AzKurb
 #### [get_best_param.result](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L121) Function {#func.get_best_param.result}
 \
 
-Selects the best values from a pair of matched vectors: a vector of sorted *tuning parameter* values and a vector of corresponding *Root Mean Squared Errors (RMSE)* values passed in the [param_values](#func.tune.model_param.args.param_values) and [RMSEs](#func.get_best_param.result.args.RMSEs) arguments, respectively.
+Selects the best values from a pair of matched vectors: a vector of sorted *tuning parameter* values and a vector of corresponding *Root Mean Squared Errors (RMSE)* values passed in the [param_values](#func.get_best_param.result.args.param_values) and [RMSEs](#func.get_best_param.result.args.RMSEs) arguments, respectively.
 
 
 ::: { #func.get_best_param.result.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
-        param_values.best_result <-
-          get_best_param.result(tuned.result$parameter.value,
-                                tuned.result$RMSE)
+In the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L413), the `get_best_param.result` function is called internally from the [model.tune.param_range](#func.model.tune.param_range) function described below in *this Section*:
+```{r common-helper.func@l413u, eval=FALSE}
+    param_values.best_result <- 
+      get_best_param.result(tuned.result$parameter.value, 
+                          tuned.result$RMSE)
+    
+    put_log2("Function `model.tune.param_range`:
+Currently reached best RMSE for `parameter value = %1`: %2",
+             param_values.best_result["param.best_value"],
+             param_values.best_result["best_RMSE"])
 ```
+
+::: {.noteblock data-latex=""}
+In the code snippet above, we use the custom function [put_log2](#func.put_log2) described in section [Logging Functions] of *this Appendix*.
+:::  
 :::
 
 ::: { #func.get_best_param.result.args .sidebar }
@@ -2710,11 +2720,11 @@ Selects the best values from a pair of matched vectors: a vector of sorted *tuni
 \
 
 ::: { #func.get_best_param.result.args.param_values .sidebar }
-  - **param_values:** Numeric vector containing a sorted list of the *tuning parameter* values to search for the best one during the *Model Regularization* process; 
+  - **param_values:** *Numeric vector* containing a sorted list of the *tuning parameter* values to search for the best one during the *Model Regularization* process; 
 
 :::
 ::: { #func.get_best_param.result.args.RMSEs .sidebar }
-  - **RMSEs:** *RMSE* values computed during the *Model Regularization* process. 
+  - **RMSEs:** *Numeric vector* containing a list of *RMSE* values computed during the *Model Regularization* process. 
 
 :::
 :::
@@ -2723,11 +2733,13 @@ Selects the best values from a pair of matched vectors: a vector of sorted *tuni
 ##### Details
 \
 
-This is a *utility function* used to select the *best values* during the *Model Parameter Tuning* process (including the *Model Regularization* procedure that utilizes the *penalized approach* to regularize predictions as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]).
+This is a *auxiliary function* used to select the *best values* during the *Model Parameter Tuning* process (including the *Model Regularization* procedure that utilizes the *penalized approach* to regularize predictions as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2]).
 
 With this approach, the best value of the *tuning parameter* is considered to be the value corresponding to the minimum value of the *RMSE* for the model being tested.
 
-In *This Project*, this function is used internally in the [model.tune.param_range](#func.model.tune.param_range) function described below in this section.
+::: {.noteblock data-latex=""}
+In *This Project*, this function is used internally in the [model.tune.param_range](#func.model.tune.param_range) custom helper function (as shown above in the [Usage](#) section of *this Description*) described below in *this Section*.
+:::
 :::
 
 ::: { #func.get_best_param.result.value .sidebar }

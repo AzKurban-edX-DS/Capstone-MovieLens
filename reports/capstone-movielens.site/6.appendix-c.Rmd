@@ -147,13 +147,9 @@
 
 ---
 
-* [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints)
-  * [Usage](#func.get_fine_tune.param.endpoints.usage)
-  * [Details](#func.get_fine_tune.param.endpoints.details)
-  
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
+* [get_best_param.result](#func.get_best_param.result)
+  * [Usage](#func.get_best_param.result.usage)
+  * [Details](#func.get_best_param.result.details)
   
 * [%](#func.%)
   * [Usage](#func.%.usage)
@@ -483,7 +479,12 @@ print(head(edx.ordered_movie_ratings))
   * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
   * [Details](#func.get_fine_tune.param.endpoints.idx.details)
     * 2488 \\newpage
+ 
+ * [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints)
+  * [Usage](#func.get_fine_tune.param.endpoints.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.details)
   
+ 
 
 #### [Data Helper Functions]
 
