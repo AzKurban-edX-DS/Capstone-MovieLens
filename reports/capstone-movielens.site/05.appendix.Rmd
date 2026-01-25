@@ -2488,7 +2488,7 @@ The element named `tuned.result` of the *list* returned by the [tune.model_param
 \newpage
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument:
-```{r main-script@l571u, eval=FALSE}
+```{r main-script@l571u.ft_param_endpoints.idx, eval=FALSE}
 lambdas <- seq(0, 1, 0.1)
 cv.UME.preset.result <- 
   tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
@@ -2738,7 +2738,7 @@ This is a *auxiliary function* used to select the *best values* during the *Mode
 With this approach, the best value of the *tuning parameter* is considered to be the value corresponding to the minimum value of the *RMSE* for the model being tested.
 
 ::: {.noteblock data-latex=""}
-In *This Project*, this function is used internally in the [model.tune.param_range](#func.model.tune.param_range) custom helper function (as shown above in the [Usage](#) section of *this Description*) described below in *this Section*.
+In *This Project*, this function is used internally in the [model.tune.param_range](#func.model.tune.param_range) custom helper function (as shown above in the [Usage](#func.get_best_param.result.usage) section of *this Description*) described below in *this Section*.
 :::
 :::
 
@@ -2775,21 +2775,20 @@ The source code of the [get_best_param.result](https://github.com/AzKurban-edX-D
 
 Implements an algorithm for selecting the best value of the *tuning parameter* from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
 
-##### Signature
+::: { #func.tune.model_param.usage .sidebar }
+##### [Usage]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571)
 \
 
-```{r eval=FALSE}
-tune.model_param <- function(param_values, 
-                             fn_tune.test.param_value, 
-                             break.if_min = TRUE,
-                             steps.beyond_min = 2){
-
-# ...
-  list(tuned.result = data.frame(RMSE = RMSEs_tmp,
-                                parameter.value = param_vals_tmp),
-       best_result = param_values.best_result)
-}  
+```{r main-script@l571u.tune.model_param, eval=FALSE}
+  lambdas <- seq(0, 1, 0.1)
+  cv.UME.preset.result <- 
+    tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
 ```
+
+::: {.noteblock data-latex=""}
+In the *code snippet* above, the `tune.model_param` function accepts a pointer to the auxiliary function [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) (described below in section [UME Model: Regularization] of *this Appendix*), as a value of an argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value).
+:::
+:::
 
 ::: { #func.tune.model_param.args .sidebar }
 ##### Arguments
@@ -2858,7 +2857,7 @@ The objects comprising the return list are as follows:
 
 ##### Source Code
 \
-Below is the most significant part of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) function:
+Below is the simplified version of the source code of the [tune.model_param](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L126) function:
 ```{r func.tune.model_param@l126, eval=FALSE}
 tune.model_param <- function(param_values, 
                              fn_tune.test.param_value, 
@@ -5081,7 +5080,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ##### Usage
 \
 
-```{r main-script@l571u_2, eval=FALSE}
+```{r main-script@l571u.rglr.tst_lambda.UME, eval=FALSE}
   lambdas <- seq(0, 1, 0.1)
   cv.UME.preset.result <- 
     tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
