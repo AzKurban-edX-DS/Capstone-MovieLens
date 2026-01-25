@@ -2776,7 +2776,7 @@ The source code of the [get_best_param.result](https://github.com/AzKurban-edX-D
 Implements an algorithm for selecting the best value of the *tuning parameter* from the sorted *parameter vector* passed in the [param_values](#func.tune.model_param.args.param_values) argument.
 
 ::: { #func.tune.model_param.usage .sidebar }
-##### [Usage]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571)
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571)
 \
 
 ```{r main-script@l571u.tune.model_param, eval=FALSE}
@@ -2854,6 +2854,8 @@ The objects comprising the return list are as follows:
     - *RMSE*: A vector containing the *RMSE* values corresponding to the processed values of the *tuning parameter*.
 
 :::
+
+\newpage
 
 ##### Source Code
 \

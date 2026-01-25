@@ -149,10 +149,6 @@
 
 ---
 
-* [tune.model_param](#func.tune.model_param)
-  * [Usage](#func.tune.model_param.usage)
-  * [Details](#func.tune.model_param.details)
-  
 * [%](#func.%)
   * [Usage](#func.%.usage)
   * [Details](#func.%.details)
@@ -486,7 +482,10 @@ print(head(edx.ordered_movie_ratings))
   * [Usage](#func.get_best_param.result.usage)
   * [Details](#func.get_best_param.result.details)
   
- 
+* [tune.model_param](#func.tune.model_param)
+  * [Usage](#func.tune.model_param.usage)
+  * [Details](#func.tune.model_param.details)
+  
 
 #### [Data Helper Functions]
 
