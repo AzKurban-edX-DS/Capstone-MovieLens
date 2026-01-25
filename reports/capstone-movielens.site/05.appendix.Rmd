@@ -2746,7 +2746,7 @@ In *This Project*, this function is used internally in the [model.tune.param_ran
 ##### Value
 \
 
-Numeric vector containing a pair of values: the best *tuning parameter* value and corresponding *minimal RMSE*. 
+*Numeric vector* containing a pair of values: the *best tuning parameter* value and corresponding *minimal RMSE*. 
 :::
 
 ::: { #func.get_best_param.result.code .sidebar }
