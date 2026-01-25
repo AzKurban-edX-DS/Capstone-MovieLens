@@ -137,6 +137,7 @@
 \
 
 ---
+
 * [%](#func.%)
   * [Usage](#func.%.usage)
   * [Arguments](#func.%.args)
@@ -160,7 +161,7 @@
   * [Usage](#func.%.usage)
   * [Details](#func.%.details)
   
----  
+---
   
 
 #### [Data Helper Functions]
