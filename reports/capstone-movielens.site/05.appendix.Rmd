@@ -2871,12 +2871,11 @@ tune.model_param <- function(param_values,
   RMSE_min <- Inf
   i_max.beyond_RMSE_min <- Inf
   prm_val.best <- NA
-
+  
   # ...
   
   for (i in 1:n) {
-    put_log1("Function: `tune.model_param`:
-Iteration %1", i)
+    put_log1("Function: `tune.model_param`: Iteration %1", i)
     prm_val <- param_values[i]
     param_vals_tmp[i] <- prm_val
     
@@ -2886,14 +2885,9 @@ Iteration %1", i)
     plot(param_vals_tmp[RMSEs_tmp], RMSEs_tmp[RMSEs_tmp])
 
     if(RMSE_tmp > RMSE_min){
-      warning("Function: `tune.model_param`:
-`RSME` reached its minimum: ", RMSE_min, "
-for parameter value: ", prm_val)
-      put_log2("Function: `tune.model_param`:
-Current `RMSE` value is %1 related to parameter value: %2",
-               RMSE_tmp,
-               prm_val)
-      
+      warning("Function: `tune.model_param`: `RSME` reached its minimum: ", 
+              RMSE_min, "for parameter value: ", prm_val)
+
       if (i > i_max.beyond_RMSE_min) {
         warning("Function: `tune.model_param`:
 Operation is breaked (after `RSME` reached its minimum) on the following step: ", i)
@@ -2912,8 +2906,7 @@ Operation is breaked (after `RSME` reached its minimum) on the following step: "
   
   param_values.best_result <- c(param.best_value = prm_val.best, 
                                 best_RMSE = RMSE_min)
-  
-  
+
   list(tuned.result = data.frame(RMSE = RMSEs_tmp,
                                 parameter.value = param_vals_tmp),
        best_result = param_values.best_result)
@@ -2964,6 +2957,8 @@ UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMS
 UME.rglr.fine_tune.RMSE.best
 ```
 :::
+
+\newpage
 
 ::: { #func.model.tune.param_range.args .sidebar }
 ##### Arguments
