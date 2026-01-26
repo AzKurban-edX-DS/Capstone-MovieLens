@@ -149,9 +149,11 @@
 
 ---
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
+* [model.tune.param_range](#func.model.tune.param_range)
+  * [Usage](#func.model.tune.param_range.usage)
+  * [Details](#func.model.tune.param_range.details)
+  * [Value](#func.model.tune.param_range.value)
+  * [Source Code](#func.model.tune.param_range.code)
   
 * [%](#func.%)
   * [Usage](#func.%.usage)
@@ -189,6 +191,23 @@
 
 ##### [UME Model: Utility Functions]
 \
+
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+---
+  
+* [train_user_movie_effect](#func.train_user_movie_effect)
+  * [Usage](#func.train_user_movie_effect.usage)
+  * [Details](#func.train_user_movie_effect.details)
+  
 
 * [train_user_movie_effect.cv](#func.train_user_movie_effect.cv)
   * [Value](#func.train_user_movie_effect.cv.value)
