@@ -4179,6 +4179,9 @@ The source code of the [union_cv_results](https://github.com/AzKurban-edX-DS/Cap
 
 
 
+
+\newpage
+
 ### Data Visualization Functions
 
 #### [data.plot](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L580) Function {#func.data.plot}

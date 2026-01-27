@@ -571,8 +571,7 @@ print(head(edx.ordered_movie_ratings))
   * [Usage](#func.union_cv_results.usage)
   * [Details](#func.union_cv_results.details)
   * [Source Code](#func.union_cv_results.code) ...R#L425
-
-* 3996 \\newpage
+    * 4183 \\newpage
 
 ##### [Data Visualization Functions]
 
