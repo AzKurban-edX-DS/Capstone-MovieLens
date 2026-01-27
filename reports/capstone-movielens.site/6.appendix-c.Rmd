@@ -52,7 +52,7 @@
   * [Details](#func.%.details)
   * [Value](#func.%.value)
   * [Source Code](#func.%.code)
-    * \\newfile
+    * \\newpage
 
 
 #### [Common Helper Functions]
@@ -151,12 +151,6 @@
 
 ---
 
-* [model.tune.param_range](#func.model.tune.param_range)
-  * [Usage](#func.model.tune.param_range.usage)
-  * [Details](#func.model.tune.param_range.details)
-  * [Value](#func.model.tune.param_range.value)
-  * [Source Code](#func.model.tune.param_range.code)
-  
 * [%](#func.%)
   * [Usage](#func.%.usage)
   * [Details](#func.%.details)
@@ -165,6 +159,29 @@
   
 
 #### [Data Helper Functions]
+
+##### [Initializing Input Datasets]
+\
+
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+
+---
+
+
+##### [Data Processing Functions]
+\
+
 ##### [Models Training Functions]
 \
 
@@ -508,13 +525,30 @@ print(head(edx.ordered_movie_ratings))
   * [Details](#func.tune.model_param.details)
   * [Source Code](#func.tune.model_param.code)
   
+* [model.tune.param_range](#func.model.tune.param_range)
+  * [Usage](#func.model.tune.param_range.usage)
+  * [Arguments](#func.%.args)
+    * [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value)
+      * 3015 \\newpage
+  * [Details](#func.model.tune.param_range.details)
+  * [Value](#func.model.tune.param_range.value)
+  * [Source Code](#func.model.tune.param_range.code)
+  
 
 #### [Data Helper Functions]
 
 ##### [Initializing Input Datasets]
 
 * [init_source_datasets](#func.init_source_datasets)
+  * [Value](#func.init_source_datasets.value)
+    * 3717 \\newpage
+
 * [make_source_datasets](#func.make_source_datasets)
+  * [Usage](#func.make_source_datasets.usage)
+    * 3494 ... which is called internally from the custom helper function [init_source_datasets](#func.init_source_datasets) described below in  *this Section*.
+  * [Details](#func.make_source_datasets.details)
+
+
 
 ##### [Data Processing Functions]
 \
