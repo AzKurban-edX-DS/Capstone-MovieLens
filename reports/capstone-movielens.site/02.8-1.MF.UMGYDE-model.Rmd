@@ -66,7 +66,7 @@ First, we will obtain residuals from the _UMGYDE Model_ prediction values using 
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined described in the [Models Training: Support Functions]/[UMGYDE Model: Matrix Factorization] section of [Appendix A](#appndx_a).
+In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined described in section [Models Training: Support Functions]/[UMGYDE Model: Matrix Factorization] of [Appendix A](#appndx_a).
 :::
 
 ```{r}
@@ -149,7 +149,7 @@ Finally, we train the model for the last time using the `reco$train` method, pas
 
 From now on, we will work with the `final_holdout_test` dataset for the final testing of our model, including obtaining final predictions and computing the final *RMSE* score.
 
-Now, let's compute the final predictions, combining the predicted residuals from the `reco` objects and predicted values we lastly get from the _UMGYDE Model_ as described in the [UMGYDE Model: Final Holdout Test (Preliminary Assessment)] section, using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2346):
+Now, let's compute the final predictions, combining the predicted residuals from the `reco` objects and predicted values we lastly get from the _UMGYDE Model_ as described in section [UMGYDE Model: Final Holdout Test (Preliminary Assessment)], using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2346):
 ```{r main-script@l2346, eval=FALSE}
   mf.reco.residual <- reco$predict(final_holdout_test.reco, out_memory())
 
@@ -158,7 +158,7 @@ Now, let's compute the final predictions, combining the predicted residuals from
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [clamp](#func.clamp) user-defined function described in the [Common Helper Functions]/[Utility Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [clamp](#func.clamp) user-defined function described in section [Utility Functions] of [Appendix A](#appndx_a).
 :::
 
 ```{r}
@@ -173,7 +173,7 @@ final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [rmse2](#func.rmse2) user-defined function described in the [Common Helper Functions]/[(Root) Mean Squared Error Calculation] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [rmse2](#func.rmse2) user-defined function described in section [(Root) Mean Squared Error Calculation] of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -190,7 +190,7 @@ RMSE_kable(final.MF.RMSEs.ResultTibble)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
 Eventually, we have reached our ultimate goal, as the *RMSE* we obtained has achieved the required Project Objective.

@@ -10,7 +10,7 @@ RMSE.Total_kable(total.RMSEs.ResultTibble)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn) and [RMSE.Total_kable](#func.RMSE.Total_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn) and [RMSE.Total_kable](#func.RMSE.Total_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
 \newpage

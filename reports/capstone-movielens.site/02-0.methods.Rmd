@@ -20,7 +20,7 @@ As a result of executing these functions, we will obtain the following datasets 
   
   - [`edx.sgr` Object](#appndx_b.edx.sgr): A dataset derived from the `edx` by splitting each row corresponding to a movie belonging to multiple genres;
 
-  - [`movie_map` Object](#appndx_b.movie_map): A map establishing a one-to-one correspondence between a movie ID and its title.;
+  - [`movie_map` Object](#appndx_b.movie_map): A map establishing a correspondence between a movie ID and its title.;
   
   - [`date_days_map` Object](#appndx_b.date_days_map): A map between the rating date and the number of days since the earliest entry in the edx dataset;
 

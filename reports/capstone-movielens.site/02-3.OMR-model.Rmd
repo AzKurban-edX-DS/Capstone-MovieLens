@@ -21,19 +21,19 @@ with $\varepsilon_{i,j}$ independent errors sampled from the same distribution c
 The complete source code of the *Overall Mean Rating* computation described in this section is available in the [Overall Mean Rating (Naive) Model](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L66) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L66) script on _GitHub_.
 :::
 
-We know that the estimate that minimizes the RMSE is the least squares estimate of $\mu$ and, in this case, is the average of all ratings. We calculate this using the folowing [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L106):
+We know that the estimate that minimizes the RMSE is the least squares estimate of $\mu$ and, in this case, is the average of all ratings. We calculate this using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L106):
 ```{r main-script@l106, echo=TRUE }
 mu <- mean(edx$rating)
 mu
 ```
 
-If we predict all unknown ratings with $\hat{\mu}$, we can use the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L108)  to compute *Mean Squared Errors* (hereafter *MSE* for short) with the use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$): 
+If we predict all unknown ratings with $\hat{\mu}$, we can use the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L108)  to compute *Mean Squared Errors* (hereafter *MSE* for short) with the use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$): 
 ```{r main-script@l108 }
 mu.MSEs <- naive_model_MSEs(mu)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the user-defined function [naive_model_MSEs](#func.naive_model_MSEs) described in the [Models Training: Support Functions]/[OMR Model: Helper Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the user-defined function [naive_model_MSEs](#func.naive_model_MSEs) described in section [OMR Model: Helper Functions] of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -47,7 +47,7 @@ data.frame(fold_No = 1:5, MSE = mu.MSEs) |>
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of [Appendix A](#appndx_a).
 :::
 
 We can now calculate the *Root Mean Squared Error (RMSE)* for the current model as a *square root* of the average of the *MSE* values we obtained above, using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L117):
@@ -71,7 +71,7 @@ If we plug in any other number, we will get a higher *RMSE*. Let's prove this wi
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in the [Models Training: Support Functions]/[OMR Model: Helper Functions] section of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
+In the code snippet above, we use the function [naive_model_RMSE](#func.naive_model_RMSE) described in section [OMR Model: Helper Functions] of [Appendix A](#appndx_a) to calculate *RMSEs* for the sequence of the deviation values.
 :::
 
 \newpage
@@ -88,13 +88,14 @@ data.plot(title = TeX(r'[RMSE as a function of deviation ($\delta$) from the Ove
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of [Appendix A](#appndx_a).
 :::
 
 \newpage
 
+::: { #chunk.main_script.l177m .sidebar }
 The [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L177) below prints a quick recap of the results:
-```{r main-script@l177}
+```{r main-script@l177m}
 which_min_deviation <- deviation[which.min(deviation.RMSE)]
 min_rmse = min(deviation.RMSE)
 
@@ -104,9 +105,10 @@ print_log1("Minimum RMSE is achieved when the deviation from the mean is: %1",
 print_log1("Is the previously computed RMSE the best for the current model: %1",
          mu.RMSE == min_rmse)
 ```
+:::
 
 ::: {.noteblock data-latex=""}
-To print the log, we use the function [print_log1](#func.print_log1) described in the [Common Helper Functions]/[Logging Functions] section of [Appendix A](#appndx_a).
+To print the log, we use the function [print_log1](#func.print_log1) described in section [Logging Functions] of [Appendix A](#appndx_a).
 :::
 
 Finally, we add the *RMSE* value calculated for the *OMR Model* to our *Result Table* and print the table using the following [piece of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L200):
@@ -121,9 +123,9 @@ RMSE_kable(RMSEs.ResultTibble.OMR)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
-To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS2_23-3]
+To win the grand prize of $1,000,000, a participating team had to get an RMSE of at least 0.8563[@BigChaosSln]. So we can definitely do better![@IDS_E1_33-7-4]
 
 \newpage

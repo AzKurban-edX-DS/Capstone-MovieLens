@@ -18,7 +18,7 @@ To start with we have to generate two datasets derived from the _MovieLens_ data
 * **edx:** we use it to develop and train our algorithms;
 * **final_holdout_test:**  according to the course requirements, we use it exclusively to evaluate the _**RMSE**_ of our final algorithm.
 
-For this purpose, a dedicated package, [edx.capstone.movielens.data](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/README.md), has been developed by the author of this report. The source code of the package is available on [GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data) (the main `R` script that prepares the necessary datasets is located in the file [init-movielens-data.R](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/data-raw/init-movielens-data.R))[@edx_capstone_movielens_data].
+For this purpose, a dedicated package, [edx.capstone.movielens.data](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/README.md), has been developed by the author of *this Report*. The source code of the package is available on [GitHub](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data) (the main `R` script that prepares the necessary datasets is located in the file [init-movielens-data.R](https://github.com/AzKurban-edX-DS/edx.capstone.movielens.data/blob/main/data-raw/init-movielens-data.R))[@edx_capstone_movielens_data].
 
 We install the development version of this package from the _GitHub repository_ using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/_startup/1.init.R#L16):
 ```{r init@l16, eval=FALSE}
@@ -33,7 +33,7 @@ put_log("Dataset loaded from `edx.capstone.movielens.data` package: edx")
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the user-defined helper function [put_log](#func.put_log) described above in the [Logging Functions] section of *this Appendix*.
+In the code snippet above, we use the user-defined helper function [put_log](#func.put_log) described in section [Logging Functions] of [Appendix A](#appndx_a).
 :::  
 
 Next, we attach the correspondent library to the global environment using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L235):
@@ -42,7 +42,7 @@ library(edx.capstone.movielens.data)
 ```
 
 ::: {.noteblock data-latex=""}
-The line of code above is used in the [init_source_datasets](#func.init_source_datasets) user-defined helper function described in detail in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
+The line of code above is used in the [init_source_datasets](#func.init_source_datasets) user-defined helper function described in section [Initializing Input Datasets] of [Appendix A](#appndx_a).
 :::
 
 Finally, we have the datasets listed above:
@@ -87,7 +87,7 @@ sprintf("Not every movie was rated: %s", max_possible_ratings > dim_edx[1])
 
 ```
 
-As also explained in that section, we can think of these data as a very large matrix, with users on the rows and movies on the columns, with many empty cells. Therefore, we can think of a recommendation system as filling in the `NA`s in the dataset for the movies that some or all the users do not rate. A sample from the `edx` data below illustrates this idea[@IDS_E1_33-7-1]: 
+As also explained in [Section 33.7.1 of the *Textbook*](https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#movielens-data), we can think of these data as a very large matrix, with users on the rows and movies on the columns, with many empty cells. Therefore, we can think of a recommendation system as filling in the `NA`s in the dataset for the movies that some or all the users do not rate. A sample from the `edx` data below illustrates this idea[@IDS_E1_33-7-1]: 
 ```{r}
 keep <- edx |> 
   dplyr::count(movieId) |> 
@@ -105,7 +105,7 @@ tab <- edx |>
 print(tab)
 ```
 
-The following plot of the matrix for a random sample of 100 movies and 100 users with yellow indicating a user/movie combination for which we have a rating shows how _sparse_ the matrix is:
+The following plot of the matrix for a random sample of 100 movies and 100 users with yellow indicating a user/movie combination for which we have a rating shows how _sparse_ the matrix is[@IDS_E1_33-7-1]:
 ```{r sparsity-of-movie-recs, echo=TRUE, fig.width=3, fig.height=3, out.width="40%"}
 users <- sample(unique(edx$userId), 100)
 
@@ -121,7 +121,7 @@ edx|>
   image(1:100, 1:100, z = _ , xlab = "Movies", ylab = "Users")
 ```
 
-Further observations highlighted there that, as we can see from the distributions the author presented, some movies get rated more than others, and some users are more active than others in rating movies:
+Further observations highlighted there that, as we can see from the distributions the author presented, some movies get rated more than others, and some users are more active than others in rating movies[@IDS_E1_33-7-1]:
 ```{r movie-id-and-user-hists, echo=TRUE, fig.width=6, fig.height=3}
 p1 <- edx |> 
   count(movieId) |> 
@@ -140,7 +140,9 @@ p2 <- edx |>
 gridExtra::grid.arrange(p2, p1, ncol = 2)
 ```
 
-Finally, we can see that no movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments:
+\newpage
+
+Finally, the following code snippet demonstrates that no movies have a rating of 0. Movies are rated from 0.5 to 5.0 in 0.5 increments:
 ```{r }
 #library(dplyr)
 s <- edx |> group_by(rating) |>

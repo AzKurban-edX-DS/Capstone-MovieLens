@@ -1,21 +1,653 @@
 # Appendix C
 
 ## TODO List
+\
 
-* [init_source_datasets](#func.init_source_datasets)
-* [load_movielens_data_from_file](#func.load_movielens_data_from_file):
-* [Appendix B: Models Training Datasets]
-* [Overview and Executive Summary]
-* [make_source_datasets](#func.make_source_datasets): Low priority
+* In the code snippet above ... 
 
+### [Methods and Analysis]
+
+#### [Preparing train and set datasets]
+
+#### [Overall Mean Rating (OMR) Model]
+
+##### [OMR Model Building]
+
+##### [OMR Value Is the Best for the Current Model]
+
+#### [User Effect (UE) Model]
+\
+
+##### [User Effect Analysis]
+\
+
+##### [Mathematical Description of the UE Model]
+\
+
+##### [UE Model Building]
+\
+
+
+#### [User+Movie Effect (UME) Model]
+\
+
+##### Movie Effect Analysis
+\
+
+###### Movies' Popularity
+\
+
+##### [Mathematical Description of the UME Model]
+\
+
+##### [UME Model Building]
+\
+
+----------------------------------------------------------------------------
+
+### [Appendix A: Support Functions]
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
+    * \\newpage
+
+
+#### [Common Helper Functions]
+
+##### [Logging Functions]
+\
+
+---
+
+* [](#func.)
+  * [Value](#func..value)
+    * \\newfile
+
+* [](#func.)
+  * [Value](#func..value)
+    * \\newfile
+
+* [](#func.)
+  * [Value](#func..value)
+    * \\newfile
+
+* [](#func.)
+  * [Value](#func..value)
+    * \\newfile
+
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
+* [](#func.)
+  * [Usage](#func..usage)
+  * [Arguments](#func..args)
+  * [Details](#func..details)
+  * [Value](#func..value)
+  * [Source Code](#func..code)
+    * \\newfile
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+
+---
+
+
+##### [Utility Functions]
+\
+
+##### [(Root) Mean Squared Error Calculation]
+\
+
+##### [Result RMSEs Tibble Functions]
+\
+
+##### [Model Tuning Utils]
+\
+
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+---
+  
+
+#### [Data Helper Functions]
+
+##### [Initializing Input Datasets]
+\
+
+
+##### [Data Processing Functions]
+\
+
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+
+---
+
+##### [Models Training Functions]
+\
+
+##### [Data Visualization Functions]
+  * [data.plot](#func.data.plot)
+    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1838)
+      * chunk: main-script@l1838u
+      * 4019 \\newpage
+    * [Arguments](#)
+      * ... (Optional, ... by default)
+    * [Details](#)
+      * 4066 \\newpage
+    
+  * [data.plot.left_detailed](#func.data.plot.left_detailed)
+    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1877)
+      * 4287 \\newpage
+    * [Arguments](#)
+      * **xlabel1:** (Optional, *Character string*, `NULL` by default)
+      * **xlabel2:** (Optional, *Character string*, `NULL` by default)
+      * ... (Optional, ... by default)
+      
+#### [Models Training: Support Functions]
+
+##### [OMR Model: Helper Functions]
+\
+
+##### [UME Model: Utility Functions]
+\
+
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  
+---
+  
+* [train_user_movie_effect](#func.train_user_movie_effect)
+  * [Usage](#func.train_user_movie_effect.usage)
+  * [Details](#func.train_user_movie_effect.details)
+  
+
+* [train_user_movie_effect.cv](#func.train_user_movie_effect.cv)
+  * [Value](#func.train_user_movie_effect.cv.value)
+    * 4661 \\newpage
+    
+* [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE)
+  * [Usage](#func.calc_user_movie_effect_MSE.usage)
+    * 4713 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L71) above...
+    * [Details](#func.calc_user_movie_effect_MSE.details)
+      * 4738 This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) as shown above...
+      * 4749 \\newpage
+
+
+* [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv)
+  * [Usage](#func.calc_user_movie_effect_MSE.cv.usage)
+    * 4781 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L83) above...
+  * [Details](#func.calc_user_movie_effect_MSE.cv.details)
+    * 4800 It calls internally the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function...    
+    * 4805 This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)...
+  * [Value](#)
+    * 4816 \\newpage
+
+* [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
+  * [Value](#func.calc_user_movie_effect_RMSE.cv.value)
+    * 4886 \\newpage
+
+##### [UME Model: Regularization]
+\
+
+* [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91)
+  * [Usage](#func.regularize.test_lambda.UM_effect.cv.usage)
+    * 4934 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) above...
+  
+
+------------------------------------------------------------------
+
+\newpage
 
 ## Done
 
+### [Overview and Executive Summary]
+
+#### [Datasets Overview]
+\
+
+Fix lines:
+
+* 21;
+* 36;
+* 45.
+
+##### [`edx` Dataset]
+\
+
+Fix lines:
+
+* 90;
+* 108;
+* 124;
+* 145.
+
+### [Methods and Analysis]
+
+#### [Preparing train and set datasets]
+\
+
+Fixed lines:
+
+* 23.
+
+#### [Overall Mean Rating (OMR) Model]
+
+##### [Mathematical Description of the OMR Model]
+
+##### [OMR Model Building]
+\
+
+Fixed lines:
+
+* 24: using the following [line of code]...
+* 36;
+* 50: described in section [Data Visualization Functions]...;
+
+##### [OMR Value Is the Best for the Current Model]
+\
+
+Fixed lines:
+
+* 74: described in section [OMR Model: Helper Functions]...;
+* 91: described in section [Data Visualization Functions]...
+* 127: So we can definitely do better![@IDS_E1_33-7-4]
+
+##### [User Effect Analysis]
+\
+
+* 9 Let's start our analysis by...
+* In the code snippet above, we use the [`edx.mx` Matrix Object] (described in detail in [Appendix B: Models Training Datasets]), which, in fact, is the `edx` dataset converted to a matrix as described earlier in section [Preparing train and set datasets] of *this Report*.
+* 31 The [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L263) below visualizes... average ratings across users[@IDS2_24-1_UE].
+
+
+##### [Mathematical Description of the UE Model]
+\
+
+* 44 Following the further explanation provided in [Section 24.1](#sec.user_effect_analysis)...
+
+##### [UE Model Building]
+\
+
+* 58 As it is stated in [Section 33.7.6: *User effects*](https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#user-effects) of the *Course Textbook (First Edition)*...
+
+#### [User+Movie Effect (UME) Model]
+\
+
+##### Movie Effect Analysis
+\
+
+###### Movies' Popularity
+\
+
+* 24 chunk:
+```{r}
+print(head(edx.ordered_movie_ratings))
+```
+
+
+##### [Mathematical Description of the UME Model]
+\
+
+* 62 As explained in the [Section 24.1, Subsection *Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-movie-effects) ...
+* 66 The author then gives us an idea of how to use...
+
+##### [UME Model Building]
+\
+
+* 96 We can now construct predictors and calculate the *RMSE* score.
+
+----------------------------------------------------------------------------
+
+### [Appendix A: Support Functions]
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+
+#### [Common Helper Functions]
+
+##### [Logging Functions]
+\
+
+* [open_logfile](#func.open_logfile)
+  * [Usage](#func.open_logfile.usage)
+    * 15
+  * [Value](#func.open_logfile.value)
+    * 57 \\newfile
+
+* [print_start_date](#func.print_start_date)
+  * [Usage](#func.print_start_date.usage)
+* [print_end_date](#func.print_end_date)
+  * [Usage](#func.print_end_date.usage)
+* [put_end_date](#func.)
+  * [Source Code](#func.put_end_date.code)
+    * 300 \\newfile
+
 * [print_log](#func.print_log)
+  * [Usage](#func.print_log.usage)
+  * [Source Code](#func.print_log.code)
+    * 357 \\newfile
 * [put_log](#func.put_log)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L231)
+  * [Source Code](#func.put_log.code)
+    * 416 \\newfile
+
+* [get_log1](#func.get_log1)
+  * 416: [Usage](#func.get_log1.usage)
+  * 448: [Details](#func.get_log1.details): This is an auxiliary function intended for use in other custom logging functions...
+  * [Value](#func.get_log1.value)
+    * 469 \\newfile
+* [print_log1](#func.print_log1)
+  * [Usage](#func.print_log1.usage)
+    * 473
+  * [Value](#func.print_log1.value)
+    * 540 \\newfile
+* [put_log1](#func.put_log1)
+  * 556 [Usage](#func.put_log1.usage)
+  * [Value](#func.put_log1.value)
+    * 613 \\newfile
+
+* [get_log2](#func.get_log2)
+  * [Usage](#)
+  * [Details](#)
+* [print_log2](#func.print_log2)
+  * [Usage](#func.print_log2.usage)
+* [put_log2](#func.put_log2)
+  * [Usage](#func.put_log2.usage)
+
+* [get_log3](#func.get_log3)
+  * [Usage](#)
+  * [Details](#)
+* [print_log3](#func.print_log3)
+  * [Usage](#func.print_log3.usage)
+  * [Value](#func.print_log3.value)
+* [put_log3](#func.put_log3)
+  * [Usage](#func.put_log3.usage)
+  * [Value](#func.put_log3.value)
+
+* [get_log4](#func.get_log4)
+  * [Usage](#)
+  * [Details](#)
+* [print_log4](#func.print_log4)
+  * [Usage](#func.print_log4.usage)
+  * [Value](#func.print_log4.value)
+* [put_log4](#func.put_log4)
+  * [Usage](#func.put_log4.usage)
+
+
+##### [Utility Functions]
+\
+
+* [clamp](#func.clamp)
+  * [Usage](#func.clamp.usage)
+  * [Source Code](#func.clamp.code)
+    * \\newpage
+* [msg.set_arg](#func.msg.set_arg)
+  * 1366 [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453)
+  * 1372 [Usage]
+  * 1401 [Details](#func.msg.set_arg.details)
+    * 1404 ...specified by the [arg_name](#func.msg.set_arg.args.arg.name) argument (*"%1"* by default)...
+  * 1418 [Source Code](#func.msg.set_arg.code)
+    * 1427 [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449)
+    * [msg.set_arg](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L453)
+* [msg.glue](#func.msg.glue)
+  * 1433 [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457)
+  * [Usage](#func.msg.glue.usage)
+  * 1473 [Details](#func.msg.glue.details) ... described above in *this Section*.
+  * 1489 [Source Code](#func.msg.glue.code)
+    * [msg.glue](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L457)
+    * [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L449)
+
+
+##### [(Root) Mean Squared Error Calculation]
+\
+
+##### [Result RMSEs Tibble Functions]
+\
+
+* [CreateRMSEs_ResultTibble](#func.CreateRMSEs_ResultTibble)
+  * 1704 [Usage](#func.CreateRMSEs_ResultTibble.usage)
+* [RMSEs.AddRow](#func.RMSEs.AddRow)
+  * [Usage](#func.RMSEs.AddRow.usage)
+    * 1759
+  * [Arguments](#func.RMSEs.AddRow.args)
+    * 1772
+    * [comment](#func.RMSEs.AddRow.args.comment)
+    * [before](#func.RMSEs.AddRow.args.before)
+* [RMSEs.AddDiffColumn](#func.RMSEs.AddDiffColumn)
+  * [Usage](#func.RMSEs.AddDiffColumn.usage)
+    * 1853
+* [RSME.tibble.col_width](#func.RSME.tibble.col_width)
+  * 1918 [Usage](#func.RSME.tibble.col_width.usage)
+  * 1946 [Details](#func.RSME.tibble.col_width.details)
+* [RMSE_kable](#func.RMSE_kable)
+  * 1984 [Usage](#func.RMSE_kable.usage)
+  * 1996 [Arguments](#func.RMSE_kable.args)
+    * 2005 [colwidth](#func.RMSE_kable.args.col1width) (Optional, 15 by default) ...
+    * 2010 [col2width](#func.RMSE_kable.args.col12width) (Optional, 5 by default) ...
+    * 2015 [col3width](#func.RMSE_kable.args.col13width) (Optional, 30 by default) ...
+* [RMSE.Total_kable](#func.RMSE.Total_kable)
+  * 2083 It is assumed that the tibble has the following four columns:
+  * 2093 [Usage](#func.RMSE.Total_kableusage)
+
+
+##### [Model Tuning Utils]
+\
+
+* [mean_reg](#func.mean_reg)
+  * [Usage](#func.mean_reg.usage)
+  * [Arguments](func.mean_reg.args)
+    * [lambda](#func.mean_reg.args.lambda) (Optional, 0 by default)...
+    * [na.rm](#func.mean_reg.args.na.rm) (Optional, `TRUE` by default)...
+  * [Details](#func.mean_reg.details)
+  
+* [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
+  * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.idx.details)
+    * 2488 \\newpage
+ 
+* [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints)
+* [Usage](#func.get_fine_tune.param.endpoints.usage)
+* [Details](#func.get_fine_tune.param.endpoints.details)
+  
+* [get_best_param.result](#func.get_best_param.result)
+  * [Usage](#func.get_best_param.result.usage)
+  * [Details](#func.get_best_param.result.details)
+
+* [tune.model_param](#func.tune.model_param)
+  * [Usage](#func.tune.model_param.usage)
+  * [Details](#func.tune.model_param.details)
+  * [Source Code](#func.tune.model_param.code)
+  
+* [model.tune.param_range](#func.model.tune.param_range)
+  * [Usage](#func.model.tune.param_range.usage)
+  * [Arguments](#func.%.args)
+    * [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value)
+      * 3015 \\newpage
+  * [Details](#func.model.tune.param_range.details)
+  * [Value](#func.model.tune.param_range.value)
+  * [Source Code](#func.model.tune.param_range.code)
+  
+
+#### [Data Helper Functions]
+
+##### [Initializing Input Datasets]
+
+* [init_source_datasets](#func.init_source_datasets)
+  * [Value](#func.init_source_datasets.value)
+    * 3717 \\newpage
+
+* [make_source_datasets](#func.make_source_datasets)
+  * [Usage](#func.make_source_datasets.usage)
+    * 3494 ... which is called internally from the custom helper function [init_source_datasets](#func.init_source_datasets) described below in  *this Section*.
+  * [Details](#func.make_source_datasets.details)
+
+
+
+##### [Data Processing Functions]
+\
+
+* [load_movielens_data_from_file](#func.load_movielens_data_from_file):
+* [splitGenreRows](#func.splitGenreRows)
+
+* [sample_train_validation_sets](#func.sample_train_validation_sets)
+  * [Source Code](#func.sample_train_validation_sets.code)
+
+* [splitByUser](#func.splitByUser)
+  * [Source Code](#func.splitByUser.code)
+
+
+
+##### [Models Training Functions]
+\
+
+* [union_cv_results](#func.union_cv_results) ...R#L425
+  * [Usage](#func.union_cv_results.usage)
+  * [Details](#func.union_cv_results.details)
+  * [Source Code](#func.union_cv_results.code) ...R#L425
+    * 4183 \\newpage
+
+##### [Data Visualization Functions]
+
+* [data.plot](#func.data.plot)
+  * 3944 [Usage];
+  * 3978 [Arguments]: xlabel;
+  
+  * [data.plot.left.n](#func.data.plot.left.n)
+    * [Usage]
+      * 4152 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above...
+      * 4156 \\newpage
+      
+    * [Arguments](#func.data.plot.left.n.args)
+      * ... (Optional, ...) ...
+    * [Details](#)
+      * 4211 \\newpage
+    * [Source Code](#)
+      * 4255 \\newpage
+
+
+#### [Models Training: Support Functions]
+
+##### [OMR Model: Helper Functions]
+
+* [naive_model_MSEs](#func.naive_model_MSEs)
+  * 4350;
+  * 4354: [Usage]
+  * 4369: [Arguments]
+  * 4375: Add subsection [Details]: reference the [mse](#func.mse) function;
+  * 4385: Amend subsection [Value]
+
+
+* [naive_model_RMSE](#func.naive_model_RMSE): fix lines:
+  * 4413: [Usage]
+  
+##### [UME Model: Utility Functions]
+\
+
+* [train_user_movie_effect](#func.train_user_movie_effect) 
+    * [Value](func.train_user_movie_effect.value) 
+      * 4584 \\newpage
+* [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) {#refs...}
+  * 4612 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472)
+  * 4656 [Source Code](#) The simplified version of the source code of the [train_user_movie_effect.cv]...
+
+* [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
+  * 4847 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L513)
+  * [Details](#func.calc_user_movie_effect_RMSE.cv.details): 
+    * 4870 ...described in [Appendix B: Models Training Datasets] 
+
+
+### [Appendix B: Models Training Datasets]
+
+* [`edx.mx` Matrix Object];
+* [`edx.sgr` Object];
+* [`movie_map` Object];
+* [`date_days_map` Object]
+* [`edx_CV` Object]
+
+-------------------------------------------------------
+
 * [](#func.)
 * [](#func.)
 * [](#func.)
 * [](#func.)
 * [](#func.)
 * [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+* [](#func.)
+
+
+

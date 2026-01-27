@@ -22,8 +22,9 @@ edx.ordered_movie_ratings <- edx |> group_by(movieId, title) |>
   arrange(desc(number_of_ratings))
 ```
 ```{r}
-head(edx.ordered_movie_ratings)
+print(head(edx.ordered_movie_ratings))
 ```
+\newpage
 
 Now, we can figure out the most given ratings in order from most to least. The [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L422) below performs this operation:
 ```{r main-script@l422, eval=FALSE}
@@ -58,16 +59,14 @@ edx.rating_groups |>
 ### Mathematical Description of the UME Model
 \
 
-In the source mentioned [above](#textbook.24.1.movie_effects) the author also explains that in this case one can use a linear model with a _treatment effect_ $\beta_j$ for each movie, which can be interpreted as the movie effect, or the difference between the average rating for movie $j$ and the overall average $\mu$[@IDS2_24-1]: 
-
+As explained in the [Section 24.1, Subsection *Movie effects*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-movie-effects) of the *Textbook* (mentioned earlier in section [Movies' Popularity]), for the *Movie effects* we can use a linear model with a _treatment effect_ $\beta_j$ for each movie, which can be interpreted as the movie effect, or the difference between the average rating for movie $j$ and the overall average $\mu$[@IDS2_24-1_ME]: 
 $$
 Y_{i,j} = \mu + \alpha_i + \beta_j +\varepsilon_{i,j}
 $$
-The author then shows how to use an approximation by first computing the least square estimate $\hat{\mu}$ and $\hat{\alpha}_i$, and then estimating $\hat{\beta}_j$ as the average of the residuals $y_{i,j} - \hat{\mu} - \hat{\alpha}_i$:
 
-```{r eval=FALSE}
-b <- colMeans(y - mu - a, na.rm = TRUE)
-```
+The author then gives us an idea of how to use an approximation by first computing the least square estimate $\hat{\mu}$ and $\hat{\alpha}_i$, and then estimating $\hat{\beta}_j$ as the average of the residuals $y_{i,j} - \hat{\mu} - \hat{\alpha}_i$.
+
+Therefore, we will use this method in the *next Section*.
 
 ### UME Model Building
 \
@@ -76,13 +75,13 @@ b <- colMeans(y - mu - a, na.rm = TRUE)
 The complete source code of the _User+Movie (UM) Effect_ computation described in this section is available in the [UME Model Building](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L456) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L456) script on _GitHub_.
 :::
 
-Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472) that trains our model with the use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$):
+Below is the [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472) that trains our model with the use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$):
 ```{r main-script@l472, eval=FALSE}
   cv.UM_effect <- train_user_movie_effect.cv()
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above we use the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) helper function described in the [Models Training: Support Functions]/[UME Model: Utility Functions] section of [Appendix A](#appndx_a).
+In the code snippet above we use the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) helper function described in section [UME Model: Utility Functions] of [Appendix A](#appndx_a).
 :::
 
 ```{r}
@@ -96,7 +95,7 @@ hist(cv.UM_effect$b, 30, xlab = TeX(r'[$\hat{beta}_{j}$)]'),
      main = TeX(r'[Histogram of $\hat{beta}_{j}$]'))
 ```
 
-We can now construct predictors and see how much the *RMSE* score improves[@IDS2_24-1_ME].
+We can now construct predictors and calculate the *RMSE* score.
 
 As we already outlined above, to accomplish such tasks, we use *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]).
 
@@ -113,7 +112,7 @@ cv.UM_effect.RMSE
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described in the [Models Training: Support Functions]/[UME Model: Utility Functions] section of [Appendix A](#appndx_a). 
+In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described in section [UME Model: Utility Functions] of [Appendix A](#appndx_a). 
 :::
 
 \newpage
@@ -130,7 +129,7 @@ RMSE_kable(RMSEs.ResultTibble.UME)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -146,7 +145,7 @@ We begin this section with the concept's mathematical description presented belo
 
 Next, we will implement the *UME Model Regularization* in the following three steps:
 
-  1. **Pre-configuration:** (Described in subsection [UME Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project* we use $K = 5$);
+  1. **Pre-configuration:** (Described in subsection [UME Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
   
   2. **Fine-tuning:** (Described in the subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
 
@@ -190,7 +189,7 @@ We need to do some pre-configuration to determine a suitable range of $\lambda$ 
 For this purpose, we will use the helper function [tune.model_param](#func.tune.model_param), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) (another helper function) as the value of its argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value).
 
 ::: {.noteblock data-latex=""}
-The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) are described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [Models Training: Support Functions]/[UME Model: Regularization], respectively, of [Appendix A: Support Functions].
+The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UME Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) performs this operation:
@@ -221,7 +220,7 @@ cv.UME.preset.result$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of [Appendix A](#appndx_a).
 :::
 
 \newpage
@@ -252,7 +251,7 @@ UM_effect.loop_starter
 ```
 
 ::: {.noteblock data-latex=""}
-The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in the code snippet above is described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) of [Appendix A: Support Functions].
+The helper function [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) used in the code snippet above is described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) of [Appendix A: Support Functions].
 :::
 
 And the next [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L617) below accomplishes the task of *fine-tuning* the model:
@@ -269,7 +268,7 @@ UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMS
 ```
 
 ::: {.noteblock data-latex=""}
-The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in the sections [Common Helper Functions]/[Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [Models Training: Support Functions]/[UME Model: Regularization], respectively, of [Appendix A: Support Functions].
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UME Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
 \newpage
@@ -312,7 +311,7 @@ UME.rglr.fine_tune.results$tuned.result |>
 ```
 
 ::: {.noteblock data-latex=""}
-Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in the [Data Helper Functions]/[Data Visualization Functions] section of [Appendix A](#appndx_a)) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
+Note that in the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) (described in section [Data Visualization Functions] of [Appendix A](#appndx_a)) with the argument [normalize](#func.data.plot.args.normalize) set to `TRUE`, which means that deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves.
 :::
 
 \newpage 
@@ -338,7 +337,7 @@ rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above we use the [train_user_movie_effect](#func.train_user_movie_effect) function described in the [Models Training: Support Functions]/[UME Model: Utility Functions] section of [Appendix A](#appndx_a).
+In the code snippet above we use the [train_user_movie_effect](#func.train_user_movie_effect) function described in section [UME Model: Utility Functions] of [Appendix A](#appndx_a).
 :::
 
 ```{r, echo=FALSE}
@@ -370,7 +369,7 @@ print_log1("The best RMSE for the UME Model after being regularized: %1",
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described in the [Models Training: Support Functions]/[UME Model: Utility Functions] section of [Appendix A](#appndx_a). 
+In the code snippet above, we use the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described in section [UME Model: Utility Functions] of [Appendix A](#appndx_a). 
 :::
 
 Finally, we add the definitive *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L720):
@@ -386,7 +385,7 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UME)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in the [Common Helper Functions]/[Result RMSEs Tibble Functions] section of [Appendix A](#appndx_a).
+In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
 \newpage

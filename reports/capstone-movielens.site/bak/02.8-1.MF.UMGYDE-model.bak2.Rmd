@@ -99,7 +99,7 @@ A data frame object containing the residuals (see the [Description](#func.mf.res
 
 \newpage
 
-#### [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) Function {#func.UMGYDE_model.predict}
+#### [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L12) Function {#func.UMGYDE_model.predict}
 \
 
 This is a wrapper for the [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) function described in the [UMGYDE Model: Helper Functions] section above with the fixed [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect) parameter value obtained after the _UMGYDE Model_ (described in the [User+Movie+Genre+Year+Day Effect (UMGYDE) Model] section)  has been fully trained.
@@ -126,7 +126,7 @@ UMGYDE_model.predict <- function(test_set) {
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functionsR#L12) script on _GitHub_.
+The source code of the [UMGYDE_model.predict](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L12) function is also available in the [MF.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/MF.functions.R#L12) script on _GitHub_.
 :::
 
 ##### Return
