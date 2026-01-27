@@ -3926,8 +3926,6 @@ The source code of the [splitByUser](https://github.com/AzKurban-edX-DS/Capstone
 :::
 :::
 
-\newpage
-
 #### [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) Function {#func.sample_train_validation_sets}
 \
 
@@ -3991,7 +3989,7 @@ List of size 2, consisting of the *Training* and *Testing* datasets created duri
 ##### Source Code
 \
 
-The source code of the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function is shown below:
+Below is a simplified version of the source code of the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function:
 ```{r eval=FALSE}
 sample_train_validation_sets <- function(data, seed){
   put_log("Function: `sample_train_validation_sets`: Sampling 20% of the `data` data...")
@@ -4005,12 +4003,8 @@ sample_train_validation_sets <- function(data, seed){
   put_log("Function: `sample_train_validation_sets`: 
 Extracting 80% of the original `data` not used for the Validation Set, 
 excluding data for users who provided no more than a specified number of ratings: {min_nratings}.")
-  
   train_set <- data[-validation_ind,]
-  
-  put_log("Function: `sample_train_validation_sets`: Dataset created: train_set")
-  put(summary(train_set))
-  
+
   put_log("Function: `sample_train_validation_sets`: 
 To make sure we don’t include movies in the Training Set that should not be there, 
 we exclude entries using the semi_join function from the Validation Set.")
@@ -4024,20 +4018,7 @@ we exclude entries using the semi_join function from the Validation Set.")
   # Add rows excluded from `validation_set` into `train_set`
   tmp.excluded <- anti_join(tmp.data, validation_set)
   train_set <- rbind(train_set, tmp.excluded)
-  
-  put_log("Function: `sample_train_validation_sets`: Dataset created: validation_set")
-  put(summary(validation_set))
 
-  # CV train & test sets Consistency Test
-  validation.left_join.Nas <- train_set |>
-    mutate(tst.col = rating) |>
-    select(userId, movieId, tst.col) |>
-    data.consistency.test(validation_set)
-  
-  put_log("Function: `sample_train_validation_sets`:
-Below are the data consistency verification results")
-  put(validation.left_join.Nas)
-  
   # Return result datassets    
   list(train_set = train_set, 
        validation_set = validation_set)
@@ -4045,9 +4026,11 @@ Below are the data consistency verification results")
 ```
 
 ::: {.noteblock data-latex=""}
-The source code of the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) script on _GitHub_.
+The complete source code of the [sample_train_validation_sets](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) function is available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L17) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 #### [splitGenreRows](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) Function {#func.splitGenreRows}
 \
@@ -4114,6 +4097,8 @@ splitGenreRows <- function(data){
 The source code of the [splitGenreRows](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) function is also available in the [Data processing functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L3) section of the [data.helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L73) script on _GitHub_.
 :::
 :::
+
+\newpage
 
 ### Models Training Functions
 

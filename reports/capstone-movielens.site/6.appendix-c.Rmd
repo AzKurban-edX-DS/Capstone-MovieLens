@@ -163,6 +163,10 @@
 ##### [Initializing Input Datasets]
 \
 
+
+##### [Data Processing Functions]
+\
+
 ---
 
 * [%](#func.%)
@@ -177,10 +181,6 @@
   * [Details](#func.%.details)
 
 ---
-
-
-##### [Data Processing Functions]
-\
 
 ##### [Models Training Functions]
 \
@@ -555,8 +555,14 @@ print(head(edx.ordered_movie_ratings))
 
 * [load_movielens_data_from_file](#func.load_movielens_data_from_file):
 * [splitGenreRows](#func.splitGenreRows)
+
 * [sample_train_validation_sets](#func.sample_train_validation_sets)
+  * [Source Code](#func.sample_train_validation_sets.code)
+
 * [splitByUser](#func.splitByUser)
+  * [Source Code](#func.splitByUser.code)
+
+
 
 ##### [Models Training Functions]
 \
