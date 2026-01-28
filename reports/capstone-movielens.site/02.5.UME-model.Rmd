@@ -145,11 +145,9 @@ We begin this section with the concept's mathematical description presented belo
 
 Next, we will implement the *UME Model Regularization* in the following three steps:
 
-  1. **Pre-configuration:** (Described in subsection [UME Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
-  
-  2. **Fine-tuning:** (Described in the subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
-
-  3. **Retraining:** (Described in subsection [UME Model Regularization: *Retraining the Model with the best* $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
+1. **Pre-configuration:** (Described in subsection [UME Model Regularization: *Pre-configuration*]) Preliminary determination of the optimal range of *regularization parameter* $\lambda$ values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
+2. **Fine-tuning:** (Described in subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+3. **Retraining:** (Described in subsection [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
 
 #### UME Model Regularization: *Mathematical Description*
 \
@@ -174,7 +172,7 @@ The first term is just the sum of squares and the second is a penalty that gets 
 
 where $n_j$ is the number of ratings made for movie $j$. 
 
-This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS2_24-1].
+This approach will have our desired effect: when our sample size $n_j$ is very large, we obtain a stable estimate and the penalty $\lambda$ is effectively ignored since $n_j+\lambda \approx n_j$. Yet when the $n_j$ is small, then the estimate $\hat{\beta}_i(\lambda)$ is shrunken towards 0. The larger the $\lambda$, the more we shrink[@IDS_E1_33-9-2].
 
 \newpage
 
