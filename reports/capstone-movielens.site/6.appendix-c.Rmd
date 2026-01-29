@@ -31,12 +31,21 @@
 #### [User+Movie Effect (UME) Model]
 \
 
-### UME Model Regularization
+##### [UME Model Regularization]
 \
 
-1. **Pre-configuration:**...
-2. **Fine-tuning:** (Described in subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
-3. **Retraining:** (Described in subsection [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$])...
+
+###### [UME Model Regularization: *Mathematical Description*]
+\
+
+* 175 This approach will have ...[@IDS_E1_33-9-2]
+
+#### [UME Model Regularization: *Pre-configuration*]
+\
+
+* 187 ... For this purpose, we will use the user-defined helper function [tune.model_param](#func.tune.model_param),passing...
+
+
 
 ##### Movie Effect Analysis
 \
@@ -158,9 +167,16 @@
 
 ---
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
+* [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
+  * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.idx.details)
+  * [Value](#func.get_fine_tune.param.endpoints.idx.value)
+     
+* [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints)
+  * [Usage](#func.get_fine_tune.param.endpoints.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.details)
+  * [Value](#func.get_fine_tune.param.endpoints.value)
+     
   
 ---
   
@@ -346,6 +362,22 @@ Fixed lines:
 
 #### [User+Movie Effect (UME) Model]
 \
+
+##### [UME Model Regularization]
+\
+
+1. **Pre-configuration:**...
+2. **Fine-tuning:** (Described in subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+3. **Retraining:** (Described in subsection [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$])...
+
+###### [UME Model Regularization: *Mathematical Description*]
+\
+
+* 175 This approach will have ...[@IDS_E1_33-9-2]
+
+#### [UME Model Regularization: *Pre-configuration*]
+\
+
 
 ##### Movie Effect Analysis
 \

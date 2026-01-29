@@ -184,7 +184,7 @@ The complete version of the source code provided in this section can be found in
 :::
 
 We need to do some pre-configuration to determine a suitable range of $\lambda$ for subsequent fine-tuning of our current model.
-For this purpose, we will use the helper function [tune.model_param](#func.tune.model_param), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) (another helper function) as the value of its argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value).
+For this purpose, we will use the user-defined helper function [tune.model_param](#func.tune.model_param), passing the [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) (another custom helper function) as the value of its argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value).
 
 ::: {.noteblock data-latex=""}
 The functions [tune.model_param](#func.tune.model_param) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UME Model: Regularization], respectively, of [Appendix A: Support Functions].

@@ -2455,10 +2455,26 @@ The algorithm assumes that the set of values in the *RMSE* column is a monotonic
 ##### Usage
 \
 
-```{r common-helper.func@l111}
-  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) creates the object `cv.UME.preset.result` as a result of the [tune.model_param](#func.tune.model_param) function call, which we can subsequently use to extract a value to pass in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument to the function *being described here*:
+```{r main-script@l571u.ft_param_endpoints.idx, eval=FALSE}
+lambdas <- seq(0, 1, 0.1)
+cv.UME.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+```
+```{r}
+str(cv.UME.preset.result)
 ```
 
+
+The following code snippet provides an example of passing the data contained in the object created in the *code snippet above* to the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument of the function *being described*:
+```{r common-helper.func@l111}
+  preset.result <- cv.UME.preset.result$tuned.result
+  print(preset.result)
+  
+  # Internal call from the user-defined function `get_fine_tune.param.endpoints` 
+  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+  preset.result.idx
+```
 
 ::: {.noteblock data-latex=""}
 In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L111), the `get_fine_tune.param.endpoints.idx` function is called internally from the [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) function described below in *this Section*.
@@ -2470,7 +2486,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \
 
 ::: {#func.get_fine_tune.param.endpoints.idx.args.preset.result .sidebar }
-  - **preset.result:** Data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in section [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function description below.
+  - **preset.result:** Data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in section [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function described below in *this Section*.
 
 :::
 :::
@@ -2482,36 +2498,9 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 This is an auxiliary function intended to be called internally from the other user-defined functions, such as the [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) (as shown above in the [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section of *this Description*) and [model.tune.param_range](#func.model.tune.param_range) (both described below in *this Section*).
 
 ::: {.noteblock data-latex=""}
-The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) helper function (described below in *this Section*) is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
+The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) helper function (described below in *this Section*) is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument, as it is demonstrated in the *code snippet* above in section [Usage] of *this Description*.\newline
+More details about the `tuned.result` object are provided in the [Details](#func.get_fine_tune.param.endpoints.details) section of the [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) function described below in *this Section*.
 :::
-
-\newpage
-
-The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument:
-```{r main-script@l571u.ft_param_endpoints.idx, eval=FALSE}
-lambdas <- seq(0, 1, 0.1)
-cv.UME.preset.result <- 
-  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
-```
-```{r main-script@l596u}
-cv.UME.preset.result$tuned.result |>
-  data.plot(title = "UME Model Regularization: `lambda` Range Pre-configuration",
-              xname = "parameter.value",
-              yname = "RMSE",
-              xlabel = "Regularization parameter (`lambda`)",
-              ylabel = "RMSE")
-
-preset.result <- cv.UME.preset.result$tuned.result
-preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
-print(preset.result.idx)
-```
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
-:::
-:::
-
-\newpage
 
 ::: { #func.get_fine_tune.param.endpoints.idx.value .sidebar }
 ##### Value
@@ -2524,12 +2513,7 @@ Vector containing the index of the first element corresponding to the minimum `R
     best)  # index of the best `RMSE`
 ```
 
-In the example shown above in the [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section we can see the value return by *this function*:
-```{r}
-str(preset.result.idx)
-print(preset.result.idx)
-```
-
+The [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section of *this Description* above provides an example of the value returned by the function *being described*.
 :::
 
 \newpage
@@ -2593,9 +2577,11 @@ The algorithm assumes that the set of values in the *RMSE* column is a monotonic
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L608)
 \
 
-```{r main-script@l608u, eval=FALSE}
+```{r main-script@l608u}
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
+
+endpoints
 ```
 
 :::
@@ -2620,13 +2606,23 @@ This function internally calls [get_fine_tune.param.endpoints.idx](#func.get_fin
 The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function (described below *in this Section*) is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument.
 :::
 
-The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument:
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) shows how to extract the value from the object returned by the [tune.model_param](#func.tune.model_param) function suitable to pass to the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument of the function being described here,  as shown above in section [Usage](#func.get_fine_tune.param.endpoints.usage) of *this Description*:
 ```{r main-script@l571u.ft_param_endpoints, eval=FALSE}
 lambdas <- seq(0, 1, 0.1)
 cv.UME.preset.result <- 
   tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
 
 ```
+```{r}
+str(cv.UME.preset.result)
+
+# Object to be passed to the `preset.result` argument of the `get_fine_tune.param.endpoints` function:
+print(cv.UME.preset.result$tuned.result)
+```
+
+\newpage
+
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L596) provides a visual representation of the data object passed in the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument as shown above in section [Usage](#func.get_fine_tune.param.endpoints.usage) of *this Description*:
 ```{r main-script@l596u.ft_param_endpoints}
 cv.UME.preset.result$tuned.result |>
   data.plot(title = "UME Model Regularization: `lambda` Range Pre-configuration",
@@ -2634,15 +2630,10 @@ cv.UME.preset.result$tuned.result |>
               yname = "RMSE",
               xlabel = "Regularization parameter (`lambda`)",
               ylabel = "RMSE")
-
-preset.result <- cv.UME.preset.result$tuned.result
-fine_tune.param.endpoints <- get_fine_tune.param.endpoints(preset.result)
-print(fine_tune.param.endpoints)
 ```
 
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
-:::
 :::
 
 \newpage
@@ -2651,14 +2642,9 @@ In the code snippet above, we use the custom data visualization function [data.p
 ##### Value
 \
 
-Vector containing the *regularization parameter* $\lambda$ value corresponding to the first element with the minimum `RMSE` value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument, along with the pair of the $\lambda$ values corresponding to the nearest neighboring elements with values greater than the minimum `RMSE` to the left and right of the element (or group of elements) with the minimum `RMSE` value:
+Vector containing the *regularization parameter* $\lambda$ value corresponding to the first element with the minimum `RMSE` value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument, along with the pair of the $\lambda$ values corresponding to the nearest neighboring elements with values greater than the minimum `RMSE` to the left and right of the element (or group of elements) with the minimum `RMSE` value:
 
-In the example shown above in the [Usage](#func.get_fine_tune.param.endpoints.usage) section we can see the value return by *this function*:
-```{r}
-str(fine_tune.param.endpoints)
-print(fine_tune.param.endpoints)
-```
-
+The [Usage](#func.get_fine_tune.param.endpoints.usage) section of *this Description* above provides an example of the value returned by the function *being described*.
 :::
 
 ::: { #func.get_fine_tune.param.endpoints.code .sidebar }
