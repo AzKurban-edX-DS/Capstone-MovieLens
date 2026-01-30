@@ -40,10 +40,16 @@
 
 * 175 This approach will have ...[@IDS_E1_33-9-2]
 
-#### [UME Model Regularization: *Pre-configuration*]
+###### [UME Model Regularization: *Pre-configuration*]
 \
 
 * 187 ... For this purpose, we will use the user-defined helper function [tune.model_param](#func.tune.model_param),passing...
+
+###### [UME Model Regularization: *Fine-tuning*]
+\
+
+###### [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$]
+\
 
 
 
@@ -167,16 +173,6 @@
 
 ---
 
-* [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
-  * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
-  * [Details](#func.get_fine_tune.param.endpoints.idx.details)
-  * [Value](#func.get_fine_tune.param.endpoints.idx.value)
-     
-     
-  
----
-  
-
 #### [Data Helper Functions]
 
 ##### [Initializing Input Datasets]
@@ -205,23 +201,8 @@
 \
 
 ##### [Data Visualization Functions]
-  * [data.plot](#func.data.plot)
-    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1838)
-      * chunk: main-script@l1838u
-      * 4019 \\newpage
-    * [Arguments](#)
-      * ... (Optional, ... by default)
-    * [Details](#)
-      * 4066 \\newpage
-    
-  * [data.plot.left_detailed](#func.data.plot.left_detailed)
-    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1877)
-      * 4287 \\newpage
-    * [Arguments](#)
-      * **xlabel1:** (Optional, *Character string*, `NULL` by default)
-      * **xlabel2:** (Optional, *Character string*, `NULL` by default)
-      * ... (Optional, ... by default)
-      
+\
+
 #### [Models Training: Support Functions]
 
 ##### [OMR Model: Helper Functions]
@@ -268,17 +249,9 @@
   * [Value](#)
     * 4816 \\newpage
 
-* [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
-  * [Value](#func.calc_user_movie_effect_RMSE.cv.value)
-    * 4886 \\newpage
-
 ##### [UME Model: Regularization]
 \
 
-* [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91)
-  * [Usage](#func.regularize.test_lambda.UM_effect.cv.usage)
-    * 4934 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) above...
-  
 
 ------------------------------------------------------------------
 
@@ -371,7 +344,10 @@ Fixed lines:
 
 * 175 This approach will have ...[@IDS_E1_33-9-2]
 
-#### [UME Model Regularization: *Pre-configuration*]
+###### [UME Model Regularization: *Pre-configuration*]
+\
+
+###### [UME Model Regularization: *Fine-tuning*]
 \
 
 
@@ -541,11 +517,12 @@ print(head(edx.ordered_movie_ratings))
     * [lambda](#func.mean_reg.args.lambda) (Optional, 0 by default)...
     * [na.rm](#func.mean_reg.args.na.rm) (Optional, `TRUE` by default)...
   * [Details](#func.mean_reg.details)
-  
+
 * [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
   * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
   * [Details](#func.get_fine_tune.param.endpoints.idx.details)
     * 2488 \\newpage
+  * [Value](#func.get_fine_tune.param.endpoints.idx.value)
  
 * [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints)
   * [Usage](#func.get_fine_tune.param.endpoints.usage)
@@ -611,10 +588,15 @@ print(head(edx.ordered_movie_ratings))
 
 ##### [Data Visualization Functions]
 
-* [data.plot](#func.data.plot)
-  * 3944 [Usage];
-  * 3978 [Arguments]: xlabel;
-  
+  * [data.plot](#func.data.plot)
+    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1838)
+      * chunk: main-script@l1838u
+      * 4019 \\newpage
+    * [Arguments](#)
+      * ... (Optional, ... by default)
+    * [Details](#)
+      * 4066 \\newpage
+    
   * [data.plot.left.n](#func.data.plot.left.n)
     * [Usage]
       * 4152 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above...
@@ -627,6 +609,15 @@ print(head(edx.ordered_movie_ratings))
     * [Source Code](#)
       * 4255 \\newpage
 
+
+  * [data.plot.left_detailed](#func.data.plot.left_detailed)
+    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1877)
+      * 4287 \\newpage
+    * [Arguments](#)
+      * **xlabel1:** (Optional, *Character string*, `NULL` by default)
+      * **xlabel2:** (Optional, *Character string*, `NULL` by default)
+      * ... (Optional, ... by default)
+      
 
 #### [Models Training: Support Functions]
 
@@ -653,19 +644,32 @@ print(head(edx.ordered_movie_ratings))
   * 4612 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472)
   * 4656 [Source Code](#) The simplified version of the source code of the [train_user_movie_effect.cv]...
 
+* [calc_user_movie_genre_effect_MSE](#func.calc_user_movie_genre_effect_MSE)
+* [calc_user_movie_genre_effect_MSE.cv](#func.calc_user_movie_genre_effect_MSE.cv)
+
 * [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
   * 4847 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L513)
   * [Details](#func.calc_user_movie_effect_RMSE.cv.details): 
     * 4870 ...described in [Appendix B: Models Training Datasets] 
+  * [Value](#func.calc_user_movie_effect_RMSE.cv.value)
+    * 4886 \\newpage
 
+### UME Model: Regularization
+\
+
+* [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91)
+  * [Usage](#func.regularize.test_lambda.UM_effect.cv.usage)
+    * 4934 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) above...
 
 ### [Appendix B: Models Training Datasets]
+\
 
 * [`edx.mx` Matrix Object];
 * [`edx.sgr` Object];
 * [`movie_map` Object];
 * [`date_days_map` Object]
 * [`edx_CV` Object]
+
 
 -------------------------------------------------------
 
