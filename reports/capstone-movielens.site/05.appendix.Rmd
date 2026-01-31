@@ -4711,6 +4711,9 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 ```{r main-script@l676u, eval=FALSE}
   rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
 ```
+```{r}
+str(rglr.UM_effect)
+```
 :::
 
 ::: { #func.train_user_movie_effect.args .sidebar }
@@ -4788,6 +4791,9 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 
 ```{r main-script@l472u, eval=FALSE}
   cv.UM_effect <- train_user_movie_effect.cv()
+```
+```{r}
+str(cv.UM_effect)
 ```
 :::
 
@@ -4870,7 +4876,6 @@ Validates the *UM Effect (UME) Model* produced by the  [train_user_movie_effect]
   user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
     cv_fold_dat$validation_set |> calc_user_movie_effect_MSE(um_effect)
   })
-
 ```
 
 ::: {.noteblock data-latex=""}
@@ -5031,6 +5036,9 @@ Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect]
 ```{r main-script@l513u, eval=FALSE}
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 
+```
+```{r}
+cv.UM_effect.RMSE
 ```
 :::
 
