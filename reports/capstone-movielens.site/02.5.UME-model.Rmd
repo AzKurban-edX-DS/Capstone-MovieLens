@@ -266,7 +266,7 @@ UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMS
 ```
 
 ::: {.noteblock data-latex=""}
-The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UME Model: Regularization], respectively, of [Appendix A: Support Functions].
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UME Model: Regularization], respectively, of [Appendix A: Support Functions].
 :::
 
 \newpage

@@ -2762,7 +2762,9 @@ Implements an algorithm for selecting the best value of the *tuning parameter* f
   cv.UME.preset.result <- 
     tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
 ```
-
+```{r}
+print(cv.UME.preset.result)
+```
 ::: {.noteblock data-latex=""}
 In the *code snippet* above, the `tune.model_param` function accepts a pointer to the auxiliary function [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) (described below in section [UME Model: Regularization] of *this Appendix*), as a value of an argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value).
 :::
@@ -2932,11 +2934,15 @@ UME.rglr.fine_tune.results <-
 UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMSE"]
 ```
 ```{r}
-UME.rglr.fine_tune.RMSE.best
+str(UME.rglr.fine_tune.results)
 ```
-:::
 
 \newpage
+
+```{r}
+print(UME.rglr.fine_tune.results)
+```
+:::
 
 ::: { #func.model.tune.param_range.args .sidebar }
 ##### Arguments
@@ -2962,6 +2968,8 @@ seq(start, end, step)
 ::: {.noteblock data-latex=""}
 In the function body, the *step size* is stored in the local variable `seq_increment`, and the values of $start$, $end$, and $dvs$ are stored in the local variables `seq_start`, `seq_end`, and `interval_divisor`, respectively.
 :::
+
+\newpage
 
 In fact, the [seq](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq) function is called internally to generate the sequence during the algorithm's execution by the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L256):
 ```{r eval=FALSE}
@@ -2990,8 +2998,6 @@ The algorithm generates unique names for cache files based on this and the [loop
 Name of a model-specific helper function to pass to the [same-named argument](#func.tune.model_param.args.fn_tune.test.param_value) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
 :::
 
-\newpage
-
 ::: { #func.model.tune.param_range.args.max.identical.min_RMSE.count .sidebar }
 ###### ***max.identical.min_RMSE.count***
 \
@@ -3017,6 +3023,8 @@ Name of a model-specific helper function to pass to the [same-named argument](#f
 (Optional, 2 by default) Numeric value to pass to the [same-named argument](#func.tune.model_param.args.steps.beyond_min) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
 :::
 :::
+
+\newpage
 
 ::: { #func.model.tune.param_range.details .sidebar }
 ##### **Details** 
@@ -3071,6 +3079,8 @@ In the code snippet above, we use the custom function [put_log2](#func.put_log2)
 ::: { #func.model.tune.param_range.details.step4 .sidebar }
 4. Generates a unique name for the current iteration's cache file based on the values passed in the [cache_file_base_name](#func.model.tune.param_range.args.cache_file_base_name) and [loop_starter](#func.model.tune.param_range.args.loop_starter) arguments, along with the values stored in the local variables `seq_start`, `seq_end`, and `interval_divisor`, concatenates the name with the path passed in the [tune_dir_path](#func.model.tune.param_range.args.tune_dir_path) argument, and stores the value in the local variable `file_path_tmp`.
 
+\newpage
+
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L258) performs this step of execution:
 ```{r common-helper.func@l258d, eval=FALSE}
     file_name_tmp <- cache_file_base_name |>
@@ -3096,8 +3106,6 @@ File path generated: %1", file_path_tmp)
 In the code snippet above, we use the custom logging function [put_log1](#func.put_log1) described above in section [Logging Functions] of *this Appendix*.
 :::
 :::
-
-\newpage
 
 5. Checks whether a file with the full name stored in the `file_path_tmp` variable exists, and if so, loads all the necessary information for the current iteration from it and goes to [step 8](#func.model.tune.param_range.details.step8). Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step6).
 
@@ -3194,10 +3202,7 @@ The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
       best_RMSE <- min_RMSE
     }
 ```
-
 :::
-
-\newpage
 
 ::: { #func.model.tune.param_range.details.step10 .sidebar }
 10. Checks the deviations from the minimum *RMSE* value (stored in `min_RMSE` local variable) for the values, corresponding to the endpoints of the new interval of the *tuning parameter* values (figured out earlier in [step 8](#func.model.tune.param_range.details.step8)), and updates the corresponding local variables related to the endpoints, if the deviation reached the minimum threshold specified by the [endpoint.min_diff](#func.model.tune.param_range.args.endpoint.min_diff) argument.
@@ -3243,8 +3248,6 @@ Reached minimal RMSE for the test parameter value = %1: %2",
 In the code snippet above, we use the custom logging functions [put_log1](#func.put_log1) and  [put_log2](#func.put_log2) described above in section [Logging Functions] of *this Appendix*.
 :::
 :::
-
-\newpage
 
 ::: { #func.model.tune.param_range.details.step11 .sidebar }
 12.   Makes sure that the minimum *RMSE* value achieved so far (and stored in the local variable `best_RMSE`) is no less than the minimum *RMSE* value calculated for the current iteration and stored in the local variable `min_RMSE` (that is `best_RMSE >= min_RMSE`) and, if not, ***terminates the execution*** with an error message (this case is considered a **fatal error!**)
@@ -3336,13 +3339,13 @@ To retrieve the best results for the current iteration from the data stored in t
 :::
 :::
 
-\newpage
-
 ::: { #func.model.tune.param_range.details.step14 .sidebar }
 14. Updates the following local variables: 
   * `best_RMSE` with the minimum *RMSE* value computed for the current iteration (stored in the `min_RMSE`);
   * `param.best_value` with the corresponding *best parameter value* (stored in the `min_RMSE.prm_val`)
   * `param_values.best_result` with the best results retrieved from the  `tuned.result`.
+
+\newpage
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L410) performs this step of execution:
 ```{r common-helper.func@l410d, eval=FALSE}
@@ -3371,8 +3374,6 @@ In the code snippet above, we use the user-defined auxiliary function [get_best_
 ::: { #func.model.tune.param_range.details.step15 .sidebar }
 15. Proceeds to the next iteration, starting from [step 1](#func.model.tune.param_range.details.step1)
 :::
-
-\newpage
 
 ::: { #func.model.tune.param_range.details.finalizing .sidebar }
 ###### ***Finalizing Execution***
@@ -3431,15 +3432,15 @@ model.tune.param_range <- function(loop_starter,
 
 The objects comprising the return list are as follows:
 
-  - `best_result`: A vector containing a *pair of values*: the found *best value of the tuning parameter* for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
+- `best_result`: A vector containing a *pair of values*: the found *best value of the tuning parameter* for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
 
-  - `param_values.endpoints`: Information related to the final interval of the *tuning parameter* values;
+- `param_values.endpoints`: Information related to the final interval of the *tuning parameter* values;
 
-  - `tuned.result`: A data frame containing two variables:
+- `tuned.result`: A data frame containing two variables:
+
+  - *parameter.value*: A vector containing all processed values of the *tuning parameter*;
   
-    - *parameter.value*: A vector containing all processed values of the *tuning parameter*;
-    
-    - *RMSE*: A vector containing the *RMSE* values corresponding to the processed *tuning parameter* values.
+  - *RMSE*: A vector containing the *RMSE* values corresponding to the processed *tuning parameter* values.
 
 :::
 

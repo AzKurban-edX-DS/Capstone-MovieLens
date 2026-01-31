@@ -48,6 +48,8 @@
 ###### [UME Model Regularization: *Fine-tuning*]
 \
 
+* 269 The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in sections ...
+
 ###### [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$]
 \
 
@@ -172,6 +174,11 @@
   * [Details](#func.%.details)
 
 ---
+
+* [model.tune.param_range](#func.model.tune.param_range)
+  * [Usage](#func.model.tune.param_range.usage)
+  * [Details](#func.model.tune.param_range.details)
+
 
 #### [Data Helper Functions]
 
@@ -544,6 +551,7 @@ print(head(edx.ordered_movie_ratings))
     * [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value)
       * 3015 \\newpage
   * [Details](#func.model.tune.param_range.details)
+    * \\newpage (multiple occurrences)
   * [Value](#func.model.tune.param_range.value)
   * [Source Code](#func.model.tune.param_range.code)
   
