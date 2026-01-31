@@ -3299,17 +3299,12 @@ Currently computed minial value is: ", min_RMSE)
 \newpage
 
 ::: { #func.model.tune.param_range.details.step13 .sidebar }
-13. Checks if the number of equal values of the *best RMSE* in the *tuned result* for the current iteration (stored in the local variable `tuned.result$RMSE`) reached the value specified by the value passed in the argument [max.identical.min_RMSE.count](#func.model.tune.param_range.args.max.identical.min_RMSE.count), and, if so, saves the best values of the *tuning parameter* and corresponding *RMSE* in the local variable `param_values.best_result`, terminates the loop with a corresponding warning message, and proceeds to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described below in section [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection of *this Description*.
+13. (`best_RMSE == min_RMSE`) Checks if the number of equal values of the *best RMSE* in the *tuned result* for the current iteration (stored in the local variable `tuned.result$RMSE`) reached the value specified by the value passed in the argument [max.identical.min_RMSE.count](#func.model.tune.param_range.args.max.identical.min_RMSE.count), and, if so, saves the best values of the *tuning parameter* and corresponding *RMSE* in the local variable `param_values.best_result`, terminates the loop with a corresponding warning message, and proceeds to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described below in section [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection of *this Description*.
   
 Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step14).
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L384) performs this step of execution:
 ```{r common-helper.func@l384d13, eval=FALSE}
-    if (best_RMSE == min_RMSE) {
-      
-      # outputs a corresponding warning message
-      # ...
-      
       if (sum(tuned.result$RMSE[tuned.result$RMSE == min_RMSE]) >= max.identical.min_RMSE.count) {
         warning("Minimal `RMSE`identical values count reached it maximum allowed value: ",
                 max.identical.min_RMSE.count)
@@ -3326,12 +3321,9 @@ The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
                  param_values.best_result["best_RMSE"])
         break
       }
-    } else if (best_RMSE < min_RMSE) {
-      # Fatal Error! (stops the execution)
-      # ...
-    }
 
-    # the next step of the current iteration
+      # proceed to the next step of the current iteration
+      # ...
 ```
 
 ::: {.noteblock data-latex=""}
@@ -3340,8 +3332,8 @@ To retrieve the best results for the current iteration from the data stored in t
 :::
 
 ::: { #func.model.tune.param_range.details.step14 .sidebar }
-14. Updates the following local variables: 
-  * `best_RMSE` with the minimum *RMSE* value computed for the current iteration (stored in the `min_RMSE`);
+14. (`best_RMSE >= min_RMSE`) Updates the following local variables: 
+  * `best_RMSE` with the value stored in the `min_RMSE`(meaning the best *RMSE* has been possibly improved in the current iteration);
   * `param.best_value` with the corresponding *best parameter value* (stored in the `min_RMSE.prm_val`)
   * `param_values.best_result` with the best results retrieved from the  `tuned.result`.
 
@@ -3412,22 +3404,12 @@ The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 ##### **Value**
 \
 
-From the [source code](#func.model.tune.param_range.code) of the function [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208), we can see that it returns a list of three objects:
+From the [source code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L443) of the function *being described here*, we can see that it returns a list of three objects:
 ```{r eval=FALSE}
-model.tune.param_range <- function(loop_starter,
-                             tune_dir_path,
-                             cache_file_base_name,
-                             fn_tune.test.param_value,
-                             max.identical.min_RMSE.count = 4,
-                             endpoint.min_diff = 0,
-                             break.if_min = TRUE,
-                             steps.beyond_min = 2){
-  # ...
   list(best_result = param_values.best_result,
        param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
        tuned.result = data.frame(parameter.value = parameter.value,
                                  RMSE = result.RMSE))
-}
 ```
 
 The objects comprising the return list are as follows:
@@ -3448,11 +3430,11 @@ The objects comprising the return list are as follows:
 ##### Source Code
 \
 
-::: {.noteblock data-latex=""}
-The essential fragments of the function's source code are presented and explained in the [Details](#func.model.tune.param_range.details) section of *this Description*.
-:::
-
 The complete source code of the function [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) script on _GitHub_.
+
+::: {.noteblock data-latex=""}
+The essential parts of the source code are also provided and explained in the [Details](#func.model.tune.param_range.details) section of *this Description*.
+:::
 :::
 
 \newpage
