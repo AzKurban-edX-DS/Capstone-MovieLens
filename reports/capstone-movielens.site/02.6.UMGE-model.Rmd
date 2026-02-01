@@ -155,7 +155,7 @@ Next, we will implement the *UMGE Model Regularization* in the following three s
   
   2. **Fine-tuning:** (Described in the subsection [UMGE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
 
-  3. **Retraining:** (Described in subsection [UMGE Model Regularization: *Retraining the Model with the best* $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
+  3. **Retraining:** (Described in subsection [UMGE Model Regularization: *Retraining on the `edx` with the best* $\lambda$]) Retraining the model on the entire `edx` dataset with the best value of $\lambda$ determined in the previous step.
 
 
 #### UMGE Model Regularization: *Mathematical Description*
@@ -324,7 +324,7 @@ Note that in the code snippet above, we use the custom data visualization functi
 
 \newpage
 
-#### UMGE Model Regularization: *Retraining the Model with the best* $\lambda$
+#### UMGE Model Regularization: *Retraining on the `edx` with the best* $\lambda$
 \
 
 ::: {.noteblock data-latex=""}
