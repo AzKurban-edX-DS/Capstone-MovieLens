@@ -4866,7 +4866,7 @@ The complete source code of the [train_user_movie_effect.cv](https://github.com/
 #### [calc_user_movie_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L53) Function {#func.calc_user_movie_effect_MSE}
 \
 
-Validates the *UM Effect (UME) Model* produced by the  [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call.
+Validates the *UM Effect (UME) Model* produced by the  [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call (both described above in *this Section*).
 
 ::: { #func.calc_user_movie_effect_MSE.usage .sidebar }
 ##### Usage
@@ -4945,7 +4945,7 @@ The source code of the [calc_user_movie_effect_MSE](https://github.com/AzKurban-
 #### [calc_user_movie_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L67) Function {#func.calc_user_movie_effect_MSE.cv}
 \
 
-Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+Validates the *UM Effect (UME) Model* produced by the [train_user_movie_effect](#func.train_user_movie_effect) or [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) function call (both described above in *this Section*) with use of *K-Fold Cross-Validation* (as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV]).
 
 ::: { #func.calc_user_movie_effect_MSE.cv.usage .sidebar }
 ##### Usage
@@ -4956,7 +4956,7 @@ user_movie_effects_MSE <- calc_user_movie_effect_MSE.cv(um_effect)
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L83) above, the function `calc_user_movie_effect_MSE.cv` is called internally from the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described below in *this Section*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L83) above, the function *being described here* is called internally from the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) function described below in *this Section*.
 :::
 :::
 
@@ -5373,15 +5373,21 @@ The complete source code of the [train_user_movie_genre_effect.cv](https://githu
 #### [calc_user_movie_genre_effect_MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L112) Function {#func.calc_user_movie_genre_effect_MSE}
 \
 
-Validates the *UMG Effect (UMGE) Model* produced by the  [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call.
+Validates the *UMG Effect (UMGE) Model* produced by the  [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call (both described above in *this Section*).
 
 ::: { #func.calc_user_movie_genre_effect_MSE.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
-umg_mse <- test_set |> calc_user_movie_genre_effect_MSE(umg_effect)
+```{r UMG-effect.func@l127u, eval=FALSE}
+  user_movie_genre_effects_MSEs <- sapply(edx_CV, function(cv_dat){
+    cv_dat$validation_set |> calc_user_movie_genre_effect_MSE(umg_effect)
+  })
 ```
+:::
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L127) above, the function *being described here* is called internally from the [calc_user_movie_genre_effect_MSE.cv](#func.calc_user_movie_genre_effect_MSE.cv) function (described below in *this Section*) for each iteration of the *K-Fold Cross-Validation*, to calculate the *MSE* for the corresponding validation dataset of the [`edx_CV` Object] (described in [Appendix B: Models Training Datasets]).
 :::
 
 ::: { #func.calc_user_movie_genre_effect_MSE.args .sidebar }
@@ -5404,7 +5410,9 @@ umg_mse <- test_set |> calc_user_movie_genre_effect_MSE(umg_effect)
 
 The function calculates *Mean Squared Error (MSE)* for the *UMGE Model* passed in the [umg_effect](#func.calc_user_movie_genre_effect_MSE.args.umg_effect) argument using the validation dataset passed in the [test_set](#func.calc_user_movie_genre_effect_MSE.args.test_set) arg. 
 
-
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended to be called internally from the [calc_user_movie_genre_effect_MSE.cv](#func.calc_user_movie_genre_effect_MSE.cv) as shown in the [Usage](#func.calc_user_movie_genre_effect_MSE.usage) section above of *this Description*.
+:::
 :::
 
 ::: { #func.calc_user_movie_genre_effect_MSE.value .sidebar }
@@ -5413,6 +5421,8 @@ The function calculates *Mean Squared Error (MSE)* for the *UMGE Model* passed i
 
 *MSE* value calculated for the *UMGE Model*.
 :::
+
+\newpage
 
 ::: { #func.calc_user_movie_genre_effect_MSE.code .sidebar }
 ##### Source Code
@@ -5440,15 +5450,19 @@ The source code of the [calc_user_movie_genre_effect_MSE](https://github.com/AzK
 #### [calc_user_movie_genre_effect_MSE.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L124) Function {#func.calc_user_movie_genre_effect_MSE.cv}
 \
 
-Validates the *UMG Effect (UMGE) Model* (produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call) with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+Validates the *UMG Effect (UMGE) Model* produced by the [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) or [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) function call (both described above in *this Section*) with use of *K-Fold Cross-Validation* (as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV]).
 
 ::: { #func.calc_user_movie_genre_effect_MSE.cv.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r UMG-effect.func@l139u, eval=FALSE}
   umg_effect_RMSE <- sqrt(calc_user_movie_genre_effect_MSE.cv(umg_effect))
 ```
+:::
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L139) above, the function *being described here* is called internally from the [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) function described below in *this Section*.
 :::
 
 ::: { #func.calc_user_movie_genre_effect_MSE.cv.args .sidebar }
@@ -5465,12 +5479,14 @@ Validates the *UMG Effect (UMGE) Model* (produced by the [train_user_movie_genre
 ##### Details
 \
 
-The function calculates *MSE* for the *UMGE Model* passed in the [umg_effect](#func.calc_user_movie_genre_effect_MSE.cv.args.umg_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
+This function calculates *MSE* for the *UMGE Model* passed in the [umg_effect](#func.calc_user_movie_genre_effect_MSE.cv.args.umg_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
-::: {.noteblock data-latex=""}
-This function internally calls the [calc_user_movie_genre_effect_MSE](#func.calc_user_movie_genre_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
+It calls internally the [calc_user_movie_genre_effect_MSE](#func.calc_user_movie_genre_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
 The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended to be called internally from the [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) as shown in the [Usage](#func.calc_user_movie_genre_effect_MSE.cv.usage) section above of *this Description*.
 :::
 :::
 
@@ -5549,6 +5565,8 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
 
 The *RMSE* value calculated for the *UMG Effect Model* with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
+
+\newpage
 
 ::: { #func.calc_user_movie_genre_effect_RMSE.cv.code .sidebar }
 ##### Source Code

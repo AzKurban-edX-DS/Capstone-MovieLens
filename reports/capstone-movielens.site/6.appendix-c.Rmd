@@ -162,22 +162,7 @@
 
 ---
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
-  * [Value](#func.%.value)
 
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
-  * [Value](#func.%.value)
-
-
-* [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv)
-  * [Usage](#func.calc_user_movie_genre_effect_RMSE.cv.usage)
-  * [Details](#func.calc_user_movie_genre_effect_RMSE.cv.details)
-  * [Value](#func.calc_user_movie_genre_effect_RMSE.cv.value)
 
   
 ##### [UMGE Model: Regularization]
@@ -626,15 +611,30 @@ print(head(edx.ordered_movie_ratings))
   * [Value](#func.train_user_movie_genre_effect.cv.value)
     * \\newpage
 
+* [calc_user_movie_genre_effect_MSE](#func.calc_user_movie_genre_effect_MSE)
+  * [Usage](#func.calc_user_movie_genre_effect_MSE.usage)
+  * [Details](#func.calc_user_movie_genre_effect_MSE.details)
+  * [Value](#func.calc_user_movie_genre_effect_MSE.value)
+    * \\newpage
+
+* [calc_user_movie_genre_effect_MSE.cv](#func.calc_user_movie_genre_effect_MSE.cv)
+  * [Usage](#func.calc_user_movie_genre_effect_MSE.cv.usage)
+  * [Details](#func.calc_user_movie_genre_effect_MSE.cv.details)
+  * [Value](#func.calc_user_movie_genre_effect_MSE.cv.value)
+
+* [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv)
+  * [Usage](#func.calc_user_movie_genre_effect_RMSE.cv.usage)
+  * [Details](#func.calc_user_movie_genre_effect_RMSE.cv.details)
+  * [Value](#func.calc_user_movie_genre_effect_RMSE.cv.value)
+    * \\newpage
+
+
 ##### [UMGE Model: Regularization]
 
 * [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv)
   * [Usage](#func.regularize.test_lambda.UMG_effect.cv.usage)
   * [Details](#func.regularize.test_lambda.UMG_effect.cv.details)
   * [Value](#func.regularize.test_lambda.UMG_effect.cv.value)
-
-  
-
 
 ### [Appendix B: Models Training Datasets]
 \
