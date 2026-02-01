@@ -31,6 +31,28 @@
 #### [User+Movie Effect (UME) Model]
 \
 
+##### [UME Model Regularization]
+\
+
+
+###### [UME Model Regularization: *Mathematical Description*]
+\
+
+* 175 This approach will have ...[@IDS_E1_33-9-2]
+
+###### [UME Model Regularization: *Pre-configuration*]
+\
+
+* 187 ... For this purpose, we will use the user-defined helper function [tune.model_param](#func.tune.model_param),passing...
+
+###### [UME Model Regularization: *Fine-tuning*]
+\
+
+* 269 The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in sections ...
+
+###### [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$]
+\
+
 ##### Movie Effect Analysis
 \
 
@@ -43,9 +65,9 @@
 ##### [UME Model Building]
 \
 
-----------------------------------------------------------------------------
-
 ### [Appendix A: Support Functions]
+\
+
 * [%](#func.%)
   * [Usage](#func.%.usage)
   * [Arguments](#func.%.args)
@@ -56,73 +78,10 @@
 
 
 #### [Common Helper Functions]
+\
 
 ##### [Logging Functions]
 \
-
----
-
-* [](#func.)
-  * [Value](#func..value)
-    * \\newfile
-
-* [](#func.)
-  * [Value](#func..value)
-    * \\newfile
-
-* [](#func.)
-  * [Value](#func..value)
-    * \\newfile
-
-* [](#func.)
-  * [Value](#func..value)
-    * \\newfile
-
-* [](#func.)
-  * [Usage](#func..usage)
-  * [Arguments](#func..args)
-  * [Details](#func..details)
-  * [Value](#func..value)
-  * [Source Code](#func..code)
-    * \\newfile
-
-* [](#func.)
-  * [Usage](#func..usage)
-  * [Arguments](#func..args)
-  * [Details](#func..details)
-  * [Value](#func..value)
-  * [Source Code](#func..code)
-    * \\newfile
-
-* [](#func.)
-  * [Usage](#func..usage)
-  * [Arguments](#func..args)
-  * [Details](#func..details)
-  * [Value](#func..value)
-  * [Source Code](#func..code)
-    * \\newfile
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-
-
----
-
 
 ##### [Utility Functions]
 \
@@ -136,7 +95,6 @@
 ##### [Model Tuning Utils]
 \
 
----
 
 * [%](#func.%)
   * [Usage](#func.%.usage)
@@ -149,25 +107,19 @@
   * [Usage](#func.%.usage)
   * [Details](#func.%.details)
 
----
+* [model.tune.param_range](#func.model.tune.param_range)
+  * [Usage](#func.model.tune.param_range.usage)
+  * [Details](#func.model.tune.param_range.details)
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
-  
----
-  
 
 #### [Data Helper Functions]
+\
 
 ##### [Initializing Input Datasets]
 \
 
-
 ##### [Data Processing Functions]
 \
-
----
 
 * [%](#func.%)
   * [Usage](#func.%.usage)
@@ -186,23 +138,8 @@
 \
 
 ##### [Data Visualization Functions]
-  * [data.plot](#func.data.plot)
-    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1838)
-      * chunk: main-script@l1838u
-      * 4019 \\newpage
-    * [Arguments](#)
-      * ... (Optional, ... by default)
-    * [Details](#)
-      * 4066 \\newpage
-    
-  * [data.plot.left_detailed](#func.data.plot.left_detailed)
-    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1877)
-      * 4287 \\newpage
-    * [Arguments](#)
-      * **xlabel1:** (Optional, *Character string*, `NULL` by default)
-      * **xlabel2:** (Optional, *Character string*, `NULL` by default)
-      * ... (Optional, ... by default)
-      
+\
+
 #### [Models Training: Support Functions]
 
 ##### [OMR Model: Helper Functions]
@@ -211,8 +148,6 @@
 ##### [UME Model: Utility Functions]
 \
 
----
-
 * [%](#func.%)
   * [Usage](#func.%.usage)
   * [Details](#func.%.details)
@@ -221,47 +156,8 @@
   * [Usage](#func.%.usage)
   * [Details](#func.%.details)
   
----
-  
-* [train_user_movie_effect](#func.train_user_movie_effect)
-  * [Usage](#func.train_user_movie_effect.usage)
-  * [Details](#func.train_user_movie_effect.details)
-  
-
-* [train_user_movie_effect.cv](#func.train_user_movie_effect.cv)
-  * [Value](#func.train_user_movie_effect.cv.value)
-    * 4661 \\newpage
-    
-* [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE)
-  * [Usage](#func.calc_user_movie_effect_MSE.usage)
-    * 4713 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L71) above...
-    * [Details](#func.calc_user_movie_effect_MSE.details)
-      * 4738 This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) as shown above...
-      * 4749 \\newpage
-
-
-* [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv)
-  * [Usage](#func.calc_user_movie_effect_MSE.cv.usage)
-    * 4781 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L83) above...
-  * [Details](#func.calc_user_movie_effect_MSE.cv.details)
-    * 4800 It calls internally the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function...    
-    * 4805 This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)...
-  * [Value](#)
-    * 4816 \\newpage
-
-* [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
-  * [Value](#func.calc_user_movie_effect_RMSE.cv.value)
-    * 4886 \\newpage
-
 ##### [UME Model: Regularization]
 \
-
-* [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91)
-  * [Usage](#func.regularize.test_lambda.UM_effect.cv.usage)
-    * 4934 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) above...
-  
-
-------------------------------------------------------------------
 
 \newpage
 
@@ -339,6 +235,25 @@ Fixed lines:
 
 #### [User+Movie Effect (UME) Model]
 \
+
+##### [UME Model Regularization]
+\
+
+1. **Pre-configuration:**...
+2. **Fine-tuning:** (Described in subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+3. **Retraining:** (Described in subsection [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$])...
+
+###### [UME Model Regularization: *Mathematical Description*]
+\
+
+* 175 This approach will have ...[@IDS_E1_33-9-2]
+
+###### [UME Model Regularization: *Pre-configuration*]
+\
+
+###### [UME Model Regularization: *Fine-tuning*]
+\
+
 
 ##### Movie Effect Analysis
 \
@@ -506,16 +421,18 @@ print(head(edx.ordered_movie_ratings))
     * [lambda](#func.mean_reg.args.lambda) (Optional, 0 by default)...
     * [na.rm](#func.mean_reg.args.na.rm) (Optional, `TRUE` by default)...
   * [Details](#func.mean_reg.details)
-  
+
 * [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx)
   * [Usage](#func.get_fine_tune.param.endpoints.idx.usage)
   * [Details](#func.get_fine_tune.param.endpoints.idx.details)
     * 2488 \\newpage
+  * [Value](#func.get_fine_tune.param.endpoints.idx.value)
  
 * [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints)
-* [Usage](#func.get_fine_tune.param.endpoints.usage)
-* [Details](#func.get_fine_tune.param.endpoints.details)
-  
+  * [Usage](#func.get_fine_tune.param.endpoints.usage)
+  * [Details](#func.get_fine_tune.param.endpoints.details)
+  * [Value](#func.get_fine_tune.param.endpoints.value)
+
 * [get_best_param.result](#func.get_best_param.result)
   * [Usage](#func.get_best_param.result.usage)
   * [Details](#func.get_best_param.result.details)
@@ -531,6 +448,7 @@ print(head(edx.ordered_movie_ratings))
     * [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value)
       * 3015 \\newpage
   * [Details](#func.model.tune.param_range.details)
+    * \\newpage (multiple occurrences)
   * [Value](#func.model.tune.param_range.value)
   * [Source Code](#func.model.tune.param_range.code)
   
@@ -575,10 +493,15 @@ print(head(edx.ordered_movie_ratings))
 
 ##### [Data Visualization Functions]
 
-* [data.plot](#func.data.plot)
-  * 3944 [Usage];
-  * 3978 [Arguments]: xlabel;
-  
+  * [data.plot](#func.data.plot)
+    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1838)
+      * chunk: main-script@l1838u
+      * 4019 \\newpage
+    * [Arguments](#)
+      * ... (Optional, ... by default)
+    * [Details](#)
+      * 4066 \\newpage
+    
   * [data.plot.left.n](#func.data.plot.left.n)
     * [Usage]
       * 4152 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/data.helper.functions.R#L470) above...
@@ -591,6 +514,15 @@ print(head(edx.ordered_movie_ratings))
     * [Source Code](#)
       * 4255 \\newpage
 
+
+  * [data.plot.left_detailed](#func.data.plot.left_detailed)
+    * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1877)
+      * 4287 \\newpage
+    * [Arguments](#)
+      * **xlabel1:** (Optional, *Character string*, `NULL` by default)
+      * **xlabel2:** (Optional, *Character string*, `NULL` by default)
+      * ... (Optional, ... by default)
+      
 
 #### [Models Training: Support Functions]
 
@@ -610,26 +542,60 @@ print(head(edx.ordered_movie_ratings))
 ##### [UME Model: Utility Functions]
 \
 
-* [train_user_movie_effect](#func.train_user_movie_effect) 
+* [train_user_movie_effect](#func.train_user_movie_effect)
+  * [Usage](#func.train_user_movie_effect.usage)
+  * [Details](#func.train_user_movie_effect.details)
     * [Value](func.train_user_movie_effect.value) 
       * 4584 \\newpage
+      
 * [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) {#refs...}
-  * 4612 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472)
-  * 4656 [Source Code](#) The simplified version of the source code of the [train_user_movie_effect.cv]...
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L472)
+  * [Value](#func.train_user_movie_effect.cv.value)
+    * 4831 \\newpage
+  * [Source Code](#) 
+    * The simplified version of the source code of the [train_user_movie_effect.cv]...
+
+* [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE)
+  * [Usage](#func.calc_user_movie_effect_MSE.usage)
+    * 4882 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L71) above...
+    * [Details](#func.calc_user_movie_effect_MSE.details)
+      * 4907 This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) 
+
+
+* [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv)
+  * [Usage](#func.calc_user_movie_effect_MSE.cv.usage)
+    * 4781 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L83) above...
+  * [Details](#func.calc_user_movie_effect_MSE.cv.details)
+    * 4800 It calls internally the [calc_user_movie_effect_MSE](#func.calc_user_movie_effect_MSE) function...    
+    * 4805 This is an auxiliary function intended to be called internally from the [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)...
+  * [Value](#func.calc_user_movie_effect_MSE.cv.value)
+    * 4995 \\newpage
+    * [Source Code](#func.calc_user_movie_effect_MSE.cv.code)
+      * 5025 \\newpage
 
 * [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv)
   * 4847 [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L513)
   * [Details](#func.calc_user_movie_effect_RMSE.cv.details): 
     * 4870 ...described in [Appendix B: Models Training Datasets] 
+  * [Value](#func.calc_user_movie_effect_RMSE.cv.value)
+    * 4886 \\newpage
 
+### UME Model: Regularization
+\
+
+* [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91)
+  * [Usage](#func.regularize.test_lambda.UM_effect.cv.usage)
+    * 4934 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) above...
 
 ### [Appendix B: Models Training Datasets]
+\
 
 * [`edx.mx` Matrix Object];
 * [`edx.sgr` Object];
 * [`movie_map` Object];
 * [`date_days_map` Object]
 * [`edx_CV` Object]
+
 
 -------------------------------------------------------
 

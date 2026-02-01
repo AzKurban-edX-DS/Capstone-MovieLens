@@ -2455,10 +2455,29 @@ The algorithm assumes that the set of values in the *RMSE* column is a monotonic
 ##### Usage
 \
 
-```{r common-helper.func@l111}
-  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) creates the object `cv.UME.preset.result` as a result of the [tune.model_param](#func.tune.model_param) function call, which we can subsequently use to extract a value to pass in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument to the function *being described here*:
+```{r main-script@l571u.ft_param_endpoints.idx, eval=FALSE}
+lambdas <- seq(0, 1, 0.1)
+cv.UME.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+```
+```{r}
+str(cv.UME.preset.result)
 ```
 
+::: {.noteblock data-latex=""}
+The *custom helper function* [tune.model_param](#func.tune.model_param) used in the *code snippet above* is described below in *this Section*.
+:::
+
+The following code snippet provides an example of passing the data contained in the object created in the *code snippet above* to the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument of the function *being described*:
+```{r common-helper.func@l111}
+  preset.result <- cv.UME.preset.result$tuned.result
+  print(preset.result)
+  
+  # Internal call from the user-defined function `get_fine_tune.param.endpoints` 
+  preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
+  preset.result.idx
+```
 
 ::: {.noteblock data-latex=""}
 In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L111), the `get_fine_tune.param.endpoints.idx` function is called internally from the [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) function described below in *this Section*.
@@ -2470,7 +2489,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \
 
 ::: {#func.get_fine_tune.param.endpoints.idx.args.preset.result .sidebar }
-  - **preset.result:** Data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in section [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function description below.
+* **preset.result:** Data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in section [Details](#func.tune.model_param.details) of the [tune.model_param](#func.tune.model_param) function description below.
 
 :::
 :::
@@ -2482,36 +2501,8 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 This is an auxiliary function intended to be called internally from the other user-defined functions, such as the [get_fine_tune.param.endpoints](#func.get_fine_tune.param.endpoints) (as shown above in the [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section of *this Description*) and [model.tune.param_range](#func.model.tune.param_range) (both described below in *this Section*).
 
 ::: {.noteblock data-latex=""}
-The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) helper function (described below in *this Section*) is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
+The element stored in the `$tuned.result` variable of the *list* object returned by the [tune.model_param](#func.tune.model_param) function (described below *in this Section*), is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument.
 :::
-
-\newpage
-
-The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument:
-```{r main-script@l571u.ft_param_endpoints.idx, eval=FALSE}
-lambdas <- seq(0, 1, 0.1)
-cv.UME.preset.result <- 
-  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
-```
-```{r main-script@l596u}
-cv.UME.preset.result$tuned.result |>
-  data.plot(title = "UME Model Regularization: `lambda` Range Pre-configuration",
-              xname = "parameter.value",
-              yname = "RMSE",
-              xlabel = "Regularization parameter (`lambda`)",
-              ylabel = "RMSE")
-
-preset.result <- cv.UME.preset.result$tuned.result
-preset.result.idx <- get_fine_tune.param.endpoints.idx(preset.result)
-print(preset.result.idx)
-```
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
-:::
-:::
-
-\newpage
 
 ::: { #func.get_fine_tune.param.endpoints.idx.value .sidebar }
 ##### Value
@@ -2524,12 +2515,7 @@ Vector containing the index of the first element corresponding to the minimum `R
     best)  # index of the best `RMSE`
 ```
 
-In the example shown above in the [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section we can see the value return by *this function*:
-```{r}
-str(preset.result.idx)
-print(preset.result.idx)
-```
-
+The [Usage](#func.get_fine_tune.param.endpoints.idx.usage) section of *this Description* above provides an example of the value returned by the function *being described*.
 :::
 
 \newpage
@@ -2590,12 +2576,34 @@ The algorithm assumes that the set of values in the *RMSE* column is a monotonic
 
 
 ::: { #func.get_fine_tune.param.endpoints.usage .sidebar }
-##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L608)
+##### Usage
 \
 
-```{r main-script@l608u, eval=FALSE}
+The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) creates the object `cv.UME.preset.result` as a result of the [tune.model_param](#func.tune.model_param) function call, which we can subsequently use to extract a value to pass in the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument to the function *being described here*:
+```{r main-script@l571u.ft_param_endpoints, eval=FALSE}
+lambdas <- seq(0, 1, 0.1)
+cv.UME.preset.result <- 
+  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
+```
+```{r}
+str(cv.UME.preset.result)
+
+# Object to be passed to the `preset.result` argument of the `get_fine_tune.param.endpoints` function:
+print(cv.UME.preset.result$tuned.result)
+```
+
+::: {.noteblock data-latex=""}
+The *custom helper function* [tune.model_param](#func.tune.model_param) used in the *code snippet above* is described below in *this Section*.
+:::
+
+\newpage
+
+In the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L608), the data stored in the `$tuned.result` variable of the *list* object returned by the [tune.model_param](#func.tune.model_param) function in the *code snippet above*, is passed in the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument to the function *being described*: 
+```{r main-script@l608u}
 endpoints <- 
   get_fine_tune.param.endpoints(cv.UME.preset.result$tuned.result)
+
+endpoints
 ```
 
 :::
@@ -2605,7 +2613,7 @@ endpoints <-
 \
 
 ::: {#func.get_fine_tune.param.endpoints.args.preset.result .sidebar }
-  - **preset.result:** Data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in section [Details](#func.tune.model_param.details) section of the [tune.model_param](#func.tune.model_param) function description below.
+* **preset.result:** Data frame that has an *RMSE* column containing the `RMSE` values corresponding to the *regularization parameter* $\lambda$ values for the model being regularized, as described in section [Details](#func.tune.model_param.details) of the [tune.model_param](#func.tune.model_param) function description below.
 
 :::
 :::
@@ -2617,49 +2625,19 @@ endpoints <-
 This function internally calls [get_fine_tune.param.endpoints.idx](#func.get_fine_tune.param.endpoints.idx) function described above in *this Section* to figure out the indices of the elements, the values of which have to be determined.
 
 ::: {.noteblock data-latex=""}
-The element named `tuned.result` of the *list* returned by the [tune.model_param](#func.tune.model_param) function (described below *in this Section*) is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument.
+The element stored in the `$tuned.result` variable of the *list* object returned by the [tune.model_param](#func.tune.model_param) function (described below *in this Section*), is a *data frame* suitable for use as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument.
 :::
-
-The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) shows how to use the data returned by the [tune.model_param](#func.tune.model_param) function as the value of the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument:
-```{r main-script@l571u.ft_param_endpoints, eval=FALSE}
-lambdas <- seq(0, 1, 0.1)
-cv.UME.preset.result <- 
-  tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
-
-```
-```{r main-script@l596u.ft_param_endpoints}
-cv.UME.preset.result$tuned.result |>
-  data.plot(title = "UME Model Regularization: `lambda` Range Pre-configuration",
-              xname = "parameter.value",
-              yname = "RMSE",
-              xlabel = "Regularization parameter (`lambda`)",
-              ylabel = "RMSE")
-
-preset.result <- cv.UME.preset.result$tuned.result
-fine_tune.param.endpoints <- get_fine_tune.param.endpoints(preset.result)
-print(fine_tune.param.endpoints)
-```
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the custom data visualization function [data.plot](#func.data.plot) described in section [Data Visualization Functions] of *this Appendix*.
-:::
-:::
-
-\newpage
 
 ::: { #func.get_fine_tune.param.endpoints.value .sidebar }
 ##### Value
 \
 
-Vector containing the *regularization parameter* $\lambda$ value corresponding to the first element with the minimum `RMSE` value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.idx.args.preset.result) argument, along with the pair of the $\lambda$ values corresponding to the nearest neighboring elements with values greater than the minimum `RMSE` to the left and right of the element (or group of elements) with the minimum `RMSE` value:
+Vector containing the *regularization parameter* $\lambda$ value corresponding to the first element with the minimum `RMSE` value in the *RMSE* column of the data frame passed in the [preset.result](#func.get_fine_tune.param.endpoints.args.preset.result) argument, along with the pair of the $\lambda$ values corresponding to the nearest neighboring elements with values greater than the minimum `RMSE` to the left and right of the element (or group of elements) with the minimum `RMSE` value:
 
-In the example shown above in the [Usage](#func.get_fine_tune.param.endpoints.usage) section we can see the value return by *this function*:
-```{r}
-str(fine_tune.param.endpoints)
-print(fine_tune.param.endpoints)
-```
-
+The [Usage](#func.get_fine_tune.param.endpoints.usage) section of *this Description* above provides an example of the value returned by the function *being described*.
 :::
+
+\newpage
 
 ::: { #func.get_fine_tune.param.endpoints.code .sidebar }
 ##### Source Code
@@ -2784,7 +2762,9 @@ Implements an algorithm for selecting the best value of the *tuning parameter* f
   cv.UME.preset.result <- 
     tune.model_param(lambdas, regularize.test_lambda.UM_effect.cv)
 ```
-
+```{r}
+print(cv.UME.preset.result)
+```
 ::: {.noteblock data-latex=""}
 In the *code snippet* above, the `tune.model_param` function accepts a pointer to the auxiliary function [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) (described below in section [UME Model: Regularization] of *this Appendix*), as a value of an argument [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value).
 :::
@@ -2954,11 +2934,15 @@ UME.rglr.fine_tune.results <-
 UME.rglr.fine_tune.RMSE.best <- UME.rglr.fine_tune.results$best_result["best_RMSE"]
 ```
 ```{r}
-UME.rglr.fine_tune.RMSE.best
+str(UME.rglr.fine_tune.results)
 ```
-:::
 
 \newpage
+
+```{r}
+print(UME.rglr.fine_tune.results)
+```
+:::
 
 ::: { #func.model.tune.param_range.args .sidebar }
 ##### Arguments
@@ -2984,6 +2968,8 @@ seq(start, end, step)
 ::: {.noteblock data-latex=""}
 In the function body, the *step size* is stored in the local variable `seq_increment`, and the values of $start$, $end$, and $dvs$ are stored in the local variables `seq_start`, `seq_end`, and `interval_divisor`, respectively.
 :::
+
+\newpage
 
 In fact, the [seq](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq) function is called internally to generate the sequence during the algorithm's execution by the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L256):
 ```{r eval=FALSE}
@@ -3012,8 +2998,6 @@ The algorithm generates unique names for cache files based on this and the [loop
 Name of a model-specific helper function to pass to the [same-named argument](#func.tune.model_param.args.fn_tune.test.param_value) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
 :::
 
-\newpage
-
 ::: { #func.model.tune.param_range.args.max.identical.min_RMSE.count .sidebar }
 ###### ***max.identical.min_RMSE.count***
 \
@@ -3039,6 +3023,8 @@ Name of a model-specific helper function to pass to the [same-named argument](#f
 (Optional, 2 by default) Numeric value to pass to the [same-named argument](#func.tune.model_param.args.steps.beyond_min) of the [tune.model_param](#func.tune.model_param) function (see description above) that is called internally during the execution of the algorithm.
 :::
 :::
+
+\newpage
 
 ::: { #func.model.tune.param_range.details .sidebar }
 ##### **Details** 
@@ -3093,6 +3079,8 @@ In the code snippet above, we use the custom function [put_log2](#func.put_log2)
 ::: { #func.model.tune.param_range.details.step4 .sidebar }
 4. Generates a unique name for the current iteration's cache file based on the values passed in the [cache_file_base_name](#func.model.tune.param_range.args.cache_file_base_name) and [loop_starter](#func.model.tune.param_range.args.loop_starter) arguments, along with the values stored in the local variables `seq_start`, `seq_end`, and `interval_divisor`, concatenates the name with the path passed in the [tune_dir_path](#func.model.tune.param_range.args.tune_dir_path) argument, and stores the value in the local variable `file_path_tmp`.
 
+\newpage
+
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L258) performs this step of execution:
 ```{r common-helper.func@l258d, eval=FALSE}
     file_name_tmp <- cache_file_base_name |>
@@ -3118,8 +3106,6 @@ File path generated: %1", file_path_tmp)
 In the code snippet above, we use the custom logging function [put_log1](#func.put_log1) described above in section [Logging Functions] of *this Appendix*.
 :::
 :::
-
-\newpage
 
 5. Checks whether a file with the full name stored in the `file_path_tmp` variable exists, and if so, loads all the necessary information for the current iteration from it and goes to [step 8](#func.model.tune.param_range.details.step8). Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step6).
 
@@ -3216,10 +3202,7 @@ The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
       best_RMSE <- min_RMSE
     }
 ```
-
 :::
-
-\newpage
 
 ::: { #func.model.tune.param_range.details.step10 .sidebar }
 10. Checks the deviations from the minimum *RMSE* value (stored in `min_RMSE` local variable) for the values, corresponding to the endpoints of the new interval of the *tuning parameter* values (figured out earlier in [step 8](#func.model.tune.param_range.details.step8)), and updates the corresponding local variables related to the endpoints, if the deviation reached the minimum threshold specified by the [endpoint.min_diff](#func.model.tune.param_range.args.endpoint.min_diff) argument.
@@ -3265,8 +3248,6 @@ Reached minimal RMSE for the test parameter value = %1: %2",
 In the code snippet above, we use the custom logging functions [put_log1](#func.put_log1) and  [put_log2](#func.put_log2) described above in section [Logging Functions] of *this Appendix*.
 :::
 :::
-
-\newpage
 
 ::: { #func.model.tune.param_range.details.step11 .sidebar }
 12.   Makes sure that the minimum *RMSE* value achieved so far (and stored in the local variable `best_RMSE`) is no less than the minimum *RMSE* value calculated for the current iteration and stored in the local variable `min_RMSE` (that is `best_RMSE >= min_RMSE`) and, if not, ***terminates the execution*** with an error message (this case is considered a **fatal error!**)
@@ -3318,17 +3299,12 @@ Currently computed minial value is: ", min_RMSE)
 \newpage
 
 ::: { #func.model.tune.param_range.details.step13 .sidebar }
-13. Checks if the number of equal values of the *best RMSE* in the *tuned result* for the current iteration (stored in the local variable `tuned.result$RMSE`) reached the value specified by the value passed in the argument [max.identical.min_RMSE.count](#func.model.tune.param_range.args.max.identical.min_RMSE.count), and, if so, saves the best values of the *tuning parameter* and corresponding *RMSE* in the local variable `param_values.best_result`, terminates the loop with a corresponding warning message, and proceeds to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described below in section [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection of *this Description*.
+13. (`best_RMSE == min_RMSE`) Checks if the number of equal values of the *best RMSE* in the *tuned result* for the current iteration (stored in the local variable `tuned.result$RMSE`) reached the value specified by the value passed in the argument [max.identical.min_RMSE.count](#func.model.tune.param_range.args.max.identical.min_RMSE.count), and, if so, saves the best values of the *tuning parameter* and corresponding *RMSE* in the local variable `param_values.best_result`, terminates the loop with a corresponding warning message, and proceeds to the [Finalizing Execution](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L426) section of the code described below in section [Finalizing Execution](#func.model.tune.param_range.details.finalizing) subsection of *this Description*.
   
 Otherwise, proceeds to the [next step](#func.model.tune.param_range.details.step14).
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L384) performs this step of execution:
 ```{r common-helper.func@l384d13, eval=FALSE}
-    if (best_RMSE == min_RMSE) {
-      
-      # outputs a corresponding warning message
-      # ...
-      
       if (sum(tuned.result$RMSE[tuned.result$RMSE == min_RMSE]) >= max.identical.min_RMSE.count) {
         warning("Minimal `RMSE`identical values count reached it maximum allowed value: ",
                 max.identical.min_RMSE.count)
@@ -3345,12 +3321,9 @@ The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
                  param_values.best_result["best_RMSE"])
         break
       }
-    } else if (best_RMSE < min_RMSE) {
-      # Fatal Error! (stops the execution)
-      # ...
-    }
 
-    # the next step of the current iteration
+      # proceed to the next step of the current iteration
+      # ...
 ```
 
 ::: {.noteblock data-latex=""}
@@ -3358,13 +3331,13 @@ To retrieve the best results for the current iteration from the data stored in t
 :::
 :::
 
-\newpage
-
 ::: { #func.model.tune.param_range.details.step14 .sidebar }
-14. Updates the following local variables: 
-  * `best_RMSE` with the minimum *RMSE* value computed for the current iteration (stored in the `min_RMSE`);
+14. (`best_RMSE >= min_RMSE`) Updates the following local variables: 
+  * `best_RMSE` with the value stored in the `min_RMSE`(meaning the best *RMSE* has been possibly improved in the current iteration);
   * `param.best_value` with the corresponding *best parameter value* (stored in the `min_RMSE.prm_val`)
   * `param_values.best_result` with the best results retrieved from the  `tuned.result`.
+
+\newpage
 
 The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L410) performs this step of execution:
 ```{r common-helper.func@l410d, eval=FALSE}
@@ -3393,8 +3366,6 @@ In the code snippet above, we use the user-defined auxiliary function [get_best_
 ::: { #func.model.tune.param_range.details.step15 .sidebar }
 15. Proceeds to the next iteration, starting from [step 1](#func.model.tune.param_range.details.step1)
 :::
-
-\newpage
 
 ::: { #func.model.tune.param_range.details.finalizing .sidebar }
 ###### ***Finalizing Execution***
@@ -3433,35 +3404,25 @@ The following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 ##### **Value**
 \
 
-From the [source code](#func.model.tune.param_range.code) of the function [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208), we can see that it returns a list of three objects:
+From the [source code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L443) of the function *being described here*, we can see that it returns a list of three objects:
 ```{r eval=FALSE}
-model.tune.param_range <- function(loop_starter,
-                             tune_dir_path,
-                             cache_file_base_name,
-                             fn_tune.test.param_value,
-                             max.identical.min_RMSE.count = 4,
-                             endpoint.min_diff = 0,
-                             break.if_min = TRUE,
-                             steps.beyond_min = 2){
-  # ...
   list(best_result = param_values.best_result,
        param_values.endpoints = c(prm_val.leftmost, prm_val.rightmost, seq_increment),
        tuned.result = data.frame(parameter.value = parameter.value,
                                  RMSE = result.RMSE))
-}
 ```
 
 The objects comprising the return list are as follows:
 
-  - `best_result`: A vector containing a *pair of values*: the found *best value of the tuning parameter* for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
+- `best_result`: A vector containing a *pair of values*: the found *best value of the tuning parameter* for which the *RMSE* value is minimal, along with the minimal *RMSE* value itself;
 
-  - `param_values.endpoints`: Information related to the final interval of the *tuning parameter* values;
+- `param_values.endpoints`: Information related to the final interval of the *tuning parameter* values;
 
-  - `tuned.result`: A data frame containing two variables:
+- `tuned.result`: A data frame containing two variables:
+
+  - *parameter.value*: A vector containing all processed values of the *tuning parameter*;
   
-    - *parameter.value*: A vector containing all processed values of the *tuning parameter*;
-    
-    - *RMSE*: A vector containing the *RMSE* values corresponding to the processed *tuning parameter* values.
+  - *RMSE*: A vector containing the *RMSE* values corresponding to the processed *tuning parameter* values.
 
 :::
 
@@ -3469,11 +3430,11 @@ The objects comprising the return list are as follows:
 ##### Source Code
 \
 
-::: {.noteblock data-latex=""}
-The essential fragments of the function's source code are presented and explained in the [Details](#func.model.tune.param_range.details) section of *this Description*.
-:::
-
 The complete source code of the function [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) is available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L69) section of the [common-helper.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) script on _GitHub_.
+
+::: {.noteblock data-latex=""}
+The essential parts of the source code are also provided and explained in the [Details](#func.model.tune.param_range.details) section of *this Description*.
+:::
 :::
 
 \newpage
@@ -4750,6 +4711,9 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 ```{r main-script@l676u, eval=FALSE}
   rglr.UM_effect <- train_user_movie_effect(edx, UME.rglr.best_lambda)
 ```
+```{r}
+str(rglr.UM_effect)
+```
 :::
 
 ::: { #func.train_user_movie_effect.args .sidebar }
@@ -4827,6 +4791,9 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_effe
 
 ```{r main-script@l472u, eval=FALSE}
   cv.UM_effect <- train_user_movie_effect.cv()
+```
+```{r}
+str(cv.UM_effect)
 ```
 :::
 
@@ -4909,7 +4876,6 @@ Validates the *UM Effect (UME) Model* produced by the  [train_user_movie_effect]
   user_movie_effects_MSEs <- sapply(edx_CV, function(cv_fold_dat){
     cv_fold_dat$validation_set |> calc_user_movie_effect_MSE(um_effect)
   })
-
 ```
 
 ::: {.noteblock data-latex=""}
@@ -5070,6 +5036,9 @@ Validates the *UM Effect (UME) Model* (produced by the [train_user_movie_effect]
 ```{r main-script@l513u, eval=FALSE}
 cv.UM_effect.RMSE <- calc_user_movie_effect_RMSE.cv(cv.UM_effect)
 
+```
+```{r}
+cv.UM_effect.RMSE
 ```
 :::
 
