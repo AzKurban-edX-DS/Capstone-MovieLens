@@ -600,7 +600,7 @@ Next, we will implement the *UMGYDE Model Regularization* in the following three
 #### UMGYDE Model Regularization: *Mathematical Description*
 \
 
-We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] above. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_ and then into the formula \@ref(eq:YE-penalty) for the _UMGYE Model_. For the current model, this formula takes the form:
+We have already explained the idea of the *Linear Model Regularization* earlier in section [UME Model Regularization]. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_ and then into the formula \@ref(eq:YE-penalty) for the _UMGYE Model_. For the current model, this formula takes the form:
 
 \begin{equation}
 \sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j}) - s(d_{i,j})\right)^2 + \lambda \sum_{i,j} s(d_{i,j})^2

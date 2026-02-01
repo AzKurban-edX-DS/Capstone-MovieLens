@@ -161,7 +161,7 @@ Next, we will implement the *UMGE Model Regularization* in the following three s
 #### UMGE Model Regularization: *Mathematical Description*
 \
 
-We have already explained the idea of the _Linear Model Regularization_ in the [UME Model Regularization] above. Let's extend the concept outlined there to our current model.
+We have already explained the idea of the *Linear Model Regularization* earlier in section [UME Model Regularization]. Let's extend the concept outlined there to our current model.
 
 In this case, the formula \@ref(eq:ME-penalty) for adding a penalty takes the form:
 
