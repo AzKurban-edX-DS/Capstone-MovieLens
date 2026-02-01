@@ -148,16 +148,37 @@
 ##### [UME Model: Utility Functions]
 \
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
-  
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
-  
 ##### [UME Model: Regularization]
 \
+
+##### [UMGE Model: Utility Functions]
+
+\
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+
+---
+
+* [train_user_movie_genre_effect](#func.train_user_movie_genre_effect)
+  * [Usage](#func.train_user_movie_genre_effect.usage)
+  * [Details](#func.train_user_movie_genre_effect.details)
+  * [Value](#func.train_user_movie_genre_effect.value)
+
+* [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv)
+  * [Usage](#func.train_user_movie_genre_effect.cv.usage)
+  * [Details](#func.train_user_movie_genre_effect.cv.details)
+  * [Value](#func.train_user_movie_genre_effect.cv.value)
+    * \\newpage
+
+  
+  
+##### [UMGE Model: Regularization]
+\
+
+
 
 \newpage
 

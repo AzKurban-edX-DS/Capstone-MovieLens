@@ -5188,11 +5188,14 @@ The complete source code of the functions described in this section is available
 Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_genre_effect.args.lambda) argument value is non-default) the *User+Movie+Genre Effect (UMGE) Model* using the training sample of the `Movielens` dataset (passed in the [train.sgr](#func.train_user_movie_genre_effect.args.train.sgr) argument), specially prepared to train the *UMGE Model*.
 
 ::: { #func.train_user_movie_genre_effect.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1086)
 \
 
-```{r eval=FALSE}
+```{r main-script@l1086u, eval=FALSE}
   rglr.UMG_effect <- edx.sgr |> train_user_movie_genre_effect(UMGE.rglr.best_lambda)
+```
+```{r}
+str(rglr.UMG_effect)
 ```
 :::
 
@@ -5274,10 +5277,19 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_user_movie_genr
 ##### Usage
 \
 
-```{r eval=FALSE}
+In the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L902), the function *being described here* is called with the default value of the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument (therefore, the*Regularization technique* is not used in this call): 
+```{r main-script@l902u, eval=FALSE}
 # `lambda = 0` by default (the regularization technique is not applied)
 cv.UMG_effect <- train_user_movie_genre_effect.cv()
-  
+```
+```{r}
+ str(cv.UMG_effect)
+```
+
+
+In the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.function.R#L154), *this function* is called internally from the other custom helper function [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) described below in section [UMGE Model: Regularization] of *this Appendix*.\newline
+In this case, when the function is passed a non-default value in the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument, the *Regularization technique* is applied:
+```{r UMG-effect.func@l154u, eval=FALSE}
 umg_effect <- train_user_movie_genre_effect.cv(lambda)
 ```
 :::
@@ -5298,6 +5310,10 @@ umg_effect <- train_user_movie_genre_effect.cv(lambda)
 
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
 
+::: {.noteblock data-latex=""}
+To use *regularization*, in *this Project*, the function is called internally from the other *custom helper function* [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) (described below in section [UMGE Model: Regularization] of *this Appendix*) as shown above in the [Usage](#func.train_user_movie_genre_effect.cv.usage) section of *this Description*.  
+:::
+
 Internally, this function calls the helper function [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) described above for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in section [Models Training Functions] of this *Appendix* to aggregate the cross-validation results.
 
 ::: {.noteblock data-latex=""}
@@ -5312,11 +5328,13 @@ The $K$ value for the *K-Fold Cross-Validation* method is determined by the leng
 Data frame object representing the *UMG Effect Model* trained (and also *regularized* if the [lambda](#func.train_user_movie_genre_effect.cv.args.lambda) argument value is other than the default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 
+\newpage
+
 ::: { #func.train_user_movie_genre_effect.cv.code .sidebar }
 ##### Source Code
 \
 
-The most important part of the source code of the [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L61) function is shown below:
+The simplified version of the source code of the [train_user_movie_genre_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMG-effect.functions.R#L61) function is shown below:
 ```{r eval=FALSE}
 train_user_movie_genre_effect.cv <- function(lambda = 0){
   user_movie_genre_effects_ls <- lapply(kfold_index, function(fold_i){
