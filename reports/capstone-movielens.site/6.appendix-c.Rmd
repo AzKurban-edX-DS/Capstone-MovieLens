@@ -162,18 +162,23 @@
 
 ---
 
-* [train_user_movie_genre_effect](#func.train_user_movie_genre_effect)
-  * [Usage](#func.train_user_movie_genre_effect.usage)
-  * [Details](#func.train_user_movie_genre_effect.details)
-  * [Value](#func.train_user_movie_genre_effect.value)
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
 
-* [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv)
-  * [Usage](#func.train_user_movie_genre_effect.cv.usage)
-  * [Details](#func.train_user_movie_genre_effect.cv.details)
-  * [Value](#func.train_user_movie_genre_effect.cv.value)
-    * \\newpage
 
-  
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+
+
+* [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv)
+  * [Usage](#func.calc_user_movie_genre_effect_RMSE.cv.usage)
+  * [Details](#func.calc_user_movie_genre_effect_RMSE.cv.details)
+  * [Value](#func.calc_user_movie_genre_effect_RMSE.cv.value)
+
   
 ##### [UMGE Model: Regularization]
 \
@@ -601,12 +606,35 @@ print(head(edx.ordered_movie_ratings))
   * [Value](#func.calc_user_movie_effect_RMSE.cv.value)
     * 4886 \\newpage
 
-### UME Model: Regularization
+##### [UME Model: Regularization]
 \
 
 * [regularize.test_lambda.UM_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UM-effect.functions.R#L91)
   * [Usage](#func.regularize.test_lambda.UM_effect.cv.usage)
     * 4934 In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L571) above...
+
+##### [UMGE Model: Utility Functions]
+
+* [train_user_movie_genre_effect](#func.train_user_movie_genre_effect)
+  * [Usage](#func.train_user_movie_genre_effect.usage)
+  * [Details](#func.train_user_movie_genre_effect.details)
+  * [Value](#func.train_user_movie_genre_effect.value)
+
+* [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv)
+  * [Usage](#func.train_user_movie_genre_effect.cv.usage)
+  * [Details](#func.train_user_movie_genre_effect.cv.details)
+  * [Value](#func.train_user_movie_genre_effect.cv.value)
+    * \\newpage
+
+##### [UMGE Model: Regularization]
+
+* [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv)
+  * [Usage](#func.regularize.test_lambda.UMG_effect.cv.usage)
+  * [Details](#func.regularize.test_lambda.UMG_effect.cv.details)
+  * [Value](#func.regularize.test_lambda.UMG_effect.cv.value)
+
+  
+
 
 ### [Appendix B: Models Training Datasets]
 \
