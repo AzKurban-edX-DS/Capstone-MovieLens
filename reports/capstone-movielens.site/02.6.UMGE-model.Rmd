@@ -10,7 +10,7 @@ As we can see from the `edx` dataset structure, the `Movielens` dataset also has
 str(edx)
 ```
 
-### Movie Genres Effect Anasysis
+### Movie Genres Effect Analysis
 \
 
 The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 40, 000 ratings).
@@ -396,7 +396,7 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UMGE)
 In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
-As we can see, the current model still does not show much improvement after _regularization_, even though the data analysis we made in the [Movie Genres Effect] showed strong evidence of a genre effect.
+As we can see, the current model still doesn't show any significant improvement after *Regularization*, even though the data analysis we made earlier in the [Movie Genres Effect Analysis] section showed strong evidence of a genre effect.
 
 Apparently, we need a better model to account for a genre effect more efficiently. 
 
