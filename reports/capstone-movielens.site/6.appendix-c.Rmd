@@ -170,6 +170,12 @@
 
 \
 
+##### [UMGE Model: Regularization]
+\
+
+##### [UMGYE Model: Utility Functions]
+\
+
 * [%](#func.%)
   * [Usage](#func.%.usage)
   * [Details](#func.%.details)
@@ -177,12 +183,10 @@
 
 ---
 
-
-
-  
-##### [UMGE Model: Regularization]
-\
-
+* [calc_UMGY_effect](#func.calc_UMGY_effect)
+  * [Usage](#func.calc_UMGY_effect.usage)
+  * [Details](#func.calc_UMGY_effect.details)
+  * [Value](#func.calc_UMGY_effect.value)
 
 
 \newpage
@@ -650,6 +654,14 @@ print(head(edx.ordered_movie_ratings))
   * [Usage](#func.regularize.test_lambda.UMG_effect.cv.usage)
   * [Details](#func.regularize.test_lambda.UMG_effect.cv.details)
   * [Value](#func.regularize.test_lambda.UMG_effect.cv.value)
+
+##### [UMGYE Model: Utility Functions]
+\
+
+* [calc_date_general_effect](#func.calc_date_general_effect)
+  * [Usage](#func.calc_date_general_effect.usage)
+  * [Details](#func.calc_date_general_effect.details)
+
 
 ### [Appendix B: Models Training Datasets]
 \
