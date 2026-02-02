@@ -5671,19 +5671,19 @@ The complete source code of the functions described in this section is available
 #### [calc_date_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L4) Function {#func.calc_date_general_effect}
 \
 
-This is a helper function that calculates the _Date General Effect_ (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.args.lambda) argument value is non-default) of the user ratings using a *training dataset* passed in the [train_set](#func.calc_date_general_effect.args.train_set) argument, and is intended for use in other helper functions (such as [train_UMGY_effect](#func.train_UMGY_effect)), described below in this section.
+This is an auxiliary function that calculates the _Date General Effect_ (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.args.lambda) argument value is non-default) of the user ratings using a *training dataset* passed in the [train_set](#func.calc_date_general_effect.args.train_set) argument, and is intended for use in other helper functions (such as [train_UMGY_effect](#func.train_UMGY_effect)), as shown below in section [Usage](#func.calc_date_general_effect.usage) of *this Description*.
 
 ::: { #func.calc_date_general_effect.usage .sidebar }
 ##### Usage
 \
-```{r eval=FALSE}
+```{r UMGY-effect.func@l82u, eval=FALSE}
   train_set |>
     calc_date_general_effect(lambda) |>
     calc_UMGY_effect()
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the function `calc_date_general_effect` is called internally from the [train_UMGY_effect](#func.train_UMGY_effect) function described below in this section.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above, the function *being described here* is called internally alongside [calc_UMGY_effect](#func.calc_UMGY_effect) from the [train_UMGY_effect](#func.train_UMGY_effect) (both described below in *this Section*).
 :::
 :::
 
@@ -5709,7 +5709,7 @@ The *Regularization technique* (described in [Section 24.2 *Penalized least squa
 
 ::: {.noteblock data-latex=""}
 *Regularization* is committed through the *penalized regression* by computing the *penalized mean* performed by the internally called [mean_reg](#func.mean_reg) function described above in section [Model Tuning Utils] of *this Appendix*.
-::: {.noteblock data-latex=""}
+:::
 :::
 
 ::: { #func.calc_date_general_effect.value .sidebar }

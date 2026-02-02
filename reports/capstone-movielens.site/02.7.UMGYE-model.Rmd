@@ -4,10 +4,10 @@
 ### Year Effect Analysis
 
 ::: {.noteblock data-latex=""}
-The _Year Effect_ visualization and analysis code in this section are cited from the article [Movie Recommendation System using R - BEST](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook) mentioned earlier in this report[@MRS-R-BEST].
+The _Year Effect_ visualization and analysis code in *this Section* are cited from the article [Movie Recommendation System using R - BEST](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook) mentioned earlier in this report[@MRS-R-BEST].
 :::
 
-#### Yearly rating count[@MRS-R-BEST]
+#### [Yearly rating count](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Yearly-rating-count)[@MRS-R-BEST]
 \
 ```{r}
 print(edx |> 
@@ -17,7 +17,9 @@ print(edx |>
 )
 ```
 
-#### Average rating per year plot[@MRS-R-BEST]
+\newpage
+
+#### [Average rating per year plot](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-per-year-plot)[@MRS-R-BEST]
 \
 ```{r}
 edx |> 

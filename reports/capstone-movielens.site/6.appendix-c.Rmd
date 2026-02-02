@@ -31,6 +31,18 @@
 #### [User+Movie Effect (UME) Model]
 \
 
+##### Movie Effect Analysis
+\
+
+###### Movies' Popularity
+\
+
+##### [Mathematical Description of the UME Model]
+\
+
+##### [UME Model Building]
+\
+
 ##### [UME Model Regularization]
 \
 
@@ -53,16 +65,19 @@
 ###### [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$]
 \
 
-##### Movie Effect Analysis
+
+
+
+#### [User+Movie+Genre+Year Effect (UMGYE) Model]
 \
 
-###### Movies' Popularity
+##### [Year Effect Analysis]
 \
 
-##### [Mathematical Description of the UME Model]
+###### [Yearly rating count](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Yearly-rating-count)[@MRS-R-BEST]
 \
 
-##### [UME Model Building]
+###### [Average rating per year plot](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-per-year-plot)[@MRS-R-BEST]
 \
 
 ### [Appendix A: Support Functions]
