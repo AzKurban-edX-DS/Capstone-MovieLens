@@ -183,12 +183,6 @@
 
 ---
 
-* [train_UMGY_effect](#func.train_UMGY_effect)
-  * [Usage](#func.train_UMGY_effect.usage)
-  * [Details](#func.train_UMGY_effect.details)
-  * [Value](#func.train_UMGY_effect.value)
-    * \\newpage
-
 * [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)
   * [Usage](#func.train_UMGY_effect.cv.usage)
   * [Details](#func.train_UMGY_effect.cv.details)
@@ -673,6 +667,12 @@ print(head(edx.ordered_movie_ratings))
   * [Details](#func.calc_UMGY_effect.details)
   * [Value](#func.calc_UMGY_effect.value)
     \\newpage
+
+* [train_UMGY_effect](#func.train_UMGY_effect)
+  * [Usage](#func.train_UMGY_effect.usage)
+  * [Details](#func.train_UMGY_effect.details)
+  * [Value](#func.train_UMGY_effect.value)
+    * \\newpage
 
 
 

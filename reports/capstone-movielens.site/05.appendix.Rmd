@@ -5955,6 +5955,8 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 Data frame object representing the trained (and also *regularized* if [lambda](#func.train_UMGY_effect.args.lambda) argument value is non-default) *UMGY Effect Model*.
 :::
 
+\newpage
+
 ::: { #func.train_UMGY_effect.code .sidebar }
 ##### Source Code
 \
