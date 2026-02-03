@@ -5840,7 +5840,7 @@ The complete source code of the [calc_date_general_effect.cv](https://github.com
 #### [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L71) Function {#func.calc_UMGY_effect}
 \
 
-Builds the *User+Movie+Genre+Year Effect (UMGYE) Model* based on the *Date General Effect* data structure returned by the [calc_date_general_effect](#func.calc_date_general_effect) or [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_effect.args.date_general_effect) argument.
+Builds the *User+Movie+Genre+Year Effect (UMGYE) Model* based on the *Date General Effect* data structure returned by the [calc_date_general_effect](#func.calc_date_general_effect) or [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) function (both described above in *this Section*) and passed in the [date_general_effect](#func.calc_UMGY_effect.args.date_general_effect) argument as shown in the example provided below in the [Usage](#func.calc_UMGY_effect.usage) section of *this Description*.
 
 ::: { #func.calc_UMGY_effect.usage .sidebar }
 ##### Usage
@@ -5853,7 +5853,7 @@ Builds the *User+Movie+Genre+Year Effect (UMGYE) Model* based on the *Date Gener
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the function `calc_UMGY_effect` is called internally from the [train_UMGY_effect](#func.train_UMGY_effect) function described below.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above, the function *being described here* is called internally alongside [calc_date_general_effect](#func.calc_date_general_effect) from the [train_UMGY_effect](#func.train_UMGY_effect) (described above and below, respectively, in *this Section*).
 :::
 :::
 
@@ -5862,7 +5862,7 @@ In the code snippet above, the function `calc_UMGY_effect` is called internally 
 \
 
 ::: { #func.calc_UMGY_effect.args.date_general_effect .sidebar }
-  - **date_general_effect:** Data frame object representing the *Date General Effect*; 
+  - **date_general_effect:** *Data frame* object representing the *Date General Effect*; 
 
 :::
 :::
@@ -5871,15 +5871,10 @@ In the code snippet above, the function `calc_UMGY_effect` is called internally 
 ##### Details
 \
 
-This is a helper function that is intended to be used internally in the following functions (both described below in this section):
+This is an auxiliary function intended to be called internally from the following functions (both described below in *this Section*):
 
-  - [train_UMGY_effect](#func.train_UMGY_effect);
-  
-  - [train_UMGY_effect.cv](#func.train_UMGY_effect.cv).
-
-
-An example of using it in the [train_UMGY_effect](#func.train_UMGY_effect) function is shown above in the [Usage](#func.calc_UMGY_effect.usage) section of *this Description*:
-
+- [train_UMGY_effect](#func.train_UMGY_effect) (an example of calling the function *being described* from *this function* is shown above in the [Usage](#func.calc_UMGY_effect.usage) section of *this Description*);
+- [train_UMGY_effect.cv](#func.train_UMGY_effect.cv).
 
 :::
 
@@ -5889,6 +5884,8 @@ An example of using it in the [train_UMGY_effect](#func.train_UMGY_effect) funct
 
 Data frame object representing the *UMGYE Model*.
 :::
+
+\newpage
 
 ::: { #func.calc_UMGY_effect.code .sidebar }
 ##### Source Code
