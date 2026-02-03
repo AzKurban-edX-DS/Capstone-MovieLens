@@ -5920,6 +5920,9 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_effect.arg
 ```{r main-script@l1340u, eval=FALSE}
   rglr.UMGY_effect <- edx |> train_UMGY_effect(UMGYE.rglr.best_lambda)
 ```
+```{r}
+str(rglr.UMGY_effect)
+```
 :::
 
 ::: { #func.train_UMGY_effect.args .sidebar }
