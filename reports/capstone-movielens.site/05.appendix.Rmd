@@ -6011,8 +6011,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 :::
 
 ::: { #func.train_UMGY_effect.cv.args .sidebar }
-##### ArgumentsData frame object representing the *UMGY Effect Model* trained (and also *regularized* if the [lambda](#func.train_UMGY_effect.cv.args.lambda) argument value is non-default) with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
-
+##### Arguments
 \
 
 ::: { #func.train_UMGY_effect.cv.args.lambda .sidebar }
