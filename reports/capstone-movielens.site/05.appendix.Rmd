@@ -5794,6 +5794,7 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 Internally, this function calls the helper function [calc_date_general_effect](#func.calc_date_general_effect) described above for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in section [Models Training Functions] of this *Appendix* to aggregate the cross-validation results.
 
 ::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 :::
 
