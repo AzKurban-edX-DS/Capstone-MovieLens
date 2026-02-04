@@ -7710,7 +7710,7 @@ Validates the *regularization parameter* $\lambda$ passed in the [lambda](#func.
 ##### Usage
 \
 
-```{r main-script@l2070 eval=FALSE}
+```{r main-script@l2070u, eval=FALSE}
 lambdas <- seq(0, 256, 16)
 cv.UMGYDE.preset.result <- 
   tune.model_param(lambdas, regularize.test_lambda.UMGYD_effect.cv)
