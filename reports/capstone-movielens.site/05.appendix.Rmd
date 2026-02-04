@@ -1701,7 +1701,7 @@ The source code of the [mse](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 Calculates the average value of the *Mean Squared Errors* calculated with the use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 :::
 
 ::: { #func.mse_cv.usage .sidebar }
@@ -4571,7 +4571,7 @@ The complete source code of the functions described in this section is available
 Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Validation* method as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 :::
 
 ::: { #func.naive_model_MSEs.usage .sidebar }
@@ -4660,7 +4660,7 @@ Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Valida
 ##### Details
 \
 
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
 This function internally calls the [naive_model_MSEs](#func.naive_model_MSEs) function described above and then calculates the square root of the mean of the obtained results.
@@ -4817,7 +4817,7 @@ Internally, this function calls the helper function [train_user_movie_effect](#f
 
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 :::
 
@@ -5061,7 +5061,7 @@ The function calculates *Root Squared Error (RMSE)* for the *UME Model* passed i
 ::: {.noteblock data-latex=""}
 This function internally calls the [calc_user_movie_effect_MSE.cv](#func.calc_user_movie_effect_MSE.cv) function described above, to calculate the *MSE* for the *UME Model* with use of *K-Fold Cross-Validation*, and then calculates the square root of the result.
 
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 :::
 
@@ -5320,7 +5320,7 @@ To use *regularization*, in *this Project*, the function is called internally fr
 Internally, this function calls the helper function [train_user_movie_genre_effect](#func.train_user_movie_genre_effect) (described above in *this Section*) for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in section [Models Training Functions] of this *Appendix* to aggregate the cross-validation results.
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 :::
 
@@ -5794,7 +5794,6 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 Internally, this function calls the helper function [calc_date_general_effect](#func.calc_date_general_effect) described above for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets]. It also calls internally the [union_cv_results](#func.union_cv_results) function described above in section [Models Training Functions] of this *Appendix* to aggregate the cross-validation results.
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 :::
 
@@ -6078,6 +6077,7 @@ Validates the *UMGY Effect (UMGYE) Model* produced by the [train_UMGY_effect](#f
 ##### Usage
 \
 
+In the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L106), the function *being described here* is called internally from the [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv) function (described below in *this Section*) for each iteration of the *K-Fold Cross-Validation*, to calculate the *MSE* for the corresponding validation dataset of the [`edx_CV` Object] (described in [Appendix B: Models Training Datasets]).
 ```{r UMGY-effect.func@l106u, eval=FALSE}
   UMGY_effect_MSEs <- sapply(edx_CV, function(cv_fold_dat){
     cv_fold_dat$validation_set |> calc_UMGY_effect_MSE(UMGY_effect)
@@ -6085,7 +6085,7 @@ Validates the *UMGY Effect (UMGYE) Model* produced by the [train_UMGY_effect](#f
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L106) above, the function *being described here* is called internally from the [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv) function (described below in *this Section*) for each iteration of the *K-Fold Cross-Validation*, to calculate the *MSE* for the corresponding validation dataset of the [`edx_CV` Object] (described in [Appendix B: Models Training Datasets]).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 :::
 
@@ -6120,6 +6120,8 @@ This is an auxiliary function intended to be called within the [calc_UMGY_effect
 
 *MSE* value calculated for the *UMGYE Model*.
 :::
+
+\newpage
 
 ::: { #func.calc_UMGY_effect_MSE.code .sidebar }
 ##### Source Code
@@ -6337,6 +6339,8 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 :::
 :::
 
+\newpage
+
 ::: { #func.regularize.test_lambda.UMGY_effect.cv.details .sidebar }
 ##### Details
 \
@@ -6512,7 +6516,7 @@ Internally, this function calls the helper functions [calc_day_general_effect](#
 
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 :::
 
@@ -6811,7 +6815,7 @@ The source code of the [train_UMGY_SmoothedDay_effect](https://github.com/AzKurb
 Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDay_effect.cv.args.lambda) argument value is non-default) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.usage .sidebar }
@@ -7231,7 +7235,7 @@ The complete source code of the functions described in this section is available
 Trains and validate (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the given [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters passed in the corresponding arguments ([degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span)), with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
-The $K$ value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.usage .sidebar }
@@ -7626,7 +7630,7 @@ The source code of the [regularize.train_UMGYD_effect](https://github.com/AzKurb
 Trains and *regularizes* the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for a given value of the parameter $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument and preliminary figured out *best values* of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters, with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
-The `K` value for the *K-Fold Cross-Validation* method is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use `K = 5`).
+The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use `K = 5`).
 :::
 
 ::: { #func.regularize.train_UMGYD_effect.cv.usage .sidebar }
