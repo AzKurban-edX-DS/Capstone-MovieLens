@@ -4,10 +4,10 @@
 ### Year Effect Analysis
 
 ::: {.noteblock data-latex=""}
-The _Year Effect_ visualization and analysis code in this section are cited from the article [Movie Recommendation System using R - BEST](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook) mentioned earlier in this report[@MRS-R-BEST].
+The _Year Effect_ visualization and analysis code in *this Section* are cited from the article [Movie Recommendation System using R - BEST](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook) mentioned earlier in this report[@MRS-R-BEST].
 :::
 
-#### Yearly rating count[@MRS-R-BEST]
+#### [Yearly rating count](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Yearly-rating-count)[@MRS-R-BEST]
 \
 ```{r}
 print(edx |> 
@@ -17,7 +17,9 @@ print(edx |>
 )
 ```
 
-#### Average rating per year plot[@MRS-R-BEST]
+\newpage
+
+#### [Average rating per year plot](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-per-year-plot)[@MRS-R-BEST]
 \
 ```{r}
 edx |> 
@@ -130,12 +132,12 @@ Next, we will implement the *UMGYE Model Regularization* in the following three 
   
   2. **Fine-tuning:** (Described in the subsection [UMGYE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
 
-  3. **Retraining:** (Described in subsection [UMGYE Model Regularization: *Retraining the Model with the best* $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
+  3. **Retraining:** (Described in subsection [UMGYE Model Regularization: *Retraining on the `edx` with the best* $\lambda$]) Retraining the model on the entire `edx` dataset with the best value of $\lambda$ determined in the previous step.
 
 #### UMGYE Model Regularization: *Mathematical Description*
 \
 
-We have already explained the idea of _Linear Model Regularization_ in the [UME Model Regularization] above. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_. For the current model, this formula takes the form:
+We have already explained the idea of the *Linear Model Regularization* earlier in section [UME Model Regularization]. We have also seen how the formula \@ref(eq:ME-penalty) for adding a penalty to the _UME Model_ is transformed into the formula \@ref(eq:GE-penalty) for the _UMGE Model_. For the current model, this formula takes the form:
 
 \begin{equation}
 \sum_{i,j} \left(y_{u,i} - \mu - \alpha_i - \beta_j - g_{i,j} - \gamma(v_{i,j})\right)^2 + \lambda \sum_{i,j} \gamma(v_{i,j})^2
@@ -288,7 +290,7 @@ Note that in the code snippet above, we use the custom data visualization functi
 
 \newpage
 
-#### UMGYE Model Regularization: *Retraining the Model with the best* $\lambda$
+#### UMGYE Model Regularization: *Retraining on the `edx` with the best* $\lambda$
 \
 
 ::: {.noteblock data-latex=""}

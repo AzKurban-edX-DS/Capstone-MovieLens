@@ -10,7 +10,7 @@ As we can see from the `edx` dataset structure, the `Movielens` dataset also has
 str(edx)
 ```
 
-### Movie Genres Effect Anasysis
+### Movie Genres Effect Analysis
 \
 
 The plot below shows strong evidence of a genre effect (for illustrative purposes, the plot shows only categories with more than 40, 000 ratings).
@@ -155,13 +155,13 @@ Next, we will implement the *UMGE Model Regularization* in the following three s
   
   2. **Fine-tuning:** (Described in the subsection [UMGE Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
 
-  3. **Retraining:** (Described in subsection [UMGE Model Regularization: *Retraining the Model with the best* $\lambda$]) Retraining the model with the best value of $\lambda$ determined in the previous step.
+  3. **Retraining:** (Described in subsection [UMGE Model Regularization: *Retraining on the `edx` with the best* $\lambda$]) Retraining the model on the entire `edx` dataset with the best value of $\lambda$ determined in the previous step.
 
 
 #### UMGE Model Regularization: *Mathematical Description*
 \
 
-We have already explained the idea of the _Linear Model Regularization_ in the [UME Model Regularization] above. Let's extend the concept outlined there to our current model.
+We have already explained the idea of the *Linear Model Regularization* earlier in section [UME Model Regularization]. Let's extend the concept outlined there to our current model.
 
 In this case, the formula \@ref(eq:ME-penalty) for adding a penalty takes the form:
 
@@ -324,7 +324,7 @@ Note that in the code snippet above, we use the custom data visualization functi
 
 \newpage
 
-#### UMGE Model Regularization: *Retraining the Model with the best* $\lambda$
+#### UMGE Model Regularization: *Retraining on the `edx` with the best* $\lambda$
 \
 
 ::: {.noteblock data-latex=""}
@@ -396,7 +396,7 @@ RMSE_kable(RMSEs.ResultTibble.rglr.UMGE)
 In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
-As we can see, the current model still does not show much improvement after _regularization_, even though the data analysis we made in the [Movie Genres Effect] showed strong evidence of a genre effect.
+As we can see, the current model still doesn't show any significant improvement after *Regularization*, even though the data analysis we made earlier in the [Movie Genres Effect Analysis] section showed strong evidence of a genre effect.
 
 Apparently, we need a better model to account for a genre effect more efficiently. 
 
