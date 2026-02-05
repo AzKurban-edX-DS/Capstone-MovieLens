@@ -110,23 +110,6 @@
 ##### [Model Tuning Utils]
 \
 
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Arguments](#func.%.args)
-  * [Details](#func.%.details)
-  * [Value](#func.%.value)
-  * [Source Code](#func.%.code)
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
-
-* [model.tune.param_range](#func.model.tune.param_range)
-  * [Usage](#func.model.tune.param_range.usage)
-  * [Details](#func.model.tune.param_range.details)
-
-
 #### [Data Helper Functions]
 \
 
@@ -135,19 +118,6 @@
 
 ##### [Data Processing Functions]
 \
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Arguments](#func.%.args)
-  * [Details](#func.%.details)
-  * [Value](#func.%.value)
-  * [Source Code](#func.%.code)
-
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
-
----
 
 ##### [Models Training Functions]
 \
@@ -176,30 +146,39 @@
 ##### [UMGYE Model: Utility Functions]
 \
 
-* [%](#func.%)
-  * [Usage](#func.%.usage)
-  * [Details](#func.%.details)
-  * [Value](#func.%.value)
-
----
-
-* [calc_UMGY_effect_MSE](#func.calc_UMGY_effect_MSE)
-  * [Usage](#func.calc_UMGY_effect_MSE.usage)
-    * 
-  * [Details](#func.calc_UMGY_effect_MSE.details)
-  * [Value](#func.calc_UMGY_effect_MSE.value)
-    * \\newpage
-
 ##### [UMGYE Model: Regularization]
 \
 
-* [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv)
-  * [Usage](#func.regularize.test_lambda.UMGY_effect.cv.usage)
-  * [Arguments](#)
-    * \\newpage
-  * [Details](#func.regularize.test_lambda.UMGY_effect.cv.details)
-  * [Value](#func.regularize.test_lambda.UMGY_effect.cv.value)
+##### UMGYDE Model: Utility Functions
+\
 
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
+
+---
+
+
+
+##### UMGYDE Model: Tuning `loess` Params
+\
+
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
+
+---
+
+
+##### UMGYDE Model: Regularization
+\
 
 
 
@@ -695,6 +674,13 @@ print(head(edx.ordered_movie_ratings))
     * \\newpage
     
 
+* [calc_UMGY_effect_MSE](#func.calc_UMGY_effect_MSE)
+  * [Usage](#func.calc_UMGY_effect_MSE.usage)
+    * 
+  * [Details](#func.calc_UMGY_effect_MSE.details)
+  * [Value](#func.calc_UMGY_effect_MSE.value)
+    * \\newpage
+
 * [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv)
   * [Usage](#func.calc_UMGY_effect_MSE.cv.usage)
   * [Details](#func.calc_UMGY_effect_MSE.cv.details)
@@ -706,11 +692,28 @@ print(head(edx.ordered_movie_ratings))
   * [Details](#func.calc_UMGY_effect_RMSE.cv.details)
   * [Value](#func.calc_UMGY_effect_RMSE.cv.value)
     * \\newpage
-    
-    
-    
+
 ##### [UMGYE Model: Regularization]
 \
+
+* [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv)
+  * [Usage](#func.regularize.test_lambda.UMGY_effect.cv.usage)
+  * [Arguments](#)
+    * \\newpage
+  * [Details](#func.regularize.test_lambda.UMGY_effect.cv.details)
+  * [Value](#func.regularize.test_lambda.UMGY_effect.cv.value)
+
+
+##### UMGYDE Model: Utility Functions
+\
+
+
+##### UMGYDE Model: Tuning `loess` Params
+\
+
+##### UMGYDE Model: Regularization
+\
+
 
 
 ### [Appendix B: Models Training Datasets]

@@ -5677,7 +5677,7 @@ The complete source code of the functions described in this section is available
 #### [calc_date_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L4) Function {#func.calc_date_general_effect}
 \
 
-This is an auxiliary function that calculates the _Date General Effect_ (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.args.lambda) argument value is non-default) of the user ratings using a *training dataset* passed in the [train_set](#func.calc_date_general_effect.args.train_set) argument, and is intended for use in other helper functions (such as [train_UMGY_effect](#func.train_UMGY_effect)), as shown below in section [Usage](#func.calc_date_general_effect.usage) of *this Description*.
+This is an auxiliary function that calculates the _Date General Effect_ (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.args.lambda) argument value is non-default) of the user ratings using a *training dataset* passed in the [train_set](#func.calc_date_general_effect.args.train_set) argument, and is intended for use in other helper functions (such as [train_UMGY_effect](#func.train_UMGY_effect) described below in *this Section*), as shown below in section [Usage](#func.calc_date_general_effect.usage) of *this Description*.
 
 ::: { #func.calc_date_general_effect.usage .sidebar }
 ##### Usage
@@ -5689,7 +5689,7 @@ This is an auxiliary function that calculates the _Date General Effect_ (optiona
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above, the function *being described here* is called internally alongside [calc_UMGY_effect](#func.calc_UMGY_effect) from the [train_UMGY_effect](#func.train_UMGY_effect) (both described below in *this Section*).
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above, the function *being described here* is called alongside the [calc_UMGY_effect](#func.calc_UMGY_effect) within the [train_UMGY_effect](#func.train_UMGY_effect) (both described below in *this Section*).
 :::
 :::
 
@@ -6397,19 +6397,19 @@ The complete source code of the functions described in this section is available
 #### [calc_day_general_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L4) Function {#func.calc_day_general_effect}
 \
 
-Computes the *Day General Effect* (hereafter *DG Effect* or *DGI* for short) (optionally *regularized* if the [lambda](#func.calc_day_general_effect.args.lambda) argument value is non-default) of user ratings on a *given day since the earliest record* in the `edx` dataset, using a *training dataset* passed in the [train_set](#func.calc_day_general_effect.args.train_set) argument.
+Computes the *Day General Effect* (hereafter *DG Effect* or *DGE* for short), optionally *regularized* if the [lambda](#func.calc_day_general_effect.args.lambda) argument value is non-default, of user ratings on a *given day since the earliest record* in the `edx` dataset, using a *training dataset* passed in the [train_set](#func.calc_day_general_effect.args.train_set) argument.
 
 ::: { #func.calc_day_general_effect.usage .sidebar }
 ##### Usage
 \
-```{r eval=FALSE}
+```{r UMGYD-effect.func@l108u, eval=FALSE}
   train_set |> 
     calc_day_general_effect(lambda) |>
     calc_UMGY_SmoothedDay_effect(degree, span)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the function `calc_day_general_effect` is called internally along with the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function from the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function (both described below in this section).
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L108) above, the function *being described here* is called alongside the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) within the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function (both described below in this section).
 :::
 :::
 
@@ -6431,7 +6431,7 @@ In the code snippet above, the function `calc_day_general_effect` is called inte
 ##### Details
 \
 
-This is a helper function that is intended for use in other helper functions such as [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) and [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (both described below in this section). 
+This is an auxiliary function intended to be called within the following custom helper functions:  the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (as shown above in the [Usage](#) section of *this Description*) and the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) (both described below in *this Section*). 
 
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.calc_day_general_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
 
