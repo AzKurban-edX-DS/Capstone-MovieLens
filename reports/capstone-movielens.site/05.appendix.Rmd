@@ -6431,7 +6431,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 ##### Details
 \
 
-This is an auxiliary function intended to be called within the following custom helper functions:  the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (as shown above in the [Usage](#) section of *this Description*) and the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) (both described below in *this Section*). 
+This is an auxiliary function intended to be called within the following custom helper functions:  the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (as shown above in the [Usage](#func.calc_day_general_effect.usage) section of *this Description*) and the [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) (both described below in *this Section*). 
 
 The *Regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.calc_day_general_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
 
@@ -6444,7 +6444,7 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 ##### Value
 \
 
-Data frame object representing (*regularized* if [lambda](#func.calc_day_general_effect.args.lambda) argument value is non-default) *DG Effect*.
+Data frame object representing *DG Effect* (optionally, *regularized* if [lambda](#func.calc_day_general_effect.args.lambda) argument value is non-default).
 :::
 
 ::: { #func.calc_day_general_effect.code .sidebar }
