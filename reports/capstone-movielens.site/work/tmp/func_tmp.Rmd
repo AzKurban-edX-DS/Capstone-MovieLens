@@ -3,6 +3,103 @@ title: "func_tmp"
 output: html_document
 ---
 
+
+
+#### [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) Function {#func.loess_de}
+\
+
+Using local fitting, fits a polynomial surface determined by the *Day General Effect* (hereafter *DG Effect* or *DGE* for short) data passed in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument.
+
+::: {.noteblock data-latex=""}
+In *this Project*, the *DGE* data object to be passed in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument is returned by the [calc_day_general_effect](#func.calc_day_general_effect) and [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) functions (both described above).
+:::
+
+::: { #func.loess_de.usage .sidebar }
+##### Usage
+\
+
+```{r UMGYD_effect.func@l87, eval=FALSE}
+  fit <- day_gen_effect |> loess_de(degree, span)
+```
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L87) above, the function described here is called within the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) custom helper function (described below in *this Section*).
+:::
+:::
+
+::: { #func.loess_de.args .sidebar }
+##### Arguments
+\
+
+::: { #func.loess_de.args.de_bias.dat .sidebar }
+###### ***de_bias.dat***
+\
+
+Data frame object representing the *Day General Effect*. 
+:::
+
+::: { #func.loess_de.args.degree .sidebar }
+###### ***degree***
+\
+
+(Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
+
+::: {.noteblock data-latex=""}
+When the value is `NA` (the default), the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) is called with `degree = 1`. 
+:::
+:::
+
+::: { #func.loess_de.args.span .sidebar }
+###### ***span***
+\
+
+(Optional, *Numeric*, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess).
+
+::: {.noteblock data-latex=""}
+When the value is `NA` (the default), the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) is called with `span = 0.75`. 
+:::
+:::
+:::
+
+::: { #func.loess_de.details .sidebar }
+##### Details
+\
+
+This function is a wrapper for the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `R` function, which is called internally to make a necessary fit.
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended for use in other custom helper functions, such as the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) (described below in *this Section*) as shown above in the [Usage](#func.loess_de.usage) section of *this Description*.
+:::
+:::
+
+::: { #func.loess_de.value .sidebar }
+##### Value
+\
+
+Object of class `loess` returned by the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess).
+:::
+
+::: { #func.loess_de.code .sidebar }
+##### Source Code
+\
+
+The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) function is shown below:
+```{r eval=FALSE}
+loess_de <- function(de_bias.dat, degree = NA, span = NA){
+  if(is.na(degree)) degree = 1
+  if(is.na(span)) span = 0.75
+  loess(de ~ days, span = span, degree = degree, data = de_bias.dat)
+}
+```
+
+::: {.noteblock data-latex=""}
+The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) script on _GitHub_.
+:::
+:::
+
+\newpage
+
+
 #### [model.tune.param_range](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/common-helper.functions.R#L208) Function {#func.model.tune.param_range}
 \
 

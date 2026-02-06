@@ -6566,117 +6566,23 @@ The complete source code of the [calc_day_general_effect.cv](https://github.com/
 
 \newpage
 
-#### [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) Function {#func.loess_de}
+#### [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) Function {#func.calc_UMGY_SmoothedDay_effect}
 \
 
-Using local fitting, fits a polynomial surface determined by the *Day General Effect* (hereafter *DG Effect* or *DGE* for short) data passed in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument.
-
-::: {.noteblock data-latex=""}
-In *this Project*, the *DGE* data object to be passed in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument is returned by the [calc_day_general_effect](#func.calc_day_general_effect) and [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) functions (both described above).
-:::
-
-::: { #func.loess_de.usage .sidebar }
-##### Usage
-\
-
-```{r UMGYD_effect.func@l87, eval=FALSE}
-  fit <- day_gen_effect |> loess_de(degree, span)
-```
-
-::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L87) above, the function described here is called within the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) custom helper function (described below in *this Section*).
-:::
-:::
-
-::: { #func.loess_de.args .sidebar }
-##### Arguments
-\
-
-::: { #func.loess_de.args.de_bias.dat .sidebar }
-###### ***de_bias.dat***
-\
-
-Data frame object representing the *Day General Effect*. 
-:::
-
-::: { #func.loess_de.args.degree .sidebar }
-###### ***degree***
-\
-
-(Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function.
-
-::: {.noteblock data-latex=""}
-When the value is `NA` (the default), the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) is called with `degree = 1`. 
-:::
-:::
-
-::: { #func.loess_de.args.span .sidebar }
-###### ***span***
-\
-
-(Optional, *Numeric*, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess).
-
-::: {.noteblock data-latex=""}
-When the value is `NA` (the default), the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) is called with `span = 0.75`. 
-:::
-:::
-:::
-
-::: { #func.loess_de.details .sidebar }
-##### Details
-\
-
-This function is a wrapper for the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `R` function, which is called internally to make a necessary fit.
-
-::: {.noteblock data-latex=""}
-This is an auxiliary function intended for use in other custom helper functions, such as the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) (described below in *this Section*) as shown above in the [Usage](#func.loess_de.usage) section of *this Description*.
-:::
-:::
-
-::: { #func.loess_de.value .sidebar }
-##### Value
-\
-
-Object of class `loess` returned by the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess).
-:::
-
-::: { #func.loess_de.code .sidebar }
-##### Source Code
-\
-
-The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) function is shown below:
-```{r eval=FALSE}
-loess_de <- function(de_bias.dat, degree = NA, span = NA){
-  if(is.na(degree)) degree = 1
-  if(is.na(span)) span = 0.75
-  loess(de ~ days, span = span, degree = degree, data = de_bias.dat)
-}
-```
-
-::: {.noteblock data-latex=""}
-The source code of the [loess_de](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) function is also available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) script on _GitHub_.
-:::
-:::
-
-\newpage
-
-#### [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) Function {#func.calc_UMGY_SmoothedDay_effect}
-\
-
-Builds the *User+Movie+Genre+Year+SmoothedDay Effect* (hereafter *UMGYDE* for short) *Model* based on the *Day General Effect* (*DG Effect* for short) data structure returned by the [calc_day_general_effect](#func.calc_day_general_effect) or [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
+Builds the *User+Movie+Genre+Year+SmoothedDay Effect* (hereafter *UMGYDE* for short) *Model* based on the *Day General Effect* (*DG Effect* or *DGE* for short) data structure returned by the [calc_day_general_effect](#func.calc_day_general_effect) or [calc_day_general_effect.cv](#func.calc_day_general_effect.cv) function (both described above) and passed in the [date_general_effect](#func.calc_UMGY_SmoothedDay_effect.args.date_general_effect) argument.
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r UMGYD_effect.func@l108u, eval=FALSE}
   train_set |> 
     calc_day_general_effect(lambda) |>
     calc_UMGY_SmoothedDay_effect(degree, span)
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called internally from the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function described below.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L108) above, the function `calc_UMGY_SmoothedDay_effect` is called within the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function described below in *this Section*.
 :::
 :::
 
@@ -6685,15 +6591,15 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
 \
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.date_general_effect .sidebar }
-  - **date_general_effect:** Data frame object representing the *DG Effect* (to pass in the [de_bias.dat](#func.loess_de.args.de_bias.dat) argument to the internally called [loess_de](#func.loess_de) described above); 
+  - **day_general_effect:** Data frame object representing the *DG Effect* (to pass in the `data` argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function); 
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above; 
+  - **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) (with the default value replaced by `degree = 1`); 
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.span .sidebar }
-  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [loess_de](#func.loess_de) described above. 
+  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess)  (with the default value replaced by `span = 0.75`). 
 
 :::
 :::
@@ -6702,7 +6608,7 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect` is called
 ##### Details
 \
 
-This auxiliary function is a wrapper for the [loess_de](#func.loess_de) described above, intended to be used internally in the following helper functions (both described below in this section):
+This auxiliary function is a wrapper for the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) `R` function, intended to be used internally in the following custom helper functions (both described below in *this Section*):
 
   - [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect);
   
@@ -6723,12 +6629,16 @@ Data frame object representing the *UMGYDE Model*.
 ##### Source Code
 \
 
-Below is a slightly simplified version of the source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) function:
+Below is a simplified version of the source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) function:
 ```{r eval=FALSE}
 calc_UMGY_SmoothedDay_effect <- function(day_gen_effect, 
                                          degree = NA, 
                                          span = NA){
-  fit <- day_gen_effect |> loess_de(degree, span)
+  
+  if(is.na(degree)) degree = 1
+  if(is.na(span)) span = 0.75
+
+  fit <- loess(de ~ days, span = span, degree = degree, data = day_gen_effect)
   smth_day_effect <- day_gen_effect |> mutate(de_smoothed = fit$fitted)
   
   put_log2("Function `calc_UMGY_SmoothedDay_effect`: 
@@ -6743,7 +6653,7 @@ span: %2.",
 ```
 
 ::: {.noteblock data-latex=""}
-The complete source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) function is available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L76) script on _GitHub_.
+The complete source code of the [calc_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) function is available in the [Utility Functions](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L3) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L71) script on _GitHub_.
 :::
 :::
 
