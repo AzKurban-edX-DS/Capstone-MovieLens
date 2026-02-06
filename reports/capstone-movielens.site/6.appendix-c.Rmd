@@ -151,6 +151,7 @@
   * [Arguments](#func.calc_date_general_effect.cv.args)
   * [Details](#func.calc_date_general_effect.cv.details)
   * [Value](#func.calc_date_general_effect.cv.value)
+    * \\newpage
   * [Source Code](#func.calc_date_general_effect.cv.code)
 
 ##### [UMGYE Model: Regularization]

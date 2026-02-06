@@ -68,14 +68,12 @@ Training completed: Day General Effects model for lambda: %1...",
   
   gday_effect
 }
-loess_de <- function(de_bias.dat, degree = NA, span = NA){
-  if(is.na(degree)) degree = 1
-  if(is.na(span)) span = 0.75
-  loess(de ~ days, span = span, degree = degree, data = de_bias.dat)
-}
 calc_UMGY_SmoothedDay_effect <- function(day_gen_effect, 
                                          degree = NA, 
                                          span = NA){
+  if(is.na(degree)) degree = 1
+  if(is.na(span)) span = 0.75
+
   put_log2("Function `calc_UMGY_SmoothedDay_effect`: 
 Training model using `loess` function with the following parameters:
 degree: %1;
@@ -83,8 +81,10 @@ span: %2
 ...",
            degree,
            span)
-  # browser()
-  fit <- day_gen_effect |> loess_de(degree, span)
+  
+  # The `loess_de` function is obsolete and no longer used.
+  # fit <- day_gen_effect |> loess_de(degree, span)
+  fit <- loess(de ~ days, span = span, degree = degree, data = day_gen_effect)
   smth_day_effect <- day_gen_effect |> mutate(de_smoothed = fit$fitted)
   
   put_log2("Function `calc_UMGY_SmoothedDay_effect`: 
@@ -247,6 +247,13 @@ regularize.test_lambda.UMGYD_effect.cv <- function(lambda){
   
   regularize.train_UMGYD_effect.cv(lambda) |>
     calc_UMGY_SmoothedDay_effect.RMSE.cv()
+}
+
+## Obsolete
+loess_de <- function(de_bias.dat, degree = NA, span = NA){
+  if(is.na(degree)) degree = 1
+  if(is.na(span)) span = 0.75
+  loess(de ~ days, span = span, degree = degree, data = de_bias.dat)
 }
 
 
