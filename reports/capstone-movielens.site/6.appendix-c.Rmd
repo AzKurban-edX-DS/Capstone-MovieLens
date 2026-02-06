@@ -146,6 +146,13 @@
 ##### [UMGYE Model: Utility Functions]
 \
 
+* [calc_date_general_effect.cv](#func.calc_date_general_effect.cv)
+  * [Usage](#func.calc_date_general_effect.cv.usage)
+  * [Arguments](#func.calc_date_general_effect.cv.args)
+  * [Details](#func.calc_date_general_effect.cv.details)
+  * [Value](#func.calc_date_general_effect.cv.value)
+  * [Source Code](#func.calc_date_general_effect.cv.code)
+
 ##### [UMGYE Model: Regularization]
 \
 
@@ -160,6 +167,15 @@
   * [Source Code](#func.%.code)
 
 ---
+
+* [calc_day_general_effect.cv](#func.calc_day_general_effect.cv)
+  * [Usage](#func.calc_day_general_effect.cv.usage)
+  * [Arguments](#func.calc_day_general_effect.cv.args)
+  * [Details](#func.calc_day_general_effect.cv.details)
+  * [Value](#func.calc_day_general_effect.cv.value)
+    * \\newpage
+  * [Source Code](#func.calc_day_general_effect.cv.code)
+    * \\newpage
 
 
 

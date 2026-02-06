@@ -5761,17 +5761,17 @@ The complete source code of the [calc_date_general_effect](https://github.com/Az
 #### [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L32) Function {#func.calc_date_general_effect.cv}
 \
 
-This is a helper function that calculates the _Date General Effect_ (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument value is non-default) of the user ratings using the _K-Fold Cross Validation_ and is intended to be used in other custom functions (such as [train_UMGY_effect](#func.train_UMGY_effect)) described below.
+This is an auxiliary function that calculates the *Day General Effect* (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument value is non-default) of the user ratings using the K-Fold Cross Validation_ and is intended to be called within another custom helper function, the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)) (described below in *this Section*) as shown below in the [Usage](#func.calc_date_general_effect.cv.usage) section of *this Description*.
 
 ::: { #func.calc_date_general_effect.cv.usage .sidebar }
 ##### Usage
 \
-```{r eval=FALSE}
+```{r UMGY-effect.func@l92u, eval=FALSE}
 calc_date_general_effect.cv(lambda) |> calc_UMGY_effect()  
 ```
 
 ::: {.noteblock data-latex=""}
-In the above code snippet, the `calc_date_general_effect.cv` function is called internally from the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function, along with the [calc_UMGY_effect](#func.calc_UMGY_effect) function (both described below).
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92), the function *being described here* is called within the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function, alongside the [calc_UMGY_effect](#func.calc_UMGY_effect) function (both described below in *this Section*).
 :::
 :::
 
@@ -6484,16 +6484,18 @@ The complete source code of the [calc_day_general_effect](https://github.com/AzK
 #### [calc_day_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L33) Function {#func.calc_day_general_effect.cv}
 \
 
-This is a helper function that calculates the *Day General Effect* (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default) of the user ratings using the K-Fold Cross Validation_ and is intended to be used in other custom functions (such as [train_UMGY_effect](#func.train_UMGY_effect)) described below.
+This is an auxiliary function that calculates the *Day General Effect* (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default) of the user ratings using the K-Fold Cross Validation_ and is intended to be called within another custom helper function, the [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)) (described below in *this Section*) as shown below in the [Usage](#func.calc_day_general_effect.cv.usage) section of *this Description*.
 
 ::: { #func.calc_day_general_effect.cv.usage .sidebar }
 ##### Usage
 \
-```{r eval=FALSE}
+```{r UMGYD-effect.func@l121u, eval=FALSE}
+  calc_day_general_effect.cv(lambda) |>
+    calc_UMGY_SmoothedDay_effect(degree, span)
 ```
 
 ::: {.noteblock data-latex=""}
-In the above code snippet, the `calc_day_general_effect.cv` function is called internally from the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function, along with the [calc_UMGY_effect](#func.calc_UMGY_effect) function (both described below).
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L121), the function *being described here* is called within the [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) function, alongside the [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) function (both described below in *this Section*).
 :::
 :::
 
@@ -6528,12 +6530,31 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
 Data frame object representing (*regularized* if [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default) *Day General Effect*.
 :::
 
+\newpage
+
 ::: { #func.calc_day_general_effect.cv.code .sidebar }
 ##### Source Code
 \
 
 Below is a simplified version of the source code of the [calc_day_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L33) function:
-```{r eval=FALSE}
+```{r UMGYD_effect.func@l33u, eval=FALSE}
+calc_day_general_effect.cv <- function(lambda = 0){
+  
+  put_log1("Function `calc_day_general_effect.cv`:
+Computing Day General Effect list for %1-Fold Cross Validation samples...", 
+           CVFolds_N)
+
+  gday_effect_ls <- lapply(edx_CV,  function(cv_fold_dat){
+    cv_fold_dat$train_set |> calc_day_general_effect(lambda)
+  })
+
+  gday_effect_united <- union_cv_results(gday_effect_ls)
+
+  gday_effect_united |>
+    group_by(days) |>
+    summarise(de = mean(de), year = mean(year))
+  
+}
 ```
 
 ::: {.noteblock data-latex=""}
