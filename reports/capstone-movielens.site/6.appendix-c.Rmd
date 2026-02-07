@@ -153,11 +153,20 @@
   * [Value](#func.calc_date_general_effect.cv.value)
     * \\newpage
   * [Source Code](#func.calc_date_general_effect.cv.code)
+  
+  
+* [calc_UMGY_effect](#func.calc_UMGY_effect)
+  * [Usage](#func.calc_UMGY_effect.usage)
+  * [Arguments](#func.calc_UMGY_effect.args)
+  * [Details](#func.calc_UMGY_effect.details)
+  * [Value](#func.calc_UMGY_effect.value)
+  * [Source Code](#func.calc_UMGY_effect.code)
+
 
 ##### [UMGYE Model: Regularization]
 \
 
-##### UMGYDE Model: Utility Functions
+##### [UMGYDE Model: Utility Functions]
 \
 
 * [%](#func.%)
@@ -168,6 +177,14 @@
   * [Source Code](#func.%.code)
 
 ---
+
+* [calc_day_general_effect](#func.calc_day_general_effect)
+  * [Usage](#func.calc_day_general_effect.usage)
+  * [Arguments](#func.calc_day_general_effect.args)
+  * [Details](#func.calc_day_general_effect.details)
+  * [Value](#func.calc_day_general_effect.value)
+  * [Source Code](#func.calc_day_general_effect.code)
+
 
 * [calc_day_general_effect.cv](#func.calc_day_general_effect.cv)
   * [Usage](#func.calc_day_general_effect.cv.usage)
@@ -178,9 +195,16 @@
   * [Source Code](#func.calc_day_general_effect.cv.code)
     * \\newpage
 
+* [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect)
+  * [Usage](#func.calc_UMGY_SmoothedDay_effect.usage)
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.args)
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.details)
+  * [Value](#func.calc_UMGY_SmoothedDay_effect.value)
+  * [Source Code](#func.calc_UMGY_SmoothedDay_effect.code)
 
 
-##### UMGYDE Model: Tuning `loess` Params
+
+##### [UMGYDE Model: Tuning `loess` Params]
 \
 
 
@@ -194,7 +218,7 @@
 ---
 
 
-##### UMGYDE Model: Regularization
+##### [UMGYDE Model: Regularization]
 \
 
 
@@ -721,14 +745,14 @@ print(head(edx.ordered_movie_ratings))
   * [Value](#func.regularize.test_lambda.UMGY_effect.cv.value)
 
 
-##### UMGYDE Model: Utility Functions
+##### [UMGYDE Model: Utility Functions]
 \
 
 
-##### UMGYDE Model: Tuning `loess` Params
+##### [UMGYDE Model: Tuning `loess` Params]
 \
 
-##### UMGYDE Model: Regularization
+##### [UMGYDE Model: Regularization]
 \
 
 

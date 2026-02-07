@@ -5771,7 +5771,7 @@ calc_date_general_effect.cv(lambda) |> calc_UMGY_effect()
 ```
 
 ::: {.noteblock data-latex=""}
-In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92), the function *being described here* is called within the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function, alongside the [calc_UMGY_effect](#func.calc_UMGY_effect) function (both described below in *this Section*).
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L92), the function *being described here* is called, alongside the [calc_UMGY_effect](#func.calc_UMGY_effect), within the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) (both described below in *this Section*).
 :::
 :::
 
@@ -5861,7 +5861,7 @@ Builds the *User+Movie+Genre+Year Effect (UMGYE) Model* based on the *Date Gener
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above, the function *being described here* is called internally alongside [calc_date_general_effect](#func.calc_date_general_effect) from the [train_UMGY_effect](#func.train_UMGY_effect) (described above and below, respectively, in *this Section*).
+In the [code snippet]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above, the function *being described here* is called, alongside the [calc_date_general_effect](#func.calc_date_general_effect) (described above in *this Section*), within the [train_UMGY_effect](#func.train_UMGY_effect) (described below in *this Section*).
 :::
 :::
 
@@ -6582,7 +6582,7 @@ Builds the *User+Movie+Genre+Year+SmoothedDay Effect* (hereafter *UMGYDE* for sh
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L108) above, the function `calc_UMGY_SmoothedDay_effect` is called within the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) function described below in *this Section*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L108) above, the function *being described here* is called, alongside the [calc_day_general_effect](#func.calc_day_general_effect) (described above in *this Section*), within the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (described below in *this Section*).
 :::
 :::
 
