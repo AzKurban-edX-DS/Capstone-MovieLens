@@ -146,6 +146,15 @@
 ##### [UMGYE Model: Utility Functions]
 \
 
+* [calc_date_general_effect](#func.calc_date_general_effect)
+  * [Usage](#func.calc_date_general_effect.usage)
+  * [Arguments](#func.calc_date_general_effect.args)
+  * [Details](#func.calc_date_general_effect.details)
+  * [Value](#func.calc_date_general_effect.value)
+  * [Source Code](#func.calc_date_general_effect.code)
+
+
+
 * [calc_date_general_effect.cv](#func.calc_date_general_effect.cv)
   * [Usage](#func.calc_date_general_effect.cv.usage)
   * [Arguments](#func.calc_date_general_effect.cv.args)
