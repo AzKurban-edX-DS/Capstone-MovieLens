@@ -146,17 +146,6 @@
 ##### [UMGYE Model: Utility Functions]
 \
 
-* [calc_date_general_effect.cv](#func.calc_date_general_effect.cv)
-  * 5764 his is an auxiliary function that calculates the *Date General Effect*...
-  * [Usage](#func.calc_date_general_effect.cv.usage)
-  * [Arguments](#func.calc_date_general_effect.cv.args)
-  * [Details](#func.calc_date_general_effect.cv.details)
-    * 5792 ... passed in the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument,...
-  * [Value](#func.calc_date_general_effect.cv.value)
-    * \\newpage
-  * [Source Code](#func.calc_date_general_effect.cv.code)
-  
-  
 * [calc_UMGY_effect](#func.calc_UMGY_effect)
   * [Usage](#func.calc_UMGY_effect.usage)
   * [Arguments](#func.calc_UMGY_effect.args)
@@ -180,15 +169,8 @@
 
 ---
 
-* [calc_day_general_effect](#func.calc_day_general_effect)
-  * [Usage](#func.calc_day_general_effect.usage)
-  * [Arguments](#func.calc_day_general_effect.args)
-  * [Details](#func.calc_day_general_effect.details)
-  * [Value](#func.calc_day_general_effect.value)
-  * [Source Code](#func.calc_day_general_effect.code)
-
-
 * [calc_day_general_effect.cv](#func.calc_day_general_effect.cv)
+  * ... (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default)...
   * [Usage](#func.calc_day_general_effect.cv.usage)
   * [Arguments](#func.calc_day_general_effect.cv.args)
   * [Details](#func.calc_day_general_effect.cv.details)
@@ -700,6 +682,17 @@ print(head(edx.ordered_movie_ratings))
   * [Details](#func.calc_date_general_effect.details)
   * [Value](#func.calc_date_general_effect.value)
   * [Source Code](#func.calc_date_general_effect.code)
+  
+* [calc_date_general_effect.cv](#func.calc_date_general_effect.cv)
+  * 5764 his is an auxiliary function that calculates the *Date General Effect*...
+  * [Usage](#func.calc_date_general_effect.cv.usage)
+  * [Arguments](#func.calc_date_general_effect.cv.args)
+  * [Details](#func.calc_date_general_effect.cv.details)
+    * 5792 ... passed in the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument,...
+  * [Value](#func.calc_date_general_effect.cv.value)
+    * \\newpage
+  * [Source Code](#func.calc_date_general_effect.cv.code)
+
 
 * [calc_UMGY_effect](#func.calc_UMGY_effect)
   * [Usage](#func.calc_UMGY_effect.usage)
@@ -752,6 +745,14 @@ print(head(edx.ordered_movie_ratings))
 
 ##### [UMGYDE Model: Utility Functions]
 \
+
+* [calc_day_general_effect](#func.calc_day_general_effect)
+  * [Usage](#func.calc_day_general_effect.usage)
+  * [Arguments](#func.calc_day_general_effect.args)
+  * [Details](#func.calc_day_general_effect.details)
+  * [Value](#func.calc_day_general_effect.value)
+  * [Source Code](#func.calc_day_general_effect.code)
+
 
 
 ##### [UMGYDE Model: Tuning `loess` Params]
