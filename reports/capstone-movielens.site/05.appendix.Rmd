@@ -5722,7 +5722,7 @@ The *Regularization technique* (described in [Section 24.2 *Penalized least squa
 ##### Value
 \
 
-Data frame object representing (*regularized* if [lambda](#func.calc_date_general_effect.args.lambda) argument value is non-default) *Date General Effect*.
+*Data frame* object, representing (optionally, *Regularized*) *Day General Effect*.
 :::
 
 ::: { #func.calc_date_general_effect.code .sidebar }
@@ -5758,10 +5758,10 @@ The complete source code of the [calc_date_general_effect](https://github.com/Az
 
 \newpage
 
-#### [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L32) Function {#func.calc_date_general_effect.cv}
+#### [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L32) Function {#func.calc_date_general_efcfect.cv}
 \
 
-This is an auxiliary function that calculates the *Day General Effect* (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument value is non-default) of the user ratings, using the *K-Fold Cross Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], and is intended to be called within another custom helper function, the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)) (described below in *this Section*) as shown below in the [Usage](#func.calc_date_general_effect.cv.usage) section of *this Description*.
+This is an auxiliary function that calculates the *Date General Effect* (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument value is non-default) of the user ratings, using the *K-Fold Cross Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], and is intended to be called within another custom helper function, the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)) (described below in *this Section*) as shown below in the [Usage](#func.calc_date_general_effect.cv.usage) section of *this Description*.
 
 ::: { #func.calc_date_general_effect.cv.usage .sidebar }
 ##### Usage
@@ -5789,7 +5789,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 ##### Details
 \
 
-The *Regularization technique*, described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2], is applied to the model being trained only when the *regularization parameter* $\lambda$, passed in the [lambda](#func.calc_day_general_effect.cv.args.lambda) argument, has a non-default value (to be more exact, is a positive number).
+The *Regularization technique*, described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2], is applied to the model being trained only when the *regularization parameter* $\lambda$, passed in the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument, has a non-default value (to be more exact, is a positive number).
 
 Internally, this function calls the custom helper function [calc_date_general_effect](#func.calc_date_general_effect) (described above in *this Section*) for each iteration of the *K-Fold Cross-Validation* applied to the [`edx_CV` Object], described below in [Appendix B: Models Training Datasets]. 
 It also internally calls the user-defined auxiliary function [union_cv_results](#func.union_cv_results), described above in section [Models Training Functions] of *this Appendix*, to aggregate the cross-validation results.
