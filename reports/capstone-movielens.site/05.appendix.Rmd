@@ -5920,7 +5920,7 @@ The source code of the [calc_UMGY_effect](https://github.com/AzKurban-edX-DS/Cap
 #### [train_UMGY_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L76) Function {#func.train_UMGY_effect}
 \
 
-Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_effect.args.lambda) argument value is non-default) the *User+Movie+Genre+Year Effect (UMGYE) Model* using the training sample of the `Movielens` dataset passed in the [train_set](#func.train_UMGY_effect.args.train_set) argument.
+Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_effect.args.lambda) argument value is non-default) the *User+Movie+Genre+Year Effect* (hereafter *UMGYE* for short) *Model* using the training sample of the `Movielens` dataset passed in the [train_set](#func.train_UMGY_effect.args.train_set) argument.
 
 ::: { #func.train_UMGY_effect.usage .sidebar }
 ##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1340)
@@ -5964,7 +5964,7 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 ##### Value
 \
 
-Data frame object representing the trained (and also *regularized* if [lambda](#func.train_UMGY_effect.args.lambda) argument value is non-default) *UMGY Effect Model*.
+Data frame object representing the trained (and optionally *Regularized*) *UMGY Effect Model*.
 :::
 
 \newpage
@@ -6664,13 +6664,13 @@ The complete source code of the [calc_UMGY_SmoothedDay_effect](https://github.co
 #### [train_UMGY_SmoothedDay_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L99) Function {#func.train_UMGY_SmoothedDay_effect}
 \
 
-Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument value is non-default) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* using the training sample of the `Movielens` dataset passed in the [train_set](#func.train_UMGY_SmoothedDay_effect.args.train_set) argument.
+Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument value is non-default) the *User+Movie+Genre+Year+SmoothedDay Effect* (hereafter *UMGYDE* for short) *Model* using the training sample of the `Movielens` dataset passed in the [train_set](#func.train_UMGY_SmoothedDay_effect.args.train_set) argument.
 
 ::: { #func.train_UMGY_SmoothedDay_effect.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1950)
 \
 
-```{r eval=FALSE}
+```{r main-script@l1950, eval=FALSE}
   lss.UMGYD_effect <- edx |> 
     train_UMGY_SmoothedDay_effect(lss.best_degree, lss.best_span)
 ```
@@ -6714,7 +6714,7 @@ The *Regularization technique* described in [Section 24.2 *Penalized least squar
 ##### Value
 \
 
-Data frame object representing the trained (and also *regularized* if [lambda](#func.train_UMGY_SmoothedDay_effect.args.lambda) argument value is non-default) *UMGYDE Model*.
+Data frame object representing the trained (and optionally *Regularized*) *UMGYDE Model*.
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.code .sidebar }
