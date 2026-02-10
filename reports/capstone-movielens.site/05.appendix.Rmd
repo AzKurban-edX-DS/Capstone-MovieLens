@@ -5758,7 +5758,7 @@ The complete source code of the [calc_date_general_effect](https://github.com/Az
 
 \newpage
 
-#### [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L32) Function {#func.calc_date_general_efcfect.cv}
+#### [calc_date_general_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L32) Function {#func.calc_date_general_effect.cv}
 \
 
 This is an auxiliary function that calculates the *Date General Effect* (optionally *regularizes* if the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument value is non-default) of the user ratings, using the *K-Fold Cross Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], and is intended to be called within another custom helper function, the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)) (described below in *this Section*) as shown below in the [Usage](#func.calc_date_general_effect.cv.usage) section of *this Description*.
@@ -5862,7 +5862,7 @@ Builds the *User+Movie+Genre+Year Effect (UMGYE) Model* based on the *Date Gener
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet]((https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above, the function *being described here* is called, alongside the [calc_date_general_effect](#func.calc_date_general_effect) (described above in *this Section*), within the [train_UMGY_effect](#func.train_UMGY_effect) (described below in *this Section*).
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above, the function *being described here* is called, alongside the [calc_date_general_effect](#func.calc_date_general_effect) (described above in *this Section*), within the [train_UMGY_effect](#func.train_UMGY_effect) (described below in *this Section*).
 :::
 :::
 

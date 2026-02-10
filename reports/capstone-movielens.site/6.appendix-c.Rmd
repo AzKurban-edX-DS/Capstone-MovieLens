@@ -145,13 +145,11 @@
 
 ##### [UMGYE Model: Utility Functions]
 \
+* [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) ... Function \{#func.calc_date_general_effect.cv\}
 
 * [calc_UMGY_effect](#func.calc_UMGY_effect)
   * [Usage](#func.calc_UMGY_effect.usage)
-  * [Arguments](#func.calc_UMGY_effect.args)
-  * [Details](#func.calc_UMGY_effect.details)
-  * [Value](#func.calc_UMGY_effect.value)
-  * [Source Code](#func.calc_UMGY_effect.code)
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above...
 
 
 ##### [UMGYE Model: Regularization]
@@ -168,16 +166,6 @@
   * [Source Code](#func.%.code)
 
 ---
-
-* [calc_day_general_effect.cv](#func.calc_day_general_effect.cv)
-  * ... (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default)...
-  * [Usage](#func.calc_day_general_effect.cv.usage)
-  * [Arguments](#func.calc_day_general_effect.cv.args)
-  * [Details](#func.calc_day_general_effect.cv.details)
-  * [Value](#func.calc_day_general_effect.cv.value)
-    * \\newpage
-  * [Source Code](#func.calc_day_general_effect.cv.code)
-    * \\newpage
 
 * [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect)
   * [Usage](#func.calc_UMGY_SmoothedDay_effect.usage)
@@ -752,6 +740,16 @@ print(head(edx.ordered_movie_ratings))
   * [Details](#func.calc_day_general_effect.details)
   * [Value](#func.calc_day_general_effect.value)
   * [Source Code](#func.calc_day_general_effect.code)
+
+* [calc_day_general_effect.cv](#func.calc_day_general_effect.cv)
+  * ... (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default)...
+  * [Usage](#func.calc_day_general_effect.cv.usage)
+  * [Arguments](#func.calc_day_general_effect.cv.args)
+  * [Details](#func.calc_day_general_effect.cv.details)
+  * [Value](#func.calc_day_general_effect.cv.value)
+    * \\newpage
+  * [Source Code](#func.calc_day_general_effect.cv.code)
+    * \\newpage
 
 
 
