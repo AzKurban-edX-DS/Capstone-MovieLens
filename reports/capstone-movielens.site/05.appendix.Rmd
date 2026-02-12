@@ -6102,11 +6102,11 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
 \
 
 ::: { #func.calc_UMGY_effect_MSE.args.test_set .sidebar }
-  - **test_set:** Validation dataset; 
+- **test_set:** *Validation* dataset; 
 
 :::
 ::: { #func.calc_UMGY_effect_MSE.args.UMGY_effect .sidebar }
-  - **UMGY_effect:** Data frame object representing the *UMGY Effect Model*. 
+- **UMGY_effect:** *Data frame* object representing the *UMGY Effect Model*. 
 
 :::
 :::
@@ -6118,7 +6118,7 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
 The function calculates *Mean Squared Error (MSE)* for the *UMGYE Model* passed in the [UMGY_effect](#func.calc_UMGY_effect_MSE.args.UMGY_effect) argument using the validation dataset passed in the [test_set](#func.calc_UMGY_effect_MSE.args.test_set) arg. 
 
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended to be called within the [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv) (described below in *this Section*) as shown in the [Usage](#func.calc_user_movie_genre_effect_MSE.usage) section above of *this Description*.
+This is an auxiliary function intended to be called within the [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv) (described below in *this Section*) as shown in the [Usage](#func.calc_UMGY_effect_MSE.usage) section above of *this Description*.
 :::
 :::
 
@@ -6881,7 +6881,7 @@ This function is also called within the custom helper function [calc_UMGY_Smooth
 ##### Value
 \
 
-Data frame object containing *predicted user rating* values based on the *UMGYDE Model*
+*Data frame* object containing *predicted user rating* values based on the *UMGYDE Model*
 :::
 
 \newpage
