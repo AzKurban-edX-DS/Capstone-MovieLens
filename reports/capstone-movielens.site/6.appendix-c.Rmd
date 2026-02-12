@@ -159,14 +159,20 @@
 ##### [UMGYDE Model: Utility Functions]
 \
 
-* [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)
-  * ... the *User+Movie+Genre+Year+SmoothedDay Effect* (hereafter *UMGYDE* for short) *Model*...
-  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1950)
-  * [Arguments](#func.train_UMGY_SmoothedDay_effect.args)
-  * [Details](#func.train_UMGY_SmoothedDay_effect.details)
-  * [Value](#func.train_UMGY_SmoothedDay_effect.value)
-    * ...trained (and optionally *Regularized*) *UMGYDE Model*.
-  * [Source Code](#func.train_UMGY_SmoothedDay_effect.code)
+* [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2232)
+    * `\{r main-script@l2232u, eval=FALSE\}`
+  * [Arguments](#func.UMGY_SmoothedDay_effect.predict.args)
+    - **test_set:** *Validation* dataset;
+    - **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
+  * [Details](#func.UMGY_SmoothedDay_effect.predict.details)
+    * This function implements an algorithm for predicting the *user rating values*...
+    
+::: {.noteblock data-latex=""}
+This function is also called within the custom helper function [calc_UMGY_SmoothedDay_effect.MSE](#func.calc_UMGY_SmoothedDay_effect.MSE) described below in *this Section*.
+:::
+
+
 
 ---
 
@@ -702,9 +708,12 @@ print(head(edx.ordered_movie_ratings))
     * \\newpage
 
 * [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)
-  * [Usage](#func.train_UMGY_effect.cv.usage)
-  * [Details](#func.train_UMGY_effect.cv.details)
+  
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
   * [Value](#func.train_UMGY_effect.cv.value)
+    * Data frame object representing the trained (and optionally *regularized*) *UMGY Effect Model*.
     * \\newpage
     
 
@@ -726,6 +735,18 @@ print(head(edx.ordered_movie_ratings))
   * [Details](#func.calc_UMGY_effect_RMSE.cv.details)
   * [Value](#func.calc_UMGY_effect_RMSE.cv.value)
     * \\newpage
+
+* [train_UMGY_effect](#func.train_UMGY_effect)
+  * ... the *User+Movie+Genre+Year Effect* (hereafter *UMGYE* for short) *Model*...
+  * [Usage](#func.train_UMGY_effect.usage)
+  * [Details](#func.train_UMGY_effect.details)
+  * [Value](#func.train_UMGY_effect.value)
+    * ...trained (and optionally *regularized*) *UMGY Effect Model*.
+
+
+
+
+
 
 ##### [UMGYE Model: Regularization]
 \
@@ -764,6 +785,26 @@ print(head(edx.ordered_movie_ratings))
   * [Details](#func.calc_UMGY_SmoothedDay_effect.details)
   * [Value](#func.calc_UMGY_SmoothedDay_effect.value)
   * [Source Code](#func.calc_UMGY_SmoothedDay_effect.code)
+
+* [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)
+  * ... the *User+Movie+Genre+Year+SmoothedDay Effect* (hereafter *UMGYDE* for short) *Model*...
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1950)
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.args)
+  * [Details](#func.train_UMGY_SmoothedDay_effect.details)
+  * [Value](#func.train_UMGY_SmoothedDay_effect.value)
+    * ...trained (and optionally *regularized*) *UMGYDE Model*.
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.code)
+
+* [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.cv.usage)
+    * In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L238), the function *being described here*...
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.cv.args)
+    * **degree:** ... described above in *this Section*;
+    * **span:** ... described above in *this Section*;
+  * [Details](#func.train_UMGY_SmoothedDay_effect.cv.details)
+    * ... section of *this Description* above.
+  * [Value](#func.train_UMGY_SmoothedDay_effect.cv.value)
+    * Data frame object representing the trained (and optionally *regularized*) *UMGYDE Model*.
 
 
 ##### [UMGYDE Model: Tuning `loess` Params]
