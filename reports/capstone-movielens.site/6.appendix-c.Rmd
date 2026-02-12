@@ -146,13 +146,6 @@
 ##### [UMGYE Model: Utility Functions]
 \
 
-* [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv)
-  * [Usage](#func.calc_UMGY_effect_MSE.cv.usage)
-  * [Arguments](#func.calc_UMGY_effect_MSE.cv.args)
-  * [Details](#func.calc_UMGY_effect_MSE.cv.details)
-  * [Value](#func.calc_UMGY_effect_MSE.cv.value)
-  * [Source Code](#func.calc_UMGY_effect_MSE.cv.code)
-
 ---
 
 * [%](#func.%)
@@ -167,6 +160,13 @@
 
 ##### [UMGYDE Model: Utility Functions]
 \
+
+* [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv)
+  * [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.usage)
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.args)
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.details)
+  * [Value](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.value)
+  * [Source Code](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.code)
 
 
 
@@ -699,9 +699,11 @@ print(head(edx.ordered_movie_ratings))
     \\newpage
 
 * [train_UMGY_effect](#func.train_UMGY_effect)
+  * ... the *User+Movie+Genre+Year Effect* (hereafter *UMGYE* for short) *Model*...
   * [Usage](#func.train_UMGY_effect.usage)
   * [Details](#func.train_UMGY_effect.details)
   * [Value](#func.train_UMGY_effect.value)
+    * ...trained (and optionally *regularized*) *UMGY Effect Model*.
     * \\newpage
 
 * [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)
@@ -724,8 +726,17 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
     * \\newpage
 
 * [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv)
+
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+
   * [Usage](#func.calc_UMGY_effect_MSE.cv.usage)
+  * [Arguments](#func.calc_UMGY_effect_MSE.cv.args)
+    * - **UMGY_effect:** *Data frame* object representing the *UMGY Effect Model*. 
   * [Details](#func.calc_UMGY_effect_MSE.cv.details)
+    * The function calculates the *MSE* metric for the *UMGYE Model*...
+    * This is an auxiliary function used internally in the... (described below in *this Section*)...
   * [Value](#func.calc_UMGY_effect_MSE.cv.value)
     * \\newpage
 
@@ -734,13 +745,6 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
   * [Details](#func.calc_UMGY_effect_RMSE.cv.details)
   * [Value](#func.calc_UMGY_effect_RMSE.cv.value)
     * \\newpage
-
-* [train_UMGY_effect](#func.train_UMGY_effect)
-  * ... the *User+Movie+Genre+Year Effect* (hereafter *UMGYE* for short) *Model*...
-  * [Usage](#func.train_UMGY_effect.usage)
-  * [Details](#func.train_UMGY_effect.details)
-  * [Value](#func.train_UMGY_effect.value)
-    * ...trained (and optionally *regularized*) *UMGY Effect Model*.
 
 
 

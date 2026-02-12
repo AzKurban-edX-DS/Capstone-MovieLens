@@ -6161,6 +6161,10 @@ The source code of the [calc_UMGY_effect_MSE](https://github.com/AzKurban-edX-DS
 
 Validates the *UMGY Effect (UMGYE) Model* built and trained by the [train_UMGY_effect](#func.train_UMGY_effect) or [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) function call (both described above in *this Section*) with use of *K-Fold Cross-Validation* (as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV]).
 
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+
 ::: { #func.calc_UMGY_effect_MSE.cv.usage .sidebar }
 ##### Usage
 \
@@ -6179,7 +6183,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_UMGY_effect_MSE.cv.args.UMGY_effect .sidebar }
-  - **UMGY_effect:** Data frame object representing the *UMGY Effect Model*. 
+- **UMGY_effect:** *Data frame* object representing the *UMGY Effect Model*. 
 
 :::
 :::
@@ -6188,14 +6192,12 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 ##### Details
 \
 
-The function calculates *MSE* for the *UMGYE Model* passed in the [UMGY_effect](#func.calc_UMGY_effect_MSE.cv.args.UMGY_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
+The function calculates the *MSE* metric for the *UMGYE Model* passed in the [UMGY_effect](#func.calc_UMGY_effect_MSE.cv.args.UMGY_effect) argument using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].
 
 It internally calls the [calc_UMGY_effect_MSE](#func.calc_UMGY_effect_MSE) function for each iteration of the *K-Fold Cross-Validation*, calculating the *MSE* for the corresponding validation dataset of the [`edx_CV` Object], and then calculates the mean of the obtained results.
 
-The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
-
 ::: {.noteblock data-latex=""}
-This is an auxiliary function intended to be called within the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) function (described below in this section) as shown in the [Usage](#func.calc_UMGY_effect_MSE.cv.usage) section above of *This Description*.
+This is an auxiliary function used internally in the [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) function (described below in *this Section*) as shown in the [Usage](#func.calc_UMGY_effect_MSE.cv.usage) section above of *This Description*.
 :::
 :::
 
