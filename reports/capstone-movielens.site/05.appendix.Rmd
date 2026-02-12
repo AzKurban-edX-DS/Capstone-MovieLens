@@ -6919,19 +6919,22 @@ The source code of the [UMGY_SmoothedDay_effect.predict](https://github.com/AzKu
 #### [calc_UMGY_SmoothedDay_effect.MSE](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L141) Function {#func.calc_UMGY_SmoothedDay_effect.MSE}
 \
 
-Validates the *UMGYD Effect (UMGYDE) Model* represented by the data passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect) argument on the *test dataset* passed in the [test_set](#func.calc_UMGY_SmoothedDay_effect.MSE.args.test_set) argument.
+Validates the *UMGYD Effect (UMGYDE) Model* (represented by the data object passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect) argument) on the *Test dataset* passed in the [test_set](#func.calc_UMGY_SmoothedDay_effect.MSE.args.test_set) argument.
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.MSE.usage .sidebar }
 ##### Usage
 \
 
-```{r eval=FALSE}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L153) below, the function *being described here* is called from the [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv) function (described below in *this Section*) for each iteration of the *K-Fold Cross-Validation*, to calculate the *MSE* for the corresponding validation dataset of the [`edx_CV` Object] (described in [Appendix B: Models Training Datasets]):
+```{r UMGYD-effect.func@l153u, eval=FALSE}
+  smth_day_effect_MSEs <- sapply(edx_CV, function(cv_fold_dat){
     cv_fold_dat$validation_set |> 
       calc_UMGY_SmoothedDay_effect.MSE(day_smoothed_effect)
+  })
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippet above, the function `calc_UMGY_SmoothedDay_effect.MSE` is called internally from the [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv) function described below in this section.
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
 :::
 :::
 
@@ -6940,11 +6943,11 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect.MSE` is ca
 \
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.MSE.args.test_set .sidebar }
-  - **test_set:** Validation dataset; 
+- **test_set:** *Validation* dataset; 
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect .sidebar }
-  - **day_smoothed_effect:** Data frame object representing the *UMGYDE Model*. 
+- **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
 
 :::
 :::
@@ -6953,20 +6956,20 @@ In the code snippet above, the function `calc_UMGY_SmoothedDay_effect.MSE` is ca
 ##### Details
 \
 
-This function commits the *UMGYDE Model* validation by calculating the *Mean Squared Error (MSE)*.
+The function calculates the *Mean Squared Error (MSE)* metric for the *UMGYDE Model*.
 
-In *this Project*, the *UMGYDE* data object representing the *UMGYDE Model* (and being passed in the [day_smoothed_effect](#func.loess_de.args.de_bias.dat) argument) is created and returned by the following functions described above in this section:
-  
+In *this Project*,  the following functions (described above in *this Section*) return the data object representing the *UMGYDE Model* (to be passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect) argument):
+
   - [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) 
   
   - [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) 
   
   - [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv).
 
-Internally, this function calls the auxiliary functions [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) (described above in this section), passing to it the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect) value in the same-named argument.
+Internally, this function calls the user-defined auxiliary function [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) (described above in *this Section*), passing to it the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect) argument value in the *same-named* argument.
 
 ::: {.noteblock data-latex=""}
-This auxiliary function is used internally in the [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv) function (described below in this section) as shown in the [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.usage) section of *This Description* above.
+This is an auxiliary function used internally in the [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv) function (described below in *this Section*) as shown in the [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.usage) section of *This Description* above.
 :::
 :::
 

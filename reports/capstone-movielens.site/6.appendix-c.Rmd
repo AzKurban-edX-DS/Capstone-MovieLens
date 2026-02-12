@@ -146,6 +146,13 @@
 ##### [UMGYE Model: Utility Functions]
 \
 
+* [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv)
+  * [Usage](#func.calc_UMGY_effect_MSE.cv.usage)
+  * [Arguments](#func.calc_UMGY_effect_MSE.cv.args)
+  * [Details](#func.calc_UMGY_effect_MSE.cv.details)
+  * [Value](#func.calc_UMGY_effect_MSE.cv.value)
+  * [Source Code](#func.calc_UMGY_effect_MSE.cv.code)
+
 ---
 
 * [%](#func.%)
@@ -161,12 +168,7 @@
 ##### [UMGYDE Model: Utility Functions]
 \
 
-* [calc_UMGY_SmoothedDay_effect.MSE](#func.calc_UMGY_SmoothedDay_effect.MSE)
-  * [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.usage)
-  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.MSE.args)
-  * [Details](#func.calc_UMGY_SmoothedDay_effect.MSE.details)
-  * [Value](#func.calc_UMGY_SmoothedDay_effect.MSE.value)
-  * [Source Code](#func.calc_UMGY_SmoothedDay_effect.MSE.code)
+
 
 
 ---
@@ -818,6 +820,21 @@ This function is also called within the custom helper function [calc_UMGY_Smooth
 
   * [Value](#func.UMGY_SmoothedDay_effect.predict.value)
     * *Data frame* object containing...
+
+* [calc_UMGY_SmoothedDay_effect.MSE](#func.calc_UMGY_SmoothedDay_effect.MSE)
+  * Validates the *UMGYD Effect (UMGYDE) Model* (represented by the data object passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect) argument)...
+  * [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.usage)
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L153) below,...
+    * `\{r UMGYD-effect.func@l153u, eval=FALSE\}`
+    * The $K$ value for the *K-Fold Cross-Validation* is determined...
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.MSE.args)
+    * - **test_set:** *Validation* dataset;
+    * - **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.MSE.details)
+    * The function calculates the *Mean Squared Error (MSE)* metric for the *UMGYDE Model*.
+    * In *this Project*,  the following functions (described above in *this Section*) return the data object representing the *UMGYDE Model*...
+    * Internally, this function calls the user-defined auxiliary function...
+    * This is an auxiliary function used internally in the...
 
 
 
