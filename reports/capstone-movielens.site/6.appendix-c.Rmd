@@ -146,6 +146,28 @@
 ##### [UMGYE Model: Utility Functions]
 \
 
+* [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv)
+
++++ added block:  
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+++++++++++++++++
+
+  * [Arguments](#func.calc_UMGY_effect_RMSE.cv.args)
+    - **UMGY_effect:** *Data frame* object.... 
+  * [Details](#func.calc_UMGY_effect_RMSE.cv.details)
+    * ...for the *UMGYE Model* object passed...
+    
+*** removed block:
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+******************
+
+  * [Value](#func.calc_UMGY_effect_RMSE.cv.value)
+    * The *RMSE* value calculated for the *UMGYE Model* using *K-Fold Cross-Validation*.
+
 ---
 
 * [%](#func.%)
@@ -161,9 +183,22 @@
 ##### [UMGYDE Model: Utility Functions]
 \
 
-* [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv)
-  * [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.usage)
-    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) above,...
+* [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2007)
+    * `\{r main-script@l2007u, eval=FALSE\}`
+
+```{r}
+lss.UMGYD_effect.RMSE
+```
+
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args)
+    - **day_smoothed_effect:** *Data frame* object... 
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.details)
+    * ***All section replaced*** (Follow the [link](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.details) above.)
+    
+  * [Value](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.value)
+    * *RMSE* value calculated for the *UMGYDE model* using *K-fold cross-validation*.
+  * [Source Code](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.code)
 
 ---
 
@@ -769,6 +804,7 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
 * [calc_day_general_effect.cv](#func.calc_day_general_effect.cv)
   * ... (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default)...
   * [Usage](#func.calc_day_general_effect.cv.usage)
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) above,...
   * [Arguments](#func.calc_day_general_effect.cv.args)
   * [Details](#func.calc_day_general_effect.cv.details)
   * [Value](#func.calc_day_general_effect.cv.value)
