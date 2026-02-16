@@ -7128,7 +7128,7 @@ lss.UMGYD_effect.RMSE
 
 The function calculates *Root Squared Error (RMSE)* for the *UMGYDE Model* object using the validation datasets contained in the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets].\newline
 
-During its execution, it internally calls the [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv) auxiliary function described above in this section to compute the *MSE* for the *UMGYDE Model* and then calculates the *square root* of the obtained result.
+During its execution, it internally calls the [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv) auxiliary function described above in *this Section* to compute the *MSE* for the *UMGYDE Model* and then calculates the *square root* of the obtained result.
 
 In *this Project*, a *UMGYDE* data object (representing the *UMGYDE Model*) being passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args.day_smoothed_effect) argument) can be created by any of the following functions (described above in *this Section*):
   
