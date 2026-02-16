@@ -163,13 +163,7 @@
 
 * [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv)
   * [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.usage)
-  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.args)
-  * [Details](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.details)
-  * [Value](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.value)
-  * [Source Code](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.code)
-
-
-
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) above,...
 
 ---
 
@@ -839,6 +833,25 @@ This function is also called within the custom helper function [calc_UMGY_Smooth
     * In *this Project*,  the following functions (described above in *this Section*) return the data object representing the *UMGYDE Model*...
     * Internally, this function calls the user-defined auxiliary function...
     * This is an auxiliary function used internally in the...
+
+* [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv)
+  * ...as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+  
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+  
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.args)
+    * - **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.details)
+    * The function calculates the *MSE* metric...
+    * In *this Project*,  the following functions (described above in *this Section*)...
+    * Internally, this function calls...
+    * This is an auxiliary function used internally...
+  * [Value](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.value)
+    * The *MSE* value calculated for the *UMGYDE Model* using *K-Fold Cross-Validation* (...
+  * [Source Code](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.code)
+
 
 
 
