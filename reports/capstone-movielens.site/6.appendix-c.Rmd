@@ -178,11 +178,14 @@
 \
 
 
-* [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv)
-  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.details)
+* [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.usage)
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args)
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.details)
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.value)
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.code)
 
 
-Unlike the inner function  [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv), this one additionally validates the *UMGYDE Model* (created and trained by this inner function), for which it calls another custom helper function, [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) (also described above in section [UMGYDE Model: Utility Functions]), computing *RMSE* score for the model.
   
 
 
@@ -917,6 +920,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 
 This is a wrapper for the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*), which it calls internally, passing the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) values as arguments of the same name.
   
+Unlike the inner function  [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv), this one additionally validates the *UMGYDE Model* (created and trained by this inner function), for which it calls another custom helper function, [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) (also described above in section [UMGYDE Model: Utility Functions]), computing *RMSE* score for the model.
 
   * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.value)
 
