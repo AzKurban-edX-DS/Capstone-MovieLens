@@ -178,14 +178,22 @@
 \
 
 
+* [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv)
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.details)
+
+
+Unlike the inner function  [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv), this one additionally validates the *UMGYDE Model* (created and trained by this inner function), for which it calls another custom helper function, [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) (also described above in section [UMGYDE Model: Utility Functions]), computing *RMSE* score for the model.
+  
+
+
+---
+
 * [%](#func.%)
   * [Usage](#func.%.usage)
   * [Arguments](#func.%.args)
   * [Details](#func.%.details)
   * [Value](#func.%.value)
   * [Source Code](#func.%.code)
-
----
 
 
 ##### [UMGYDE Model: Regularization]
@@ -893,6 +901,29 @@ lss.UMGYD_effect.RMSE
 
 ##### [UMGYDE Model: Tuning `loess` Params]
 \
+
+* [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv)
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.usage)
+    * `\{r UMGYD_effect.func@l195u, eval=FALSE\}`
+  
+::: {.noteblock data-latex=""}
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L195), the function *being described here* is called within the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1) function described below in *this Section*.
+:::
+  
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args)
+    * - **span:** (Optional, *Numeric*, `NA` by default ) ...
+
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.details)
+
+This is a wrapper for the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*), which it calls internally, passing the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) values as arguments of the same name.
+  
+
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.value)
+
+The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (passed in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) arguments).
+
+
+
 
 ##### [UMGYDE Model: Regularization]
 \

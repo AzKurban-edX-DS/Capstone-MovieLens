@@ -25,7 +25,7 @@ open_logfile(".data-analysis")
 \
 
 ::: { #func.open_logfile.args.file_name .sidebar }
-  - **file_name:** A name used as a base to generate a unique log file name; 
+- **file_name:** A name used as a base to generate a unique log file name; 
 
 :::
 :::
@@ -198,7 +198,7 @@ print_end_date(start_date)
 \
 
 ::: { #func.print_end_date.args.start .sidebar }
-  - **start:** An object of class `POSIXct` representing the value of the moment from which time is measured. 
+- **start:** An object of class `POSIXct` representing the value of the moment from which time is measured. 
 
 :::
 :::
@@ -259,7 +259,7 @@ put_end_date(start)
 \
 
 ::: { #func.put_end_date.args.start .sidebar }
-  - **start:** An object of class `POSIXct` representing the value of the moment from which time is measured. 
+- **start:** An object of class `POSIXct` representing the value of the moment from which time is measured. 
 
 :::
 :::
@@ -318,7 +318,7 @@ print_log("Hello World!")
 \
 
 ::: { #func.print_log.args.msg .sidebar }
-  - **msg:** A string to print (can be multiline). 
+- **msg:** A string to print (can be multiline). 
 
 :::
 :::
@@ -378,7 +378,7 @@ print_log("Computing Average Ratings per User (User Mean Ratings)...")
 \
 
 ::: { #func.put_log.args.msg .sidebar }
-  - **msg:** A string to print (can be multiline). 
+- **msg:** A string to print (can be multiline). 
 
 :::
 :::
@@ -441,12 +441,12 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.get_log1.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.get_log1.args.arg1) argument. 
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.get_log1.args.arg1) argument. 
 
 :::
 
 ::: { #func.get_log1.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.get_log1.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.get_log1.args.msg_template) argument. 
 
 :::
 :::
@@ -515,12 +515,12 @@ print_log1("Is the previously computed RMSE the best for the current model: %1",
 \
 
 ::: { #func.print_log1.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.print_log1.args.arg1) argument. 
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.print_log1.args.arg1) argument. 
 
 :::
 
 ::: { #func.print_log1.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.print_log1.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.print_log1.args.msg_template) argument. 
 
 :::
 :::
@@ -594,12 +594,12 @@ print_log1("Is the previously computed RMSE the best for the current model: %1",
 \
 
 ::: { #func.put_log1.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.put_log1.args.arg1) argument. 
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of the pattern *"%1"* to be replaced by the value specified by the [arg1](#func.put_log1.args.arg1) argument. 
 
 :::
 
 ::: { #func.put_log1.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.put_log1.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the pattern *"%1"* in the message template passed in the [msg_template](#func.put_log1.args.msg_template) argument. 
 
 :::
 :::
@@ -664,17 +664,17 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.get_log2.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.get_log2.args.arg1) and  [arg2](#func.get_log2.args.arg2) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.get_log2.args.arg1) and  [arg2](#func.get_log2.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.get_log2.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log2.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log2.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log2.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log2.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log2.args.msg_template) argument. 
 
 :::
 :::
@@ -738,17 +738,17 @@ Prints a log created from the template passed in the [msg_template](#func.print_
 \
 
 ::: { #func.print_log2.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.print_log2.args.arg1) and  [arg2](#func.print_log2.args.arg2) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.print_log2.args.arg1) and  [arg2](#func.print_log2.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.print_log2.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log2.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log2.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log2.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log2.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log2.args.msg_template) argument. 
 
 :::
 :::
@@ -809,17 +809,17 @@ Outputs a log to the currently open log file (using the [open_logfile](#func.ope
 \
 
 ::: { #func.put_log2.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.put_log2.args.arg1) and  [arg2](#func.put_log2.args.arg2) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"* and *"%2"*, to be replaced by the values specified by the [arg1](#func.put_log2.args.arg1) and  [arg2](#func.put_log2.args.arg2) arguments, respectively.
 
 :::
 
 ::: { #func.put_log2.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log2.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log2.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log2.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log2.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log2.args.msg_template) argument. 
 
 :::
 :::
@@ -884,22 +884,22 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.get_log3.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.get_log3.args.arg1),  [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.get_log3.args.arg1),  [arg2](#func.get_log3.args.arg2), and [arg3](#func.get_log3.args.arg3) arguments, respectively.
 
 :::
 
 ::: { #func.get_log3.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log3.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log3.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
+- **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.get_log3.args.msg_template) argument. 
 
 :::
 :::
@@ -970,22 +970,22 @@ span = %3.",
 \
 
 ::: { #func.print_log3.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.print_log3.args.arg1),  [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.print_log3.args.arg1),  [arg2](#func.print_log3.args.arg2), and [arg3](#func.print_log3.args.arg3) arguments, respectively.
 
 :::
 
 ::: { #func.print_log3.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log3.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log3.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
+- **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.print_log3.args.msg_template) argument. 
 
 :::
 :::
@@ -1059,22 +1059,22 @@ span = %3.",
 \
 
 ::: { #func.put_log3.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.put_log3.args.arg1),  [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, and *"%3"* to be replaced by the values specified by the [arg1](#func.put_log3.args.arg1),  [arg2](#func.put_log3.args.arg2), and [arg3](#func.put_log3.args.arg3) arguments, respectively.
 
 :::
 
 ::: { #func.put_log3.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log3.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log3.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
+- **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.put_log3.args.msg_template) argument. 
 
 :::
 :::
@@ -1137,27 +1137,27 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.get_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.get_log4.args.arg1),  [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.get_log4.args.arg1),  [arg2](#func.get_log4.args.arg2), [arg3](#func.get_log4.args.arg3), and [arg4](#func.get_log4.args.arg4) arguments, respectively.
 
 :::
 
 ::: { #func.get_log4.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log4.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log4.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
+- **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.get_log4.args.arg4 .sidebar }
-  - **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
+- **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.get_log4.args.msg_template) argument. 
 
 :::
 :::
@@ -1234,27 +1234,27 @@ print_log4(msg_template, arg1, arg2, arg3, arg4)
 \
 
 ::: { #func.print_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.print_log4.args.arg1),  [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.print_log4.args.arg1),  [arg2](#func.print_log4.args.arg2), [arg3](#func.print_log4.args.arg3), and [arg4](#func.print_log4.args.arg4) arguments, respectively.
 
 :::
 
 ::: { #func.print_log4.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log4.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log4.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
+- **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.print_log4.args.arg4 .sidebar }
-  - **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
+- **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.print_log4.args.msg_template) argument. 
 
 :::
 :::
@@ -1326,27 +1326,27 @@ print_log4(msg_template, arg1, arg2, arg3, arg4)
 \
 
 ::: { #func.put_log4.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.put_log4.args.arg1),  [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments, respectively.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of each of the placeholders *"%1"*, *"%2"*, *"%3"*, and *"%4"* to be replaced by the values specified by the [arg1](#func.put_log4.args.arg1),  [arg2](#func.put_log4.args.arg2), [arg3](#func.put_log4.args.arg3), and [arg4](#func.put_log4.args.arg4) arguments, respectively.
 
 :::
 
 ::: { #func.put_log4.args.arg1 .sidebar }
-  - **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
+- **arg1:** Value to replace all occurrences of the placeholder *"%1"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log4.args.arg2 .sidebar }
-  - **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
+- **arg2:** Value to replace all occurrences of the placeholder *"%2"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log4.args.arg3 .sidebar }
-  - **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
+- **arg3:** Value to replace all occurrences of the placeholder *"%3"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
 
 :::
 
 ::: { #func.put_log4.args.arg4 .sidebar }
-  - **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
+- **arg4:** Value to replace all occurrences of the placeholder *"%4"* in the message template passed in the [msg_template](#func.put_log4.args.msg_template) argument. 
 
 :::
 :::
@@ -1426,16 +1426,16 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.clamp.args.r .sidebar }
-  - **r:** Value to clamp; 
+- **r:** Value to clamp; 
 
 :::
 ::: { #func.clamp.args.min .sidebar }
-  - **min:** (Optional, 0.5 by default) Minimum allowed value; 
+- **min:** (Optional, 0.5 by default) Minimum allowed value; 
 
 :::
 :::
 ::: { #func.clamp.args.max .sidebar }
-  - **max:** (Optional, 5 by default) Maximum allowed value; 
+- **max:** (Optional, 5 by default) Maximum allowed value; 
 
 :::
 :::
@@ -1499,17 +1499,17 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \
 
 ::: { #func.msg.set_arg.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of a pattern specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of a pattern specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument.
   
 :::
 
 ::: { #func.msg.set_arg.args.arg.name .sidebar }
-  - **arg.name:** (Optional, *"%1"* by default) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
+- **arg.name:** (Optional, *"%1"* by default) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument with the value specified in the [arg](#func.msg.set_arg.args.arg) argument.
 
 :::
 
 ::: { #func.msg.set_arg.args.arg .sidebar }
-  - **arg:** Value to replace all occurrences of the pattern specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument.
+- **arg:** Value to replace all occurrences of the pattern specified by the [arg.name](#func.msg.set_arg.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.set_arg.args.msg_template) argument.
   
 :::
 :::
@@ -1583,17 +1583,17 @@ In the *code snippet* above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [
 \
 
 ::: { #func.msg.glue.args.msg_template .sidebar }
-  - **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of a pattern specified by the [arg.name](#func.msg.glue.args.arg.name) argument.
+- **msg_template:** Any object coercible to a character vector containing at least one message template element, i.e., a string (possibly multiline) containing at least one occurrence of a pattern specified by the [arg.name](#func.msg.glue.args.arg.name) argument.
   
 :::
 
 ::: { #func.msg.glue.args.arg.name .sidebar }
-  - **arg.name:** (Optional, *"%1"* by default) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.glue.args.arg) argument.
+- **arg.name:** (Optional, *"%1"* by default) Substring (pattern or *placeholder*) to replace all occurrences found in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument with the value specified in the [arg](#func.msg.glue.args.arg) argument.
 
 :::
 
 ::: { #func.msg.glue.args.arg .sidebar }
-  - **arg:** Value to replace all occurrences of the pattern specified by the [arg.name](#func.msg.glue.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument.
+- **arg:** Value to replace all occurrences of the pattern specified by the [arg.name](#func.msg.glue.args.arg.name) argument in the message template passed in the [msg_template](#func.msg.glue.args.msg_template) argument.
 
 :::
 :::
@@ -1674,7 +1674,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.mse.args.r .sidebar }
-  - **r:** Numeric vector representing a set of *residuals* (for example of computing a *residuals* vector, see section [Usage](#func.mse.usage) of *this Description*. 
+- **r:** Numeric vector representing a set of *residuals* (for example of computing a *residuals* vector, see section [Usage](#func.mse.usage) of *this Description*. 
 
 :::
 :::
@@ -1719,7 +1719,7 @@ mse_cv(r_list)
 \
 
 ::: { #func.mse_cv.args.r_list .sidebar }
-  - **r_list:** A list of numeric vectors, each representing a set of residuals as described in [Section 24.1 *Case Study: Recommender Systems / Loss Function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the *Course Textbook (New Edition)*[@IDS2_24-1_LF], computed in the corresponding iteration of *K-Fold Cross-Validation* (the $K$ is $5$ for *this Project*).
+- **r_list:** A list of numeric vectors, each representing a set of residuals as described in [Section 24.1 *Case Study: Recommender Systems / Loss Function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the *Course Textbook (New Edition)*[@IDS2_24-1_LF], computed in the corresponding iteration of *K-Fold Cross-Validation* (the $K$ is $5$ for *this Project*).
 
 :::
 :::
@@ -1763,7 +1763,7 @@ rmse(r)
 \
 
 ::: { #func.rmse.args.r .sidebar }
-  - **r:** Numeric vector representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
+- **r:** Numeric vector representing a set of residuals as described in [Section 24.1 *Case study: recommendation systems / Loss function*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#sec-netflix-loss-function) of the _Course Textbook (New Edition)_[@IDS2_24-1_LF]. 
 
 :::
 :::
@@ -1804,12 +1804,12 @@ rmse2(true_ratings, predicted_ratings)
 \
 
 ::: { #func.rmse2.args.true_ratings .sidebar }
-  - **true_ratings:** Numeric vector representing a set of *actual rating* values stored in the validation dataset. 
+- **true_ratings:** Numeric vector representing a set of *actual rating* values stored in the validation dataset. 
 
 :::
 
 ::: { #func.rmse2.args.predicted_ratings .sidebar }
-  - **predicted_ratings:** A numeric vector representing a set of *predicted rating* values computed from the data stored in the test dataset. 
+- **predicted_ratings:** A numeric vector representing a set of *predicted rating* values computed from the data stored in the test dataset. 
 
 :::
 :::
@@ -1925,27 +1925,27 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.RMSEs.AddRow.args.RMSEs .sidebar }
-  - ***RMSEs:*** Original _RMSEs Result Tibble_ (of type *data frame*) to modify;
+- ***RMSEs:*** Original _RMSEs Result Tibble_ (of type *data frame*) to modify;
 
 :::
 
 ::: { #func.RMSEs.AddRow.args.method .sidebar }
-  - ***method:*** The _Method or Model_ being evaluated;
+- ***method:*** The _Method or Model_ being evaluated;
 
 :::
 
 ::: { #func.RMSEs.AddRow.args.value .sidebar }
-  - ***value:*** The _Root Mean Squared Error (RMSE)_ value;
+- ***value:*** The _Root Mean Squared Error (RMSE)_ value;
 
 :::
 
 ::: { #func.RMSEs.AddRow.args.comment .sidebar }
-  - ***comment:*** (Optional, *Empty string* by default) Detailed information about the record or any other comment (if needed);
+- ***comment:*** (Optional, *Empty string* by default) Detailed information about the record or any other comment (if needed);
 
 :::
 
 ::: { #func.RMSEs.AddRow.args.before .sidebar }
-  - ***before:*** (Optional, *Integer*, `NULL` by default) One-based row index where to add the new rows, if NULL (default): after last row;
+- ***before:*** (Optional, *Integer*, `NULL` by default) One-based row index where to add the new rows, if NULL (default): after last row;
 
 :::
 :::
@@ -2021,7 +2021,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.RMSEs.AddDiffColumn.args.RMSEs .sidebar }
-  - ***RMSEs:*** _RMSEs Result Tibble_ to modify;
+- ***RMSEs:*** _RMSEs Result Tibble_ to modify;
 
 :::
 :::
@@ -2095,7 +2095,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.RSME.tibble.col_width.args.x .sidebar }
-  - ***x:*** (Numeric) Column width value to be formatted;
+- ***x:*** (Numeric) Column width value to be formatted;
 
 :::
 :::
@@ -2165,22 +2165,22 @@ RMSE_kable(RMSEs.ResultTibble.OMR)
 \
 
 ::: { #func.RMSE_kable.args.RMSEs .sidebar }
-  - ***RMSEs:*** _RMSEs Result Tibble_ to print;
+- ***RMSEs:*** _RMSEs Result Tibble_ to print;
 
 :::
 
 ::: { #func.RMSE_kable.args.col1width .sidebar }
-  - ***col1width:*** Width of the first column (Optional, 15 by default);
+- ***col1width:*** Width of the first column (Optional, 15 by default);
 
 :::
 
 ::: { #func.RMSE_kable.args.col2width .sidebar }
-  - ***col2width:*** Width of the second column (Optional, 5 by default);
+- ***col2width:*** Width of the second column (Optional, 5 by default);
 
 :::
 
 ::: { #func.RMSE_kable.args.col3width .sidebar }
-  - ***col3width:*** Width of the third column (Optional, 30 by default).
+- ***col3width:*** Width of the third column (Optional, 30 by default).
 
 :::
 :::
@@ -2263,27 +2263,27 @@ RMSE.Total_kable(total.RMSEs.ResultTibble)
 \
 
 ::: { #func.RMSE.Total_kable.args.RMSEs .sidebar }
-  - ***RMSEs:*** The _Final RMSEs Result Tibble_ to print;
+- ***RMSEs:*** The _Final RMSEs Result Tibble_ to print;
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col1width:*** (Optional, 15 by default) Width of the first column;
+- ***col1width:*** (Optional, 15 by default) Width of the first column;
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col2width:*** (Optional, 7 by default) Width of the second column;
+- ***col2width:*** (Optional, 7 by default) Width of the second column;
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col3width:*** (Optional, 5 by default) Width of the third column;
+- ***col3width:*** (Optional, 5 by default) Width of the third column;
 
 :::
 
 ::: { #func.RMSE.Total_kable.args. .sidebar }
-  - ***col4width:*** (Optional, 25 by default) Width of the fourth column;
+- ***col4width:*** (Optional, 25 by default) Width of the fourth column;
 
 :::
 :::
@@ -2369,15 +2369,15 @@ In the [sample code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 \
 
 ::: { #func.mean_reg.args.vals .sidebar }
-  - **vals:** Values (usually a numeric vector) to calculate the _penalized mean_;
+- **vals:** Values (usually a numeric vector) to calculate the _penalized mean_;
 
 :::
 ::: { #func.mean_reg.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, 0 by default) _Regularization parameter_ $\lambda$. 
+- **lambda:** (Optional, *Numeric*, 0 by default) _Regularization parameter_ $\lambda$. 
 
 :::
 ::: { #func.mean_reg.args.na.rm .sidebar }
-  - **na.rm:** (Optional, *Boolean*, `TRUE` by default) Logical value indicating whether `NA` values should be stripped before the computation proceeds.
+- **na.rm:** (Optional, *Boolean*, `TRUE` by default) Logical value indicating whether `NA` values should be stripped before the computation proceeds.
 
 :::
 :::
@@ -2698,11 +2698,11 @@ In the code snippet above, we use the custom function [put_log2](#func.put_log2)
 \
 
 ::: { #func.get_best_param.result.args.param_values .sidebar }
-  - **param_values:** *Numeric vector* containing a sorted list of the *tuning parameter* values to search for the best one during the *Model Regularization* process; 
+- **param_values:** *Numeric vector* containing a sorted list of the *tuning parameter* values to search for the best one during the *Model Regularization* process; 
 
 :::
 ::: { #func.get_best_param.result.args.RMSEs .sidebar }
-  - **RMSEs:** *Numeric vector* containing a list of *RMSE* values computed during the *Model Regularization* process. 
+- **RMSEs:** *Numeric vector* containing a list of *RMSE* values computed during the *Model Regularization* process. 
 
 :::
 :::
@@ -2775,22 +2775,22 @@ In the *code snippet* above, the `tune.model_param` function accepts a pointer t
 \
 
 ::: { #func.tune.model_param.args.param_values .sidebar }
-  - **param_values:** Numeric vector containing a sorted list of parameter values to search for the best one during the model regularization process; 
+- **param_values:** Numeric vector containing a sorted list of parameter values to search for the best one during the model regularization process; 
 
 :::
 
 ::: { #func.tune.model_param.args.fn_tune.test.param_value .sidebar }
-  - **fn_tune.test.param_value:** Model-specific helper function that validates the model by computing the model's *RMSE* value for a given parameter value; 
+- **fn_tune.test.param_value:** Model-specific helper function that validates the model by computing the model's *RMSE* value for a given parameter value; 
 
 :::
 
 ::: { #func.tune.model_param.args.break.if_min .sidebar }
-  - **break.if_min:** (Optional, `TRUE` by default) Boolean value that determines whether the algorithm should terminate after completing the number of steps specified by the [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min) argument from the moment the minimum `RMSE` value is found;
+- **break.if_min:** (Optional, `TRUE` by default) Boolean value that determines whether the algorithm should terminate after completing the number of steps specified by the [steps.beyond_min](#func.tune.model_param.args.steps.beyond_min) argument from the moment the minimum `RMSE` value is found;
 
 :::
 
 ::: { #func.tune.model_param.args.steps.beyond_min .sidebar }
-  - **steps.beyond_min:** (Optional, 2 by default; only takes effect if [break.if_min](#func.tune.model_param.args.break.if_min) is `TRUE`) Specifies the number of steps after finding the minimum *RMSE* value after which the algorithm should terminate.
+- **steps.beyond_min:** (Optional, 2 by default; only takes effect if [break.if_min](#func.tune.model_param.args.break.if_min) is `TRUE`) Specifies the number of steps after finding the minimum *RMSE* value after which the algorithm should terminate.
 
 :::
 :::
@@ -3764,7 +3764,7 @@ The above [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/b
 
 :::
 ::: { #func.load_movielens_data_from_file.args.file_path .sidebar }
-  - **file_path:** Full path to the *cache file*. 
+- **file_path:** Full path to the *cache file*. 
 
 :::
 :::
@@ -4015,7 +4015,7 @@ The above [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/b
 \
 
 ::: { #func.splitGenreRows.args.data .sidebar }
-  - **data:** A dataset containing rows corresponding to movies that belong to multiple genres.. 
+- **data:** A dataset containing rows corresponding to movies that belong to multiple genres.. 
 
 :::
 :::
@@ -4086,7 +4086,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \
 
 ::: { #func.union_cv_results.args.data_list .sidebar }
-  - **data_list:** List of data frames representing the results of the *K-Fold Cross-Validation* execution (as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV]). 
+- **data_list:** List of data frames representing the results of the *K-Fold Cross-Validation* execution (as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV]). 
 
 :::
 :::
@@ -4171,31 +4171,31 @@ lss.UMGYDE.preset.degree2.result$tuned.result |>
 \
 
 ::: { #func.data.plot.args.data .sidebar }
-  - **data:** Dataset to use for the plot; 
+- **data:** Dataset to use for the plot; 
 
 :::
 ::: { #func.data.plot.args.title .sidebar }
-  - **title:** Title of the plot; 
+- **title:** Title of the plot; 
 
 :::
 ::: { #func.data.plot.args.xname .sidebar }
-  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
+- **xname:** The name of the dataset column used as the source of the $x$ variable for the plot; 
 
 :::
 ::: { #func.data.plot.args.yname .sidebar }
-  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
+- **yname:** The name of the dataset column used as the source of the $y$ variable for the plot; 
 
 :::
 ::: { #func.data.plot.args.xlabel .sidebar }
-  - **xlabel:** (Optional, *Character string*, `NULL` by default) The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
+- **xlabel:** (Optional, *Character string*, `NULL` by default) The $x$ axis label. If `NULL`, the value of the `xname` parameter is used for the label; 
 
 :::
 ::: { #func.data.plot.args.ylabel .sidebar }
-  - **ylabel:** (Optional, *Character string*, `NULL` by default) The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
+- **ylabel:** (Optional, *Character string*, `NULL` by default) The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label.; 
 
 :::
 ::: { #func.data.plot.args.line_col .sidebar }
-  - **line_col:** (Optional, *Character string*, ***\textcolor{blue}{blue}*** by default) Line color. 
+- **line_col:** (Optional, *Character string*, ***\textcolor{blue}{blue}*** by default) Line color. 
 
 :::
 ::: { #func.data.plot.args.normalize .sidebar }
@@ -4313,23 +4313,23 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.data.plot.left.n.args.data .sidebar }
-  - **data:** Dataset to use for the plot. 
+- **data:** Dataset to use for the plot. 
 
 :::
 ::: { #func.data.plot.left.n.args.left.n .sidebar }
-  - **left.n:** (Optional, *Integer*, $0$ by default)If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
+- **left.n:** (Optional, *Integer*, $0$ by default)If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
 
 :::
 ::: { #func.data.plot.left.n.args.title .sidebar }
-  - **title:** Title of the plot. 
+- **title:** Title of the plot. 
 
 :::
 ::: { #func.data.plot.left.n.args.xname .sidebar }
-  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot. 
+- **xname:** The name of the dataset column used as the source of the $x$ variable for the plot. 
 
 :::
 ::: { #func.data.plot.left.n.args.yname .sidebar }
-  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot. 
+- **yname:** The name of the dataset column used as the source of the $y$ variable for the plot. 
 
 :::
 ::: { #func.data.plot.left.n.args.xlabel .sidebar }
@@ -4337,15 +4337,15 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 
 :::
 ::: { #func.data.plot.left.n.args.ylabel .sidebar }
-  - **ylabel:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label. 
+- **ylabel:** The $y$ axis label. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left.n.args.line_col .sidebar }
-  - **line_col:** (Optional, *Character string*, ***\textcolor{red}{red}*** by default) Line color. 
+- **line_col:** (Optional, *Character string*, ***\textcolor{red}{red}*** by default) Line color. 
 
 :::
 ::: { #func.data.plot.left.n.args.normalize .sidebar }
-  - **normalize:** (Optional, *Boolean*, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
+- **normalize:** (Optional, *Boolean*, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
@@ -4439,51 +4439,51 @@ lss.UMGYDE.fine_tune.degree2.result$tuned.result |>
 \
 
 ::: { #func.data.plot.left_detailed.args.data .sidebar }
-  - **data:** Dataset to use for the plot. 
+- **data:** Dataset to use for the plot. 
 
 :::
 ::: { #func.data.plot.left.n.args.left.n .sidebar }
-  - **left.n:** If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
+- **left.n:** If a positive numeric value, specifies the number of the first rows of the dataset to plot. Otherwise, the entire dataset data is set to plot. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.title .sidebar }
-  - **title:** Title of the plot. 
+- **title:** Title of the plot. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.xname .sidebar }
-  - **xname:** The name of the dataset column used as the source of the $x$ variable for the plot. 
+- **xname:** The name of the dataset column used as the source of the $x$ variable for the plot. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.yname .sidebar }
-  - **yname:** The name of the dataset column used as the source of the $y$ variable for the plot. 
+- **yname:** The name of the dataset column used as the source of the $y$ variable for the plot. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.xlabel1 .sidebar }
-  - **xlabel1:** (Optional, *Character string*, `NULL` by default) The $x$ axis label for the first plot. If `NULL`, the value of the `xname` parameter is used for the label. 
+- **xlabel1:** (Optional, *Character string*, `NULL` by default) The $x$ axis label for the first plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.xlabel2 .sidebar }
-  - **xlabel2:** (Optional, *Character string*, `NULL` by default) The $x$ axis label for the second plot. If `NULL`, the value of the `xname` parameter is used for the label. 
+- **xlabel2:** (Optional, *Character string*, `NULL` by default) The $x$ axis label for the second plot. If `NULL`, the value of the `xname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.ylabel1 .sidebar }
-  - **ylabel1:** (Optional, *Character string*, `NULL` by default) The $y$ axis label for the first plot. If `NULL`, the value of the `yname` parameter is used for the label. 
+- **ylabel1:** (Optional, *Character string*, `NULL` by default) The $y$ axis label for the first plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.ylabel2 .sidebar }
-  - **ylabel2:** (Optional, *Character string*, `NULL` by default) The $y$ axis label for the second plot. If `NULL`, the value of the `yname` parameter is used for the label. 
+- **ylabel2:** (Optional, *Character string*, `NULL` by default) The $y$ axis label for the second plot. If `NULL`, the value of the `yname` parameter is used for the label. 
 
 :::
 ::: { #func.data.plot.left_detailed.args.line_col .sidebar }
-  - **line_col1** (Optional, *Character string*, ***\textcolor{blue}{blue}*** by default) The line color (main graqh). 
+- **line_col1** (Optional, *Character string*, ***\textcolor{blue}{blue}*** by default) The line color (main graqh). 
 
 :::
 ::: { #func.data.plot.left_detailed.args.line_col .sidebar }
-  - **line_col2** (Optional, *Character string*, ***\textcolor{red}{red}*** by default) The line color (second graph: the left part of the main graph, which is shown on an enlarged scale). 
+- **line_col2** (Optional, *Character string*, ***\textcolor{red}{red}*** by default) The line color (second graph: the left part of the main graph, which is shown on an enlarged scale). 
 
 :::
 ::: { #func.data.plot.left_detailed.args.normalize .sidebar }
-  - **normalize:** (Optional, *Boolean*, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
+- **normalize:** (Optional, *Boolean*, `FALSE` by default) If `TRUE`, deviations from the minimum $y$ value are used to plot, rather than the $y$ values themselves. Otherwise, the $y$ values are used.
 
 :::
 :::
@@ -4590,7 +4590,7 @@ mu.MSEs <- naive_model_MSEs(mu)
 \
 
 ::: { #func.naive_model_MSEs.args. .sidebar }
-  - **mu:** The *Overall Mean Rating (OMR)* value. 
+- **mu:** The *Overall Mean Rating (OMR)* value. 
 
 :::
 :::
@@ -4651,7 +4651,7 @@ Validates the *Overall Mean Rating (OMR) Model* with use of *K-Fold Cross-Valida
 \
 
 ::: { #func.naive_model_RMSE.args. .sidebar }
-  - **mu:** The overall mean rating value. 
+- **mu:** The overall mean rating value. 
 
 :::
 :::
@@ -4721,11 +4721,11 @@ str(rglr.UM_effect)
 \
 
 ::: { #func.train_user_movie_effect.args.train_set .sidebar }
-  - **train_set:** Training dataset; 
+- **train_set:** Training dataset; 
 
 :::
 ::: { #func.train_user_movie_effect.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -4802,7 +4802,7 @@ str(cv.UM_effect)
 \
 
 ::: { #func.train_user_movie_effect.cv.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -4888,11 +4888,11 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_user_movie_effect_MSE.args.test_set .sidebar }
-  - **test_set:** Validation dataset; 
+- **test_set:** Validation dataset; 
 
 :::
 ::: { #func.calc_user_movie_effect_MSE.args.um_effect .sidebar }
-  - **um_effect:** Data frame object representing the *UM Effect Model*. 
+- **um_effect:** Data frame object representing the *UM Effect Model*. 
 
 :::
 :::
@@ -4965,7 +4965,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_user_movie_effect_MSE.cv.args.um_effect .sidebar }
-  - **um_effect:** Data frame object representing the *UM Effect Model*. 
+- **um_effect:** Data frame object representing the *UM Effect Model*. 
 
 :::
 :::
@@ -5047,7 +5047,7 @@ cv.UM_effect.RMSE
 \
 
 ::: { #func.calc_user_movie_effect_RMSE.cv.args.um_effect .sidebar }
-  - **um_effect:** Data frame object representing the *UM Effect Model*. 
+- **um_effect:** Data frame object representing the *UM Effect Model*. 
 
 :::
 :::
@@ -5129,7 +5129,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 \
 
 ::: { #func.regularize.test_lambda.UM_effect.cv.args.lambda .sidebar }
-  - **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
+- **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
 
 :::
 :::
@@ -5207,11 +5207,11 @@ str(rglr.UMG_effect)
 \
 
 ::: { #func.train_user_movie_genre_effect.args.train.sgr .sidebar }
-  - **train.sgr:** Training sample of the `Movielens` dataset with split rows belonging to multiple genres; 
+- **train.sgr:** Training sample of the `Movielens` dataset with split rows belonging to multiple genres; 
 
 :::
 ::: { #func.train_user_movie_genre_effect.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5302,7 +5302,7 @@ umg_effect <- train_user_movie_genre_effect.cv(lambda)
 \
 
 ::: { #func.train_user_movie_genre_effect.cv.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5398,11 +5398,11 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_user_movie_genre_effect_MSE.args.test_set .sidebar }
-  - **test_set:** Validation dataset; 
+- **test_set:** Validation dataset; 
 
 :::
 ::: { #func.calc_user_movie_genre_effect_MSE.args.umg_effect .sidebar }
-  - **umg_effect:** Data frame object representing the *UMG Effect Model*. 
+- **umg_effect:** Data frame object representing the *UMG Effect Model*. 
 
 :::
 :::
@@ -5473,7 +5473,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_user_movie_genre_effect_MSE.cv.args.umg_effect .sidebar }
-  - **umg_effect:** Data frame object representing the *UMG Effect Model*. 
+- **umg_effect:** Data frame object representing the *UMG Effect Model*. 
 
 :::
 :::
@@ -5545,7 +5545,7 @@ cv.UMG_effect.RMSE
 \
 
 ::: { #func.calc_user_movie_genre_effect_RMSE.cv.args.umg_effect .sidebar }
-  - **umg_effect:** Data frame object representing the *UMG Effect Model*. 
+- **umg_effect:** Data frame object representing the *UMG Effect Model*. 
 
 :::
 :::
@@ -5622,7 +5622,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 \
 
 ::: { #func.regularize.test_lambda.UMG_effect.cv.args.lambda .sidebar }
-  - **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
+- **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
 
 :::
 :::
@@ -5698,11 +5698,11 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_date_general_effect.args.train_set .sidebar }
-  - **train_set:** Training dataset; 
+- **train_set:** Training dataset; 
 
 :::
 ::: { #func.calc_date_general_effect.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5780,7 +5780,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \
 
 ::: { #func.calc_date_general_effect.cv.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -5871,7 +5871,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_UMGY_effect.args.date_general_effect .sidebar }
-  - **date_general_effect:** *Data frame* object representing the *Date General Effect*; 
+- **date_general_effect:** *Data frame* object representing the *Date General Effect*; 
 
 :::
 :::
@@ -6022,7 +6022,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.train_UMGY_effect.cv.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6344,7 +6344,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 \
 
 ::: { #func.regularize.test_lambda.UMGY_effect.cv.args.lambda .sidebar }
-  - **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
+- **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
 
 :::
 :::
@@ -6427,11 +6427,11 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_day_general_effect.args.train_set .sidebar }
-  - **train_set:** Training dataset containing data to compute the *DG Effect*; 
+- **train_set:** Training dataset containing data to compute the *DG Effect*; 
 
 :::
 ::: { #func.calc_day_general_effect.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6513,7 +6513,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \
 
 ::: { #func.calc_day_general_effect.cv.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6598,15 +6598,15 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.date_general_effect .sidebar }
-  - **day_general_effect:** Data frame object representing the *DG Effect* (to pass in the `data` argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function); 
+- **day_general_effect:** Data frame object representing the *DG Effect* (to pass in the `data` argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) function); 
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) (with the default value replaced by `degree = 1`); 
+- **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) (with the default value replaced by `degree = 1`); 
 
 :::
 ::: { #func.calc_UMGY_SmoothedDay_effect.args.span .sidebar }
-  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess)  (with the default value replaced by `span = 0.75`). 
+- **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess)  (with the default value replaced by `span = 0.75`). 
 
 :::
 :::
@@ -6687,20 +6687,20 @@ Trains (and optionally *regularizes* if the [lambda](#func.train_UMGY_SmoothedDa
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.args.train_set .sidebar }
-  - **train_set:** Training sample of the `Movielens` dataset; 
+- **train_set:** Training sample of the `Movielens` dataset; 
 
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.args.degree .sidebar }
-  - **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
+- **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.span .sidebar }
-  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above. 
+- **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above. 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6780,15 +6780,15 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.degree .sidebar }
-  - **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above in *this Section*; 
+- **degree:** (Optional, *Integer*, `NA` by default) The degree of the polynomials to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above in *this Section*; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.span .sidebar }
-  - **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above in *this Section*; 
+- **span:** (Numeric, `NA` by default ) The parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect) described above in *this Section*; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.cv.args.lambda .sidebar }
-  - **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
+- **lambda:** (Optional, *Numeric*, $0$ by default) Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -6859,11 +6859,11 @@ final.UMGYDE.predicted <- final_holdout_test |>
 \
 
 ::: { #func.UMGY_SmoothedDay_effect.predict.args.test_set .sidebar }
-  - **test_set:** *Validation* dataset; 
+- **test_set:** *Validation* dataset; 
 
 :::
 ::: { #func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect .sidebar }
-  - **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
+- **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
 
 :::
 :::
@@ -7188,12 +7188,14 @@ The $K$ value for the *K-Fold Cross-Validation* is determined by the length of t
 ##### Usage
 \
 
-```{r eval=FALSE}
+```{r UMGYD_effect.func@l195u, eval=FALSE}
+train_UMGY_SmoothedDay_effect.RMSE.cv.degree1 <- function(span) {
   train_UMGY_SmoothedDay_effect.RMSE.cv(degree = 1, span)
+}
 ```
 
 ::: {.noteblock data-latex=""}
-In the above code snippet, the `train_UMGY_SmoothedDay_effect.RMSE.cv` function is called internally from the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1) function described below in this section.
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L195), the function *being described here* is called within the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1) function described below in *this Section*.
 :::
 :::
 
@@ -7202,11 +7204,11 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.RMSE.cv` function 
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree .sidebar }
-  - **degree:** (Optional, *Integer*, `NA` by default) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the degree of the polynomials to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above; 
+- **degree:** (Optional, *Integer*, `NA` by default) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the degree of the polynomials to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above; 
 
 :::
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span .sidebar }
-  - **span:** (Numeric, `NA` by default ) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above. 
+- **span:** (Optional, *Numeric*, `NA` by default ) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) described above. 
 
 :::
 :::
@@ -7215,9 +7217,10 @@ In the above code snippet, the `train_UMGY_SmoothedDay_effect.RMSE.cv` function 
 ##### Details
 \
 
-This is a wrapper for the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*) it calls internally, passing the values of the arguments [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) in the same-named arguments.
+This is a wrapper for the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*), which it calls internally, passing the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) values as arguments of the same name.
 
-Unlike the internal function  [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv), this one also validates the *UMGYDE Model* created and trained by that function, for which it calls internally another helper function, [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) (also described above in section [UMGYDE Model: Utility Functions]), computing *RMSE* for that model.
+
+Unlike the inner function  [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv), this one additionally validates the *UMGYDE Model* (created and trained by this inner function), for which it calls another custom helper function, [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) (also described above in section [UMGYDE Model: Utility Functions]), computing *RMSE* score for the model.
 
 ::: {.noteblock data-latex=""}
 This is an auxiliary  function intended to be called internally from the following helper functions (described below in this section), specifically designed for tuning the `degree` and `span` [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters:  
@@ -7235,7 +7238,7 @@ This is an auxiliary  function intended to be called internally from the followi
 ##### Value
 \
 
-The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters passed in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) arguments, and trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (passed in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) arguments).
 :::
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.code .sidebar }
@@ -7293,7 +7296,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args.span .sidebar }
-  - **span:** (Numeric, `NA` by default ) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
+- **span:** (Numeric, `NA` by default ) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
 
 :::
 :::
@@ -7371,7 +7374,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span .sidebar }
-  - **span:** (Numeric, `NA` by default ) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
+- **span:** (Numeric, `NA` by default ) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
 
 :::
 :::
@@ -7447,7 +7450,7 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 \
 
 ::: { #func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span .sidebar }
-  - **span:** (Numeric, `NA` by default ) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
+- **span:** (Numeric, `NA` by default ) *The [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameter*: the parameter $\alpha$ (which controls the degree of smoothing) to pass in the same-named argument to the internally called [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv) function described above. 
 
 :::
 :::
@@ -7519,11 +7522,11 @@ Trains and *regularizes* the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) 
 \
 
 ::: { #func.regularize.train_UMGYD_effect.args.train_set .sidebar }
-  - **train_set:** Training sample of the `Movielens` dataset; 
+- **train_set:** Training sample of the `Movielens` dataset; 
 
 :::
 ::: { #func.regularize.train_UMGYD_effect.args.lambda .sidebar }
-  - **lambda:** Regularization parameter $\lambda$. 
+- **lambda:** Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -7598,7 +7601,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 \
 
 ::: { #func.regularize.train_UMGYD_effect.cv.args.lambda .sidebar }
-  - **lambda:** Regularization parameter $\lambda$. 
+- **lambda:** Regularization parameter $\lambda$. 
 
 :::
 :::
@@ -7676,7 +7679,7 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 \
 
 ::: { #func.regularize.test_lambda.UMGYD_effect.cv.args.lambda .sidebar }
-  - **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
+- **lambda:** *Regularization parameter* $\lambda$ used to validate the model in the *regularization process*. 
 
 :::
 :::
@@ -7752,7 +7755,7 @@ Computes residuals, defined as the difference between the observed and predicted
 \
 
 ::: { #func.mf.residual.dataframe.args.train_set .sidebar }
-  - **train_set:** Training dataset; 
+- **train_set:** Training dataset; 
 
 :::
 :::
