@@ -178,15 +178,6 @@
 \
 
 
-* [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
-  * [Usage](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.usage)
-  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args)
-  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.details)
-  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.value)
-  * [Source Code](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.code)
-
-
-  
 
 
 ---
@@ -202,6 +193,39 @@
 ##### [UMGYDE Model: Regularization]
 \
 
+* [regularize.train_UMGYD_effect](#func.regularize.train_UMGYD_effect)
+  * [Usage](#func.regularize.train_UMGYD_effect.usage)
+  * [Arguments](#func.regularize.train_UMGYD_effect.args)
+  * [Details](#func.regularize.train_UMGYD_effect.details)
+  * [Value](#func.regularize.train_UMGYD_effect.value)
+  * [Source Code](#func.regularize.train_UMGYD_effect.code)
+
+
+* [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv)
+  * [Usage](#func.regularize.train_UMGYD_effect.cv.usage)
+  * [Arguments](#func.regularize.train_UMGYD_effect.cv.args)
+  * [Details](#func.regularize.train_UMGYD_effect.cv.details)
+  * [Value](#func.regularize.train_UMGYD_effect.cv.value)
+  * [Source Code](#func.regularize.train_UMGYD_effect.cv.code)
+
+
+* [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv)
+  * [Usage](#func.regularize.test_lambda.UMGYD_effect.cv.usage)
+  * [Arguments](#func.regularize.test_lambda.UMGYD_effect.cv.args)
+  * [Details](#func.regularize.test_lambda.UMGYD_effect.cv.details)
+  * [Value](#func.regularize.test_lambda.UMGYD_effect.cv.value)
+  * [Source Code](#func.regularize.test_lambda.UMGYD_effect.cv.code)
+
+
+
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
 
 
 \newpage
@@ -914,7 +938,7 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 :::
   
   * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args)
-    * - **span:** (Optional, *Numeric*, `NA` by default ) ...
+    * - **span:** (Optional, *Numeric*, `NA` by default) ...
 
   * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.details)
 
@@ -927,6 +951,70 @@ Unlike the inner function  [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_S
 The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (passed in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) arguments).
 
 
+* [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
+
+  Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the following values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters:
+  
+  - a fixed `degree` value of $0$;
+  - the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args.span) argument.
+
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args)
+    * - **span:** (Optional, *Numeric*, `NA` by default)...
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.details)
+    * ... (described above in *this Section*) ... parameter values:
+    * - `degree`: $0$ in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument;
+    * - `span`: The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args.span)... in the same-named argument ([span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span)).
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.value)
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.code)
+
+
+* [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1)
+
+Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the following values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters:
+
+- a fixed `degree` value of $1$;
+- the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument.
+
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.usage)
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1695) above the function *being described here* is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in section [Model Tuning Utils] of *this Appendix*.
+:::
+
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args)
+    * - **span:** (Optional, *Numeric*, `NA` by default)...
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.details)
+    * ... (described above in *this Section*) ... parameter values:
+    * - `degree`: $1$ in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument;
+    * - `span`: The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span)... in the same-named argument ([span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span)).
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.value)
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.code)
+
+
+* [train_UMGY_SmoothedDay_effect.RMSE.cv.degree2](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2)
+
+Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the following values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters:
+
+- a fixed `degree` value of $2$;
+- the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument.
+
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.usage)
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1807) above the function *being described here* is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in section [Model Tuning Utils] of *this Appendix*.
+:::
+
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args)
+    * - **span:** (Optional, *Numeric*, `NA` by default)...
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.details)
+    * ... (described above in *this Section*) ... parameter values:
+    * - `degree`: $2$ in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument;
+    * - `span`: The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span)... in the same-named argument ([span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span)).
+
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.value)
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.code)
+
+  
 
 
 ##### [UMGYDE Model: Regularization]
