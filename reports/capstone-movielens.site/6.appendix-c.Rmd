@@ -193,14 +193,6 @@
 ##### [UMGYDE Model: Regularization]
 \
 
-* [regularize.train_UMGYD_effect](#func.regularize.train_UMGYD_effect)
-  * [Usage](#func.regularize.train_UMGYD_effect.usage)
-  * [Arguments](#func.regularize.train_UMGYD_effect.args)
-  * [Details](#func.regularize.train_UMGYD_effect.details)
-  * [Value](#func.regularize.train_UMGYD_effect.value)
-  * [Source Code](#func.regularize.train_UMGYD_effect.code)
-
-
 * [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv)
   * [Usage](#func.regularize.train_UMGYD_effect.cv.usage)
   * [Arguments](#func.regularize.train_UMGYD_effect.cv.args)
@@ -1019,6 +1011,31 @@ In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob
 
 ##### [UMGYDE Model: Regularization]
 \
+
+* [regularize.train_UMGYD_effect](#func.regularize.train_UMGYD_effect)
+
+Trains and *regularizes* the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for a given value of the parameter $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument and the *best values* of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree` and `span`, preliminary figured out and stored in the global variable `lss.UMGYDE.best_params`), using the training set of the `Movielens` dataset passed in the [train_set](#func.regularize.train_UMGYD_effect.args.train_set) argument.
+
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2168);
+  * [Arguments](#func.regularize.train_UMGYD_effect.args)
+    * \\newpage
+  * [Details](#func.regularize.train_UMGYD_effect.details)
+
+This function is a wrapper for the function [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*) that it calls internally, passing it the best values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters `degree` and `span` in the corresponding arguments ([degree](#func.train_UMGY_SmoothedDay_effect.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.args.span), respectively), stored in the global variable `lss.UMGYDE.best_params`:
+
+::: {.noteblock data-latex=""}
+The function *being described here* is used in the *regularization process* of the *UMGYDE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument) as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
+:::
+
+  * [Value](#func.regularize.train_UMGYD_effect.value)
+
+*Data frame* object representing the *UMGYDE Model*, regularized by the given *regularization parameter* $\lambda$ and tuned for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) *best parameters* `degree` and `span`.
+
+  * [Source Code](#func.regularize.train_UMGYD_effect.code)
+
+::: {.noteblock data-latex=""}
+The source code of the [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L225) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L224) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L225) script on _GitHub_.
+:::
 
 
 
