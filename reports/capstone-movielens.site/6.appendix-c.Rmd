@@ -195,8 +195,14 @@
 
 * [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv)
   * [Usage](#func.regularize.test_lambda.UMGYD_effect.cv.usage)
-  * [Arguments](#func.regularize.test_lambda.UMGYD_effect.cv.args)
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2070) above the function *being described here* is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in section [Model Tuning Utils] of *this Appendix*.
+
   * [Details](#func.regularize.test_lambda.UMGYD_effect.cv.details)
+  
+::: {.noteblock data-latex=""}
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) (as shown above in the [Usage](#func.regularize.test_lambda.UMGYD_effect.cv.usage) section of *this Description*) and the [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
+:::
+  
   * [Value](#func.regularize.test_lambda.UMGYD_effect.cv.value)
   * [Source Code](#func.regularize.test_lambda.UMGYD_effect.cv.code)
 

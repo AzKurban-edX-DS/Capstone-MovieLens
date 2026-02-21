@@ -5143,7 +5143,7 @@ The function is used in the *regularization process* of the *UME Model* using th
 Internally it uses the [train_user_movie_effect.cv](#func.train_user_movie_effect.cv) and [calc_user_movie_effect_RMSE.cv](#func.calc_user_movie_effect_RMSE.cv) functions described above to validate the *UME Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
-This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) (as shown above in the [Usage](#func.regularize.test_lambda.UM_effect.cv.usage) section of *this Description*) and the [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
 :::
 :::
 
@@ -5636,7 +5636,7 @@ The function is used in the *regularization process* of the *UMGE Model* using t
 Internally it uses the [train_user_movie_genre_effect.cv](#func.train_user_movie_genre_effect.cv) and [calc_user_movie_genre_effect_RMSE.cv](#func.calc_user_movie_genre_effect_RMSE.cv) functions (described above in [UMGE Model: Utility Functions] section) to validate the *UMGE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
-This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) (as shown above in the [Usage](#func.regularize.test_lambda.UMG_effect.cv.usage) section of *this Description*) and the [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
 :::
 :::
 
@@ -6360,7 +6360,7 @@ The function is used in the *regularization process* of the *UMGYE Model* using 
 Internally it uses the [train_UMGY_effect.cv](#func.train_UMGY_effect.cv) and [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv) functions (described above in [UMGYE Model: Utility Functions] section) to validate the *UMGYE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
-This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) (as shown above in the [Usage](#func.regularize.test_lambda.UMGY_effect.cv.usage) section of *this Description*) and the [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
 :::
 :::
 
@@ -7685,7 +7685,7 @@ str(cv.UMGYDE.preset.result)
 ```
 
 ::: {.noteblock data-latex=""}
-In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2070) above the function *being described here* is passed in the [fn_tune.test.param_value](#func.model.tune.param_range.args.fn_tune.test.param_value) argument to the [model.tune.param_range](#func.model.tune.param_range) function described above in section [Model Tuning Utils] of *this Appendix*.
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2070) above the function *being described here* is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in section [Model Tuning Utils] of *this Appendix*.
 
 Such a use of this function is also noted in the [Details](#func.regularize.test_lambda.UMGYD_effect.cv.details) section of *this Description* below.
 :::
@@ -7707,10 +7707,10 @@ Such a use of this function is also noted in the [Details](#func.regularize.test
 
 The function is used in the *regularization process* of the *UMGYDE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.test_lambda.UMGYD_effect.cv.args.lambda) argument) as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
 
-Internally it uses the [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv) (described above in this section) and [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) functions (described in section [UMGYDE Model: Utility Functions] above) to validate the *UMGYDE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
+Internally it uses the [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv) (described above in *this Section*) and [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) functions (described in section [UMGYDE Model: Utility Functions] above) to validate the *UMGYDE Model* for the given $\lambda$ with use of the *K-Fold Cross-Validation* method, as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV], where the value of $K$ is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use $K = 5$).
 
 ::: {.noteblock data-latex=""}
-This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) and [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) (as shown above in the [Usage](#func.regularize.test_lambda.UMGYD_effect.cv.usage) section of *this Description*) and the [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
 :::
 :::
 
