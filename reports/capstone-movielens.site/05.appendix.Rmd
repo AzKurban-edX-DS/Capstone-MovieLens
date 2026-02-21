@@ -7589,7 +7589,7 @@ The source code of the [regularize.train_UMGYD_effect](https://github.com/AzKurb
 #### [regularize.train_UMGYD_effect.cv](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L234) Function {#func.regularize.train_UMGYD_effect.cv}
 \
 
-Trains and *regularizes* the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for a given value of the parameter $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument and preliminary figured out *best values* of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters, with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+Trains and *regularizes* the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for a given value of the parameter $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.cv.args.lambda) argument and the *best values* of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree` and `span`, preliminary figured out and stored in the global variable `lss.UMGYDE.best_params`), with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
 
 ::: {.noteblock data-latex=""}
 The `K` value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] described below in [Appendix B: Models Training Datasets] (in *this Project*, we use `K = 5`).
@@ -7605,7 +7605,7 @@ The `K` value for the *K-Fold Cross-Validation* is determined by the length of t
 ```
 
 ::: {.noteblock data-latex=""}
-In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L248), the `regularize.train_UMGYD_effect.cv` function is called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function described below in *this Section*, along with the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) function described above in section [UMGYDE Model: Utility Functions].
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L248), the function *being described here* is called within the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function described below in *this Section*, alongside the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above in section [UMGYDE Model: Utility Functions].
 :::
 :::
 
@@ -7623,12 +7623,16 @@ In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLen
 ##### Details
 \
 
-This is an auxiliary function intended to be called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function (described below in this section) as shown in the [Usage](#func.regularize.train_UMGYD_effect.cv.usage) section of *this Description* above.
+This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*) that it calls internally, passing it the best values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters `degree` and `span` in the corresponding arguments ([degree](#func.train_UMGY_SmoothedDay_effect.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.args.span), respectively), stored in the global variable `lss.UMGYDE.best_params`:
 
-The function is a wrapper for the [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*) that it calls internally, passing it the best values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters `degree` and `span` in the corresponding arguments ([degree](#func.train_UMGY_SmoothedDay_effect.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.cv.args.span), respectively)
+```{r}
+print(lss.UMGYDE.best_params)
+```
+
+The function *being described here* is used in the *regularization process* of the *UMGYDE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.train_UMGYD_effect.cv.args.lambda) argument) as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
 
 ::: {.noteblock data-latex=""}
-The *UMGYDE Model* is regularized using the *regularization technique* described in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2] is applied to the model being trained only when the *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument, has a value other than the default (to be more exact, greater than zero).
+This is an auxiliary function intended to be called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function (described below in *this Section*) as shown in the [Usage](#func.regularize.train_UMGYD_effect.cv.usage) section of *this Description* above.
 :::
 :::
 
@@ -7636,7 +7640,7 @@ The *UMGYDE Model* is regularized using the *regularization technique* described
 ##### Value
 \
 
-Data frame object representing the *UMGYDE Model*, tuned for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) *best parameters* `degree` and `span`, trained with use of *K-Fold Cross-Validation*, where the $K$ is the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$), and regularized by the given *regularization parameter* $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument.
+*Data frame* object representing the *UMGYDE Model*, tuned for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) *best parameters* `degree` and `span`, and trained using *K-Fold Cross-Validation*.
 :::
 
 ::: { #func.regularize.train_UMGYD_effect.cv.code .sidebar }
