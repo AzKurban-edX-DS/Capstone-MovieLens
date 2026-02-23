@@ -103,11 +103,11 @@ Since the `degree` parameter can only take three discrete values, 0, 1, and 2, w
 
 In addition, we will divide each stage into the following two steps for tuning the model by the `span` parameter:
 
-  1. **Pre-configuration:**  Preliminary determination of the optimal range of the `span` parameter values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
-  
-  2. **Fine-tuning:** Determining the best value of the `span` parameter with the highest possible accuracy that minimizes the *RMSE* score for the model.
+1. **Pre-configuration:**  Preliminary determination of the optimal range of the `span` parameter values for the *K-Fold Cross-Validation* samples, where the $K$ is the length of the [`edx_CV` Object] (described in detail in [Appendix B: Models Training Datasets]) to which the *K-Fold Cross-Validation* is applied (in *this Project*, we use $K = 5$);
 
-Finally, we will retrain the model with the best `degree` and `span` values determined by the tuning result.
+2. **Fine-tuning:** Determining the best value of the `span` parameter with the highest possible accuracy that minimizes the *RMSE* score for the model.
+
+Finally, we will retrain the model on the entire `edx` dataset with the best `degree` and `span` values determined by the tuning result.
 
 \newpage
 

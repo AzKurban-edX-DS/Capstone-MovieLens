@@ -80,6 +80,50 @@
 ###### [Average rating per year plot](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-per-year-plot)[@MRS-R-BEST]
 \
 
+#### [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model]
+\
+
+##### [UMGYDE Model Tuning by `degree` and `span` Parameters]
+\
+
+Finally, we will retrain the model on the entire `edx` dataset with the best `degree` and `span` values determined by the tuning result.
+
+###### [UMGYDE Model Tuning: Stage 1 (`degree = 0`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 0`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 0`)]
+\
+
+###### [UMGYDE Model Tuning: Stage 2 (`degree = 1`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 1`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 1`)]
+\
+
+###### [UMGYDE Model Tuning: Stage 3 (`degree = 2`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 2`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 2`)]
+\
+
+
+
+
+
+\newpage
+
 ### [Appendix A: Support Functions]
 \
 
@@ -203,6 +247,9 @@
   * [Source Code](#func.%.code)
 
 
+
+
+------------------------------------------------------------------------------
 \newpage
 
 ## Done
@@ -321,6 +368,50 @@ print(head(edx.ordered_movie_ratings))
 \
 
 * 96 We can now construct predictors and calculate the *RMSE* score.
+
+#### [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model]
+\
+
+##### [UMGYDE Model Tuning by `degree` and `span` Parameters]
+\
+
+Finally, we will retrain the model on the entire `edx` dataset with the best `degree` and `span` values determined by the tuning result.
+
+#### [UMGYDE Model Tuning: Stage 1 (`degree = 0`)]
+\
+
+##### [Pre-configuration: Optimal `span` Range Determination (`degree = 0`)]
+\
+
+
+##### [UMGYDE Model Fine-tuning (`degree = 0`)]
+\
+
+#### [UMGYDE Model Tuning: Stage 2 (`degree = 1`)]
+\
+
+##### [Pre-configuration: Optimal `span` Range Determination (`degree = 1`)]
+\
+
+
+##### [UMGYDE Model Fine-tuning (`degree = 1`)]
+\
+
+#### [UMGYDE Model Tuning: Stage 3 (`degree = 2`)]
+\
+
+##### [Pre-configuration: Optimal `span` Range Determination (`degree = 2`)]
+\
+
+
+##### [UMGYDE Model Fine-tuning (`degree = 2`)]
+\
+
+
+
+
+
+\newpage
 
 ----------------------------------------------------------------------------
 
