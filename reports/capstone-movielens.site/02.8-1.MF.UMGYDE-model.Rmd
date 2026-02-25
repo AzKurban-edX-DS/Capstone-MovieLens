@@ -50,6 +50,7 @@ where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v
 \newpage
 
 ### MF: Model Building
+\
 
 ::: {.noteblock data-latex=""}
 The complete source code shown in this section is available in the [Perform the Matrix Factorization & Final Test](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2299) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2299) script on _GitHub_.
@@ -66,7 +67,7 @@ First, we will obtain residuals from the _UMGYDE Model_ prediction values using 
 ```
 
 ::: {.noteblock data-latex=""}
-In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined described in section [Models Training: Support Functions]/[UMGYDE Model: Matrix Factorization] of [Appendix A](#appndx_a).
+In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined helper function described in section [UMGYDE Model: Matrix Factorization] of [Appendix A](#appndx_a).
 :::
 
 ```{r}
