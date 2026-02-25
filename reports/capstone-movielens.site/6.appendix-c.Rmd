@@ -55,15 +55,13 @@
 ###### [UME Model Regularization: *Pre-configuration*]
 \
 
-* 187 ... For this purpose, we will use the user-defined helper function [tune.model_param](#func.tune.model_param),passing...
-
 ###### [UME Model Regularization: *Fine-tuning*]
 \
 
-* 269 The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in sections ...
-
 ###### [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$]
 \
+
+
 
 
 
@@ -79,6 +77,76 @@
 
 ###### [Average rating per year plot](https://www.kaggle.com/code/amirmotefaker/movie-recommendation-system-using-r-best/notebook#Average-rating-per-year-plot)[@MRS-R-BEST]
 \
+
+#### [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model]
+\
+
+##### [UMGYDE Model Tuning by `degree` and `span` Parameters]
+\
+
+Finally, we will retrain the model on the entire `edx` dataset with the best `degree` and `span` values determined by the tuning result.
+
+###### [UMGYDE Model Tuning: Stage 1 (`degree = 0`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 0`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 0`)]
+\
+
+###### [UMGYDE Model Tuning: Stage 2 (`degree = 1`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 1`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 1`)]
+\
+
+###### [UMGYDE Model Tuning: Stage 3 (`degree = 2`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 2`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 2`)]
+\
+
+###### [UMGYDE Model Tuning: Re-training on the `edx` with the Best Params]
+
+::: {.noteblock data-latex=""}
+In the code snippet above we use the [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) custom helper function described in section [UMGYDE Model: Utility Functions] of [Appendix A](#appndx_a).
+:::
+
+::: {.noteblock data-latex=""}
+In the code snippets above, we use the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) custom helper function described in section [UMGYDE Model: Utility Functions] of [Appendix A](#appndx_a).
+:::
+
+##### [UMGYDE Model Regularization]
+\
+
+###### [UMGYDE Model Regularization: *Fine-tuning*]
+\
+
+#### [UMGYDE Model: Matrix Factorization (MF)]
+\
+
+##### [MF: Model Building]
+\
+
+###### [MF: Getting Residuals From the UMGYDE Model Prediction Values]
+\
+
+##### [MF: Final Holdout Test]
+\
+
+
+\newpage
+
 
 ### [Appendix A: Support Functions]
 \
@@ -146,19 +214,23 @@
 ##### [UMGYE Model: Utility Functions]
 \
 
-* [calc_date_general_effect.cv](#func.calc_date_general_effect.cv)
-  * [Usage](#func.calc_date_general_effect.cv.usage)
-  * [Arguments](#func.calc_date_general_effect.cv.args)
-  * [Details](#func.calc_date_general_effect.cv.details)
-  * [Value](#func.calc_date_general_effect.cv.value)
-    * \\newpage
-  * [Source Code](#func.calc_date_general_effect.cv.code)
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
 
 ##### [UMGYE Model: Regularization]
 \
 
-##### UMGYDE Model: Utility Functions
+##### [UMGYDE Model: Utility Functions]
 \
+
+
+---
 
 * [%](#func.%)
   * [Usage](#func.%.usage)
@@ -167,22 +239,16 @@
   * [Value](#func.%.value)
   * [Source Code](#func.%.code)
 
----
-
-* [calc_day_general_effect.cv](#func.calc_day_general_effect.cv)
-  * [Usage](#func.calc_day_general_effect.cv.usage)
-  * [Arguments](#func.calc_day_general_effect.cv.args)
-  * [Details](#func.calc_day_general_effect.cv.details)
-  * [Value](#func.calc_day_general_effect.cv.value)
-    * \\newpage
-  * [Source Code](#func.calc_day_general_effect.cv.code)
-    * \\newpage
 
 
 
-##### UMGYDE Model: Tuning `loess` Params
+##### [UMGYDE Model: Tuning `loess` Params]
 \
 
+
+
+
+---
 
 * [%](#func.%)
   * [Usage](#func.%.usage)
@@ -191,14 +257,26 @@
   * [Value](#func.%.value)
   * [Source Code](#func.%.code)
 
----
 
-
-##### UMGYDE Model: Regularization
+##### [UMGYDE Model: Regularization]
 \
 
+##### [UMGYDE Model: Matrix Factorization]
+\
+
+---
+
+* [%](#func.%)
+  * [Usage](#func.%.usage)
+  * [Arguments](#func.%.args)
+  * [Details](#func.%.details)
+  * [Value](#func.%.value)
+  * [Source Code](#func.%.code)
 
 
+
+
+------------------------------------------------------------------------------
 \newpage
 
 ## Done
@@ -276,25 +354,6 @@ Fixed lines:
 #### [User+Movie Effect (UME) Model]
 \
 
-##### [UME Model Regularization]
-\
-
-1. **Pre-configuration:**...
-2. **Fine-tuning:** (Described in subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
-3. **Retraining:** (Described in subsection [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$])...
-
-###### [UME Model Regularization: *Mathematical Description*]
-\
-
-* 175 This approach will have ...[@IDS_E1_33-9-2]
-
-###### [UME Model Regularization: *Pre-configuration*]
-\
-
-###### [UME Model Regularization: *Fine-tuning*]
-\
-
-
 ##### Movie Effect Analysis
 \
 
@@ -317,6 +376,127 @@ print(head(edx.ordered_movie_ratings))
 \
 
 * 96 We can now construct predictors and calculate the *RMSE* score.
+
+##### [UME Model Regularization]
+\
+
+1. **Pre-configuration:**...
+2. **Fine-tuning:** (Described in subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+3. **Retraining:** (Described in subsection [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$])...
+
+###### [UME Model Regularization: *Mathematical Description*]
+\
+
+* 175 This approach will have ...[@IDS_E1_33-9-2]
+
+###### [UME Model Regularization: *Pre-configuration*]
+\
+
+* 187 ... For this purpose, we will use the user-defined helper function [tune.model_param](#func.tune.model_param),passing...
+
+
+###### [UME Model Regularization: *Fine-tuning*]
+\
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UME Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
+
+
+#### [User+Movie+Genre Effect (UMGE) Model]
+\
+
+##### [UMGE Model Regularization]
+\
+
+###### [UMGE Model Regularization: *Fine-tuning*]
+\
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UMGE Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
+
+#### [User+Movie+Genre+Year Effect (UMGYE) Model]
+\
+
+##### [UMGYE Model Regularization]
+\
+
+###### [UMGYE Model Regularization: *Fine-tuning*]
+\
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UMGYE Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
+
+#### [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model]
+\
+
+  * ... (described in section [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils))...
+  
+##### [UMGYDE Model Tuning by `degree` and `span` Parameters]
+\
+
+Finally, we will retrain the model on the entire `edx` dataset with the best `degree` and `span` values determined by the tuning result.
+
+###### [UMGYDE Model Tuning: Stage 1 (`degree = 0`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 0`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 0`)]
+\
+
+###### [UMGYDE Model Tuning: Stage 2 (`degree = 1`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 1`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 1`)]
+\
+
+###### [UMGYDE Model Tuning: Stage 3 (`degree = 2`)]
+\
+
+####### [Pre-configuration: Optimal `span` Range Determination (`degree = 2`)]
+\
+
+
+####### [UMGYDE Model Fine-tuning (`degree = 2`)]
+\
+
+##### [UMGYDE Model Regularization]
+\
+
+###### [UMGYDE Model Regularization: *Fine-tuning*]
+\
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UMGYDE Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
+
+#### [UMGYDE Model: Matrix Factorization (MF)]
+\
+
+##### [MF: Model Building]
+\
+
+###### [MF: Getting Residuals From the UMGYDE Model Prediction Values]
+\
+
+::: {.noteblock data-latex=""}
+In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined helper function described in section [UMGYDE Model: Matrix Factorization] of [Appendix A](#appndx_a).
+:::
+
+
+##### [MF: Final Holdout Test]
+\
+
+\newpage
 
 ----------------------------------------------------------------------------
 
@@ -668,39 +848,72 @@ print(head(edx.ordered_movie_ratings))
 ##### [UMGYE Model: Utility Functions]
 \
 
-* [calc_date_general_effect](#func.calc_date_general_effect)
+
+* [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) ... Function \{#func.calc_date_general_effect.cv\}
   * [Usage](#func.calc_date_general_effect.usage)
+  * [Arguments](#func.calc_date_general_effect.args)
   * [Details](#func.calc_date_general_effect.details)
+  * [Value](#func.calc_date_general_effect.value)
+  * [Source Code](#func.calc_date_general_effect.code)
+  
+* [calc_date_general_effect.cv](#func.calc_date_general_effect.cv)
+  * 5764 his is an auxiliary function that calculates the *Date General Effect*...
+  * [Usage](#func.calc_date_general_effect.cv.usage)
+  * [Arguments](#func.calc_date_general_effect.cv.args)
+  * [Details](#func.calc_date_general_effect.cv.details)
+    * 5792 ... passed in the [lambda](#func.calc_date_general_effect.cv.args.lambda) argument,...
+  * [Value](#func.calc_date_general_effect.cv.value)
+    * \\newpage
+  * [Source Code](#func.calc_date_general_effect.cv.code)
+
 
 * [calc_UMGY_effect](#func.calc_UMGY_effect)
+  * ... or [calc_date_general_effect.cv](#func.calc_date_general_effect.cv) function...
   * [Usage](#func.calc_UMGY_effect.usage)
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGY-effect.functions.R#L82) above...
   * [Details](#func.calc_UMGY_effect.details)
   * [Value](#func.calc_UMGY_effect.value)
     \\newpage
 
 * [train_UMGY_effect](#func.train_UMGY_effect)
+  * ... the *User+Movie+Genre+Year Effect* (hereafter *UMGYE* for short) *Model*...
   * [Usage](#func.train_UMGY_effect.usage)
   * [Details](#func.train_UMGY_effect.details)
   * [Value](#func.train_UMGY_effect.value)
+    * ...trained (and optionally *regularized*) *UMGY Effect Model*.
     * \\newpage
 
 * [train_UMGY_effect.cv](#func.train_UMGY_effect.cv)
-  * [Usage](#func.train_UMGY_effect.cv.usage)
-  * [Details](#func.train_UMGY_effect.cv.details)
+  
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
   * [Value](#func.train_UMGY_effect.cv.value)
+    * Data frame object representing the trained (and optionally *regularized*) *UMGY Effect Model*.
     * \\newpage
     
 
 * [calc_UMGY_effect_MSE](#func.calc_UMGY_effect_MSE)
-  * [Usage](#func.calc_UMGY_effect_MSE.usage)
-    * 
+  * [Arguments](#func.calc_UMGY_effect_MSE.args)
+    - **test_set:** *Validation* dataset; 
+    - **UMGY_effect:** *Data frame* object representing the *UMGY Effect Model*. 
   * [Details](#func.calc_UMGY_effect_MSE.details)
+    * ...as shown in the [Usage](#func.calc_UMGY_effect_MSE.usage) section above of *this Description*.
   * [Value](#func.calc_UMGY_effect_MSE.value)
     * \\newpage
 
 * [calc_UMGY_effect_MSE.cv](#func.calc_UMGY_effect_MSE.cv)
+
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+
   * [Usage](#func.calc_UMGY_effect_MSE.cv.usage)
+  * [Arguments](#func.calc_UMGY_effect_MSE.cv.args)
+    * - **UMGY_effect:** *Data frame* object representing the *UMGY Effect Model*. 
   * [Details](#func.calc_UMGY_effect_MSE.cv.details)
+    * The function calculates the *MSE* metric for the *UMGYE Model*...
+    * This is an auxiliary function used internally in the... (described below in *this Section*)...
   * [Value](#func.calc_UMGY_effect_MSE.cv.value)
     * \\newpage
 
@@ -709,6 +922,31 @@ print(head(edx.ordered_movie_ratings))
   * [Details](#func.calc_UMGY_effect_RMSE.cv.details)
   * [Value](#func.calc_UMGY_effect_RMSE.cv.value)
     * \\newpage
+
+* [calc_UMGY_effect_RMSE.cv](#func.calc_UMGY_effect_RMSE.cv)
+
++++ added block:  
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+++++++++++++++++
+
+  * [Arguments](#func.calc_UMGY_effect_RMSE.cv.args)
+    - **UMGY_effect:** *Data frame* object.... 
+  * [Details](#func.calc_UMGY_effect_RMSE.cv.details)
+    * ...for the *UMGYE Model* object passed...
+    
+*** removed block:
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+******************
+
+  * [Value](#func.calc_UMGY_effect_RMSE.cv.value)
+    * The *RMSE* value calculated for the *UMGYE Model* using *K-Fold Cross-Validation*.
+
+
+
 
 ##### [UMGYE Model: Regularization]
 \
@@ -721,16 +959,297 @@ print(head(edx.ordered_movie_ratings))
   * [Value](#func.regularize.test_lambda.UMGY_effect.cv.value)
 
 
-##### UMGYDE Model: Utility Functions
+##### [UMGYDE Model: Utility Functions]
 \
 
+* [calc_day_general_effect](#func.calc_day_general_effect)
+  * [Usage](#func.calc_day_general_effect.usage)
+  * [Arguments](#func.calc_day_general_effect.args)
+  * [Details](#func.calc_day_general_effect.details)
+  * [Value](#func.calc_day_general_effect.value)
+  * [Source Code](#func.calc_day_general_effect.code)
 
-##### UMGYDE Model: Tuning `loess` Params
+* [calc_day_general_effect.cv](#func.calc_day_general_effect.cv)
+  * ... (optionally *regularizes* if the [lambda](#func.calc_day_general_effect.cv.args.lambda) argument value is non-default)...
+  * [Usage](#func.calc_day_general_effect.cv.usage)
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L169) above,...
+  * [Arguments](#func.calc_day_general_effect.cv.args)
+  * [Details](#func.calc_day_general_effect.cv.details)
+  * [Value](#func.calc_day_general_effect.cv.value)
+    * \\newpage
+  * [Source Code](#func.calc_day_general_effect.cv.code)
+    * \\newpage
+
+* [calc_UMGY_SmoothedDay_effect](#func.calc_UMGY_SmoothedDay_effect)
+  * [Usage](#func.calc_UMGY_SmoothedDay_effect.usage)
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.args)
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.details)
+  * [Value](#func.calc_UMGY_SmoothedDay_effect.value)
+  * [Source Code](#func.calc_UMGY_SmoothedDay_effect.code)
+
+* [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect)
+  * ... the *User+Movie+Genre+Year+SmoothedDay Effect* (hereafter *UMGYDE* for short) *Model*...
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1950)
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.args)
+  * [Details](#func.train_UMGY_SmoothedDay_effect.details)
+  * [Value](#func.train_UMGY_SmoothedDay_effect.value)
+    * ...trained (and optionally *regularized*) *UMGYDE Model*.
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.code)
+
+* [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv)
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.cv.usage)
+    * In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L238), the function *being described here*...
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.cv.args)
+    * **degree:** ... described above in *this Section*;
+    * **span:** ... described above in *this Section*;
+  * [Details](#func.train_UMGY_SmoothedDay_effect.cv.details)
+    * ... section of *this Description* above.
+  * [Value](#func.train_UMGY_SmoothedDay_effect.cv.value)
+    * Data frame object representing the trained (and optionally *regularized*) *UMGYDE Model*.
+
+* [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2232)
+    * `\{r main-script@l2232u, eval=FALSE\}`
+  * [Arguments](#func.UMGY_SmoothedDay_effect.predict.args)
+    - **test_set:** *Validation* dataset;
+    - **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
+  * [Details](#func.UMGY_SmoothedDay_effect.predict.details)
+    * This function implements an algorithm for predicting the *user rating values*...
+    
+::: {.noteblock data-latex=""}
+This function is also called within the custom helper function [calc_UMGY_SmoothedDay_effect.MSE](#func.calc_UMGY_SmoothedDay_effect.MSE) described below in *this Section*.
+:::
+
+  * [Value](#func.UMGY_SmoothedDay_effect.predict.value)
+    * *Data frame* object containing...
+
+* [calc_UMGY_SmoothedDay_effect.MSE](#func.calc_UMGY_SmoothedDay_effect.MSE)
+  * Validates the *UMGYD Effect (UMGYDE) Model* (represented by the data object passed in the [day_smoothed_effect](#func.calc_UMGY_SmoothedDay_effect.MSE.args.day_smoothed_effect) argument)...
+  * [Usage](#func.calc_UMGY_SmoothedDay_effect.MSE.usage)
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L153) below,...
+    * `\{r UMGYD-effect.func@l153u, eval=FALSE\}`
+    * The $K$ value for the *K-Fold Cross-Validation* is determined...
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.MSE.args)
+    * - **test_set:** *Validation* dataset;
+    * - **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.MSE.details)
+    * The function calculates the *Mean Squared Error (MSE)* metric for the *UMGYDE Model*.
+    * In *this Project*,  the following functions (described above in *this Section*) return the data object representing the *UMGYDE Model*...
+    * Internally, this function calls the user-defined auxiliary function...
+    * This is an auxiliary function used internally in the...
+
+* [calc_UMGY_SmoothedDay_effect.MSE.cv](#func.calc_UMGY_SmoothedDay_effect.MSE.cv)
+  * ...as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+  
+::: {.noteblock data-latex=""}
+The $K$ value for the *K-Fold Cross-Validation* is determined by the length of the [`edx_CV` Object] (in *this Project*, we use $K = 5$).
+:::
+  
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.args)
+    * - **day_smoothed_effect:** *Data frame* object representing the *UMGYDE Model*. 
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.details)
+    * The function calculates the *MSE* metric...
+    * In *this Project*,  the following functions (described above in *this Section*)...
+    * Internally, this function calls...
+    * This is an auxiliary function used internally...
+  * [Value](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.value)
+    * The *MSE* value calculated for the *UMGYDE Model* using *K-Fold Cross-Validation* (...
+  * [Source Code](#func.calc_UMGY_SmoothedDay_effect.MSE.cv.code)
+
+
+* [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2007)
+    * `\{r main-script@l2007u, eval=FALSE\}`
+
+```{r}
+lss.UMGYD_effect.RMSE
+```
+
+  * [Arguments](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args)
+    - **day_smoothed_effect:** *Data frame* object... 
+  * [Details](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.details)
+    * ***All section replaced*** (Follow the [link](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.details) above.)
+    * ...auxiliary function described above in *this Section* to compute the *MSE* for...
+    
+  * [Value](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv.value)
+    * *RMSE* value calculated for the *UMGYDE model* using *K-fold cross-validation*.
+
+
+
+
+##### [UMGYDE Model: Tuning `loess` Params]
 \
 
-##### UMGYDE Model: Regularization
+* [train_UMGY_SmoothedDay_effect.RMSE.cv](#func.train_UMGY_SmoothedDay_effect.RMSE.cv)
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.usage)
+    * `\{r UMGYD_effect.func@l195u, eval=FALSE\}`
+  
+::: {.noteblock data-latex=""}
+In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L195), the function *being described here* is called within the [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1) function described below in *this Section*.
+:::
+  
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args)
+    * - **span:** (Optional, *Numeric*, `NA` by default) ...
+
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.details)
+
+This is a wrapper for the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*), which it calls internally, passing the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) values as arguments of the same name.
+  
+Unlike the inner function  [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv), this one additionally validates the *UMGYDE Model* (created and trained by this inner function), for which it calls another custom helper function, [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) (also described above in section [UMGYDE Model: Utility Functions]), computing *RMSE* score for the model.
+
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.value)
+
+The *RMSE* value calculated for the *UMGYDE Model* fitted for the given [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (passed in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span) arguments).
+
+
+* [train_UMGY_SmoothedDay_effect.RMSE.cv.degree0](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0)
+
+  Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the following values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters:
+  
+  - a fixed `degree` value of $0$;
+  - the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args.span) argument.
+
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args)
+    * - **span:** (Optional, *Numeric*, `NA` by default)...
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.details)
+    * ... (described above in *this Section*) ... parameter values:
+    * - `degree`: $0$ in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument;
+    * - `span`: The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.args.span)... in the same-named argument ([span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span)).
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.value)
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree0.code)
+
+
+* [train_UMGY_SmoothedDay_effect.RMSE.cv.degree1](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1)
+
+Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the following values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters:
+
+- a fixed `degree` value of $1$;
+- the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span) argument.
+
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.usage)
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1695) above the function *being described here* is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in section [Model Tuning Utils] of *this Appendix*.
+:::
+
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args)
+    * - **span:** (Optional, *Numeric*, `NA` by default)...
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.details)
+    * ... (described above in *this Section*) ... parameter values:
+    * - `degree`: $1$ in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument;
+    * - `span`: The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.args.span)... in the same-named argument ([span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span)).
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.value)
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree1.code)
+
+
+* [train_UMGY_SmoothedDay_effect.RMSE.cv.degree2](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2)
+
+Trains and validates (without *regularization*) the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for the following values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters:
+
+- a fixed `degree` value of $2$;
+- the `span` value passed in the [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span) argument.
+
+  * [Usage](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.usage)
+
+::: {.noteblock data-latex=""}
+In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L1807) above the function *being described here* is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in section [Model Tuning Utils] of *this Appendix*.
+:::
+
+  * [Arguments](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args)
+    * - **span:** (Optional, *Numeric*, `NA` by default)...
+  * [Details](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.details)
+    * ... (described above in *this Section*) ... parameter values:
+    * - `degree`: $2$ in the [degree](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.degree) argument;
+    * - `span`: The [span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.args.span)... in the same-named argument ([span](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.args.span)).
+
+  * [Value](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.value)
+  * [Source Code](#func.train_UMGY_SmoothedDay_effect.RMSE.cv.degree2.code)
+
+  
+
+
+##### [UMGYDE Model: Regularization]
 \
 
+* [regularize.train_UMGYD_effect](#func.regularize.train_UMGYD_effect)
+
+Trains and *regularizes* the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for a given value of the parameter $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument and the *best values* of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree` and `span`, preliminary figured out and stored in the global variable `lss.UMGYDE.best_params`), using the training set of the `Movielens` dataset passed in the [train_set](#func.regularize.train_UMGYD_effect.args.train_set) argument.
+
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2168);
+  * [Arguments](#func.regularize.train_UMGYD_effect.args)
+    * \\newpage
+  * [Details](#func.regularize.train_UMGYD_effect.details)
+
+This function is a wrapper for the function [train_UMGY_SmoothedDay_effect](#func.train_UMGY_SmoothedDay_effect) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*) that it calls internally, passing it the best values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters `degree` and `span` in the corresponding arguments ([degree](#func.train_UMGY_SmoothedDay_effect.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.args.span), respectively), stored in the global variable `lss.UMGYDE.best_params`:
+
+::: {.noteblock data-latex=""}
+The function *being described here* is used in the *regularization process* of the *UMGYDE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.train_UMGYD_effect.args.lambda) argument) as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
+:::
+
+  * [Value](#func.regularize.train_UMGYD_effect.value)
+
+*Data frame* object representing the *UMGYDE Model*, regularized by the given *regularization parameter* $\lambda$ and tuned for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) *best parameters* `degree` and `span`.
+
+  * [Source Code](#func.regularize.train_UMGYD_effect.code)
+
+::: {.noteblock data-latex=""}
+The source code of the [regularize.train_UMGYD_effect](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L225) function is also available in the [Regularization](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L224) section of the [UMGYD-effect.functions.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L225) script on _GitHub_.
+:::
+
+* [regularize.train_UMGYD_effect.cv](#func.regularize.train_UMGYD_effect.cv)
+
+Trains and *regularizes* the *User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model* for a given value of the parameter $\lambda$ passed in the [lambda](#func.regularize.train_UMGYD_effect.cv.args.lambda) argument and the *best values* of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters (`degree` and `span`, preliminary figured out and stored in the global variable `lss.UMGYDE.best_params`), with use of *K-Fold Cross-Validation* as described in [Section 29.6 *Cross validation / K-fold cross validation*](https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/resampling-methods.html#k-fold-cross-validation) of the _Course Textbook (New Edition)_[@IDS2_29-6_KFCV].
+
+  * [Usage](#func.regularize.train_UMGYD_effect.cv.usage)
+
+    * In the above [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/support-functions/UMGYD-effect.functions.R#L248), the function *being described here* is called within the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function described below in *this Section*, alongside the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#func.calc_UMGY_SmoothedDay_effect.RMSE.cv) described above in section [UMGYDE Model: Utility Functions].
+
+  * [Arguments](#func.regularize.train_UMGYD_effect.cv.args)
+  * [Details](#func.regularize.train_UMGYD_effect.cv.details)
+
+This function is a wrapper for the function [train_UMGY_SmoothedDay_effect.cv](#func.train_UMGY_SmoothedDay_effect.cv) (described above in section [UMGYDE Model: Utility Functions] of *this Appendix*) that it calls internally, passing it the best values of the [stats::loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) parameters `degree` and `span` in the corresponding arguments ([degree](#func.train_UMGY_SmoothedDay_effect.args.degree) and [span](#func.train_UMGY_SmoothedDay_effect.args.span), respectively), stored in the global variable `lss.UMGYDE.best_params`:
+
+```{r}
+print(lss.UMGYDE.best_params)
+```
+
+The function *being described here* is used in the *regularization process* of the *UMGYDE Model* using the *penalized approach* to regularize predictions for the given *regularization parameter* $\lambda$ (passed in the [lambda](#func.regularize.train_UMGYD_effect.cv.args.lambda) argument) as explained in [Section 24.2 *Penalized least squares*](https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html#penalized-least-squares) of the _Course Textbook (New Edition)_[@IDS2_24-2].
+
+::: {.noteblock data-latex=""}
+This is an auxiliary function intended to be called internally from the [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) function (described below in *this Section*) as shown in the [Usage](#func.regularize.train_UMGYD_effect.cv.usage) section of *this Description* above.
+:::
+
+  * [Value](#func.regularize.train_UMGYD_effect.cv.value)
+    * *Data frame* object representing the *UMGYDE Model*, tuned for the [loess](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess) *best parameters* `degree` and `span`, and trained using *K-Fold Cross-Validation*.
+
+* [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv)
+  * [Usage](#func.regularize.test_lambda.UMGYD_effect.cv.usage)
+    * In the [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2070) above the function *being described here* is passed in the [fn_tune.test.param_value](#func.tune.model_param.args.fn_tune.test.param_value) argument to the [tune.model_param](#func.tune.model_param) function described above in section [Model Tuning Utils] of *this Appendix*.
+
+  * [Details](#func.regularize.test_lambda.UMGYD_effect.cv.details)
+  
+::: {.noteblock data-latex=""}
+This function is an auxiliary function specifically designed to be passed in the `fn_tune.test.param_value` argument to the [tune.model_param](#func.tune.model_param) (as shown above in the [Usage](#func.regularize.test_lambda.UMGYD_effect.cv.usage) section of *this Description*) and the [model.tune.param_range](#func.model.tune.param_range) functions described above in section [Model Tuning Utils] of *this Appendix*.
+:::
+  
+  * [Value](#func.regularize.test_lambda.UMGYD_effect.cv.value)
+  * [Source Code](#func.regularize.test_lambda.UMGYD_effect.cv.code)
+
+##### [UMGYDE Model: Matrix Factorization]
+\
+
+* [mf.residual.dataframe](#func.mf.residual.dataframe)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2314)
+    * `\{r main-script@l2314u, eval=FALSE\}`
+  * [Details](#func.mf.residual.dataframe.details)
+    * This function calculates the *residuals* on the *training dataset* passed as the [train_set](#func.#.args.train_set) argument, taking into account all the effects of the previously trained models, and creates a new *data frame* that includes the results as a *calculated column* `rsdsl`, along with the `movieId` and `userId` columns selected from the *training dataset*.
+  * [Value](#func.mf.residual.dataframe.value)
+  
+*Data frame* containing the following three variables:
+
+- ***rsdl***: (*Numeric*) Calculated column containing results of the function computation;
+- ***userId***: (*Integer*) User Identifier;
+- ***movieId*** (*Integer*) Movie Identifier.
 
 
 ### [Appendix B: Models Training Datasets]

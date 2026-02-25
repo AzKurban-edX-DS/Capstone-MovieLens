@@ -11,7 +11,3 @@ mf.residual.dataframe <- function(train_set){
     mutate(rsdl = rating - (mu + a + b + g + ye + de_smoothed)) |>
     select(userId, movieId, rsdl)
 }
-UMGYDE_model.predict <- function(test_set) {
-  test_set |>
-    UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
-}
