@@ -55,15 +55,13 @@
 ###### [UME Model Regularization: *Pre-configuration*]
 \
 
-* 187 ... For this purpose, we will use the user-defined helper function [tune.model_param](#func.tune.model_param),passing...
-
 ###### [UME Model Regularization: *Fine-tuning*]
 \
 
-* 269 The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in sections ...
-
 ###### [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$]
 \
+
+
 
 
 
@@ -343,25 +341,6 @@ Fixed lines:
 #### [User+Movie Effect (UME) Model]
 \
 
-##### [UME Model Regularization]
-\
-
-1. **Pre-configuration:**...
-2. **Fine-tuning:** (Described in subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
-3. **Retraining:** (Described in subsection [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$])...
-
-###### [UME Model Regularization: *Mathematical Description*]
-\
-
-* 175 This approach will have ...[@IDS_E1_33-9-2]
-
-###### [UME Model Regularization: *Pre-configuration*]
-\
-
-###### [UME Model Regularization: *Fine-tuning*]
-\
-
-
 ##### Movie Effect Analysis
 \
 
@@ -384,6 +363,58 @@ print(head(edx.ordered_movie_ratings))
 \
 
 * 96 We can now construct predictors and calculate the *RMSE* score.
+
+##### [UME Model Regularization]
+\
+
+1. **Pre-configuration:**...
+2. **Fine-tuning:** (Described in subsection [UME Model Regularization: *Fine-tuning*]) Determining the best value of $\lambda$ with the highest possible accuracy that minimizes the *RMSE* score for the model.
+3. **Retraining:** (Described in subsection [UME Model Regularization: *Re-training on the `edx` with the best* $\lambda$])...
+
+###### [UME Model Regularization: *Mathematical Description*]
+\
+
+* 175 This approach will have ...[@IDS_E1_33-9-2]
+
+###### [UME Model Regularization: *Pre-configuration*]
+\
+
+* 187 ... For this purpose, we will use the user-defined helper function [tune.model_param](#func.tune.model_param),passing...
+
+
+###### [UME Model Regularization: *Fine-tuning*]
+\
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UM_effect.cv](#func.regularize.test_lambda.UM_effect.cv) used in the code snippet above are described in sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UME Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
+
+
+#### [User+Movie+Genre Effect (UMGE) Model]
+\
+
+##### [UMGE Model Regularization]
+\
+
+###### [UMGE Model Regularization: *Fine-tuning*]
+\
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMG_effect.cv](#func.regularize.test_lambda.UMG_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UMGE Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
+
+#### [User+Movie+Genre+Year Effect (UMGYE) Model]
+\
+
+##### [UMGYE Model Regularization]
+\
+
+###### [UMGYE Model Regularization: *Fine-tuning*]
+\
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGY_effect.cv](#func.regularize.test_lambda.UMGY_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UMGYE Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
 
 #### [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model]
 \
@@ -422,6 +453,16 @@ Finally, we will retrain the model on the entire `edx` dataset with the best `de
 
 ####### [UMGYDE Model Fine-tuning (`degree = 2`)]
 \
+
+##### [UMGYDE Model Regularization]
+\
+
+###### [UMGYDE Model Regularization: *Fine-tuning*]
+\
+
+::: {.noteblock data-latex=""}
+The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UMGYDE Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
 
 
 
