@@ -81,7 +81,6 @@
 #### [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model]
 \
 
-  * ... (described in section [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils))...
 ##### [UMGYDE Model Tuning by `degree` and `span` Parameters]
 \
 
@@ -133,10 +132,23 @@ In the code snippets above, we use the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#f
 ###### [UMGYDE Model Regularization: *Fine-tuning*]
 \
 
+#### [UMGYDE Model: Matrix Factorization (MF)]
+\
+
+##### [MF: Model Building]
+\
+
+#### [MF: Getting Residuals From the UMGYDE Model Prediction Values]
+\
+
+::: {.noteblock data-latex=""}
+In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined helper function described in section [UMGYDE Model: Matrix Factorization] of [Appendix A](#appndx_a).
+:::
 
 
 
 \newpage
+
 
 ### [Appendix A: Support Functions]
 \
@@ -250,6 +262,24 @@ In the code snippets above, we use the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#f
 
 ##### [UMGYDE Model: Regularization]
 \
+
+##### [UMGYDE Model: Matrix Factorization]
+\
+
+* [%](mf.residual.dataframefunc.%)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2314)
+    * `\{r main-script@l2314u, eval=FALSE\}`
+  * [Details](mf.residual.dataframefunc.%.details)
+    * This function calculates the *residuals* on the *training dataset* passed as the [train_set](#func.mf.residual.dataframe.args.train_set) argument, taking into account all the effects of the previously trained models, and creates a new *data frame* that includes the results as a *calculated column* `rsdsl`, along with the `movieId` and `userId` columns selected from the *training dataset*.
+  * [Value](mf.residual.dataframefunc.%.value)
+  
+*Data frame* containing the following three variables:
+
+- ***rsdl***: (*Numeric*) Calculated column containing results of the function computation;
+- ***userId***: (*Integer*) User Identifier;
+- ***movieId*** (*Integer*) Movie Identifier.
+
+
 
 ---
 
@@ -419,6 +449,8 @@ The custom functions [model.tune.param_range](#func.model.tune.param_range) and 
 #### [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model]
 \
 
+  * ... (described in section [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils))...
+  
 ##### [UMGYDE Model Tuning by `degree` and `span` Parameters]
 \
 
@@ -462,6 +494,19 @@ Finally, we will retrain the model on the entire `edx` dataset with the best `de
 
 ::: {.noteblock data-latex=""}
 The custom functions [model.tune.param_range](#func.model.tune.param_range) and [regularize.test_lambda.UMGYD_effect.cv](#func.regularize.test_lambda.UMGYD_effect.cv) used in the code snippet above are described in the sections [Model Tuning Utils](#appndx_a.CHF.model_tuning_utils) and  [UMGYDE Model: Regularization], respectively, of [Appendix A](#appndx_a).
+:::
+
+#### [UMGYDE Model: Matrix Factorization (MF)]
+\
+
+##### [MF: Model Building]
+\
+
+#### [MF: Getting Residuals From the UMGYDE Model Prediction Values]
+\
+
+::: {.noteblock data-latex=""}
+In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual.dataframe) user-defined helper function described in section [UMGYDE Model: Matrix Factorization] of [Appendix A](#appndx_a).
 :::
 
 
@@ -1206,9 +1251,21 @@ This function is an auxiliary function specifically designed to be passed in the
   * [Value](#func.regularize.test_lambda.UMGYD_effect.cv.value)
   * [Source Code](#func.regularize.test_lambda.UMGYD_effect.cv.code)
 
+##### [UMGYDE Model: Matrix Factorization]
+\
 
+* [%](mf.residual.dataframefunc.%)
+  * [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2314)
+    * `\{r main-script@l2314u, eval=FALSE\}`
+  * [Details](mf.residual.dataframefunc.%.details)
+    * This function calculates the *residuals* on the *training dataset* passed as the [train_set](#func.mf.residual.dataframe.args.train_set) argument, taking into account all the effects of the previously trained models, and creates a new *data frame* that includes the results as a *calculated column* `rsdsl`, along with the `movieId` and `userId` columns selected from the *training dataset*.
+  * [Value](mf.residual.dataframefunc.%.value)
+  
+*Data frame* containing the following three variables:
 
-
+- ***rsdl***: (*Numeric*) Calculated column containing results of the function computation;
+- ***userId***: (*Integer*) User Identifier;
+- ***movieId*** (*Integer*) Movie Identifier.
 
 
 ### [Appendix B: Models Training Datasets]

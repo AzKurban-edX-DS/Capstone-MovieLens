@@ -7759,10 +7759,10 @@ The complete source code of the functions described in this section is available
 Computes residuals, defined as the difference between the observed and predicted values of the fully trained _UMGYDE Model_ as described in section [User+Movie+Genre+Year+SmoothedDay Effect (UMGYDE) Model].
 
 ::: { #func.mf.residual.dataframe.usage .sidebar }
-##### Usage
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2314)
 \
 
-```{r eval=FALSE}
+```{r main-script@l2314u, eval=FALSE}
   mf.edx.residual <- mf.residual.dataframe(edx)
 ```
 :::
@@ -7781,20 +7781,18 @@ Computes residuals, defined as the difference between the observed and predicted
 ##### Details
 \
 
-This function calculates the residuals on the *training dataset* passed as the [train_set](#func.mf.residual.dataframe.args.train_set) argument, taking into account all the effects of the previously trained models, and creates a new data frame that includes the results as a calculated column `rsdsl`, along with the `movieId` and `userId` columns selected from the training dataset.
+This function calculates the *residuals* on the *training dataset* passed as the [train_set](#func.mf.residual.dataframe.args.train_set) argument, taking into account all the effects of the previously trained models, and creates a new *data frame* that includes the results as a *calculated column* `rsdsl`, along with the `movieId` and `userId` columns selected from the *training dataset*.
 :::
 
 ::: { #func.mf.residual.dataframe.value .sidebar }
 ##### Value
 \
 
-Data frame containing the following three variables:
+*Data frame* containing the following three variables:
 
-  - *rsdl*: (Numeric) Calculated column containing results of the function computation;
-  
-  - *userId*: (Integer) User Identifier;
-  
-  - *movieId* (Integer) Movie Identifier.
+- ***rsdl***: (*Numeric*) Calculated column containing results of the function computation;
+- ***userId***: (*Integer*) User Identifier;
+- ***movieId*** (*Integer*) Movie Identifier.
 
 :::
 
