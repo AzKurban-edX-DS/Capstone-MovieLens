@@ -145,7 +145,7 @@ Finally, we train the model for the last time using the `reco$train` method, pas
                                        nthread = 4)) 
 ```
 
-#### MF: Final Holdout Test
+### MF: Final Holdout Test
 \
 
 From now on, we will work with the `final_holdout_test` dataset for the final testing of our model, including obtaining final predictions and computing the final *RMSE* score.

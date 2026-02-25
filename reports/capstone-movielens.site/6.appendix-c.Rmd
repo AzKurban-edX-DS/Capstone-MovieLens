@@ -141,16 +141,8 @@ In the code snippets above, we use the [calc_UMGY_SmoothedDay_effect.RMSE.cv](#f
 ###### [MF: Getting Residuals From the UMGYDE Model Prediction Values]
 \
 
-###### [MF: Final Holdout Test]
+##### [MF: Final Holdout Test]
 \
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the [clamp](#func.clamp) user-defined helper function described in section [Utility Functions] of [Appendix A](#appndx_a).
-:::
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the [rmse2](#func.rmse2) user-defined helper function described in section [(Root) Mean Squared Error Calculation] of [Appendix A](#appndx_a).
-:::
 
 
 \newpage
@@ -501,19 +493,8 @@ In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual
 :::
 
 
-###### [MF: Final Holdout Test]
+##### [MF: Final Holdout Test]
 \
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the [clamp](#func.clamp) user-defined helper function described in section [Utility Functions] of [Appendix A](#appndx_a).
-:::
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the [rmse2](#func.rmse2) user-defined helper function described in section [(Root) Mean Squared Error Calculation] of [Appendix A](#appndx_a).
-:::
-
-
-
 
 \newpage
 
