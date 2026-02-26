@@ -2297,7 +2297,7 @@ if (file.exists(file_path_tmp)) {
                                        niter = 20, 
                                        nthread = 4)) 
   
-  # Compute predictions from UMGYDE Model
+  # Compute predictions from Regularized UMGYDE Model
   final.UMGYDE.predicted <- final_holdout_test |>
     UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
   
