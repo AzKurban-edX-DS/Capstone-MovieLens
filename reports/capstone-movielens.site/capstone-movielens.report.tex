@@ -127,7 +127,7 @@
 
 \title{Capstone Movielens Report}
 \author{Azamat Kurbanaev}
-\date{2026-02-25}
+\date{2026-02-26}
 
 \begin{document}
 \maketitle
@@ -1548,8 +1548,7 @@ In the code snippet above we use the \hyperref[func.train_user_movie_effect]{tra
 \begin{verbatim}
 ## tibble [10,677 x 3] (S3: tbl_df/tbl/data.frame)
 ##  $ movieId: int [1:10677] 1 2 3 4 5 6 7 8 9 10 ...
-##  $ b      : Named num [1:10677] 0.331 -0.305 -0.364 -0.599 -0.443 ...
-##   ..- attr(*, "names")= chr [1:10677] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  $ b      : num [1:10677] 0.331 -0.305 -0.364 -0.599 -0.443 ...
 ##  $ n      : int [1:10677] 23790 10779 7028 1577 6400 12346 7259 821 2278 15187 ...
 \end{verbatim}
 
@@ -2188,7 +2187,7 @@ In the code snippet above we use the \hyperref[func.train_user_movie_genre_effec
 \begin{verbatim}
 ## tibble [10,677 x 2] (S3: tbl_df/tbl/data.frame)
 ##  $ movieId: int [1:10677] 1 2 3 4 5 6 7 8 9 10 ...
-##  $ g      : num [1:10677] -1.35e-05 -5.11e-05 -1.08e-04 -2.77e-05 -2.46e-04 ...
+##  $ g      : num [1:10677] -7.48e-05 -7.24e-05 -8.12e-05 -6.48e-05 -1.14e-04 ...
 \end{verbatim}
 
 \begin{Shaded}
@@ -2220,7 +2219,7 @@ Now, we are ready to construct predictors and calculate the \emph{RMSE} score fo
 \end{Shaded}
 
 \begin{verbatim}
-## The best RMSE for the UMGE Model after being regularized: 0.872972778604307
+## The best RMSE for the UMGE Model after being regularized: 0.872973004075585
 \end{verbatim}
 
 \begin{noteblock}
@@ -2257,7 +2256,7 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
 \bottomrule
 \end{tabular}
 
@@ -2403,7 +2402,7 @@ In the code snippet above we use the \hyperref[func.train_UMGY_effect.cv]{train\
 \begin{verbatim}
 ## tibble [15 x 2] (S3: tbl_df/tbl/data.frame)
 ##  $ year: num [1:15] 1995 1996 1997 1998 1999 ...
-##  $ ye  : num [1:15] 0.6694 0.1152 0.0118 0.0262 0.0335 ...
+##  $ ye  : num [1:15] 0.6695 0.1152 0.0118 0.0261 0.0335 ...
 \end{verbatim}
 
 We can now construct predictors and calculate the \emph{RMSE} score for the \emph{UMGYE Model} using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L1195}{line of code}:
@@ -2421,7 +2420,7 @@ We can now construct predictors and calculate the \emph{RMSE} score for the \emp
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.8723973
+## [1] 0.8723975
 \end{verbatim}
 
 \begin{noteblock}
@@ -2459,8 +2458,8 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
 \bottomrule
 \end{tabular}
 
@@ -2569,7 +2568,7 @@ The following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/m
 
 \begin{verbatim}
 ## param.best_value        best_RMSE 
-##      224.0000000        0.8721852
+##      224.0000000        0.8721855
 \end{verbatim}
 
 \newpage
@@ -2691,7 +2690,7 @@ Below are the results of fine-tuning the \emph{UMGYE Model}:
 
 \begin{verbatim}
 ## List of 3
-##  $ best_result           : Named num [1:2] 233.777 0.872
+##  $ best_result           : Named num [1:2] 233.785 0.872
 ##   ..- attr(*, "names")= chr [1:2] "param.best_value" "best_RMSE"
 ##  $ param_values.endpoints: Named num [1:3] 2.34e+02 2.34e+02 7.63e-05
 ##   ..- attr(*, "names")= chr [1:3] "" "" ""
@@ -2712,7 +2711,7 @@ Below are the results of fine-tuning the \emph{UMGYE Model}:
 
 \begin{verbatim}
 ## param.best_value        best_RMSE 
-##      233.7766876        0.8721851
+##      233.7849426        0.8721854
 \end{verbatim}
 
 \begin{Shaded}
@@ -2723,7 +2722,7 @@ Below are the results of fine-tuning the \emph{UMGYE Model}:
 
 \begin{verbatim}
 ## best_RMSE 
-## 0.8721851
+## 0.8721854
 \end{verbatim}
 
 \newpage
@@ -2795,7 +2794,7 @@ In the code snippet above we use the \hyperref[func.train_UMGY_effect]{train\_UM
 
 \begin{verbatim}
 ## param.best_value        best_RMSE 
-##      233.7766876        0.8721851
+##      233.7849426        0.8721854
 \end{verbatim}
 
 \begin{verbatim}
@@ -2811,7 +2810,7 @@ In the code snippet above we use the \hyperref[func.train_UMGY_effect]{train\_UM
 \begin{verbatim}
 ## tibble [15 x 2] (S3: tbl_df/tbl/data.frame)
 ##  $ year: num [1:15] 1995 1996 1997 1998 1999 ...
-##  $ ye  : num [1:15] 0.0018 0.06807 0.01206 0.01017 0.00636 ...
+##  $ ye  : num [1:15] 0.0018 0.06806 0.01205 0.01016 0.00634 ...
 \end{verbatim}
 
 \begin{Shaded}
@@ -2822,7 +2821,7 @@ In the code snippet above we use the \hyperref[func.train_UMGY_effect]{train\_UM
 \end{Shaded}
 
 \begin{verbatim}
-## Regularized UMGYE Model has been re-trained for the best `lambda`: 233.77668762207.
+## Regularized UMGYE Model has been re-trained for the best `lambda`: 233.784942626953.
 \end{verbatim}
 
 \newpage
@@ -2843,7 +2842,7 @@ Now, we are ready to construct predictors and calculate the \emph{RMSE} score fo
 \end{Shaded}
 
 \begin{verbatim}
-## The best RMSE for the UMGYE Model after being regularized: 0.872185666181505
+## The best RMSE for the UMGYE Model after being regularized: 0.872185956006394
 \end{verbatim}
 
 \begin{noteblock}
@@ -2880,9 +2879,9 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
 \bottomrule
 \end{tabular}
 
@@ -2954,9 +2953,9 @@ Below is the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/ma
 \begin{verbatim}
 ## tibble [4,640 x 4] (S3: tbl_df/tbl/data.frame)
 ##  $ days       : int [1:4640] 0 385 388 389 392 393 394 396 397 399 ...
-##  $ de         : num [1:4640] 0.6676 0.2939 0.1661 0.3206 -0.0871 ...
+##  $ de         : num [1:4640] 0.6677 0.2939 0.1661 0.3206 -0.0871 ...
 ##  $ year       : num [1:4640] 1995 1996 1996 1996 1996 ...
-##  $ de_smoothed: num [1:4640] 0.0834 0.0553 0.0552 0.0551 0.0549 ...
+##  $ de_smoothed: num [1:4640] 0.0425 0.0351 0.035 0.035 0.035 ...
 \end{verbatim}
 
 \newpage
@@ -2990,7 +2989,7 @@ Now, let's construct predictors and calculate the \emph{RMSE} score for the \emp
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.872241
+## [1] 0.8722314
 \end{verbatim}
 
 \begin{noteblock}
@@ -3029,10 +3028,10 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \bottomrule
 \end{tabular}
@@ -3282,13 +3281,13 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d0 Model & 0.8711135 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
 \bottomrule
 \end{tabular}
 
@@ -3494,14 +3493,14 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d0 Model & 0.8711135 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
 \bottomrule
 \end{tabular}
 
@@ -3710,15 +3709,15 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709886 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE.d0 Model & 0.8711135 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709891 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
 \bottomrule
 \end{tabular}
 
@@ -3789,7 +3788,7 @@ In the code snippet above we use the \hyperref[func.train_UMGY_SmoothedDay_effec
 
 \begin{verbatim}
 ##     degree       span       RMSE 
-## 1.00000000 0.00109375 0.87082947
+## 1.00000000 0.00109375 0.87083000
 \end{verbatim}
 
 \begin{Shaded}
@@ -3841,7 +3840,7 @@ Now, we are ready to construct predictors and calculate the \emph{RMSE} score fo
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.870785
+## [1] 0.8707855
 \end{verbatim}
 
 \begin{noteblock}
@@ -3877,16 +3876,16 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709886 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
-Tuned UMGYDE Best Model & 0.8707850 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Tuned UMGYDE.d0 Model & 0.8711135 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709891 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707855 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 \bottomrule
 \end{tabular}
 
@@ -3993,7 +3992,7 @@ The following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/m
 
 \begin{verbatim}
 ## param.best_value        best_RMSE 
-##       16.0000000        0.8708197
+##       16.0000000        0.8708202
 \end{verbatim}
 
 \newpage
@@ -4115,9 +4114,9 @@ Below are the results of fine-tuning the \emph{UMGYDE Model}:
 
 \begin{verbatim}
 ## List of 3
-##  $ best_result           : Named num [1:2] 10.714 0.871
+##  $ best_result           : Named num [1:2] 10.716 0.871
 ##   ..- attr(*, "names")= chr [1:2] "param.best_value" "best_RMSE"
-##  $ param_values.endpoints: Named num [1:3] 1.07e+01 1.07e+01 1.53e-05
+##  $ param_values.endpoints: Named num [1:3] 1.07e+01 1.07e+01 2.29e-05
 ##   ..- attr(*, "names")= chr [1:3] "" "" ""
 ##  $ tuned.result          :'data.frame':  9 obs. of  2 variables:
 ##   ..$ parameter.value: num [1:9] 10.7 10.7 10.7 10.7 10.7 ...
@@ -4136,7 +4135,7 @@ Below are the results of fine-tuning the \emph{UMGYDE Model}:
 
 \begin{verbatim}
 ## param.best_value        best_RMSE 
-##       10.7142639        0.8708192
+##       10.7158432        0.8708198
 \end{verbatim}
 
 \begin{Shaded}
@@ -4147,7 +4146,7 @@ Below are the results of fine-tuning the \emph{UMGYDE Model}:
 
 \begin{verbatim}
 ## best_RMSE 
-## 0.8708192
+## 0.8708198
 \end{verbatim}
 
 \newpage
@@ -4220,7 +4219,7 @@ In the code snippet above we use the \hyperref[func.regularize.train_UMGYD_effec
 
 \begin{verbatim}
 ## param.best_value        best_RMSE 
-##       10.7142639        0.8708192
+##       10.7158432        0.8708198
 \end{verbatim}
 
 \begin{verbatim}
@@ -4236,8 +4235,7 @@ In the code snippet above we use the \hyperref[func.regularize.train_UMGYD_effec
 \begin{verbatim}
 ## tibble [4,640 x 4] (S3: tbl_df/tbl/data.frame)
 ##  $ days       : int [1:4640] 0 385 388 389 392 393 394 396 397 399 ...
-##  $ de         : Named num [1:4640] 0.0331 0.1537 0.1174 0.239 -0.0277 ...
-##   ..- attr(*, "names")= chr [1:4640] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  $ de         : num [1:4640] 0.0331 0.1537 0.1174 0.239 -0.0277 ...
 ##  $ year       : num [1:4640] 1995 1996 1996 1996 1996 ...
 ##  $ de_smoothed: num [1:4640] 0.025 0.1492 0.1638 0.1565 0.0627 ...
 \end{verbatim}
@@ -4250,7 +4248,7 @@ In the code snippet above we use the \hyperref[func.regularize.train_UMGYD_effec
 \end{Shaded}
 
 \begin{verbatim}
-## Regularized UMGYDE Model has been re-trained for the best `lambda`: 10.7142639160156.
+## Regularized UMGYDE Model has been re-trained for the best `lambda`: 10.7158432006836.
 \end{verbatim}
 
 \newpage
@@ -4296,17 +4294,17 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709886 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
-Tuned UMGYDE Best Model & 0.8707850 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
-Regularized UMGYDE Model & 0.8707750 & The best tuned and regularized UMGYDE Model.\\
+Tuned UMGYDE.d0 Model & 0.8711135 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709891 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707855 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707755 & The best tuned and regularized UMGYDE Model.\\
 \bottomrule
 \end{tabular}
 
@@ -4357,8 +4355,7 @@ In the code snippet above we use the \hyperref[func.UMGY_SmoothedDay_effect.pred
 ##  $ movieId  : int  231 480 586 151 858 1544 590 4995 34 432 ...
 ##  $ timestamp: int  838983392 838983653 838984068 868246450 868245645 868245920 1136075494 1133571200 844416936 844417070 ...
 ##  $ rating   : num  5 5 5 3 2 3 3.5 4.5 5 3 ...
-##  $ predicted: Named num  4.49 5 4.63 3.3 4.07 ...
-##   ..- attr(*, "names")= chr [1:999999] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  $ predicted: num  4.49 5 4.63 3.3 4.07 ...
 \end{verbatim}
 
 Then we compute the \emph{RMSE} score using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2258}{code snippet}:
@@ -4403,19 +4400,19 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709886 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
-Tuned UMGYDE Best Model & 0.8707850 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
-Regularized UMGYDE Model & 0.8707750 & The best tuned and regularized UMGYDE Model.\\
+Tuned UMGYDE.d0 Model & 0.8711135 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709891 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707855 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707755 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804225 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
+Best UMGYDE Model (Final Test) & 0.8804226 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
 \bottomrule
 \end{tabular}
 
@@ -4528,8 +4525,7 @@ In the code snippets above, we use the \hyperref[func.mf.residual.dataframe]{mf.
 ## 'data.frame':    9000055 obs. of  3 variables:
 ##  $ userId : int  1 1 1 1 1 1 1 1 1 1 ...
 ##  $ movieId: int  122 185 292 316 329 355 356 362 364 370 ...
-##  $ rsdl   : Named num  0.4868 0.3223 0.0386 0.1137 0.1269 ...
-##   ..- attr(*, "names")= chr [1:9000055] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  $ rsdl   : num  0.4867 0.3223 0.0386 0.1137 0.1269 ...
 \end{verbatim}
 
 \paragraph{\texorpdfstring{MF: Transforming Input Data to Be Compatible With the \texttt{recosystem} Package}{MF: Transforming Input Data to Be Compatible With the recosystem Package}}\label{mf-transforming-input-data-to-be-compatible-with-the-recosystem-package}
@@ -4570,7 +4566,7 @@ Next, we convert the residuals data and \texttt{final\_holdout\_test} dataset to
 ##   ..@ source:List of 3
 ##   .. ..$ : int [1:9000055] 1 1 1 1 1 1 1 1 1 1 ...
 ##   .. ..$ : int [1:9000055] 122 185 292 316 329 355 356 362 364 370 ...
-##   .. ..$ : num [1:9000055] 0.4868 0.3223 0.0386 0.1137 0.1269 ...
+##   .. ..$ : num [1:9000055] 0.4867 0.3223 0.0386 0.1137 0.1269 ...
 ##   ..@ index1: logi FALSE
 ##   ..@ type  : chr "memory"
 \end{verbatim}
@@ -4683,7 +4679,7 @@ Now we can create a \texttt{reco} object of the \texttt{Reco} class and tune it 
 ##   ..$ costq_l1: num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
 ##   ..$ costq_l2: num [1:96] 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 ...
 ##   ..$ lrate   : num [1:96] 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 ...
-##   ..$ loss_fun: num [1:96] 0.808 0.813 0.822 0.851 0.87 ...
+##   ..$ loss_fun: num [1:96] 0.807 0.813 0.822 0.854 0.87 ...
 ##   ..- attr(*, "out.attrs")=List of 2
 ##   .. ..$ dim     : Named int [1:6] 3 2 2 2 2 2
 ##   .. .. ..- attr(*, "names")= chr [1:6] "dim" "costp_l1" "costp_l2" "costq_l1" ...
@@ -4741,7 +4737,7 @@ In the code snippet above, we use the \hyperref[func.clamp]{clamp} user-defined 
 \end{Shaded}
 
 \begin{verbatim}
-##  num [1:999999] 0.146 -0.271 0.121 0.376 0.586 ...
+##  num [1:999999] 0.198 -0.265 0.106 0.377 0.566 ...
 \end{verbatim}
 
 \begin{Shaded}
@@ -4751,8 +4747,7 @@ In the code snippet above, we use the \hyperref[func.clamp]{clamp} user-defined 
 \end{Shaded}
 
 \begin{verbatim}
-##  Named num [1:999999] 4.63 4.73 4.75 3.68 4.66 ...
-##  - attr(*, "names")= chr [1:999999] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  num [1:999999] 4.68 4.74 4.74 3.68 4.64 ...
 \end{verbatim}
 
 And ultimately, we are ready to compute the final \emph{RMSE} score using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2374}{code snippet}:
@@ -4799,20 +4794,20 @@ UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709886 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
-Tuned UMGYDE Best Model & 0.8707850 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
-Regularized UMGYDE Model & 0.8707750 & The best tuned and regularized UMGYDE Model.\\
+Tuned UMGYDE.d0 Model & 0.8711135 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709891 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707855 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707755 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804225 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
-MF (Final Test) & 0.7875754 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+Best UMGYDE Model (Final Test) & 0.8804226 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
+MF (Final Test) & 0.7876658 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -4854,20 +4849,20 @@ UME Model & 0.8732081 & 0.0965881 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & 0.0002351 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & 0.0000000 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & 0.0000003 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & 0.0005755 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & 0.0002117 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & -0.0000553 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & 0.0000000 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & 0.0005755 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & 0.0002116 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & -0.0000454 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & 0.0011279 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & 0.0002836 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709886 & -0.0001591 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
-Tuned UMGYDE Best Model & 0.8707850 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
-Regularized UMGYDE Model & 0.8707750 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
+Tuned UMGYDE.d0 Model & 0.8711135 & 0.0011179 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & 0.0002835 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804225 & -0.0096476 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
-MF (Final Test) & 0.7875754 & 0.0928471 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+Best UMGYDE Model (Final Test) & 0.8804226 & -0.0096471 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
+MF (Final Test) & 0.7876658 & 0.0927568 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -5029,7 +5024,7 @@ Prints the system date and time at the time the function is called and returns t
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Wed Feb 25 20:34:14 2026"
+## [1] "Thu Feb 26 03:20:57 2026"
 \end{verbatim}
 
 \begin{Shaded}
@@ -5039,7 +5034,7 @@ Prints the system date and time at the time the function is called and returns t
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2026-02-25 20:34:14 MSK"
+## [1] "2026-02-26 03:20:57 MSK"
 \end{verbatim}
 
 \phantomsection\label{func.print_start_date.details}
@@ -5151,7 +5146,7 @@ Prints the system date and time at the time the function is called, and then the
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Wed Feb 25 20:34:14 2026"
+## [1] "Thu Feb 26 03:20:57 2026"
 \end{verbatim}
 
 \begin{Shaded}
@@ -5162,8 +5157,8 @@ Prints the system date and time at the time the function is called, and then the
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Wed Feb 25 20:34:18 2026"
-## Time difference of 3.076213 secs
+## [1] "Thu Feb 26 03:21:01 2026"
+## Time difference of 3.067535 secs
 \end{verbatim}
 
 \phantomsection\label{func.print_end_date.args}
@@ -7387,20 +7382,20 @@ UME Model & 0.8732081 & 0.0965881 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & 0.0002351 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & 0.0000000 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & 0.0000003 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & 0.0005755 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & 0.0002117 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & -0.0000553 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & 0.0000000 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & 0.0005755 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & 0.0002116 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & -0.0000454 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & 0.0011279 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & 0.0002836 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709886 & -0.0001591 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
-Tuned UMGYDE Best Model & 0.8707850 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
-Regularized UMGYDE Model & 0.8707750 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
+Tuned UMGYDE.d0 Model & 0.8711135 & 0.0011179 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & 0.0002835 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804225 & -0.0096476 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
-MF (Final Test) & 0.7875754 & 0.0928471 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+Best UMGYDE Model (Final Test) & 0.8804226 & -0.0096471 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
+MF (Final Test) & 0.7876658 & 0.0927568 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -7716,20 +7711,20 @@ UME Model & 0.8732081 & 0.0965881 & User+Movie Effect (UME) Model\\
 Regularized UME Model & 0.8729730 & 0.0002351 & Computed for `lambda` = 0.38745002746582\\
 \addlinespace
 UMGE Model & 0.8729730 & 0.0000000 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729728 & 0.0000003 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723973 & 0.0005755 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721857 & 0.0002117 & Computed for `lambda` = 233.77668762207\\
-UMGYDE (Default) Model & 0.8722410 & -0.0000553 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
+Regularized UMGE Model & 0.8729730 & 0.0000000 & Computed for `lambda` = 0.0359375\\
+UMGYE Model & 0.8723975 & 0.0005755 & User+Movie+Genre+Year Effect (UMGYE) Model\\
+Regularized UMGYE Model & 0.8721860 & 0.0002116 & Computed for `lambda` = 233.784942626953\\
+UMGYDE (Default) Model & 0.8722314 & -0.0000454 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
 computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
 \addlinespace
-Tuned UMGYDE.d0 Model & 0.8711131 & 0.0011279 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708295 & 0.0002836 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709886 & -0.0001591 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
-Tuned UMGYDE Best Model & 0.8707850 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
-Regularized UMGYDE Model & 0.8707750 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
+Tuned UMGYDE.d0 Model & 0.8711135 & 0.0011179 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
+Tuned UMGYDE.d1 Model & 0.8708300 & 0.0002835 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
+Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
+Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
+Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804225 & -0.0096476 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
-MF (Final Test) & 0.7875754 & 0.0928471 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+Best UMGYDE Model (Final Test) & 0.8804226 & -0.0096471 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
+MF (Final Test) & 0.7876658 & 0.0927568 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -10843,8 +10838,7 @@ Trains (and optionally \emph{regularizes} if the \hyperref[func.train_user_movie
 \begin{verbatim}
 ## tibble [10,677 x 3] (S3: tbl_df/tbl/data.frame)
 ##  $ movieId: int [1:10677] 1 2 3 4 5 6 7 8 9 10 ...
-##  $ b      : Named num [1:10677] 0.331 -0.305 -0.364 -0.599 -0.443 ...
-##   ..- attr(*, "names")= chr [1:10677] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  $ b      : num [1:10677] 0.331 -0.305 -0.364 -0.599 -0.443 ...
 ##  $ n      : int [1:10677] 23790 10779 7028 1577 6400 12346 7259 821 2278 15187 ...
 \end{verbatim}
 
@@ -11438,7 +11432,7 @@ Trains (and optionally \emph{regularizes} if the \hyperref[func.train_user_movie
 \begin{verbatim}
 ## tibble [10,677 x 2] (S3: tbl_df/tbl/data.frame)
 ##  $ movieId: int [1:10677] 1 2 3 4 5 6 7 8 9 10 ...
-##  $ g      : num [1:10677] -1.35e-05 -5.11e-05 -1.08e-04 -2.77e-05 -2.46e-04 ...
+##  $ g      : num [1:10677] -7.48e-05 -7.24e-05 -8.12e-05 -6.48e-05 -1.14e-04 ...
 \end{verbatim}
 
 \phantomsection\label{func.train_user_movie_genre_effect.args}
@@ -12322,7 +12316,7 @@ Trains (and optionally \emph{regularizes} if the \hyperref[func.train_UMGY_effec
 \begin{verbatim}
 ## tibble [15 x 2] (S3: tbl_df/tbl/data.frame)
 ##  $ year: num [1:15] 1995 1996 1997 1998 1999 ...
-##  $ ye  : num [1:15] 0.0018 0.06807 0.01206 0.01017 0.00636 ...
+##  $ ye  : num [1:15] 0.0018 0.06806 0.01205 0.01016 0.00634 ...
 \end{verbatim}
 
 \phantomsection\label{func.train_UMGY_effect.args}
@@ -12715,7 +12709,7 @@ The \(K\) value for the \emph{K-Fold Cross-Validation} is determined by the leng
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.8723973
+## [1] 0.8723975
 \end{verbatim}
 
 \phantomsection\label{func.calc_UMGY_effect_RMSE.cv.args}
@@ -13736,7 +13730,7 @@ The \(K\) value for the \emph{K-Fold Cross-Validation} is determined by the leng
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.870785
+## [1] 0.8707855
 \end{verbatim}
 
 \phantomsection\label{func.calc_UMGY_SmoothedDay_effect.RMSE.cv.args}
@@ -14283,8 +14277,7 @@ Trains and \emph{regularizes} the \emph{User+Movie+Genre+Year+SmoothedDay Effect
 \begin{verbatim}
 ## tibble [4,640 x 4] (S3: tbl_df/tbl/data.frame)
 ##  $ days       : int [1:4640] 0 385 388 389 392 393 394 396 397 399 ...
-##  $ de         : Named num [1:4640] 0.0331 0.1537 0.1174 0.239 -0.0277 ...
-##   ..- attr(*, "names")= chr [1:4640] "param.best_value" "param.best_value" "param.best_value" "param.best_value" ...
+##  $ de         : num [1:4640] 0.0331 0.1537 0.1174 0.239 -0.0277 ...
 ##  $ year       : num [1:4640] 1995 1996 1996 1996 1996 ...
 ##  $ de_smoothed: num [1:4640] 0.025 0.1492 0.1638 0.1565 0.0627 ...
 \end{verbatim}
@@ -14325,7 +14318,7 @@ This function is a wrapper for the function \hyperref[func.train_UMGY_SmoothedDa
 
 \begin{verbatim}
 ##     degree       span       RMSE 
-## 1.00000000 0.00109375 0.87082947
+## 1.00000000 0.00109375 0.87083000
 \end{verbatim}
 
 \begin{noteblock}
@@ -14423,7 +14416,7 @@ This function is a wrapper for the function \hyperref[func.train_UMGY_SmoothedDa
 
 \begin{verbatim}
 ##     degree       span       RMSE 
-## 1.00000000 0.00109375 0.87082947
+## 1.00000000 0.00109375 0.87083000
 \end{verbatim}
 
 The function \emph{being described here} is used in the \emph{regularization process} of the \emph{UMGYDE Model} using the \emph{penalized approach} to regularize predictions for the given \emph{regularization parameter} \(\lambda\) (passed in the \hyperref[func.regularize.train_UMGYD_effect.cv.args.lambda]{lambda} argument) as explained in \href{https://rafalab.dfci.harvard.edu/dsbook-part-2/highdim/regularization.html\#penalized-least-squares}{Section 24.2 \emph{Penalized least squares}} of the \emph{Course Textbook (New Edition)}\autocite{IDS2_24-2}.
