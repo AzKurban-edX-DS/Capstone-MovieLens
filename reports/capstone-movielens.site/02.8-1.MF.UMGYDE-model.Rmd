@@ -56,7 +56,7 @@ where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v
 The complete source code shown in this section is available in the [Perform the Matrix Factorization & Final Test](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2299) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2299) script on _GitHub_.
 :::
 
-We assume that the _Matrix Factorization_ method will be the last one to provide sufficient results, so we will use the entire `edx` dataset as the _Training Set_ and `final_holdout_test` as the _Test Set_ for our final model, skipping the intermediate *training/validation split operations* that were performed for the previous models.
+We assume that the _Matrix Factorization_ method will be the last one to provide sufficient results, so we will use the entire `edx` dataset as the _Training Set_ and `final_holdout_test` as the _Test Set_ for our *final model training and testing*, skipping the intermediate *training/validation split operations* that applied for the previous models.
 
 #### MF: Getting Residuals From the UMGYDE Model Prediction Values
 \
@@ -150,27 +150,49 @@ Finally, we train the model for the last time using the `reco$train` method, pas
 
 From now on, we will work with the `final_holdout_test` dataset for the final testing of our model, including obtaining final predictions and computing the final *RMSE* score.
 
-Now, let's compute the final predictions, combining the predicted residuals from the `reco` objects and predicted values we lastly get from the _UMGYDE Model_ as described in section [UMGYDE Model: Final Holdout Test (Preliminary Assessment)], using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2346):
-```{r main-script@l2346, eval=FALSE}
-  mf.reco.residual <- reco$predict(final_holdout_test.reco, out_memory())
+First, let's compute predictions for the best model we built above, *Regularized UMGYDE Model* (as described in section [UMGYDE Model Regularization: *Retraining on the `edx` with the best* $\lambda$]), using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#2300):
+```{r main-script@l2300, eval=FALSE}
+# Compute predictions from Regularized UMGYDE Model
+final.UMGYDE.predicted <- final_holdout_test |>
+  UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
+```
+```{r}
+str(final.UMGYDE.predicted)
+```
 
-  mf.predicted_ratings <- 
-    clamp(final.UMGYDE.predicted$predicted + mf.reco.residual)
+::: {.noteblock data-latex=""}
+In the code snippet above we use the [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) function described in section [UMGYDE Model: Utility Functions] of [Appendix A](#appndx_a).
+:::
+
+Next, we get predicted residuals from the `reco` object, using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2323):
+```{r main-script@l2323, eval=FALSE}
+# Compute residuals from trained Reco object
+mf.reco.residual <- reco$predict(final_holdout_test.reco, out_memory())
+```
+```{r}
+str(mf.reco.residual)
+```
+Finally, we compute the ultimate predictions combining the predicted rating values we obtained above from the *Regularized UMGYDE Model* and the residuals obtained from the `reco` object, using the following  [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2328):
+```{r main-script@l2328, eval=FALSE}
+# Compute Final Holdout Predictions
+mf.predicted_ratings <- 
+  clamp(final.UMGYDE.predicted$predicted + mf.reco.residual)
+```
+```{r}
+str(mf.predicted_ratings)
 ```
 
 ::: {.noteblock data-latex=""}
 In the code snippet above, we use the [clamp](#func.clamp) user-defined helper function described in section [Utility Functions] of [Appendix A](#appndx_a).
 :::
 
-```{r}
-str(mf.reco.residual)
-str(mf.predicted_ratings)
-```
-
-And ultimately, we are ready to compute the  final *RMSE* score using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2374):
-```{r main-script@l2374, eval=FALSE}
+And ultimately, we are ready to compute the  final *RMSE* score using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2353):
+```{r main-script@l2353, eval=FALSE}
 final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
                                      mf.predicted_ratings)
+```
+```{r}
+final_holdout_test.RMSE
 ```
 
 ::: {.noteblock data-latex=""}
@@ -179,9 +201,9 @@ In the code snippet above, we use the [rmse2](#func.rmse2) user-defined helper f
 
 \newpage
 
-Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2380):
-```{r main-script@l2380, eval=FALSE}
-final.MF.RMSEs.ResultTibble <- final.RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
+Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2359):
+```{r main-script@l2359, eval=FALSE}
+final.MF.RMSEs.ResultTibble <- RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
   RMSEs.AddRow("MF (Final Test)", 
                final_holdout_test.RMSE,
                comment = "Matrix Factorization of the Best Model Residuals, Final Holdout Test")
