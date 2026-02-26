@@ -4328,7 +4328,7 @@ The author shows that in this case, the \emph{Matrix Factorization} method can s
 \hfill\break
 
 \begin{noteblock}
-The complete source code shown in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2276}{Matrix Factorization (MF)} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2276}{capstone-movielens.main.R} script on \emph{GitHub}.
+The complete source code shown in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2230}{Matrix Factorization (MF)} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2230}{capstone-movielens.main.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -4386,7 +4386,7 @@ where \((u, v)\) are locations of observed entries in \(\mathbf{R}, \mathbf{r}_{
 \hfill\break
 
 \begin{noteblock}
-The complete source code shown in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2299}{Perform the Matrix Factorization \& Final Test} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2299}{capstone-movielens.main.R} script on \emph{GitHub}.
+The complete source code shown in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2253}{Perform the Matrix Factorization \& Final Test} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2253}{capstone-movielens.main.R} script on \emph{GitHub}.
 
 \end{noteblock}
 
@@ -4396,7 +4396,7 @@ We assume that the \emph{Matrix Factorization} method will be the last one to pr
 
 \hfill\break
 
-First, we will obtain residuals from the \emph{UMGYDE Model} prediction values using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2314}{line of code}:
+First, we will obtain residuals from the \emph{UMGYDE Model} prediction values using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2268}{line of code}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4426,7 +4426,7 @@ In the code snippets above, we use the \hyperref[func.mf.residual.dataframe]{mf.
 
 \hfill\break
 
-Next, we convert the residuals data and \texttt{final\_holdout\_test} dataset to the input data objects compatible with the \href{https://cran.r-project.org/web/packages/recosystem/index.html}{recosystem} package using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2319}{code snippet}:
+Next, we convert the residuals data and \texttt{final\_holdout\_test} dataset to the input data objects compatible with the \href{https://cran.r-project.org/web/packages/recosystem/index.html}{recosystem} package using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2273}{code snippet}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4485,7 +4485,7 @@ Next, we convert the residuals data and \texttt{final\_holdout\_test} dataset to
 
 \hfill\break
 
-Now we can create a \texttt{reco} object of the \texttt{Reco} class and tune it using the \texttt{reco\$tune} method, passing the residual data prepared in the previous step in the \texttt{train\_data} argument using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2332}{code snippet}:
+Now we can create a \texttt{reco} object of the \texttt{Reco} class and tune it using the \texttt{reco\$tune} method, passing the residual data prepared in the previous step in the \texttt{train\_data} argument using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2284}{code snippet}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4592,7 +4592,7 @@ Now we can create a \texttt{reco} object of the \texttt{Reco} class and tune it 
 
 \hfill\break
 
-Finally, we train the model for the last time using the \texttt{reco\$train} method, passing the same residual data we used for the tuning, in the \texttt{train\_data} argument, using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2342}{code snippet}:
+Finally, we train the model for the last time using the \texttt{reco\$train} method, passing the same residual data we used for the tuning, in the \texttt{train\_data} argument, using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2296}{code snippet}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4608,7 +4608,7 @@ Finally, we train the model for the last time using the \texttt{reco\$train} met
 
 From now on, we will work with the \texttt{final\_holdout\_test} dataset for the final testing of our model, including obtaining final predictions and computing the final \emph{RMSE} score.
 
-First, let's compute predictions for the best model we built above, \emph{Regularized UMGYDE Model} (as described in section \hyperref[umgyde-model-regularization-retraining-on-the-edx-with-the-best-lambda]{UMGYDE Model Regularization: \emph{Retraining on the \texttt{edx} with the best} \(\lambda\)}), using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#2300}{code snippet}:
+First, let's compute predictions for the best model we built above, \emph{Regularized UMGYDE Model} (as described in section \hyperref[umgyde-model-regularization-retraining-on-the-edx-with-the-best-lambda]{UMGYDE Model Regularization: \emph{Retraining on the \texttt{edx} with the best} \(\lambda\)}), using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2300}{code snippet}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4656,6 +4656,8 @@ Next, we get predicted residuals from the \texttt{reco} object, using the follow
 \begin{verbatim}
 ##  num [1:999999] 0.198 -0.265 0.106 0.377 0.566 ...
 \end{verbatim}
+
+\newpage
 
 Finally, we compute the ultimate predictions combining the predicted rating values we obtained above from the \emph{Regularized UMGYDE Model} and the residuals obtained from the \texttt{reco} object, using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2328}{code snippet}:
 
@@ -4964,7 +4966,7 @@ Prints the system date and time at the time the function is called and returns t
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 08:06:50 2026"
+## [1] "Thu Feb 26 08:59:18 2026"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4974,7 +4976,7 @@ Prints the system date and time at the time the function is called and returns t
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2026-02-26 08:06:50 MSK"
+## [1] "2026-02-26 08:59:18 MSK"
 \end{verbatim}
 
 \phantomsection\label{func.print_start_date.details}
@@ -5086,7 +5088,7 @@ Prints the system date and time at the time the function is called, and then the
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 08:06:50 2026"
+## [1] "Thu Feb 26 08:59:18 2026"
 \end{verbatim}
 
 \begin{Shaded}
@@ -5097,8 +5099,8 @@ Prints the system date and time at the time the function is called, and then the
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 08:06:53 2026"
-## Time difference of 3.071504 secs
+## [1] "Thu Feb 26 08:59:21 2026"
+## Time difference of 3.038683 secs
 \end{verbatim}
 
 \phantomsection\label{func.print_end_date.args}

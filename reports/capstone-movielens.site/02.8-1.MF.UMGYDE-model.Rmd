@@ -2,7 +2,7 @@
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code shown in this section is available in the [Matrix Factorization (MF)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2276) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2276) script on _GitHub_.
+The complete source code shown in this section is available in the [Matrix Factorization (MF)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2230) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2230) script on _GitHub_.
 :::
 
 For our next solution, we will use the [`recosystem` package](https://cran.r-project.org/web/packages/recosystem/index.html) to perform the _Parallel Matrix Factorization_.
@@ -53,7 +53,7 @@ where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v
 \
 
 ::: {.noteblock data-latex=""}
-The complete source code shown in this section is available in the [Perform the Matrix Factorization & Final Test](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2299) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2299) script on _GitHub_.
+The complete source code shown in this section is available in the [Perform the Matrix Factorization & Final Test](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2253) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2253) script on _GitHub_.
 :::
 
 We assume that the _Matrix Factorization_ method will be the last one to provide sufficient results, so we will use the entire `edx` dataset as the _Training Set_ and `final_holdout_test` as the _Test Set_ for our *final model training and testing*, skipping the intermediate *training/validation split operations* that applied for the previous models.
@@ -61,8 +61,8 @@ We assume that the _Matrix Factorization_ method will be the last one to provide
 #### MF: Getting Residuals From the UMGYDE Model Prediction Values
 \
 
-First, we will obtain residuals from the _UMGYDE Model_ prediction values using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2314):
-```{r main-script@l2314, eval=FALSE}
+First, we will obtain residuals from the _UMGYDE Model_ prediction values using the following [line of code](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2268):
+```{r main-script@l2268, eval=FALSE}
   mf.edx.residual <- mf.residual.dataframe(edx)
 ```
 
@@ -77,8 +77,8 @@ In the code snippets above, we use the [mf.residual.dataframe](#func.mf.residual
 #### MF: Transforming Input Data to Be Compatible With the `recosystem` Package
 \
 
-Next, we convert the residuals data and `final_holdout_test` dataset to the input data objects compatible with the [recosystem](https://cran.r-project.org/web/packages/recosystem/index.html) package using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2319):
-```{r main-script@l2319, eval=FALSE}
+Next, we convert the residuals data and `final_holdout_test` dataset to the input data objects compatible with the [recosystem](https://cran.r-project.org/web/packages/recosystem/index.html) package using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2273):
+```{r main-script@l2273, eval=FALSE}
   set.seed(5430)
   mf.edx.residual.reco <- with(mf.edx.residual, 
                                data_memory(user_index = userId, 
@@ -104,8 +104,8 @@ str(final_holdout_test.reco)
 #### MF: Creating and Tuning the `Reco` Object
 \
 
-Now we can create a `reco` object of the `Reco` class and tune it using the `reco$tune` method, passing the residual data prepared in the previous step in the `train_data` argument using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2332):
-```{r main-script@l2332, eval=FALSE}
+Now we can create a `reco` object of the `Reco` class and tune it using the `reco$tune` method, passing the residual data prepared in the previous step in the `train_data` argument using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2284):
+```{r main-script@l2284, eval=FALSE}
   reco <- Reco()
   
   reco.tuned <- reco$tune(mf.edx.residual.reco, opts = list(dim = c(10, 20, 30),
@@ -138,8 +138,8 @@ str(reco.tuned)
 #### MF: Final Training
 \
 
-Finally, we train the model for the last time using the `reco$train` method, passing the same residual data we used for the tuning, in the `train_data` argument, using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2342):
-```{r main-script@l2342, eval=FALSE}
+Finally, we train the model for the last time using the `reco$train` method, passing the same residual data we used for the tuning, in the `train_data` argument, using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2296):
+```{r main-script@l2296, eval=FALSE}
   reco$train(mf.edx.residual.reco, opts = c(reco.tuned$min,
                                        niter = 20, 
                                        nthread = 4)) 
@@ -150,7 +150,7 @@ Finally, we train the model for the last time using the `reco$train` method, pas
 
 From now on, we will work with the `final_holdout_test` dataset for the final testing of our model, including obtaining final predictions and computing the final *RMSE* score.
 
-First, let's compute predictions for the best model we built above, *Regularized UMGYDE Model* (as described in section [UMGYDE Model Regularization: *Retraining on the `edx` with the best* $\lambda$]), using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#2300):
+First, let's compute predictions for the best model we built above, *Regularized UMGYDE Model* (as described in section [UMGYDE Model Regularization: *Retraining on the `edx` with the best* $\lambda$]), using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2300):
 ```{r main-script@l2300, eval=FALSE}
 # Compute predictions from Regularized UMGYDE Model
 final.UMGYDE.predicted <- final_holdout_test |>
@@ -172,6 +172,9 @@ mf.reco.residual <- reco$predict(final_holdout_test.reco, out_memory())
 ```{r}
 str(mf.reco.residual)
 ```
+
+\newpage
+
 Finally, we compute the ultimate predictions combining the predicted rating values we obtained above from the *Regularized UMGYDE Model* and the residuals obtained from the `reco` object, using the following  [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2328):
 ```{r main-script@l2328, eval=FALSE}
 # Compute Final Holdout Predictions
