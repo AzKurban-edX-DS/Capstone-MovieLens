@@ -225,13 +225,20 @@ Finally, we have the datasets listed above:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title              genres         
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:9000055     Length:9000055    
-##  1st Qu.:18124   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08   Class :character   Class :character  
-##  Median :35738   Median : 1834   Median :4.000   Median :1.035e+09   Mode  :character   Mode  :character  
-##  Mean   :35870   Mean   : 4122   Mean   :3.512   Mean   :1.033e+09                                        
-##  3rd Qu.:53607   3rd Qu.: 3626   3rd Qu.:4.000   3rd Qu.:1.127e+09                                        
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
+##      userId         movieId          rating        timestamp            title          
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:9000055    
+##  1st Qu.:18124   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08   Class :character  
+##  Median :35738   Median : 1834   Median :4.000   Median :1.035e+09   Mode  :character  
+##  Mean   :35870   Mean   : 4122   Mean   :3.512   Mean   :1.033e+09                     
+##  3rd Qu.:53607   3rd Qu.: 3626   3rd Qu.:4.000   3rd Qu.:1.127e+09                     
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
+##     genres         
+##  Length:9000055    
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
 \end{verbatim}
 
 \begin{Shaded}
@@ -241,13 +248,20 @@ Finally, we have the datasets listed above:
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title              genres         
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:999999      Length:999999     
-##  1st Qu.:18096   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.467e+08   Class :character   Class :character  
-##  Median :35768   Median : 1827   Median :4.000   Median :1.035e+09   Mode  :character   Mode  :character  
-##  Mean   :35870   Mean   : 4108   Mean   :3.512   Mean   :1.033e+09                                        
-##  3rd Qu.:53621   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09                                        
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
+##      userId         movieId          rating        timestamp            title          
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:999999     
+##  1st Qu.:18096   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.467e+08   Class :character  
+##  Median :35768   Median : 1827   Median :4.000   Median :1.035e+09   Mode  :character  
+##  Mean   :35870   Mean   : 4108   Mean   :3.512   Mean   :1.033e+09                     
+##  3rd Qu.:53621   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09                     
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
+##     genres         
+##  Length:999999     
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
 \end{verbatim}
 
 \newpage
@@ -368,13 +382,14 @@ As also explained in \href{https://rafalab.dfci.harvard.edu/dsbook/large-dataset
 
 \begin{verbatim}
 ## # A tibble: 5 x 5
-##   userId `Pulp Fiction (1994)` `Jurassic Park (1993)` `Silence of the Lambs (1991)` `Forrest Gump (1994)`
-##    <int>                 <dbl>                  <dbl>                         <dbl>                 <dbl>
-## 1     13                     4                     NA                            NA                    NA
-## 2     16                    NA                      3                            NA                    NA
-## 3     17                    NA                     NA                             5                    NA
-## 4     18                     5                      3                             5                    NA
-## 5     19                    NA                      1                            NA                     4
+##   userId `Pulp Fiction (1994)` `Jurassic Park (1993)` `Silence of the Lambs (1991)`
+##    <int>                 <dbl>                  <dbl>                         <dbl>
+## 1     13                     4                     NA                            NA
+## 2     16                    NA                      3                            NA
+## 3     17                    NA                     NA                             5
+## 4     18                     5                      3                             5
+## 5     19                    NA                      1                            NA
+## # i 1 more variable: `Forrest Gump (1994)` <dbl>
 \end{verbatim}
 
 The following plot of the matrix for a random sample of 100 movies and 100 users with yellow indicating a user/movie combination for which we have a rating shows how \emph{sparse} the matrix is\autocite{IDS_E1_33-7-1}:
@@ -4654,7 +4669,7 @@ Next, we get predicted residuals from the \texttt{reco} object, using the follow
 \end{Shaded}
 
 \begin{verbatim}
-##  num [1:999999] 0.198 -0.265 0.106 0.377 0.566 ...
+##  num [1:999999] 0.211 -0.253 0.103 0.332 0.546 ...
 \end{verbatim}
 
 \newpage
@@ -4676,7 +4691,7 @@ Finally, we compute the ultimate predictions combining the predicted rating valu
 \end{Shaded}
 
 \begin{verbatim}
-##  num [1:999999] 4.68 4.74 4.74 3.68 4.64 ...
+##  num [1:999999] 4.7 4.75 4.74 3.64 4.62 ...
 \end{verbatim}
 
 \begin{noteblock}
@@ -4700,7 +4715,7 @@ And ultimately, we are ready to compute the final \emph{RMSE} score using the fo
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.7876658
+## [1] 0.7876493
 \end{verbatim}
 
 \begin{noteblock}
@@ -4750,7 +4765,7 @@ Tuned UMGYDE.d2 Model & 0.8709891 & UMGYDE Model computed using function call: `
 Tuned UMGYDE Best Model & 0.8707855 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 Regularized UMGYDE Model & 0.8707755 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-MF (Final Test) & 0.7876658 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+MF (Final Test) & 0.7876493 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -4804,7 +4819,7 @@ Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using fun
 Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-MF (Final Test) & 0.7876658 & 0.0831097 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+MF (Final Test) & 0.7876493 & 0.0831261 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -4966,7 +4981,7 @@ Prints the system date and time at the time the function is called and returns t
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 08:59:18 2026"
+## [1] "Thu Feb 26 14:36:40 2026"
 \end{verbatim}
 
 \begin{Shaded}
@@ -4976,7 +4991,7 @@ Prints the system date and time at the time the function is called and returns t
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2026-02-26 08:59:18 MSK"
+## [1] "2026-02-26 14:36:40 MSK"
 \end{verbatim}
 
 \phantomsection\label{func.print_start_date.details}
@@ -5088,7 +5103,7 @@ Prints the system date and time at the time the function is called, and then the
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 08:59:18 2026"
+## [1] "Thu Feb 26 14:36:40 2026"
 \end{verbatim}
 
 \begin{Shaded}
@@ -5099,8 +5114,8 @@ Prints the system date and time at the time the function is called, and then the
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 08:59:21 2026"
-## Time difference of 3.038683 secs
+## [1] "Thu Feb 26 14:36:43 2026"
+## Time difference of 3.054149 secs
 \end{verbatim}
 
 \phantomsection\label{func.print_end_date.args}
@@ -7336,7 +7351,7 @@ Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using fun
 Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-MF (Final Test) & 0.7876658 & 0.0831097 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+MF (Final Test) & 0.7876493 & 0.0831261 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -7664,7 +7679,7 @@ Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using fun
 Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-MF (Final Test) & 0.7876658 & 0.0831097 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+MF (Final Test) & 0.7876493 & 0.0831261 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -14691,13 +14706,20 @@ The \emph{code snippet} above uses the \emph{user-defined helper function} \hype
 \end{Shaded}
 
 \begin{verbatim}
-##      userId         movieId          rating        timestamp            title              genres         
-##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:23371423    Length:23371423   
-##  1st Qu.:18140   1st Qu.:  616   1st Qu.:3.000   1st Qu.:9.472e+08   Class :character   Class :character  
-##  Median :35784   Median : 1748   Median :4.000   Median :1.042e+09   Mode  :character   Mode  :character  
-##  Mean   :35886   Mean   : 4277   Mean   :3.527   Mean   :1.035e+09                                        
-##  3rd Qu.:53638   3rd Qu.: 3635   3rd Qu.:4.000   3rd Qu.:1.131e+09                                        
-##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09
+##      userId         movieId          rating        timestamp            title          
+##  Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08   Length:23371423   
+##  1st Qu.:18140   1st Qu.:  616   1st Qu.:3.000   1st Qu.:9.472e+08   Class :character  
+##  Median :35784   Median : 1748   Median :4.000   Median :1.042e+09   Mode  :character  
+##  Mean   :35886   Mean   : 4277   Mean   :3.527   Mean   :1.035e+09                     
+##  3rd Qu.:53638   3rd Qu.: 3635   3rd Qu.:4.000   3rd Qu.:1.131e+09                     
+##  Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09                     
+##     genres         
+##  Length:23371423   
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
 \end{verbatim}
 
 \newpage
@@ -14795,8 +14817,8 @@ The \emph{code snippet} above uses \emph{custom logging function} \hyperref[func
 \begin{verbatim}
 ## 'data.frame':    6519590 obs. of  5 variables:
 ##  $ timestamp: int  838985046 838983525 838983421 838983392 838984474 838983653 838984885 838983707 838984596 838983834 ...
-##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" "1996-08-02 10:56:32" ...
-##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" "1996-08-02" ...
+##  $ date_time: POSIXct, format: "1996-08-02 11:24:06" "1996-08-02 10:58:45" "1996-08-02 10:57:01" ...
+##  $ date     : Date, format: "1996-08-02" "1996-08-02" "1996-08-02" ...
 ##  $ year     : num  1996 1996 1996 1996 1996 ...
 ##  $ days     : int  571 571 571 571 571 571 571 571 571 571 ...
 \end{verbatim}
@@ -14808,13 +14830,20 @@ The \emph{code snippet} above uses \emph{custom logging function} \hyperref[func
 \end{Shaded}
 
 \begin{verbatim}
-##    timestamp           date_time                           date                 year           days     
-##  Min.   :7.897e+08   Min.   :1995-01-09 11:46:49.00   Min.   :1995-01-09   Min.   :1995   Min.   :   0  
-##  1st Qu.:9.783e+08   1st Qu.:2001-01-01 05:05:01.75   1st Qu.:2001-01-01   1st Qu.:2001   1st Qu.:2184  
-##  Median :1.091e+09   Median :2004-08-03 01:08:18.50   Median :2004-08-03   Median :2004   Median :3494  
-##  Mean   :1.066e+09   Mean   :2003-10-10 23:15:02.07   Mean   :2003-10-10   Mean   :2003   Mean   :3196  
-##  3rd Qu.:1.152e+09   3rd Qu.:2006-07-04 20:41:57.50   3rd Qu.:2006-07-04   3rd Qu.:2006   3rd Qu.:4194  
-##  Max.   :1.231e+09   Max.   :2009-01-05 05:02:16.00   Max.   :2009-01-05   Max.   :2009   Max.   :5110
+##    timestamp           date_time                           date                 year     
+##  Min.   :7.897e+08   Min.   :1995-01-09 11:46:49.00   Min.   :1995-01-09   Min.   :1995  
+##  1st Qu.:9.783e+08   1st Qu.:2001-01-01 05:05:01.75   1st Qu.:2001-01-01   1st Qu.:2001  
+##  Median :1.091e+09   Median :2004-08-03 01:08:18.50   Median :2004-08-03   Median :2004  
+##  Mean   :1.066e+09   Mean   :2003-10-10 23:15:02.07   Mean   :2003-10-10   Mean   :2003  
+##  3rd Qu.:1.152e+09   3rd Qu.:2006-07-04 20:41:57.50   3rd Qu.:2006-07-04   3rd Qu.:2006  
+##  Max.   :1.231e+09   Max.   :2009-01-05 05:02:16.00   Max.   :2009-01-05   Max.   :2009  
+##       days     
+##  Min.   :   0  
+##  1st Qu.:2184  
+##  Median :3494  
+##  Mean   :3196  
+##  3rd Qu.:4194  
+##  Max.   :5110
 \end{verbatim}
 
 \newpage
