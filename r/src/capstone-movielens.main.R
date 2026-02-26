@@ -2227,52 +2227,6 @@ for the `Regularized User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
 #### Close Log -----------------------------------------------------------------
 log_close()
 
-### UMGYDE Model: Final Holdout Test (Preliminary Assessment)  ------------------------------------------
-
-final.UMGYDE.predicted <- final_holdout_test |>
-  UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
-
-str(final.UMGYDE.predicted)
-sum(is.na(final.UMGYDE.predicted$predicted))
-
-# calc_UMGY_SmoothedDay_effect.RMSE(final_holdout_test, rglr.UMGYD_effect)
-# #> [1] 0.902012
-
-#### UMGYDE Model Final Holdout Test data integrity validation------------------
-final.predicted.tst <- final.UMGYDE.predicted |>
-  mutate(tst.col = predicted) |>
-  select(userId, movieId, tst.col)
-
-final.predicted.left_join.Nas <- final.predicted.tst |>
-  data.consistency.test(final_holdout_test)
-
-put_log("Below are the User+Movie Effect consistency test results")
-put(final.predicted.left_join.Nas)
- # user.NAs movie.NAs  days.NAs 
- #        0         0        NA 
-        
-stopifnot(final.predicted.left_join.Nas["user.NAs"] == 0 &&
-            final.predicted.left_join.Nas["movie.NAs"] == 0)
-
-#### Compute UMGYDE Model Final Holdout Test RMSE ------------------------------
-final.UMGYDE.predicted.RMSE <- rmse2(final_holdout_test$rating,
-                                     final.UMGYDE.predicted$predicted)
-final.UMGYDE.predicted.RMSE
-#> [1] 0.8804351
-
-#### UMGYDE Model Final Holdout Test RMSE Result Tibble: Add a row ------------- 
-final.RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
-  RMSEs.AddRow("Best UMGYDE Model (Final Test)", 
-               final.UMGYDE.predicted.RMSE,
-               comment = "Final Holdout Test of the best tuned and regularized UMGYDE Model.")
-
-RMSE_kable(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)
-
-put_log("A row has been added to the RMSE Result Tibble 
-for the `Final Holdout Test of the User+Movie+Genre+Year+(Smoothed)Day Effect Model`.")
-#### Close Log -----------------------------------------------------------------
-log_close()
-
 ## Matrix Factorization (MF) ---------------------------------------------------
 #> Reference: 
 #> recosystem: Recommender System Using Parallel Matrix Factorization
@@ -2343,10 +2297,35 @@ if (file.exists(file_path_tmp)) {
                                        niter = 20, 
                                        nthread = 4)) 
   
+  # Compute predictions from UMGYDE Model
+  final.UMGYDE.predicted <- final_holdout_test |>
+    UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
+  
+  str(final.UMGYDE.predicted)
+  sum(is.na(final.UMGYDE.predicted$predicted))
+  
+  # UMGYDE Model Final Holdout Test data integrity validation
+  final.predicted.tst <- final.UMGYDE.predicted |>
+    mutate(tst.col = predicted) |>
+    select(userId, movieId, tst.col)
+  
+  final.predicted.left_join.Nas <- final.predicted.tst |>
+    data.consistency.test(final_holdout_test)
+  
+  put_log("Below are the UMGYD Effect consistency test results")
+  put(final.predicted.left_join.Nas)
+  # user.NAs movie.NAs  days.NAs 
+  #        0         0        NA 
+  
+  stopifnot(final.predicted.left_join.Nas["user.NAs"] == 0 &&
+              final.predicted.left_join.Nas["movie.NAs"] == 0)
+  
+  # Compute residuals from trained Reco object
   mf.reco.residual <- reco$predict(final_holdout_test.reco, out_memory())
   str(mf.reco.residual)
   sum(is.na(mf.reco.residual))
   
+  # Compute Final Holdout Predictions
   mf.predicted_ratings <- 
     clamp(final.UMGYDE.predicted$predicted + mf.reco.residual)
   
@@ -2376,8 +2355,8 @@ final_holdout_test.RMSE <- rmse2(final_holdout_test$rating,
 final_holdout_test.RMSE
 #> [1] 0.7875645
 
-### Final Holdout Test RMSE Result Tibble: Add a row  -------------------------- 
-final.MF.RMSEs.ResultTibble <- final.RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
+### Final Holdout Test RMSE Result Tibble: Add a row -------------------------- 
+final.MF.RMSEs.ResultTibble <- RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
   RMSEs.AddRow("MF (Final Test)", 
                final_holdout_test.RMSE,
                comment = "Matrix Factorization of the Best Model Residuals, Final Holdout Test")
