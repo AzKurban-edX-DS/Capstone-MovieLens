@@ -4313,115 +4313,9 @@ In the code snippet above, we use the \hyperref[func.RMSEs.AddRow]{RMSEs.AddRow}
 
 \end{noteblock}
 
-Now, we have a better result than the ones for the previous models, but still insufficient to meet the Project Objective.
-Despite this, let's conduct our very first \emph{final holdout test} to see what we have actually achieved so far.
-
 \newpage
 
-\paragraph{UMGYDE Model: Final Holdout Test (Preliminary Assessment)}\label{umgyde-model-final-holdout-test-preliminary-assessment}
-
-\hfill\break
-
-\begin{noteblock}
-The complete version of the source code shown in this section is available in the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2230}{UMGYDE Model: Final Holdout Test (Preliminary Assessment)} section of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2230}{capstone-movielens.main.R} script on \emph{GitHub}.
-
-\end{noteblock}
-
-Let's see what we have achieved so far, using the \texttt{final\_holdout\_test} dataset for the first time.
-
-First, we compute predictions for our current model using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2232}{code snippet}:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{final.UMGYDE.predicted }\OtherTok{\textless{}{-}}\NormalTok{ final\_holdout\_test }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{UMGY\_SmoothedDay\_effect.predict}\NormalTok{(rglr.UMGYD\_effect)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{noteblock}
-In the code snippet above we use the \hyperref[func.UMGY_SmoothedDay_effect.predict]{UMGY\_SmoothedDay\_effect.predict} function described in section \hyperref[umgyde-model-utility-functions]{UMGYDE Model: Utility Functions} of \hyperref[appndx_a]{Appendix A}.
-
-\end{noteblock}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{str}\NormalTok{(final.UMGYDE.predicted)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 'data.frame':    999999 obs. of  5 variables:
-##  $ userId   : int  1 1 1 2 2 2 3 3 4 4 ...
-##  $ movieId  : int  231 480 586 151 858 1544 590 4995 34 432 ...
-##  $ timestamp: int  838983392 838983653 838984068 868246450 868245645 868245920 1136075494 1133571200 844416936 844417070 ...
-##  $ rating   : num  5 5 5 3 2 3 3.5 4.5 5 3 ...
-##  $ predicted: num  4.49 5 4.63 3.3 4.07 ...
-\end{verbatim}
-
-Then we compute the \emph{RMSE} score using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2258}{code snippet}:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{final.UMGYDE.predicted.RMSE }\OtherTok{\textless{}{-}} \FunctionTok{rmse2}\NormalTok{(final\_holdout\_test}\SpecialCharTok{$}\NormalTok{rating,}
-\NormalTok{                                     final.UMGYDE.predicted}\SpecialCharTok{$}\NormalTok{predicted)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{noteblock}
-In the code snippet above, we use the \hyperref[func.rmse2]{rmse2} user-defined function described in section \hyperref[root-mean-squared-error-calculation]{(Root) Mean Squared Error Calculation} of \hyperref[appndx_a]{Appendix A}.
-
-\end{noteblock}
-
-Finally, we add the \emph{RMSE} value obtained above to our \emph{Result Table} and print the table using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2264}{code snippet}:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{final.RMSEs.ResultTibble.UMGYDE.rglr.tuned }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.UMGYDE.rglr.tuned }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"Best UMGYDE Model (Final Test)"}\NormalTok{, }
-\NormalTok{               final.UMGYDE.predicted.RMSE,}
-               \AttributeTok{comment =} \StringTok{"Final Holdout Test of the best tuned and regularized UMGYDE Model."}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{RMSE\_kable}\NormalTok{(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{tabular}{>{\raggedright\arraybackslash}p{15em}>{\centering\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{30em}}
-\toprule
-\textbf{Method} & \textbf{RMSE} & \textbf{Comment}\\
-\midrule
-Project Objective & 0.8649000 & \\
-OMR Model & 1.0603462 & Overall Mean Rating (OMR) Model\\
-UE Model & 0.9697962 & User Effect (UE) Model\\
-UME Model & 0.8732081 & User+Movie Effect (UME) Model\\
-Regularized UME Model & 0.8729730 & Computed for `lambda` = 0.38745002746582\\
-\addlinespace
-UMGE Model & 0.8729730 & User+Movie+Genre Effect (UMGE) Model\\
-Regularized UMGE Model & 0.8729730 & Computed for `lambda` = 0.0359375\\
-UMGYE Model & 0.8723975 & User+Movie+Genre+Year Effect (UMGYE) Model\\
-Regularized UMGYE Model & 0.8721860 & Computed for `lambda` = 233.784942626953\\
-UMGYDE (Default) Model & 0.8722314 & User+Movie+Genre+Year+Day Effect (UMGYDE) Model 
-computed using `stats::loess` function with `degree=1` \& `span=0.75` parameter values.\\
-\addlinespace
-Tuned UMGYDE.d0 Model & 0.8711135 & UMGYDE Model computed using function call: `loess(degree = 0, span = 0.00109375)`\\
-Tuned UMGYDE.d1 Model & 0.8708300 & UMGYDE Model computed using function call: `loess(degree = 1, span = 0.00109375)`\\
-Tuned UMGYDE.d2 Model & 0.8709891 & UMGYDE Model computed using function call: `loess(degree = 2, span = 0.00153125)`\\
-Tuned UMGYDE Best Model & 0.8707855 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
-Regularized UMGYDE Model & 0.8707755 & The best tuned and regularized UMGYDE Model.\\
-\addlinespace
-Best UMGYDE Model (Final Test) & 0.8804226 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
-\bottomrule
-\end{tabular}
-
-\begin{noteblock}
-In the code snippet above, we use the \hyperref[func.RMSEs.AddRow]{RMSEs.AddRow} and \hyperref[func.RMSE_kable]{RMSE\_kable} functions described in section \hyperref[result-rmses-tibble-functions]{Result RMSEs Tibble Functions} of \hyperref[appndx_a]{Appendix A}.
-
-\end{noteblock}
-
-As expected, we have not yet achieved a result that meets our Project Objective. Let's see what else we can do to achieve our ultimate goal.
+Now, we have a better result than the ones for the previous models, but still insufficient to meet the Project Objective. Let's see what else we can do to achieve our ultimate goal.
 
 As explained in \href{https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html\#matrix-factorization}{Section 33.11 \texttt{Matrix\ Factorization}} of the \emph{Course Textbook (First Edition)}, so far our models ignore \emph{``an important source of variation related to the fact that groups of movies have similar rating patterns and groups of users have similar rating patterns as well\ldots{}''} \autocite{IDS_E1_33-11}
 
@@ -4496,7 +4390,7 @@ The complete source code shown in this section is available in the \href{https:/
 
 \end{noteblock}
 
-We assume that the \emph{Matrix Factorization} method will be the last one to provide sufficient results, so we will use the entire \texttt{edx} dataset as the \emph{Training Set} and \texttt{final\_holdout\_test} as the \emph{Test Set} for our final model, skipping the intermediate \emph{training/validation split operations} that were performed for the previous models.
+We assume that the \emph{Matrix Factorization} method will be the last one to provide sufficient results, so we will use the entire \texttt{edx} dataset as the \emph{Training Set} and \texttt{final\_holdout\_test} as the \emph{Test Set} for our \emph{final model training and testing}, skipping the intermediate \emph{training/validation split operations} that applied for the previous models.
 
 \paragraph{MF: Getting Residuals From the UMGYDE Model Prediction Values}\label{mf-getting-residuals-from-the-umgyde-model-prediction-values}
 
@@ -4714,21 +4608,44 @@ Finally, we train the model for the last time using the \texttt{reco\$train} met
 
 From now on, we will work with the \texttt{final\_holdout\_test} dataset for the final testing of our model, including obtaining final predictions and computing the final \emph{RMSE} score.
 
-Now, let's compute the final predictions, combining the predicted residuals from the \texttt{reco} objects and predicted values we lastly get from the \emph{UMGYDE Model} as described in section \hyperref[umgyde-model-final-holdout-test-preliminary-assessment]{UMGYDE Model: Final Holdout Test (Preliminary Assessment)}, using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2346}{code snippet}:
+First, let's compute predictions for the best model we built above, \emph{Regularized UMGYDE Model} (as described in section \hyperref[umgyde-model-regularization-retraining-on-the-edx-with-the-best-lambda]{UMGYDE Model Regularization: \emph{Retraining on the \texttt{edx} with the best} \(\lambda\)}), using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#2300}{code snippet}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{  mf.reco.residual }\OtherTok{\textless{}{-}}\NormalTok{ reco}\SpecialCharTok{$}\FunctionTok{predict}\NormalTok{(final\_holdout\_test.reco, }\FunctionTok{out\_memory}\NormalTok{())}
-
-\NormalTok{  mf.predicted\_ratings }\OtherTok{\textless{}{-}} 
-    \FunctionTok{clamp}\NormalTok{(final.UMGYDE.predicted}\SpecialCharTok{$}\NormalTok{predicted }\SpecialCharTok{+}\NormalTok{ mf.reco.residual)}
+\CommentTok{\# Compute predictions from Regularized UMGYDE Model}
+\NormalTok{final.UMGYDE.predicted }\OtherTok{\textless{}{-}}\NormalTok{ final\_holdout\_test }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{UMGY\_SmoothedDay\_effect.predict}\NormalTok{(rglr.UMGYD\_effect)}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(final.UMGYDE.predicted)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    999999 obs. of  5 variables:
+##  $ userId   : int  1 1 1 2 2 2 3 3 4 4 ...
+##  $ movieId  : int  231 480 586 151 858 1544 590 4995 34 432 ...
+##  $ timestamp: int  838983392 838983653 838984068 868246450 868245645 868245920 1136075494 1133571200 844416936 844417070 ...
+##  $ rating   : num  5 5 5 3 2 3 3.5 4.5 5 3 ...
+##  $ predicted: num  4.49 5 4.63 3.3 4.07 ...
+\end{verbatim}
+
 \begin{noteblock}
-In the code snippet above, we use the \hyperref[func.clamp]{clamp} user-defined helper function described in section \hyperref[appndx_a.CHF.utility_funcs]{Utility Functions} of \hyperref[appndx_a]{Appendix A}.
+In the code snippet above we use the \hyperref[func.UMGY_SmoothedDay_effect.predict]{UMGY\_SmoothedDay\_effect.predict} function described in section \hyperref[umgyde-model-utility-functions]{UMGYDE Model: Utility Functions} of \hyperref[appndx_a]{Appendix A}.
 
 \end{noteblock}
+
+Next, we get predicted residuals from the \texttt{reco} object, using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2323}{code snippet}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute residuals from trained Reco object}
+\NormalTok{mf.reco.residual }\OtherTok{\textless{}{-}}\NormalTok{ reco}\SpecialCharTok{$}\FunctionTok{predict}\NormalTok{(final\_holdout\_test.reco, }\FunctionTok{out\_memory}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4740,6 +4657,16 @@ In the code snippet above, we use the \hyperref[func.clamp]{clamp} user-defined 
 ##  num [1:999999] 0.198 -0.265 0.106 0.377 0.566 ...
 \end{verbatim}
 
+Finally, we compute the ultimate predictions combining the predicted rating values we obtained above from the \emph{Regularized UMGYDE Model} and the residuals obtained from the \texttt{reco} object, using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2328}{code snippet}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute Final Holdout Predictions}
+\NormalTok{mf.predicted\_ratings }\OtherTok{\textless{}{-}} 
+  \FunctionTok{clamp}\NormalTok{(final.UMGYDE.predicted}\SpecialCharTok{$}\NormalTok{predicted }\SpecialCharTok{+}\NormalTok{ mf.reco.residual)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{str}\NormalTok{(mf.predicted\_ratings)}
@@ -4750,7 +4677,12 @@ In the code snippet above, we use the \hyperref[func.clamp]{clamp} user-defined 
 ##  num [1:999999] 4.68 4.74 4.74 3.68 4.64 ...
 \end{verbatim}
 
-And ultimately, we are ready to compute the final \emph{RMSE} score using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2374}{code snippet}:
+\begin{noteblock}
+In the code snippet above, we use the \hyperref[func.clamp]{clamp} user-defined helper function described in section \hyperref[appndx_a.CHF.utility_funcs]{Utility Functions} of \hyperref[appndx_a]{Appendix A}.
+
+\end{noteblock}
+
+And ultimately, we are ready to compute the final \emph{RMSE} score using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2353}{code snippet}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4759,6 +4691,16 @@ And ultimately, we are ready to compute the final \emph{RMSE} score using the fo
 \end{Highlighting}
 \end{Shaded}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final\_holdout\_test.RMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7876658
+\end{verbatim}
+
 \begin{noteblock}
 In the code snippet above, we use the \hyperref[func.rmse2]{rmse2} user-defined helper function described in section \hyperref[root-mean-squared-error-calculation]{(Root) Mean Squared Error Calculation} of \hyperref[appndx_a]{Appendix A}.
 
@@ -4766,11 +4708,11 @@ In the code snippet above, we use the \hyperref[func.rmse2]{rmse2} user-defined 
 
 \newpage
 
-Finally, we add the \emph{RMSE} value obtained above to our \emph{Result Table} and print the table using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2380}{code snippet}:
+Finally, we add the \emph{RMSE} value obtained above to our \emph{Result Table} and print the table using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2359}{code snippet}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{final.MF.RMSEs.ResultTibble }\OtherTok{\textless{}{-}}\NormalTok{ final.RMSEs.ResultTibble.UMGYDE.rglr.tuned }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{final.MF.RMSEs.ResultTibble }\OtherTok{\textless{}{-}}\NormalTok{ RMSEs.ResultTibble.UMGYDE.rglr.tuned }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{RMSEs.AddRow}\NormalTok{(}\StringTok{"MF (Final Test)"}\NormalTok{, }
 \NormalTok{               final\_holdout\_test.RMSE,}
                \AttributeTok{comment =} \StringTok{"Matrix Factorization of the Best Model Residuals, Final Holdout Test"}\NormalTok{)}
@@ -4806,7 +4748,6 @@ Tuned UMGYDE.d2 Model & 0.8709891 & UMGYDE Model computed using function call: `
 Tuned UMGYDE Best Model & 0.8707855 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 Regularized UMGYDE Model & 0.8707755 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804226 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
 MF (Final Test) & 0.7876658 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
@@ -4824,7 +4765,7 @@ Eventually, we have reached our ultimate goal, as the \emph{RMSE} we obtained ha
 
 \hfill\break
 
-The \emph{Result Summary Table} below, constructed using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2389}{code snippet}, shows in detail the progress of our \emph{Recommender System} improvement:
+The \emph{Result Summary Table} below, constructed using the following \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2368}{code snippet}, shows in detail the progress of our \emph{Recommender System} improvement:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4861,8 +4802,7 @@ Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using fun
 Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804226 & -0.0096471 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
-MF (Final Test) & 0.7876658 & 0.0927568 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+MF (Final Test) & 0.7876658 & 0.0831097 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -5024,7 +4964,7 @@ Prints the system date and time at the time the function is called and returns t
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 03:20:57 2026"
+## [1] "Thu Feb 26 08:06:50 2026"
 \end{verbatim}
 
 \begin{Shaded}
@@ -5034,7 +4974,7 @@ Prints the system date and time at the time the function is called and returns t
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "2026-02-26 03:20:57 MSK"
+## [1] "2026-02-26 08:06:50 MSK"
 \end{verbatim}
 
 \phantomsection\label{func.print_start_date.details}
@@ -5146,7 +5086,7 @@ Prints the system date and time at the time the function is called, and then the
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 03:20:57 2026"
+## [1] "Thu Feb 26 08:06:50 2026"
 \end{verbatim}
 
 \begin{Shaded}
@@ -5157,8 +5097,8 @@ Prints the system date and time at the time the function is called, and then the
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Thu Feb 26 03:21:01 2026"
-## Time difference of 3.067535 secs
+## [1] "Thu Feb 26 08:06:53 2026"
+## Time difference of 3.071504 secs
 \end{verbatim}
 
 \phantomsection\label{func.print_end_date.args}
@@ -6941,7 +6881,7 @@ Calculates \emph{Mean Squared Error} of the set of \emph{residuals} (passed in t
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-334-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{capstone-movielens.report_files/figure-latex/unnamed-chunk-332-1.pdf}}
 
 \begin{noteblock}
 In the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L355}{code snippet} above, we use the custom data visualization function \hyperref[func.data.plot]{data.plot} described in section \hyperref[data-visualization-functions]{Data Visualization Functions} of \emph{this Appendix}.
@@ -7394,8 +7334,7 @@ Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using fun
 Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804226 & -0.0096471 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
-MF (Final Test) & 0.7876658 & 0.0927568 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+MF (Final Test) & 0.7876658 & 0.0831097 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -7723,8 +7662,7 @@ Tuned UMGYDE.d2 Model & 0.8709891 & -0.0001591 & UMGYDE Model computed using fun
 Tuned UMGYDE Best Model & 0.8707855 & 0.0002036 & UMGYDE Model computed using `loess` function call with the best degree \& span values.\\
 Regularized UMGYDE Model & 0.8707755 & 0.0000100 & The best tuned and regularized UMGYDE Model.\\
 \addlinespace
-Best UMGYDE Model (Final Test) & 0.8804226 & -0.0096471 & Final Holdout Test of the best tuned and regularized UMGYDE Model.\\
-MF (Final Test) & 0.7876658 & 0.0927568 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
+MF (Final Test) & 0.7876658 & 0.0831097 & Matrix Factorization of the Best Model Residuals, Final Holdout Test\\
 \bottomrule
 \end{tabular}
 
@@ -13410,14 +13348,15 @@ The source code of the \href{https://github.com/AzKurban-edX-DS/Capstone-MovieLe
 Predicts \emph{user rating} values on the \emph{test dataset} passed in the \hyperref[func.UMGY_SmoothedDay_effect.predict.args.test_set]{test\_set} argument based on the data of the trained \emph{UMGYD Effect (UMGYDE) Model} passed in the \hyperref[func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect]{day\_smoothed\_effect} argument.
 
 \phantomsection\label{func.UMGY_SmoothedDay_effect.predict.usage}
-\subparagraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2232}{Usage}}{Usage}}\label{usage-74}
+\subparagraph{\texorpdfstring{\href{https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R\#L2300}{Usage}}{Usage}}\label{usage-74}
 
 \hfill\break
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Compute predictions from Regularized UMGYDE Model}
 \NormalTok{final.UMGYDE.predicted }\OtherTok{\textless{}{-}}\NormalTok{ final\_holdout\_test }\SpecialCharTok{|\textgreater{}}
-  \FunctionTok{UMGY\_SmoothedDay\_effect.predict}\NormalTok{(rglr.day\_smoothed\_effect)}
+  \FunctionTok{UMGY\_SmoothedDay\_effect.predict}\NormalTok{(rglr.UMGYD\_effect)}
 \end{Highlighting}
 \end{Shaded}
 

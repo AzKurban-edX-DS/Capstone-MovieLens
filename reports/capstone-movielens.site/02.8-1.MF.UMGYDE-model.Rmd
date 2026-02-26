@@ -56,7 +56,7 @@ where $(u, v)$ are locations of observed entries in $\mathbf{R}, \mathbf{r}_{u,v
 The complete source code shown in this section is available in the [Perform the Matrix Factorization & Final Test](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2299) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2299) script on _GitHub_.
 :::
 
-We assume that the _Matrix Factorization_ method will be the last one to provide sufficient results, so we will use the entire `edx` dataset as the _Training Set_ and `final_holdout_test` as the _Test Set_ for our final model, skipping the intermediate *training/validation split operations* that were performed for the previous models.
+We assume that the _Matrix Factorization_ method will be the last one to provide sufficient results, so we will use the entire `edx` dataset as the _Training Set_ and `final_holdout_test` as the _Test Set_ for our *final model training and testing*, skipping the intermediate *training/validation split operations* that applied for the previous models.
 
 #### MF: Getting Residuals From the UMGYDE Model Prediction Values
 \

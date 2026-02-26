@@ -820,6 +820,8 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE.rglr.tuned)
 In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
+\newpage
+
 Now, we have a better result than the ones for the previous models, but still insufficient to meet the Project Objective. Let's see what else we can do to achieve our ultimate goal.
 
 As explained in [Section 33.11 `Matrix Factorization`](https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#matrix-factorization) of the *Course Textbook (First Edition)*, so far our models ignore _"an important source of variation related to the fact that groups of movies have similar rating patterns and groups of users have similar rating patterns as well..."_ [@IDS_E1_33-11]
