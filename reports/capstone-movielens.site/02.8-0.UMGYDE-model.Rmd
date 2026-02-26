@@ -820,60 +820,7 @@ RMSE_kable(RMSEs.ResultTibble.UMGYDE.rglr.tuned)
 In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
 :::
 
-Now, we have a better result than the ones for the previous models, but still insufficient to meet the Project Objective. 
-Despite this, let's conduct our very first *final holdout test* to see what we have actually achieved so far.
-
-\newpage
-
-#### UMGYDE Model: Final Holdout Test (Preliminary Assessment)
-\
-
-::: {.noteblock data-latex=""}
-The complete version of the source code shown in this section is available in the [UMGYDE Model: Final Holdout Test (Preliminary Assessment)](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2230) section of the [capstone-movielens.main.R](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2230) script on _GitHub_.
-:::
-
-Let's see what we have achieved so far, using the `final_holdout_test` dataset for the first time.
-
-First, we compute predictions for our current model using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2232):
-```{r main-script@l2232, eval=FALSE}
-final.UMGYDE.predicted <- final_holdout_test |>
-  UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
-```
-
-::: {.noteblock data-latex=""}
-In the code snippet above we use the [UMGY_SmoothedDay_effect.predict](#func.UMGY_SmoothedDay_effect.predict) function described in section [UMGYDE Model: Utility Functions] of [Appendix A](#appndx_a).
-:::
-
-```{r}
-str(final.UMGYDE.predicted)
-```
-
-Then we compute the *RMSE* score using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2258):
-```{r main-script@l2258, eval=FALSE}
-final.UMGYDE.predicted.RMSE <- rmse2(final_holdout_test$rating,
-                                     final.UMGYDE.predicted$predicted)
-```
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the [rmse2](#func.rmse2) user-defined function described in section [(Root) Mean Squared Error Calculation] of [Appendix A](#appndx_a).
-:::
-
-Finally, we add the *RMSE* value obtained above to our *Result Table* and print the table using the following [code snippet](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2264):
-```{r main-script@l2264, eval=FALSE}
-final.RMSEs.ResultTibble.UMGYDE.rglr.tuned <- RMSEs.ResultTibble.UMGYDE.rglr.tuned |> 
-  RMSEs.AddRow("Best UMGYDE Model (Final Test)", 
-               final.UMGYDE.predicted.RMSE,
-               comment = "Final Holdout Test of the best tuned and regularized UMGYDE Model.")
-```
-```{r}
-RMSE_kable(final.RMSEs.ResultTibble.UMGYDE.rglr.tuned)
-```
-
-::: {.noteblock data-latex=""}
-In the code snippet above, we use the [RMSEs.AddRow](#func.RMSEs.AddRow) and [RMSE_kable](#func.RMSE_kable) functions described in section [Result RMSEs Tibble Functions] of [Appendix A](#appndx_a).
-:::
-
-As expected, we have not yet achieved a result that meets our Project Objective. Let's see what else we can do to achieve our ultimate goal.
+Now, we have a better result than the ones for the previous models, but still insufficient to meet the Project Objective. Let's see what else we can do to achieve our ultimate goal.
 
 As explained in [Section 33.11 `Matrix Factorization`](https://rafalab.dfci.harvard.edu/dsbook/large-datasets.html#matrix-factorization) of the *Course Textbook (First Edition)*, so far our models ignore _"an important source of variation related to the fact that groups of movies have similar rating patterns and groups of users have similar rating patterns as well..."_ [@IDS_E1_33-11]
 

@@ -6845,12 +6845,13 @@ The source code of the [train_UMGY_SmoothedDay_effect.cv](https://github.com/AzK
 Predicts *user rating* values on the *test dataset* passed in the [test_set](#func.UMGY_SmoothedDay_effect.predict.args.test_set) argument based on the data of the trained *UMGYD Effect (UMGYDE) Model* passed in the [day_smoothed_effect](#func.UMGY_SmoothedDay_effect.predict.args.day_smoothed_effect) argument.
 
 ::: { #func.UMGY_SmoothedDay_effect.predict.usage .sidebar }
-##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2232)
+##### [Usage](https://github.com/AzKurban-edX-DS/Capstone-MovieLens/blob/main/r/src/capstone-movielens.main.R#L2300)
 \
 
-```{r main-script@l2232u, eval=FALSE}
+```{r main-script@l2300u, eval=FALSE}
+# Compute predictions from Regularized UMGYDE Model
 final.UMGYDE.predicted <- final_holdout_test |>
-  UMGY_SmoothedDay_effect.predict(rglr.day_smoothed_effect)
+  UMGY_SmoothedDay_effect.predict(rglr.UMGYD_effect)
 ```
 :::
 
